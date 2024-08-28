@@ -1,0 +1,73 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: run
+description: Run tasks across projects in your monorepo
+flags:
+    --cache-dir=: Override the filesystem cache directory
+    --cache-workers=: 'Set the number of concurrent cache operations (default 10) [default: 10]'
+    --concurrency=: Limit the concurrency of task execution. Use 1 for serial (i.e. one-at-a-time) execution
+    --continue: Continue execution even if a task exits with an error or non-zero exit code
+    --dry-run=: '[possible values: text, json]'
+    --filter=: Use the given selector to specify package(s) to act as entry points
+    --force: Ignore the existing cache (to force execution)
+    --global-deps=: Specify glob of global filesystem dependencies to be hashed
+    --graph=: Generate a graph of the task execution and output to a file when a filename is specified
+    --ignore=: Files to ignore when calculating changed files (i.e. --since). Supports globs
+    --include-dependencies: Include the dependencies of tasks in execution
+    --log-prefix=: Use "none" to remove prefixes from task logs
+    --no-cache: Avoid saving task results to the cache. Useful for development/watch tasks
+    --no-daemon: Run without using turbo's daemon process
+    --no-deps: Exclude dependent task consumers from execution
+    --output-logs=: Set type of process output logging.
+    --parallel: Execute all tasks in parallel
+    --profile=: File to write turbo's performance profile output into
+    --remote-only: Ignore the local filesystem cache for all tasks
+    --scope=: Specify package(s) to act as entry points for task execution. Supports globs
+    --since=: Limit/Set scope to changed packages since a mergebase
+documentation:
+    command: '[AI] The `turbo run` command is a shortcut used in Visual Studio Code to execute a TypeScript or JavaScript project using the Turbo mode of the Node.js built-in server, which provides faster and more efficient development experience by only rebuilding and restarting the server on file changes instead of rebuilding the entire project each time. It''s designed to save time during the development process.'
+    flag:
+        cache-dir: '[AI] The `--cache-dir` option in the `npm` command `npm run turbo` is used to specify a directory where npm can cache downloaded packages and their metadata for faster installation and build processes in the future. This flag helps improve the performance of npm by reducing the time required to install dependencies. The cached data will be used automatically when running `npm install` or building the project again.'
+        cache-workers: '[AI] The `--cache-workers` flag for the Turbo command refers to the number of background workers used for caching assets in a web application built with Next.js or other frameworks that support TurboModule. This flag can be set during the build process using tools like `next build --cache-workers <number>`. Increasing this number will improve the initial load time and reduce subsequent page requests by serving cached assets from V8 background workers instead of making network requests to the server. However, more workers also mean increased memory usage and longer build times.'
+        concurrency: '[AI] The `--concurrency` flag in Turbo''s `run` command specifies the maximum number of parallel tasks that can be executed by Turbo at any given time. By default, Turbo uses automatic concurrency management, which dynamically adjusts the number of running tasks based on system resources. However, setting `--concurrency` manually overrides this behavior and limits the total number of concurrently executing tasks to the specified value. This can be useful when you want to limit the resource usage of your build processes or when running tasks on resource-constrained systems.'
+        continue: '[AI] The `--continue` flag for the `turbo` command in a build tool, such as Rake or Make, instructs it to continue running the previous task that failed instead of starting from the beginning. This can save time when working on large projects with multiple tasks by skipping the unnecessary re-running of successful tasks.'
+        dry-run: '[AI] The `--dry-run` flag used with the `turbo run` command in Docker is used to perform a simulation of the specified build, create, or push operation without actually executing the commands. It provides an opportunity to preview the changes that would be made and helps identify potential issues before running the actual command. This can help minimize errors and reduce downtime during production deployments.'
+        filter: |-
+            [AI] The `--filter` option in the Turbo Rust build tool's `run` command is used to apply filters during the build process. Filters are expressions that determine which source files or targets should be built based on specific criteria, such as file name patterns or custom conditions.
+
+            For instance, to only build files ending with `.rs` and containing the word "main" in their filename, you can use a filter expression like:
+            ```bash
+            $ turbo run --filter 'file_name =~ /\.rs$/ && contains(file_content, "main")'
+            ```
+            This command will only build files matching the given filter criteria. For more complex filtering requirements, you can also write custom filters using Rust code and the `turbo-filters` crate.
+        force: |-
+            [AI] The `--flag turbo run --force` is a command-line argument used in various tools, typically related to data processing or software development. Here's what it does in a nutshell:
+
+            `--flag turbo` enables fast mode or optimized execution, bypassing certain checks and validations for increased performance. This can lead to potential issues if there are errors in the input data or processes.
+
+            `--force` is an optional argument that overrides any warnings or error messages and forces the operation to complete, even if it might result in unexpected outcomes or data loss. It is recommended to use this with caution as the consequences of using `--force` can be irreversible.
+        global-deps: '[AI] The `flag "turbo run --global-deps"` is used in TurboMods, a tool for managing Rust projects with multiple workspaces. This flag instructs TurboMods to install dependencies that are marked as global when running the `turbo run` command. Global dependencies are packages that are installed outside of the current project''s workspace and can be used by multiple projects within the same Rust installation. By using this flag, you ensure that all dependent projects in your workspaces have access to the same versions of these global dependencies.'
+        graph: '[AI] The `--graph` flag in the TurboRun command is used to generate and display a graphical representation of the dependency relationships between Docker images or containers in a Docker Compose file. It creates an interactive graph that can be explored using a web interface, allowing users to gain a clearer understanding of the complex dependencies within their application stack. This visualization helps in identifying potential issues such as circular dependencies and detecting the flow of data and communication between components.'
+        ignore: |-
+            [AI] The `--ignore` flag in the TurboRunner testing framework is used to specify a list of files or directories that should be ignored during the test run. This can be useful when there are certain files or directories that don't need to be tested, such as large data sets or temporary files. By ignoring these files, the test run can complete more quickly and focus on the relevant code. The `--ignore` flag takes a list of globs as its value, allowing you to specify multiple patterns to ignore. For example:
+
+            ```bash
+            $ turbo run --ignore="large-data/* tests/"
+            ```
+
+            This would run all tests in the current directory except for those in the `large-data` directory and any subdirectories of `tests`.
+        include-dependencies: '[AI] The `--flag turbo run --include-dependencies` is a command used in Elixir''s Mix project builder. It triggers the execution of tasks with the `:oasis.sh` and `:deps.get` flags, which download and compile the project dependencies and their corresponding locked dependencies (`mix.exs` lockfile), ensuring the most recent versions are used for building the project. This is particularly useful when working on large projects or collaborating with team members as it reduces potential dependency conflicts.'
+        log-prefix: '[AI] The `--log-prefix` option in Turbo, a Rust programming language build tool, sets a prefix for the log messages generated during the build process. This allows you to easily identify and filter logs based on this prefix when using tools like `grep`. For example, `--log-prefix="my_project: "` would result in log messages starting with "my_project: ".'
+        no-cache: '[AI] The `--no-cache` flag for the Turbo command disables the use of caches during the build process. Caching is a feature that can help speed up the build time by reusing previously compiled assets, but using `--no-cache` ensures that all files are recompiled from scratch in each build, which can be useful when making multiple changes that require a fresh build or when working on a new feature branch where existing cache may not be applicable.'
+        no-daemon: |-
+            [AI] The `--flag turbo run --no-daemon` is a command used with Docker, specifically the `docker-compose` tool. This flag has two parts:
+
+            1. `turbo`: This flag enables the Compose file execution to use the new container init system instead of the default `docker-init`. It provides faster container startup times by initializing the containers in parallel, rather than one at a time.
+
+            2. `--no-daemon`: This flag prevents Docker from running containers in detached mode (as daemons) and instead, requires the container output to be printed directly to the console. It's useful when you want to see detailed output from your containers during development or debugging.
+        no-deps: '[AI] The `--no-deps` flag used with the `npm` command in a Node.js project is used to install only the project''s top-level dependencies listed in the `package.json` file, without recursively installing their own dependencies (transitive dependencies). This can help keep installation times faster and reduce potential conflicts or redundancies in the dependency tree. The `turbo` flag with `npm install` is an optional performance optimization that skips disk I/O when looking up a module''s version in the registry, improving the overall performance of the installation process. So, `npm install --no-deps turbo` would install only the direct dependencies listed in the project''s `package.json`, without their transitive dependencies and with the turbo flag for faster installation.'
+        output-logs: '[AI] The `--flag turbo run --output-logs` is a command-line argument used in tools like Helm or Kustomize for Kubernetes deployment. It enables the execution of a deployment or upgrade with increased concurrency and parallelism, which is referred to as "turbo mode". This flag also generates detailed logs for each individual rollout, making it easier to diagnose issues during the process. In summary, `--flag turbo run --output-logs` speeds up deployments and provides enhanced logging capabilities.'
+        parallel: '[AI] The `--parallel` flag in the `TurboRun` command is used to enable parallel execution of tests or tasks. It instructs the tool to run multiple jobs concurrently, reducing the overall test execution time. This flag is particularly useful when working with large test suites or complex projects where speed is a concern. However, note that parallel execution may require additional system resources and may lead to increased memory usage and potential contention between processes.'
+        profile: '[AI] The `--profile` option in the TurboGradients library''s `run` command is used to specify a particular profiling configuration. This option allows users to collect detailed performance statistics during model training, which can help identify bottlenecks and optimize resource usage. By default, TurboGradients does not perform any profiling, but with `--profile`, it gathers information such as CPU/GPU utilization, memory usage, and execution time for individual operations or layers in the model. This data can be output to a file or displayed in real-time, providing valuable insights into the performance characteristics of the machine learning workload.'
+        remote-only: '[AI] The `--remote-only` flag in Turbo, a Git tool for working with large or distributed repositories, instructs it to only transfer and manipulate remote branches without cloning or checking out any local working directory. This is useful when you want to perform operations like fetching updates, pushing commits, or creating new branches on the remote repository without affecting your local workspace.'
+        scope: '[AI] The `--scope` option in the `turbo` CLI command for TypeScript projects specifies the scope of the build, indicating which files or directories to include or exclude during the compilation process. By default, Turbo builds all files within the project root and its subdirectories. Using `--scope` allows fine-grained control over what gets built, enabling faster build times for larger projects by excluding unnecessary files. For example, `turbo run --scope=src` would only compile files under the `src` directory.'
+        since: '[AI] The `--since` option in the Turbo command-line tool, when used with the `run` command, specifies a point in time to only process events that occurred after that given timestamp. This can be useful for reprocessing data or catching up on missed events in near real-time streaming systems.'

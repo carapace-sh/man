@@ -1,0 +1,87 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: netcat
+description: simple Unix utility which reads and writes data across network connections
+flags:
+    -G, --pointer=: 'source-routing pointer: 4, 8, 12, ...'
+    -L, --tunnel=: forward local port to remote address
+    -T, --telnet: answer using TELNET negotiation
+    -V, --version: output version information and exit
+    -c, --close: close connection on EOF from stdin
+    -e, --exec=: program to exec after connect
+    -g, --gateway=: source-routing hop point[s], up to 8
+    -h, --help: display this help and exit
+    -i, --interval=: delay interval for lines sent, ports scanned
+    -l, --listen: listen mode, for inbound connects
+    -n, --dont-resolve: numeric-only IP addresses, no DNS
+    -o, --output=: output hexdump traffic to FILE (implies -x)
+    -p, --local-port=: local port number
+    -r, --randomize: randomize local and remote ports
+    -s, --source=: local source address (ip or hostname)
+    -t, --tcp: TCP mode (default)
+    -u, --udp: UDP mode
+    -v, --verbose: verbose (use twice to be more verbose)
+    -w, --wait=: timeout for connects and final net reads
+    -x, --hexdump: hexdump incoming and outgoing traffic
+    -z, --zero: zero-I/O mode (used for scanning)
+documentation:
+    command: '[AI] Netcat (often shortened as nc) is a versatile network utility used for making connections, transferring data between hosts, and performing various tasks over TCP or UDP protocols. It acts as both a client and a server, allowing users to listen for incoming connections or initiate outgoing connections to remote hosts. Netcat can be used for port scanning, file transfers, and even simple shell access, making it a valuable tool in network administration and penetration testing.'
+    flag:
+        close: '[AI] The `--close` option in Netcat is used to close the connection immediately after sending data. With this option, Netcat functions as a simple UDP or TCP sender rather than a client or server, allowing you to send data to a specified address and port before terminating the connection. This can be useful in certain automation scripts or for testing network services.'
+        dont-resolve: '[AI] The `--dont-resolve` option in Netcat is used to prevent Netcat from performing DNS resolution of the specified host or address before connecting. This can be useful when you want to manually specify an IP address instead of a hostname, or when connecting to a host that does not have a valid DNS record. With `--dont-resolve`, Netcat will connect using the provided IP address directly without performing any DNS lookup.'
+        exec: |-
+            [AI] The `netcat` command is a versatile networking tool used for transferring data between networked systems. The `--exec` option is not a built-in feature of netcat but can be achieved by combining netcat with the `system()` function from the `/bin/sh` shell.
+
+            The general syntax is: `netcat <target> <port> -e /bin/sh <command_to_execute>`. In this setup, once a connection is established between local and remote hosts, the netcat command on the local side runs the specified shell command as its child process. The output from that command is then sent over the network connection to the remote host.
+
+            For example: `netcat example.com 80 -e /bin/sh "id"` will establish a connection to port 80 on example.com and run the 'id' command locally. The output of this command is then transmitted to the remote server.
+
+            This usage is often used for various purposes, including:
+            - Executing shell commands on a remote system using netcat as a reverse shell
+            - Testing network connectivity and port availability with a simple script
+            - Transferring files over a TCP connection by piping data through netcat.
+        gateway: |-
+            [AI] `netcat` is a versatile network utility used for transferring data between a client and server over TCP or UDP connections. The `--gateway` option is not a standard feature of netcat, but rather an extension provided by some distributions or third-party tools.
+
+            When used with the `--gateway` option, netcat acts as a proxy server or SOCKS4/5/HTTP proxy. Clients can connect to this netcat instance as if it were the target server, and their traffic will be forwarded through the local machine to the actual remote server. This is useful for bypassing firewalls, accessing remote services that restrict connections based on source IP addresses, or creating simple VPN-like connections.
+
+            Please note that using netcat as a proxy can have security implications and should only be done in trusted environments or with proper authorization.
+        help: |-
+            [AI] Netcat is a versatile network utility used for transferring data between a client and server over TCP or UDP connections. Its help option `--help` provides information about its various functionalities, usage, and command-line arguments. Here's a brief explanation:
+
+            ```
+            SYNOPSIS:
+            netcat [OPTION]... [HOSTNAME] PORT [FILE]
+
+            DESCRIPTION:
+            Netcat is a useful and feature rich tool for making connections to remote hosts and listening for incoming connections. It supports both TCP and UDP protocols. Netcat can be used to create arbitrary clients and servers, to send files and messages between machines, to test network connectivity, and as a platform for other applications.
+
+            COMMAND LINE ARGUMENTS:
+            --help                Print this help message and exit.
+            --version             Print version information and exit.
+            ```
+
+            The `netcat --help` command displays the synopsis, a brief description, and the possible command-line arguments for netcat usage. It lists options like `--help`, `--version`, to print help or version information respectively, as well as other options related to setting up connections, data transfer, protocols, and more.
+        hexdump: |-
+            [AI] `netcat --hexdump` is a command-line option used with Netcat (ncat) tool. It's used for transmitting data between networked computers and allows for reading or writing data in various formats.
+
+            The `--hexdump` option specifically displays data in hexadecimal format, which is useful for examining raw binary data being transmitted. When using this option, Netcat sends or receives data and intersperses it with its corresponding hexadecimal representation and ASCII values, making it easier to analyze the low-level details of the data stream.
+        interval: '[AI] `netcat` is a versatile network utility used for transferring data between local and remote hosts. The `--interval` option is not a flag but rather an argument to other netcat options, such as `-w`. This argument sets the time in seconds between sending custom messages or checking for a response from a remote host via the `-e` or `-z` flags, respectively. Thus, `netcat --interval=5s <option> ...` sends a custom message every 5 seconds or checks for a response every 5 seconds based on the specified option.'
+        listen: '[AI] `netcat --listen` is a command used in Unix-based systems to set up a listener for incoming connections using Netcat (nc) tool. The `--listen` option specifies that netcat should listen for incoming connections and wait for clients to connect. Once a connection is established, data can be exchanged between the client and server through the standard input, output, and error streams.'
+        local-port: '[AI] `netcat` is a versatile network utility used for transferring data between local and remote hosts. The `--local-port` option in netcat specifies the local port number to bind and listen on for incoming connections. When you run a netcat command with the `--local-port` argument, netcat will act as a server and wait for incoming connections on that specified port instead of acting as a client connecting to a remote server.'
+        output: '[AI] `netcat --output` is a command-line option used with Netcat (also known as nc), a versatile network utility. This option causes Netcat to write data it receives over the network connection to a file, instead of displaying it on the terminal by default. In other words, it redirects the received data to an output file, allowing for easy saving and post-processing of the data.'
+        pointer: '[AI] The `netcat` command is a versatile network utility used for transferring data between networked systems. The option `--peer <address:port>` or simply `-p <port>`, is used to specify the target host and port number for netcat to connect to as a client, acting as a receiver of data. In other words, it sets the remote address and port to which netcat will connect. The term "pointer" in this context does not have any specific meaning related to netcat or its usage.'
+        randomize: '[AI] The `netcat` command with the option `--randomize` is used to randomize the source and destination ports during a connection. This can be useful for penetration testing or other security assessments to simulate unexpected traffic from unpredictable ports. It also adds an element of stealth by not using well-known ports, making it harder to detect. However, this option is generally used with caution as it may cause issues with certain network configurations or services that expect specific ports to be used consistently.'
+        source: |-
+            [AI] `netcat --source` is not a valid option for netcat (nc) command in its typical usage. The netcat tool is primarily used as a versatile network communication diagnostic utility, allowing data to be transferred between two connections using TCP or UDP protocols.
+
+            The `--source` flag does not exist in the standard netcat distribution. It might have been intended for specifying the source IP address or port number to bind to during listening mode (`nc -l <port>`), but this can be achieved through other options like `-l`, `-p`, or `--listen-port` instead.
+
+            For example, use `nc -l 8080` to start a listener on port 8080, or `nc -lp 8080` for both listening and connecting. To connect to a remote server using the source IP address 192.168.0.5 and port 443, you would use `nc 192.168.0.5 443`.
+        tcp: '[AI] `netcat` is a versatile network utility used for transferring data between local and remote hosts over TCP or UDP connections. The `--tcp` option specifically specifies to use Transmission Control Protocol (TCP) for the connection, which is a reliable, connection-oriented protocol that ensures data is delivered in order and error-free, making it suitable for applications requiring higher levels of reliability like file transfers or remote command execution.'
+        telnet: '[AI] `netcat` is a versatile network utility used for transferring data between a client and server over TCP or UDP connections. The `--telnet` option with netcat is used to establish a Telnet session instead of the default raw connection. When you use `netcat --telnet`, it initiates a connection as if using the Telnet protocol, providing a text-based interactive shell between the client and server, allowing for terminal-based interactions like command execution, environment variable transfer, etc. This can be useful for various network testing and troubleshooting purposes.'
+        tunnel: '[AI] `netcat` is a versatile networking utility used for transferring data between hosts over a network. The `--tunnel` option in `netcat` sets it up as a SOCKS proxy or reverse SSH connection. In the client-to-server model, a local port is forwarded to a remote address and port, allowing traffic to be routed through the tunnel. It''s often used for securely accessing remote services over an untrusted network. In the server-to-client model, the reverse SSH connection allows incoming connections to be forwarded to a local application or service.'
+        udp: '[AI] `netcat` is a versatile network utility used for transferring data between computer systems over various protocols, including User Datagram Protocol (UDP). The command `netcat --udp` is specifically used to create a UDP connection using netcat. When executed, it opens a listening UDP socket on the specified port and waits for incoming connections. If used with an argument specifying a remote host and port, it initiates a connection to that destination instead. This command can be used for various purposes such as testing network services or creating simple UDP-based applications.'
+        verbose: '[AI] `netcat --verbose` is a command-line option used with the Netcat network utility. This option increases the amount of output information displayed during data transfer. It provides detailed debugging information, including the establishment and termination of connections, data sent and received, and any errors encountered. Essentially, it offers more insight into the communication process between two hosts.'
+        version: '[AI] `netcat --version` is a command used in Unix-based systems to display version information about the installed Netcat (or Nc) network utility. Netcat is a versatile networking tool that can be used for various tasks such as data transfer, port scanning, and troubleshooting network connections. When run with the `--version` option, it prints out detailed information about the Netcat version, including its name, release number, and compile-time options.'
+        wait: '[AI] `netcat --wait` is a command-line option used with Netcat (nc) tool. This option makes netcat act as a server and waits for an incoming connection on a specified port without actively scanning or connecting to remote hosts. Once a connection is established, data can be transferred bi-directionally between local and remote systems. It''s commonly used in scripting for automated tasks such as file transfers, debugging network applications, or creating simple proxy servers.'
+        zero: '[AI] `netcat` is a versatile network utility used for transferring data between a client and server over TCP or UDP connections. The `--zero` option is not a standard flag for netcat, but it''s an extension provided by some versions of netcat (like Ncat in Nmap). This flag forces netcat to send data with the ZERO WINDOW PROTOCOL, which means it sends data without waiting for an acknowledgment from the other end. This can be useful in certain network testing and penetration testing scenarios where fast data transfer is required or where the other end may not acknowledge packets properly.'

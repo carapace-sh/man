@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: run [<workflow-id> | <workflow-name>]
+description: Run a workflow by creating a workflow_dispatch event
+flags:
+    --json: Read workflow inputs as JSON via STDIN
+    -F, --field*=: Add a string parameter in `key=value` format, respecting @ syntax (see "gh help api").
+    -f, --raw-field*=: Add a string parameter in `key=value` format
+    -r, --ref=: The branch or tag name which contains the version of the workflow file you'd like to run
+documentation:
+    command: '[AI] `gh workflow run` is a GitHub CLI command used to manually trigger the execution of an existing GitHub Actions workflow. It takes the repository context and the branch or commit reference as arguments, e.g., `gh workflow run myworkflow@myrepo/.github/workflows/myworkflow.yml@refs/heads/main`. This command can be useful for testing workflows on demand or fixing issues outside of regular GitHub Actions event triggers.'
+    flag:
+        field: '[AI] `gh workflow run` is a GitHub CLI command used to manually trigger the execution of a GitHub Actions workflow. The `--field` option allows specifying a particular event that will be simulated, causing the workflow to run with that specific context. This can be useful when testing workflows in response to specific events without having to wait for them naturally. For example, `gh run workflow --branch main --event push --field ref=refs/heads/feature-branch` would trigger a workflow as if it had been pushed to the specified branch.'
+        json: |-
+            [AI] `gh` is a GitHub CLI tool, and the command `gh workflow run --json` is used to trigger a GitHub Actions workflow manually with a JSON payload. The `--json` flag indicates that the workflow dispatch should be provided in a JSON format as an argument. This allows passing custom inputs, environment variables, and other configurations to the workflow. For example:
+
+            ```bash
+            gh workflow run my-workflow.yml --job my-job \
+            -- \
+              { "inputs": { "input1": "value1", "input2": "value2" } }
+            ```
+
+            This command runs the `my-workflow.yml` GitHub Actions workflow and specifically dispatches the `my-job` job with custom inputs: `input1="value1"` and `input2="value2"`.
+        raw-field: |-
+            [AI] The `gh workflow run` command is a GitHub CI/CD tool used to trigger and manage workflows manually. The `--raw-field` option, when used with this command, allows passing raw values for specific fields in the event payload that triggers the workflow run. This can be useful when setting up complex workflows that require custom input or configuration data. For example:
+
+            ```bash
+            gh workflow run my_workflow \
+              --repo=my_organization/my_repository \
+              --branch=main \
+              --event='{ "key1": "value1", "key2": "value2" }' \
+              --raw-field 'ref: refs/heads/my_feature_branch'
+            ```
+
+            In this example, the workflow `my_workflow` in repository `my_organization/my_repository` is triggered manually. The `--event` flag is used to simulate a specific event payload, and `--raw-field` is used to provide a custom ref value (e.g., `refs/heads/my_feature_branch`) for the workflow to consume.
+        ref: '[AI] The `gh` command-line tool''s `workflow run` command is used to trigger the execution of a GitHub Actions workflow manually. The `--ref` option specifies the branch or commit ref that should be used as the input for the workflow. This can be useful when you want to test a workflow with a specific branch or commit. For example, `gh run workflow_name --ref mybranch`.'

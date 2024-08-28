@@ -1,0 +1,24 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: join [OPTIONS] HOST:PORT
+description: Join a swarm as a node and/or manager
+flags:
+    --advertise-addr=: 'Advertised address (format: "<ip|interface>[:port]")'
+    --availability=: Availability of the node ("active", "pause", "drain")
+    --data-path-addr=: 'Address or interface to use for data path traffic (format: "<ip|interface>")'
+    --listen-addr=: 'Listen address (format: "<ip|interface>[:port]")'
+    --token=: Token for entry into the swarm
+documentation:
+    command: '[AI] `docker swarm join` is a command used to add a Docker node to an existing Swarm mode cluster. When you run this command on a worker node, it initiates the process of registering that node with the Swarm manager, allowing it to receive tasks and join in the cluster''s orchestration. This command requires the node''s access to the Swarm manager''s IP address or token for authentication.'
+    flag:
+        advertise-addr: '[AI] The `docker swarm join` command is used to add a Docker node to an existing Swarm mode cluster as a worker or manager. The `--advertise-addr` option specifies the IP address that this node should advertise to other nodes in the swarm for discovery and communication purposes. Once joined, the node will be able to receive tasks from the Raft elected manager(s) to run containerized applications across the cluster.'
+        availability: |-
+            [AI] The `docker swarm join` command is used to add a worker node to an existing Docker Swarm cluster. The `--availability` flag determines how the worker node will be scheduled for tasks:
+
+            * `--availability global` (default): The worker node can be scheduled on any available task.
+            * `--availability replicated`: The worker node will only be scheduled if there are insufficient replicas of a service running on other nodes.
+            * `--availability drain`: The worker node will not accept new tasks, but will still run existing ones until they finish. Useful for draining a node before maintenance or upgrades.
+
+            The availability option affects the scheduling policy and helps manage the cluster resources effectively.
+        data-path-addr: '[AI] The `docker swarm join` command is used to add a worker node to an existing Docker Swarm cluster. The `--data-path-addr` option specifies the address of the data path, which is a shared volume where crucial Swarm data like the Swarm state and Raft consensus engine data are stored. Workers join the Swarm using this data path to ensure they have consistent information about the Swarm cluster''s state and can coordinate with other nodes effectively.'
+        listen-addr: '[AI] The `docker swarm join` command is used to add a worker node to an existing Docker Swarm cluster. The `--listen-addr` flag specifies the IP address and port number that the new worker node should listen on for joining the swarm. For example, `--listen-addr 192.168.0.5:2377` sets the IP address as `192.168.0.5` and the port number as `2377`. The Swarm manager node uses this information to locate and connect to the worker node during the join process.'
+        token: '[AI] The `docker swarm join` command is used to add a Docker node to an existing Swarm mode cluster. The `--token` option is a required argument that specifies the token assigned to the cluster for joining nodes. This token is generated when initializing a Swarm mode cluster and can be retrieved with the `docker swarm init --print-join-token` command. The join token ensures secure and controlled access to the Swarm cluster, allowing only authorized nodes to join.'

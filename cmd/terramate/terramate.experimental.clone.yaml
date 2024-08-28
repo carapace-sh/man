@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: clone
+description: Clones a stack
+flags:
+    --skip-child-stacks: Clone ignores child stacks
+documentation:
+    command: |-
+        [AI] The `terraform experimental clone` command is not a standard Terraform command, but rather a potential workaround to clone an existing Terraform working directory with experimental features enabled. Here's how it might be implemented:
+
+        1. Enable the desired experimental features in your Terraform configuration by adding the `backend_config { experimentMode = "all"` directive in your Terraform configuration file (`terraform.conf` or `terrform.hcl`).
+        2. Initialize a new working directory with an empty state, which will not enable any experimental features by default: `terraform init -reconfigure`.
+        3. Clone the existing Terraform working directory into the new one using Git or another version control system. Make sure to clone the entire directory, including the hidden `.terraform` and `.git` directories.
+        4. Update the configuration file in the new working directory with any necessary changes, such as pointing it to the correct backend.
+        5. Run the `terraform experimental init` command inside the new working directory to enable the previously configured experimental features.
+        6. Now you can use Terraform with the experimental features enabled in the cloned working directory.
+    flag:
+        skip-child-stacks: |-
+            [AI] The `--terraform-experimental-clone` flag with the argument `" ExperimentalClone"` is used to create an experimental Terraform state file snapshot in Terraform's local state file. This can be useful for various reasons such as debugging or versioning of infrastructure configurations.
+
+            The `--skip-child-stacks` flag is an optional argument that can be passed along with the previous one. It instructs Terraform to exclude child stacks from being cloned and included in the experimental snapshot. Child stacks are nested configurations where some resources depend on others, and they're defined within a parent stack using the `stack` block or `TerraformStack` data source. Skipping child stacks may help keep the experimental state smaller and more focused if only specific parts of a multi-stack infrastructure need to be snapshotted.

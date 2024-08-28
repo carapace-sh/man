@@ -1,0 +1,44 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: diff -f FILENAME
+description: Diff the live version against a would-be applied version
+group: advanced
+flags:
+    --concurrency=: Number of objects to process in parallel when diffing against the live version. Larger number = faster, but more memory, I/O and CPU over that shorter period of time.
+    --field-manager=: Name of the manager used to track field ownership.
+    --force-conflicts: If true, server-side apply will force the changes against conflicts.
+    --prune: Include resources that would be deleted by pruning. Can be used with -l and default shows all resources would be pruned
+    --prune-allowlist*=: Overwrite the default whitelist with <group/version/kind> for --prune
+    --server-side: If true, apply runs in the server instead of the client.
+    --show-managed-fields: If true, include managed fields in the diff.
+    -R, --recursive: Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.
+    -f, --filename*=: Filename, directory, or URL to files contains the configuration to diff
+    -k, --kustomize=: Process the kustomization directory. This flag can't be used together with -f or -R.
+    -l, --selector=: Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2). Matching objects must satisfy all of the specified label constraints.
+documentation:
+    command: '[AI] `kubectl diff` is a command used in Kubernetes to show the differences between the current state of Kubernetes resources and their desired state, as defined in Kubernetes manifests files. It helps developers and operators understand the changes that would be applied when they use `kubectl apply`. The command compares the resource objects in your local Kubernetes configuration with those on the cluster, and displays the differences in a human-readable format, helping to prevent unwanted modifications or conflicts during deployment.'
+    flag:
+        concurrency: '[AI] `kubectl diff --concurrency` is a command used with the Kubernetes CLI (kubectl) to show the differences between the current state of Kubernetes resources and the changes made in a file before applying them. The `--concurrency` flag ensures that the diff output is displayed without applying any changes, allowing users to review and apply the differences at their own pace, reducing the risk of conflicts when updating multiple resources concurrently.'
+        field-manager: |-
+            [AI] `kubectl diff` is a command-line tool in Kubernetes for displaying the difference between the actual state of your Kubernetes resources and what those resources would look like if you applied the current changes in your local `kubectl` configuration.
+
+            The `--field-manager` flag is an optional argument that specifies which field manager should be used to generate the differences. A field manager is a Kubernetes extension that helps manage the declaration of fields in custom resources, allowing users to update fields incrementally without having to reapply the entire resource. By default, no field manager is used when running `kubectl diff`. Using a specific field manager with `kubectl diff` allows you to see the differences based on the changes made by that field manager.
+        filename: '[AI] `kubectl diff` is a command-line tool used with Kubernetes to compare the differences between current and desired YAML files for Kubernetes resources. The `--filename` or `-f` flag is optional and specifies the path to the YAML file containing the desired state of the resource. When you run `kubectl diff --filename <file_path>`, it shows the differences between the current resource configuration in your cluster and the one defined in the provided YAML file without making any changes to your Kubernetes resources. This can be useful for reviewing changes before applying them to ensure desired modifications are accurate and intended.'
+        force-conflicts: |-
+            [AI] `kubectl diff` is a command-line tool used in Kubernetes to show the differences between the current state of a resource and its desired state, defined in a YAML file. The `--force-conflicts` flag modifies the default behavior of `kubectl diff`.
+
+            When `--force-conflicts` is used, `kubectl diff` will show all conflicts between the current and desired states, even if some of these conflicts are automatically resolved by Kubernetes. This flag forces `kubectl diff` to present all discrepancies for review before applying any changes to the cluster. It's useful when you want a more granular understanding of the differences between your YAML file and your actual resource, and it can help prevent unintended changes to your cluster.
+        kustomize: '[AI] `kubectl diff --kustomize` is a command used with Kubernetes'' `kubectl` tool to show the differences between the current state of a Kubernetes resource and the changes made in a `.yaml` or `.yml` file or a set of `kustomize` patches, without applying those changes to the cluster yet. The `--kustomize` flag indicates that the changes are defined using the Kustomize customization framework. This command can help you review and understand the effects of proposed modifications before actually updating your resources.'
+        prune: '[AI] `kubectl diff --prune` is a command used with Kubernetes'' `kubectl` tool to show the differences between the current state of Kubernetes resources and their desired state, defined in a Kubernetes manifest file. The `--prune` flag modifies this behavior by only showing the differences for resources that will be affected by the changes. This helps to filter out irrelevant differences and focus on the actual modifications needed.'
+        prune-allowlist: '[AI] `kubectl diff` is a command used to show the differences between the current state of Kubernetes resources and the desired state defined in a YAML file or stored in Kubernetes. The `--prune-allowlist` flag modifies this behavior by only showing differences for the listed resources and ignoring all others. This can help focus on specific changes and reduce noise in the output.'
+        recursive: '[AI] `kubectl diff` is a command-line tool provided by Kubernetes to show the differences between the actual state of Kubernetes resources and their defined states in Kubernetes manifests files. The `--recursive` flag expands the difference computation to include nested resources within the top-level resource being compared. In other words, when using `--recursive`, not only the changes at the top level are shown but also the changes in any related or nested resources. This flag helps to identify more comprehensive differences in Kubernetes configurations.'
+        selector: |-
+            [AI] `kubectl diff` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`, to show the differences between the actual state of your Kubernetes cluster and the desired state defined in a YAML file or other Kubernetes objects.
+
+            The `--selector` option filters the resources based on their labels. For instance, if you have multiple Pods with similar configurations but different labels, `kubectl diff --selector <label_key>=<label_value>` would help compare just those specific Pods and ignore others. This makes it easier to focus on the changes that matter to you.
+        server-side: |-
+            [AI] `kubectl diff` is a command-line tool provided by Kubernetes to display the differences between the current state of your Kubernetes resources and what would happen if you were to apply the changes from your local Kubernetes manifests or files.
+
+            The `--server-side` flag modifies the behavior of `kubectl diff`. Instead of comparing the resource manifests on your local machine with the actual cluster state, it compares the current and desired state directly on the server side. This means that the differences reported by `kubectl diff --server-side` reflect what would be changed if you were to apply the changes in the cluster right now, taking into account any ongoing operations or conflicts.
+
+            In summary, `kubectl diff --server-side` shows the differences between the actual cluster state and the desired state as it would be applied in real-time on the Kubernetes server.
+        show-managed-fields: '[AI] `kubectl diff` is a command used in Kubernetes to show the differences between the current state of a resource and its desired state, based on a file or configuration stored in Kubernetes. The `--show-managed-fields` flag is an optional argument that asks `kubectl diff` to only display fields that have been managed by Kubernetes controllers. This can help simplify the output by excluding fields that haven''t changed and focusing on the changes made by Kubernetes.'

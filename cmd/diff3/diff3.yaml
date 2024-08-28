@@ -1,0 +1,71 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: diff3
+description: compare three files line by line
+flags:
+    --diff-program=: use PROGRAM to compare files
+    --help: display this help and exit
+    --strip-trailing-cr: strip trailing carriage return on input
+    -3, --easy-only: like -e, but incorporate only nonoverlapping changes
+    -A, --show-all: output all changes, bracketing conflicts
+    -E, --show-overlap: like -e, but bracket conflicts
+    -L, --label*=: use LABEL instead of file name
+    -T, --initial-tab: make tabs line up by prepending a tab
+    -X: like -x, but bracket conflicts
+    -a, --text: treat all files as text
+    -e, --ed: output ed script incorporating changes
+    -i: append 'w' and 'q' commands to ed scripts
+    -m, --merge: output actual merged file
+    -v, --version: output version information and exit
+    -x, --overlap-only: like -e, but incorporate only overlapping changes
+documentation:
+    command: '[AI] `diff3` is a three-way difference tool in version control systems, such as Git. It merges two branches or files (A and B) based on a common ancestor (C). The result is output in the form of three patches: the differences between A and C (file1.patch), C and B (file2.patch), and merge instructions for combining changes from both (file3.patch). It allows resolving merge conflicts manually and can be used when merging branches with common but different changes.'
+    flag:
+        X: '[AI] `diff3 -X` is a command used in version control systems, specifically with the three-way merge tool `diff3`. The `-X` option sets an external merge driver to be used during the merge process. Instead of automatically merging changes, it leaves the resolution of conflicts to the specified driver. This allows for more complex merges, especially when dealing with files that have been modified in different ways in multiple branches.'
+        diff-program: '[AI] `diff3` is a three-way difference merging tool in version control systems, which resolves differences between three files or branches. The option `--diff-program` specifies an external diff program to be used for displaying the differences. This can be useful when you prefer a specific diff viewer over the default one provided by `diff3`. For instance, if you use `--diff-program=meld`, it will open the differences in Meld Merge tool for review and merging.'
+        easy-only: '[AI] `diff3 --easy-only` is a command used in version control systems, specifically in Mercurial and Git, to perform a three-way merge with only the easy parts. This means that it merges two branches into a common base branch assuming there are no conflicts between them in the areas of overlap. The `--easy-only` option skips any difficult or complex merges, making the process faster but potentially resulting in lost changes if there are actual merge conflicts. It''s useful when merging branches that have been developed independently and don''t have conflicting changes.'
+        ed: '[AI] `diff3 --ed` is a command from the Diffutils package in Unix-based systems. It is used for three-way merge conflicts resolution. The `--ed` option indicates that the output format should be ed script format. In this format, each hunk of changes is represented as a series of commands to insert, delete or substitute text within an edit buffer. This format is useful when resolving merge conflicts manually with an editor like vi or emacs.'
+        help: |-
+            [AI] `diff3` is a version control merging tool in Git. Its `--help` option provides a brief summary of its usage:
+
+            ```text
+            Usage: diff3 [OPTIONS] FILE1 FILE2 FILE3 [FILE1_BASE FILE2_BASE]
+            Merges changes from two or three files and outputs the result to stdout.
+
+            Options:
+              --help             Display this help message and exit
+              --binary           Output binary format (as opposed to context)
+              --brief            Show only differences between files
+                  --ignore-space-at-eol
+                      Ignore spaces at EOL when comparing lines.
+              --ignore-blank-lines
+                      Ignore blank lines when comparing files
+              --label LABEL1:FILE1 LABEL2:FILE2 ...
+                      Use LABEL1 for FILE1, LABEL2 for FILE2, and so on.
+              --ed [EDITOR]       Open merged results in the given editor instead of printing to stdout
+                  --merge [MERGER]  Use MERGER to perform three-way merges instead of Git's default merger
+            ```
+
+            The `diff3` command compares and merges changes from two or three files, producing the merged result as output. It can accept options like `--binary`, `--brief`, `--ignore-space-at-eol`, and others, to control its behavior. Users can also specify labels for each input file, which will be used in the output.
+        i: '[AI] `diff3 -i` is a command from the Diff utility in version control systems like Git. The `-i` option stands for "interactive", meaning that instead of producing output showing the differences between three files, it sets up an editor session where you can review and merge the changes. The `diff3` command itself compares the differences between three files or sets of changes (often from three branches in a Git repository). By using both `diff3` with the `-i` option together, you get an interactive experience to resolve conflicts and merge changes in a more controlled and detailed manner.'
+        initial-tab: '[AI] `diff3 --initial-tab` is a command in version control systems like Git, used to merge three branches or files with conflicting changes. The `--initial-tab` option specifically sets the default text editor to Tab instead of Space for resolving merge conflicts during the three-way merge process. This allows developers with different indentation styles to maintain consistency when merging their changes.'
+        label: '[AI] `diff3 --label` is a command in version control systems like Mercurial and Git, which compares three sets of files or directories and produces output that highlights the differences between them. The `--label` option is used to assign labels or names to each set being compared for better understanding in the output. Each label is displayed next to the corresponding changes, making it easier to identify which changes belong to which file version.'
+        merge: |-
+            [AI] `diff3 --merge` is a command-line tool used in version control systems for merging three branches or files with potential differences. It works by generating three difference files, representing the differences between:
+
+            1. File A vs File B (file1.diff and file1.revent2.diff)
+            2. File A vs File C (file1.diff and file1.revent3.diff)
+            3. Differences between File B and File C (file1.revent1.diff and merge.diff)
+
+            The `--merge` option is used to automatically generate a merged output in the 'merge.diff' file, which can be applied with patch commands like `patch < merge.diff`. The resulting file will contain all changes from both branches or files, ensuring data consistency while preserving the distinct modifications made on each branch.
+        overlap-only: '[AI] The `diff3 --overlap-only` command is a three-way difference tool in Git. It compares three versions of a file: A (base), B (local), and C (another local or remote). The output is the overlap between versions B and C, showing changes that are common to both and differences unique to each version. This can be useful when merging branches with conflicts.'
+        show-all: '[AI] `diff3 --show-all` is a command from the diffutils tool in version control systems, such as Git. This command is used to show the differences between three files or sets of changes. The `--show-all` option displays all differences marked with ''<'', ''>'' and ''+'' symbols, including common context and whitespace changes, making it easier for users to review and merge the changes manually.'
+        show-overlap: '[AI] `diff3 --show-overlap` is a command in version control systems, specifically designed for Mercurial and Git. This command displays the differences between three versions of a file using a merge conflict resolution format called "three-way merge." The `--show-overlap` option enhances the output by highlighting common lines between the files, making it easier to visually identify the changes that need to be resolved in case of conflicts.'
+        strip-trailing-cr: |-
+            [AI] `diff3` is a three-way difference merging tool used to compare and merge the differences between three sets of files or directories. The command `diff3 --strip-trailing-cr` specifically refers to using `diff3` with an additional option `--strip-trailing-cr`.
+
+            The option `--strip-trailing-CR` (capital 'C' for Carriage Return) is used to remove trailing carriage returns at the end of lines that might differ between files due to different line ending conventions, such as Unix (LF) and Windows (CRLF). By using this option, the output produced by `diff3` will display only meaningful differences without any unwanted trailing characters. This helps in maintaining consistency and making it easier to review the actual changes.
+        text: |-
+            [AI] `diff3 --text` is a command from the Diffutils package in Unix-based systems, used for merging three text files and showing the differences between them. The `--text` option ensures that the output is formatted as human-readable text, rather than in the patch format (`--context` or `--unified`) which is more commonly used for applying changes to files automatically.
+
+            When you run `diff3 file1 file2 file3 > merged.txt`, it generates a new file named `merged.txt` with the combined content of all three input files, highlighting any conflicts and allowing you to manually resolve them.
+        version: '[AI] `diff3 --version` is a command used in version control systems, specifically with the Diff3 tool. This command is used to display the current version of Diff3 that is installed and being used in the terminal or command-line interface. The output will show the name of theDiff3 software, its version number, and sometimes additional information such as the compilation date or other build details.'

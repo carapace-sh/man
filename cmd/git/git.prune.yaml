@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: prune
+description: Prune all unreachable objects from the object database
+group: manipulator
+flags:
+    --exclude-promisor-objects: limit traversal to objects outside promisor packfiles
+    --expire=: expire objects older than <time>
+    --progress: show progress
+    -n, --dry-run: do not remove, show only
+    -v, --verbose: report pruned objects
+documentation:
+    command: '[AI] `git prune` is not a standard Git command. It''s often used as an alias or script for removing unnecessary branches, tags, or other objects from the local Git repository that have been deleted remotely but not yet removed locally. This can help keep the local repository in sync with the remote one, improving performance and reducing disk space usage. However, it''s essential to be cautious when using such commands as they may permanently delete local branches or commits if used incorrectly.'
+    flag:
+        dry-run: '[AI] `git prune --dry-run` is a Git command used to remove unreachable branches and remote branches that have been deleted upstream, simulating the changes that would be made without actually deleting anything. It''s an effective way to preview the results of a Git pruning operation before executing it in a production environment or when you''re uncertain about the impact on your local branches.'
+        exclude-promisor-objects: '[AI] `git prune` is a Git command used to remove unreachable objects from the local Git repository. The `--exclude-promisor-objects` option tells Git to exclude promisor objects from being pruned. Promisor objects are used in Git''s replicas model for handling replicated ref updates, which might be required in complex workflows like Fetch-then-Fetch or centralized workflows with multiple upstreams. By excluding them, you ensure that they are kept in the local repository even if they are unreachable from the current branches.'
+        expire: '[AI] `git prune --expire` is a Git command used to remove objects and references that are no longer needed based on their age. By default, it deletes objects older than the configured expiry period (usually set to two weeks) in the local Git repository''s repositories and ref logs. This helps to manage disk space efficiently by getting rid of unneeded data while keeping the history necessary for your repositories.'
+        progress: '[AI] `git prune` is a Git command used to remove unreachable objects from the local repository''s Git history, which helps save disk space. The `--progress` option provides real-time progress updates on the deletion process, allowing users to track the cleanup operation. In summary, `git prune --progress` removes unreachable Git objects and shows progress updates during the process.'
+        verbose: '[AI] `git prune` is a Git command used to remove unreachable objects from the local Git repository. The `--verbose` option increases the output level, providing more detailed information about each object that is being deleted. This includes the type of object (commit, tree, tag, etc.), its hash value, and the reason why it''s being deleted as unreachable.'

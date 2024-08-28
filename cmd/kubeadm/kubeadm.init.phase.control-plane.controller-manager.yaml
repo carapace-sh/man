@@ -1,0 +1,53 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: controller-manager
+description: Generates the kube-controller-manager static Pod manifest
+flags:
+    --cert-dir=: The path where to save and store the certificates.
+    --config=: Path to a kubeadm configuration file.
+    --controller-manager-extra-args=: A set of extra flags to pass to the Controller Manager or override default ones in form of <flagname>=<value>
+    --dry-run: Don't apply any changes; just output what would be done.
+    --image-repository=: Choose a container registry to pull control plane images from
+    --kubernetes-version=: Choose a specific Kubernetes version for the control plane.
+    --patches=: Path to a directory that contains files named "target[suffix][+patchtype].extension".
+    --pod-network-cidr=: Specify range of IP addresses for the pod network. If set, the control plane will automatically allocate CIDRs for every node.
+documentation:
+    command: '[AI] `kubeadm init` is a command used to bootstrap a Kubernetes cluster using `kubeadm`, which is a tool for deploying and managing Kubernetes clusters. The "phase control-plane controller-manager" argument refers to the specific phase of the initialization process where the control plane components (controller-manager) are initialized on the node where `kubeadm init` is run. These components include etcd, kube-apiserver, kube-controllermanager, and kube-scheduler, which manage the cluster''s data storage, API server, and control plane functions, respectively. Running this command sets up these components, creating the Kubernetes control plane on the given node.'
+    flag:
+        cert-dir: '[AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The `phase control-plane controller-manager --cert-dir` argument is used to specify the directory where certificates for the control plane components (etcd, kube-apiserver, kube-controller-manager, and kube-scheduler) should be generated and stored. This argument ensures that secure communication between these components is established using TLS certificates.'
+        config: '[AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The `phase control-plane` argument specifies which phase of the cluster initialization process to run, and the `controller-manager --config` argument provides the configuration file for the Kubernetes controller manager component. Together, these arguments instruct `kubeadm init` to set up the control plane nodes in a Kubernetes cluster using the given configuration for the controller manager.'
+        controller-manager-extra-args: |-
+            [AI] `kubeadm init` is a command-line tool for setting up a Kubernetes cluster using Kubeadm, which is part of the Kubernetes distribution. The option `--control-plane --controller-manager` indicates that this command will be used to initialize and set up the control plane components of the cluster, including the etcd database, the kube-apiserver, and the kube-controller-manager.
+
+            The additional argument `--controller-manager-extra-args` allows passing extra arguments specifically to the controller-manager component. These arguments can be used for configuring various aspects of the controller-manager, such as enabling or disabling specific controllers or changing their settings. The exact meaning and usage of these arguments depend on the specific controller-manager configuration being used in the cluster.
+        dry-run: |-
+            [AI] `kubeadm init` is a command-line tool for initializing a Kubernetes cluster using kubeadm, a open-source project to deploy and manage Kubernetes clusters. The `--phase control-plane` option specifies that the script should only initialize the control plane components of a Kubernetes cluster.
+
+            The `controller-manager` argument within this phase is used to indicate that this command will only output the configuration file for setting up the controller manager component as part of the control plane. The `--dry-run` flag is used to display an output of what would be done if the command were actually executed without making any changes to the system.
+
+            So, in summary, `kubeadm init phase control-plane controller-manager --dry-run` will show you the configuration files needed to set up the Kubernetes controller manager component in a new or existing cluster, but it won't make any actual changes to your system.
+        image-repository: |-
+            [AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The `phase control-plane controller-manager --image-repository` argument is related to configuring the image repository from which `kubeadm` will pull the controller manager images.
+
+            In more detail, the `controller-manager` component of a Kubernetes cluster manages various system components like the Cluster API server, ReplicationController, and ServiceDiscovery. The `--image-repository` flag specifies where to pull the official Kubernetes controller manager Docker images from. By default, this is set to the Google Container Registry (gcr.io), but you can change it to a different registry if needed.
+
+            So, when running `kubeadm init` with this argument, you are instructing it to use an alternative image repository for the controller manager images. For example:
+
+            ```sh
+            sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --controller-plane-image-repository myregistry:5000/k8s
+            ```
+
+            This command would initialize a new Kubernetes cluster with the given arguments and use the image repository `myregistry:5000/k8s` for the controller manager images.
+        kubernetes-version: |-
+            [AI] `kubeadm init` is a command-line tool for bootstrapping a Kubernetes cluster. The specific flag `--control-plane --controller-manager` instructs it to install the control plane and controller manager components using the specified Kubernetes version given by `--kubernetes-version`.
+
+            In simpler terms, this flag sets up the master node with the necessary Kubernetes control plane components (such as etcd, kube-apiserver, kube-controller-manager, and kube-scheduler) and the controller manager component following the provided Kubernetes version.
+        patches: |-
+            [AI] The `kubeadm init` command is used to bootstrap a Kubernetes cluster. The `--phase control-plane --controller-manager --patches` option is a set of arguments that specify the phase of the initialization process and enable applying custom patches to the Kubernetes controller-manager components.
+
+            The `--phase control-plane` argument indicates that this command will be used to initialize the control-plane nodes, which are the nodes where the Kubernetes master components will run.
+
+            The `--controller-manager --patches` option enables applying custom patches to the Kubernetes controller-manager component. The `--patches` flag takes a file path as an argument, containing one or more JSON patches that will be applied to the controller-manager configuration file during initialization. These patches can be used to modify the behavior of the controller-manager components or add custom features.
+        pod-network-cidr: |-
+            [AI] `kubeadm init` is a command-line tool for setting up a Kubernetes cluster using Kubeadm, an open-source project to deploy and manage Kubernetes clusters. The `phase control-plane controller-manager --pod-network-cidr` argument is used during the initialization of a new Kubernetes master node.
+
+            This argument instructs Kubeadm to set up the control plane components (such as etcd, kube-apiserver, kube-controller-manager, and kube-scheduler) and configure the controller-manager component to use the specified CIDR block for the pod network. The --pod-network-cidr flag is used to allocate an IP address range for pods in the cluster, ensuring that they have unique IP addresses within the cluster. This is an essential step to ensure proper communication between pods and other components in the cluster.

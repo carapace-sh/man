@@ -1,0 +1,67 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: role NAME --verb=verb --resource=resource.group/subresource [--resource-name=resourcename] [--dry-run=server|client|none]
+description: Create a role with single rule
+flags:
+    --allow-missing-template-keys: If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
+    --dry-run?: Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
+    --field-manager=: Name of the manager used to track field ownership.
+    --resource*=: Resource that the rule applies to
+    --resource-name*=: Resource in the white list that the rule applies to, repeat this flag for multiple items
+    --save-config: If true, the configuration of current object will be saved in its annotation. Otherwise, the annotation will be unchanged. This flag is useful when you want to perform kubectl apply on this object in the future.
+    --show-managed-fields: If true, keep the managedFields when printing objects in JSON or YAML format.
+    --template=: Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates [http://golang.org/pkg/text/template/#pkg-overview].
+    --validate?: Validation mode.
+    --verb*=: Verb that applies to the resources contained in the rule
+    -o, --output=: 'Output format. One of: (json, yaml, name, go-template, go-template-file, template, templatefile, jsonpath, jsonpath-as-json, jsonpath-file).'
+documentation:
+    command: |-
+        [AI] `kubectl create role` is a command used in Kubernetes to create a Role resource. Roles define a set of permissions for one or more users or groups within a Kubernetes cluster. The basic syntax for the command is:
+
+        ```sh
+        kubectl create role [role-name] --verb [verbs] --resource-name [resource-names] --resource-namespace [namespace] [--cluster-role | -o yaml | --dry-run | ...]
+        ```
+
+        Replace `[role-name]` with the desired name for your role, and use `[verbs]` to specify the actions that the role is allowed to perform on the specified `[resource-names]`. You can also provide a `[namespace]` if you want the role to be scoped to a specific namespace. Additionally, there are optional flags like `--cluster-role`, `-o yaml`, `--dry-run` that can be used for different purposes.
+    flag:
+        allow-missing-template-keys: |-
+            [AI] The `kubectl create role` command with the `--allow-missing-template-keys` flag is used to create a Role in Kubernetes with permissions, where some keys in the YAML manifest may be missing. This flag allows the Role creation to proceed despite these missing keys, assuming that the Role's intent and required permissions can still be fulfilled based on the existing keys present in the manifest.
+
+            This option is particularly useful when managing RBAC (Role-Based Access Control) definitions that are not fully fleshed out but still need to be deployed to the cluster. With `--allow-missing-template-keys`, you can create the Role object with incomplete configuration, and then complete it later by adding or updating the missing keys as needed.
+
+            In summary, the `--allow-missing-template-keys` flag enables the creation of a Kubernetes Role despite missing keys in its YAML manifest. This can be helpful when dealing with incompletely defined RBAC objects.
+        dry-run: '[AI] `kubectl create role --dry-run` is a command used in Kubernetes to preview the creation of a Role resource without actually creating it. The `--dry-run` flag outputs the YAML definition that would be created if the command were run without this flag. This can be useful for reviewing changes before applying them, or for generating config files for later use.'
+        field-manager: '[AI] `kubectl create role` is a command used in Kubernetes to create a Role resource, which defines a set of permissions that can be granted to a user or a group. The `--field-manager` flag is an optional argument for this command. It indicates that the created Role will have the `management.core.k8s.io/self-managed: true` field set, meaning that only the RBAC controller can modify the role. This flag helps ensure that critical roles are managed by the cluster-wide RBAC controller and not accidentally modified or deleted by other users.'
+        output: |-
+            [AI] `kubectl create role` is a command used in Kubernetes to create a Role resource, which defines a set of permissions for a Kubernetes user or group. The `--output` flag is used to specify the output format for the command.
+
+            When you run `kubectl create role <role-name> --output json`, it creates the Role with the given name and returns the created Role object in JSON format as output. Similarly, using `yaml` as output format will return the created Role object in YAML format. The default output is plain text, showing the status message of the creation operation.
+        resource: |-
+            [AI] The `kubectl create role` command is used to create a Role object in Kubernetes, which defines a set of permissions that can be granted to a user or group. The `--resource` flag specifies the type of resource that the Role applies to.
+
+            For example, if you want to create a Role for managing Deployments and ReplicaSets in a specific namespace, you would use a command like:
+
+            ```bash
+            kubectl create role my-role --resource=deployments,replicasets --namespace my-namespace
+            ```
+
+            This creates a new Role named `my-role` with permissions to manage Deployments and ReplicaSets only in the `my-namespace` namespace. The RBAC (Role-Based Access Control) system in Kubernetes uses these Roles to enforce access control policies on its resources.
+        resource-name: |-
+            [AI] The `kubectl create role` command is used to create a Role or RoleBinding resource in Kubernetes. A Role or RoleBinding defines a set of permissions that can be granted to users, groups, or service accounts within a cluster. The `--resource-name` flag is an optional argument provided to specify the name of the resource being managed by the Role or RoleBinding. If not provided, Kubernetes will generate a unique name for the resource. For example, to create a Role named "my-role" with permissions to access pods in a specific namespace, use the following command:
+
+            ```bash
+            kubectl create role my-role --verb=get,list --resource=pods --namespace <namespce_name>
+            ```
+
+            This command creates a Role resource named "my-role" with permissions (verbs) `get` and `list` on the resource type `pods` within the specified namespace.
+        save-config: '[AI] `kubectl create role --save-config` is a command used in Kubernetes for Role creation with the additional flag `--save-config`. This command creates a new Role object definition in your local Kubernetes configuration files, allowing you to manage and apply it using `kubectl`. The `--save-config` flag ensures that the newly created Role definition is saved locally, enabling easy application and version control.'
+        show-managed-fields: '[AI] `kubectl create role --show-managed-fields` is a command used in Kubernetes to create a Role resource with YAML metadata and RBAC rules, while displaying the managed fields along with their current values. A Role defines a set of permissions that can be granted to a user or a group in a cluster. The `--show-managed-fields` option displays the fields managed by the Kubernetes API controller for the role resource, which can help understand the current state and any potential changes when updating or deleting such resources.'
+        template: '[AI] `kubectl create role` is a command used in Kubernetes to create a Role resource definition. The `--template` flag is an optional argument that allows you to generate a YAML template using a given file or a Go template instead of directly creating a Role. The generated template can then be customized before applying it with `kubectl apply`. This way, you can define the Role structure and permissions in a more flexible and reusable way.'
+        validate: '[AI] `kubectl create role --validate` is a command used in Kubernetes to create a Role definition with RBAC (Role-Based Access Control) rules, but without applying it to the cluster yet. The `--validate` flag is used to check the syntax and validity of the Role configuration against the Kubernetes API schema before actually creating it. This can help prevent mistakes and ensure compliance with security policies. If the Role definition is valid, you will receive a message indicating that it would have been successfully created. However, if there are any errors or inconsistencies, the command will return an error message with details on the issues that need to be resolved before proceeding.'
+        verb: |-
+            [AI] The `kubectl create role` command is used to create a Role object in Kubernetes, which defines a set of permissions that can be granted to a Kubernetes user or group. The `--verb` flag specifies the specific action(s) that the Role will allow, such as "create," "edit," or "delete." For example:
+
+            ```bash
+            kubectl create role myrole --verb=create,edit pods --resource-namespace mynamespace
+            ```
+
+            This command creates a Role named `myrole` in the namespace `mynamespace`, allowing the assignee to create and edit Pod resources.

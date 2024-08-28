@@ -1,0 +1,107 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: all
+description: Prepare the machine for serving a control plane
+flags:
+    --apiserver-advertise-address=: If the node should host a new control plane instance, the IP address the API Server will advertise it's listening on. If not set the default network interface will be used.
+    --apiserver-bind-port=: If the node should host a new control plane instance, the port for the API Server to bind to.
+    --certificate-key=: Use this key to decrypt the certificate secrets uploaded by init.
+    --config=: Path to kubeadm config file.
+    --control-plane: Create a new control plane instance on this node
+    --discovery-file=: For file-based discovery, a file or URL from which to load cluster information.
+    --discovery-token-ca-cert-hash*=: 'For token-based discovery, validate that the root CA public key matches this hash (format: "<type>:<value>").'
+    --discovery-token-unsafe-skip-ca-verification: For token-based discovery, allow joining without --discovery-token-ca-cert-hash pinning.
+    --discovery-token=: For token-based discovery, the token used to validate cluster information fetched from the API server.
+    --node-name=: Specify the node name.
+    --patches=: Path to a directory that contains files named "target[suffix][+patchtype].extension".
+    --tls-bootstrap-token=: Specify the token used to temporarily authenticate with the Kubernetes Control Plane while joining the node.
+    --token=: Use this token for both discovery-token and tls-bootstrap-token when those values are not provided.
+documentation:
+    command: '[AI] The `kubeadm join` command with the `phase control-plane-prepare all` argument is used to initiate the control-plane node preparation process in a Kubernetes cluster managed by Kubeadm. This phase sets up the necessary components on each control-plane node to become part of the cluster, including installing required packages, configuring network settings, and creating the necessary Kubernetes certificates and keys. Once this phase completes successfully, subsequent phases can be run to complete the join process and add the control-plane nodes to the cluster.'
+    flag:
+        apiserver-advertise-address: |-
+            [AI] The `kubeadm join` command with the `--control-plane-prepare all --apiserver-advertise-address` flags is used to prepare a node to join a Kubernetes cluster as a control plane (master) node.
+
+            Here's what each flag does:
+
+            * `--control-plane-prepare`: This flag tells `kubeadm` that the node being joined will be a control plane node. It sets up the necessary services, such as etcd and kube-apiserver, and configures them to use the given `--apiserver-advertise-address`.
+            * `all`: This argument specifies that all control plane components should be installed on this node.
+            * `--apiserver-advertise-address`: This flag sets the IP address or hostname that the new control plane node will advertise to the cluster as its API server address.
+
+            So, running `kubeadm join <cluster-master-ip> --control-plane-prepare all --apiserver-advertise-address <new-control-plane-node-ip>` will prepare a new node to be part of the Kubernetes control plane by installing and configuring the required services and setting its advertised API server address.
+        apiserver-bind-port: |-
+            [AI] The `kubeadm join` command with the `--control-plane-prepare all --apiserver-bind-port` flags is used to prepare and create a new control plane node in a Kubernetes cluster managed by `kubeadm`.
+
+            The `--control-plane-prepare` flag initiates the process of preparing a node as a control plane node, which includes installing required packages, configuring certificates and firewall rules, and starting necessary components such as etcd, kube-apiserver, and kube-controller-manager.
+
+            The `--apiserver-bind-port` flag sets the port number (default is 6443) for the Kubernetes API Server to listen on. This port is used by other nodes in the cluster to communicate with the control plane components on this node.
+
+            In summary, running `kubeadm join <control-plane-node-ip> --control-plane-prepare all --apiserver-bind-port <port-number>` creates a new control plane node in your Kubernetes cluster and sets the API Server to listen on the specified port.
+        certificate-key: |-
+            [AI] `kubeadm join` is a command-line utility used to join worker nodes to a Kubernetes cluster managed by `kubeadm`, a component of the Kubernetes toolkit. The `phase control-plane-prepare all --certificate-key` argument refers to the specific phase of joining a node as a control plane node.
+
+            Control plane nodes are responsible for managing and coordinating the Kubernetes cluster, such as etcd for data storage, the API server for managing the cluster state, and the controller manager and scheduler for maintaining desired cluster conditions.
+
+            The `--certificate-key` option specifies the location of the private key to use when generating and signing control plane components' certificates during the join process. By using `all` as an argument, you instruct `kubeadm join` to perform this action on all the control plane nodes in your cluster.
+        config: |-
+            [AI] The `kubeadm join` command with the `phase control-plane-prepare all --config` flag is used to prepare a node to become part of a Kubernetes cluster as a control plane node.
+
+            The `control-plane-prepare` phase is one of several phases in the `kubeadm join` process. It configures the node as a control plane node by installing required packages, setting up certificates and keys, and initializing the Kubernetes components such as etcd, kube-apiserver, kube-controller-manager, and kube-scheduler.
+
+            The `all` flag indicates that this command should be executed on all control plane nodes in a cluster. This is typically used when setting up a new cluster or adding additional control plane nodes to an existing one.
+
+            Therefore, `kubeadm join phase control-plane-prepare all --config` prepares all control plane nodes with the necessary configurations for them to function as part of the Kubernetes control plane.
+        control-plane: |-
+            [AI] `kubeadm join` is a command-line tool used to join worker nodes to a Kubernetes cluster managed by `kubeadm` on a control plane node. The `--control-plane-prepare all` flag initiates the "control-plane prepare" phase during this process.
+
+            This phase prepares the joining worker node to become a new control plane node in case of failure or expansion of the existing control plane. It sets up various required services, configures TLS certificates and keys for secure communication, and modifies the Kubernetes cluster configuration accordingly. In summary, it readies a worker node to assume control plane duties when needed.
+        discovery-file: |-
+            [AI] The `kubeadm join` command with the `--control-plane-prepare all --discovery-file` flags is used to prepare a new node to become a control plane node in a Kubernetes cluster managed by Kubeadm.
+
+            The `--control-plane-prepare` flag initiates the process of converting the node into a control plane node, which includes setting up Certificate Authority (CA) server and enrolling the new node's certificate with the CA.
+
+            The `all` argument indicates that this operation will be performed on all the nodes listed in the `--discovery-file`. This file contains information about other nodes in the cluster, typically in the form of their IP addresses or hostnames, allowing them to be discovered and joined to the cluster.
+
+            In summary, this command prepares multiple new control plane nodes to join an existing Kubernetes cluster managed by Kubeadm using the specified discovery file.
+        discovery-token: |-
+            [AI] The `kubeadm join` command with the phase `control-plane-prepare all --discovery-token` is used to prepare a node to become part of a Kubernetes cluster as a control plane (master) node.
+
+            Here's a breakdown of each part of the command:
+
+            * `kubeadm join`: This is the main command for joining a node to an existing Kubernetes cluster using `kubeadm`.
+            * `control-plane-prepare all`: This argument tells `kubeadm` that the node being joined will be a control plane node, and it should perform all necessary tasks to prepare it for this role. The `all` argument indicates that this preparation should be done for all control plane components.
+            * `--discovery-token`: This argument specifies that `kubeadm` should use a token-based discovery method to locate the existing cluster. When creating a new cluster, or when adding a node to an existing one using `kubeadm join`, this token is used for secure communication between nodes and to ensure only authorized nodes can join the cluster.
+        discovery-token-ca-cert-hash: |-
+            [AI] The `kubeadm join` command with the argument `--control-plane-prepare all --discovery-token-ca-cert-hash` sets up a Kubernetes control-plane node. Here's what each part means:
+
+            1. `kubeadm join`: This is the main command to join a worker node to an existing Kubernetes cluster.
+            2. `--control-plane-prepare all`: This argument initiates the control-plane node preparation process, which includes setting up Certificate Authority (CA), bootstrap token, etcd member, and configuring kubelet and kube-apiserver services.
+            3. `--discovery-token-ca-cert-hash`: This argument is used to provide the SHA256 hash of the root CA certificate that was generated when the original master node was bootstrapped. It's required for joining a new control-plane node to an existing cluster. This prevents unauthorized nodes from joining the cluster.
+        discovery-token-unsafe-skip-ca-verification: |-
+            [AI] The `kubeadm join` command with the flag `--control-plane-prepare all --discovery-token-unsafe-skip-ca-verification` is used to prepare a node to join a Kubernetes cluster as a control plane node, which is responsible for managing and coordinating the cluster.
+
+            The `--control-plane-prepare` flag initiates the process of configuring the node as a control plane node by installing various components such as the Kubernetes packages and setting up the required certificates. The `all` argument indicates that this process should be performed for all control plane roles (etcd, kube-apiserver, kube-controller-manager, and kube-scheduler).
+
+            The `--discovery-token-unsafe-skip-ca-verification` flag is used to bypass the CA verification during token discovery. In a secure environment, it is recommended to use a trusted certificate authority (CA) for issuing certificates in the cluster. However, in some cases, such as when using self-signed certificates or when joining a cluster outside of your organization's network, you may need to disable CA verification temporarily. This flag allows you to do that, but it is important to note that the security risk associated with this action increases when CA verification is disabled.
+        node-name: '[AI] `kubeadm join` is a command used to add nodes to a Kubernetes cluster managed by Kubeadm. The `phase control-plane-prepare all --node-name` flag is specifying that the control plane preparation phase should be initiated for all specified nodes. This phase includes setting up the certificate authorities, creating the required Kubernetes components (etcd, kube-apiserver, kube-controller-manager, and kube-scheduler), and configuring each node as part of the cluster''s control plane. By using `all` along with `--node-name`, it applies to all nodes whose names are listed.'
+        patches: |-
+            [AI] `kubeadm join` is a command used to add a new node to a Kubernetes cluster managed by Kubeadm. The `phase control-plane-prepare all --patches` argument relates to the "control plane preparation" phase of joining a node to the cluster.
+
+            This phase involves preparing the node to become a Control Plane component (e.g., etcd, kube-apiserver, kube-controller-manager, and kube-scheduler) by installing required packages, setting up certificates, and applying configuration patches. The `--patches` option allows you to provide custom Kubernetes manifests as patches, which will be applied during this phase. By using `all`, you apply the patches to all Control Plane components, ensuring they are configured consistently across the cluster.
+        tls-bootstrap-token: |-
+            [AI] The `kubeadm join` command with the argument `--phase=control-plane-prepare all --tls-bootstrap-token` is used to prepare a node as a control plane component in a Kubernetes cluster managed by Kubeadm.
+
+            The `--phase control-plane-prepare all` flag instructs Kubeadm to perform all tasks necessary to set up the node as a control plane node, including:
+
+            1. Downloading and applying the initial configuration and certificates.
+            2. Installing and configuring the Kubernetes control plane components such as etcd, kube-apiserver, kube-controller-manager, and kube-scheduler.
+            3. Setting up the node's TLS bootstrap token for communication with the cluster.
+            4. Joining the node to the existing Kubernetes cluster using the `--token` flag.
+
+            The `--tls-bootstrap-token` argument provides the token necessary for this join process, generated during the initial setup of the control plane components. This token ensures secure and authenticated communication between the new control plane node and the existing control plane nodes in the cluster.
+        token: |-
+            [AI] The `kubeadm join` command with the argument `--control-plane-prepare all --token` initiates a series of steps to prepare a node as a new control plane member in a Kubernetes cluster managed by `kubeadm`. Here's what each part does:
+
+            * `kubeadm join`: This is the main command that adds or joins a new node to an existing Kubernetes cluster.
+            * `--control-plane-prepare`: This argument instructs `kubeadm` to perform actions necessary for setting up a control plane node, which includes creating and configuring the Kubernetes master components such as `etcd`, `kube-apiserver`, `kube-controller-manager`, and `kube-scheduler`.
+            * `all`: This argument tells `kubeadm join` to configure all control plane components on this node, making it a fully functional control plane node.
+            * `--token <token>`: The token is used for secure communication between the new joining node and the existing cluster. It's crucial to use a valid token during the join process to ensure proper authorization. The token is generated when initializing the master or when creating a new token using the `kubeadm init` command.

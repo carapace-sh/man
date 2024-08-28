@@ -1,0 +1,103 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: put
+description: Sets or updates data in the KV store
+flags:
+    --acquire: Obtain a lock on the key.
+    --base64: Treat the data as base 64 encoded.
+    --ca-file=: Path to a CA file to use for TLS when communicating with Consul.
+    --ca-path=: Path to a directory of CA certificates to use for TLS when communicating with Consul.
+    --cas: Perform a Check-And-Set operation.
+    --client-cert=: Path to a client cert file to use for TLS when 'verify_incoming' is enabled.
+    --client-key=: Path to a client key file to use for TLS when 'verify_incoming' is enabled.
+    --datacenter=: Name of the datacenter to query.
+    --flags=: Unsigned integer value to assign to this key-value pair.
+    --http-addr=: The `address` and port of the Consul HTTP agent.
+    --modify-index=: Unsigned integer representing the ModifyIndex of the key.
+    --namespace=: Specifies the namespace to query.
+    --release: Forfeit the lock on the key at the given path.
+    --session=: User-defined identifer for this session as a string.
+    --stale: Permit any Consul server (non-leader) to respond to this request.
+    --tls-server-name=: The server name to use as the SNI host when connecting via TLS.
+    --token-file=: File containing the ACL token to use in the request.
+    --token=: ACL token to use in the request.
+documentation:
+    command: |-
+        [AI] `consul kv put` is a Command-Line Interface (CLI) command used in Hashicorp's Consul Key-Value (KV) store. This command is used to set or create a new key-value pair within the Consul KV store. The syntax for using this command is as follows:
+
+        ```bash
+        consul kv put <key> <value> [flags]
+        ```
+
+        Here, `<key>` represents the name of the key you want to create or update, and `<value>` represents the value associated with that key. The command will return the updated or newly created key-value pair as a JSON object in the response.
+
+        You can also use this command to create a new key with an initial value, or update an existing key by providing a new value. If you want to update an existing key without changing its value, just provide the same key and value again. The flags that can be used with this command include options like `-token` for authentication or `-data-file` for reading key-value pairs from a file.
+    flag:
+        acquire: |-
+            [AI] `consul kv put --acquire` is a command in the Consul Key Value (KV) store, which is part of the Consul service discovery and configuration tool. This command is used to set a key-value pair in the Consul KV store with the additional flag `--acquire` enabling the "leasing" feature.
+
+            When you use `put` command to set a key, it is stored with an associated lease time. The `--acquire` flag enables the lease ID to be returned along with the key, allowing you to manage the lease and determine if the key is still valid or not. If the key is no longer needed, it can be deleted along with its associated lease to prevent stale data in the KV store. This feature helps in maintaining a dynamic environment where keys may be added or removed frequently.
+        base64: '[AI] `consul kv put --base64` is a command in the Consul Key Value (KV) store, which is part of the Consul service discovery and configuration management tool. This command is used to write data into the Consul KV store with the value encoded in base64 format. The base64 encoding is particularly useful when dealing with binary data such as certificates or configuration files. The command syntax is `consul kv put <key> [--base64] <value_file>`, where `<key>` is the unique identifier for the data in the store, and `<value_file>` contains the binary data to be written, encoded in base64 format.'
+        ca-file: |-
+            [AI] `consul kv put --ca-file` is a command used with Hashicorp Consul, a tool for service discovery, configuration, and orchestration. The `put` sub-command is used to write data into the Consul Key Value (KV) store.
+
+            The `--ca-file` option is used to specify a file containing the root Certificate Authority (CA) bundle for TLS-secured communication with the Consul server. It ensures that any data written or retrieved from the KV store is encrypted and signed, maintaining security of the data in transit.
+        ca-path: '[AI] `consul kv put --ca-path` is a command used in Hashicorp Consul, a popular service discovery and configuration management tool. This command is used to put (create or update) a key-value pair in the Consul Key Value store with TLS encryption enabled. The `--ca-path` flag specifies the path to the CA (Certificate Authority) certificates for client and server authentication. Enabling TLS encryption ensures secure communication between clients and the Consul server.'
+        cas: |-
+            [AI] The `consul kv put --cas` command is used in Consul, a distributed configuration and service discovery tool, to set a key-value pair in its KV store with strong consistency using the Consistency Level Agreement (CLA) feature.
+
+            The `put` command writes a new value or updates an existing value for a given key. The `--cas` flag specifies that Consul should return the Comparand And Version (CAS) value along with the response. This CAS value can then be provided in subsequent `put`, `get`, or `delete` operations to ensure strong consistency, ensuring that only the latest version of the data is being accessed or modified.
+
+            In summary, `consul kv put --cas <key> <value>` sets a key-value pair with strong consistency and returns the CAS value.
+        client-cert: '[AI] `consul kv put --client-cert` is a command used in the Consul key-value store to set data with TLS client authentication. The `--client-cert` option specifies the path to the client''s TLS certificate file, ensuring secure communication between the client and Consul server. This command helps maintain security by verifying the identity of the client before allowing it to interact with the Consul KV store.'
+        client-key: '[AI] `consul kv put --client-key` is a command used in Hashicorp Consul, a distributed key-value store and service discovery tool. This command is used to put (write) new data or update existing data into the Consul Key Value (KV) store under a specific key. The `--client-key` option is for specifying an authentication token or client certificate key, which is required if the Put API call needs to be made with secure access. It enhances security by ensuring that only authenticated clients can modify data in the KV store.'
+        datacenter: |-
+            [AI] The `consul kv put` command is a part of Consul's Key Value (KV) store, which is used for storing and retrieving key-value pairs. The `--datacenter` flag specifies the datacenter name for this operation.
+
+            When you run `consul kv put <key> <value> --datacenter <datacenter_name>`, it is putting the specified value under the given key in the KV store, but only in the specified datacenter. Consul supports multi-datacenter replication, and this flag allows you to write data to a specific datacenter intentionally, rather than writing it to all of them by default. This can be useful when managing data that should only be available in certain geographical locations or datacenters.
+        flags: |-
+            [AI] `consul kv put --flags` is a command used in the Consul Key-Value (KV) store, which is part of the Consul service discovery and configuration management tool. This command is used to write or put data into the KV store with additional flags for customization.
+
+            The basic syntax is `consul kv put <key> <value>`. The `--flags` option allows you to specify additional parameters such as:
+
+            * `-raw`: Store the key value as raw bytes instead of JSON encoding.
+            * `-cas <value>`: Set the Cas (Consistency Level) version for this write operation.
+            * `-expire <seconds>`: Set an expiration time for the key in seconds.
+            * `-lock-wait`: Wait for a lock on the key before performing the put operation.
+            * `-token <token>`: Use the given token for authentication.
+
+            For example, if you want to write a key "mydata" with the value "Hello World" and set an expiration time of 1 hour (3600 seconds), you would use the command:
+            ```css
+            consul kv put mydata --value="Hello World" --expire=3600
+            ```
+        http-addr: |-
+            [AI] The `consul kv put --http-addr` command is used with the Consul Key Value (KV) store, which is a part of the Consul service discovery and configuration management tool. This command puts or sets a new key-value pair in the Consul KV store.
+
+            The `--http-addr` option specifies the HTTP address where the Consul client will connect to interact with the server. It takes a string argument that includes the hostname or IP address and port number, for example: `localhost:8500`, `192.168.1.1:8301`. The command line might look like this:
+
+            ```bash
+            consul kv put key-name value --http-addr localhost:8500
+            ```
+
+            The command sets the specified key (`key-name`) with the provided value and connects to the Consul server running at `localhost:8500`.
+        modify-index: '[AI] The `consul kv put --modify-index` command is used in Hashicorp Consul, a distributed key-value store and configuration management system. This command is used to update an existing key value in the Consul Key Value (KV) store with a new version. The `--modify-index` flag specifies that the operation should use the given index instead of creating a new version if it exists, allowing for efficient updates of existing keys without having to fetch and overwrite the entire previous version.'
+        namespace: |-
+            [AI] The `consul kv put` command is used in Hashicorp Consul, a tool for service discovery, configuration, and orchestration. This specific command is for putting a key-value pair into Consul's KV (Key Value) store.
+
+            The `--namespace` flag is an optional argument that specifies the namespace for the key-value data. By default, data is stored in the root namespace (""). Using this flag allows you to specify a different namespace to organize and manage your data more effectively. For example:
+
+            ```sh
+            consul kv put my_key my_value --namespace=my_app
+            ```
+
+            This command stores 'my_key' with value 'my_value' in the 'my_app' namespace.
+        release: '[AI] The `consul kv put --release` command is used in Consul, a distributed config management and service discovery tool. This specific command writes or sets a key-value pair in the Consul Key Value store with the `--release` flag, which means that the value will be atomically written and then published as a new configuration release. The release will then be made available to clients and services that are configured to watch for updates on that particular key. This workflow ensures that configuration changes are properly coordinated and propagated across the Consul cluster in a consistent manner.'
+        session: '[AI] The `consul kv put --session` command is used in the Consul Key-Value (KV) store to set a key-value pair with session support. This means that the value will be associated with a unique, long-lived session token. When this command is run, Consul creates a new session and returns the session token along with the ID of the written key-value pair. The session token can then be used in other Consul API requests to perform actions related to that specific key-value pair. This functionality is useful for implementing two-phase commit or other distributed coordination scenarios.'
+        stale: |-
+            [AI] `consul kv put --stale` is a command used in Hashicorp Consul, a distributed data coordination service. This command is used to set or update a key-value pair in Consul's KV store with eventual consistency.
+
+            When using the `--stale` flag, Consul will return immediately after writing the value to its local datacenter, even if the write has not yet been replicated to all other datacenters or nodes. This means that there may be a delay before the updated value is visible to all clients or nodes in the Consul cluster, but it allows for faster response times and reduced latency when updating large amounts of data.
+
+            In summary, `consul kv put --stale` sets a key-value pair with eventual consistency and returns immediately after writing to the local datacenter.
+        tls-server-name: '[AI] `consul kv put --tls-server-name` is a command used in Hashicorp Consul, an open-source tool for service discovery, configuration, and orchestration. This command is for putting (writing) key-value data into the Consul Key Value (KV) store using Transport Layer Security (TLS). The `--tls-server-name` flag specifies the TLS server name to use when connecting to the Consul HTTP API over a secure connection, providing an additional layer of security.'
+        token: '[AI] The `consul kv put --token` command is used in Hashicorp Consul, a tool for service discovery, configuration, and orchestration. It puts a key-value pair into the Consul Key Value store using an HTTP API token for authentication. This command helps securely manage and access configuration data from various applications without exposing sensitive information publicly.'
+        token-file: '[AI] `consul kv put` is a command used in Hashicorp Consul, a tool for service discovery, configuration, and orchestration. The `--token-file` option is used to provide the path to a file containing an access token for authentication. This flag enables secure communication between clients and the Consul server by ensuring only authenticated requests are processed. The token in the file is read and used for authorizing the `put` operation, which means setting or updating a key-value pair in the Consul key-value store.'

@@ -1,0 +1,58 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: rolebinding NAME --clusterrole=NAME|--role=NAME [--user=username] [--group=groupname] [--serviceaccount=namespace:serviceaccountname] [--dry-run=server|client|none]
+description: Create a role binding for a particular role or cluster role
+flags:
+    --allow-missing-template-keys: If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
+    --clusterrole=: ClusterRole this RoleBinding should reference
+    --dry-run?: Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
+    --field-manager=: Name of the manager used to track field ownership.
+    --group*=: Groups to bind to the role. The flag can be repeated to add multiple groups.
+    --role=: Role this RoleBinding should reference
+    --save-config: If true, the configuration of current object will be saved in its annotation. Otherwise, the annotation will be unchanged. This flag is useful when you want to perform kubectl apply on this object in the future.
+    --serviceaccount*=: Service accounts to bind to the role, in the format <namespace>:<name>. The flag can be repeated to add multiple service accounts.
+    --show-managed-fields: If true, keep the managedFields when printing objects in JSON or YAML format.
+    --template=: Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates [http://golang.org/pkg/text/template/#pkg-overview].
+    --user*=: Usernames to bind to the role. The flag can be repeated to add multiple users.
+    --validate?: Validation mode.
+    -o, --output=: 'Output format. One of: (json, yaml, name, go-template, go-template-file, template, templatefile, jsonpath, jsonpath-as-json, jsonpath-file).'
+documentation:
+    command: '[AI] `kubectl create rolebinding` is a command used in Kubernetes to create a RoleBinding resource. A RoleBinding defines a mapping between subject(s) and access rules, allowing or denying specific permissions based on Role definitions. It binds a Role to one or more users, groups, or service accounts, granting them the associated permissions. The basic usage of this command includes specifying the RoleBinding name, the Role resource to be referenced, and the subjects to be bound. For example: `kubectl create rolebinding <rolebinding-name> --role-name <role-name> --subjects <subjects>`.'
+    flag:
+        allow-missing-template-keys: '[AI] `kubectl create rolebinding` is a command used to create a RoleBinding object in Kubernetes, which associates a Subject (such as a user or service account) with the permissions defined in a Role. The option `--allow-missing-template-keys` is used when creating RoleBindings from YAML files. With this flag, Kubectl will continue to apply the RoleBinding even if some fields are missing in the YAML file that would be required for a complete RoleBinding definition. This can be useful when gradually evolving a RoleBinding configuration and not yet having all the necessary fields filled in, as the application of the command with `--allow-missing-template-keys` will still apply the available parts of the configuration.'
+        clusterrole: '[AI] `kubectl create rolebinding` is a command used in Kubernetes to create a RoleBinding resource. A RoleBinding defines how a Role grants access permissions to Users or Groups. The `--clusterrole` flag specifies that the Role being referenced by the RoleBinding is a ClusterRole, meaning it applies to all namespaces within the cluster. When using this command, you''ll need to provide the Role name, RoleBinding name, User/Group identity, and namespace if it''s not a ClusterRole (for Namespaced Role). The output will be the created RoleBinding resource with its YAML manifest.'
+        dry-run: '[AI] `kubectl create rolebinding --dry-run` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`. This command is used to create a RoleBinding resource definition in YAML format without actually applying it to the cluster. The flag `--dry-run` causes `kubectl` to output what would be applied if the command were run without this flag. In essence, it allows users to preview changes before executing them for real. It''s an essential tool for testing and reviewing configurations before deployment.'
+        field-manager: |-
+            [AI] `kubectl create rolebinding` is a command used in Kubernetes to create a RoleBinding resource. A RoleBinding defines which users or groups have which permissions on which resources in a cluster.
+
+            The `--field-manager` flag is an optional argument that allows you to manage specific fields in the RoleBinding resource without modifying others. When using this flag, you need to provide a YAML patch file containing the desired modifications for the specified field(s). The Kubernetes API will apply only the given changes, and no other modifications will be made to the RoleBinding. This can help ensure consistency and reduce potential errors when making complex updates to RoleBindings.
+        group: '[AI] `kubectl create rolebinding` is a command used in Kubernetes to create a RoleBinding resource. A RoleBinding defines which users or groups are allowed to use which Role. The `--group` flag is an argument provided to specify the group name when creating a RoleBinding for RBAC (Role-Based Access Control). It assigns the defined role to the specified group, enabling members of that group to have the granted permissions in the Kubernetes cluster.'
+        output: |-
+            [AI] `kubectl create rolebinding` is a command used in Kubernetes to create a RoleBinding resource. A RoleBinding defines that a user or group has specific access permissions in a namespace or cluster-wide.
+
+            The `--output` flag is an optional parameter that specifies the output format for the command. When using this option with `create rolebinding`, it returns the object representation of the newly created RoleBinding resource in various formats such as JSON, YAML, or to the console. This can be useful for automating tasks by processing the output directly without having to manually inspect the Kubernetes dashboard or CLI.
+        role: '[AI] `kubectl create rolebinding` is a command used to create a RoleBinding resource in Kubernetes. A RoleBinding defines which users or groups have what permissions on which resources or namespaces within a cluster. The `--role` flag specifies the name of an existing Role that determines the specific permissions granted when creating the RoleBinding. This command assigns the defined Role permissions to the specified users or groups.'
+        save-config: '[AI] `kubectl create rolebinding --save-config` is a command used in Kubernetes to create a RoleBinding resource and save its configuration in a file. RoleBindings are used to grant access permissions to users or groups within a cluster. The `--save-config` flag saves the output of the `create` operation in a YAML file, allowing you to review, edit, or apply the configuration later.'
+        serviceaccount: |-
+            [AI] `kubectl create rolebinding` is a command used in Kubernetes to create a RoleBinding object. A RoleBinding grants permissions defined in a Role to one or more ServiceAccounts. It binds the Role to the specified ServiceAccount, allowing the ServiceAccount to perform the actions defined by the Role. This can be useful for granting access to specific APIs or resources within a cluster. The command `kubectl create rolebinding` takes various arguments including the name of the RoleBinding, the name of the Role and ServiceAccount involved, as well as any additional labels or annotations that might be required. For example:
+
+            ```bash
+            kubectl create rolebinding my-rolebinding --role=my-role --serviceaccount=my-namespace/my-sa
+            ```
+
+            This command creates a RoleBinding named "my-rolebinding", binds the Role named "my-role" to the ServiceAccount in the namespace "my-namespace" with the name "my-sa". The Role would have previously been created and must contain the necessary permissions.
+        show-managed-fields: |-
+            [AI] `kubectl create rolebinding` is a command used in Kubernetes to create a RoleBinding resource. This resource is used for granting access permissions to specific users or groups within a Kubernetes cluster.
+
+            The `--show-managed-fields` flag, when used with this command, displays the managed fields of the RoleBinding resource that will be created or updated. Managed fields refer to the parts of the resource that are managed by Kubernetes and may change without user intervention, such as the `metadata.creationTimestamp` field.
+
+            Using this flag can help you understand the changes that will be made to the existing RoleBinding resource if you are updating it, or to verify the changes made when a new RoleBinding resource is created.
+        template: '[AI] `kubectl create rolebinding --template` is a command used in Kubernetes to create RoleBindings based on a given template. The `--template` option instructs `kubectl` to generate the YAML manifest for the RoleBinding from a provided template file or string, instead of creating it directly with the given arguments. This approach allows for more complex and dynamic RoleBinding configurations. When you provide the template, `kubectl` will generate the actual RoleBinding based on the template and then create it in your cluster.'
+        user: |-
+            [AI] `kubectl create rolebinding` is a command used to create RoleBindings in Kubernetes. A RoleBinding defines which users or groups have which permissions on which resources or namespaces. The `--user` flag is used to specify the user or group email address, in RFC 2822 format, that will be granted access by the RoleBinding. For example:
+
+            ```bash
+            kubectl create rolebinding my-rolebinding --user my-user@example.com --cluster-role edit --namespace my-namespace
+            ```
+
+            This command creates a new RoleBinding named `my-rolebinding` that grants the specified user, `my-user@example.com`, the `edit` cluster role in the `my-namespace` namespace.
+        validate: '[AI] `kubectl create rolebinding --validate` is a command used in Kubernetes to check the validity of a RoleBinding object before creating it. This command creates a new RoleBinding resource in the current configuration, but does not actually apply it to the cluster. Instead, it returns an output that shows what would be created based on the provided arguments, allowing users to verify its correctness and make adjustments if necessary. It''s useful for ensuring that the RoleBinding will have the desired effect without causing unintended side effects in the production environment.'

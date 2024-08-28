@@ -1,0 +1,54 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: api <endpoint>
+description: Make an authenticated request to GitLab API
+flags:
+    --hostname=: The GitLab hostname for the request (default is "gitlab.com" or authenticated host in current git directory)
+    --input=: The file to use as body for the HTTP request
+    --paginate: Make additional HTTP requests to fetch all pages of results
+    --silent: Do not print the response body
+    -F, --field*=: Add a parameter of inferred type (changes default HTTP method to "POST")
+    -H, --header*=: Add an additional HTTP request header
+    -X, --method=: The HTTP method for the request
+    -f, --raw-field*=: Add a string parameter
+    -i, --include: Include HTTP response headers in the output
+documentation:
+    command: '[AI] `glab api` is a GitLab CLI (Command Line Interface) command used to interact with GitLab API features directly from the terminal. It allows users to perform various operations like creating, updating, and deleting resources such as projects, groups, or webhooks, using simple commands. It requires authentication and proper authorization to execute these tasks.'
+    flag:
+        field: '[AI] `glab api` is a command-line tool for GitLab, developed by GitOpsTools team. The `--field` option is used when making API calls with `glab`. It allows specifying the field or fields to be returned in the response. For example, `glab api projects show <project_id> --field name,id` would only return the name and ID of the project. This can help to reduce the amount of data transferred and improve performance when only specific information is required.'
+        header: |-
+            [AI] `glab api` is a command-line tool from GitLab, which allows users to interact with GitLab APIs more easily. The `--header` option is used to add custom headers to HTTP requests made by `glab`. These headers can be used to include additional information in the request, such as authentication tokens or specifications for handling large files. For example:
+
+            ```sh
+            glab api GET /projects/:id/issues --header "Authorization: Bearer <TOKEN>" --header "Content-Type: application/json"
+            ```
+
+            In this command, `--header "Authorization: Bearer <TOKEN>"` adds an Authorization header with a bearer token for authentication, and `--header "Content-Type: application/json"` sets the Content-Type to JSON.
+        hostname: '[AI] The `glab api --hostname` command is used with Glab (GitLab CLI), which is an unofficial Gitops and CLI client for GitLab. This specific command is used to display the API address or hostname of your GitLab instance. It provides the endpoint URL that you can use to interact with the GitLab API, such as pushing code changes or managing projects using tools other than a web browser.'
+        include: |-
+            [AI] The `--include` option in the `glab api` command is used to specify one or more files or directories to be included when making an API request with Glab (a Git client for HTTP APIs). This can be particularly useful when working with large repositories or projects where only specific files are needed. The `--include` option takes a glob pattern as its argument, allowing you to specify multiple files or directories in a single command. For example:
+
+            ```bash
+            glab api GET myrepo --include 'path/to/*.txt' --include 'path/to/directory/'
+            ```
+
+            This command would fetch only the `.txt` files and the entire `directory/` directory from the remote repository, without downloading other unnecessary files or directories.
+        input: '[AI] The `glab api --input` command is used in Glab, a Git interface for Kubernetes, to interact with the Kubernetes API directly using Git-like commands. The `--input` option specifies the file or standard input containing the YAML manifest data that will be applied to the cluster. For example, `glab apply --input mymanifest.yaml` applies the contents of `mymanifest.yaml` to the Kubernetes cluster.'
+        method: '[AI] The `glab api --method` command is a part of Glab, an open-source Git client for the API-first workflow. This specific command is used to invoke custom APIs or plugins by specifying the HTTP method (GET, POST, PATCH, DELETE) and the API URL. The general format is `glab api <HTTP_METHOD> <API_URL> [<flags>]`, where `<HTTP_METHOD>` can be one of GET, POST, PATCH or DELETE, and `<API_URL>` is the API endpoint to call. This command enables advanced users to extend Glab''s functionality by integrating custom APIs into their Git workflow.'
+        paginate: |-
+            [AI] `glab api` is a command-line tool for interacting with GitLab APIs using the Glab library. The `--paginate` option is used to enable or disable pagination in API responses.
+
+            When enabled, `--paginate` allows large API responses to be broken down into smaller, manageable chunks, making it easier to process and work with the data one page at a time. Each page contains a specific number of records defined by the `PER_PAGE` limit (default is 30). The tool will automatically fetch subsequent pages until all records have been retrieved or until a specified page limit has been reached.
+
+            The basic usage would be:
+            ```bash
+            glab api COMMAND --paginate [OPTIONS]
+            ```
+            Replace `COMMAND` with the specific API command you want to use, such as `issues list`, and include any additional options that particular command may require.
+
+            For example:
+            ```css
+            glab api issues list --project 123 --search keyword --paginate
+            ```
+            This would list all issues in project 123 containing the keyword, one page at a time.
+        raw-field: '[AI] The `--raw-field` flag is used with the GitLab API (specifically, the `curl` or `http` commands) to retrieve the raw value of a specific field in a resource without applying any formatting or decoding. This can be useful when dealing with binary files or sensitive data where the original format and encoding need to be preserved. For instance, `glab api PROJECTS show <ID> --raw-field=description` would return the raw description of a project.'
+        silent: '[AI] `glab api` is a command-line tool provided by GitLab to interact with GitLab APIs. The option `--silent` is used to suppress or minimize output during the execution of commands. When this flag is passed, the tool will run with minimal output or error messages, making it useful for scripts and automated workflows where you want to avoid interruptions from unnecessary console messages.'

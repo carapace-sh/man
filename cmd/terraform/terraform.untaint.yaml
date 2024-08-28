@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: untaint [options] name
+description: Remove the 'tainted' state from a resource instance
+flags:
+    -allow-missing: succeed even if the resource is missing.
+    -ignore-remote-version: A rare option used for the remote backend only.
+    -lock: Don't hold a state lock during the operation.
+    -lock-timeout?: Duration to retry a state lock.
+documentation:
+    command: '[AI] `terraform untaint` is a Terraform command used to remove the "tainted" label from unused resources. Terraform maintains a state file that tracks the desired configuration of infrastructure resources. If a resource is removed but not deleted due to an error or other reason, it becomes marked as "tainted." Running `terraform untaint` removes this label, allowing Terraform to manage the resource again based on the current configuration. This command is typically used when you want to clean up your state file and ensure that only the desired resources are being managed by Terraform.'
+    flag:
+        allow-missing: |-
+            [AI] The `terraform untaint` command is used in Terraform, an open-source infrastructure as code software tool, to mark resources as managed by Terraform and remove the "tainted" flag from them. This is typically done after making manual changes to the infrastructure that are not representable with Terraform configuration files.
+
+            The `-allow-missing` option allows Terraform to untaint resources even if they are not present in the current state, which can be useful when cleaning up unused resources or during destructive operations where some resources may have already been deleted manually before running `terraform plan`. This flag should be used with caution and only when you're sure that the missing resources were intended to be removed. Otherwise, untainting those resources could lead to unexpected behavior or inconsistencies in your infrastructure configuration.
+        ignore-remote-version: |-
+            [AI] `terraform untaint` is a command provided by Terraform, an open-source infrastructure as code software tool, to mark resources in your configuration file as untainted. When you apply your configuration for the first time, Terraform identifies existing infrastructure and marks those resources as "tainted," indicating they were not created through Terraform.
+
+            The `-ignore-remote-version` flag is used with `terraform plan` or `terraform apply` to bypass version compatibility checks between your working directory and the remote backend. This means if there's a difference in versions, Terraform will still proceed with the operation, even if it may not be recommended for ensuring compatibility and stability of your infrastructure configuration.
+
+            Using `terraform untaint -ignore-remote-version` helps you forcefully mark tainted resources as untainted without worrying about version discrepancies between your local configuration and remote backend, but this should be used with caution, as it may lead to unintended changes or inconsistencies in your infrastructure.
+        lock: '[AI] `terraform init --untainted` or simply `terraform untaint`, is a command in Terraform, an open-source infrastructure as code software tool, used to mark resources in the state file as untainted. The `--lock` option is optional and it creates or updates a locked file named `terraform.lock.hcl`. This command is typically used after making manual changes to infrastructure or importing existing resources into Terraform management, to ensure that only the untainted resources are considered for plan and apply operations. It helps in maintaining the intended state of your infrastructure by preventing the accidental modification or deletion of resources during Terraform execution.'
+        lock-timeout: |-
+            [AI] `terraform untaint` is a command in Hashicorp's Terraform infrastructure configuration tool. It's used to remove the "tainted" label from resources or data sources, indicating that their current configuration differs from what Terraform plans to create or update.
+
+            The `-lock-timeout` option sets a time limit for acquiring and releasing an exclusive lock on the Terraform state file. If no lock can be acquired within this timeout, the operation will fail. This is to prevent conflicting changes when multiple users attempt to modify the same infrastructure at once.

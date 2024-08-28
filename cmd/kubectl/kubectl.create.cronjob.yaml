@@ -1,0 +1,57 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: cronjob NAME --image=image --schedule='0/5 * * * ?' -- [COMMAND] [args...]
+aliases:
+    - cj
+description: Create a cron job with the specified name
+flags:
+    --allow-missing-template-keys: If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
+    --dry-run?: Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
+    --field-manager=: Name of the manager used to track field ownership.
+    --image!=: Image name to run.
+    --restart=: 'job''s restart policy. supported values: OnFailure, Never'
+    --save-config: If true, the configuration of current object will be saved in its annotation. Otherwise, the annotation will be unchanged. This flag is useful when you want to perform kubectl apply on this object in the future.
+    --schedule!=: A schedule in the Cron format the job should be run with.
+    --show-managed-fields: If true, keep the managedFields when printing objects in JSON or YAML format.
+    --template=: Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates [http://golang.org/pkg/text/template/#pkg-overview].
+    --validate?: Validation mode.
+    -o, --output=: 'Output format. One of: (json, yaml, name, go-template, go-template-file, template, templatefile, jsonpath, jsonpath-as-json, jsonpath-file).'
+documentation:
+    command: |-
+        [AI] `kubectl create cronjob` is a command used to create a Kubernetes CronJob resource. A CronJob is a type of Kubernetes job that runs on a regular schedule. The command takes the following format:
+
+        `kubectle create cronjob <cronjob-name> --schedule="<cron-schedule>" <image>:<tag> -- <arguments> ...`
+
+        Here, `<cronjob-name>` is the desired name for the new CronJob. `--schedule` specifies the cron format of the schedule, e.g., "0 0 * * *" (every minute). `<image>:<tag>` refers to the container image and its tag to be used for the job's pods. Additional `<arguments>` can be provided if needed to pass custom configuration options to the container.
+    flag:
+        allow-missing-template-keys: |-
+            [AI] The `kubectl create cronjob --allow-missing-template-keys` command is used to create a Kubernetes CronJob resource with templates that may contain missing keys. The `--allow-missing-template-keys` flag is optional and allows the creation of such resources even if some required template keys are missing from the provided YAML manifest file.
+
+            When you create or update a Kubernetes object using `kubectl`, it validates the YAML manifest against the Kubernetes API schema to ensure its correctness. If any required keys are missing, `kubectl` will return an error and refuse to apply the changes. However, with the `--allow-missing-template-keys` flag, `kubectl` will create or update the resource without checking for missing keys.
+
+            It's essential to be cautious when using this command, as missing keys could lead to unexpected behavior or inconsistencies in your Kubernetes cluster. Always ensure that you understand the consequences and intended usage of the CronJob before using this command.
+        dry-run: '[AI] `kubectl create cronjob --dry-run` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`. This command is used to create a new CronJob resource in a Kubernetes cluster without actually executing the creation. The `--dry-run` flag causes `kubectl` to output the YAML manifest that would be created if the command were run without this flag. This allows you to review the configuration before applying it, making it useful for testing and learning purposes. Essentially, it provides a way to preview changes before making them in the cluster.'
+        field-manager: |-
+            [AI] `kubectl create cronjob` is a command used to create a Kubernetes CronJob object in your cluster using the `kubectl` command-line interface. The `--field-manager` flag is an optional argument that allows you to control how `kubectl` applies changes to the resource.
+
+            When you use `--field-manager`, you can choose between two modes: "Deep" and "Force". In the "Deep" mode, `kubectl` will create or update the entire resource with your new fields, while preserving any existing fields that are not part of your changes. In the "Force" mode, `kubectl` will overwrite the entire resource, replacing all fields with your new values, regardless of whether those fields existed before or not.
+
+            So, in summary, `kubectl create cronjob --field-manager=Deep|Force` allows you to control how `kubectl` applies changes to the CronJob resource, either preserving existing fields or overwriting them entirely.
+        image: '[AI] `kubectl create cronjob` is a command used to create a Kubernetes CronJob object with the specified schedule for running periodic jobs using the given `--image` argument. This image will be used to build the container that will be run each time the CronJob''s schedule is met. The CronJob controller will ensure that the defined number of job instances run concurrently and will create new instances if they terminate.'
+        output: '[AI] `kubectly create cronjob` is a command used to create a Kubernetes CronJob resource. The `--output` flag is an optional argument that specifies the desired output format for the command''s output. This can be set to `json`, `yaml`, or `go-template`. For example, `kubectl create cronjob my-cronjob --output yaml > my-cronjob.yaml` will create the CronJob resource and save its YAML representation to a file named `my-cronjob.yaml`.'
+        restart: |-
+            [AI] `kubectl create cronjob` is a command used to create a Kubernetes CronJob resource. A CronJob creates Jobs on a regular schedule. The `--restart` flag specifies how the container in the created Job should be restarted if it fails:
+
+            * If set to "OnFailure", Kubernetes will only restart the container if it exits with a non-zero status code.
+            * If set to "Always", Kubernetes will always restart the container, regardless of its exit status code or signal.
+
+            So, `kubectl create cronjob <name> --schedule="<cron-schedule>" --restart="OnFailure|Always"` creates a new CronJob with the given name and schedule, and sets the container restart policy to either "OnFailure" or "Always".
+        save-config: '[AI] `kubectl create cronjob` is a command used to create a Kubernetes CronJob resource in your cluster. The `--save-config` flag saves the created YAML configuration to a file instead of applying it directly. This can be useful for creating a new resource based on an existing one, or for keeping a record of the resource''s configuration. When you run this command, Kubernetes will create the CronJob with the specified settings and save the resulting YAML to the file you specify.'
+        schedule: '[AI] `kubectl create cronjob` is a command used to create a Kubernetes CronJob object in the cluster. A CronJob is a Kubernetes resource that schedules jobs to run repeatedly at specified intervals or on specific schedules. The `--schedule` flag sets the schedule for the CronJob, defining when the job should be created and run based on the cron format (e.g., "0 0 * * MON-FRI"). This command creates a new CronJob with the given name, schedule, and any other desired configurations.'
+        show-managed-fields: '[AI] The `kubectl create cronjob --show-managed-fields` command creates a new CronJob resource in Kubernetes and displays the managed fields, which are the fields that were changed or affected by the operation. These fields are marked with an asterisk (*) to differentiate them from the original specification. This can be useful for understanding what was actually created or modified when using `kubectl create` or `kubectl apply`.'
+        template: |-
+            [AI] `kubectl create cronjob` is a command used to create a Kubernetes CronJob resource in the cluster. The `--template` option is used with this command to create the resource definition using a Kubernetes YAML template file instead of providing the definition directly in the command line arguments.
+
+            When you use this option, you need to provide the path to the YAML template file that defines the desired CronJob characteristics, such as schedule, job template, and other relevant configurations. The template file is then used to generate the actual YAML manifest for the new resource which is then created in the cluster.
+
+            This approach can be helpful when you need to create multiple similar resources with only slight variations between them, as it allows you to keep the common configuration in a single file and easily modify or extend it for each individual resource.
+        validate: '[AI] `kubectl create cronjob --validate` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`. This command creates a new CronJob object definition in a YAML file format, but does not apply it to the cluster. Instead, it validates the syntax and structure of the YAML file against the Kubernetes API schema. The `--validate` flag is used to check for errors or inconsistencies before actually creating the resource in the cluster. This can help prevent mistakes and ensure the correctness of the configuration before deployment.'

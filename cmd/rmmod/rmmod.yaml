@@ -1,0 +1,40 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: rmmod
+description: Simple program to remove a module from the Linux Kernel
+flags:
+    -V, --version: show version
+    -f, --force: forces a module unload and may crash your
+    -h, --help: show this help
+    -s, --syslog: print to syslog, not stderr
+    -v, --verbose: enables more messages
+documentation:
+    command: |-
+        [AI] `rmmod` is a Linux kernel command used to remove a previously loaded module (driver) from the kernel memory. When you install or load a kernel module using the `insmod` command, it gets inserted into the kernel's runtime as a dynamic loadable module. However, if you no longer need that module, you can remove it from memory using `rmmod`. The syntax for this command is:
+
+        ```
+        rmmod <module_name>
+        ```
+
+        Replace `<module_name>` with the actual name of the loaded module you want to unload. Note that you'll typically need root privileges (sudo) to execute this command successfully. Once you've removed a module, any resources it was using will be freed up for other processes or modules.
+    flag:
+        force: '[AI] `rmmod --force` is a Linux command used to remove (unload) a module from the kernel. The `--force` option is used when the module cannot be unloaded in a normal way, for instance, if it is currently in use by another process or if there are dependent modules that prevent its removal. By using `--force`, the module is forcibly removed even if it means breaking dependencies and potentially causing system instability. Use with caution.'
+        help: |-
+            [AI] `rmmod` is a Linux kernel command used to remove a dynamic loadable kernel module from memory. The `--help` option displays a brief help message when invoked, listing possible ways to use the `rmmod` command along with their descriptions. It provides information on the syntax of using `rmmod`, the required arguments (if any), and their meanings. For example:
+
+            ```bash
+            $ rmmod --help
+            Usage: rmmod [ -a | -r ] [ -f ] [ -q ] [ --quiet ] [ --remove-module <module_name> ] [ module_name ]
+
+            Remove a Linux kernel module from memory.
+
+            Options:
+              -a, --all              Remove all loaded modules
+              -r, --rebind            Rebind a module's devices before removing it
+              -f, --force             Force removal of module (ignores dependencies)
+              --quiet                 Suppress informational messages
+              --remove-module <module_name>
+                                      Remove the given kernel module by name.
+            ```
+        syslog: '[AI] `rmmod` is a Linux command used to remove a kernel module from memory. The `--syslog` option is used with this command to log the removal of the module in the system logs, making it easier for system administrators to track and review the kernel modifications. When you run `rmmod --syslog <module_name>`, the system will print a message about removing the specified module to the system logs (usually located in /var/log/kern.log) instead of printing the message on the console.'
+        verbose: '[AI] `rmmod` is a Linux command used to remove a module (a loadable kernel driver or file) from the running kernel. The `--verbose` option increases the level of output produced by the command, providing more detailed information about the module removal process, such as the name of the module being removed and any dependencies that need to be handled before it can be unloaded. It helps in debugging and understanding the interaction between different modules in the kernel.'
+        version: '[AI] `rmmod` is a Linux command used to remove a module (an loadable kernel driver or file) from the running kernel. The `--version` option is not a standard option for this command, but if you mean using `modinfo` instead with the argument being an `rmmod` module name, then `modinfo --version <module_name>` will display the version information associated with that kernel module.'

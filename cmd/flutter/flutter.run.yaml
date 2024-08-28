@@ -1,0 +1,149 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: run
+description: Run your Flutter app on an attached device
+flags:
+    --await-first-frame-when-tracing: Wait for the first frame when tracing startup.
+    --build: If necessary, build the app before running.
+    --cache-sksl: Cache the shader in the SkSL format instead of in binary or GLSL formats.
+    --dart-define*=: Additional key-value pairs that will be available as constants.
+    --dds-port=: When this value is provided, the Dart Development Service (DDS) will be bound to the provided port.
+    --debug: Build a debug version of your app (default mode).
+    --device-timeout=: Time in seconds to wait for devices to attach.
+    --device-user=: Identifier number for a user or work profile on Android only.
+    --device-vmservice-port=: Look for vmservice connections only from the specified port.
+    --dump-skp-on-shader-compilation: Automatically dump the skp that triggers new shader compilations.
+    --enable-software-rendering: Enable rendering using the Skia software backend.
+    --endless-trace-buffer: Enable tracing to an infinite buffer, instead of a ring buffer.
+    --flavor: Build a custom app flavor as defined by platform-specific build setup.
+    --host-vmservice-port=: When a device-side vmservice port is forwarded to a host-side port, use this value as the host port.
+    --hot: Run with support for hot reloading.
+    --no-await-first-frame-when-tracing: Do not wait for the first frame when tracing startup.
+    --no-build: If necessary, do not build the app before running.
+    --no-hot: Run without support for hot reloading.
+    --no-null-assertions: Do not perform additional null assertions on the boundaries of migrated and un-migrated code.
+    --no-pub: Do not run "flutter pub get" before executing this command.
+    --no-start-paused: Do not start in a paused mode and wait for a debugger to connect.
+    --no-track-widget-creation: Do not track widget creation locations.
+    --no-use-test-fonts: Disable the "Ahem" font.
+    --null-assertions: Perform additional null assertions on the boundaries of migrated and un-migrated code.
+    --pid-file=: Specify a file to write the process ID to.
+    --profile: Build a version of your app specialized for performance profiling.
+    --pub: Run "flutter pub get" before executing this command.
+    --purge-persistent-cache: Removes all existing persistent caches.
+    --release: Build a release version of your app.
+    --route: Which route to load when running the app.
+    --skia-deterministic-rendering: Provide completely deterministic (i.e. reproducible) Skia rendering.
+    --start-paused: Start in a paused mode and wait for a debugger to connect.
+    --trace-skia: Enable tracing of Skia code.
+    --trace-startup: Trace application startup, then exit, saving the trace to a file.
+    --trace-systrace: Enable tracing to the system tracer.
+    --track-widget-creation: Track widget creation locations.
+    --use-application-binary=: Specify a pre-built application binary to use when running.
+    --use-test-fonts: Enable the "Ahem" font.
+    --verbose-system-logs: Include verbose logging from the Flutter engine.
+    --web-renderer: The renderer implementation to use when building for the web.
+    -P, --android-project-arg=: Additional arguments specified as key=value that are passed directly to the gradle project via the -P flag.
+    -a, --dart-entrypoint-args=: Pass a list of arguments to the Dart entrypoint at application startup.
+    -h, --help: Print this usage information.
+    -t, --target=: The main entry-point file of the application, as run on the device.
+documentation:
+    command: |-
+        [AI] `flutter run` is a command used in Flutter development to build and execute an application from the terminal or command prompt. It automatically performs several tasks, including:
+
+        1. Compiling Dart code into machine-executable code (ARM or x64) using the Flutter engine.
+        2. Building the application assets like images, fonts, and other resources.
+        3. Launching the application in a connected device or emulator.
+
+        To use it, navigate to your project directory containing the `pubspec.yaml` file and simply type:
+
+        ```
+        flutter run
+        ```
+
+        It will then build and run the application for you. If you want to specify a target device or emulator, you can use additional flags like:
+
+        - For a connected Android device: `flutter run -d <device_name>`
+        - For an iOS simulator: `flutter run --ios-simulator <Simulator_Name>`
+
+        This command saves developers from having to manually build and run their projects every time they make changes, making the development process more efficient.
+    flag:
+        android-project-arg: '[AI] `flutter run --android-project-arg` is a command used in Flutter development for passing custom arguments to the underlying Android project when building or running an app. The `--android-project-arg` option takes a key-value pair argument, allowing developers to modify specific aspects of the Android project configuration without needing to modify the `build.gradle` file directly. This can be useful for setting various build variants, customizing application IDs, or other use cases where fine-grained control over the Android build process is required.'
+        await-first-frame-when-tracing: '[AI] The `--await-first-frame-when-tracing` flag is used with the Flutter development tool `flutter run`. It instructs Dart DevTools to wait for the first frame of a Flutter app to be rendered before starting performance profiling and tracing. This can help ensure that the profiling data captured accurately represents the running application, improving the usefulness of the performance analysis results.'
+        build: '[AI] `flutter run --build` is a command used in Flutter development for building and running an application. When you execute this command, Flutter first builds your application using its optimization features to generate an efficient machine code from the Dart code. This compiled output is then executed in a local emulator or connected device. The primary goal of `--build` flag is to perform a full build cycle without launching the app on an emulator or device for manual testing, making it suitable for continuous integration and other automated workflows.'
+        cache-sksl: '[AI] `flutter run --cache-sksl` is a command used in Flutter development. It runs the Flutter application with the option `--cache-sksl`, which enables Skia cache for the Skia graphics library. This option improves the performance and stability of the app by caching compiled Skia shader code, reducing the compilation time during subsequent runs.'
+        dart-define: |-
+            [AI] `flutter run --dart-define` is a command used in Flutter development to define constants or variables at the Dart VM level before running an application. This can be useful when working with large projects or libraries that require specific configurations.
+
+            By using `--dart-define` option, you can pass key-value pairs as environment variables to your Dart application. These definitions are then accessible as constants throughout the codebase. For instance:
+
+            ```bash
+            flutter run --dart-define API_KEY=mySecretKey
+            ```
+
+            In this example, `API_KEY` is defined with the value `mySecretKey`. Now you can access this constant anywhere in your Dart code using the syntax:
+
+            ```dart
+            import 'dart:io';
+
+            void main() {
+              String apiKey = Platform.environment['API_KEY'];
+              print('Your API key is: $apiKey');
+            }
+            ```
+        dart-entrypoint-args: '[AI] `flutter run --dart-entrypoint-args` is a command used in Flutter development. It allows passing additional arguments directly to the Dart VM entry point of the Flutter application being run. The argument list follows the `--dart-entrypoint-args` flag and consists of individual arguments enclosed in double quotes if needed. This can be helpful for passing specific command-line options or flags to the Dart application at runtime.'
+        dds-port: '[AI] `flutter run --dds-port` is a command used in Flutter development to start a local instance of Firebase Debugging Tools (DDT) on a specified port. When executed, it launches a Flutter application in the background and opens the DDT web interface at `http://localhost:<port_number>`. This toolset provides various features for debugging Firebase services integrated into your Flutter project, such as logs, database inspection, and more. To use this command effectively, replace `<port_number>` with an available port number on your local machine.'
+        debug: '[AI] `flutter run --debug` is a command used in Flutter development to build and run an application in the debug mode. It performs a hot reload of your app when changes are detected, allowing you to see the impact of code modifications in real-time without having to restart the entire application. Additionally, it provides more detailed error messages during compilation and execution for better debugging experience.'
+        device-timeout: '[AI] `flutter run --device-timeout` is a command used in Flutter development to set a timeout for the connection between your IDE (Integrated Development Environment) and the physical or emulated Android or iOS device during application testing. If the connection takes longer than the specified time, the command will terminate the test run. The option can help prevent stuck tests or devices, improving the overall testing workflow.'
+        device-user: '[AI] The `--device-user` option is a command-line argument for the Flutter development tool when running an application with `flutter run`. This option sets the Android or iOS app to be run as a specific user instead of the default system user. It''s often used during testing and continuous integration processes, allowing apps to run with different permissions and access levels. For example, `--device-user 1000:1000` specifies running an Android app as user ID 1000 with group ID 1000.'
+        device-vmservice-port: '[AI] The `flutter run` command is used to build and run a Flutter application. The option `--device-vmservice-port` specifies a custom port number for the Dart Virtual Machine (VM) service, which is used by Flutter when running on a physical device or emulator. By default, it uses an available port number automatically. However, setting a specific port number can be useful in certain scenarios, such as when multiple Flutter projects are being run concurrently on the same machine and conflicts may occur.'
+        dump-skp-on-shader-compilation: '[AI] The `flutter run --dump-skp-on-shader-compilation` command is used during Flutter development to enable Skia''s Profiler for shader compilation. Skia is the 2D rendering engine used by Flutter, and the profiler gathers detailed statistics about the performance of shaders during compilation, helping developers identify and optimize bottlenecks in their shader code. The flag saves the profiling data to standard output or a specified file for further analysis.'
+        enable-software-rendering: '[AI] The `flutter run` command is used to execute a Flutter application from the terminal or command prompt. The `--enable-software-rendering` option is a flag that enables software rendering for the application, which means it will use the computer''s CPU instead of the GPU for rendering the graphics. This can be useful in specific scenarios such as testing on older devices, running in a virtual machine, or when the hardware acceleration is not available. However, using software rendering may result in slower performance and less optimal graphics compared to hardware acceleration.'
+        endless-trace-buffer: '[AI] `flutter run --endless-trace-buffer` is a command used in Flutter development to enable continuous tracing of output from Dart and Flutter engines during application execution. The `--endless-trace-buffer` option extends the size limit of the trace buffer, allowing for extended debugging sessions without having to repeatedly restart the application or clear the buffer. This can be useful when dealing with complex issues that require prolonged inspection of logging information.'
+        flavor: '[AI] The `flutter run --flavor` command is used in Flutter development to build and run a specific application flavor. A flavor is essentially a variant of an app that differs in some way, such as having distinct sets of features or resources. By specifying the desired flavor when running the app with this command, Flutter will use the corresponding configuration files and build the project accordingly. This is particularly useful for managing multi-flavored apps where different builds need to be created for various channels, stores, or environments.'
+        help: '[AI] `flutter run --help` is a command used in Flutter, a mobile app development framework. It displays detailed help information about the `flutter run` tool. This command provides an overview of how to use `flutter run` to build and run applications for various targets such as Android or iOS devices or emulators. It also explains options like `--release`, `--no-shadows`, and `--web-renderer`. Using this command can help users troubleshoot issues, discover new features, and understand the capabilities of Flutter''s build and run tool.'
+        host-vmservice-port: |-
+            [AI] `flutter run --host-vmservice-port` is a command used in Flutter development for running a Flutter application in the background and making its Web Server accessible on a specific VM (Virtual Machine) port.
+
+            When you use this command, Flutter builds and runs your application in the background, leaving the terminal window open so that you can continue working on other tasks. The `--host-vmservice-port` flag specifies the port number (e.g., 8080) that the Web Server will listen on, making it accessible to external clients or other applications running on the same VM.
+
+            This command is particularly useful for testing and development scenarios where you want to access your application from another tool like an IDE extension or a web browser, without having to keep the terminal window open continuously.
+        hot: |-
+            [AI] `flutter run --hot` is a command used in Flutter development to start a hot reload mode for running and testing Dart code. When you run this command, the Flutter engine starts an application in debug mode with live reloading enabled.
+
+            When you make changes to your Dart code or modify your widget tree, the `--hot` flag triggers the Dart VM to automatically recompile the affected files and reload them into the running application without having to stop and restart the entire app. This results in faster development cycles and fewer interruptions while building and testing new features.
+        no-await-first-frame-when-tracing: '[AI] `flutter run --no-await-first-frame-when-tracing` is a command used in Flutter development to control the behavior of the Dart VM''s tracing flag. This command disables the waiting for the first frame to be drawn before starting tracing, allowing trace data to be collected from the very beginning of the application''s execution. It''s useful when debugging performance issues and analyzing the startup time of a Flutter app.'
+        no-build: '[AI] `flutter run --no-build` is a command used in Flutter development to execute Dart code without rebuilding or recompiling the application. This can be useful when making textual changes, such as modifying configuration files or adjusting strings, without requiring a full build process. It directly runs the specified task (often `main.dart`) from the terminal within the Flutter project environment.'
+        no-hot: '[AI] `flutter run --no-hot` is a command used in Flutter development to start a new build and run of an application without enabling hot reload. Hot reload is a feature that quickly reflects code changes in the application without requiring a full rebuild, but sometimes it may not work as expected or cause issues. Using `--no-hot` disables hot reload and forces a complete rebuild for each code change instead.'
+        no-null-assertions: |-
+            [AI] The `flutter run` command is used to execute a Flutter application in various modes, such as for building an apk or running tests. Adding the option `--no-null-assertions` disables null safety checks during runtime.
+
+            In Dart, a programming language used by Flutter, null-safety is a feature that prevents null values from being assigned to non-nullable types and accessing members of potentially null objects without checking for nullness first. This helps avoid common programming errors caused by working with null values.
+
+            However, when using `--no-null-assertions`, the null safety checks are disabled at runtime, meaning that Dart will implicitly allow null values where they would normally be disallowed. This is useful when dealing with legacy code or external APIs that might return null unexpectedly, but it can also increase the risk of null-related errors in your application.
+        no-pub: '[AI] The `flutter run --no-pub` command is used to launch a Flutter application without running any pub get commands first. This means that the Dart packages listed in the `pubspec.yaml` file will not be fetched or updated before building and running the app. If you have already gotten your dependencies using other means, such as manually downloading the package files or using a local cache, then you can use this flag to skip the pub get step and run the app directly. This can save time if you''re working on a large project with many dependencies and don''t want to wait for the pub get command to complete each time you build and run your app.'
+        no-start-paused: '[AI] The `flutter run --no-start-paused` command is used to build and run a Flutter application without stopping at the initial line of code, allowing it to start in its normal state. When you run `flutter run` without any flags, the debugger will pause at the first line of the main function by default. Using the `--no-start-paused` flag bypasses this behavior and starts the application normally.'
+        no-track-widget-creation: '[AI] The `flutter run --no-track-widget-creation` command is used in Flutter development to prevent Flutter from generating and tracking stateful widgets during hot reloads. This can be useful when working on large projects or when dealing with complex widget trees, as it can help reduce the amount of time required for each hot reload cycle. By disabling this feature, you have more control over the state of your widget tree and can potentially improve build times and reduce memory usage. However, keep in mind that disabling this option may increase the development effort required to manually manage stateful widgets during hot reloads.'
+        no-use-test-fonts: '[AI] The `--no-use-test-fonts` flag is a command-line option for the Flutter development tool. When running a Flutter application with this flag, it instructs the engine not to use test fonts during rendering. Test fonts are pre-installed fonts available in the Flutter engine for testing purposes and are different from those defined in the application''s `pubspec.yaml` file. By disabling the use of test fonts, the application will render using only the specified fonts, potentially avoiding any unwanted font differences between development and production environments.'
+        null-assertions: '[AI] The `flutter run --no-safely` or `flutter run --nullable=false` command is used when running a Flutter application for testing or production purposes, where null-checks are desired to catch potential null pointer exceptions. By default, Dart, the programming language used in Flutter, has null safety enabled since version 2.12, which prevents compiling code that may cause such exceptions. However, when running applications, it''s often desirable to disable these checks for better performance or to ensure compatibility with older libraries that don''t support null safety. This flag disables the null-safety checks when running your Flutter application using the `flutter run` command.'
+        pid-file: '[AI] The `--pid-file` option in the Flutter `run` command is used to write the process ID (PID) of the launched Flutter application to a specified file. This can be useful for managing and monitoring the application''s process, especially when running it in the background or as a system service. When you run `flutter run --pid-file path/to/file.txt`, Flutter will start your app as usual but also create (or overwrite) the specified file with the PID of the main Dart process.'
+        profile: '[AI] `flutter run --profile` is a command used in Flutter development to build and run an application with profiling enabled. Profiling is a technique for measuring and analyzing the performance of a program at runtime, helping developers identify and fix bottlenecks. By using this command, Flutter will generate detailed reports about the runtime behavior of the app, including CPU usage, memory consumption, and other performance metrics. These reports can then be used to optimize the codebase for better efficiency and user experience.'
+        pub: '[AI] `flutter run --pub` is a command used in Flutter development to build and run an application. The `--pub` option indicates that Flutter should also run the `pub get` command before building, which downloads any required dependencies specified in the project''s `pubspec.yaml` file. This ensures all required packages are up-to-date before running the app.'
+        purge-persistent-cache: '[AI] `flutter run --purge-persistent-cache` is a command used in Flutter development to clear the persistent cache stored on the local machine. This cache stores compiled Dart code and assets, which are reused during subsequent builds of an application. The `--purge-persistent-cache` option is used when you want to force Flutter to build your app from scratch instead of using cached data, ensuring that any changes made to your codebase or dependencies are taken into account. This can be helpful in resolving issues with outdated cache or when transitioning between development environments.'
+        release: '[AI] `flutter run --release` is a command used in Flutter development to build and run a release mode application. It performs a production build, which means it optimizes the code for size and performance, and generates an APK or AOT (Ahead-of-Time) bundle for Android or ARM machine code for iOS, respectively. This is ideal for deploying an app to the store as it provides the best possible performance and smallest app size.'
+        route: '[AI] The `flutter run --route` command is used to start a Flutter application and specify a named route for navigating between different screens or parts of the app using Flutter''s built-in routing system. This command starts the application in debug mode, and the specified route argument instructs the app on which screen or route to display upon launching. It assumes that you have set up your `pubspec.yaml` file with the necessary routes configuration under the `flutter:` key, typically under a section called `material-app:`. For more details, refer to Flutter''s official documentation on routing.'
+        skia-deterministic-rendering: '[AI] `flutter run --skia-deterministic-rendering` is a command used in Flutter development to ensure consistent rendering across different builds of a Flutter application. The `--skia-deterministic-rendering` flag instructs the Skia graphics library, which Flutter uses for drawing text and graphical user interface elements, to render output deterministically, meaning the same input will always produce the same output. This is useful when testing or deploying applications where consistent rendering is crucial, such as in embedded systems or continuous integration environments. Note that this flag may increase build time due to additional checks and optimizations.'
+        start-paused: '[AI] `flutter run --start-paused` is a command used in Flutter development to launch an application in the background and pause its execution at the first line of code, allowing the developer to attach a debugger or inspect the initial state of the app before it continues running. This can be useful for debugging, testing, or analyzing complex app behavior without interfering with the user interface.'
+        target: '[AI] The `flutter run` command is used to build and run a Flutter application from the command line. The `--target` option specifies which target device or emulator to use for running the app. For example, `flutter run --target=chrome` would launch the app in the Chrome emulator, while `flutter run --target=device` would build and install the app on a connected physical Android or iOS device. The `--target` option allows developers to quickly test their app on various targets without having to manually select them in the IDE every time.'
+        trace-skia: |-
+            [AI] `flutter run --trace-skia` is a command used in Flutter development for debugging Skia rendering issues. Skia is an open-source 2D graphics library that Flutter uses to render UI elements.
+
+            When you run `flutter run --trace-skia`, Flutter builds and runs your app in debug mode, enabling extra logging and tracing of Skia commands. This information is written to the console and saved to a file (`trace.skiatc`) in your project's `temp/` directory.
+
+            The traces can help you identify rendering issues by providing detailed information about the commands that are being executed by Skia, allowing you to compare and analyze the differences between expected and actual output. This data can be further analyzed using third-party tools like "skia-inspect" or "SkGlimpse" for better visualization and understanding of the rendering issues.
+        trace-startup: '[AI] `flutter run --trace-startup` is a command used in Flutter development to enable detailed startup performance tracing. When executed, Flutter will start the application in debug mode and provide more extensive information about the initialization process of the Dart VM, the Flutter engine, and the application itself. This can help developers identify and resolve performance issues during app startup.'
+        trace-systrace: '[AI] `flutter run --trace-systrace` is a command used in Flutter development to enable system tracing during app execution. This option generates a System Trace (systrace) file that records low-level system interactions, including kernel events and I/O operations, to help diagnose performance issues or investigate system behavior. The generated systrace file can be analyzed using Android Studio''s profiling tools or other third-party tools for further analysis.'
+        track-widget-creation: '[AI] `flutter run --track-widget-creation` is a command used in Flutter development to help identify and track the creation of new Widgets during app execution. When you run this command, Flutter will log each time a new instance of a widget is created in your app''s code. This information can be helpful for debugging and performance analysis, as it allows developers to identify where and when widget instances are being created, which can impact the rendering performance of their apps.'
+        use-application-binary: '[AI] `flutter run --use-application-binary` is a command used in Flutter development to run an existing compiled Flutter application from the terminal instead of building it from source code every time. The `--use-application-binary` option instructs Flutter to use the pre-existing ARM, ARM64, x64, or M1 application binary file located in the `build/outputs/apk/` or `build/outputs/aab/` directory for running the app, rather than recompiling the code. This can significantly reduce the build time and improve productivity during iterative development processes.'
+        use-test-fonts: '[AI] `flutter run --use-test-fonts` is a command used in Flutter development to ensure that test applications use the same fonts as the main application during testing. This is important because sometimes, tests might not have access to the same fonts as the main app, leading to potential differences in rendering and display. By adding `--use-test-fonts`, the Flutter engine loads the fonts used by the main application during testing, ensuring consistent rendering between the test and production environments.'
+        verbose-system-logs: '[AI] `flutter run --verbose-system-logs` is a command used in Flutter development to launch an application with detailed system logging output. When this command is executed, Flutter builds and runs the application, while also printing extensive logs related to the operating system, Android or iOS platform, and the Dart virtual machine. These logs can be helpful for diagnosing system-level issues, performance problems, or other complex technical concerns during app development.'
+        web-renderer: '[AI] `flutter run --web-renderer` is a command used in Flutter development for building and running web applications. The `--web-renderer` option specifies which rendering engine to use for the web build, specifically either "canvaskit" (the default) or "html". CanvasKit uses WebGL under the hood to provide fast and performant graphics rendering. The built web application is then served locally by Flutter''s development server, allowing developers to test and debug their web applications in real time.'

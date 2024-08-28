@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: ca [OPTIONS]
+description: Display and rotate the root CA
+flags:
+    --ca-cert=: Path to the PEM-formatted root CA certificate to use for the new cluster
+    --ca-key=: Path to the PEM-formatted root CA key to use for the new cluster
+    --cert-expiry=: Validity period for node certificates (ns|us|ms|s|m|h)
+    --external-ca=: Specifications of one or more certificate signing endpoints
+    --rotate: Rotate the swarm CA - if no certificate or key are provided, new ones will be generated
+    -d, --detach: Exit immediately instead of waiting for the root rotation to converge
+    -q, --quiet: Suppress progress output
+documentation:
+    command: |-
+        [AI] The `docker swarm ca` command is used to create or manage the Certificate Authority (CA) for a Docker Swarm cluster. This CA is responsible for issuing and managing the certificates used to secure communication between nodes in the Swarm mode cluster.
+
+        When you run the command without any arguments, it will display information about the existing CA, if one exists. If you provide the `create` flag followed by a path to save the CA certificate and key files, then Docker will create a new CA. The default location for saving the files is in the `$HOME/.docker/ca.crt` and `$HOME/.docker/ca.key`.
+
+        Here's an example usage:
+
+        - To display existing CA information: `docker swarm ca`
+        - To create a new CA with custom file paths: `docker swarm ca create /path/to/save/ca`
+    flag:
+        ca-cert: '[AI] The `docker swarm ca --ca-cert` command is used to generate the root certificate authority (CA) file in a Docker Swarm cluster. This CA file is required for secure communication between nodes in the Swarm mode cluster, as it is used to sign and verify the certificates of worker nodes joining the Swarm. When you run this command, Docker generates a new CA certificate and saves it as a file with the specified name (by default `ca.crt`) with the `--ca-cert` flag. This file should be distributed to all worker nodes in the cluster so they can join the Swarm using secure communication.'
+        ca-key: '[AI] The `docker swarm ca --ca-key` command is used to generate the CA key (Certificate Authority) for a Docker Swarm cluster. This key will be used to sign the worker node certificates, allowing them to join the Swarm cluster securely. When you run this command, it generates and saves a private key file along with its corresponding certificate in PEM format, which can then be used to configure new worker nodes or replace existing ones in your Swarm cluster.'
+        cert-expiry: '[AI] `docker swarm ca --cert-expiry` is a command used in Docker Swarm mode to manage the certificates of the CA (Certificate Authority) server. The `--cert-expiry` flag sets the validity period (in seconds) for these certificates. After this period expires, new certificates must be generated and applied to maintain secure communication within the Docker Swarm cluster.'
+        detach: |-
+            [AI] `docker swarm ca --detach` is a command used to generate and manage the CA (Certificate Authority) for a Docker Swarm cluster with detached mode.
+
+            Detached mode means that the command runs in the background, allowing you to continue working in your terminal without being blocked by the output of the command.
+
+            The `docker swarm ca` command is used to create and manage the root CA for your Docker Swarm cluster. This CA will be used to sign the certificates for the nodes and services in your cluster. The `--detach` flag tells Docker to run this command in detached mode.
+
+            After running this command, you'll receive a CA certificate file and a key file. These files are necessary for joining nodes to the Swarm cluster and managing it with `docker swarm manage`.
+        external-ca: '[AI] The `docker swarm ca --external-ca` command is used to generate a new CA (Certificate Authority) bundle for use in a Docker Swarm mode cluster with external Certificate Authorities. This CA will be used to sign the certificates for nodes, managers and workers joining the Swarm cluster. By specifying `--external-ca`, you indicate that the CA certificates are not bundled within the command itself but need to be provided externally. The output of this command is a set of PEM-encoded certificate files (CA certificate, node key, node certificate and server key and certificate) that should be distributed to nodes joining the Swarm cluster for secure communication between them.'
+        quiet: '[AI] `docker swarm ca --quiet` is a command used in Docker Swarm mode for generating self-signed CA and server certificates with minimal output. The `--quiet` option suppresses all non-error messages during the certificate generation process, providing only the generated certificates as output without additional information or confirmation messages.'
+        rotate: '[AI] `docker swarm ca --rotate` is a command used in Docker Swarm mode to rotate the CA (Certificate Authority) certificates for secure communication between nodes in a Swarm cluster. When you run this command, Docker generates and saves new CA key and certificate pairs, updating the Swarm CA configuration file accordingly. This helps maintain the security of your Swarm cluster by periodically replacing the CA certificates. Rotating certificates is an important security practice to minimize the risk of compromised keys or certificates being used for unauthorized access.'

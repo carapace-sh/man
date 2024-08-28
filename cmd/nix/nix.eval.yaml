@@ -1,0 +1,101 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: eval
+description: evaluate a Nix expression
+group: infrequently used
+flags:
+    --apply=: Apply the function expr to each argument
+    --arg*=: Pass the value expr as the argument name to Nix functions
+    --argstr*=: Pass the string string as the argument name to Nix functions
+    --commit-lock-file: Commit changes to the flake's lock file
+    --debug: Set the logging verbosity level to 'debug'
+    --debugger: Start an interactive environment if evaluation fail
+    --eval-store=: The Nix store to use for evaluations
+    --impure: Allow access to mutable paths and repositories
+    --inputs-from=: Use the inputs of the specified flake as registry entries
+    --json: Produce output in JSON format, suitable for consumption by another program
+    --log-format=: Set the format of log output
+    --no-registries: Don't allow lookups in the flake registries
+    --no-update-lock-file: Do not allow any updates to the flake's lock file
+    --no-write-lock-file: Do not write the flake's newly generated lock file
+    --override-flake=: Override the flake registries, redirecting original-ref to resolved-ref
+    --override-input=: Override a specific flake input (e.g. dwarffs/nixpkgs)
+    --quiet: Decrease the logging verbosity level
+    --raw: Print strings without quotes or escaping
+    --read-only: Do not instantiate each evaluated derivation
+    --recreate-lock-file: Recreate the flake's lock file from scratch
+    --update-input=: Update a specific flake input (ignoring its previous entry in the lock file
+    --write-to=: Write a string or attrset of strings to path
+    -I, --include: Add path to the list of locations used to look up <...> file names
+    -L, --print-build-logs: Print full build logs on standard error
+    -v, --verbose: Increase the logging verbosity level
+documentation:
+    command: '[AI] `nix-eval` is a command in Nix, a package manager and build system, used to evaluate expressions written in Nix language directly from the terminal without having to create a separate configuration file. It reads and executes Nix expressions given as standard input or from a file provided as an argument. The result of evaluation is printed to the standard output.'
+    flag:
+        apply: '[AI] `nix-eval --apply` is a Nix command used to directly apply and evaluate a Nix expression or configuration file without creating a store file first. It takes one or more Nix expressions as arguments, evaluates them in the current Nix environment, and applies any resulting configurations as modifications to the system. This can be useful for quickly testing or experimenting with Nix expressions without having to build an entire store file.'
+        arg: |-
+            [AI] `nix-eval` is a command in Nix, a package manager for Linux and other Unix systems. The `--arg` option is used to pass arguments to a Nix expression being evaluated by `nix-eval`. For example, if you have a Nix expression stored in a file called `myexpress.nix`, you could evaluate it with an argument using the following command:
+
+            ```bash
+            nix-eval --arg myArg="value" 'path/to/myexpress.nix'
+            ```
+
+            This would evaluate the Nix expression at `path/to/myexpress.nix`, passing the argument `myArg` with the value `"value"` to it. The expression can then use this argument in its evaluation, for example by assigning it to a variable or using it as an input to a function.
+        argstr: |-
+            [AI] `nix-eval` is a command in Nix, a package manager and build system. It evaluates Nix expressions, which are written in Nix language, directly in the terminal without building or installing anything.
+
+            The `--argstr` option is used to pass named arguments to the expression being evaluated. These arguments are defined with the `--arg` option when calling `nix-eval`. The value of each argument is passed using the `--argstr` option as a string, which is then parsed and assigned its value during evaluation. For example:
+
+            ```bash
+            $ nix-eval --expr '(config.myArg) { value = import --argstr "myArg" {}; }' --arg myArg 42
+            ```
+
+            This command evaluates an expression that defines a `config.myArg` attribute, which is then assigned the value of the argument named `myArg`. The argument's value (in this case, `42`) is passed using the `--argstr` option.
+        commit-lock-file: '[AI] `nix-eval` is a command in Nix, a package manager for Linux and other systems. The `--commit-lock-file` option tells `nix-eval` to read the lock file of a Nix expression, which specifies the exact versions of packages that should be used, ensuring reproducible builds. By evaluating the expression with this option, you can recreate the same environment as previously built, preventing unexpected changes in your project due to package updates.'
+        debug: '[AI] `nix-eval --debug` is a command used in Nix, a package manager for Linux and other Unix systems. It evaluates and applies a Nix expression or configuration file, providing detailed debug output to help diagnose issues during the evaluation process. This can be useful when dealing with complex configurations or when encountering errors. The `--debug` flag enables verbose output, displaying intermediate results, function calls, and other diagnostic information.'
+        debugger: '[AI] `nix-eval --debugger` is a command used in Nix, a package manager for Linux and other Unix systems. This command runs a Nix expression with the Nix debugger attached to it. The debugger allows users to set breakpoints, inspect variables, and step through code during execution, making it useful for debugging complex Nix expressions or configurations.'
+        eval-store: '[AI] `nix-evalt` is a command in Nix, a package manager for Linux and other systems. The `--eval-store` option tells `nix-evalt` to evaluate an expression and store the result in the Nix expression store instead of printing it directly to the terminal. This allows you to build up complex expressions incrementally and reuse them later in other expressions or in configuration files. The expression store is persisted between sessions, so the expressions can be shared among different users or builds.'
+        impure: '[AI] The `nix-eval --impure` command is a utility from Nix, a package manager for Linux and other Unix systems. This command evaluates Nix expressions in an impure mode, meaning that it does not create isolated build environments or sandboxed shells. Instead, the expressions are evaluated directly in the current environment, allowing any side effects to affect the surrounding system. It is often used for testing or quick explorations of Nix expressions without creating new build environments.'
+        include: |-
+            [AI] `nix-eval` is a command from the Nix package manager used to evaluate expressions written in the Nix language. The `--include` option tells `nix-eval` to include the contents of one or more files as part of the expression being evaluated. This allows you to write larger, more complex expressions by breaking them up into smaller files and then combining them using `include`. For example:
+
+            ```sh
+            $ nix-eval --expressions 'let x = 5; let y = 10; . = import <nixpkgs> {}; in { output = pkgs.hello-world.out + " World!"; main = pkgs.echo output; }' --include file1.nix --include file2.nix
+            ```
+
+            In this example, `file1.nix` and `file2.nix` might contain definitions for functions or variables that are used in the main expression being evaluated with `nix-eval`. By using the `--include` option, you can avoid repeating those definitions in every evaluation command and keep your code more modular and easier to maintain.
+        inputs-from: '[AI] `nix eval` is a command in Nix Package Manager used to evaluate expressions in the Nix expression language without building a complete system or package. The `--inputs-from` option specifies a Nix expression or a file containing an expression, which provides the input values for the evaluation. Essentially, it sets the context for the evaluation. For example: `nix eval ''packaging.haskellPackages.ghc712'' --inputs-from myProjectConfig.nix`, where `myProjectConfig.nix` is a file providing inputs to the expression `packaging.haskellPackages.ghc712`.'
+        json: '[AI] `nix-eval --json` is a command used in Nix, a package manager for Linux and other Unix systems. This command runs a Nix expression and returns the result as JSON output instead of evaluating it directly in the current system environment. The JSON output can be easily consumed by other programs or scripts.'
+        log-format: |-
+            [AI] The `nix-eval` command in Nix is used to evaluate Nix expressions directly from the command line. The `--log-format` option specifies the format of the log output when running the command.
+
+            For example, `nix-eval --log-format=json my_expression` will return the result of `my_expression` as a JSON formatted log message. Other formats include `plain`, `pretty`, and `tabular`.
+
+            So, `nix eval --log-format` is an option to configure the format of the output logs when using the `nix-eval` command.
+        no-registries: '[AI] `nix eval --no-registries` is a command used in Nix, a package manager for Linux and other Unix systems. This command evaluates a Nix expression without using any remote packages from the Nixpkgs or other repositories, also known as registries. By including `--no-registries`, you ensure that only locally available and installed packages are used to build or run the command. This can be useful for testing or isolating your environment.'
+        no-update-lock-file: |-
+            [AI] `nix-eval` is a command in Nix package manager that allows you to evaluate expressions or functions written in Nix language directly from the terminal without building an entire system configuration. The `--no-update-lock-file` flag is an option used with `nix-eval` to disable creating or using an update-lock file.
+
+            An update-lock file is a mechanism employed by Nix to prevent multiple processes from modifying the same configuration at the same time, thus ensuring consistency and avoiding conflicts during system upgrades or configuration changes. By disabling the creation or use of the update-lock file with `--no-update-lock-file`, you can evaluate expressions more quickly without waiting for the lock to be acquired. However, it is important to note that this option might lead to potential race conditions and inconsistencies if multiple processes are modifying Nix configurations concurrently.
+        no-write-lock-file: |-
+            [AI] The `nix-eval` command is a part of Nix, a package manager for Linux and other Unix systems. The `--no-write-lock-file` flag is an option that can be passed to this command.
+
+            When you run `nix-eval`, it by default creates or updates a write lock file in the Nix store, which prevents concurrent writes to the same store path. This flag disables the creation and updating of the write lock file, allowing multiple processes to modify the same Nix expression at the same time without conflicts.
+
+            Using `nix-eval --no-write-lock-file` is useful in situations where you want to quickly test or experiment with different Nix expressions or configurations without worrying about potential locking issues, but be aware that running multiple processes concurrently on the same store path may lead to inconsistencies and unpredictable results.
+        override-flake: |-
+            [AI] `nix-eval` is a command in Nix, a package manager for Linux and other Unix systems. The `--override-flake` option modifies the behavior of `nix-eval`.
+
+            Normally, `nix-eval` builds and evaluates expressions or functions defined in a Nix expression file (with extension .nix). It uses the existing Nix environment to build dependencies and evaluate expressions.
+
+            With `--override-flake`, `nix-eval` forces the use of a specific flake configuration file instead of using the default one or searching for it in the Nix profile. A flake configuration file is used by Nix to manage and build projects that are not packaged as traditional Nix expressions but rather use the more flexible flakes model, allowing for more complex builds and dependencies management.
+
+            In summary, `nix-eval --override-flake` is used to override the default flake configuration file and evaluate an expression or function from a given flake configuration file.
+        override-input: '[AI] `nix-eval` is a command in Nix, a package manager and configuration management system. The `--override-input` option allows users to provide custom inputs to a Nix expression, effectively overriding the default values. This can be useful for testing or customizing configurations without modifying the original expression itself. When using `nix-eval`, you write your input as key-value pairs in a file or pass them directly from the command line with the `--arg` flag. The input provided with `--override-input` takes precedence over any other inputs, including those defined within the expression itself.'
+        print-build-logs: '[AI] `nix-eval` is a command from Nix, a package manager for Linux and other Unix systems. The `--print-build-logs` option tells Nix to output the build logs of a specific expression or function instead of executing it directly. In other words, this command prints out the detailed information about how a Nix expression is built, including any errors or warnings that might occur during the build process. It''s useful for debugging and understanding the dependencies and build steps required to construct a particular package or configuration in Nix.'
+        quiet: '[AI] The `nix-eval` command in Nix is used to evaluate Nix expressions or functions directly from the command line. The `--quiet` option is used to suppress informational messages during the evaluation process, making the output consist only of the result of the expression or function evaluation. In summary, `nix eval --quiet` runs a Nix expression or function and returns only its result without any additional output.'
+        raw: '[AI] `nix-eval --raw` is a command in Nix, a package manager for Linux and other Unix systems. The `--raw` option tells Nix to evaluate the given expression without interpreting it as a Nix expression file. In other words, it directly executes the Nix expression provided as an argument. The output of the evaluation is printed to standard output. This command is often used for ad-hoc evaluations or to extract specific values from Nix expressions.'
+        read-only: '[AI] The `nix eval --read-only` command is a Nix expression evaluator command with read-only access to the Nix store. This means that the command can only read data from the Nix store and does not have write permissions, ensuring that no accidental changes are made to the system. It''s often used for querying information or verifying system configurations without modifying anything.'
+        recreate-lock-file: '[AI] The `nix-eval` command with the `--recreate-lock-file` option is used in the Nix Package Manager to evaluate and build a specific Nix expression while updating or recreating the lock file. A lock file records the exact versions of dependencies for a project, ensuring consistent and reproducible builds across different environments. By using this option, you can force Nix to update or create a new lock file with the latest dependency versions when invoking `nix-eval`.'
+        update-input: '[AI] `nix-eval` is a command in Nix, a package manager for Linux and other Unix systems. The `--update-input` option is used to update a Nix expression or configuration file before evaluating it. In other words, it fetches the latest version of the input file from the Nixpkgs repository, merges any local modifications, and then evaluates the expression or configuration file using the updated input. This is useful when working on a Nix package and needing to ensure that the latest dependencies are being used.'
+        verbose: '[AI] `nix-eval` is a command in Nix, a package manager for Linux and other Unix systems. The `--verbose` flag increases the amount of output that `nix-eval` produces when it runs. This can be helpful for debugging or understanding what `nix-eval` is doing behind the scenes as it evaluates and applies expressions from Nix expressions files or other sources. When used together, `nix eval --verbose` will run the evaluation with detailed output on the terminal.'
+        write-to: '[AI] `nix-eval` is a command in Nix, a package manager for Linux and other Unix systems. The `--write-to` option modifies the behavior of `nix-eval`. Instead of printing the result on the standard output (as default), it writes the evaluated expression directly to a file specified by the user. This is useful when you want to modify or create files with Nix expressions, such as configuration files or new Nix packages.'

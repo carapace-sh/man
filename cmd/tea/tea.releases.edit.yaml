@@ -1,0 +1,80 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: edit
+aliases:
+    - e
+description: Edit one or more releases
+flags:
+    --tag=: Change Tag
+    --target=: Change Target
+    -R, --remote=: Discover Gitea login from remote. Optional
+    -d, --draft=: Mark as Draft [True/false]
+    -l, --login=: Use a different Gitea Login. Optional
+    -n, --note=: Change Notes
+    -o, --output=: Output format. (simple, table, csv, tsv, yaml, json)
+    -p, --prerelease=: Mark as Pre-Release [True/false]
+    -r, --repo=: Override local repository path or gitea repository slug to interact with. Optional
+    -t, --title=: Change Title
+documentation:
+    command: '[AI] The `tea releases edit` command is used in the TeaDB (Tea''s Database) version control system to edit the metadata of an existing release. It allows users to modify release details such as tag, description, and dependencies before publishing updates to a repository. This command facilitates precise control over release versions without having to create new tags or branches.'
+    flag:
+        draft: '[AI] The `git` command `tea releases edit --draft` is used to create a new release draft in the GitTeam (Tea) platform, which is an extension for managing Git repositories as teams. This command creates a new release draft with the current state of the repository as the initial draft content. The `--draft` option indicates that the release is not yet ready for publication and can be edited further before being made public. Once satisfied with the draft, it can be published to create an official Git release.'
+        login: '[AI] The command `tea releases edit --login` is used in the Tea interface, a GitOps platform for Kubernetes, to initiate an editing session for managing Kubernetes releases. It brings up a login prompt where you enter your authentication credentials to access your cluster and continue making modifications to your releases in an interactive way.'
+        note: |-
+            [AI] The command `git fetch origin` retrieves the latest changes from a remote Git repository without merging them into your local branch. The command `git pull origin <branch>` does the same thing but also merges any new commits into your local branch.
+
+            The command `git checkout <branch> --`, followed by `tea releases edit --note`, is used to open an interactive text editor session for editing the commit message of the most recent commit on a specific branch (`<branch>`) without creating a new commit. The option `--note` allows you to edit the commit message associated with a tag, if the tag is annotated.
+
+            This command sequence can be useful when you want to modify the message of your last commit before pushing it to a remote repository. It does not create a new commit but only updates the existing one in your local repository.
+        output: '[AI] The command `tea releases edit --output` is used in the TeaVM (Tea Virtual Machine) tool to edit an existing release of a Tea application. Specifically, this command retrieves the current release definition from the Tea platform and outputs it to the console or a file, depending on the configuration, for further editing. It does not make any modifications itself but provides the release details to be updated manually before re-deploying the edited release using other Tea commands.'
+        prerelease: |-
+            [AI] The command `git fetch origin --prune` is used to fetch new changes from a remote Git repository named "origin" and remove any local branches that no longer exist on the remote.
+
+            The command `git checkout <branch-name> --detach` checks out the specified branch as a new, independent commit, allowing for commit messages to be edited before creating a new tag or release.
+
+            The command `git add <files>` stages files for committing.
+
+            The command `git commit -am "<commit-message>"` creates a new commit with the given message.
+
+            The command `git tag --sign --force <tag-name> [<optional-message>]` creates a signed and forced Git tag, which updates an existing tag with the new commit. The "--force" flag allows for overwriting an existing tag.
+
+            The command `git push origin <branch/tag> --tags` pushes the updated branch or tag to the remote Git repository named "origin". The "--tags" flag also pushes any newly created or updated tags.
+
+            The command `gh release create <release-name> --prerelease` creates a new pre-release on the GitHub package registry, gh, with the given name. Pre-releases are versions that have not yet been officially released but are ready for testing by users. The "--prerelease" flag indicates this is a pre-release and sets the appropriate metadata in the release.
+
+            The command `git push origin <branch> --no-edit` pushes the updated branch to the remote Git repository without triggering an automatic editor window for commit messages. This can be useful when merging changes that have already been committed elsewhere.
+
+            Finally, the command `git checkout <branch-name>` returns control to the specified branch.
+        remote: |-
+            [AI] `git fetch origin --all` followed by `git merge origin/<branch-name> --no-commit` is equivalent to running `git checkout <branch-name> --; git pull origin <branch-name> --rebase --strategy-option theirs`. The command `tea releases edit --remote` is not a standard Git command. It appears to be a custom alias or script, likely used in the context of a specific Git workflow tool, such as Teaspoon, that abstracts and simplifies Git commands for easier use.
+
+            This command may perform the following steps:
+
+            1. Fetch all branches from the remote repository (`origin`).
+            2. Edit the files locally.
+            3. Stage and commit the changes to a new branch (not currently checked out) created from `<remote-branch>`.
+            4. Create and open a pull request for merging the new branch into the specified release branch (often a main or master branch) on the remote repository.
+
+            For more information, consult your Git workflow tool's documentation if you're using `tea releases edit --remote`.
+        repo: '[AI] The command `git fetch origin --all --prune` followed by `git checkout <branch_name>` and then `git rebase origin/<branch_name>` can be shortened using Git''s "interactive rebasing" feature, which is initiated with the command `git rebase -i origin/<branch_name>`. The "tea releases edit --repo" flag is an alias for this entire sequence of commands. It is typically used in a continuous integration or delivery pipeline to fetch and update a specific Git branch with the latest changes from the remote repository, applying any necessary rebasing to maintain a clean merge history.'
+        tag: |-
+            [AI] The command `git checkout -- <file> && git add <file> && git commit -m "message" && git fetch origin && git pull origin --rebase && git push origin --tags && git checkout master && git pull origin --rebase` can be broken down into several steps to update a Git repository with a new tag and changes:
+
+            1. `git checkout -- <file>`: Checks out the working directory of a file for modification without creating a new branch.
+            2. `git add <file>`: Adds the modified file to the staging area.
+            3. `git commit -m "message"`: Commits the changes in the staging area with a message.
+            4. `git fetch origin`: Fetches all the branches and tags from the remote repository 'origin'.
+            5. `git pull origin --rebase`: Merges any changes on the remote branch into your local one, resolving conflicts if necessary.
+            6. `git push origin --tags`: Pushes the new local tag to the remote repository 'origin'.
+            7. `git checkout master`: Switches back to the 'master' branch.
+            8. `git pull origin --rebase`: Merges any changes on the remote 'master' branch into your local one, resolving conflicts if necessary.
+        target: '[AI] The command `tea releases edit --target` is used in the Teapot software development toolkit. It allows users to edit the details of a specific release within the Tea platform. The `--target` flag specifies which release should be edited. This command opens the release in an editor interface for updates, such as changing the release name, description, or tags. Once the edits are saved, the release is updated in the Teapot system.'
+        title: |-
+            [AI] The command `git diff --cached TEARIES file --name-only | xargs -I % tea release edit %` followed by `git status --short` and then `git add .` and finally `git commit -m "TEARIES: <your message here>"` can be summarized as follows using the given flag:
+
+            The command `tea releases edit --title` is an alias for the above series of Git commands. It achieves the following:
+
+            1. Lists files that have been modified and added in the staging area (cached changes) with `git diff --cached TEARIES file --name-only`.
+            2. Updates or creates release titles for each file using an external tool named "tea" to create a pull request, commit message, and tag with `tea release edit % <your message here>`, where % represents the filename.
+            3. Displays the Git status with `git status --short` to confirm changes.
+            4. Adds all files in the working directory to the staging area using `git add .`.
+            5. Commits the changes with a commit message generated by "tea" using `git commit -m "<commit message generated by tea>"`.

@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: cp <file-spec-src> <file-spec-dest>
+description: Copy files and directories to and from containers
+group: troubleshooting
+flags:
+    --no-preserve: The copied file/directory's ownership and permissions will not be preserved in the container
+    --retries=: Set number of retries to complete a copy operation from a container. Specify 0 to disable or any negative value for infinite retrying. The default is 0 (no retry).
+    -c, --container=: Container name. If omitted, use the kubectl.kubernetes.io/default-container annotation for selecting the container to be attached or the first container in the pod will be chosen
+documentation:
+    command: '[AI] `kubectl cp` is a command used in Kubernetes to copy files or directories between a local system and a container running in a Kubernetes cluster. The source can be a file on the local file system, or a file inside a container, and the destination is the specified container or pod in the cluster. The syntax is `kubectl cp [SOURCE] [DESTINATION]:[PATH]`. For example, `kubectl cp myfile.txt my-pod:/mnt/data`.'
+    flag:
+        container: '[AI] `kubectl cp --container` is a command used with Kubernetes and `kubectl`, its command-line client. This specific usage copies files or directories between a container running in a Kubernetes cluster and the local file system. The `--container` flag indicates that the source or destination of the copy operation is a container, rather than a node or the cluster itself. For example, you can use it to put a file into a container or take a file out from a container. This command can be useful for deploying configuration files or custom software to running containers without having to build new images or re-deploy them.'
+        no-preserve: |-
+            [AI] `kubectl cp --no-preserve` is a command used in Kubernetes to copy files or directories between a local system and a container or cluster resource. The `--no-preserve` flag modifies the default behavior of `kubectl cp`.
+
+            By default, when using `kubectl cp`, if a file or directory with the same name already exists at the destination, it will be preserved and replaced only if it is a regular file. For other types of files (directories, symlinks, etc.), the destination will not be overwritten. This is to prevent accidental data loss.
+
+            The `--no-preserve` flag disables this behavior, allowing all files including directories to be overwritten during a copy operation without any confirmation or warning. It's essential to use it with caution as you may lose valuable data by overwriting existing resources in your cluster.
+        retries: '[AI] `kubectl cp` is a command used to copy files or directories between a host system and a container in a Kubernetes cluster. The `--retries` option sets the number of times to retry failed transfers. If a transfer fails, `kubectl` will automatically retry up to the specified number before giving up. By default, there are no retries. Using this flag can help ensure data is successfully transferred even if there are temporary network or container issues.'

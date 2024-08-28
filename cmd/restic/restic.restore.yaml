@@ -1,0 +1,34 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: restore
+description: Extract the data from a snapshot
+flags:
+    --iexclude*=: same as `--exclude` but ignores the casing of filenames
+    --iinclude*=: same as `--include` but ignores the casing of filenames
+    --path*=: only consider snapshots which include this (absolute) `path` for snapshot ID "latest"
+    --tag*=: only consider snapshots which include this `taglist` for snapshot ID "latest"
+    --verify: verify restored files content
+    -H, --host*=: only consider snapshots for this host when the snapshot ID is "latest" (can be specified multiple times)
+    -e, --exclude*=: exclude a `pattern` (can be specified multiple times)
+    -i, --include*=: include a `pattern`, exclude everything else (can be specified multiple times)
+    -t, --target=: directory to extract data to
+documentation:
+    command: '[AI] `restic restore` is a command used in the restic backup tool. It is utilized to recover specific files or directories from a restic backup archive. The user specifies the path to the backup archive and the desired target paths for restoration. The command filters the data to be restored based on the given include/exclude patterns, if any. Once the restore process begins, restic extracts the required data from the backup and writes it to the specified locations in the file system.'
+    flag:
+        exclude: '[AI] `restic restore` is a command in the restic backup tool that is used to restore specific files or directories from a restic backup. The `--exclude` option allows you to exclude certain files or directories from the restoration process by specifying a pattern. For example, `--exclude=".*"` would exclude all files with a "." in their name (e.g., hidden files), while `--exclude="/path/to/directory/"` would exclude an entire directory. Multiple patterns can be specified by separating them with commas. This option is useful when you want to restore specific items while excluding others, such as when restoring a backup of your home directory but wanting to exclude large media files.'
+        host: '[AI] `restic restore` is a command from the open-source backup tool, `restic`. It''s used to restore data from backups that have been created using `restic`. The `--host` option specifies the remote host or backup target where the restored data resides. With this flag, you indicate the location of the backup repository containing the desired data. After providing the `--host` argument with the appropriate address or URL, you can use additional flags or options to specify the exact files or directories that need restoration.'
+        iexclude: |-
+            [AI] `restic restore` is a command from the restic backup tool used to restore specific files or directories from backups. The `--iexclude` option is used to exclude specific patterns from the restoration process.
+
+            For example, if you want to restore all files under a directory except for those matching the pattern `*.log`, you can use:
+
+            ```bash
+            restic restore <backup> --source=/path/to/backup/dir --iexclude='*.log' /destination/path
+            ```
+
+            This command will restore all files from the backup under the given directory (`/path/to/backup/dir`) except for those with a `.log` extension.
+        iinclude: '[AI] `restic` is a backup program that supports incremental backups, meaning only changed files are transferred during subsequent backups. The `--include-file` or shorthand `-I` option when using the `restic restore` command allows restoring specific files based on a given list included in a file. This file should be provided as an argument to this option and should contain one file name per line. This way, you can easily specify multiple files to be restored from your backups without having to list them individually each time you run the restore command.'
+        include: '[AI] `restic restore` is a command in the restic backup software that is used to restore data from backups. The `--include` option is used with this command to specify a list of paths or file globs to be included in the restoration process. For example, if you want to restore only specific files or directories from a backup, you can use the `--include` flag followed by the desired path patterns. Multiple patterns can be provided by separating them with commas. The restored data will be written to their original locations in the file system.'
+        path: '[AI] `restic restore` is a command from the restic backup tool used to restore data from backups. The `--path` option specifies the local or remote path to the directory or file that will be restored. When you run `restic restore <backup> --path <destination>`, the selected backup `<backup>` is restored to the location specified by `<destination>`. This can be a local or network file path, or a path on a remote server accessible via SSH. The restored data will overwrite any existing files at the destination path with the same names.'
+        tag: '[AI] `restic restore` is a command from the restic backup tool used to recover specific files or directories from backups. The `--tag` option is used to specify which backup tag (or version) to restore from. A tag is a label assigned to a backup, allowing you to easily identify and restore data from a particular point in time. When using the `restore` command with the `--tag` option, restic will retrieve the specified backup data and write it back to its original location.'
+        target: '[AI] The `restic restore` command is used to recover data from a `restic` backup. The `--target` option specifies where to restore the data to. It can be a local path or a remote location accessible via SSH or HTTP. For example, `restic restore <backup> --target /path/to/restore/data` would restore the data from the backup to the specified local path. If restoring to a remote location, the correct format should be used according to the remote protocol (e.g., `ssh:` or `http:`, followed by the URL).'
+        verify: '[AI] `restic restore --verify` is a command in the backup tool `restic`. This command is used to verify the integrity of restored data. When restoring files from a `restic` backup, this option ensures that the restored data matches the original data by performing an MD5 checksum comparison between the source and target files. The verified result will indicate whether the restoration was successful or if any discrepancies were detected.'

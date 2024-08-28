@@ -1,0 +1,327 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: update [OPTIONS] SERVICE
+description: Update a service
+flags:
+    --args=: Service command args
+    --cap-add=: Add Linux capabilities
+    --cap-drop=: Drop Linux capabilities
+    --config-add=: Add or update a config file on a service
+    --config-rm=: Remove a configuration file
+    --constraint-add=: Add or update a placement constraint
+    --constraint-rm=: Remove a constraint
+    --container-label-add=: Add or update a container label
+    --container-label-rm=: Remove a container label by its key
+    --credential-spec=: Credential spec for managed service account (Windows only)
+    --dns-add=: Add or update a custom DNS server
+    --dns-option-add=: Add or update a DNS option
+    --dns-option-rm=: Remove a DNS option
+    --dns-rm=: Remove a custom DNS server
+    --dns-search-add=: Add or update a custom DNS search domain
+    --dns-search-rm=: Remove a DNS search domain
+    --endpoint-mode=: Endpoint mode (vip or dnsrr)
+    --entrypoint=: Overwrite the default ENTRYPOINT of the image
+    --env-add=: Add or update an environment variable
+    --env-rm=: Remove an environment variable
+    --force: Force update even if no changes require it
+    --generic-resource-add=: Add a Generic resource
+    --generic-resource-rm=: Remove a Generic resource
+    --group-add=: Add an additional supplementary user group to the container
+    --group-rm=: Remove a previously added supplementary user group from the container
+    --health-cmd=: Command to run to check health
+    --health-interval=: Time between running the check (ms|s|m|h)
+    --health-retries=: Consecutive failures needed to report unhealthy
+    --health-start-period=: Start period for the container to initialize before counting retries towards unstable (ms|s|m|h)
+    --health-timeout=: Maximum time to allow one check to run (ms|s|m|h)
+    --host-add=: Add a custom host-to-IP mapping ("host:ip")
+    --host-rm=: Remove a custom host-to-IP mapping ("host:ip")
+    --hostname=: Container hostname
+    --image=: Service image tag
+    --init: Use an init inside each service container to forward signals and reap processes
+    --isolation=: Service container isolation mode
+    --label-add=: Add or update a service label
+    --label-rm=: Remove a label by its key
+    --limit-cpu=: Limit CPUs
+    --limit-memory=: Limit Memory
+    --limit-pids=: Limit maximum number of processes (default 0 = unlimited)
+    --log-driver=: Logging driver for service
+    --log-opt=: Logging driver options
+    --max-concurrent=: Number of job tasks to run concurrently (default equal to --replicas)
+    --mount-add=: Add or update a mount on a service
+    --mount-rm=: Remove a mount by its target path
+    --network-add=: Add a network
+    --network-rm=: Remove a network
+    --no-healthcheck: Disable any container-specified HEALTHCHECK
+    --no-resolve-image: Do not query the registry to resolve image digest and supported platforms
+    --placement-pref-add=: Add a placement preference
+    --placement-pref-rm=: Remove a placement preference
+    --publish-add=: Add or update a published port
+    --publish-rm=: Remove a published port by its target port
+    --read-only: Mount the container's root filesystem as read only
+    --replicas-max-per-node=: Maximum number of tasks per node (default 0 = unlimited)
+    --replicas=: Number of tasks
+    --reserve-cpu=: Reserve CPUs
+    --reserve-memory=: Reserve Memory
+    --restart-condition=: Restart when condition is met ("none", "on-failure", "any")
+    --restart-delay=: Delay between restart attempts (ns|us|ms|s|m|h)
+    --restart-max-attempts=: Maximum number of restarts before giving up
+    --restart-window=: Window used to evaluate the restart policy (ns|us|ms|s|m|h)
+    --rollback: Rollback to previous specification
+    --rollback-delay=: Delay between task rollbacks (ns|us|ms|s|m|h)
+    --rollback-failure-action=: Action on rollback failure ("pause", "continue")
+    --rollback-max-failure-ratio=: Failure rate to tolerate during a rollback
+    --rollback-monitor=: Duration after each task rollback to monitor for failure (ns|us|ms|s|m|h)
+    --rollback-order=: Rollback order ("start-first", "stop-first")
+    --rollback-parallelism=: Maximum number of tasks rolled back simultaneously (0 to roll back all at once)
+    --secret-add=: Add or update a secret on a service
+    --secret-rm=: Remove a secret
+    --stop-grace-period=: Time to wait before force killing a container (ns|us|ms|s|m|h)
+    --stop-signal=: Signal to stop the container
+    --sysctl-add=: Add or update a Sysctl option
+    --sysctl-rm=: Remove a Sysctl option
+    --ulimit-add=: Add or update a ulimit option
+    --ulimit-rm=: Remove a ulimit option
+    --update-delay=: Delay between updates (ns|us|ms|s|m|h)
+    --update-failure-action=: Action on update failure ("pause", "continue", "rollback")
+    --update-max-failure-ratio=: Failure rate to tolerate during an update
+    --update-monitor=: Duration after each task update to monitor for failure (ns|us|ms|s|m|h)
+    --update-order=: Update order ("start-first", "stop-first")
+    --update-parallelism=: Maximum number of tasks updated simultaneously (0 to update all at once)
+    --with-registry-auth: Send registry authentication details to swarm agents
+    -d, --detach: Exit immediately instead of waiting for the service to converge
+    -q, --quiet: Suppress progress output
+    -t, --tty: Allocate a pseudo-TTY
+    -u, --user=: 'Username or UID (format: <name|uid>[:<group|gid>])'
+    -w, --workdir=: Working directory inside the container
+documentation:
+    command: '[AI] `docker service update` is a command used with Docker Swarm mode to update the configuration of one or more services, such as changing their images, replicas count, or constraints. The updated configuration is then applied to the running services, causing them to be updated or recreated if necessary.'
+    flag:
+        args: '[AI] `docker service update` is a command used to update the configuration of one or more services in a Docker Swarm cluster. The `--args` option allows you to pass custom arguments to the service container when it is updated. These arguments will be passed as environment variables or command-line options, depending on how they are formatted. This can be useful for implementing rolling updates or applying configuration changes without having to rebuild and redeploy the entire container image.'
+        cap-add: '[AI] The `docker service update` command is used to update the configuration of a Docker Swarm service. The `--cap-add` option is one of its flags, which allows you to add Linux capabilities to the container running the updated service. Capabilities are permissions that can be granted to containers beyond what''s included in the default Linux user namespace. By adding specific capabilities with `--cap-add`, you can expand the privileges of the service for various use cases. For example, `--cap-add=NET_ADMIN` might be used if your service requires managing network interfaces. Always use caution when granting additional capabilities to containers as they can increase security risks.'
+        cap-drop: '[AI] The `docker service update` command is used to update the configuration of a Docker service, such as changing its image or restart policy. The option `--cap-drop` allows you to drop (remove) Linux capabilities from the container running the service. Capabilities are special permissions that can be granted to containers for performing specific tasks, such as `SYS_ADMIN` or `NET_ADMIN`. By dropping certain capabilities with `--cap-drop`, you can limit the privileges of the container and enhance security.'
+        config-add: '[AI] `docker service update --config-add` is a command used with Docker Swarm to update the configuration of a running service by adding new files or modifications to existing files in the container''s `/etc/` directory. This command allows you to apply changes to the container''s configuration without having to rebuild and redeploy the entire image. By specifying the `--file` flag followed by the path to the file(s) to be added, the command updates the service with the new configuration and restarts it if necessary.'
+        config-rm: '[AI] The `docker service update` command with the `--config-rm` option is used to update the configuration of a Docker Swarm service and remove unused config files from previous versions after the update. This helps keep the number of config files manageable and avoids potential conflicts. When you run this command, Docker removes the old configuration files for the service that are no longer in use. The updated service will use the new configuration file.'
+        constraint-add: |-
+            [AI] `docker service update` is a command used to update the configuration of one or more services in Docker Swarm mode. The `--constraint-add` option allows you to add constraints to the update process. Constraints are rules that determine which tasks can be selected for an update based on their labels, ports, or other properties. By using `--constraint-add`, you can control which nodes or services will be updated during the process, ensuring availability and maintaining desired service levels. For example:
+
+            ```bash
+            docker service update <service> --constraint-add node.role==worker --constraint-min-replicas=3
+            ```
+
+            This command updates a service named `<service>`, only applying the update to nodes with the label 'role=worker' and maintaining at least 3 replicas of the service.
+        constraint-rm: '[AI] The `docker service update` command with the `--constraint-rm` option is used to update the configuration of Docker Swarm services, removing constraints on the nodes where the updated service will be scheduled. This flag allows you to remove constraints such as labels or availability filters that may limit the number of nodes a service can run on. When you use this command, Docker Swarm reevaluates the placement constraint and schedules the service accordingly based on the new configuration.'
+        container-label-add: '[AI] `docker service update` is a command used to update the configuration of a Docker Swarm service. The `--container-label-add` option allows you to add new key-value pairs as labels to the containers in the service. Labels can be used for various purposes such as filtering or querying containers, services or nodes in the Docker Swarm cluster. By using this command, you can update existing services with additional information without affecting other aspects of the service configuration.'
+        container-label-rm: '[AI] The `docker service update` command is used to update the configuration of a Docker Swarm service. The `--container-label-rm` option removes specified container labels from the updated containers. This means that any custom key-value pairs set as labels on the containers will be deleted during the update process. By removing labels, you can simplify or standardize your container configuration across the service.'
+        credential-spec: |-
+            [AI] The `docker service update` command is used to update the configuration of one or more services in a Docker Swarm cluster. The `--credential-spec` option allows you to specify a custom credentials provider when defining a new service task. This can be useful when dealing with external authentication systems, such as TLS certificates or other forms of secure communication. With this flag, you provide a JSON object describing the credentials provider and its associated details. For example:
+
+            ```json
+            {
+              "LoginConfig": [
+                {
+                  "SecretID": "<service_secret_id>",
+                  "Registry": "<registry>"
+                }
+              ]
+            }
+            ```
+
+            In this JSON snippet, the `<service_secret_id>` is an internal reference to the secret containing your credentials in the Swarm cluster and `<registry>` is the URL of the container registry. The combination of these options ensures secure communication between the updated service tasks and the external registry while maintaining the separation of concerns within your cluster.
+        detach: '[AI] `docker service update` is a Docker Swarm command used to update the configuration of a running service. The `--detach` option detaches the container from its current console output, making it run in the background. When using this flag, you''ll get the new service ID and task IDs as output, which can be used to manage the updated services further. In summary, the command updates a service with a new configuration and runs it in the detached mode.'
+        dns-add: '[AI] The `docker service update` command is used to update the configuration of a Docker Swarm service. The `--dns-add` option allows you to add custom DNS records to the Docker Swarm''s built-in DNS server. When you use this option, Docker will automatically update the service configuration and restart the containers to apply the changes. This can be useful for setting up custom DNS names or aliases for your services in a Docker Swarm environment.'
+        dns-option-add: |-
+            [AI] `docker service update` is a command used to update the configuration of one or more services in Docker Swarm mode. The `--dns-option-add` flag allows you to add custom options to the DNS config for the updated services. This can be useful when you need to modify DNS settings, such as adding custom search domains or modifying record TTL values. For example:
+
+            ```bash
+            docker service update --replics 3 my_service --dns-option-add=search:example.com my_service
+            ```
+
+            This command updates the `my_service` service to have three replicas, and adds the custom DNS search domain `example.com`. Any new DNS queries made by the updated services will include this search domain when looking for hosts.
+        dns-option-rm: '[AI] The `docker service update` command is used to update the configuration of one or more services in a Docker Swarm mode cluster. The `--dns-option-rm` flag is an option that can be passed to this command to remove a specific DNS option from the existing service configuration. When this option is used, Docker will update the service configuration to exclude the specified DNS option. This can be useful when you want to modify the DNS settings for a service without changing any other aspects of its configuration.'
+        dns-rm: '[AI] The `docker service update` command is used to update the configuration of one or more services in a Docker Swarm cluster. The `--dns-rm` option removes the default DNS service from the updated service definition, effectively disabling DNS service discovery for the updated service. This can be useful when an external DNS solution is already in place and managing DNS records separately.'
+        dns-search-add: '[AI] The `docker service update` command is used to update the configuration of Docker Swarm services. The `--dns-search-add` option allows you to append custom DNS search domains when resolving service names in a Docker Swarm environment. This means that when attempting to access a service by name, Docker will also check for subdomains within the appended search domain(s) before resorting to other methods of resolution. This can be useful for environments where services are deployed across multiple nodes or clusters and you want to ensure consistent naming conventions for your applications.'
+        dns-search-rm: '[AI] The `docker service update` command with the `--dns-search-rm` option is used to update the configuration of Docker Swarm services. The `--dns-search-rm` flag removes previously set DNS search domains for the specified service. By removing DNS search domains, you are telling Docker Swarm not to append these domains when resolving hostnames. This can be useful in cases where you want to ensure that only specific DNS servers or domains are used for name resolution.'
+        endpoint-mode: |-
+            [AI] The `docker service update` command is used to update the configuration of Docker Swarm services. The `--endpoint-mode` option specifies how the updated service endpoints should be exposed for connectivity.
+
+            There are two endpoint modes: "dnsrr" and "vip". With the default mode "dnsrr", DNS records are created for each replica, allowing clients to access services using their respective DNS names. The "vip" mode, on the other hand, creates a virtual IP (VIP) address for the service that clients can connect to directly.
+
+            When updating a service with `--endpoint-mode`, you can specify the new mode as an argument:
+
+            ```
+            docker service update <service> --image <image>:<tag> --endpoint-mode <dnsrr|vip>
+            ```
+
+            For example, to update a service named "my_service" using the "vip" endpoint mode and image tag "1.0.3", run:
+
+            ```
+            docker service update my_service --image my_image:1.0.3 --endpoint-mode vip
+            ```
+        entrypoint: |-
+            [AI] `docker service update` is a command used to update the configuration of Docker Swarm services. The `--entrypoint` option allows you to specify a custom entrypoint for the container, overriding the default one defined in the image. This can be useful when you want to run a specific command or script instead of the container's default entrypoint. For example:
+
+            ```bash
+            docker service update <service> --entrypoint my_custom_entrypoint <image>:<tag>
+            ```
+
+            Replace `<service>` with the name of your Docker Swarm service, `my_custom_entrypoint` with the path to your custom entrypoint script or command, and `<image>:<tag>` with the name and tag of the container image. The updated configuration will be applied to all running and newly created replicas of the service.
+        env-add: |-
+            [AI] `docker service update` is a command used in Docker Swarm to update the configuration of a running service. The `--env-add` option allows you to add or modify environment variables for one or more services.
+
+            For example, `docker service update --env-add MY_NEW_KEY=my_new_value my_service` updates the `my_service` with the new environment variable `MY_NEW_KEY=my_new_value`. If the service already had an environment variable with the same key, its value would be replaced.
+
+            This command does not create or remove services; it only updates their configuration. Additionally, changes made using this command are persistent across Docker Swarm manager restarts.
+        env-rm: |-
+            [AI] `docker service update` is a command used to update the configuration of Docker Swarm services. The `--env-rm` option is used to remove (remove `--rm`) and specify environment variables that should no longer be applied to the updated tasks. When using this option, you can provide a JSON array containing key-value pairs for the environment variables to be removed. For example:
+
+            ```bash
+            docker service update <service_name> --env-rm '{"KEY1": "", "KEY2": ""}'
+            ```
+
+            This command updates the configuration of the specified `<service_name>`, and removes the environment variables with keys `"KEY1"` and `"KEY2"` from the updated tasks. This can be useful for removing temporary or no longer needed environment variables when updating your services.
+        force: '[AI] `docker service update --force` is a command used in Docker Swarm to update the configuration of a running service without waiting for the current instance to finish its task. The `--force` option overrides any running tasks and deploys new ones immediately, potentially causing service disruptions if not used carefully. It''s important to note that using this command can lead to data loss if it is applied to services managing persistent data.'
+        generic-resource-add: '[AI] The `docker service update` command is used to update the configuration of one or more services in a Docker Swarm cluster. The specific option `--generic-resource-add` allows you to add custom key-value pairs as resources to the service. These resources can be used by the container to configure its own behavior, and are not managed by Docker Swarm itself. For example, you might use this command to add an environment variable or a configuration file to your container. The syntax is: `docker service update [SERVICE] --generic-resource-add key=value`.'
+        generic-resource-rm: '[AI] The `docker service update` command is used to update the configuration of Docker Swarm services. The `--generic-resource-rm` flag is an optional argument that instructs Docker to remove any generic resources (key-value pairs defined under `[service.spec.template.spec.containers.<container_name>.<key>]`) that don''t have a corresponding update in the new service configuration. By using this flag, you can ensure that only the specified resources are updated and any unwanted changes are discarded. This can help maintain consistency between your desired and actual service configurations.'
+        group-add: '[AI] `docker service update` is a command used to update the configuration of Docker Swarm services. The `--group-add` option is used to add a service to one or more existing service groups. By doing so, the updated service will be scheduled and run alongside the existing services in the specified group, ensuring consistency and coordination between them. This can be useful for scaling or updating multiple related services at once.'
+        group-rm: '[AI] `docker service update` is a command used to update the configuration of one or more services in a Docker Swarm cluster. The `--group-rm` flag specifies that if an update results in removing containers from a service, those containers should be removed as a group instead of individually. This can help ensure that any resources associated with those containers, such as volumes and networks, are also cleaned up properly. Overall, this option streamlines the process of updating services and managing their associated resources within a Docker Swarm environment.'
+        health-cmd: '[AI] `docker service update` is a command used to update the configuration of Docker Swarm services. The `--health-cmd` option sets the command used to check the health of the service tasks. When a task becomes unhealthy, Docker Swarm will attempt to recreate it to maintain the desired number of replicas. By specifying a custom health check command, you can customize the criteria for determining a task''s health status. For instance, you might use this option to ensure that your application is responding on a specific port or to check that a certain log message appears in the container logs.'
+        health-interval: |-
+            [AI] The `docker service update` command with the `--health-interval` option is used to update the configuration of a Docker Swarm service, specifically in relation to its health checking.
+
+            When you run this command, you're updating the defined healthcheck for your service. The `--health-interval` flag sets the time interval, in seconds, between two consecutive health checks. In other words, it specifies how often Docker should check the service to see if it is still healthy.
+
+            For example: `docker service update --health-interval=15s <service_name>` would set the health check interval for the specified service to every 15 seconds. This can be helpful in ensuring that unresponsive or failing services are quickly identified and replaced within your Swarm cluster.
+        health-retries: |-
+            [AI] The `docker service update` command with the `--health-retries` option is used to update the configuration of a Docker Swarm service and change the number of times a container is checked before it is considered unhealthy based on its defined healthcheck.
+
+            The `--health-retries` flag sets the number of consecutive failures allowed for a container to be considered unhealthy. By default, it's set to 3, meaning that if a container fails its healthcheck three times in a row, it will be marked as unhealthy and Docker Swarm will begin to reschedule its tasks.
+
+            You can use this command to update the number of retries for an existing service by specifying the `--service` flag followed by the name or ID of the service you want to modify, like so:
+            ```css
+            docker service update --health-retries=5 my_service
+            ```
+            This will update the configuration of the 'my\_service' service and change the number of healthcheck retries from 3 to 5.
+        health-start-period: '[AI] The `docker service update` command is used to update the configuration of Docker Swarm services. The `--health-start-period` option sets the length of time, in seconds, that a task must be running and passing the specified health checks before it is considered "healthy" by the service. This means that if a service has a defined health check and you set a long `--health-start-period`, newly updated tasks will take longer to be marked as healthy and ready to receive traffic from a load balancer or replica set. The default value for this flag is 30 seconds.'
+        health-timeout: '[AI] The `docker service update` command is used to update the configuration of Docker Swarm services. The `--health-timeout` flag sets the duration for which a failed initial health check should be considered unhealthy before being removed from the active service replicas. This flag helps in balancing between ensuring service availability and enforcing desired health checks. If not specified, the default value is 30 seconds.'
+        host-add: '[AI] The `docker service update` command with the `--host-add` flag is used to update the configuration of a Docker Swarm service and add a new host port mapping or IP address to the container''s Docker daemon on the manager node. This flag allows you to map a port or IP from the host to the container, enabling external access or communication between services. The syntax is as follows: `docker service update [SERVICE] --image [IMAGE]:[TAG/@DIGEST] --host-add=[HOST]:[PORT]/[IP]:[PORT]/[IP]:[PORT]`. Here, `[SERVICE]` is the name or ID of the Docker Swarm service you want to update, `[IMAGE]` is the name and tag of the container image to be used for the updated service, and `[HOST]`, `[PORT]`, `[IP]`, and `[PORT]/[IP]:[PORT]` are the details of the host mapping you want to add.'
+        host-rm: '[AI] The `docker service update` command with the `--host-rm` flag is used to update the configuration of a Docker Swarm service, and remove the container from the host if it''s not able to be updated. This flag ensures that the old container is removed after the new one has been successfully created and started. It can help manage resources effectively by removing containers that are no longer needed once their updates have been applied.'
+        hostname: '[AI] The `docker service update` command with the `--hostname` option is used to update the service definition of a Docker Swarm service and set a new hostname for the service replicas. When you run this command, Docker updates the service''s configuration file, applying any changes provided in the new service definition, and sets the specified hostname for the newly created or updated replicas. This hostname will be used as the primary identifier for the service replicas within the Swarm cluster.'
+        image: '[AI] `docker service update --image` is a command used in Docker Swarm to update the image of a running service. When you run this command followed by the service name and image tag, Docker pulls the new image from the registry and restarts the service using the updated image. This can be useful for deploying new version of applications or fixing vulnerabilities in running services.'
+        init: '[AI] The `docker service update --init` command is used to update the configuration of a Docker Swarm service, applying new changes and re-deploying the service tasks if necessary. The `--init` option ensures that any new tasks are initialized with their first task run, making it suitable for updates that involve new configurations or images. This command does not roll out updates incrementally but instead replaces existing tasks with new ones in a single step.'
+        isolation: '[AI] `docker service update --isolation` is a command used in Docker Swarm mode to update the runtime isolation or container runtime for one or more services. Isolation refers to the security measures applied to a container, such as using privileged containers or custom base images. By updating the isolation, you can apply new security policies or use different container runtimes without having to recreate the service entirely. This command takes the name of the service as an argument and may be followed by other options like `--replicated` to specify how many replicas should be updated at once.'
+        label-add: '[AI] `docker service update` is a command used to update the configuration of Docker Swarm services. The `--label-add` option allows you to add new key-value labels to the service. This can be useful for adding metadata or tags to services for easier identification and management. When you run `docker service update --label-add <key>=<value> <service>`, it updates the configuration of the specified service with the added label.'
+        label-rm: '[AI] `docker service update` is a command used to update the configuration of Docker Swarm services. The `--label-rm` option removes (rm) labels from the updated service instances. When you run this command, Docker will update the service with any new configuration changes and remove any specified labels. This can be useful for managing and organizing your services, as you can easily add or remove labels as needed without affecting the underlying container images or configurations.'
+        limit-cpu: '[AI] The `docker service update` command is used to update the configuration of Docker Swarm services. The `--limit-cpu` option sets a limit on the amount of CPU resources that can be consumed by the updated service. By using this flag, you can specify the desired CPU quota or percentage for your containerized application. This can help ensure that your containers do not consume excessive CPU resources and impact the performance of other services in your Swarm cluster.'
+        limit-memory: '[AI] The `docker service update` command is used to update the configuration of Docker Swarm services. The `--limit-memory` option sets a memory limit for the containers in the service. By using this flag, you can restrict the amount of memory that the containers in the service can use, which can help prevent resource contention and improve the stability of your Swarm cluster. When you run this command, Docker will update the configuration of the specified service with the new memory limit.'
+        limit-pids: '[AI] The `docker service update` command is used to update the configuration of one or more services in a Docker Swarm cluster. The `--limit-pids` option sets the maximum number of Process IDs (PIDs) that can be created by containers in the updated service. This can be useful for limiting the resource usage of a service or to prevent containers from creating too many processes, which could lead to system instability. For example, `docker service update --limit-pids 10 my_service` would update the configuration of service "my\_service" to allow a maximum of 10 PIDs per container.'
+        log-driver: '[AI] The `docker service update` command is used to update the configuration of one or more services in a Docker Swarm cluster. The `--log-driver` option specifies which log driver to use when deploying or updating the service. Log drivers determine how Docker collects and displays logs for containers. By default, Docker uses the `json-file` log driver, but you can change it to other available drivers like `journald`, `syslog`, `awslogs`, etc., depending on your specific use case and infrastructure requirements.'
+        log-opt: '[AI] `docker service update` is a command used to update the configuration of one or more services in a Docker Swarm cluster. The `--log-opt` flag is an optional argument that modifies the logging output when updating a service. It allows specifying log options such as maximum log size, maximum number of logs per service, and other settings. This can help manage and optimize the logging output for easier monitoring and troubleshooting.'
+        max-concurrent: '[AI] The `docker service update` command with the `--max-concurrent` option is used to update the configuration of Docker Swarm services in a controlled manner. This option sets the maximum number of tasks that can be updated or replaced at the same time for a service. By default, this value is set to 1, meaning only one task will be updated or replaced at a time. Setting `--max-concurrent` to a higher number allows more tasks to be updated concurrently, reducing the overall update time but increasing the risk of potential instability during the update process. The exact number to use depends on your specific use case and infrastructure capacity.'
+        mount-add: |-
+            [AI] `docker service update` is a command used to update the configuration of one or more services in a Docker Swarm cluster. The `--mount-add` option allows you to add or modify bind mounts for the updated task.
+
+            When you use `docker service update --mount-add <service>`, you're updating the definition of the specified service and adding or modifying the bind mounts for new tasks that will be created as a result of the update. The new tasks will have access to the added volumes, and any data written to those volumes will be persisted.
+
+            Here is an example: `docker service update --replics 3 my-service --mount-add type=bind,src=/path/on/host,dst=/path/in/container my-service`. This command updates the `my-service` with 3 replicas and adds a bind mount from the host at `/path/on/host` to the container at `/path/in/container`.
+        mount-rm: '[AI] The `docker service update` command is used to update the configuration of one or more services in a Docker Swarm cluster. The `--mount-rm` option specifies that any volumes that are no longer being used by the updated service should be removed. This can help keep the volume usage in the cluster tidy and efficient. When you use this option, Docker will automatically detect which volumes are no longer needed and remove them. Note that this operation is irreversible, so make sure to back up any important data before using `--mount-rm`.'
+        network-add: '[AI] `docker service update --network-add` is a command used in Docker Swarm mode to add an existing network to one or more running services. This command modifies the configuration of the specified services by updating their network connections without changing their images or code. By doing so, it enables communication between services connected to different networks in the swarm.'
+        network-rm: |-
+            [AI] The `docker service update` command is used to update the configuration of one or more services in a Docker Swarm mode cluster. The `--network-rm` option flags specifies that any networks associated with the updated service should be removed once the update is complete.
+
+            When you run this command, Docker will pull the latest image for the specified service if it has been updated, and then apply the new configuration. Once the update is successful, the old network(s) associated with the service will be automatically removed. If no new network is defined in the updated configuration, no new network will be created.
+
+            In summary, `docker service update --network-rm` is used to update services and remove their associated networks in a Docker Swarm mode cluster.
+        no-healthcheck: '[AI] The `docker service update` command with the `--no-healthcheck` option is used to update the configuration of a Docker Swarm service without modifying or setting its associated healthcheck. This means that the new image or configuration will be deployed, but any existing healthchecks will remain unchanged. If you want to modify or set a new healthcheck, you should use other flags like `--constraint` or `--publish-ready-delay` instead.'
+        no-resolve-image: '[AI] The `docker service update` command is used to update the configuration of one or more services in a Docker Swarm cluster. The `--no-resolve-images` flag is an option that can be passed with this command to prevent Docker from pulling new versions of images if they are not already present on the node where the update command is being run. This flag is useful when you want to ensure that the services are updated using specific, locally available image versions rather than pulling in new versions from a registry.'
+        placement-pref-add: '[AI] `docker service update` is a command used in Docker Swarm to update the configuration of running services. The `--placement-pref-add` option allows you to add or modify placement constraints for a service. These constraints determine where the replicas of a service should be scheduled, based on factors such as node labels or availability zones. By using `--placement-pref-add`, you can update existing placement preferences or add new ones, influencing the distribution and placement of your service''s replicas.'
+        placement-pref-rm: '[AI] The `docker service update` command is used to update the configuration of a Docker Swarm service. The `--placement-prefer-rm` (remove and replace) flag instructs Docker Swarm to remove an existing replica of the service before deploying a new one with updated configuration. This can be useful when making breaking changes that require downtime for the affected service.'
+        publish-add: '[AI] `docker service update --publish-add` is a command used in Docker Swarm to update the configuration of a running service by adding new publish rules for incoming network traffic. Publish rules define how the service can be accessed from other networks or services. By using `--publish-add`, you can add additional port mappings to an existing service without affecting its other properties or requiring a new service creation.'
+        publish-rm: '[AI] `docker service update` is a command used to update the configuration of one or more services in a Docker Swarm cluster. The `--publish-rm` option is used to remove previously published ports when updating a service. This means that if you have published ports for a service and then update its configuration, those old published ports will be removed and any new ports specified in the updated configuration will take their place. This can help keep your network configurations clean and up-to-date.'
+        quiet: '[AI] The `docker service update --quiet` command is used to update the configuration of one or more services in a Docker Swarm cluster without displaying any output other than error messages. This can be useful when running automated scripts, as it allows for the execution of subsequent commands without the interruption of excessive console output.'
+        read-only: '[AI] The `docker service update` command is used to update the configuration of a Docker Swarm service. The `--read-only` option is an argument that restricts the update process so that only the configuration can be changed, and no containers are recreated or rolled back. This means that any changes made will take effect during new container deployments but won''t affect existing running containers. This flag can be useful when making non-disruptive updates to a service with minimal downtime.'
+        replicas: '[AI] The `docker service update` command with the `--replicas` option is used to update the number of replicas for a Docker Swarm service. This means that you can change the desired number of instances of your service running in your cluster. The updated configuration will be rolled out across your swarm, ensuring that the new configuration takes effect while minimizing downtime. It''s important to note that the `--replicas` flag only affects the desired state of your service, and any existing replicas that are not yet updated will continue running with their current configuration until they are replaced during the update rollout.'
+        replicas-max-per-node: '[AI] `docker service update` is a command in Docker Swarm to update the configuration of a running service. The specific option `--replicas-max-per-node <num>` sets the maximum number of replicas that can run on each node in the swarm for that particular service. This can be useful in scenarios where you want to limit the resource usage or ensure high availability by distributing replicas across more nodes.'
+        reserve-cpu: '[AI] `docker service update` is a command used to update the configuration of one or more services in a Docker Swarm cluster. The `--reserve-cpu` flag is an option that can be used with this command to reserve a specified amount of CPU resources for the updated service. This ensures that the service always has access to a minimum amount of CPU resources, preventing other services from taking away resources that are critical for its operation.'
+        reserve-memory: |-
+            [AI] The `docker service update` command is used to update the configuration of Docker Swarm services. The `--reserve-memory` flag is an option that allows you to specify a soft limit and a hard limit for the memory usage of your service containers.
+
+            When using this flag, if the container requires more memory than what's specified as its soft limit but less than the hard limit, Docker Swarm will try to find additional resources on other nodes in the cluster to accommodate the request. However, if the container requires more memory than what's specified as its hard limit, Docker Swarm will reject the update and roll back to the previous configuration.
+
+            The purpose of using `--reserve-memory` is to prevent out-of-memory situations and ensure that the containers have a minimum amount of available memory for optimal performance.
+        restart-condition: |-
+            [AI] `docker service update` is a command used to update the configuration of Docker Swarm services. The `--restart-condition` option specifies when a service should be restarted based on its desired state:
+
+            1. `any` (default): A service is restarted whenever any task fails or becomes unhealthy.
+            2. `on-failure`: A service is only restarted when a specific task fails, not when it becomes unhealthy.
+            3. `unhealthy`: A service is restarted when any task becomes unhealthy, regardless of whether it has failed.
+
+            This option helps control the behavior of service updates in Docker Swarm and ensures desired services are always running as intended.
+        restart-delay: |-
+            [AI] The `docker service update` command with the `--restart-delay` option is used to update the configuration of a Docker Swarm service, and specifically changes how a service is restarted after a failure.
+
+            The `--restart-delay` flag sets the amount of time (in seconds) that Docker should wait before attempting to restart a failed service instance. This delay can be useful in certain situations where you want to give a new instance time to fully start up and become ready before replacing a failing one, especially when dealing with stateful services or long-running processes.
+
+            For example, `docker service update --restart-delay=30s <service>` would set a 30-second delay before attempting to restart any failed instances of the specified service.
+        restart-max-attempts: '[AI] The `docker service update` command with the `--restart-max-attempts` option is used to update the configuration of a Docker Swarm service, and specifically sets the maximum number of times Docker will attempt to restart a failed task before giving up. This can be useful in scenarios where you want to ensure that a critical service remains running, but also don''t want to indefinitely spin up new tasks if they consistently fail. By setting `--restart-max-attempts`, you can limit the number of attempts Docker makes before moving on to other solutions, such as manually investigating and addressing the underlying issue.'
+        restart-window: '[AI] The `docker service update` command with the `--restart-window` option is used to update the configuration of a Docker Swarm service and change its restart policy. The `--restart-window` flag sets a time window within which the service will be automatically restarted if it fails, rather than immediately. This allows for some grace period before the service is forcefully brought down and recreated. For example, `--restart-window 15s` sets a 15 second window.'
+        rollback: '[AI] `docker service update --rollback` is a command used in Docker Swarm to roll back a service to its previous version. When you deploy a new service image or configuration, there might be issues that require you to revert back to the previous state. With this command, you can specify the revision number of the service to roll back to, and Docker Swarm will update the service with the previous image or configuration. It helps in quickly reverting changes and troubleshooting deployment issues.'
+        rollback-delay: '[AI] The `docker service update` command with the `--rollback-delay` option is used to roll back a Docker service to its previous version, but with a delay before attempting the rollback again. This can be helpful in cases where you want to give time for any potential issues caused by the new version to be resolved, without completely removing the new version and losing its benefits. The delay is specified in seconds and can be set to any desired value. For example, `--rollback-delay 3600` would cause Docker to wait one hour before attempting another rollback if the initial rollback fails.'
+        rollback-failure-action: |-
+            [AI] The `docker service update` command with the `--rollback-failure-action` flag is used when rolling back a Docker Swarm service update. This flag determines what action should be taken if the rollback fails, such as:
+
+            * `pause`: The service will pause and remain in its current state until the failure can be resolved.
+            * `restart`: The failed task will be restarted automatically to recover from the failure.
+            * `remove-and-recreate`: The failed task will be removed and a new one will be created, effectively discarding any changes made during the update.
+
+            This flag provides an additional layer of control when updating services in Docker Swarm, allowing for more robust handling of potential failures.
+        rollback-max-failure-ratio: '[AI] The `docker service update` command with the `--rollback-max-failure-ratio` option is used to perform a rollback of a Docker Swarm service if a specified percentage of tasks fail during an update. The flag takes an integer value between 0 and 1, representing the maximum number of failed tasks as a ratio of total tasks. For example, a value of `0.5` would allow up to half of the tasks to fail before triggering a rollback. This can be useful in controlling the risk and impact of service updates.'
+        rollback-monitor: '[AI] `docker service update --rollback-monitor` is a command used in Docker Swarm to perform a rolling update of a service with an extra safety feature: it enables automatic rollbacks if any replica encounters an error during the update process. When this option is set, Docker will monitor the health of all replicas and if it detects that one or more have failed to start or are unhealthy, it will automatically rollback the service back to its previous version. This can help minimize downtime and ensure high availability by quickly recovering from update failures.'
+        rollback-order: |-
+            [AI] `docker service update --rollback-order` is a command used in Docker Swarm to manage updates of replicated services. It sets the rollback order for service updates, which determines the order in which replicas are updated or rolled back during an update or failure event.
+
+            By default, Docker Swarm performs rolling updates, updating one replica at a time and monitoring its health before moving on to the next. However, there might be cases where you want to control the rollback order to ensure that specific replicas are updated first or last.
+
+            The `--rollback-order` flag accepts a comma-separated list of replica indices (0-based) representing the desired rollback order. For instance:
+
+            ```
+            docker service update <service> --rollback-order 1,3,2
+            ```
+
+            This command would update or roll back the services in the following order: replica 1, then replica 3, and finally replica 2. By defining this order, you can ensure that certain replicas have higher availability during updates or can be prioritized for rolling back to a previous state if needed.
+        rollback-parallelism: '[AI] `docker service update --rollback-parallelism` is a command used with Docker Swarm to perform a parallel rollback of replicas for a specific service. When an update fails, this command allows you to revert back to the previous healthy state by rolling back multiple replicas at once in a parallel fashion, improving the recovery process and reducing downtime. The number of replicas rolled back in parallel can be specified using the `--rollback-parallelism` option.'
+        secret-add: |-
+            [AI] `docker service update` is a command used to update the configuration of one or more services in a Docker Swarm cluster. The `--secret-add` option allows you to add a secret file to one or more services during an update.
+
+            This flag takes a source file path as its argument, and the secret data will be encrypted and securely stored in the swarm's secret store. Once the service is updated, it can access the secret using its name, which you define when adding the secret file. This method is useful for managing sensitive configuration data, such as passwords or API keys, while maintaining security within your Docker Swarm cluster.
+        secret-rm: '[AI] The `docker service update` command is used to update the configuration of Docker Swarm services. The specific flag `--secret-rm <SECRET_ID>` is used to remove a secret from the service. When this flag is provided, the specified secret with the given ID will be removed during the update process. This can be useful when you want to replace an old secret with a new one and no longer need the old one.'
+        stop-grace-period: '[AI] The `docker service update` command is used to update the configuration of Docker Swarm services. The `--stop-grace-period` option sets the time (in seconds) before a service that is being updated will be stopped and replaced with the new version. If not specified, it defaults to 30 seconds. When using this flag, you can specify a duration to give containers in the service more time to gracefully stop before they are force-stopped during the update process.'
+        stop-signal: '[AI] The `docker service update` command with the `--stop-signal` option is used to update the configuration of a Docker Swarm service, specifically changing the signal used to stop the service''s tasks. When you want to gracefully stop a service and give its containers some time to perform a controlled shutdown before terminating them forcefully, this option comes in handy. The `--stop-signal` flag accepts a signal name as an argument (for instance, `SIGTERM` or `SIGINT`) which is sent to the containers running under the service when it''s time for them to gracefully exit. This ensures that the application being containerized has ample opportunity to save its state and perform any necessary cleanup before termination.'
+        sysctl-add: '[AI] The `docker service update` command is used to update the configuration of a Docker service in Swarm mode. The `--sysctl-add` flag allows you to add or modify sysctls (kernel parameters) for the containers in the service. This can be useful if you need to adjust certain system settings for optimal performance or compatibility with your application. By using `--sysctl-add key=value`, you''re setting the specified sysctl key and value for the service, affecting all its replicas.'
+        sysctl-rm: '[AI] The `docker service update` command is used to update the configuration of Docker services. The specific option `--sysctl-rm` allows you to remove (rm) specified sysctls (kernel parameters) from the container''s runtime. This can be useful when you want to modify the default behavior of a container or host kernel for that container. For example, if you have a container running an application that uses more memory than the default limit, you can use `--sysctl-rm` option to remove the memory limit sysctl and set a higher value. This way, the container can utilize more memory without being constrained by the default limit.'
+        tty: '[AI] The `docker service update` command is used to update the configuration of one or more services in a Docker Swarm cluster. The `--tty` option is an optional argument that requests the container output to be allocated a TTY (Teletype) resource. In other words, it enables textual interaction with containers, allowing you to attach a console to them when they''re running. By default, Docker services do not run with a TTY attached, but in some cases, especially when dealing with applications that rely on user input or require complex setup, having a TTY can be essential.'
+        ulimit-add: '[AI] The `docker service update` command is used to update the configuration of a Docker Swarm service. The `--ulimit-add` flag allows you to add new Linux resource limits (ulimits) to the container that runs the service. By using this option, you can adjust the maximum values for resources like CPU usage, memory usage, or number of open files, ensuring your containers have the required resources to run effectively while preventing them from consuming more than allowed.'
+        ulimit-rm: '[AI] `docker service update` is a Docker Swarm command for updating the configuration of running services. The `--ulimit-rm` option is used to remove unused limit resources, such as memory and CPU, when updating a service. By using this option, you allow Docker to automatically adjust resource limits based on current usage, improving efficiency and reducing resource waste in your Swarm cluster.'
+        update-delay: |-
+            [AI] The `docker service update` command with the `--update-delay` option is used to control the frequency of updates for a Docker Swarm service. This option sets a delay before Docker attempts to update a service instance that has failed during an update process.
+
+            The `--update-delay` flag accepts a duration value in seconds, minutes or hours format. For example, `--update-delay 1h` sets the delay to one hour. The purpose of this delay is to give time for any issues encountered during an update to be resolved before another update attempt is made, helping to prevent unnecessary service disruptions and potential rollbacks.
+        update-failure-action: |-
+            [AI] The `docker service update` command is used to update the configuration of Docker Swarm services. The `--update-failure-action` flag determines what action to take when an update fails for a service:
+
+            1. `rollback` (default): Revert the service back to its previous configuration after an update failure.
+            2. `pause`: Stop the service updates and leave them in the failed state until manually intervened.
+            3. `fail`: Immediately terminate and remove a service instance when an update fails, which could result in data loss depending on your application's design.
+            4. `restart <N>`: Restart a specified number (`<N>`) of services instances after an update failure, allowing the remaining ones to continue operating.
+        update-max-failure-ratio: '[AI] The `docker service update` command with the `--update-max-failure-ratio` option is used to configure the maximum number of tasks that can fail during an update before Docker Swarm marks the update as failed. This flag accepts a value between 0 and 1, where 0 means no tasks are allowed to fail (a strict update) and 1 means all tasks are allowed to fail (a rolling update with no constraints). A common value used in practice is 0.1 which means up to 10% of the tasks can fail during an update before it''s considered failed. This flag helps manage risk when updating services in a Swarm cluster, as it allows for a degree of tolerance for potential failures while still maintaining some level of service availability.'
+        update-monitor: '[AI] `docker service update --update-monitor` is a command used with Docker Swarm to update the configuration of a specific service, making it apply changes incrementally and monitoring the progress of the update. This means that the service will be updated in a canary fashion, with new replicas being added gradually while old ones are phased out. The `--update-monitor` flag allows you to see the status of the update process in real time, including the number of successful and failed tasks. It''s particularly useful when deploying changes that might require rollbacks or have potential for downtime.'
+        update-order: |-
+            [AI] `docker service update` is a command in Docker Swarm to update the configuration of one or more services. The `--update-order` flag determines the order of updating tasks:
+
+            1. **Rolling Update (default)**: Services are updated one at a time, with active tasks being progressively replaced by updated tasks. This minimizes downtime but may result in uneven distribution of updates across replicas.
+            2. **Strict Order**: All tasks are updated as a group. No task is updated until all other tasks have been successfully updated. This ensures consistent state across services but may result in longer downtime.
+            3. **Random Update**: Tasks are updated at random. Useful when you don't care about the order of updates and want to distribute them evenly.
+
+            By using `--update-order` flag, you can choose which updating strategy is best for your use case to minimize downtime or ensure consistency.
+        update-parallelism: '[AI] `docker service update` is a command used to update the configuration of Docker Swarm services. The `--update-parallelism` option specifies the maximum number of services that can be updated at the same time in parallel. This flag helps in managing the rate of updates and ensuring the desired state is reached gradually without overwhelming the system. By default, all services will be updated at once which could potentially cause downtime or resource contention, making `--update-parallelism` an essential option for controlled updates.'
+        user: '[AI] The `docker service update` command is used to update the configuration of one or more services in a Docker Swarm cluster. The `--user` option sets the RBAC user or role that will be used to perform the update. This allows for fine-grained access control, ensuring that only specific users or roles can make changes to the services. By default, the root user is used if no `--user` flag is provided.'
+        with-registry-auth: '[AI] `docker service update` is a command used in Docker Swarm to update the configuration of one or more services. The `--with-registry-auth` option is used when updating a service that pulls images from a registry requiring authentication. With this flag, you provide a JSON key file containing the authentication details (username, password, email, and client certificate, if applicable), allowing Docker to authenticate and pull the updated image for service update.'
+        workdir: '[AI] The `docker service update` command is used to update the configuration of a Docker Swarm service. The `--workdir` option sets the working directory for containers in the updated service. When you run `docker service update --workdir <path> <service>`, Docker will update the specified service''s definition with the new work directory, and all new containers created from the updated definition will use this path as their initial working directory. This can be useful when you want to ensure that all containers within a service start with a consistent base directory.'

@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: mark-control-plane
+description: Mark a node as a control-plane
+flags:
+    --config=: Path to kubeadm config file.
+    --control-plane: Create a new control plane instance on this node
+    --node-name=: Specify the node name.
+documentation:
+    command: '[AI] The command `kubeadm join --phase=control-plane-join --mark-control-plane` is used to mark a node as a control plane node in a Kubernetes cluster managed by Kubeadm. This command should be executed on the new node that you want to add to the existing control plane nodes. The `--phase=control-plane-join` flag indicates that the node will join the control plane, and the `--mark-control-plane` flag sets the node''s role as a control plane node in the cluster. Once the command completes successfully, the new node will be able to participate in controlling and managing the cluster along with other control plane nodes.'
+    flag:
+        config: |-
+            [AI] `kubeadm join` is a command used to join worker nodes to a Kubernetes cluster managed by `kubeadm` on a control plane node. The option `--config <path>` specifies the configuration file for joining the node to the cluster.
+
+            The additional flag `control-plane-join mark-control-plane --true` is used to mark the joining node as a control plane node, rather than a worker node. This flag sets the node's role as a control plane component, such as etcd member, kubelet, and so on.
+
+            The combined command `kubeadm join <control-plane-node>:<port> --config <path> control-plane-join mark-control-plane --true` joins the node to the cluster specified by the control plane node's address and port, with the new node being marked as a control plane node.
+        control-plane: |-
+            [AI] The `kubeadm join` command is used to join a worker node to a Kubernetes cluster managed by `kubeadm`. The option `--control-plane` sets the node as a control plane node, which is responsible for managing the cluster and running components like etcd, kube-apiserver, and kube-controller-manager.
+
+            The specific flag `control-plane-join mark-control-plane --control-plane` instructs `kubeadm join` to perform the control plane joining process in a two-step approach:
+
+            1. `mark-control-plane`: This step marks the node as a potential control plane node, but it does not activate any control plane components yet. This is useful when adding multiple nodes that will serve as control planes.
+            2. `--control-plane`: Once all potential control plane nodes have been identified, this flag activates the control plane components on each of them. It also sets up necessary networking and security configurations, such as TLS certificates, firewall rules, and pod network.
+
+            By using these flags together, you ensure that a node is marked as a control plane node and eventually activated with the required control plane components to effectively manage your Kubernetes cluster.
+        node-name: |-
+            [AI] `kubeadm join` is a command-line tool used to join worker nodes to a Kubernetes cluster managed by `kubeadm`, a tool for bootstrapping and managing Kubernetes clusters. The option `--control-plane-join` instructs the node to become a control plane node, which is responsible for running the Kubernetes control plane components like etcd, kube-apiserver, kube-controller-manager, and kube-scheduler.
+
+            The flag `mark-control-plane` signals that the joining process should be marked as a control plane node in the cluster once it has successfully joined. The complete command:
+
+            ```bash
+            kubeadm join <cluster-master> --control-plane-join --mark-control-plane --node-name=<node-name>
+            ```
+
+            This command will join `<node-name>` to the cluster running on `<cluster-master>` and mark it as a control plane node.

@@ -1,0 +1,40 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: set-last-applied -f FILENAME
+description: Set the last-applied-configuration annotation on a live object to match the contents of a file
+flags:
+    --allow-missing-template-keys: If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
+    --create-annotation: Will create 'last-applied-configuration' annotations if current objects doesn't have one
+    --dry-run?: Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
+    --show-managed-fields: If true, keep the managedFields when printing objects in JSON or YAML format.
+    --template=: Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates [http://golang.org/pkg/text/template/#pkg-overview].
+    -f, --filename*=: Filename, directory, or URL to files that contains the last-applied-configuration annotations
+    -o, --output=: 'Output format. One of: (json, yaml, name, go-template, go-template-file, template, templatefile, jsonpath, jsonpath-as-json, jsonpath-file).'
+documentation:
+    command: '[AI] The `kubectl apply` command is used to deploy or update Kubernetes resources based on a given YAML file. The `set-last-applied` subcommand is not a standard kubectl command, but rather an internal GitOps tool command that sets the last applied revision for a specific resource in a Git repository managing Kubernetes resources using a GitOps workflow, such as FluxCD or ArgoCD. This command updates the metadata of the resource file with the current Git commit SHA, ensuring that the deployed resource corresponds to the latest version in the Git repository and promoting reconciliation between the Git repository and the live Kubernetes cluster.'
+    flag:
+        allow-missing-template-keys: |-
+            [AI] `kubectl apply` is a command used to deploy or update Kubernetes resources from a given YAML file. The `set-last-applied` flag modifies the behavior of this command when updating a resource that already exists in the cluster.
+
+            When you use `apply` without any flags, it will only apply changes that are different between your local YAML file and the current state of the resource in the cluster. However, if there are keys or values missing in your YAML file compared to the existing resource in the cluster, `apply` will fail.
+
+            With the `--allow-missing-template-keys` flag, `apply` allows you to apply changes even when some keys or values are missing in your local YAML file compared to the current state of the resource in the cluster. This can be useful if you want to incrementally update a large YAML file and don't mind losing some configuration that is already present in the cluster but not in your local copy.
+
+            It's important to note that using this flag may lead to unintended consequences, as it can result in resources having different configurations between your local YAML file and the actual state of the resource in the cluster. Always be careful when using `--allow-missing-template-keys` or any other flags that modify the default behavior of `apply`.
+        create-annotation: '[AI] `kubectl apply` is a command in Kubernetes used to deploy or update resources based on definitions in YAML files or through standard input. The `set-last-applied` subcommand modifies the last applied revision of an object''s annotations in the etcd store, while the `--create-annotation` flag creates a new annotation with the given key and value if it doesn''t exist already. In summary, using `kubectl apply set-last-applied --create-annotation <annotationKey> <annotationValue>` will update the last applied revision of the resource''s annotations and create or modify an existing annotation with the provided key and value.'
+        dry-run: |-
+            [AI] `kubectl apply` is a command in Kubernetes used to create, update, or delete resources based on the configuration files or manifests. The `set-last-applied` argument is used with the `--dry-run` option.
+
+            `--dry-run` mode shows what would be done without actually applying the changes. It provides a preview of the actions kubectl will take if you run apply for real.
+
+            `set-last-applied` specifically refers to updating an existing Kubernetes resource with a new manifest file. This flag tells `kubectl apply` to update the last-applied configuration of a specific resource, rather than creating a new one or deleting it. By using this option with `--dry-run`, you can simulate the effect of updating an existing resource without actually making the change in your cluster.
+        filename: '[AI] `kubectl apply` is a command in Kubernetes used to deploy or update resources based on the configuration files specified with the `--filename` flag. The `set-last-applied` subcommand, when used with `apply`, sets the manifest file most recently applied as the current context''s `LastAppliedConfiguration`. This can be useful when managing multiple configurations for a resource and you want to keep track of which configuration is currently in use by Kubernetes.'
+        output: |-
+            [AI] `kubectl apply` is a command-line tool used to deploy or update Kubernetes resources based on the configuration files provided. The `set-last-applied` argument with `--output` option is used to set the last applied configuration for a given resource, and then output that information. Specifically:
+
+            * `set-last-applied` updates the annotation `kubectl.kubernetes.io/last-applied-configuration` in the resource's metadata with the current YAML configuration.
+            * `--output jsonpath="{range .items[*]}{.metadata.annotations.kubectl\.kubernetes\.io\/last-applied-configuration}{'\n'}"` is used to output the value of that annotation as JSON in separate lines for each affected resource in the current context.
+        show-managed-fields: '[AI] `kubectl apply` is a command used to deploy or update Kubernetes resources based on the configuration files or using imperative mode. The `set-last-applied` argument is used with the `apply` command to set the last applied configuration for a resource, i.e., to mark a specific version of a resource as the one currently managed by `kubectl`. The `--show-managed-fields` option displays the fields that have been changed in the current manifest after merging it with the existing resources. This can be helpful when you want to see exactly what changes will be applied before committing them.'
+        template: |-
+            [AI] `kubectl apply` is a command used to deploy or update Kubernetes resources from a file or standard input. The `set-last-applied` argument is an option that sets the last successfully applied hunk of a patch file when using `apply` with a patch file created by `kubectl diff`. This can be useful for applying only the latest changes in a series of patches, ensuring that any conflicts or errors are addressed before proceeding.
+
+            The `--template` option is used to generate an output as a template for a Kubernetes manifest file instead of actually applying it. When combined with `set-last-applied`, it allows you to extract the latest patch and apply it manually or use it as input for further processing without affecting the actual cluster. This can be helpful when performing complex deployments, testing changes before rollout, or troubleshooting issues in a controlled manner.

@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: node
+description: Upgrade commands for a node in the cluster
+flags:
+    --certificate-renewal: Perform the renewal of certificates used by component changed during upgrades.
+    --dry-run: Do not change any state, just output the actions that would be performed.
+    --etcd-upgrade: Perform the upgrade of etcd.
+    --ignore-preflight-errors*=: 'A list of checks whose errors will be shown as warnings. Example: ''IsPrivilegedUser,Swap''. Value ''all'' ignores errors from all checks.'
+    --kubeconfig=: The kubeconfig file to use when talking to the cluster. If the flag is not set, a set of standard locations can be searched for an existing kubeconfig file.
+    --patches=: Path to a directory that contains files named "target[suffix][+patchtype].extension".
+    --skip-phases*=: List of phases to be skipped
+documentation:
+    command: '[AI] `kubeadm upgrade node` is a command used to perform an in-place Kubernetes node upgrade with kubeadm. It downloads, configures, and installs the latest version of Kubernetes control plane components on a given node, while also updating the kubelet and container runtime (such as Docker or CRI-O) if necessary. The command assumes that the cluster version has been set in the kubeadm configuration file and that the etcd data and certificates are backed up before running the upgrade to ensure data consistency. It is important to note that this command should be run on each node in the cluster one at a time to minimize disruption to the overall Kubernetes cluster.'
+    flag:
+        certificate-renewal: '[AI] `kubeadm upgrade node` is a command used to perform an in-place Kubernetes cluster upgrade with kubeadm, which is a tool for initializing and managing a Kubernetes cluster. The `--certificate-renewal` flag is an optional argument that instructs the command to renew the certificate authorities (CAs) for all components of the Kubernetes control plane during the upgrade process. This helps maintain the security of your cluster by ensuring that the certificates are up-to-date and not expired or compromised. The new certificates will be signed with a CA that is updated during the upgrade, and all nodes in the cluster will need to be re-joined after the control plane components have been upgraded.'
+        dry-run: '[AI] `kubeadm upgrade node` is a command used to perform an in-place Kubernetes cluster upgrade using kubeadm. The `--dry-run` flag is an optional argument that is used to test the effect of the command without actually executing it. In other words, when you run `kubeadm upgrade node --dry-run`, it will simulate the upgrade process and print out the changes that would be made if the command were run with the `--apply` flag instead. This can help you understand what resources will be updated or added during an actual upgrade, allowing you to review and plan for any necessary adjustments before running the command in a production environment.'
+        etcd-upgrade: '[AI] `kubeadm upgrade node` is a command used to perform an in-place Kubernetes cluster upgrade using Kubeadm, which is a tool for initializing and managing Kubernetes clusters. The `--etcd-upgrade` flag is passed alongside this command to indicate that the etcd (ETCD is a distributed key-value store used as the backing data source for the Kubernetes Cluster API) component on the target node should be upgraded during the cluster upgrade process. This ensures that the etcd data and the Kubernetes control plane remain consistent after the new versions of the cluster components are installed.'
+        ignore-preflight-errors: |-
+            [AI] `kubeadm upgrade node` is a command used to perform an in-place Kubernetes cluster upgrade using `kubeadm`. The `--ignore-preflight-errors` flag is an optional argument that can be passed with this command.
+
+            When the `--ignore-preflight-errors` flag is used, `kubeadm` will proceed with the upgrade process even if some pre-flight checks fail. Pre-flight checks are a series of validation steps run by `kubeadm` to ensure the node meets certain requirements before joining or upgrading a Kubernetes cluster.
+
+            Ignoring pre-flight errors is generally not recommended, as it can lead to potential issues and instability in the cluster. However, there might be scenarios where this flag is intentionally used when dealing with specific, known issues, or when the node configuration cannot be changed immediately but an upgrade needs to be performed urgently.
+
+            Use this flag with caution and make sure you are aware of any potential risks associated with ignoring pre-flight errors before proceeding with the upgrade.
+        kubeconfig: '[AI] `kubeadm upgrade node` is a command used to perform an in-place Kubernetes cluster upgrade on a specific node, using `kubeadm`. The `--kubeconfig` flag specifies the path to the existing KubeConfig file for communicating with the current Kubernetes control plane. This command will download and apply the necessary configuration and certificates for the new version of Kubernetes, restart the relevant components, and update the node''s kubelet to communicate with the new control plane.'
+        patches: '[AI] `kubeadm upgrade node` is a command used in Kubernetes to perform an in-place upgrade of a Kubernetes cluster node using a pre-released version or patches. The `--patches` flag specifies the list of individual Kubernetes component patches that should be applied during the upgrade process. These patches are typically provided as JSON files, and they can include changes to various Kubernetes components such as the kubelet, etcd, and API server. By applying these patches specifically, you can update specific components without affecting others or waiting for a full release version.'
+        skip-phases: |-
+            [AI] `kubeadm upgrade node` is a command used to perform an in-place Kubernetes cluster upgrade using kubeadm. The `--skip-phases` flag skips certain phases during the upgrade process, which can be useful when performing manual interventions or when upgrading specific nodes without affecting the entire cluster at once.
+
+            The default upgrade process includes several phases: 1) preparing for the upgrade, 2) draining node, 3) applying kubelet configuration, 4) installing a new version of kubelet and other components, and 5) joining the node back to the cluster. The `--skip-phases` flag allows you to skip one or more of these phases by providing a comma-separated list of phase names:
+
+            For example:
+            ```
+            kubeadm upgrade node <node-name> --skip-phases prepare,drain
+            ```
+            This command would skip the 'prepare' and 'drain' phases during the upgrade. Remember that skipping certain phases can lead to potential risks and it is essential to understand these implications before using this flag.

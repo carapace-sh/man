@@ -1,0 +1,228 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: install
+description: Install the Waypoint server to Kubernetes, Nomad, ECS, or Docker
+flags:
+    --accept-tos: Pass to accept the Terms of Service and Privacy Policy.
+    --context-create=: Create a context with connection information for this installation.
+    --context-set-default: Set the newly installed server as the default CLI context.
+    --docker-odr-image=: Docker image for the Waypoint On-Demand Runners
+    --docker-server-image=: Docker image for the Waypoint server.
+    --ecs-cluster=: Configures the Cluster to install into.
+    --ecs-cpu=: Configures the requested CPU amount for the Waypoint server task in ECS.
+    --ecs-execution-role-name=: Configures the IAM Execution role name to use.
+    --ecs-mem=: Configures the requested memory amount for the Waypoint server task in ECS.
+    --ecs-odr-cpu=: Configures the requested CPU amount for the Waypoint On-Demand runner in ECS.
+    --ecs-odr-image=: Docker image for the Waypoint On-Demand Runners.
+    --ecs-odr-mem=: Configures the requested memory amount for the Waypoint On-Demand runner in ECS.
+    --ecs-region=: Configures which AWS region to install into.
+    --ecs-server-image=: Docker image for the Waypoint server.
+    --ecs-subnets=: Subnets to install server into.
+    --ecs-task-role-name=: IAM Execution Role to assign to the on-demand runner.
+    --k8s-advertise-internal: Advertise the internal service address rather than the external.
+    --k8s-annotate-service=: Annotations for the Service generated.
+    --k8s-context=: The Kubernetes context to install the Waypoint server to.
+    --k8s-cpu-request=: Configures the requested CPU amount for the Waypoint server in Kubernetes.
+    --k8s-mem-request=: Configures the requested memory amount for the Waypoint server in Kubernetes.
+    --k8s-namespace=: Namespace to install the Waypoint server into for Kubernetes.
+    --k8s-odr-image=: Docker image for the Waypoint On-Demand Runners
+    --k8s-openshift: Enables installing the Waypoint server on Kubernetes on Red Hat OpenShift.
+    --k8s-pull-policy=: Set the pull policy for the Waypoint server image.
+    --k8s-pull-secret=: Secret to use to access the Waypoint server image on Kubernetes.
+    --k8s-runner-service-account-init: Create the service account if it does not exist.
+    --k8s-runner-service-account=: Service account to assign to the on-demand runner.
+    --k8s-secret-file=: Use the Kubernetes Secret in the given path to access the Waypoint server image.
+    --k8s-server-image=: Docker image for the Waypoint server.
+    --k8s-storage-request=: Configures the requested persistent volume size for the Waypoint server in Kubernetes.
+    --k8s-storageclassname=: Name of the StorageClass required by the volume claim to install the Waypoint server image to.
+    --nomad-annotate-service=: Annotations for the Service generated.
+    --nomad-auth-soft-fail: Don't fail the Nomad task on an auth failure obtaining server image container.
+    --nomad-consul-datacenter=: The datacenter where Consul is located.
+    --nomad-consul-domain=: The domain where Consul is located.
+    --nomad-consul-service: Create service for Waypoint UI and Server in Consul.
+    --nomad-consul-service-backend-tags=: Tags for the Waypoint backend service generated in Consul.
+    --nomad-consul-service-hostname=: If set, will use this hostname for Consul DNS rather than the default.
+    --nomad-consul-service-ui-tags=: Tags for the Waypoint UI service generated in Consul.
+    --nomad-csi-fs=: Nomad CSI volume mount option file system. The default is xfs.
+    --nomad-csi-volume-capacity-max=: Nomad CSI volume capacity maximum, in bytes.
+    --nomad-csi-volume-capacity-min=: Nomad CSI volume capacity minimum, in bytes.
+    --nomad-csi-volume-provider=: Nomad CSI volume provider, required for volume type 'csi'.
+    --nomad-dc=: Datacenters to install to for Nomad. The default is dc1.
+    --nomad-host-volume=: Nomad host volume name, required for volume type 'host'.
+    --nomad-host=: Hostname of the Nomad server to use, like for launching on-demand tasks.
+    --nomad-namespace=: Namespace to install the Waypoint server into for Nomad.
+    --nomad-odr-image=: Docker image for the on-demand runners.
+    --nomad-policy-override: Override the Nomad sentinel policy for enterprise Nomad.
+    --nomad-region=: Region to install to for Nomad.
+    --nomad-runner-cpu=: CPU required to run this task in MHz.
+    --nomad-runner-memory=: MB of Memory to allocate to the runner job task.
+    --nomad-server-cpu=: CPU required to run this task in MHz.
+    --nomad-server-image=: Docker image for the Waypoint server.
+    --nomad-server-memory=: MB of Memory to allocate to the Server job task.
+    --plain: Plain output
+    --platform=: Platform to install the Waypoint server into.
+    -a, --app=: App to target.
+    -p, --project=: Project to target.
+    -w, --workspace=: Workspace to operate in.
+documentation:
+    command: '[AI] The `waypoint install` command is used in Waypoint, an open-source multi-cloud infrastructure automation tool. This command initiates the installation or deployment of a defined configuration on a target environment, such as AWS or Azure, by applying Waypoint manifests and templates. It retrieves the latest configuration from version control, validates it against the target environment, and then makes the necessary changes to deploy and configure the resources as specified in the manifests.'
+    flag:
+        accept-tos: '[AI] The command `waypoint install --accept-tos` is used in Hashicorp''s Waypoint open-source infrastructure automation tool. This command initiates an installation of a new configuration managed by Waypoint, and accepts the Terms of Service agreement during the process. It''s important to note that running this command implies understanding and agreeing to comply with the terms and conditions outlined in Hashicorp''s TOS.'
+        app: '[AI] `waypoint` is an open-source Kubernetes application deployment and management tool. The command `waypoint install --app` is used to deploy or update a specific application defined in a `waypoint.toml` configuration file. This command interacts with the Waypoint CLI, which communicates with a remote GitOps repository (such as GitHub) to retrieve the desired configuration and applies it to the target Kubernetes cluster using `kubectl`. The flag `--app` specifies the name of the application to be installed or updated.'
+        context-create: '[AI] `waypoint` is an open-source tool for managing and deploying applications across multiple clusters or environments, such as Kubernetes. The command `waypoint install --context-create` creates a new deployment context in Waypoint with the specified name. This command does not install any applications but only sets up a new configuration context for future deployments.'
+        context-set-default: '[AI] `waypoint` is an open-source Kubernetes infrastructure automation tool. The command `waypoint install --context-set-default` is used to install a new Kubernetes cluster or apply changes to an existing one, setting the current context in your `kubeconfig` file as the default context after successful installation or update. This means that when you run `kubectl` commands without specifying a context, it will use the newly installed or updated cluster by default.'
+        docker-odr-image: '[AI] The command `waypoint install --docker-image` is used in Waypoint, an open-source multi-cloud application delivery platform by Google. This command instructs Waypoint to deploy a new or existing application using the specified Docker image as its OCI (Open Container Initiative) reference. The `--docker-image` flag expects an argument in the format `registry:port/repository:tag`, which identifies the Docker registry, repository name, and tag of the image to be used for deployment. This command pulls the image if it''s not already present locally and deploys the application using the configuration defined in Waypoint''s HCL (Hashicorp Configuration Language) files.'
+        docker-server-image: '[AI] The `waypoint` command `install` with the flag `--docker-server-image` is used to deploy and configure applications on a Kubernetes or other container orchestration platform using Hashicorp''s Waypoint tool. Specifically, this flag tells Waypoint to use a Docker image as the server for its SSH or WinRM agent, making it possible to manage infrastructure and apply configuration changes in an idempotent way. This is an essential part of Waypoint''s infrastructure-as-code capabilities, enabling you to automate your entire deployment pipeline.'
+        ecs-cluster: '[AI] The `flag "waypoint install --ecs-cluster"` is used with Waypoint, an open-source DevOps tool from Hashicorp. This flag instructs Waypoint to deploy infrastructure using Amazon ECS (Elastic Container Service) as the cluster manager. When this flag is provided during the `waypoint apply` or `waypoint plan` command, Waypoint sets up and configures the specified ECS cluster based on the defined configuration in HCL files. This ensures that containers are scheduled to run within the managed Amazon ECS cluster.'
+        ecs-cpu: '[AI] `flag "waypoint install" is a command used in Waypoint, an open-source tool for deploying and managing applications at scale. The specific flag `--ecs-cpu` is used to configure the CPU resource requirements for containers running on Amazon Elastic Container Service (ECS) when deploying applications with Waypoint. By setting this flag, users can ensure their containers have the necessary CPU resources allocated to run efficiently in an ECS cluster.'
+        ecs-execution-role-name: '[AI] The `--ecs-execution-role-name` flag is used with the AWS CLI (Command Line Interface) `install` command of the Amazon ECS (Elastic Container Service) agent, named `waypoint`. This flag specifies the name of the IAM (Identity and Access Management) role that the ECS agent will assume when running tasks. The IAM role should have the necessary permissions to perform actions on your ECS cluster and other related AWS resources.'
+        ecs-mem: '[AI] The command `flag "waypoint install" --ecs-mem` is a configuration option for Waypoint, an open-source tool for managing infrastructure as code using Hashicorp''s HCL language. This specific flag influences the memory allocation for Amazon Elastic Container Service (ECS) tasks and services during deployment with Waypoint. By setting this flag, you provide additional memory requirements that get added to ECS containers at launch time. The flag value can be set in megabytes (MB), ensuring your containers have sufficient resources for optimal performance.'
+        ecs-odr-cpu: |-
+            [AI] The `flag "waypoint install --ecs-fargate --ecs-odr-cpu"` is used with the Waypoint configuration management tool to install an Amazon Elastic Container Service (ECS) Fargate task with overcommit ratio for CPU resources enabled.
+
+            `--ecs-fargate` specifies that a Fargate launch type should be used, meaning that Amazon ECS manages the EC2 instances on which your containers run.
+
+            `--ecs-odr-cpu` sets the overcommit ratio for CPU resources, allowing more containers to be scheduled than the available CPU capacity would normally allow. The exact value of the overcommit ratio is not specified in this flag but can be set in the container definitions or the task definition.
+        ecs-odr-image: '[AI] The command `waypoint install --ecs-odr-image` is a part of Hashicorp''s Waypoint infrastructure automation tool. It instructs Waypoint to deploy or update resources in an Amazon ECS (Elastic Container Service) cluster using an ODR (Outdated Rule) image. This image contains updates for existing infrastructure, allowing you to apply incremental changes and keep your deployment up-to-date with the latest configuration without disrupting running applications. The command also assumes that Waypoint is configured to use ECS as a backend provider, and that there is an existing YAML or HCL configuration file defining the resources to be managed.'
+        ecs-odr-mem: |-
+            [AI] The command `waypoint install --ecs-odr-mem` is used with Waypoint, an open-source tool for managing multi-container Docker applications. This specific command configuration option is related to the ECS (Elastic Container Service) optimization of ODR (Overcommitment Ratio) memory.
+
+            With `--ecs-odr-mem`, Waypoint will adjust the overcommitment ratio (ODR) for the specified ECS tasks to maximize utilization while minimizing the risk of out-of-memory conditions, ensuring a more efficient use of available memory in the cluster. This option allows fine-tuning ECS tasks' ODR and can be useful when dealing with resource constraints in container environments.
+        ecs-region: '[AI] The `flag "waypoint install --ecs-region"` is used with the Waypoint configuration management tool in the context of Amazon Elastic Container Service (ECS) deployments. This flag specifies the AWS region where ECS clusters and resources will be created or updated during Waypoint''s installation process. For example, `--ecs-region us-west-2` indicates that all relevant ECS resources should be deployed in the US West (Oregon) region.'
+        ecs-server-image: '[AI] The `flag "waypoint install --ecs-server-image"` is used with Waypoint, a open-source tool from Hashicorp for managing infrastructure as code. This specific flag is used to configure the Amazon Elastic Container Service (ECS) server image that Waypoint should use when deploying containers. By providing an image URL or name with this flag, Waypoint will ensure that the specified ECS server image is used during the deployment process.'
+        ecs-subnets: '[AI] The `flag "waypoint install --ecs-subnets"` is used with Hashicorp''s Waypoint configuration management tool in the context of Amazon Elastic Container Service (ECS). This flag instructs Waypoint to create and configure ECS subnets as part of the infrastructure deployment. Subnets are a key component of VPC networking in AWS, providing logical isolation for your resources and enabling traffic routing between them. By using this flag during installation, you ensure that your ECS tasks have appropriate network connectivity within your VPC.'
+        ecs-task-role-name: '[AI] The `flag "waypoint install --ecs-task-role-name"` is used with Waypoint, a Terraform based continuous delivery and infrastructure management tool, during the installation process. This flag sets the name for the Amazon Elastic Container Service (ECS) task role that will be created or updated as part of the deployment. Providing this name allows fine-grained control over IAM roles assigned to ECS tasks.'
+        k8s-advertise-internal: |-
+            [AI] `waypoint install` is a command from Hashicorp's Waypoint Infrastructure as Code tool. The `--k8s-advertise-internal` option is used to configure how Waypoint deploys applications to a Kubernetes cluster.
+
+            When this flag is set, Waypoint will create and update Kubernetes Services for your application with the `cluster-internal` DNS label on their `spec.clusterIP` field. This label signals that the service is intended to be only accessed from within the Kubernetes cluster.
+
+            By advertising internal services in this way, you can ensure they are not accessible externally, which can help improve security and compliance with your organization's network policies.
+        k8s-annotate-service: |-
+            [AI] `waypoint` is an open-source tool for managing multi-cloud Kubernetes applications. The command `waypoint install --k8s-annotate-service` performs the following actions:
+
+            1. Installs or upgrades the specified application in a Kubernetes cluster using Waypoint.
+            2. Annotates the installed service with custom metadata, making it easier to manage and identify within the Kubernetes environment.
+
+            In summary, this command installs an application in a Kubernetes cluster using Waypoint and adds custom annotations to the associated service for better management and identification.
+        k8s-context: '[AI] The `waypoint install --k8s-context` command is used in Hashicorp''s Waypoint tool to deploy infrastructure configurations using a specific Kubernetes context. Waypoint is an open-source tool for managing multiple cloud providers and infrastructure configurations using HCL (Hashicorp Configuration Language). The `install` subcommand deploys or updates the infrastructure configuration, while `--k8s-context` specifies the name or path of the Kubernetes context to use. This ensures that resources are deployed into the correct cluster managed by Kubernetes.'
+        k8s-cpu-request: |-
+            [AI] `waypoint` is an open-source tool for managing Kubernetes applications. The command `waypoint install --k8s-cpu-request` instructs Waypoint to deploy or update an application with a specified CPU request for the containers in the Kubernetes cluster.
+
+            This command takes effect when you're defining or updating your application configuration file (usually named `app.toml`) within the Waypoint project directory. The `--k8s-cpu-request` flag sets the desired CPU resources for each container in the application. For example, you might set a specific request for each container by adding a line like `k8s_container_cpu_request = "0.5"` under the respective container configuration section in your `app.toml`.
+
+            After defining or updating your configuration with this flag, running the command `waypoint apply` will deploy or update the application in your Kubernetes cluster with the new CPU request specified.
+        k8s-mem-request: |-
+            [AI] The `waypoint install` command is a tool from Hashicorp's Waypoint project, which helps to manage and deploy infrastructure configurations across various environments like Kubernetes clusters.
+
+            The specific flag `--k8s-mem-request` is used to set the requested memory for the containers in the Kubernetes deployment or service that Waypoint manages. It accepts a value in bytes or megabytes, which will be applied during the installation or update process. This flag ensures that the resource requirements of the application are properly configured and can help prevent issues with insufficient resources in the cluster.
+        k8s-namespace: '[AI] The `waypoint` command `install` with the `--k8s-namespace` flag is used to deploy resources defined in a Waypoint application to a Kubernetes cluster. The `--k8s-namespace` argument specifies the target namespace within the cluster for deploying these resources. This flag ensures that all Kubernetes resources are created or updated within the specified namespace, allowing for better organization and isolation of resources within the cluster.'
+        k8s-odr-image: |-
+            [AI] The `waypoint` command `install` with the flag `--k8s-odr-image` is used to deploy an OpenTelemetry Collector (OTel Collector) in a Kubernetes cluster. Here's a brief explanation of what each part does:
+
+            1. `waypoint`: Waypoint is an open-source multi-cloud observability and deployment tool from Google. It allows users to install, configure, and manage various components, including the OTel Collector, across multiple cloud providers or on-premises environments.
+
+            2. `install`: The `install` command deploys or updates an existing installation of a component managed by Waypoint. This could be the OTel Collector in this case.
+
+            3. `--k8s-odr-image`: This flag specifies the Docker image to use for the OTel Collector deployment in the Kubernetes cluster. The image is typically hosted on a container registry, such as Google Container Registry (GCR), Docker Hub, or Amazon Elastic Container Registry (ECR). By providing this flag, users can easily deploy and manage consistent OTel Collector versions across their clusters.
+        k8s-openshift: '[AI] The `waypoint` command `install` with the sub-command `--k8s-openshift` is used to deploy and manage applications on an OpenShift cluster using Hashicorp''s Waypoint multi-cloud infrastructure automation tool. This specific command configuration targets an OpenShift Kubernetes environment. It sets up communication between Waypoint and the OpenShift cluster, applies infrastructure definitions, and manages resources within that environment.'
+        k8s-pull-policy: |-
+            [AI] `waypoint` is an open-source tool for managing Terraform configurations as code. The command `install --k8s-pull-policy` is used to configure Kubernetes image pull policies during the deployment of Terraform-managed resources using Waypoint.
+
+            With this command, you can set the desired image pull policy for Kubernetes when deploying infrastructure defined in your Waypoint configuration files. The available options are: `always`, `ifNotPresent`, and `never`.
+
+            1. `always`: This option will always pull the latest image versions from the registry whenever an update is applied, even if the image already exists on the target cluster.
+            2. `ifNotPresent`: This option will only pull images that are not present in the target cluster yet. If an image with the same tag already exists, it won't be updated.
+            3. `never`: This option disables automatic image pulls and relies on the existing images in the target cluster. No new images will be pulled during the deployment process.
+
+            Using the `--k8s-pull-policy` flag allows you to maintain control over your Kubernetes image updates, ensuring consistency across environments and reducing potential security risks associated with automatically pulling new images.
+        k8s-pull-secret: '[AI] `waypoint` is an open-source tool by Hashicorp used to manage multi-cloud Kubernetes deployments. The command `waypoint install --k8s-pull-secret` is responsible for applying infrastructure changes and installing or updating a Kubernetes application with a provided Kubernetes pull secret. This flag ensures that the container images are pulled securely from a private registry during deployment, increasing security by avoiding insecure registries or unencrypted image transfers.'
+        k8s-runner-service-account: '[AI] `waypoint` is a open-source tool for managing and deploying Kubernetes applications. The command `waypoint install --k8s-runner-service-account` is used to deploy an application with Waypoint, specifically creating or updating the Kubernetes ServiceAccount used by Waypoint''s built-in container runner. This allows Waypoint to manage containers running in a Kubernetes cluster, using this specific ServiceAccount for authentication and authorization purposes.'
+        k8s-runner-service-account-init: '[AI] `waypoint` is an open-source tool for managing Kubernetes applications. The command `waypoint install --k8s-runner-service-account-init` is used to initialize the Kubernetes Service Account (SA) for the `waypoint` runner. When you run this command, Waypoint generates a YAML manifest defining a new SA and a Cluster Role Binding that grants the required permissions for the runner to interact with your cluster. The command does not install or deploy anything; it just prepares the configuration files for further usage with `waypoint`.'
+        k8s-secret-file: |-
+            [AI] `waypoint` is an open-source multi-cloud deployment tool developed by Hashicorp. The command `waypoint install --k8s-secret-file` is used to deploy infrastructure definitions stored in Waypoint files, specifically to Kubernetes clusters using a local YAML or JSON file as the secret data source.
+
+            The `--k8s-secret-file` flag specifies the path to the secret file which contains sensitive information such as encryption keys, tokens, and passwords. This file is encrypted at rest and decrypted on use, ensuring secure handling of secrets during deployment. The command installs the infrastructure defined in Waypoint files and applies the specified Kubernetes secret.
+        k8s-server-image: '[AI] `waypoint` is an open-source tool for managing and delivering Kubernetes applications. The command `waypoint install --k8s-server-image <IMAGE>` instructs Waypoint to install a new application using the specified Kubernetes server image as the base. This image will be used as the runtime environment for the application containers once they''re deployed in the Kubernetes cluster.'
+        k8s-storage-request: |-
+            [AI] `waypoint` is an open-source tool for managing Kubernetes applications. The command `waypoint install --k8s-storage-request` is used to install a Waypoint application and specify the desired Kubernetes PersistentVolumeClaim (PVC) storage request.
+
+            When you deploy an application with Waypoint, it creates the necessary Kubernetes resources, such as Deployments, Services, and ConfigMaps. If your application requires persistent storage, you can use this command to create a PVC resource with the desired storage capacity. The `--k8s-storage-request` option takes the size of the storage request in bytes as its argument (for example, "1Gi" for 1GB).
+
+            After running this command, Waypoint will create and manage the application's Kubernetes resources, including the requested PVC. This ensures that your application has the necessary persistent storage to function properly.
+        k8s-storageclassname: '[AI] The `flag "waypoint install" with argument "--k8s-storageclassname"` is used when installing Waypoint, an open-source multi-cloud development platform by Hashicorp. This flag sets the name of the Kubernetes StorageClass that will be created or used during the installation process. It allows users to configure their own persistent storage classes for managing data persistence in Kubernetes environments.'
+        nomad-annotate-service: '[AI] The `waypoint` command `install` with the `--nomad-annotate-service` flag is used to deploy a service defined in Nomad jobs file, and annotate that service with custom metadata using Key-Value pairs. This metadata can be later used by other components or tools for identification, filtering, or tagging purposes within the service discovery platform. The `waypoint install` command performs the deployment and configuration of the specified Nomad job, while the `--nomad-annotate-service` flag appends custom annotations to the service instance created in the service discovery.'
+        nomad-auth-soft-fail: |-
+            [AI] The `waypoint install` command is a tool from Hashicorp's Waypoint project, which helps manage and deploy infrastructure configurations in a declarative way. The `--nomad-auth-soft-fail` flag modifies the authentication behavior when deploying a Nomad job or cluster.
+
+            With this flag, if Nomad cannot authenticate with the provided credentials, it will still try to continue the deployment process, but will log an error and consider the deployment as failed. In contrast, without this flag (default behavior), Nomad would hard-fail on authentication errors, preventing the entire deployment from proceeding. This soft-fail option can be useful when dealing with temporary or intermittent authentication issues.
+        nomad-consul-datacenter: |-
+            [AI] `waypoint` is a Hashicorp tool used to manage and deploy multi-tier applications across various environments, such as development, staging, or production. The command `waypoint install --nomad-consul-datacenter` instructs Waypoint to deploy an application using Nomad and Consul.
+
+            More specifically:
+
+            * `waypoint install` is the command used to initiate a deployment of an application configuration using Waypoint.
+            * `--nomad-consul-datacenter` option sets the datacenter name for both Nomad and Consul services. This setting enables them to discover each other and form a cluster, allowing for distributed coordination, service discovery, and configuration management within the deployment.
+        nomad-consul-domain: |-
+            [AI] The `waypoint` command `install` with the flag `--nomad-consul-domain` is used to deploy and configure Hashicorp's Nomad cluster using Consul as a service discovery and configuration management tool.
+
+            This flag sets the domain name for Consul, which is used to identify and communicate between different Consul servers in a multi-datacenter or large-scale deployment. The `--nomad-consul-domain` flag ensures that Nomad nodes are registered under this domain in Consul's service registry. This enables other services, including the Consul server itself, to discover and communicate with Nomad nodes using their registered names.
+        nomad-consul-service: |-
+            [AI] The `waypoint` command `install --nomad-consul-service` is used to deploy and configure a Consul service as part of a Nomad cluster using Hashicorp's `Terraform` or `Packer` tools.
+
+            `--nomad-consul-service` flag sets up Consul as the service discovery and configuration management solution for the Nomad cluster. This ensures that Nomad tasks can be registered, discovered, and updated by Consul. With this setup, Nomad tasks can become clients of other services and discover their addresses dynamically through Consul's DNS or HTTP API.
+
+            This command installs and configures both Nomad and Consul as a distributed system with high availability. The `--nomad-consol-service` flag ensures that the Consul server nodes are registered with Consul itself, forming a self-healing cluster. This configuration can be useful for deploying microservices or containerized applications using tools like Kubernetes, Docker Swarm, or Hashicorp's Nomad scheduler.
+        nomad-consul-service-backend-tags: |-
+            [AI] The `waypoint` command `install` with the `--nomad-consul-service-name` and `--nomad-consul-service-backend-tags` flags is used to deploy and register a Nomad job as a Consul service in the Hashicorp's Consul service registry.
+
+            The `--nomad-consul-service-name` flag specifies the name of the service in Consul, while the `--nomad-consul-service-backend-tags` flag sets one or more key-value tags associated with the service. These tags can be used for filtering and labeling services in Consul.
+        nomad-consul-service-hostname: |-
+            [AI] The `waypoint` command `install --nomad-consul-service-hostname` is used to deploy and configure a Hashicorp Nomad cluster using Hashicorp's multi-cloud infrastructure automation tool, Waypoint.
+
+            The `--nomad-consul-service-hostname` flag sets the hostname or IP address of the Consul service that Nomad will use for service discovery. Consul is a service mesh and configuration management tool often used in conjunction with Nomad to provide service registration, discovery, and configuration capabilities.
+
+            When using this command, Waypoint deploys the specified Nomad nodes and sets their configurations accordingly, including the `--consul-addr` flag that points to the Consul service defined by the `--nomad-consul-service-hostname` flag. This allows for seamless communication between Nomad and Consul, enabling features such as dynamic configuration updates and automatic service discovery.
+        nomad-consul-service-ui-tags: |-
+            [AI] The `waypoint` command `install` with the `--nomad-consul-service-ui-tags` flag is used to deploy and configure HashiCorp's Nomad and Consul services together.
+
+            The `--nomad-consul-service-ui-tags` flag specifies custom tags for the UI service of Consul, which is included in the deployment by default. The tags can be used for filtering or organizing services within the Consul service catalog.
+        nomad-csi-fs: '[AI] The `waypoint` command `install --nomad-csi-fs` is used to deploy and configure Nomad, a distributed systems manager, with the CSI FS (Container Storage Interface File System) driver for persistent storage in Kubernetes using Waypoint, Hashicorp''s multi-cloud application delivery platform. The flag instructs Waypoint to skip enabling the Nomad CSI driver for managing stateful applications through Kubernetes but still configure it for managing stateless applications and other tasks.'
+        nomad-csi-volume-capacity-max: '[AI] The `waypoint` command `install` with the `--nomad-csi-volume-capacity-max` flag is used to configure the maximum capacity that Nomad, a workload orchestrator from Hashicorp, can request for CSI (Container Storage Interface) volumes during installation. This flag sets an upper limit on the total size of CSI volumes that Nomad can create or manage. By specifying this value, you ensure that your Kubernetes cluster''s available storage capacity isn''t exceeded by Nomad''s workloads. The flag takes an integer value representing the total capacity in gigabytes.'
+        nomad-csi-volume-capacity-min: '[AI] `waypoint` is an open-source deployment and delivery tool for Hashicorp''s Nomad and Consul. The command `waypoint install --nomad-csi-volume-capacity-min <size>` is used to deploy a new Nomad cluster or update an existing one, with the added flag `--nomad-csi-volume-capacity-min` to configure the minimum capacity of the CSI (Container Storage Interface) volumes for Nomad''s job persistence. By specifying a size value in bytes, this flag ensures that each Nomad server in the cluster will allocate and manage at least the given amount of storage capacity for CSI volumes.'
+        nomad-csi-volume-provider: |-
+            [AI] The `waypoint` command you provided is used to install and configure Nomad with the CSI (Container Storage Interface) volume provider. Here's a brief explanation of each part:
+
+            1. `waypoint`: This is the name of the tool being used, which is part of Hashicorp's Transport Suite. It helps deploy, configure, and manage infrastructure components.
+
+            2. `install`: The command to invoke when using Waypoint to install a new component or configuration.
+
+            3. `--nomad-csi-volume-provider`: This flag specifies that you want to use the Nomad CSI volume provider for managing Kubernetes volumes in your Nomad cluster. It simplifies the process of managing volumes by abstracting the underlying storage system and making it look like a Kubernetes native volume to clients.
+
+            In summary, this command sets up Nomad with the CSI volume provider, enabling seamless management of Kubernetes volumes within a Nomad cluster.
+        nomad-dc: '[AI] The `waypoint install --nomad-dc` command is used in Hashicorp''s Waypoint infrastructure automation tool. This command installs and sets up a new Nomad datacenter (DC) node, bypassing the DC discovery process with the `--nomad-dc` flag. It assumes that the necessary configuration for the new node is already prepared and stored in Waypoint''s configuration management system. The installation process includes downloading the Nomad binary, configuring it according to the provided settings, and starting the Nomad server.'
+        nomad-host: '[AI] `waypoint` is a tool used in Hashicorp''s Nomad cluster management system for deploying and managing applications. The command `waypoint install --nomad-host` instructs Waypoint to install an application on a specified Nomad host. The `--nomad-host` flag identifies the target Nomad server, allowing you to configure and deploy applications to specific nodes in your cluster.'
+        nomad-host-volume: '[AI] `waypoint` is a Hashicorp tool for managing multi-node applications with Consul and Nomad. The command `waypoint install --nomad-host-volume` is used to deploy a Nomad job with a persistent volume attached to the container running on each host specified by the `--list` or `--file` flag. This volume is stored as a local file system volume on the host, allowing data to persist even if the container is restarted. The flag `--nomad-host-volume` instructs Waypoint to create and manage this volume for each Nomad node in the deployment.'
+        nomad-namespace: |-
+            [AI] The `waypoint` command with the argument `install --nomad-namespace` is used in Hashicorp's Nomad cluster management tool for deploying applications or services. Here's a brief explanation of each part:
+
+            1. `waypoint`: It refers to the CLI (Command Line Interface) utility provided by Hashicorp, which is used to manage and deploy applications across various environments, like Kubernetes, Nomad, etc.
+            2. `install`: The command indicates that you want to install something using Waypoint.
+            3. `--nomad-namespace`: This flag is used to specify the Kubernetes namespace where the Nomad agent will be installed and run. If you are not using Kubernetes, this flag has no effect.
+        nomad-odr-image: '[AI] `waypoint` is an open-source tool for deploying and managing applications at scale, developed by HashiCorp. The command `waypoint install --nomad-odr-image` instructs `waypoint` to install a new application using the specified image as the Operator Definition Repository (ODR) image for Nomad, which is a part of HashiCorp''s Data Center Automation suite. This command sets up the ODR image so that it can manage and deploy applications on the target infrastructure managed by Nomad.'
+        nomad-policy-override: |-
+            [AI] `waypoint` is a open-source tool from Hashicorp used for managing and deploying applications at scale, especially in a multi-cluster environment. The command `waypoint install --nomad-policy-override` is used to deploy an application with specific overrides for Nomad (Hashicorp's cluster orchestration platform) policy settings.
+
+            When using Nomad for managing your application, you might want to override certain policies enforced by Nomad for your deployment. The `--nomad-policy-override` flag in the `waypoint install` command allows you to pass a file containing these overrides as arguments. The file should be in HCL (Hashicorp Configuration Language) format and define the policies you want to override, allowing you to customize Nomad's behavior for your specific use case.
+        nomad-region: '[AI] `waypoint` is a Hashicorp tool used to manage and deploy applications across multiple environments, such as Kubernetes or Nomad clusters. The command `waypoint install --nomad-region` instructs Waypoint to deploy an application using the `Nomad` execution provider and sets the region for the Nomad cluster. This region is a logical grouping of one or more Nomad servers within a larger infrastructure. It helps in managing and organizing resources across different geographic locations or availability zones. The command does not install any specific software but configures Waypoint to deploy the application to a Nomad cluster with a specified region.'
+        nomad-runner-cpu: '[AI] The `flag "waypoint install" --` `"nomad-runner-cpu"` is a command used in Hashicorp''s Waypoint configuration management tool. It specifies the number of CPU cores to be allocated for the Nomad runner during the installation process. By default, Waypoint will attempt to use all available CPU resources; this flag allows you to set a limit and allocate fewer resources if desired. The syntax `--nomad-runner-cpu <number_of_cpus>` sets the number of CPUs for the Nomad runner.'
+        nomad-runner-memory: |-
+            [AI] `waypoint` is an open-source tool for managing and deploying applications across multiple clusters or environments, including Nomad, a distributed systems framework by Hashicorp. The command `waypoint install --nomad-runner-memory <size>` is used to configure the memory allocation for the Nomad runner during deployment.
+
+            `--nomad-runner-memory` is a flag that takes an argument representing the desired amount of memory in megabytes (MB) or gigabytes (GB) for the Nomad task that runs the application. By default, Nomad allocates 512 MB of memory to this task. Setting `--nomad-runner-memory` with a larger value allows the application to use more resources as needed. Conversely, setting it with a smaller value may result in insufficient resources for the application to function properly.
+        nomad-server-cpu: '[AI] The `waypoint` command `install --nomad-server-cpu` is used to install and configure a Nomad server node in a Consul or HashiCorp Service Mesh environment. The `--nomad-server-cpu` flag specifies the number of CPUs that should be allocated for the Nomad server process on the host system where it is being installed. By default, Waypoint sets this value to one CPU. Using the `--nomad-server-cpu` flag allows users to customize the number of CPUs based on their specific use case and hardware resources.'
+        nomad-server-image: '[AI] The `waypoint` command `install --nomad-server-image` is used to deploy a new Nomad server cluster in Hashicorp''s Consul and Nomad ecosystem. The `--nomad-server-image` flag specifies the Docker image name for the Nomad server container. This means that with this command, you are telling Waypoint to download this particular Docker image and use it as the base for deploying new Nomad servers in your infrastructure.'
+        nomad-server-memory: '[AI] The `waypoint` command `install --nomad-server-memory` is used to deploy and configure a Hashicorp Nomad server cluster using Waypoint, an open-source multi-cloud infrastructure automation tool. The `--nomad-server-memory` flag specifies the amount of memory to allocate for each Nomad server instance in the cluster during deployment. By default, Waypoint sets this value based on the node''s available capacity; however, you can override it with a specific memory value using this flag. For example, `--nomad-server-memory 1G` will set 1GB of memory for each Nomad server instance in the cluster.'
+        plain: '[AI] `waypoint` is an open-source tool for managing multi-cluster Kubernetes deployments. The command `waypoint install --plain` is used to apply a single configuration file directly to a target cluster without creating or managing a Waypoint set. In simpler terms, it applies the configuration in a raw format without any additional features like versioning, rollbacks, or sets management offered by Waypoint.'
+        platform: '[AI] `waypoint` is an open-source tool for deploying and managing infrastructure as code, specifically for Google Cloud Platform (GCP). The command `waypoint install --platform` initiates the installation of a new Waypoint-managed resource or module on GCP using a predefined platform configuration. This command fetches the necessary configuration files from a remote source, such as a GitHub repository, and applies them to the target environment. After the installation is complete, Waypoint continues to manage the resource, ensuring that any changes made to the configuration files are automatically deployed to the target infrastructure.'
+        project: '[AI] The `waypoint install --project` command is used in Hashicorp''s Waypoint infrastructure automation tool to apply the configured resources defined in a specific project file. It installs or updates the infrastructure by creating, modifying, or deleting resources based on the changes detected between the current and desired state defined in the project file. The `--project` flag specifies the name of the project file to use for this operation.'
+        workspace: '[AI] `waypoint` is an open-source infrastructure automation tool developed by Google. The command `waypoint install --workspace` instructs Waypoint to deploy or update infrastructure definitions in a specific workspace. A workspace represents a logical grouping of related infrastructure, such as a set of Kubernetes clusters or AWS accounts. This command also assumes that the appropriate Waypoint configuration files for the selected workspace are already set up and located in the current working directory. The installation process may include actions like applying Terraform changes, updating Kubernetes manifests, or other relevant tasks depending on the infrastructure being managed.'

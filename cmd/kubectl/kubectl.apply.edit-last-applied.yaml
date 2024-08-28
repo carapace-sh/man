@@ -1,0 +1,71 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: edit-last-applied (RESOURCE/NAME | -f FILENAME)
+description: Edit latest last-applied-configuration annotations of a resource/object
+flags:
+    --allow-missing-template-keys: If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
+    --field-manager=: Name of the manager used to track field ownership.
+    --record&: Record current kubectl command in the resource annotation. If set to false, do not record the command. If set to true, record the command. If not set, default to updating the existing annotation value only if one already exists.
+    --show-managed-fields: If true, keep the managedFields when printing objects in JSON or YAML format.
+    --template=: Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates [http://golang.org/pkg/text/template/#pkg-overview].
+    --validate?: Validation mode.
+    --windows-line-endings: Defaults to the line ending native to your platform.
+    -R, --recursive: Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.
+    -f, --filename*=: Filename, directory, or URL to files to use to edit the resource
+    -k, --kustomize=: Process the kustomization directory. This flag can't be used together with -f or -R.
+    -o, --output=: 'Output format. One of: (json, yaml, name, go-template, go-template-file, template, templatefile, jsonpath, jsonpath-as-json, jsonpath-file).'
+documentation:
+    command: '[AI] The `kubectl apply edit-last-applied` command is used to create or update Kubernetes resources with the differences between the current manifest and the last applied manifest. It first retrieves the difference between the latest YAML manifest file and the one that was last successfully applied using `kubectl get`, then opens an editor to allow the user to review and make any necessary adjustments before applying the changes to the cluster with `kubectl apply`. This can be useful for making incremental changes to existing resource configurations.'
+    flag:
+        allow-missing-template-keys: |-
+            [AI] `kubectl apply` is a command used to deploy or update Kubernetes resources from a configuration file. The `edit-last-applied` subcommand is used to open the last applied configuration file in an editor, allowing users to edit it before applying the changes.
+
+            The option `--allow-missing-template-keys` allows users to apply changes even if some keys are missing in the new configuration file compared to the existing one. When this flag is set, Kubernetes will create or update resources based on the available keys in the new configuration file, ignoring any missing keys from the old one. This can be useful when making partial updates to a complex configuration file, but it should be used with caution as it may lead to unexpected behavior if used carelessly.
+        field-manager: |-
+            [AI] `kubectl apply` is a command-line tool used to deploy or update Kubernetes resources from a given manifest file or using imperative mode. The `edit-last-applied` subcommand is an extension that allows editing the most recently applied YAML manifest for a resource before applying it again.
+
+            The `--field-manager` flag is an optional argument for this command that configures Kustomize, a popular Kubernetes configuration management tool, as the field manager for handling merge conflicts during edit sessions. When using this flag, Kubectl will use Kustomize's conflict resolution strategies to manage fields during edit and apply operations, ensuring consistent and predictable results when working with complex YAML files or managing multiple manifests in a GitOps workflow.
+        filename: '[AI] `kubectl apply` is a command used in Kubernetes to deploy or update resources based on configuration files. The `edit-last-applied` subcommand is an optional argument that allows users to open the most recently applied configuration file for editing before applying changes. The `--filename` flag specifies the name of the new or modified configuration file to save the edited changes into after saving, and then use `kubectl apply` to apply those changes to the cluster. In summary, this command sequence allows you to edit a previously used configuration file, make necessary updates, save them and finally apply those updated configurations to your Kubernetes cluster.'
+        kustomize: |-
+            [AI] `kubectl apply` is a command in Kubernetes used to deploy or update resources in a cluster. The `edit-last-applied` option allows you to edit the latest applied configuration for a resource, and the `--kustomize` flag tells `kubectly` to use Kustomize for managing declarative configs.
+
+            With `kubectl apply edit-last-applied --kustomize`, you can edit the current state of your resources using a text editor, apply those changes, and then see the updated configurations being applied in your cluster. This is particularly useful when making small adjustments to existing resources or handling complex deployments with multiple files. The command retrieves the latest applied configuration for the resource, opens it in an editor, lets you make modifications, saves the file, and then applies those changes back to the cluster.
+        output: |-
+            [AI] `kubectl apply` is a command used in Kubernetes to deploy or update resources based on manifests. The `edit-last-applied` subcommand is used to open the most recently applied manifest for an object in your default editor.
+
+            The `--output` option followed by `json` or `yaml` specifies that the output of the command should be printed in the specified format, rather than being applied directly to the cluster. For example:
+
+            ```sh
+            $ kubectl apply -f my-manifest.yaml --edit-last-applied --output yaml > my-manifest-edited.yaml
+            ```
+
+            This command will open `my-manifest.yaml` in your default editor with the most recently applied changes, then save and exit the editor. The edited manifest is saved to a new file `my-manifest-edited.yaml`, which can be printed in YAML format using the `--output yaml` option.
+        record: '[AI] `kubectl apply edit-last-applied --record` is a command used in Kubernetes to apply the latest changes made to YAML files or configurations, while keeping track of these modifications in the etcd cluster as records. This command allows users to make updates to their Kubernetes resources with version control and rollback capabilities. When you run `apply edit-last-applied`, Kubectl will first create a temporary copy of the resource with the new configuration, then it will patch the original resource using the strategic merge patch strategy, and finally it will record this change in etcd. This command is useful for managing complex Kubernetes deployments where version control and rollback are important.'
+        recursive: |-
+            [AI] `kubectl apply edit-last-applied --recursive` is a Kubernetes command used for managing and updating YAML files that define Kubernetes resources, such as deployments or services. The command consists of three parts:
+
+            1. `apply`: Applies the differences between the desired state in the given YAML file and the current state in the cluster.
+            2. `edit-last-applied`: Opens the last edited file used by the last successful apply operation, allowing you to make further changes.
+            3. `--recursive`: Applies the edit recursively to all files under a given directory. This is useful when managing multiple related Kubernetes resources in the same folder. Once you have made your desired changes to the YAML files using an editor like `vim`, save and exit, then run this command to apply the updates to your cluster.
+        show-managed-fields: |-
+            [AI] The `kubectl apply edit-last-applied --show-managed-fields` command is used to apply changes to the latest Kubernetes resource manifest with interactive editing using a text editor. Here's how it works:
+
+            1. `kubectl apply`: Applies the specified configuration to the cluster, creating or updating resources as needed.
+            2. `edit-last-applied`: Instead of directly applying changes, this option opens the last applied YAML manifest file in a text editor for manual editing.
+            3. `--show-managed-fields`: This optional flag displays managed fields when the resource is edited. Managed fields are those that were previously modified by Kubernetes as part of a previous apply or edit operation. By displaying these fields, you can see exactly what changes were made and avoid unintentionally reverting them during editing.
+
+            Once you save and close the file in the text editor, `kubectl` will reapply the updated YAML manifest with your changes while keeping managed fields intact. This way, you have fine-grained control over your resource configurations while ensuring that important changes made by Kubernetes are not inadvertently lost.
+        template: |-
+            [AI] `kubectl apply` is a command used to deploy or update Kubernetes resources from a configuration file. The `edit-last-applied` subcommand allows you to edit the most recently applied YAML file for the current resource.
+
+            The `--template` flag instructs `kubectl apply` to use a template instead of a regular file as input. This can be useful when you want to make changes to the configuration files on the fly without modifying the original files, or when you need to generate YAML from external data sources. The edited template is then used to update the resource in the Kubernetes cluster.
+        validate: '[AI] `kubectl apply` is a command used to deploy or update Kubernetes resources from a file. The `edit-last-applied` subcommand is used to open the most recently applied YAML definition of a resource in a text editor for editing. The `--validate` flag is used to check the syntax and validity of the edited YAML before applying it to the cluster. This can help prevent errors or inconsistencies in the configuration of your Kubernetes resources.'
+        windows-line-endings: |-
+            [AI] `kubectl apply edit-last-applied` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`. It's a combination of several sub-commands designed to manage and update Kubernetes resources:
+
+            1. `apply`: This sub-command is used to create or update Kubernetes resources based on the YAML configuration files. When you apply a resource, Kubernetes creates it if it doesn't exist or updates it if it does.
+            2. `edit`: This sub-command opens the latest version of a resource in your default text editor, allowing you to make manual changes before applying them.
+            3. `--windows-line-endings`: This flag ensures that line endings are saved as CRLF (Carriage Return Line Feed) when editing and reapplying YAML files on Windows systems. This is necessary because Kubernetes, by default, uses LF (Line Feed) line endings, which can cause issues when working on Windows.
+
+            So, `kubectl apply edit-last-applied --windows-line-endings`:
+            1. Opens the last applied resource in your text editor for manual editing.
+            2. Saves and applies the changes with CRLF line endings on Windows systems.

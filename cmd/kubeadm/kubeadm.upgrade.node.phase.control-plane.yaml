@@ -1,0 +1,40 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: control-plane
+description: Upgrade the control plane instance deployed on this node, if any
+flags:
+    --certificate-renewal: Perform the renewal of certificates used by component changed during upgrades.
+    --dry-run: Do not change any state, just output the actions that would be performed.
+    --etcd-upgrade: Perform the upgrade of etcd.
+    --kubeconfig=: The kubeconfig file to use when talking to the cluster. If the flag is not set, a set of standard locations can be searched for an existing kubeconfig file.
+    --patches=: Path to a directory that contains files named "target[suffix][+patchtype].extension".
+documentation:
+    command: |-
+        [AI] The `kubeadm upgrade node` command is used to perform an in-place Kubernetes cluster upgrade with Kubeadm. The `phase control-plane` argument specifies that the current node will be upgraded as a control-plane node during the cluster upgrade process.
+
+        This command performs the following steps:
+
+        1. Downloads and applies any required certificates, configuration files, and updates to the Kubernetes control plane components.
+        2. Restarts the etcd, kube-apiserver, kube-controller-manager, and kube-scheduler services.
+        3. Upgrades these components to the new version.
+        4. Verifies that the upgrade was successful by checking the logs and status of the upgraded components.
+        5. Sets the node as a control-plane node in the Kubernetes cluster configuration if it wasn't already one.
+        6. Applies any additional post-upgrade configurations or customizations, such as enabling new features or disabling deprecated ones.
+    flag:
+        certificate-renewal: |-
+            [AI] The `kubeadm upgrade node` command is used to perform an in-place Kubernetes cluster upgrade using kubeadm. The `--phase control-plane --certificate-renewal` flag specifies that this command should be run on a control-plane node during the certificate renewal phase of the upgrade process.
+
+            During a Kubernetes upgrade, new control-plane components are installed with updated certificates. The `--phase control-plane --certificate-renewal` flag instructs kubeadm to take care of updating the certificates for the existing control-plane nodes during the upgrade. This involves creating temporary Certificate Signing Requests (CSRs) and renewing their corresponding Certificates, which are then applied to the control-plane components on that node.
+
+            In summary, using `kubeadm upgrade node phase control-plane --certificate-renewal` ensures a smooth and secure certificate renewal process during a Kubernetes cluster upgrade on a control-plane node.
+        dry-run: |-
+            [AI] The command `kubeadm upgrade node <node-name> phase control-plane --dry-run` is used to simulate an upgrade of a Kubernetes node from one version to another without actually making any changes to the system.
+
+            In this specific command, "upgrade node" refers to updating the Kubernetes node's control plane components, which include the etcd, kube-apiserver, kube-controller-manager, and kube-scheduler. The "--dry-run" flag tells the tool to only output what would be done in a real upgrade without actually performing any actions.
+
+            So, this command provides you with an overview of the changes that would occur during the control plane upgrade process on the specified node. This information can help you prepare for the actual upgrade and assess potential impacts before executing it.
+        etcd-upgrade: '[AI] `kubeadm upgrade node` is a command used to perform an in-place Kubernetes cluster upgrade on a specific node using kubeadm. The `--phase control-plane` option specifies that the node being upgraded is currently part of the control plane, which includes nodes running etcd (key-value store for the cluster), the Kubernetes API server, and the Kubelet and its associated components. The `--etcd-upgrade` argument instructs kubeadm to also upgrade etcd during the node upgrade process. This ensures that all control plane components are upgraded to the same version.'
+        kubeconfig: '[AI] The command `kubeadm upgrade node <node-name> --phase control-plane --kubeconfig <path-to-existing-kubeconfig>` is used to perform an in-place upgrade of a Kubernetes node, specifically upgrading the control plane components. The `<node-name>` argument identifies the node being upgraded, while `--phase control-plane` indicates that only the control plane components are being updated. The `--kubeconfig <path-to-existing-kubeconfig>` flag specifies the path to an existing kubeconfig file which will be used during the upgrade process instead of generating a new one. This command is typically run as part of a larger cluster upgrade process using tools like kubeadm''s rolling update or flannel''s network upgrade, to ensure minimal downtime and maintain connectivity between nodes.'
+        patches: |-
+            [AI] `kubeadm upgrade node` is a command used to perform an in-place Kubernetes cluster upgrade using kubeadm. The `--phase control-plane` argument specifies that the current node will be upgraded as a control-plane node, which is responsible for managing and coordinating the Kubernetes cluster.
+
+            The `--patches` flag is used to apply specific patches or updates to the control plane components (such as kube-apiserver, kube-controller-manager, and etcd) during the upgrade process. The patches can be provided in the form of files or as a JSON string. This allows for targeted updating of components without necessarily upgrading the entire cluster at once.

@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: reset
+description: Performs a best effort revert of changes made to this host by 'kubeadm init' or 'kubeadm join'
+flags:
+    --cert-dir=: The path to the directory where the certificates are stored. If specified, clean this directory.
+    --cri-socket=: Path to the CRI socket to connect. If empty kubeadm will try to auto-detect this value; use this option only if you have more than one CRI installed or if you have non-standard CRI socket.
+    --ignore-preflight-errors*=: 'A list of checks whose errors will be shown as warnings. Example: ''IsPrivilegedUser,Swap''. Value ''all'' ignores errors from all checks.'
+    --kubeconfig=: The kubeconfig file to use when talking to the cluster. If the flag is not set, a set of standard locations can be searched for an existing kubeconfig file.
+    --skip-phases*=: List of phases to be skipped
+    -f, --force: Reset the node without prompting for confirmation.
+documentation:
+    command: '[AI] `kubeadm reset` is a command used to reset the Kubernetes cluster configuration managed by `kubeadm`. This command removes all certificates and state files, effectively destroying and recreating the Kubernetes control plane components (etcd, kube-apiserver, kube-controller-manager, and kube-scheduler). It also drains nodes from the cluster to avoid orphaned resources. After running this command, you can use `kubeadm init` to recreate the cluster configuration from scratch.'
+    flag:
+        cert-dir: '[AI] `kubeadm reset --cert-dir` is a command used to reset and reconfigure a Kubernetes cluster managed by Kubeadm. The `--cert-dir` option specifies the directory containing the certificate authorities, client certificates, and keys for the Kubernetes components. When this command is executed, it will remove the existing certificates and keys, re-generate new ones, and recreate the etcd data directory. This process effectively resets the cluster to a clean state, allowing for the creation of a new certificate authority or for the rotation of existing certificates. It''s typically used when you want to start from scratch with your Kubernetes configuration or when dealing with certificate expiration or revocation issues.'
+        cri-socket: '[AI] `kubeadm reset --cri-socket` is a command used to reset the Container Runtime Interface (CRI) configuration in a Kubernetes cluster managed by `kubeadm`. The flag `--cri-socket` specifies the Unix domain socket file path for the CRI. When this command is executed, Kubernetes control plane components like the kubelet and container runtime are stopped and then reinstalled, effectively resetting the CRI configuration. This can be useful when there''s a need to change or troubleshoot the CRI in the cluster.'
+        force: '[AI] `kubeadm reset --force` is a command used to reset Kubernetes cluster configuration managed by `kubeadm`. It forces the removal of all Certificates, Etcd data, and Kubernetes components such as the API server, etcd, controller-manager, and scheduler. This command is typically used when it''s necessary to start over with a fresh Kubernetes installation or when troubleshooting issues in a cluster. Be aware that using this command will result in data loss if there are any persistent volumes in use.'
+        ignore-preflight-errors: '[AI] `kubeadm reset --ignore-preflight-errors` is a command used to reset and reconfigure a Kubernetes cluster using `kubeadm`. The `--ignore-preflight-errors` flag is used to bypass the checks performed by `kubeadm init` or `kubeadm join` during the initialization process. These checks ensure that the system meets certain requirements before initializing a Kubernetes cluster, such as having an up-to-date operating system and necessary dependencies installed. By ignoring these errors, you may introduce potential risks to your cluster''s stability and security. It should be used with caution, only when absolutely necessary, and ideally in a controlled environment.'
+        kubeconfig: |-
+            [AI] `kubeadm reset` is a command-line tool used to reset and reconfigure a Kubernetes cluster managed with Kubeadm. The `--kubeconfig` option specifies the path to the Kubernetes configuration file, which will be deleted during the reset process.
+
+            When you run `kubeadm reset --kubeconfig <path-to-config>`, it does the following:
+
+            1. Deletes the existing Kubernetes cluster.
+            2. Removes the relevant Kubernetes components from the system such as etcd, kube-apiserver, kube-controller-manager, and kube-scheduler.
+            3. Deletes the Kubernetes configuration file specified by `<path-to-config>`.
+
+            After running this command, you can recreate a new cluster using freshly installed or updated components. This can be useful in various scenarios such as testing new configurations, upgrading your Kubernetes version, and troubleshooting issues by starting over with a clean slate.
+        skip-phases: '[AI] `kubeadm reset --skip-phases` is a command used to clear the state of a Kubernetes cluster managed by Kubeadm. This command resets the Kubernetes control plane node, removing all certificates and other state data. The `--skip-phases` flag is optional and skips the phases of updating etcd data and marking the control plane nodes as unschedulable during the reset process. This means that if you use this flag, the etcd data will not be modified and the control plane nodes will remain schedulable after the reset. It''s important to note that using `--skip-phases` may result in data loss if there are any conflicts or inconsistencies between the etcd data and the local Kubeadm configuration.'

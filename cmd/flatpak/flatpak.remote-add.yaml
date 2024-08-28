@@ -1,0 +1,127 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: remote-add [OPTION…] NAME LOCATION
+description: Add a remote repository
+group: repository
+flags:
+    --authenticator-install: Autoinstall authenticator
+    --authenticator-name=: Name of authenticator
+    --authenticator-option=: Authenticator option
+    --collection-id=: Collection ID
+    --comment=: A one-line comment for this remote
+    --default-branch=: Default branch to use for this remote
+    --description=: A full-paragraph description for this remote
+    --disable: Disable the remote
+    --filter=: Set path to local filter FILE
+    --from: LOCATION specifies a configuration file, not the repo location
+    --gpg-import=: Import GPG key from FILE (- for stdin)
+    --homepage=: URL for a website for this remote
+    --icon=: URL for an icon for this remote
+    --if-not-exists: Do nothing if the provided remote exists
+    --installation=: Work on a non-default system-wide installation
+    --no-authenticator-install: Don't autoinstall authenticator
+    --no-enumerate: Mark the remote as don't enumerate
+    --no-follow_redirect: Don't follow the redirect set in the summary file
+    --no-gpg-verify: Disable GPG verification
+    --no-use-for-deps: Mark the remote as don't use for deps
+    --ostree-verbose: Show OSTree debug information
+    --prio=: Set priority (default 1, higher is more prioritized)
+    --subset=: The named subset to use for this remote
+    --system: Work on the system-wide installation (default)
+    --title=: A nice name to use for this remote
+    -h, --help: Show help options
+    -u, --user: Work on the user installation
+    -v, --verbose: Show debug information, -vv for more detail
+documentation:
+    command: '[AI] `flatpak remote-add` is a command used in the Flatpak packaging system to add a new remote repository from which you can install or update applications. The basic syntax is `flatpak remote-add <name> <URL>`, where `<name>` is the desired name for the remote, and `<URL>` is the URL of the Flatpak repository. This command requires administrative privileges to run. Once added, you can search for applications or check for updates using the `flatpak search` or `flatpak update` commands respectively, with the prefix `--repo=<name>`.'
+    flag:
+        authenticator-install: '[AI] The `flatpak remote-add` command is used in Flatpak, a software deployment and package management system for Linux. This specific command, `remote-add --authenticator-install`, adds a new remote repository to the Flatpak client, allowing it to download packages from that repository. The `--authenticator-install` option instructs Flatpak to automatically install the GPG key associated with the repository, ensuring the authenticity and integrity of the downloaded packages.'
+        authenticator-name: '[AI] The `flatpak remote-add` command is used in Flatpak, a software deployment and package management system for Linux. The `--authenticator-name` option specifies the name of an authenticator to use when adding a new remote repository. An authenticator is a security mechanism that ensures the integrity of the software packages being installed from the remote repository. By using a specific authenticator name, you are verifying that the keys used to sign the packages in the remote repository belong to trusted entities. This adds an additional layer of security to your Flatpak installation process.'
+        authenticator-option: '[AI] `flatpak remote-add` is a command used in Flatpak, a software deployment and package management system for Linux. The option `--authenticator-option` is used when adding a new remote repository to the system. It allows specifying an authenticator to use when communicating with that remote. An authenticator is a plugin that can verify the authenticity of Flatpak bundles before they are installed. By using `--authenticator-option`, you can specify which authenticator plugin to use for the new remote, enhancing security by ensuring only trusted software is installed on your system.'
+        collection-id: '[AI] `flatpak remote-add` is a command used in the Flatpak packaging system to add a new remote repository for software packages. The `--collection-id` option specifies an identifier for a collection of packages in that remote. Collections are logical groupings of related packages, such as a collection for a specific desktop environment or set of tools. By adding a remote with a specific collection ID, you can easily install and manage packages from that collection using Flatpak.'
+        comment: |-
+            [AI] `flatpak remote-add` is a command used in the Flatpak package management system to add a new remote repository from which to install packages. The `--comment` option allows you to provide a descriptive comment or label for the remote, making it easier to identify in the list of available remotes when managing your Flatpak repositories. For example:
+
+            ```bash
+            flatpak remote-add --if-not-exists --comment="myrepo myremote" <URL>
+            ```
+
+            In this command, `<URL>` is the URL of the repository you want to add. The `--if-not-exists` option ensures that the remote will only be added if it doesn't already exist. The comment string "myrepo myremote" can be changed to any descriptive label that suits your preference or naming convention.
+        default-branch: |-
+            [AI] `flatpak remote-add` is a command used in the Flatpak package manager to add a new remote repository for software packages. The `--default-branch` option specifies which branch of the Git repository to use as the default for updates and installations from that remote.
+
+            For example, `flatpak remote-add --if-not-exists myremote https://myrepo.example.com/flatpaks/myproject --default-branch master` will add a new remote named "myremote" with the URL `https://myrepo.example.com/flatpaks/myproject`, and set the default branch for that remote to be "master". This means that when installing or updating packages from this remote, Flatpak will use the packages in the master branch by default. If the remote already exists, this command does nothing.
+        description: '[AI] `flatpak remote-add` is a command used in the Flatpak packaging system to add a new remote repository from which to install or update applications. The `--description` option provides a brief description of the remote that will be displayed when listing available remotes. For example, `flatpak remote-add --description="GNOME Flatpaks" gnome https://gnome.packages.virtualbox.org/gpg.key` adds a new remote named "gnome" with the URL `https://gnome.packages.virtualbox.org` and a description of "GNOME Flatpaks".'
+        disable: '[AI] `flatpak remote-add` is a command used in the Flatpak package management system to add a new remote repository from which packages can be installed. The `--disable` option disables automatic refreshing of the remote''s metadata, meaning that you will need to manually run `flatpak remote-refresh <remote>` to update the remote''s available packages list. This can be useful for controlling when updates are applied or for adding a local repository without unnecessary network traffic.'
+        filter: |-
+            [AI] `flatpak remote-add` is a command used in Flatpak, a popular application packaging and deployment system for Linux and other Unix systems. The `--filter` option is an argument that can be passed to this command to specify a filter expression to use when adding a new remote repository.
+
+            The filter expression allows you to define rules to select specific applications or runtimes from the remote repository that match certain criteria, such as the application's name, version, or dependencies. This way, you can add multiple repositories and easily manage which applications from each repository you want to install on your system.
+
+            For example, `flatpak remote-add --if-not-exists myrepo https://myrepository.com/repo/ myfilter` would add the specified remote repository only if it doesn't already exist, and apply the given filter expression `myfilter` to it. The syntax of a filter expression can be complex, allowing for multiple conditions and logical operators. For more information on filter expressions and their syntax, you can refer to the Flatpak documentation.
+        from: '[AI] The `flatpak remote-add` command is used in Flatpak, a software deployment system for Linux and other Unix-based operating systems. The `--from` option specifies that the new remote should be initialized from an existing remote or repository. This means that you can add a new remote source by providing the URL of an existing repository. For example, `flatpak remote-add --if-not-exists myremote https://mypackagerepository.com/flatpaks/` will create a new remote named "myremote" if it does not already exist, and initialize it from the packages at the specified URL.'
+        gpg-import: '[AI] `flatpak remote-add` is a command used in Flatpak, a software deployment and package management system for Linux desktop environments. The `--gpg-import` option is used to add a new remote repository and import the GPG keys associated with it at the same time. This ensures the authenticity and integrity of the packages that will be installed from this repository. Once the key import is successful, you can add the remote using its URL or alias. For example: `flatpak remote-add --if-not-exists --gpg-import <key-file> <remote-alias> <repository-url>`.'
+        help: |-
+            [AI] `flatpak remote-add` is a command used in the Flatpak application packaging system to add a new remote repository from which to install or update applications. The `--help` option provides information about how to use this command effectively. Here's a brief explanation:
+
+            ```
+            Usage: flatpak remote-add [OPTIONS] NAME URL
+
+            Add a new remote repository with the given name and URL. This can be used
+            to add an additional Flatpak repository, such as one provided by a third
+            party.
+
+            Options:
+              --description DESCRIPTION  Set the description for this remote.
+              --gpg-key FILE           Import a GPG key file to sign the remote's
+                                      package metadata (optional).
+              --help                   Show this help message and exit.
+              --list                   List all remotes known to Flatpak, but do not
+                                      add or remove any.
+              --no-gpg-verify           Skip verification of the GPG keys for this
+                                      remote (not recommended).
+              --quiet                  Suppress progress output from Flatpak.
+              --username USERNAME       Set the username to use when authenticating
+                                      with this remote, if it requires authentication.
+            ```
+
+            In summary, `flatpak remote-add --help` shows how to add a new remote repository to Flatpak, including options for setting its name, description, and GPG key (for signing packages). It also provides options for quieting the output, disabling GPG key verification, and specifying a username for authentication.
+        homepage: |-
+            [AI] The `flatpak remote-add` command is used in Flatpak, a software deployment and packaging system for Linux and other Unix-based operating systems. This specific subcommand, `--homepage`, sets the URL of the repository's homepage for the new remote being added.
+
+            When you add a new Flatpak remote, you can provide its name and URL using the base command `remote-add`. The `--homepage` option is used to specify the URL of the repository's main page or website. This information is not essential for Flatpak to function but can be helpful for users to easily find more details about the remote repository.
+        icon: |-
+            [AI] The `flatpak remote-add` command is a utility used in Flatpak, a software deployment and packaging system. This command is used to add a new remote repository from which Flatpak can download and install applications.
+
+            The option `--icon <icon-url>` is passed to the command for specifying an icon URL that represents the remote repository in the Flatpak UI. It helps users easily identify and manage their list of repositories. The flag takes an argument, which is the URL pointing to the icon file. This icon will be displayed when listing or managing repositories using Flatpak CLI or graphical tools like the Software Center.
+        if-not-exists: '[AI] `flatpak remote-add` is a command used in the Flatpak package management system. The option `--if-not-exists` tells Flatpak to only add a new remote if it doesn''t already exist in the list of known remotes. This can be useful to ensure that you don''t accidentally overwrite an existing remote configuration. When used together with `remote-add`, this option prevents errors and maintains control over which Flatpak repositories your system uses.'
+        installation: '[AI] `flatpak remote-add` is a command used in Flatpak, a software deployment platform. This command is used to add a new remote repository to your system for installing and managing applications as Flatpaks. The `--installation` option specifies that the added remote should be set as the default installation remote. With this setup, Flatpak will use packages from this remote by default when installing or updating applications.'
+        no-authenticator-install: '[AI] The `flatpak remote-add` command is used in Flatpak, a software deployment and package management system for Linux desktop environments. The `--no-authenticator-install` option that can be passed to this command instructs it not to install any authenticators when adding a new remote repository. Authenticators are used to authenticate and verify the integrity of packages in Flatpak repositories, ensuring they come from trusted sources. By using `--no-authenticator-install`, you''re manually choosing not to install these authenticators, which may be useful for certain use cases such as adding an untrusted repository for testing or development purposes. It''s important to note that this can pose a security risk, as packages from untrusted sources could potentially be malicious, and without authenticators, Flatpak won''t provide the added layer of protection against tampered packages.'
+        no-enumerate: '[AI] The `flatpak remote-add` command is used to add a new Flatpak repository, or remote, as a source for software installation. The `--no-enumerate` option disables the enumeration of available branches or tags in the repository before adding it. This can save time when dealing with large or numerous repositories, as Flatpak will not need to list all available options before proceeding with the addition.'
+        no-follow_redirect: '[AI] `flatpak remote-add` is a command used in the Flatpak package management system to add a new remote repository from which to install or update packages. The `--no-follow_redirect` option tells Flatpak not to follow any possible redirects during the addition process. In other words, it ensures that the specified URL is the only one used to communicate with the remote server, providing an additional layer of security against potential man-in-the-middle attacks or unintended redirection.'
+        no-gpg-verify: '[AI] `flatpak remote-add` is a command used in the Flatpak package management system to add a new remote repository from which to install or update packages. The option `--no-gpg-verify` disables GPG signature verification for the added remote. This means that the authenticity of the packages downloaded from this remote cannot be guaranteed using the standard GPG key verification process. Using such an option should be done with caution, as it increases the risk of installing potentially malicious software. It''s generally recommended to only use repositories you trust and verify their signatures for security reasons.'
+        no-use-for-deps: '[AI] The `flatpak remote-add` command is used to add a new Flatpak remote repository from which you can install applications. The `--no-use-for-deps` flag is an optional argument that instructs Flatpak not to automatically install dependencies of the added remote''s packages that are required for those packages to run, but which are not directly installed by the user. In other words, it allows you to add a remote repository while preventing the installation of unnecessary dependencies.'
+        ostree-verbose: |-
+            [AI] `flatpak remote-add` is a command used in Flatpak, a software deployment and packaging system for Linux. The `--ostree-verbose` option is a debug flag for this command.
+
+            When you run `flatpak remote-add <remote-name> <remote-url> --ostree-verbose`, it does the following:
+
+            1. Connects to the specified remote URL and adds it as a new remote in your Flatpak configuration.
+            2. Verbosely logs the OSTree repository metadata exchange process between your local system and the remote server. This can help in troubleshooting connection issues or when setting up a new remote for the first time.
+            3. Enables detailed logging of any errors that might occur during the process.
+
+            In summary, `flatpak remote-add --ostree-verbose` is used to add a new remote repository to Flatpak while providing extensive debug information on the OSTree repository metadata exchange process.
+        prio: '[AI] `flatpak remote-add` is a command used in Flatpak, a software deployment and packaging system. The `--prio` option sets the priority level of the added remote. A higher priority number indicates that packages from this remote will be preferentially installed over those from other remotes. For example, `flatpak remote-add --if-not-exists <remote-name> <repository-url> --priority=100` would add a new remote with the given name and URL, and set its priority to 100, making it the highest priority remote.'
+        subset: '[AI] The `flatpak remote-add` command is used to add a new Flatpak remote repository, which is a source from where you can install and update Flatpak applications. The `--subset` option limits the added remote to only include a specific subset of available repositories or branches within that remote. This can help manage access to multiple repositories and control which software is installed on your system.'
+        system: |-
+            [AI] The `flatpak remote-add --system` command is used to add a Flatpak remote repository to your system. Flatpak is a packaging system for Linux distributions that allows software to be packaged in an isolated environment, called "flats". A remote repository is a location where these flats are stored and can be downloaded and installed.
+
+            The `--system` option specifies that the repository will be added to the system-wide Flatpak installation, meaning that applications installed from it will be available for all users on the system, not just the current user. The command takes a URL argument which specifies the location of the remote repository.
+        title: '[AI] The `flatpak remote-add` command is used to add a new Flatpak remote, which is a repository of software packages, to your system. The `--title` option sets the descriptive name for the remote that will be displayed when listing remotes with the `flatpak remote list` command. For example, `flatpak remote-add --if-not-exists --title "GNOME Software Store" <URL>` would add a new remote with the title "GNOME Software Store" if it doesn''t already exist and the URL is a valid Flatpak repository.'
+        user: |-
+            [AI] `flatpak remote-add --user` is a command used in Flatpak, a software deployment and packaging system for Linux desktops. This command adds a new remote repository to the user's Flatpak installation. The `--user` flag specifies that this operation will be performed for the current user only, not affecting other users on the same machine.
+
+            When you run `flatpak remote-add --user <repository_url> <repo_name>`, Flatpak fetches and stores the public key associated with the repository, allowing it to verify the authenticity of software packages downloaded from this source in the future. This command does not install any packages; it just sets up the connection to the new remote repository for later use.
+        verbose: |-
+            [AI] `flatpak remote-add` is a command used in Flatpak, a software deployment and application packaging system. The `--verbose` option increases the amount of output displayed during the execution of the command.
+
+            The base command `remote-add` is used to add a new Flatpak repository (remotely hosted) as a remote source for installation or update of Flatpak applications. When run with the `--verbose` flag, it provides detailed information about the process, such as URL of the repository being added, authentication methods used, and progress updates during the addition process. This can be helpful in troubleshooting and understanding the details of working with remote repositories in Flatpak.

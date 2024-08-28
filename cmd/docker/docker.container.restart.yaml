@@ -1,0 +1,23 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: restart [OPTIONS] CONTAINER [CONTAINER...]
+description: Restart one or more containers
+flags:
+    -s, --signal=: Signal to send to the container
+    -t, --time=: Seconds to wait before killing the container
+documentation:
+    command: '[AI] The `docker container restart` command is used to forcibly restart one or more running Docker containers. When you run this command, Docker sends a SIGTERM signal to the container''s processes, waits for them to gracefully stop, and then sends a SIGKILL signal if they don''t within a certain time frame. This results in the container being stopped and immediately started again from its latest image. The new instance of the container receives a fresh file system and state, meaning any changes made in the previous instance will be lost unless they were saved to a volume or persistent data outside the container.'
+    flag:
+        signal: |-
+            [AI] The `docker container restart` command is used to restart a Docker container that has stopped or is in an unhealthy state. The `--signal` option allows you to specify which signal to send when restarting the container. Signals are a way of sending specific messages to a process.
+
+            By default, Docker sends a `SIGTERM` signal when attempting to stop a container. When using the `restart` command with no additional flags, Docker will automatically retry starting the container multiple times with increasing forcefulness, eventually sending a `SIGKILL` signal if necessary.
+
+            However, you can use the `--signal` option to send a different signal when restarting the container:
+
+            - `--signal=SIGTERM` sends a graceful termination signal (default)
+            - `--signal=SIGINT` sends an interrupt signal
+            - `--signal=SIGHUP` sends a hangup signal
+            - `--signal=SIGKILL` sends a fatal kill signal (equivalent to stopping the container with the `docker stop` command)
+
+            Using the appropriate signal can help in managing the application running inside the container. For instance, a SIGTERM might allow the application time to gracefully shutdown before being stopped, while a SIGKILL would immediately terminate the process.
+        time: '[AI] The `docker container restart` command is used to restart a stopped or running Docker container. The `--time` flag is an optional argument that specifies the grace period, in seconds, before sending the SIGTERM signal to the container. If no grace period is specified, the default value is 10 seconds. The container will receive a SIGKILL signal if it does not terminate within the given time after receiving SIGTERM. Therefore, `docker container restart --time 30` would restart a container with a 30-second grace period before sending the SIGTERM signal.'

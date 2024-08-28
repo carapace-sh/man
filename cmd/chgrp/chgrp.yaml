@@ -1,0 +1,68 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: chgrp
+description: change group ownership
+flags:
+    --dereference: affect the referent of each symbolic link (this is the default), rather than the symbolic link itself
+    --help: display this help and exit
+    --no-preserve-root: do not treat '/' specially (the default)
+    --preserve-root: fail to operate recursively on '/'
+    --quiet: suppress most error messages
+    --reference=: use RFILE's group rather than specifying a GROUP value
+    --version: output version information and exit
+    -H: if a command line argument is a symbolic link to a directory, traverse it
+    -L: traverse every symbolic link to a directory encountered
+    -P: do not traverse any symbolic links (default)
+    -R, --recursive: operate on files and directories recursively
+    -c, --changes: like verbose but report only when a change is made
+    -f, --silent: suppress most error messages
+    -h, --no-dereference: affect symbolic links instead of any referenced file (useful only on systems that can change the ownership of a symlink)
+    -v, --verbose: output a diagnostic for every file processed
+documentation:
+    command: '[AI] `chgrp` is a Unix or Linux command used to change the group ownership of a file or a directory. It takes one required argument which is the new group owner, usually represented by its group ID (GID), followed by the path to the file or directory. For example, `chgrp 1024 filename` sets the group ownership of "filename" to the group with GID 1024. This command allows managing file and directory access permissions at a group level.'
+    flag:
+        H: '[AI] The `chgrp` command with the `-H` flag is used to change the owner (group) of a file or a directory and its contents recursively in a hierarchical manner, meaning it will apply the change not only to the specified file or directory but also to all files and directories under it. For example, if you run `chgrp -H groupname directory`, it will update the group ownership for the given directory as well as for all files and subdirectories within that directory.'
+        L: '[AI] The command `chgrp -L` is used to change the group ownership of a file or directory in Unix-based systems. The `-L` option indicates that the given path should be interpreted as a leaf (a regular file or a symbolic link) and not a directory, meaning that the group ownership will be applied to the named file itself and not any directories in its path. For instance, if you have the file "data.txt" in the directory "/my/long/path", running `chgrp -L mygroup data.txt` would modify only the group ownership of "data.txt" itself and leave the group ownerships of all other files or directories in "/my/long/path" unchanged.'
+        P: '[AI] The `chgrp` (change group) command with the `-P` option changes the primary group of the specified files or directories to the named group, instead of the group with the same name that is a subgroup in the file''s hierarchy. For example, if you run `chgrp:group filename`, and "group" is not a subgroup of the file''s parent directory group, then the primary group of the file will be changed to "group". Without the `-P` option, `chgrp` would use the first group in the specified group''s hierarchy.'
+        changes: '[AI] `chgrp` is a Unix or Linux command used to change the group ownership of a file or directory. The option `--changes` is not a standard option for this command, but some implementations may support it for more detailed output. When used, it displays the new owning group and any other groups the file belongs to after the change has been applied, in addition to the regular success or error message. This can be helpful for confirming that the desired change was made correctly.'
+        dereference: '[AI] `chgrp` is a Unix command used to change the group ownership of a file or a directory. The `--dereference` option, when used with `chgrp`, changes the group ownership of a file or a symbolic link to the file or the directory it points to, instead of the symbolic link itself. In other words, it follows the given path and modifies the file at the end of the path rather than the symbolic link. This can be important when dealing with files that have complex ownership structures or are part of a larger system where maintaining consistent group ownership is crucial.'
+        help: |-
+            [AI] `chgrp` is a command in Unix-based operating systems used to change the owner group of a file or a directory. The option `--help` displays detailed information about how to use the `chgrp` command, including:
+
+            1. Syntax: `chgrp [OPTION]... GROUP FILE...`
+            2. Description: Change the group ownership of each FILE to GROUP.
+            3. Options: Several optional arguments can be used with `chgrp`, such as `--recursive` (change the group ownership for each file in a directory recursively), `--interactive` (prompt before changing the group ownership), and others.
+            4. Usage examples: `chgrp :group filename`, `chgrp -R :newgroup directoryname`.
+            5. Note: You need the necessary permissions to change a file or directory's group ownership.
+        no-dereference: '[AI] The `chgrp` command with the `--no-dereference` option is used in Unix-based systems for changing the group ownership of a file or a directory, without following any symbolic links that might exist for that file or directory. In other words, it changes the group ownership only for the file or directory itself and not for the files or directories that are linked to it. This option is particularly useful when working with complex file structures where there are multiple levels of symbolic links. By using `--no-dereference`, you can make sure that only the immediate file or directory''s group ownership is changed, without affecting any other files or directories in the hierarchy.'
+        no-preserve-root: |-
+            [AI] The `chgrp` (change group) command is a Linux utility used to change the ownership group of files and directories. The option `--no-preserve-root` is an optional argument that modifies its default behavior.
+
+            By default, when using `chgrp`, if you try to change the group of a file or directory located outside of your current working directory, the command will change the group recursively for all files and directories in the entire hierarchy, starting from the specified file or directory. This behavior is known as "recursive mode" or "following symbolic links" option.
+
+            The `--no-preserve-root` flag disables this default behavior. When using this flag, you can change the group of a file or directory without affecting other files and directories in its hierarchy, even if they are located elsewhere on the filesystem. This way, you're only changing the group for the specified file or directory, not the whole hierarchy.
+        preserve-root: |-
+            [AI] The `chgrp` (change group) command with the `--preserve-root` option is used in Unix and Linux systems for changing the file or directory group ownership while preserving the leading directories' group ownership.
+
+            In other words, when you use `chgrp --preserve-root`, the group ownership of a file or a directory will be changed, but the group ownership of its parent directories remains unchanged. This is particularly useful when dealing with hierarchical directory structures where you want to ensure consistent group ownership throughout the tree while making exceptions for individual files or directories.
+        quiet: |-
+            [AI] The `chgrp` command with the `--quiet` option changes the group ownership of a file or directory quietly, without displaying any messages or confirmation prompts. This means that the output of the command will only show any errors and will not display a message for successful operations. For example:
+
+            ```bash
+            chgrp --quiet newgroupfile
+            ```
+
+            This command changes the group ownership of `newgroupfile` to `newgroup`, without displaying any messages. If no error occurs, nothing is printed on the console.
+        recursive: '[AI] The `chgrp` (change group) command with the `--recursive` option is used to change the primary group ownership of a file or directory and all its contents recursively. This means that not only the specified file or directory''s ownership will be updated, but also the ownership of all files and directories under it in the hierarchy will be adjusted accordingly, ensuring consistency throughout the entire tree structure. It is useful when managing permissions for large directories containing multiple files and subdirectories.'
+        reference: '[AI] The `chgrp` (change group) command with the `--reference` option in Unix-based systems is used to change the group ownership of a file or directory, while keeping the same group memberships for all the other files in a given directory hierarchy. This means that if you apply this command to a file and there exists a parent directory with the same group ownership, the new group for the file will be set to match the parent directory''s group. This option can be helpful when managing large collections of files or directories where maintaining consistent group memberships is desired.'
+        silent: '[AI] The `chgrp` command with the `--silent` option is used to change the group ownership of one or more files or directories in a Unix-like operating system. The `--silent` option suppresses the output of success messages, meaning only error messages will be displayed if an error occurs during the command execution. In other words, it runs the `chgrp` command silently, without displaying the usual confirmation message for each file processed.'
+        verbose: |-
+            [AI] The `chgrp` (change group) command with the `--verbose` option displays detailed information about the change made to the file or directory group ownership. When used together, this command will print out the current group ownership before and after the change, as well as the name of the new group. For example:
+
+            ```bash
+            $ chgrp --verbose groupname file.ext
+            Changing ownership of 'file.ext' from user:oldgroup to :newgroup
+            Changing group ownership of 'file.ext' to 'newgroup'
+            ```
+
+            This will output the previous and new group name, allowing you to confirm the change made to the file or directory.
+        version: '[AI] The `chgrp` (change group) command is a utility in Unix and Linux systems used to change the ownership of the file''s group. The `--version` option is used to display the version information of the `chgrp` command installed on your system. When you run the command as `chgrp --version`, it will output the name of the `chgrp` utility followed by its release version, compilation time, and other relevant details. This helps users check the specific version of the command being used for troubleshooting or compatibility purposes.'

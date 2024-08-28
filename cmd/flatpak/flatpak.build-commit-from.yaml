@@ -1,0 +1,113 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: build-commit-from [OPTION…] DST-REPO [DST-REF…]
+description: Make a new commit from existing commits
+group: build
+flags:
+    --disable-fsync: Do not invoke fsync()
+    --end-of-life-rebase=: Mark refs matching the OLDID prefix as end-of-life, to be replaced with the given NEWID
+    --end-of-life=: Mark build as end-of-life
+    --extra-collection-id=: Add an extra collection id ref and binding
+    --force: Always commit, even if same content
+    --gpg-homedir=: GPG Homedir to use when looking for keyrings
+    --gpg-sign=: GPG Key ID to sign the commit with
+    --no-summary-index: Don't generate a summary index
+    --no-update-summary: Don't update the summary
+    --ostree-verbose: Show OSTree debug information
+    --src-ref=: Source repo ref
+    --src-repo=: Source repo dir
+    --subset=: Add to a named subset
+    --timestamp=: Override the timestamp of the commit (NOW for current time)
+    --token-type=: Set type of token needed to install this commit
+    --untrusted: Do not trust SRC-REPO
+    --update-appstream: Update the appstream branch
+    -b, --body=: Full description
+    -h, --help: Show help options
+    -s, --subject=: One line subject
+    -v, --verbose: Show debug information, -vv for more detail
+documentation:
+    command: '[AI] `flatpak build-commit-from` is a command used in the Flatpak package manager to create a new commit for an existing branch or tree in the Flatpak build system. It takes as an argument the path to the directory containing the build tree, and it writes the new commit to the current branch or active ref in the Git repository. In essence, it saves the current state of the build tree as a new, versioned snapshot for future use in the Flatpak distribution.'
+    flag:
+        body: '[AI] `flatpak build-commit-from` is a command used in the Flatpak package management system to create a new building reference for an existing project or repository. The `--body` option specifies the commit hash or branch name of the source code repository to use as the basis for the new build. This command doesn''t directly create a flag, but it is used in the process of creating and managing Flatpak applications using Flatpak''s build system.'
+        disable-fsync: |-
+            [AI] The `flatpak build-commit-from` is a command used in Flatpak, a software deployment and application packaging system. This command creates a new commit for an existing Flatpak building project based on the current state of the source code and build environment.
+
+            The `--disable-fsync` option disables the use of filesystem syncing during the build process. Filesystem syncing is a mechanism that ensures data is written to stable storage before a program continues executing, which can help prevent data loss in case of a power failure or system crash. However, it can also significantly slow down the build process since each write operation needs to wait for the filesystem to confirm the write has been completed. By disabling filesync, the build process can be faster at the cost of potential data loss if there is a power failure or other issue during the build.
+        end-of-life: '[AI] The `flatpak build-commit-from --end-of-life` command is a Flatpak (a software deployment platform) utility used to create a new build of an application from an existing build that has reached its end-of-life. This means the original build is no longer being maintained or updated with new features, but the `build-commit-from` command allows you to make a snapshot of it and continue using it if necessary. The resulting commit can be used as the basis for creating new builds or branches to modify the application''s source code.'
+        end-of-life-rebase: |-
+            [AI] The `flatpak build-commit-from --end-of-life-rebase` command is used in Flatpak, a software deployment and application packaging system. This command allows creating a new commit based on an existing one that has reached its end-of-life status.
+
+            When a Flatpak application reaches its end-of-life, it's no longer receiving updates. The `--end-of-life-rebase` option reuses the old commit as a base to create a new one, effectively freezing the old commit while allowing further changes to be made on top of it. This can be useful for creating patches or maintaining custom versions of applications that are no longer being updated upstream.
+
+            The `flatpak build-commit-from` command itself is responsible for building an application from its source code and committing the resulting artifacts to a Flatpak repository. By combining this functionality with the end-of-life rebasing, it enables users to maintain older versions of applications in their system while isolating them from further updates.
+        extra-collection-id: |-
+            [AI] `flatpak build-commit-from` is a command-line utility provided by Flatpak, a software deployment and packaging system for Linux and its derivatives. This command creates a new, signed, immutable commit of an existing Flatpak build.
+
+            The option `--extra-collection-id` allows specifying an additional ID for the collection where this new commit will be created or updated. A Flatpak collection is a set of related applications and runtimes that are managed together. By default, Flatpak builds belong to the system's default collection, but you can use this option to add them to another collection instead. This can be useful for creating custom collections for specific projects or organizations.
+
+            For example, `flatpak build-commit-from <source> --extra-collection-id=<your_collection_id>` creates a new commit of the given source and adds it to the specified Flatpak collection.
+        force: '[AI] `flatpak build-commit-from` is a command used in the Flatpak packaging system to create a new building and signing commit for an existing project. The `--force` option is used when you want to overwrite any existing commits without asking for confirmation. In other words, using `flatpak build-commit-from --force` will forcefully create a new commit even if there are conflicts or uncommitted changes in the current branch.'
+        gpg-homedir: '[AI] `flatpak build-commit-from` is a command used in the Flatpak package management system to create a new, signed and committed build of an application or runtime. The option `--gpg-homedir` specifies the path to the GnuPG keyring directory where the private keys for signing are located. This allows building and committing a Flatpak bundle using the specified GnuPG keys.'
+        gpg-sign: |-
+            [AI] `flatpak build-commit-from` is a command used in the Flatpak software development and deployment framework to create a new signed commit for an existing Flatpak application or library.
+
+            The `--gpg-sign` option is passed to this command to indicate that the resulting commit should be digitally signed with a GnuPG key. The command will prompt for the passphrase associated with the specified GPG key, and then sign the created commit using that key. The signed commit can then be published to Flatpak repositories or distributed elsewhere for others to install.
+
+            In summary, `flatpak build-commit-from --gpg-sign` is used to create a new, signed Flatpak application or library commit, ready for distribution.
+        help: |-
+            [AI] `flatpak build-commit-from` is a command-line tool provided by Flatpak, a software deployment and application packaging system. This command is used to create a new building sandbox and commit a new build of an existing Flatpak application or library.
+
+            The `--help` option displays detailed usage information about the `build-commit-from` command. Here's a summary:
+
+            - `build-commit-from <URL>...`: Build and commit new versions of one or more applications specified by their URLs or refs (branch names or commit hashes).
+            - `--branch <branch>`: Create a new branch based on the given source branch instead of the current head.
+            - `--no-interactive`: Suppress interactive prompts and automatically commit all changes.
+            - `--quiet`: Run in quiet mode, printing only errors and warnings.
+            - `--no-cache`: Disable using the build cache for faster rebuilds.
+            - `--keep-source-tree`: Keep the source tree after building instead of deleting it.
+            - `--no-upload`: Don't upload the built packages to a remote repository.
+            - `--repo <repository>`: Use the specified Flatpak repository as the destination for the new build.
+
+            These options allow you to control various aspects of the build process, such as branch creation, interactive prompts, cache usage, and package uploads.
+        no-summary-index: |-
+            [AI] The `flatpak build-commit-from` command is a utility in Flatpak, a software deployment and package management system for Linux desktop environments. This specific command, with the `--no-summary-index` flag, is used to create a new commit (a snapshot of the current state of a project) from an existing Flatpak build.
+
+            The `--no-summary-index` flag tells Flatpak not to generate a summary index file for this particular commit. Summary index files are optional metadata that can be added to a Flatpak build, providing additional information about the contents of the build. By skipping this step with the flag, the command will only create the commit itself without generating or updating any associated summary index files.
+        no-update-summary: |-
+            [AI] `flatpak build-commit-from` is a command-line utility provided by Flatpak, a software deployment and packaging system. The `--no-update-summary` flag is an optional argument for this command.
+
+            This command is used to create a new build commitment based on an existing one, but with updated sources or configurations. In simple terms, it helps in creating a new version of an already packaged application without having to rebuild the entire package from scratch.
+
+            The `--no-update-summary` flag disables the automatic generation of a summary message that gets included when committing the build. This option might be used if you prefer to manually create and manage the commit messages yourself.
+        ostree-verbose: |-
+            [AI] `flatpak build-commit-from` is a command used in Flatpak, a software deployment and packaging system. This specific command creates a new, commitable snapshot of an existing built Flatpak application or library.
+
+            The option `--ostree-verbose` is added to increase the level of output during the creation of the new commit using OSTree, the version control system used by Flatpak for its filesystem-level snapshots. This option results in a detailed, verbose output showing each step taken during the commit process.
+        src-ref: |-
+            [AI] `flatpak build-commit-from` is a command-line utility provided by Flatpak, a software deployment and application packaging system. This command is used to create a new build of an existing repository or source tree by committing the changes into a new build branch.
+
+            The option `--src-ref <reference>` specifies the name of the source branch or commit reference that will be used as the basis for building the new commit. The result is a newly committed build with a unique build identifier and version number, ready to be published in a Flatpak repository.
+        src-repo: '[AI] The `flatpak build-commit-from` command is used in the Flatpak package management system to create a new, commit-signed building reference for an existing repository source. This command takes the option `--src-repo` followed by the path to the directory containing the source tree of the project to be packaged. The resulting build reference can then be used to build and distribute Flatpak applications using the `flatpak build-run` command.'
+        subject: '[AI] `flatpak build-commit-from` is a command used in the Flatpak packaging system to create a new commit object based on an existing one, specifically for a build. The `--subject` option sets the subject or label of the new commit, which can be useful for versioning or identifying the change made in the build process. When you run `flatpak build-commit-from --subject <new_subject> <old_commit>`, it creates a new commit object derived from the old one, but with the specified subject.'
+        subset: |-
+            [AI] `flatpak build-commit-from` is a command-line tool in Flatpak, a software deployment and packaging system. The `--subset` option is used with this command to build and commit a new Flatpak application bundle based on an existing one.
+
+            Instead of rebuilding the entire application from source, `build-commit-from --subset` creates a new commit by applying only the changes to selected subsets (i.e., a set of packages) within the current build environment. This approach can save time and resources when you want to release an updated version of your application with minimal changes.
+
+            Here's a brief overview of how it works:
+            1. Initialize the Flatpak repository or use an existing one.
+            2. Create a branch based on the parent commit (or the current head) in the repository.
+            3. Set up the environment with the required subsets using `flatpak-buildsystem` or other build tools.
+            4. Make necessary changes to the selected subsets (packages or source code).
+            5. Run `flatpak build-commit-from --subset <subset1> [<subset2> ...]` to create a new commit, including only the changed subsets in the new application bundle.
+
+            Using this command can help maintain smaller and more focused application bundles, keeping your releases efficient and streamlined.
+        timestamp: '[AI] `flatpak build-commit-from` is a command used in the Flatpak application packaging system to create a new commit for an existing building project. The `--timestamp` option appends a timestamp string to the new commit message, describing when the build was initiated. The resulting commit can then be used to create a new Flatpak distribution or update an existing one.'
+        token-type: '[AI] The `flatpak build-commit-from` command is a Flatpak utility used to create a new commit for an existing Flatpak application bundle. The `--token-type` option specifies the type of authentication token to use when pushing the new commit to the Flatpak repository. It can take values such as "bearer" for OAuth bearer tokens or "ssh" for SSH keys. Using this flag allows secure and controlled access to your Flatpak repositories during the build and distribution process.'
+        untrusted: |-
+            [AI] `flatpak build-commit-from --untrusted` is a command used in Flatpak, a desktop application packaging and deployment system. This command is used to create a new, untrusted commit object for an existing app source directory or container.
+
+            When you run this command on an untrusted source (i.e., not from a repository that has been added with `flatpak remote-add`), Flatpak will build the app locally, creating a new commit object in the local repository. This commit is marked as "untrusted," meaning it hasn't yet been signed by a trusted key or builder.
+
+            After creating an untrusted commit, you can inspect and even install the application for testing purposes. However, since it is untrusted, caution should be exercised when running it on your system, as there may be potential security risks involved. If you decide to distribute this untrusted app, other users would also need to manually import or build it from scratch before they can trust and install it on their own systems.
+        update-appstream: '[AI] `flatpak build-commit-from` is a command used in the Flatpak package manager to create a new, commit-signed build of an existing Flatpak application. The `--update-appstream` option updates the appdata.xml file (AppStream metadata) for the application before creating the new build. This ensures that the AppStream data is up-to-date and reflects any changes made to the application since its last commit. This command also creates a new ref in the Git repository, allowing you to easily track this specific build version.'
+        verbose: '[AI] `flatpak build-commit-from` is a Flatpak command used to create a new commit for an existing Flatpak application bundle based on its current state. The `--verbose` flag increases the amount of output displayed during the build process, providing more detailed information about each step taken, including progress updates, warnings, and errors. This can help in debugging and understanding the build process in more detail.'

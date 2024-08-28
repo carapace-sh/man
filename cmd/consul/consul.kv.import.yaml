@@ -1,0 +1,52 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: import
+description: Imports a tree stored as JSON to the KV store
+flags:
+    --ca-file=: Path to a CA file to use for TLS when communicating with Consul.
+    --ca-path=: Path to a directory of CA certificates to use for TLS when communicating with Consul.
+    --client-cert=: Path to a client cert file to use for TLS when 'verify_incoming' is enabled.
+    --client-key=: Path to a client key file to use for TLS when 'verify_incoming' is enabled.
+    --datacenter=: Name of the datacenter to query.
+    --http-addr=: The `address` and port of the Consul HTTP agent.
+    --namespace=: Specifies the namespace to query.
+    --stale: Permit any Consul server (non-leader) to respond to this request.
+    --tls-server-name=: The server name to use as the SNI host when connecting via TLS.
+    --token-file=: File containing the ACL token to use in the request.
+    --token=: ACL token to use in the request.
+documentation:
+    command: '[AI] `consul kv import` is a command provided by Hashicorp''s Consul KV store. It allows you to import data from various file formats such as JSON, HCL (Hashicorp Configuration Language), or even other key-value stores like Etcd or ZooKeeper, into your Consul KV database. This operation is typically used when migrating data from another system to Consul, or when initializing a new Consul instance with existing configuration data. The import command reads the input file(s), parses the data and then writes it into the corresponding keys in the Consul store.'
+    flag:
+        ca-file: '[AI] The `consul kv import --ca-file` command is used in Hashicorp Consul to securely import data into the Key Value (KV) store using a Certificate Authority (CA) file. When importing sensitive data, it''s crucial to maintain security and ensure only trusted clients can perform the import operation. The `--ca-file` flag specifies the path to a CA file that Consul will use to verify the client''s certificate during the import process. This adds an additional layer of security by ensuring that only clients with valid certificates signed by the specified CA are allowed to execute the command.'
+        ca-path: '[AI] The `consul kv import --ca-path` command is used with Consul''s Key Value (KV) store to import Certificate Authority (CA) certificates into the KV data center. It takes a path argument specifying the location of the CA certificate files on the local file system. By importing these certificates, they can be securely stored and accessed through the Consul API. This is commonly used for managing TLS client certificates or other encryption keys within the Consul KV store.'
+        client-cert: '[AI] The `consul kv import --client-cert` flag is used with the Consul Key Value (KV) store''s import command in the context of a Consul client configuration. It specifies the path to the client certificate file that will be used for secure communication between the client and the Consul server during the data import process. The client certificate acts as an authentication mechanism, ensuring that only authorized clients can perform operations on the KV store.'
+        client-key: '[AI] The `consul kv import --client-key` command is used with Hashicorp''s Consul KV store to import data from a file into the key-value (KV) store. The `--client-key` flag specifies the client token, which is an authentication mechanism that helps secure access to the Consul API. When importing data, this token ensures that only authorized clients can perform the import operation. It''s essential to keep the client key confidential and use it carefully to maintain the security of your Consul KV store.'
+        datacenter: |-
+            [AI] The `consul kv import --datacenter` command is used in Hashicorp Consul, a distributed configuration and service discovery tool. This command imports data from a file or STDIN into the Consul Key-Value (KV) store with the specified datacenter name.
+
+            When you run `consul kv import`, it reads the data to be imported from a file or standard input by default. The `--datacenter` option is used to specify the name of the datacenter where the data will be imported. This allows for managing multiple datacenters in your Consul installation and ensuring that the correct data goes to the appropriate location.
+
+            The command imports the key-value pairs from the file or input into the KV store under the default namespace (prefix) unless specified otherwise. It's important to note that if there are existing keys with the same names in the target datacenter, they will be overwritten during the import process.
+        http-addr: '[AI] The `consul kv import --http-addr` flag is used with Consul''s Key Value (KV) store command-line interface to specify the HTTP address of the Consul server cluster that the data will be imported into. This flag allows users to connect and import data to a remote Consul KV store instance instead of the local one. The format is usually `--http-addr <consul_server_address:port>` where `<consul_server_address>` is the address or hostname of the Consul server and `port` is the HTTP port number (default is 8501).'
+        namespace: |-
+            [AI] The `consul kv import` command is a part of Consul, an open-source tool for service discovery, configuration, and orchestration. This specific command is used to import data from a file into the Consul Key Value (KV) store.
+
+            The `--namespace` flag is optional and when used, it specifies the namespace for the imported data. The KV store supports namespaces as a way to organize keys under different hierarchies. Importing data with a specific namespace allows for better management and access control. For example:
+
+            ```bash
+            consul kv import --path=/path/to/yourfile.json --namespace=my-namespace
+            ```
+
+            This command imports the JSON data from the file at `/path/to/yourfile.json`, and imports it under the `my-namespace` in the Consul KV store.
+        stale: '[AI] The `consul kv import --stale` command is a feature of the Consul Key Value (KV) store in Hashicorp''s Consul service. It is used to import data from a file or another KV store into Consul, even if the data is out of date or "stale". The `--stale` flag tells Consul not to check for conflicts with existing data and overwrites any keys that have the same path in the import file. This can be useful when importing data from a backup or older version of your data store, but be careful as it may lead to data loss if used on live data.'
+        tls-server-name: |-
+            [AI] The `consul kv import --tls-server-name` flag is used with the Consul Key Value (KV) store's import command in a secure environment, such as when using TLS encryption for communication between clients and the Consul server.
+
+            This flag sets the name or address of the Consul server as the expected TLS server name during the import process. It helps to ensure that the client is connecting to the correct server, preventing potential man-in-the-middle attacks by requiring a valid TLS certificate matching the provided `--tls-server-name`.
+
+            For example, if your Consul server's address is "consul.example.com", you would use the command:
+
+            ```sh
+            consul kv import <FILE> --tls-ca-file=<CA_FILE> --tls-cert-file=<CLIENT_CERT_FILE> --tls-key-file=<CLIENT_KEY_FILE> --tls-verify --tls-insecure --tls-server-name consul.example.com
+            ```
+        token: '[AI] The `consul kv import --token` command is used in the Consul Key Value store to import data from a file into the key-value database. It requires a valid Consul token for authentication. The `--token` option is used to provide this token as an argument, ensuring that only authorized users can perform the import operation.'
+        token-file: '[AI] The `consul kv import` command is a utility provided by Hashicorp''s Consul Key-Value store to import data from a file into the key-value database. The `--token-file` flag is an optional argument used to specify the path of a file containing an access token. This token grants the necessary permissions to perform the import operation in a secured environment. Using this flag ensures that only authorized users can import data into the Consul Key-Value store.'

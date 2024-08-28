@@ -1,0 +1,58 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: apiserver
+description: Generates the kube-apiserver static Pod manifest
+flags:
+    --apiserver-advertise-address=: The IP address the API Server will advertise it's listening on. If not set the default network interface will be used.
+    --apiserver-bind-port=: Port for the API Server to bind to.
+    --apiserver-extra-args=: A set of extra flags to pass to the API Server or override default ones in form of <flagname>=<value>
+    --cert-dir=: The path where to save and store the certificates.
+    --config=: Path to a kubeadm configuration file.
+    --control-plane-endpoint=: Specify a stable IP address or DNS name for the control plane.
+    --dry-run: Don't apply any changes; just output what would be done.
+    --feature-gates=: A set of key=value pairs that describe feature gates for various features.
+    --image-repository=: Choose a container registry to pull control plane images from
+    --kubernetes-version=: Choose a specific Kubernetes version for the control plane.
+    --patches=: Path to a directory that contains files named "target[suffix][+patchtype].extension".
+    --service-cidr=: Use alternative range of IP address for service VIPs.
+documentation:
+    command: '[AI] `kubeadm init` is a command-line utility used to bootstrap a Kubernetes cluster with `kubeadm`, a component of the Kubernetes toolkit. The specific command `kubeadm init phase control-plane apiserver` initializes the control-plane node in a Kubernetes cluster, which includes setting up the required components such as the API server, etcd, and kubelet. This command is typically run on the first node that will serve as the control plane in your cluster. The control-plane nodes are responsible for managing the state of the entire cluster, including scheduling workloads and authenticating and authorizing access to the cluster''s resources.'
+    flag:
+        apiserver-advertise-address: |-
+            [AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The option `--control-plane --apiserver-advertise-address <IP_ADDRESS>` specifies that the node being initialized will become a control plane node, which hosts the Kubernetes master components including the API server.
+
+            The `--apiserver-advertise-address` argument sets the IP address from which the API server will advertise itself to other nodes in the cluster. This is important because other nodes need to know the IP address of the API server in order to communicate with it and join the cluster.
+        apiserver-bind-port: '[AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The option `--control-plane-apiserver --apiserver-bind-port` specifies the IP address and port number on which the control plane component of the Kubernetes apiserver will listen for incoming requests. This flag ensures that the control plane APIs, including etcd, kube-scheduler, and kube-controller-manager, are accessible to nodes in the cluster. By default, these components listen on port 6443.'
+        apiserver-extra-args: |-
+            [AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The `phase control-plane apiserver` argument is specific to the `init` phase of setting up a Kubernetes control plane node.
+
+            When you run `kubeadm init --control-plane --apiserver-extra-args <flags>`, you are configuring the control plane node's apiserver. The `--apiserver-extra-args` flag is used to pass additional arguments to the apiserver at startup. These flags can be used for various purposes, such as:
+
+            1. Adjusting the listening port and SSL certificate: `--apiserver-cert-file <path> --apiserver-key-file <path> --apiserver-bind-port <port>`
+            2. Enabling or disabling various features (e.g., kubelet communication): `--authorize-webhook --feature-gates=KubernetesScheduler=true`
+            3. Setting up audit policies: `--audit-log-path=<path> --audit-policy-file=<path>`
+            4. Changing the service account used by the apiserver: `--service-account-signing-key-file <path> --service-account-signing-private-key-file <path>`
+
+            These are just a few examples of what you can do with the `--apiserver-extra-args` flag. The exact usage depends on your specific requirements and use case for your Kubernetes cluster.
+        cert-dir: |-
+            [AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The option `--phase control-plane` specifies that only the control plane nodes should be initialized.
+
+            The `--apiserver` flag further instructs `kubeadm` to install and configure the Kubernetes API server, which is the core component of the Kubernetes control plane responsible for handling all requests from clients such as kubectl or etcd.
+
+            Lastly, the `--cert-dir` flag sets the directory where Kubernetes server certificates will be stored. These certificates are essential for secure communication between different components in a Kubernetes cluster.
+        config: '[AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The option `--phase control-plane` indicates that this command will configure the control plane components, i.e., the master node where the Kubernetes API server and etcd cluster will be installed. The option `--config <file>` specifies a file in which the output configuration data will be written. This data is crucial for joining worker nodes to the cluster or configuring additional controllers like the kube-apiserver, kube-controller-manager, or etcd server, using kubeadm join command on those nodes.'
+        control-plane-endpoint: '[AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The option `--control-plane-endpoint` passed in the `init` phase specifies the external IP or hostname of the control plane endpoint for the Kubernetes apiserver. This endpoint is exposed so that other nodes in the cluster, and external clients, can communicate with the control plane components including the etcd and apiserver. By setting this during initialization, kubeadm configures the required network rules and sets up the relevant DNS records to enable access to the control plane endpoint.'
+        dry-run: '[AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The option `--phase control-plane apiserver --dry-run` is used to simulate the process of initializing the control-plane component, specifically the Kubernetes API server, without actually making any changes to the system. This can be helpful for understanding the exact sequence of actions that would be taken during a real initialization process and to ensure proper configuration before executing the commands in a production environment.'
+        feature-gates: |-
+            [AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The `phase control-plane apiserver --feature-gates` argument is used during the initialization of the control plane node in a Kubernetes cluster.
+
+            This flag enables or disables various features that are not enabled by default but are considered experimental or beta. The specific feature gates enabled with this flag are related to the Kubernetes API server. By enabling these features, you can gain access to additional functionality or improve the performance of your cluster in certain scenarios. Some examples include:
+
+            * `AlwaysAdmit`: Allows nodes and client requests to be admitted without any admission control checks. Useful for testing but not recommended for production environments.
+            * `DynamicAdmission`: Enables dynamic admission controllers, which can be loaded and unloaded at runtime.
+            * `BasicAuth`: Enables basic authentication in the API server instead of TLS certificates. This is useful for testing but not recommended for production environments.
+
+            In summary, this flag allows you to enable certain experimental features related to the control plane API server during the initialization of a Kubernetes cluster with `kubeadm`.
+        image-repository: '[AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The `phase control-plane apiserver --image-repository` argument specifies the container registry and image name for the Control Plane component''s API Server within the cluster. For example, `--image-repository=gcr.io/google-containers/kube-apiserver:v1.20.3`, tells `kubeadm init` to pull the specified version of the Kubernetes API server image from Google Container Registry. This image will be used to create and manage the Control Plane components, such as the etcd data store and the API Server, in your cluster.'
+        kubernetes-version: '[AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The specific option `--phase control-plane, --apiserver <image>` instructs `kubeadm` to perform the control plane node initialization process. This includes setting up the Kubernetes apiserver, etcd, and kubelet components. The `--kubernetes-version` argument specifies which version of Kubernetes should be used for these components.'
+        patches: '[AI] `kubeadm init` is a command-line tool for bootstrapping a Kubernetes cluster using kubeadm, a component of the Kubernetes toolkit. The option `--phase control-plane apiserver --patches` instructs `kubeadm init` to apply specific patches to the Control Plane process (which includes the API server) during initialization. These patches can be used to modify the behavior or configuration of the API server without changing the upstream Kubernetes source code directly. The `--patches` flag takes a JSON file as an argument that contains the patch instructions.'
+        service-cidr: '[AI] The `kubeadm init` command is used to bootstrap a Kubernetes cluster. The specific option `--control-plane-apiserver --service-cidr="<CIDR>"` sets the CIDR (Internet Protocol version 4 address range) for the Kubernetes control plane service. This service manages and coordinates cluster activities, and assigning a unique CIDR ensures proper network communication between control plane components in the cluster.'

@@ -1,0 +1,62 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: csplit
+description: split a file into sections determined by context lines
+flags:
+    --help: display this help and exit
+    --suppress-matched: suppress the lines matching PATTERN
+    --version: output version information and exit
+    -b, --suffix-format=: use sprintf FORMAT instead of %02d
+    -f, --prefix=: use PREFIX instead of 'xx'
+    -k, --keep-files: do not remove output files on errors
+    -n, --digits=: use specified number of digits instead of 2
+    -s, --quiet=: do not print counts of output file sizes
+    -z, --elide-empty-files: remove empty output files
+documentation:
+    command: '[AI] `csplit` is a Unix utility command used for splitting lines in files based on a specified delimiter or pattern. The basic syntax is `csplit <file> <delimiter|pattern> <output-files>`. It creates multiple output files, each containing the lines that match the specified pattern or delimiter. For instance, given a file `input.txt` with lines separated by commas and the command `csplit input.txt "," out_`, it will generate as many output files named `out_{number}` as there are lines in `input.txt` with each line in the corresponding output file containing only the parts separated by commas.'
+    flag:
+        digits: '[AI] `csplit` is a Unix utility used to split files based on delimiters, which can include regular expressions and digits. The option `--digits` is specifically used when dealing with numeric fields. With this option, `csplit` will automatically treat consecutive occurrences of sequences of one or more digits as fields, making it easier to process files containing tabular data with numerical columns.'
+        elide-empty-files: '[AI] `csplit` is a utility in Unix and Unix-like operating systems for splitting files based on a specified delimiter. The `--elide-empty-files` option is used to suppress the creation of empty output files when there are no matching lines to be split. In other words, if you use this option, empty output files will not be generated during the file splitting process.'
+        help: |-
+            [AI] `csplit` is a command-line utility in Unix-like operating systems used for splitting files based on a specified delimiter or regular expression. The following is a brief explanation of the flags and their functions when used with `csplit --help`:
+
+            1. `--delim=DELIM`: Splits files using the given delimiter, which can be a single character or a regular expression.
+            2. `--keep=NUM`: Keeps only the NUMth part of each split file. By default, all parts are kept.
+            3. `--numbers`: Prints numbers for each output file.
+            4. `--quiet`: Suppresses progress messages while splitting files.
+            5. `--silent`: Similar to --quiet but also suppresses error messages when a file cannot be found or is empty.
+            6. `--output-delimiter=DELIM`: Sets the delimiter used in output filenames.
+            7. `--prefix=PREFIX`: Adds a specified prefix to each output filename.
+            8. `--suffix=SUFFIX`: Appends a suffix to each output filename.
+            9. `--remove`: Removes source files after splitting or use the `--keepfromfile` option to keep them if necessary.
+        keep-files: '[AI] `csplit` is a Unix utility used to split files based on a specified pattern. The `--keep-files` option is used when you want to keep the original file and create new files for each split part. For example, if you have a file called `input.txt` with multiple sections separated by a specific pattern (e.g., ''\n----\n''), you can use the command `csplit input.txt /''----/\{1,\}'' --keep-files output_` to create new files named `output_0`, `output_1`, etc., each containing one section of the original file.'
+        prefix: |-
+            [AI] The `csplit` is a utility in Unix-like operating systems for splitting lines in a file based on a given delimiter or regular expression. The `--prefix` option is used with this command to specify prefixes for the output files produced after the split operation. When you use `csplit` with the `--prefix=<string>` option, it will append the specified string before the default extension (`.out` by default) of each output file. For example, if you have a file named `input.txt` and you want to split it at every occurrence of the delimiter ':' and save the output files with the prefix "file_", then you can use the command:
+
+            ```bash
+            csplit input.txt /:/ --prefix="file_"
+            ```
+
+            This will result in multiple files being created, each named as `file_00001.out`, `file_00002.out`, and so on, with the contents of each file containing the lines separated by the delimiter ':'.
+        quiet: '[AI] `csplit` is a Unix utility used for splitting lines in a file based on a specified delimiter or pattern. The `--quiet` option is used to suppress all output except error messages, making the operation run in the background without displaying any progress or confirmation messages. In other words, it runs the command silently.'
+        suffix-format: |-
+            [AI] `csplit` is a utility in Unix-like operating systems used to split and merge files based on specified delimiters. The option `--suffix-format` (often abbreviated as `--out-suffix`) specifies the format of the output file suffixes when splitting files.
+
+            When using `csplit`, you can split a file into multiple pieces by specifying a delimiter and a pattern. By default, each resulting piece will be saved in a file named "x" followed by a number starting from 0 (e.g., x0, x1, x2, ...). The `--suffix-format` option allows you to customize these names.
+
+            The syntax for the option is:
+
+            ```
+            csplit <file> /<delimiter> [--suffix-format=<format>] <pattern>
+            ```
+
+            Replace `<file>` with the name of your input file, `<delimiter>` with the character or regular expression that you want to split on, and `<pattern>` with a regular expression that identifies the parts you want to extract. Replace `<format>` with the desired suffix format.
+
+            For example:
+
+            ```bash
+            csplit myfile /\n --suffix-format=_part_%02d my_regexp
+            ```
+
+            In this example, the utility splits "myfile" on newline characters ("\n"), saves each part with a suffix "_part_", and appends a two-digit number to it (e.g., "_part_01").
+        suppress-matched: '[AI] The `csplit` command is a utility in Unix and Unix-like operating systems used to split files based on specific patterns or delimiters. The option `--suppress-matched` is used in conjunction with the `csplit` command to suppress lines that match a given pattern, instead of writing them to output files. This allows you to keep only the unmatched lines in the result files. For example, if you have a file with lines containing "apple" and "orange", and you use `csplit --suppress-matched filename ''\ apple'' / -- \1.txt`, you will get two files: one with all lines that contain "orange" (including the delimiter), and another one empty, as all lines containing "apple" have been suppressed.'
+        version: '[AI] `csplit` is a utility tool available in Unix-like operating systems, used for splitting files based on a specified delimiter or pattern. The command `csplit --version` is used to display the version information of the installed `csplit` utility, including the version number, compilation date, and other relevant details. It helps users keep track of which version of `csplit` they are using for troubleshooting or compatibility purposes.'

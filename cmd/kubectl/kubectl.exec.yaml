@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: exec (POD | TYPE/NAME) [-c CONTAINER] [flags] -- COMMAND [args...]
+description: Execute a command in a container
+group: troubleshooting
+flags:
+    --pod-running-timeout=: The length of time (like 5s, 2m, or 3h, higher than zero) to wait until at least one pod is running
+    -c, --container=: Container name. If omitted, use the kubectl.kubernetes.io/default-container annotation for selecting the container to be attached or the first container in the pod will be chosen
+    -f, --filename*=: to use to exec into the resource
+    -i, --stdin: Pass stdin to the container
+    -q, --quiet: Only print output from the remote session
+    -t, --tty: Stdin is a TTY
+documentation:
+    command: |-
+        [AI] `kubectl exec` is a Kubernetes command-line interface (CLI) tool used to run commands in containers directly from the Kubernetes cluster. It allows you to execute specific commands or scripts inside running containers without having to create new ones or rebuild images. This can be useful for troubleshooting, updating configurations, or performing ad hoc tasks.
+
+        The basic syntax is as follows: `kubectl exec <pod-name> [-it] [--container=<container-name>] [<command>]`. You'll need to replace `<pod-name>` with the name of the pod that contains the container you want to interact with, and `<command>` with the command you wish to execute. Options such as `-it` (interactive mode) or `--container=<container-name>` can be used to modify the execution behavior.
+    flag:
+        container: '[AI] `kubectl exec` is a command-line tool used to execute commands in containers running in a Kubernetes cluster. The `--container` flag is optional and specifies which container within a pod you want to target with the `exec` command. For example, `kubectl exec my-pod --container=my-container nanosleep 30s` will execute the `nanosleep 30s` command inside the "my-container" container in the "my-pod" pod.'
+        filename: '[AI] `kubectl exec` is a command-line utility used to execute commands in containers running inside a Kubernetes cluster. The `--filename` flag is an optional argument provided with this command for specifying the name of a file that contains the command to be executed. The format is: `kubectl exec <pod-name> -- filename <container-name> <command>`. Here, `<pod-name>` refers to the name of the pod containing the container where the command will be run, `<container-name>` is the name of the container in that pod, and `<command>` is the command you wish to execute. Instead of typing out the entire command on the terminal each time, you can create a file with the desired command, and use this flag to pass the file as an argument to the `kubectl exec` command.'
+        pod-running-timeout: '[AI] `kubectl exec` is a command-line tool used to run commands in containers within a Kubernetes cluster. The `--pod-running-timeout` flag sets a timeout for waiting for a pod to be running before executing the command. If a pod does not become ready within the specified time, the command will fail. This option helps ensure that only running pods are targeted and prevents attempts to execute commands against unavailable or transient resources.'
+        quiet: '[AI] `kubectl exec` is a command-line tool used to execute commands in containers running inside a Kubernetes cluster. The `--quiet` flag modifies the output of this command, making it suppress all non-essential output. This means that only essential information will be displayed on the terminal, reducing clutter and making the output easier to parse for automated scripts or for users who prefer a more minimal output format.'
+        stdin: |-
+            [AI] `kubectl exec` is a command-line utility used to execute commands in containers running in a Kubernetes cluster. The `--stdin` flag is an option that allows passing input to the container's standard input stream interactively.
+
+            When using `kubectl exec --stdin`, the container's standard input, output, and error streams are opened for interaction between the user and the container. This way, you can execute a command or a shell in the container, receive its output, and provide it with input as needed. The flag is particularly useful when dealing with complex commands that require manual intervention or interactive sessions like debugging or troubleshooting.
+        tty: '[AI] `kubectl exec` is a command used to run commands in containers or nodes within a Kubernetes cluster. The `--tty` flag ensures that the container''s TTY (Teletype) and PTY (Pseudo-TTY) are allocated when the command is executed. This means that the command will run with an interactive terminal, allowing for features like line editing and output formatting. In other words, it enables a textual session to interact with the container''s process and see its output in real time.'

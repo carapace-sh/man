@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: nix-shell
+description: start an interactive shell based on a Nix expression
+flags:
+    --arg*=: Pass [name] [expr] to Nix functions.
+    --argstr*=: Pass [name] [string] to Nix functions
+    --command=: Run the command in an interactive shell
+    --exclude=: Do not build any dependencies whose store path matches the regexp
+    --help: Show usage information
+    --keep=: Environment variable to keep in --pure
+    --pure: Clear most of the environment for the shell
+    --run=: Run the command in a non-interactive shell
+    -E, --expr=: Nix expression to build
+    -I, --include=: Include paths
+    -p, --packages*=: Packages to add from nixpkgs
+documentation:
+    command: '[AI] `nix-shell` is a command from the Nix Package Manager that allows users to create isolated, self-contained environments for running commands or building projects. It automatically installs and manages all required dependencies in the shell environment, ensuring consistency across different machines and avoiding version conflicts. Additionally, `nix-shell` supports multiple languages and tools, enabling easy management of complex projects with varied requirements.'
+    flag:
+        arg: '[AI] `nix-shell` is a command-line tool provided by Nix package manager to create isolated shell environments. The `--arg` option is used to pass arguments to the shell environment. When invoking `nix-shell`, followed by `--arg name=value`, you''re essentially building and running a specific configuration within your Nix expression, making it accessible through an interactive shell session. This can be particularly useful when dealing with complex projects or dependencies that require a tailored environment.'
+        argstr: |-
+            [AI] `nix-shell` is a command-line tool provided by Nix Package Manager to create isolated environments (shells) for running commands or scripts with specific dependencies and configurations. The option `--argstr` is used to pass arguments to the command that will be run inside the created shell environment.
+
+            For instance, if you have a Nix expression file defining your project dependencies and the command to run, you can use `nix-shell` to create an isolated environment and execute the command with those dependencies by running:
+
+            ```bash
+            $ nix-shell <your_expression_file> --argstr arg1 value1 --argstr arg2 value2
+            ```
+
+            Replace `<your_expression_file>` with the path to your Nix expression file, and `arg1`, `value1`, `arg2`, and `value2` with your custom arguments. These arguments will be made available inside the shell environment for the command being executed.
+        command: '[AI] `nix-shell` is a command-line tool from Nix package manager to create isolated shell environments. The `--command` option specifies a command or a shell script that gets executed within the created environment. This allows running dependencies or specific versions of packages without interfering with the system''s global configuration, ensuring consistent and reproducible builds.'
+        exclude: '[AI] `nix-shell` is a command-line tool provided by Nix packaging system to create isolated shell environments. The `--exclude` option is used to exclude specific packages or directories from being installed within the created environment. For instance, `nix-shell --command ''your_command'' --pure --add-root /path/to/add --exclude ''package1 package2''`, creates a new shell environment with the given command, adds the specified root directory, and excludes the installation of ''package1'' and ''package2''. This way, only desired packages are installed, keeping the environment lean and focused.'
+        expr: '[AI] `nix-shell --expr` is a command used in Nix, a package manager for Linux and other Unix systems. This command creates an isolated shell environment using a specific expression as its configuration. The expression can be any valid Nix expression, which defines the packages, their versions, and any build or configuration steps needed. By wrapping the expression with `--expr`, you tell Nix to evaluate it directly in the new shell environment rather than building a complete system or user environment. This allows for quick evaluation of expressions without having to create a whole Nix profile or build system.'
+        help: '[AI] `nix-shell --help` is a command used in Nix, a package manager for Linux and other Unix systems. This command displays detailed help information about using Nix with the `nix-shell` tool. It provides an overview of how to create isolated shell environments, called "shells," that include specific packages and their dependencies, set up the environment variables, and run commands within those environments. The help text also includes examples and optional flags to customize the behavior of `nix-shell`.'
+        include: |-
+            [AI] `nix-shell` is a command-line tool from the Nix Package Manager. It creates isolated shell environments, which means it provides you with a specific set of packages and their dependencies for your use in that session.
+
+            The `--include` option is used to specify additional packages or configuration files to be included in the generated environment. The argument can be either a package name or a path to a Nix expression file. For example:
+
+            ```bash
+            nix-shell --pure --include python39 --include my_package
+            ```
+
+            This command creates an isolated shell with only `python39` and `my_package` included, as well as their dependencies. This can be useful when you want to have consistent versions of packages for your projects or experiments without affecting the global system environment.
+        keep: '[AI] `nix-shell --keep` is a command used in Nix packaging system. It starts a new shell environment with the specified configuration, but instead of discarding the derived environment when the shell exits, it keeps it running. This allows long-running processes or services to continue even after the original shell session has terminated. The kept environment can be managed and accessed through other shell sessions or scripts.'
+        packages: '[AI] `nix-shell --packages` is a command used in Nix, a package manager for Linux and other Unix systems. This command creates an isolated shell environment with specific packages installed. The `--packages` option allows you to specify a list of Nix expressions that define the desired packages, which are then automatically built and installed within the new shell environment. Using this command enables you to easily set up projects that depend on specific versions or configurations of packages without affecting your system as a whole.'
+        pure: '[AI] `nix-shell` is a tool provided by Nix package manager for creating isolated and consistent shell environments. The option `--pure` tells `nix-shell` to use a purely functional evaluation of the build tree, meaning that all outputs are discarded after being built, leaving only the computed values in memory. This ensures a clean and deterministic environment each time the command is run.'
+        run: '[AI] `nix-shell --run` is a command used in the Nix packaging system to create and enter a new shell environment with specific configurations and dependencies. The `--run` option specifies a command or script that will be executed within this new environment. In summary, it sets up an isolated and self-contained shell environment with specified packages and runs a command inside it.'

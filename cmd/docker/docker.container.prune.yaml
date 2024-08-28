@@ -1,0 +1,23 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: prune [OPTIONS]
+description: Remove all stopped containers
+flags:
+    --filter=: Provide filter values (e.g. "until=<timestamp>")
+    -f, --force: Do not prompt for confirmation
+documentation:
+    command: '[AI] `docker container prune` is a Docker command used to remove stopped and dangling containers from the system. Stopped containers are those that have exited, while dangling containers are those that cannot be run because they do not have associated images. This command helps in freeing up disk space by removing unused containers without their associated images or networks. By default, it does not delete containers that have running or paused states to avoid accidentally losing important data.'
+    flag:
+        filter: |-
+            [AI] `docker container prune` is a Docker command used to remove stopped and dangling containers. The `--filter` option allows filtering the selection of containers to be pruned based on specific criteria:
+
+            1. `ancestor`: Removes containers that have the same image as another container.
+            2. `before`: Removes containers created before a given date or before the creation of another container.
+            3. `until`: Removes containers created after a given date or before the creation of another container.
+            4. `name`: Removes containers with specific names.
+            5. `label`: Removes containers based on custom labels.
+
+            By combining these filters, you can selectively remove unwanted containers while keeping those that are important. For example, `docker container prune --filter "ancestor=my-image" --force` would remove all containers using the 'my-image' image, but keep those with other images.
+        force: |-
+            [AI] The `docker container prune --force` command is used to remove stopped and dangling containers from Docker. "Stopped" containers are those which have exited or been killed, while "dangling" containers are images that have been deleted but their associated containers still exist.
+
+            The `--force` option is used to forcefully remove these containers without any prompt for confirmation. This command can help free up disk space by removing unnecessary containers that are no longer needed. It's important to be careful when using this command, as once the containers are removed, their data and configuration cannot be recovered.

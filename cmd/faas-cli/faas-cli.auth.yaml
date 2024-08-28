@@ -1,0 +1,58 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: auth
+description: Obtain a token for your OpenFaaS gateway
+flags:
+    --audience=: OAuth2 audience
+    --auth-url=: OAuth2 Authorize URL i.e. http://idp/oauth/authorize
+    --client-id=: OAuth2 client_id
+    --client-secret=: OAuth2 client_secret, for use with client_credentials grant
+    --grant=: grant for OAuth2 flow - either implicit, implicit-id or client_credentials
+    --launch-browser: Launch browser for OAuth2 redirect
+    --listen-port=: OAuth2 local port for receiving cookie
+    --redirect-host=: Host for OAuth2 redirection in the implicit flow including URL scheme
+    --scope=: scope for OAuth2 flow - i.e. "openid profile"
+    -g, --gateway=: Gateway URL starting with http(s)://
+documentation:
+    command: |-
+        [AI] The `faas-cli auth` command is used with the FaaS (Function-as-a-Service) CLI tool to handle authentication for interacting with FaaS platforms or clusters. Specifically, it allows users to login or logout from their FaaS provider using supported authentication methods like OAuth2, OpenID Connect, or simple username/password pairs. The exact usage depends on the specific FaaS platform and its integration with the `faas-cli`, so it's essential to consult the documentation for detailed instructions. Generally, you would provide the necessary authentication information as arguments, such as a token or an OAuth2 provider URL and client ID/secret. For example:
+
+        ```bash
+        faas-cli auth login <oauth2_provider> <client_id> <client_secret>
+        ```
+
+        or
+
+        ```bash
+        faas-cli auth logout
+        ```
+
+        For more complex setups, you may need to configure the `faas-cli` with additional details like scopes or multiple identities. Always refer to the specific FaaS platform documentation for accurate information.
+    flag:
+        audience: |-
+            [AI] The `faas-cli auth --audience` command is used with the FaaS-CLI (Function-as-a-Service Command Line Interface) tool to configure authentication for deploying functions to a FaaS platform, such as OpenFaaS or Functopia.
+
+            The `--audience` flag specifies the intended audience for the generated access token. It identifies the specific FaaS cluster or instance that will validate and process the token. The audience value should be set to the URL of the FaaS platform's OAuth server, including the protocol (e.g., `https://my-faas-cluster.example.com/oauth`).
+
+            When you run this command, it generates a new access token with the specified audience, which can be used in your deployment and invocation requests to authenticate with the FaaS platform.
+        auth-url: '[AI] `faas-cli` is a command-line interface tool for managing functions as a service (FaaS) platforms like OpenFaaS and Fn. The `faas-cli auth --auth-url` command sets the authentication URL for interacting with these platforms. This flag specifies the endpoint of an external identity provider, such as OAuth2 or JWT token services, which is used to authenticate requests made by `faas-cli`. It helps in managing access control and authorization in a centralized way for FaaS deployments.'
+        client-id: '[AI] `faas-cli auth --client-id` is a command used in the FaaS (Function-as-a-Service) CLI tool for authentication. The `--client-id` option specifies the unique identifier of an OAuth 2.0 client application registered with an authorization server, such as OpenFaaS or AWS Lambda layers. This command is typically used to obtain a new access token or refresh an existing one by interacting with the authentication provider''s API.'
+        client-secret: '[AI] `faas-cli auth --client-secret` is a command used in the FaaS (Function-as-a-Service) CLI tool to authenticate and manage client secrets for OAuth2 providers such as OpenFaas, Concourse, or Kubernetes. The "auth" subcommand is followed by the specific "client-secret" option. When executed, it prompts the user to enter a name for the new client secret, and then sets up an encrypted key for that secret. This command allows you to securely manage client secrets, which are necessary for your applications to authenticate with external OAuth2 providers.'
+        gateway: |-
+            [AI] The `faas-cli auth --gateway` command is a subcommand used with the FaaS CLI (Function as a Service Command Line Interface) tool. It's specifically designed for handling authentication tasks related to an Faas Gateway, which acts as a reverse proxy and API gateway for FaaS functions.
+
+            When you run `faas-cli auth --gateway`, it initiates an OAuth2 flow to authenticate your client with the specified Faas Gateway. This command requires providing some necessary parameters such as `--provider` (e.g., "GCP", "AWS", or "OpenFaas"), `--account`, and `--namespace`. After a successful authentication, you receive an access token that's stored in your default Kubernetes context, allowing you to make authenticated requests to the Faas Gateway and invoke functions deployed there.
+        grant: '[AI] `faas-cli auth --grant` is a command used in the FaaS (Function-as-a-Service) CLI tool for managing and deploying serverless functions. This specific command is responsible for granting new access tokens or updating existing ones, allowing authenticated users to interact with supported FaaS platforms like OpenFaaS or AWS Lambda. When invoked, it requires authentication via a valid token or configuration file, and then generates or updates the grant data associated with that authentication context. This command helps ensure secure deployment and interaction with the targeted Faas infrastructure.'
+        launch-browser: '[AI] `faas-cli auth --launch-browser` is a command used in the FaaS (Function-as-a-Service) CLI tool. This command initiates the authentication process by opening a browser window with an authorization URL for the selected cloud provider, such as AWS or Google Cloud. The user then logs in to their account and grants the necessary permissions to the Faas-cli. Upon successful authorization, the cli receives an access token which is saved locally and used for subsequent Faas deployments and invocations.'
+        listen-port: |-
+            [AI] The `faas-cli auth --listen-port` command is used with the FaaS-cli (Function-as-a-Service CLI) tool in the context of managing authentication and authorization for your FaaS (Function-as-a-Service) applications.
+
+            This specific command starts an authentication proxy that listens on a specified port number. The purpose of this is to provide an additional layer of security for your FaaS functions by controlling access to them via the authentication proxy. When functions are called, they will first pass through the authentication proxy which can enforce authentication and authorization policies before allowing the function to be executed.
+
+            By default, the `--listen-port` flag does not have a value and the authentication proxy starts listening on port 8443. However, you can specify a different port number if desired by providing it as an argument (e.g., `faas-cli auth --listen-port 12345`).
+        redirect-host: '[AI] `faas-cli auth --redirect-host` is a command used in the FaaS (Function-as-a-Service) CLI tool to configure the authorization redirect URL for external identity providers during OAuth 2.0 flow. The flag sets the hostname or the full URL of the redirect endpoint where the user will be directed after granting access to the FaaS provider. For instance, `--redirect-host=https://myidp.example.com/callback` would set the authorization server''s callback URL as the place where users are sent back to complete the authentication flow.'
+        scope: |-
+            [AI] The `faas-cli auth --scope` command is used with the FaaS CLI (Function as a Service Command Line Interface) tool for managing functions deployed using the serverless architecture. This command sets or modifies the access scopes for the authenticated user in the FaaS provider, such as OpenFaaS, Concourse, or others.
+
+            The `--scope` flag follows the command and takes a comma-separated list of strings representing the desired access scopes. These scopes define what actions the user can perform on the FaaS platform, such as creating, deleting, updating functions, managing deployments, and so on. The specific available scopes depend on the underlying FaaS provider being used.
+
+            For example: `faas-cli auth --scope function:create,function:list` would set the user's access scope to include the ability to create and list functions in the FaaS platform.

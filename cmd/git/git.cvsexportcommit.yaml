@@ -1,0 +1,56 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: cvsexportcommit
+description: Export a single commit to a CVS checkout
+group: interaction
+flags:
+    -P: Force the parent commit, even if it is not a direct parent
+    -W: Tell cvsexportcommit that the current working directory is not only a Git checkout, but also the CVS checkout
+    -a: Add authorship information
+    -c: Commit automatically if the patch applied cleanly
+    -d: Set an alternative CVSROOT to use
+    -f: Force the merge even if the files are not up to date
+    -k: Reverse CVS keyword expansion in working CVS checkout before applying patch
+    -m: Prepend the commit message with the provided prefix
+    -p: Be pedantic (paranoid) when applying patches
+    -u: Update affected files from CVS repository before attempting export
+    -v: Verbose
+    -w: Specify the location of the CVS checkout to use for the export
+documentation:
+    command: '[AI] `git cvsexportcommit` is a Git command used for exporting a single committed file or multiple files from a Git repository to a format compatible with Concurrent Versions System (CVS). This command is typically used when working on a project that uses both Git and CVS, allowing developers to share changes between the two systems. The syntax for the command is `git cvsexportcommit [--stdin] [--stdin-file <filename>] [<commit>] [<files>...]`. Here, `[--stdin]` and `[--stdin-file <filename>]` are optional flags that specify reading the commit object or file paths from standard input instead of providing them as arguments. The required argument is the Git commit hash, followed by the list of files to be exported.'
+    flag:
+        P: '[AI] `git cvsexportcommit` is a Git command used to export a committed change from a Git repository into a format suitable for use with Concurrent Versions System (CVS) clients. The `-P` option stands for "prompt" and is used when importing the exported data into CVS servers that require password authentication. With this option, Git will prompt you to enter your CVS password when necessary during the import process.'
+        W: '[AI] `git cvsexportcommit` is a command used in Git for exporting the differences between two versions of a file under Concurrent Versions System (CVS) control, with each version managed as separate Git commits. The `-W` option stands for "import-ws-export-all", which means that this command will export all files under CVS control in the current directory and its subdirectories. This can be useful when migrating a project from CVS to Git, allowing you to keep the history of changes while moving to a new version control system.'
+        a: |-
+            [AI] `git cvsexportcommit` is a Git command used for exporting committed changes made in a Concurrent Versions System (CVS) repository into a Git format. The `-a` option is an argument that tells Git to export all branches and commits in the current CVS working directory.
+
+            In simple terms, `git cvsexportcommit -a` exports all commits and branches from a CVS repository into Git history. This command allows users to move their CVS projects to Git while keeping the complete version history.
+        c: '[AI] `git cvsexportcommit` is a Git command used for importing changes made in a Concurrent Versions System (CVS) repository into a Git repository. The `-c` option stands for "create new commit." With this flag, Git creates a new Git commit when the import process is completed successfully. This command merges the CVS history into the current Git branch and adds a new Git commit with the message specified in the command line or taken from the last CVS commit message.'
+        d: '[AI] The `git cvsexportcommit` is a Git command used to export the differences between the working directory and the latest committed version of files in a Concurrent Versions System (CVS) format. The `-d` option specifies that only the difference between the latest commit and the working directory should be exported, not the entire history. This can be useful for sharing just the changes made with others who use CVS.'
+        f: |-
+            [AI] `git cvsexportcommit` is a Git command used to export a specific commit and its history from a Git repository into a format suitable for use with Concurrent Versions System (CVS). The `-f` flag is an option given with this command. It stands for "force" or "overwrite."
+
+            When using the `cvsexportcommit` command, Git tries to automatically determine the names of the CVS modules and exported files based on the repository's structure. However, if you have previously used this command to generate CVS-format files in your working directory with the same names, Git will not overwrite them by default, as it considers this a conflict. To force Git to overwrite those existing files, use the `-f` flag. For example:
+
+            ```bash
+            git cvsexportcommit [COMMIT_HASH] -f > exported_file.cvs
+            ```
+
+            In this command, replace `[COMMIT_HASH]` with the actual commit hash you want to export. The `>` operator redirects the output into a file named `exported_file.cvs`. When using the `-f` flag, Git will overwrite any existing files with the same name in your working directory during the export process.
+        k: '[AI] `git cvsexportcommit` is a Git command for exporting the differences of a specific commit between two version control systems, Git and CVS. The `-k` option is used to specify the key or name of the CVS repository to which the exported patch will be applied. This command does not create or modify keys itself; it only exports the changes in a format that can be applied with the `cvsimp` or `cvs import` commands in CVS using the specified key.'
+        m: |-
+            [AI] `git cvsexportcommit` is a Git command used for exporting a committed file or set of files from a Git repository into a Concurrent Versions System (CVS) format. The `-m` option following the command specifies that a message must be provided as an argument to describe the reason for this export.
+
+            So, in summary, `git cvsexportcommit -m "message"` exports and saves the specified committed files from Git into CVS format, with a descriptive commit message.
+        p: '[AI] `git cvsexportcommit` is a Git command used to export a specific commit, including its associated changeset from a Concurrent Versions System (CVS) repository, into a new Git branch or file. The `-p` option stands for "patch". It applies the differences introduced by the commit as a patch file in a standard format (e.g., unified diff), alongside the exported files. This can be helpful when migrating from a CVS to a Git workflow and wanting to preserve the history of changesets while retaining the benefits of Git.'
+        u: '[AI] `git cvsexportcommit` is a Git command used to export the differences between two versions of a file that were managed by both Git and Concurrent Versions System (CVS). The `-u` flag is an optional argument, which stands for "ours." It specifies that the version of the file in the current Git repository should be used as the basis for generating the difference output. In other words, it tells Git to show the differences between the specified CVS commit and the corresponding Git commit, with the Git version being the one displayed.'
+        v: |-
+            [AI] `git cvsexportcommit` is a Git command used to export a specific commit into a new or existing CVS (Concurrent Versions System) repository. The `-v` option stands for "verbose," which means that more detailed information about the operation will be displayed during the execution of the command.
+
+            When you run `git cvsexportcommit -v <commit>`, Git will perform the following steps:
+
+            1. Fetch the contents of the specified commit, including files and their respective binary and text data.
+            2. Convert the content into a CVS format that is compatible with the CVS repository.
+            3. Create a new branch or append to an existing one in the target CVS repository.
+            4. Apply the exported changes to the selected branch in the CVS repository.
+            5. Display detailed information about the import process, such as the imported files, their statuses, and any potential warnings or errors during the operation.
+        w: '[AI] `git cvsexportcommit` is a Git command used to export a specific commit with version history from a Concurrent Versions System (CVS) repository into a Git repository. The `-w` option stands for "worktree" and causes the imported files to be placed directly into the current worktree, rather than creating a new subdirectory named `import-<timestamp>`. This means that after running this command, the imported files will be present in your local Git working directory for further processing or committing.'

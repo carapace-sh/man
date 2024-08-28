@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: merge [OPTIONS] [REVISIONS]...
+description: Merge work from multiple branches
+flags:
+    -A, --insert-after: Insert the new change between the target commit(s) and their children
+    -B, --insert-before: Insert the new change between the target commit(s) and their parents
+    -h, --help: Print help (see more with '--help')
+    -m, --message*=: The change description to use
+documentation:
+    command: |-
+        [AI] The `jj merge` command is not a standard Git command. It seems to be specific to the Jira JVCS (Java Version Control System), which is an older, proprietary version control system developed by Atlassian for their Jira software.
+
+        In JVCS, `jj merge` is used to merge changes from one branch into another, resolving any conflicts that may arise during the merge process. The merged changes are then committed to the current branch, creating a new version in the repository.
+    flag:
+        help: '[AI] `jj merge --help` is a command used in the Jira Java library (JJ) for Git integration with Jira. This command displays the help information about the "merge" sub-command. It explains how to use the merge feature to combine changes from two different branches into one, resolving any conflicts that may arise during the process. Options like `--no-commit` or `--strategy` can be specified for customizing the merge behavior.'
+        insert-after: |-
+            [AI] The `git jj merge --insert-after` command is a Git merging strategy used to insert a new commit with the changes from the branch being merged after a specific commit in the target branch. This strategy is particularly useful when you want to keep the merge history linear or when dealing with complex merge conflicts.
+
+            With `--insert-after`, Git will create a new commit with the merged changes, and then move the HEAD to the newly created commit, effectively inserting it after the specified commit in the target branch's history. This results in a cleaner merge commit that doesn't interfere with the original author's commits.
+
+            Here is a brief overview of how to use this command:
+
+            1. First, make sure your local branches are up-to-date: `git fetch origin`
+            2. Switch to the target branch where you want to merge the changes: `git checkout <target-branch>`
+            3. Merge the source branch into a temporary branch: `git checkout -b <temp-branch> <source-branch>`
+            4. Resolve any merge conflicts if necessary and commit the changes with an informative message
+            5. Return to the target branch: `git checkout <target-branch>`
+            6. Perform the merge using the `--insert-after` option: `git merge --no-commit --strategy=rebase <source-branch> ^<commit-hash>`, where `<source-branch>` is the name of the branch you merged from, and `<commit-hash>` is the hash or tag of the commit that you want to insert your new merge after.
+            7. Once Git completes the rebasing process, it will stop at the specified commit. At this point, you can edit the merge message, and then use `git commit -m "your message here"` to create a new commit with the merged changes inserted after the target commit.
+            8. Finally, force push your local branch to update the remote repository: `git push origin <target-branch> --force`
+        insert-before: '[AI] The `git jj merge --insert-before` command is a Git merge strategy that interacts with an external merge tool, named "jj" (Jeff''s Joyful Junk Merge Tool), to perform a three-way merge and insert the changes from one side before the changes from the other side in the output file. This can be useful when you want to manually review and decide which changes should take precedence before combining them into your working directory. In summary, this command uses an external tool for merging and controls the order of applying changes during the merge process.'
+        message: '[AI] The `git jj merge --message` command is used to perform a fast-forward merge in Git using the interactive rebase tool (`git jj`). The `--message` option allows you to provide a commit message for the new merge commit that will be created. This command combines the benefits of `git merge` and `git commit` into a single command, keeping your commit history clean by avoiding creating separate merge and commit commits.'

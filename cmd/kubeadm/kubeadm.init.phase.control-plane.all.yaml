@@ -1,0 +1,133 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: all
+description: Generate all static Pod manifest files
+flags:
+    --apiserver-advertise-address=: The IP address the API Server will advertise it's listening on. If not set the default network interface will be used.
+    --apiserver-bind-port=: Port for the API Server to bind to.
+    --apiserver-extra-args=: A set of extra flags to pass to the API Server or override default ones in form of <flagname>=<value>
+    --cert-dir=: The path where to save and store the certificates.
+    --config=: Path to a kubeadm configuration file.
+    --control-plane-endpoint=: Specify a stable IP address or DNS name for the control plane.
+    --controller-manager-extra-args=: A set of extra flags to pass to the Controller Manager or override default ones in form of <flagname>=<value>
+    --dry-run: Don't apply any changes; just output what would be done.
+    --feature-gates=: A set of key=value pairs that describe feature gates for various features.
+    --image-repository=: Choose a container registry to pull control plane images from
+    --kubernetes-version=: Choose a specific Kubernetes version for the control plane.
+    --patches=: Path to a directory that contains files named "target[suffix][+patchtype].extension".
+    --pod-network-cidr=: Specify range of IP addresses for the pod network. If set, the control plane will automatically allocate CIDRs for every node.
+    --scheduler-extra-args=: A set of extra flags to pass to the Scheduler or override default ones in form of <flagname>=<value>
+    --service-cidr=: Use alternative range of IP address for service VIPs.
+documentation:
+    command: '[AI] The command `kubeadm init phase control-plane all` is used to initialize a Kubernetes cluster using Kubeadm, with a focus on setting up the control-plane nodes. "All" signifies that this command will be run across all the intended control-plane nodes within your cluster. The process includes creating a Kubernetes certificate authority and service account keys, setting up the Kubernetes API server, and configuring kubelet and container runtime settings on each node. Essentially, it lays the groundwork for the management of the entire Kubernetes cluster.'
+    flag:
+        apiserver-advertise-address: '[AI] `kubeadm init` is a command-line tool for initializing a Kubernetes cluster using kubeadm. The `phase control-plane all --apiserver-advertise-address` argument is used to perform the control plane node initialization in all phases (i.e., etcd, kube-apiserver, kube-controller-manager, and kube-scheduler). The `--apiserver-advertise-address` option specifies the IP address that the Kubernetes API server will listen on and advertise to the cluster. This is typically used when running multiple control plane nodes in a multi-node setup, allowing external clients and other nodes in the cluster to access the API server using this address.'
+        apiserver-bind-port: '[AI] The `kubeadm init` command is used to bootstrap a new Kubernetes cluster with a single-node Control Plane. The option `--control-plane-all` specifies that this node will run all Control Plane components: the apiserver, etcd, and kubelet. The `--apiserver-bind-port` parameter sets the port number (default is 8080) on which the Kubernetes API server listens for incoming requests. Together, these options configure the first node in a new Kubernetes cluster to become both a Control Plane node and an Etcd member, exposing the API server on the specified port.'
+        apiserver-extra-args: |-
+            [AI] `kubeadm init` is a command-line tool for bootstrapping a Kubernetes cluster using kubeadm, a component of the Kubernetes toolkit. The option `--phase control-plane all --apiserver-extra-args` specifies that this command should perform all actions required to initialize the control plane nodes in a Kubernetes cluster.
+
+            The control plane nodes are the nodes in a cluster that host the master components such as the API Server, etcd, and the Kubernetes control plane services. These components manage and coordinate the activities of worker nodes in the cluster.
+
+            With `--phase control-plane all`, `kubeadm init` will perform the following tasks:
+
+            1. Initialize a new cluster by creating a new Certificate Authority (CA) and saving its public key.
+            2. Install and configure the API Server, etcd, and Kubernetes components.
+            3. Join the control plane nodes to the cluster by marking them as master in etcd.
+            4. Configure kubeadm and kubelet to join the worker nodes to the cluster when they are added.
+            5. Print out the commands necessary for joining worker nodes to the newly initialized cluster.
+
+            The option `--apiserver-extra-args` allows passing additional arguments specific to the API Server, such as setting its listening IP address and port.
+        cert-dir: |-
+            [AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The `phase control-plane all --cert-dir` argument is used to initialize the control-plane nodes in a Kubernetes cluster.
+
+            More specifically, it performs the following actions:
+
+            1. It sets up the local environment for managing the cluster, including configuring the `kubectl` command-line tool.
+            2. It initializes the etcd data directory and etcd server on the control-plane node. Etcd is the distributed key-value store used by Kubernetes to manage its configuration data.
+            3. It creates a Kubernetes certificate authority (CA) and generates certificates for various components, including the control-plane components and the API server. The `--cert-dir` option specifies the directory where these certificates will be stored.
+            4. It installs the Kubernetes components on the control-plane node, including etcd, the Kubernetes API server, and the Kubernetes controller manager and scheduler.
+            5. It registers the control-plane node with the cluster by adding it to the etcd data store.
+            6. It sets up the firewall rules and network configuration required for the control-plane nodes to communicate with each other and with the worker nodes.
+
+            In summary, `kubeadm init phase control-plane all --cert-dir` initializes the control-plane nodes in a Kubernetes cluster, performing various setup tasks including creating certificates, installing components, and registering nodes with the cluster.
+        config: '[AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The specific flag `--phase control-plane all` instructs `kubeadm init` to perform all the necessary tasks for initializing the control-plane nodes in a Kubernetes cluster. This includes setting up the certificates, creating and formatting the Kubernetes configuration files, joining the control-plane nodes to the cluster, and installing the necessary components like etcd, kube-apiserver, kube-controller-manager, and kube-scheduler. The command is typically run on each control-plane node in a multi-node setup to ensure consistency and proper functioning of the Kubernetes cluster.'
+        control-plane-endpoint: |-
+            [AI] The `kubeadm init` command is used to bootstrap a Kubernetes cluster. The `phase control-plane all --control-plane-endpoint` argument is related to the creation of the control plane nodes in the cluster.
+
+            More specifically, this argument instructs `kubeadm` to create and configure all nodes designated as control plane nodes (i.e., those nodes that will run the Kubernetes control plane components like etcd, kube-apiserver, kube-controller-manager, and kube-scheduler). The `--control-plane-endpoint` flag sets the IP address or hostname of the control plane endpoint, which is a publicly accessible network address used by the worker nodes to communicate with the control plane components.
+
+            In summary, this command initializes a Kubernetes cluster with all designated control plane nodes and sets up their communication with each other using the specified control plane endpoint.
+        controller-manager-extra-args: |-
+            [AI] `kubeadm init` is a command-line utility used to bootstrap a Kubernetes cluster. The specific flag `--control-plane all --controller-manager-extra-args` specifies that this operation will be performed on all nodes designated as control planes in the cluster.
+
+            Control plane nodes are responsible for maintaining the cluster's state, including managing etcd (key-value store), serving the Kubernetes API, and running the controller manager processes.
+
+            The `--controller-manager-extra-args` argument allows passing custom flags to the controller manager process on the control plane nodes during initialization. These arguments can be used for various purposes, such as enabling additional controllers or configuring specific features.
+
+            In summary, this flag instructs `kubeadm init` to initialize the control plane components (etcd, Kubernetes API server, and controller manager) on all specified control plane nodes with the given custom arguments for the controller manager process.
+        dry-run: |-
+            [AI] `kubeadm init` is a command-line tool for bootstrapping and initializing a Kubernetes cluster using kubeadm, the Kubernetes admin tool. The specific flag `--phase control-plane all --dry-run` instructs `kubeadm init` to perform a simulation of the specified actions without actually executing them.
+
+            Here's a breakdown of the components:
+
+            1. `control-plane`: This flag indicates that the command will be applied to the control plane nodes, which are responsible for managing and coordinating the cluster.
+            2. `all`: This flag means that the command will be applied to all control plane nodes in the cluster.
+            3. `--dry-run`: This flag instructs `kubeadm init` to simulate the specified actions, showing what would happen if they were actually executed, without making any changes to the system.
+
+            So, when you run `kubeadm init phase control-plane all --dry-run`, it will display the sequence of steps that would be taken to initialize the control plane nodes in your cluster if you were to execute the command for real, but without actually executing those steps. This can be helpful for understanding what a given `kubeadm init` command does, or for planning and testing out different configurations before making changes to your production cluster.
+        feature-gates: |-
+            [AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The option `phase control-plane all --feature-gates` specifies that this command should be run on the control plane nodes (master nodes) and enables specific Kubernetes features using the given feature gates.
+
+            Here's a breakdown of each component:
+
+            * `phase control-plane`: This indicates that the command will be executed on the control plane nodes, which are responsible for managing the state of the cluster.
+            * `all`: This specifies that all control plane components should be initialized.
+            * `--feature-gates`: This is an optional flag that enables specific Kubernetes features. The value provided ("") implies no additional feature gates are enabled by default, but you can provide a comma-separated list of feature gate names to enable them (e.g., `--feature-gates=PodPreset.v1beta2=true`).
+
+            When using `phase control-plane all --feature-gates`, you're initializing and enabling any desired features on the control plane nodes, making it a useful command for setting up advanced or experimental Kubernetes clusters.
+        image-repository: |-
+            [AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The option `phase control-plane all --image-repository` specifies which phase of the cluster initialization process to run and which container registry to use for downloading the required Kubernetes components.
+
+            * "control-plane all": This option initializes both the control plane (master) nodes and worker nodes in a single command. It sets up the necessary services, pods, and certificates for the control plane components.
+            * "--image-repository": This option specifies the container registry where Kubernetes components are pulled from during initialization. By default, it uses the official Google Container Registry (gcr.io), but you can specify an alternative registry if needed.
+        kubernetes-version: |-
+            [AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The specific command `kubeadm init phase control-plane all --kubernetes-version` performs the following actions:
+
+            1. Initializes the Kubernetes control plane on all nodes specified by 'all' (in this case, it's assumed that you're running this command on the master node): sets up the certificate authorities, service accounts, and etcd cluster.
+            2. Registers the new control-plane nodes with the existing etcd cluster, if one exists.
+            3. Installs the kubelet, kubeadm, and kube-proxy components on each node.
+            4. Sets up the necessary joining tokens or certificates for worker nodes to join the cluster as members.
+            5. Initializes the Kubernetes API server with the specified version `--kubernetes-version`.
+            6. Prints out the join command to add worker nodes to the cluster.
+        patches: |-
+            [AI] `kubeadm init` is a command-line tool for initializing a Kubernetes cluster using Kubeadm, a open-source project to deploy and manage Kubernetes clusters. The `phase control-plane all --patches` flag is used to apply specific patches or updates to the control plane nodes in the cluster during initialization.
+
+            When you run `kubeadm init` without any flags, it initializes the master node (control plane) and sets up a new Kubernetes cluster. With the `phase control-plane all --patches` flag, you can provide patches as files or in-line in the command line, which will be applied to the control plane nodes during initialization. This can be useful when you need to apply specific updates or fixes to the control plane components before starting the worker nodes and joining them to the cluster.
+
+            Here's an example of using this flag with a patch file:
+            ```
+            sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --control-plane-endpoint=192.168.1.1:6443 --service-cidr 10.32.0.0/12 --image-repository registry.k8s.io --certificate-authority ca.crt --client-ca file://ca.crt --extra-args="token=my-token --authorization-mode RBAC" --patch <path-to-patch-file> phase control-plane all
+            ```
+            Replace `<path-to-patch-file>` with the path to your patch file containing the updates you want to apply. The patch file should be in YAML format and contain the desired modifications to the Kubernetes manifests that will be applied during initialization.
+
+            Keep in mind, using this flag requires careful consideration and testing as applying the wrong patches or updating components incorrectly can lead to issues within your cluster.
+        pod-network-cidr: |-
+            [AI] The `kubeadm init` command with the argument `--phase control-plane all --pod-network-cidr <CIDR>` is used to initialize and prepare a Kubernetes cluster using kubeadm.
+
+            Here's what each part means:
+
+            * `kubeadm init`: This is the main command for initializing a Kubernetes master node using kubeadm.
+            * `--phase control-plane all`: This argument tells kubeadm to perform all necessary steps to create and prepare the control plane components of the cluster, which includes setting up the etcd database, creating the kube-apiserver, kube-controller-manager, and kube-scheduler services, and configuring kubelet and joining worker nodes to the cluster.
+            * `--pod-network-cidr <CIDR>`: This argument is used to specify the CIDR block for the pod network in the cluster. It's important to ensure that this CIDR block does not overlap with any existing networks, as it could lead to IP address conflicts and connectivity issues. Once set, kubeadm will install a networking component (such as Calico or Flannel) that manages the pod networking based on this CIDR block.
+        scheduler-extra-args: |-
+            [AI] The `kubeadm init` command with the `phase control-plane all --scheduler-extra-args` argument is used to bootstrap a Kubernetes cluster and initialize the control plane nodes.
+
+            The `control-plane all` part indicates that this command will be run on all the control plane nodes in the cluster. The control plane nodes are responsible for managing the state of the entire cluster, including scheduling workloads and maintaining etcd data.
+
+            The `--scheduler-extra-args` flag allows passing additional arguments to the Kubernetes Scheduler component during initialization. These arguments can be used to configure various aspects of the scheduler behavior, such as preference rules for node selection or pod affinity/anti-affinity.
+
+            Therefore, this command initializes the control plane components on all specified nodes with the provided scheduler configuration settings.
+        service-cidr: |-
+            [AI] `kubeadm init` is a command-line utility for bootstrapping a Kubernetes cluster. The `phase control-plane all --service-cidr` flag specifies the initial configuration of the control plane nodes.
+
+            * `control-plane all`: This argument instructs `kubeadm` to perform all the necessary tasks to configure a complete control plane node. It sets up the Kubernetes master and etcd server, configures kubelet and kube-apiserver services, and joins the node to the cluster as a control plane node.
+            * `--service-cidr`: This option assigns a CIDR block for service IP addresses within the cluster. The IP addresses from this range will be used by Kubernetes to create ClusterIPs for various services running in the cluster.

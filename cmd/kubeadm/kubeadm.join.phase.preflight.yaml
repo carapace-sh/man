@@ -1,0 +1,71 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: preflight
+description: Run join pre-flight checks
+flags:
+    --apiserver-advertise-address=: If the node should host a new control plane instance, the IP address the API Server will advertise it's listening on. If not set the default network interface will be used.
+    --apiserver-bind-port=: If the node should host a new control plane instance, the port for the API Server to bind to.
+    --certificate-key=: Use this key to decrypt the certificate secrets uploaded by init.
+    --config=: Path to kubeadm config file.
+    --control-plane: Create a new control plane instance on this node
+    --cri-socket=: Path to the CRI socket to connect. If empty kubeadm will try to auto-detect this value; use this option only if you have more than one CRI installed or if you have non-standard CRI socket.
+    --discovery-file=: For file-based discovery, a file or URL from which to load cluster information.
+    --discovery-token-ca-cert-hash*=: 'For token-based discovery, validate that the root CA public key matches this hash (format: "<type>:<value>").'
+    --discovery-token-unsafe-skip-ca-verification: For token-based discovery, allow joining without --discovery-token-ca-cert-hash pinning.
+    --discovery-token=: For token-based discovery, the token used to validate cluster information fetched from the API server.
+    --ignore-preflight-errors*=: 'A list of checks whose errors will be shown as warnings. Example: ''IsPrivilegedUser,Swap''. Value ''all'' ignores errors from all checks.'
+    --node-name=: Specify the node name.
+    --tls-bootstrap-token=: Specify the token used to temporarily authenticate with the Kubernetes Control Plane while joining the node.
+    --token=: Use this token for both discovery-token and tls-bootstrap-token when those values are not provided.
+documentation:
+    command: |-
+        [AI] The `kubeadm join` command is used to add a worker node to a Kubernetes cluster. The `preflight` phase is an initial check that runs automatically when you use the `kubeadm join` command. It verifies that the prerequisites for joining the cluster are met before proceeding with the actual node joining process. These checks include but are not limited to:
+
+        * Checking if the operating system is supported.
+        * Ensuring that required packages and dependencies are installed.
+        * Verifying that the host firewall allows incoming connections on the required ports (e.g., 6443 for the Kubernetes API server).
+        * Validating that the certificate authorities in the cluster are trusted.
+
+        If all checks pass, the joining process continues; otherwise, an error message will be displayed, indicating which checks failed and preventing the node from being added to the cluster.
+    flag:
+        apiserver-advertise-address: '[AI] The `kubeadm join` command is used to join a worker node to a Kubernetes cluster. The `preflight` subcommand performs checks before the actual joining process begins. The `--apiserver-advertise-address` option specifies the IP address that the new node will advertise when it becomes a master or etcd member in the cluster. This check is performed during the preflight phase to ensure that no conflicts exist with other nodes advertising the same IP address for their APIServers.'
+        apiserver-bind-port: |-
+            [AI] The `kubeadm join` command with the `preflight` argument and the option `--apiserver-bind-port` is used to perform checks before joining a node to a Kubernetes cluster managed by kubeadm.
+
+            This flag specifies the port number on which the apiserver (Kubernetes API server) listens in the master or existing member nodes of the cluster. The preflight check ensures that no other node is trying to join the cluster using the same apiserver port, preventing potential conflicts and ensuring a stable cluster environment.
+        certificate-key: |-
+            [AI] `kubeadm join` is a command-line tool used to join workers to a Kubernetes cluster managed by Kubeadm. The `preflight` subcommand, specifically the `--certificate-key` option, is used during the join process for validating the node's certificate and key before proceeding with further steps.
+
+            This validation ensures that the joining worker node presents a valid client certificate signed by the same CA (Certificate Authority) as the cluster's root Certificate of Authentication (CA). If successful, the join process continues; otherwise, it will be halted to prevent potential security risks or misconfigurations.
+        config: |-
+            [AI] `kubeadm join` is a command-line tool used to join worker nodes to a Kubernetes cluster managed by `kubeadm`. The `preflight` subcommand runs the pre-join checks before the node actually becomes part of the cluster.
+
+            The `--config` option specifies the path to a config file that contains essential information for the join process, such as the address and token of the master node. This flag is necessary to ensure proper communication between the worker node and the master during the join procedure. The preflight checks are an important safety mechanism to validate the joining node's readiness and compatibility with the cluster before adding it to the production environment.
+        control-plane: '[AI] The `kubeadm join` command is used to add a worker node to a Kubernetes cluster. The `preflight` subcommand, specifically `--control-plane`, is run during the initial join process as part of the pre-flight checks. These checks ensure that the control plane (master) node requirements are met before joining a new node to the cluster as a control plane member. This includes checking for a valid Kubernetes version, sufficient resources, and network connectivity among other things. The output of this command indicates whether these checks have passed or failed, allowing you to address any issues prior to proceeding with the join process.'
+        cri-socket: '[AI] `kubeadm join` is a command-line tool for joining Kubernetes clusters as a new node. The `preflight` subcommand is used to perform checks to determine if the system meets the prerequisites for joining the cluster. The option `--cri-socket` specifies the Unix domain socket path of the container runtime interface (CRI) that `kubeadm` should use to communicate with the container runtime (e.g., Docker). During the preflight check phase, `kubeadm` verifies that this CRI is reachable and functional, ensuring that the node can effectively manage containers once joined to the cluster.'
+        discovery-file: '[AI] The `kubeadm join` command is used to add a new node to a Kubernetes cluster. The `preflight` subcommand is run as part of the join process to validate that the node meets certain requirements before continuing. The `--discovery-file` option specifies a file containing information about the existing cluster, which is used during the preflight check to ensure that the new node can communicate with the master and join the correct cluster. If the preflight checks pass, then the node can continue the joining process.'
+        discovery-token: |-
+            [AI] The `kubeadm join` command with the `preflight` argument and the `--discovery-token` flag is used to validate that a node can join a Kubernetes cluster before actually performing the join process.
+
+            This step is essential for security reasons, as it checks whether the token used for joining the cluster is valid and not already in use by another node. The discovery token is a one-time token generated for the new node to join the cluster, and this check ensures that multiple nodes do not accidentally or maliciously attempt to join with the same token.
+
+            In summary, this command checks the preconditions for joining a Kubernetes cluster using `kubeadm` by validating the discovery token.
+        discovery-token-ca-cert-hash: '[AI] `kubeadm join` is a command-line tool used to add nodes to a Kubernetes cluster. The `preflight` subcommand runs checks to validate if the node can join the cluster before the actual join process begins. The `--discovery-token-ca-cert-hash` option is used to provide the SHA256 hash value of the root certificate used for signing the token used in the discovery and joining process. This flag helps ensure that the nodes are using valid tokens, preventing unauthorized access to the cluster.'
+        discovery-token-unsafe-skip-ca-verification: |-
+            [AI] The `kubeadm join` command is used to add a node to a Kubernetes cluster. The option `--discovery-token-unsafe-skip-ca-verification` is a pre-flight check flag that disables CA (Certificate Authority) verification during the token discovery process.
+
+            In regular operation, when a new node joins a cluster using `kubeadm join`, it needs to obtain a valid joining token from the existing master node. This token is used to authenticate and authorize the new node with the cluster. The token is delivered over TLS (Transport Layer Security) using the cluster's CA certificate, which is verified during the token discovery process.
+
+            The `--discovery-token-unsafe-skip-ca-verification` flag disables this verification step, allowing a new node to join a cluster even if it doesn't trust the master's CA certificate. This should be used with caution as it can introduce security risks, such as man-in-the-middle attacks or joining an imposter cluster. It is recommended for use only in specific, controlled environments and with proper justification.
+        ignore-preflight-errors: |-
+            [AI] The `kubeadm join` command is used to add a new node to a Kubernetes cluster. The `preflight` sub-command performs checks to ensure that the new node meets certain requirements before joining the cluster.
+
+            The option `--ignore-preflight-errors` allows you to bypass certain pre-join checks that might fail due to temporary or non-critical issues, such as missing packages or incorrect SELinux labels. By ignoring these errors, you can proceed with the join process even if some conditions are not met. However, it is important to note that this option should be used with caution as skipping preflight checks could potentially introduce security vulnerabilities or cluster instability. It's recommended to address any identified issues before joining the node to ensure a stable and secure Kubernetes environment.
+        node-name: '[AI] The `kubeadm join` command is used to add a new node to a Kubernetes cluster. The `preflight` subcommand is run before the actual join process to check if the prerequisites for joining are met. The `--node-name` flag specifies the name of the node that will be added to the cluster. This check ensures that there isn''t already a node with the same name in the cluster, as having duplicate nodes would cause conflicts and issues with cluster communication.'
+        tls-bootstrap-token: |-
+            [AI] `kubeadm join` is a command-line tool used to join worker nodes to a Kubernetes cluster managed by `kubeadm`. The `preflight` subcommand is run before the node actually joins the cluster, and it checks if certain prerequisites are met.
+
+            The `--tls-bootstrap-token` option specifies a token for communicating with the TLS Bootstrap Server, which is used during the initial bootstrapping process of the cluster. The preflight check ensures that this token is valid and can be used to join the node to the cluster. This step helps ensure the security of the joining process by verifying that the correct token is being used and preventing unauthorized nodes from joining the cluster.
+        token: |-
+            [AI] The `kubeadm join` command is used to add a new node to a Kubernetes cluster. The `preflight` subcommand, specifically `--token`, checks if the node can join the cluster based on certain prerequisites before actually performing the join operation.
+
+            The token provided is a security token that verifies the communication between the existing cluster and the new node. The `preflight` check ensures that the provided token is valid, the node's Kubernetes version is compatible with the cluster, and no conflicts exist among the certificates or other critical components. If these checks pass, the node can proceed to join the cluster. Otherwise, an error message will be displayed indicating the reason for failure.

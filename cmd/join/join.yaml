@@ -1,0 +1,52 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: join
+description: join lines of two files on a common field
+flags:
+    --check-order: check that the input is correctly sorted, even
+    --header: treat the first line in each file as field headers,
+    --help: display this help and exit
+    --nocheck-order: do not check that the input is correctly sorted
+    --version: output version information and exit
+    -1=: join on this FIELD of file 1
+    -2=: join on this FIELD of file 2
+    -a=: also print unpairable lines from file FILENUM, where
+    -e=: replace missing input fields with EMPTY
+    -i, --ignore-case: ignore differences in case when comparing fields
+    -j=: equivalent to '-1 FIELD -2 FIELD'
+    -o=: obey FORMAT while constructing output line
+    -t=: use CHAR as input and output field separator
+    -v=: like -a FILENUM, but suppress joined output lines
+    -z, --zero-terminated: line delimiter is NUL, not newline
+documentation:
+    command: '[AI] The SQL `JOIN` keyword is used to combine rows from two or more tables based on a related column between them. There are several types of join operations, including INNER JOIN (returns only matching records), LEFT JOIN (returns all records from the left table and matching records from the right table), RIGHT JOIN (returns all records from the right table and matching records from the left table), and FULL OUTER JOIN (returns all records from both tables). The basic syntax for an INNER JOIN operation is `SELECT columns FROM table1 INNER JOIN table2 ON table1.column = table2.column;`'
+    flag:
+        "1": |-
+            [AI] The `join` command in Unix is used to merge the contents of multiple files into a single output, with specified delimiters between the merged lines. The option `-1` sets the delimiter as a single character, rather than the default newline character (used when no delimiter is specified). For instance, if we have two files `file1.txt` and `file2.txt`, and we want to join them using a tab character as a delimiter, we can use the following command:
+
+            ```bash
+            join -t '\t' file1.txt file2.txt
+            ```
+
+            This will merge the contents of both files with a tab character between each line in the output.
+        "2": '[AI] The `join` command in Unix is used to merge multiple files into one based on a common key. The option `-2` specifies that only the second column from each file should be used during the merge. This means that the output will consist of the second column values from all input files, with rows aligned based on their common key.'
+        a: '[AI] The `join` command with the `-a` option in Unix or Unix-like operating systems is used to merge files that are joined based on a common key, with the difference being that `-a` produces an extra output for every id in file1 but not present in file2. This is also known as an outer join. It merges the contents of two files where one record from each file is merged if there is a matching key value, and an empty record for the missing one.'
+        check-order: '[AI] The `--check-order` option is used with the Git command `git rebase`. It ensures that commits are applied in the order they were created, preserving the commit history''s original parent-child relationships during a rebase operation. In other words, it maintains the chronological order of commits while rebasing, preventing potential conflicts or unintended reordering of commits.'
+        e: '[AI] The `join` command with the option `-e` in Unix or Linux is used to join files based on a common key, but allowing for an optional empty line between matching records if there''s no match in the second file. This can be helpful when dealing with datasets where some keys might not have corresponding matches in another file. The `-e` option lets you specify a string that will be added as the output when there is no match, effectively filling missing data.'
+        header: '[AI] `join --header` is a command-line utility in Unix-based systems used to combine two files based on a common key. The `--header` option indicates that the first file (considered as the header file) contains headers or column names, which will be printed as the first row when the output is generated.'
+        help: '[AI] The `--help` option when used with the `join` command in Unix-based systems displays detailed information about how to use the join utility effectively. It provides a synopsis of the command''s usage, a list of available options with their descriptions, and examples that demonstrate typical applications of `join`. Using this option helps users understand the functionality and capabilities of `join`, allowing them to apply it correctly in various data processing scenarios.'
+        ignore-case: |-
+            [AI] The `join` command in Unix is used to merge the contents of multiple files into a single output, with each line in the output being the combination of a line from one file followed by a line from another file (specified by the delimiter).
+
+            The option `--ignore-case` is used when we want to perform the merging operation case-insensitively. In other words, it makes the merge process insensitive to differences in capitalization between characters. For example, if we have two files with lines "apple" and "Apple", respectively, and we use the `--ignore-case` option, then the resulting output will contain lines "apple" and "Apple" merged as "appleApple".
+        j: '[AI] The `join` command in Unix is used to merge files that have been split by a delimiter. The option `-j` or `--ojfile` specifies an output file for joining the files instead of printing the result on the standard output. This can be useful when dealing with large datasets and wanting to redirect the combined output to another file.'
+        nocheck-order: '[AI] The `join --nocheck-order` command is used in Unix-based systems for merging two sorted files based on a common key, without checking the order of the keys in each file. This can be useful when joining files that have been preprocessed or sorted elsewhere and where the order may not match. The `--nocheck-order` option disables this check to ensure a correct join result despite potential order differences.'
+        o: '[AI] The `join` command''s `-o` option in Unix-based systems is used to customize the output format. It allows specifying how the columns from both files should be combined. For instance, `-o 1.0 2.1 file1 file2` instructs join to align column 0 from file1 with column 1 in file2 and print those values together as a single field. The number of fields in each file corresponds to their position separated by a dot (e.g., `1.0`, `2.1`, etc.).'
+        t: '[AI] The `join` command with the option `-t` in Unix or Linux sets the delimiter character used to merge files produced by the `sed -n` or `awk` print statements into a single output file. For instance, if two files have common columns separated by tabs and we want the output to have those columns separated by commas instead, then we can use the command `join -t , input1 input2`.'
+        v: |-
+            [AI] The `join` command with the `-v` option in Unix or Unix-like operating systems is used to merge files based on a common key, but with an added feature: it also shows the keys that are present only in one of the input files.
+
+            When we use `join -a 1 file1 file2`, where `file1` and `file2` are the input files, the output will be a tab-delimited list of lines from both files where the common key is present. The `-v` option specifically shows the lines that have keys in one file but not in the other. These lines are printed preceded by the character `10` (ASCII code 10), which represents a newline, effectively printing them on separate lines.
+
+            In summary, `join -v` is used to merge files based on a common key while also displaying keys that exist only in one of the input files.
+        version: '[AI] `join --version` is a command used in Unix-like operating systems to display the version information of the join utility. When executed with this argument, it prints out details such as the name of the utility, its version number, and sometimes other relevant information like the compilation date or author. It helps users determine if they have the latest or required version of the join command for their specific use case.'
+        zero-terminated: '[AI] The `--zero-terminated` option in the `join` command is used when dealing with data that is already delimited by a specific character, such as newline characters. It tells `join` to treat its input files as if they contain zero-terminated records instead of using a delimiter to split lines. This means that each record ends with a null character (ASCII code 0), making it suitable for merging data from files where each line is considered a single record. In essence, `--zero-terminated` is used when the input data itself acts as the record separator rather than a delimiter being added between records by the command.'

@@ -1,0 +1,108 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: install
+description: compile and install packages and dependencies
+flags:
+    -C=: Change to dir before running the command
+    -a: force rebuilding of packages that are already up-to-date
+    -asan: enable interoperation with address sanitizer
+    -asmflags=: arguments to pass on each go tool asm invocation
+    -buildmode=: build mode to use
+    -buildvcs?: whether to stamp binaries with version control information
+    -compiler=: name of compiler to use
+    -cover: enable code coverage instrumentation
+    -coverpkg=: apply coverage analysis to each package matching the patterns
+    -gccgoflags=: arguments to pass on each gccgo compiler/linker invocation
+    -gcflags=: arguments to pass on each go tool compile invocation
+    -i: install the packages that are dependencies of the target
+    -installsuffix=: a suffix to use in the name of the package installation directory
+    -ldflags=: arguments to pass on each go tool link invocation
+    -linkshared: build code that will be linked against shared libraries
+    -mod=: module download mode to use
+    -modcacherw: leave newly-created directories in the module cache read-write
+    -modfile=: read and possibly write an alternate go.mod file
+    -msan: enable interoperation with memory sanitizer
+    -n: print the commands but do not run them
+    -o=: set output file or directory
+    -overlay=: read a JSON config file that provides an overlay for build operations
+    -p=: the number of programs to run in parallel
+    -pgo=: specify the file path of a profile for profile-guided optimization
+    -pkgdir=: install and load all packages from dir
+    -race: enable data race detection
+    -tags=: a comma-separated list of build tags to consider satisfied during the
+    -toolexec=: a program to use to invoke toolchain programs like vet and asm
+    -trimpath: remove all file system paths from the resulting executable
+    -v: print the names of packages as they are compiled
+    -work: print the name of the temporary work directory
+    -x: print the commands
+documentation:
+    command: '[AI] `go install` is a command-line tool used in the Go programming language for downloading, compiling, and installing packages from the standard library or third-party sources written in Go. The installed binary will be placed in the $GOPATH/bin directory on your system, allowing it to be easily accessed by other Go programs or directly via your operating system''s PATH environment variable. This command facilitates package management and simplifies project setup for the Go programming language.'
+    flag:
+        C: '[AI] `go install -C` is a command used in the Go programming language for building and installing Go packages from source code. The `-C` (short for "clean") flag tells Go to delete the object files and compiled binary from the previous build before starting a fresh build. This ensures that you have the most up-to-date version of the software when installing it. After running this command, the installed binary will be placed in the $GOPATH/bin directory.'
+        a: '[AI] `go install -a` is a command used in the Go programming language to build and install all the packages referred to in the current Go workspace, including those in the current directory and any dependencies they may have. This command performs a recursive installation, meaning it will install not only the package being built but also its transitive dependencies. The resulting binaries or libraries are installed in the $GOPATH/bin or $GOPATH/pkg directories, respectively.'
+        asan: '[AI] `go install -asan` is a command used in the Go programming language to build and install a binary with Address Sanitizer (ASAN) enabled. ASAN is a memory safety tool that helps detect and locate memory leaks, null pointer dereferencing, use-after-free, and other memory-related bugs during program execution. The `go install` command compiles the source code, creates a binary, and installs it for use in the system''s PATH. Adding `-asan` flag enables Address Sanitizer during the build process.'
+        asmflags: '[AI] `go install` is a command used in Go programming language to build and install a package or application. The `-asmflags` option is an advanced flag that allows passing specific assembler flags to the Go compiler during assembly. These flags can be used for optimizing assembly code, targeting specific architectures, or enabling additional assembly features. By using `go install -asmflags="flag1 flag2 ..."`, you''re instructing the Go build system to include these flags when assembling your code.'
+        buildmode: |-
+            [AI] `go install -buildmode=c-shared` is a command used in the Go programming language to build Go projects into shared libraries instead of standalone executables or binary files. The `buildmode` option specifies the type of output that the `go install` command generates. Here are some details:
+
+            * `go install` is a Go command for downloading, compiling, and installing packages or programs from Go sources.
+            * By default, it creates an executable file with the same name as the package or main.go source file in the current directory.
+            * The `-buildmode` flag allows you to change the type of output. You can set it to `c-archive`, `c-shared`, `pie`, or `dll`.
+            * When you use `c-shared` as the build mode, Go generates a shared library with a `.so` (on Unix) or `.dll` (on Windows) file extension. This shared library contains the compiled code and can be used by other applications to access its functions without having to link them statically.
+            * To use this command, navigate to your project directory and run: `go install -buildmode=c-shared`. This will build all dependencies and create a shared library file in the output directory (often `$GOPATH/bin` or `$GO_WORKSPACE/build`).
+        buildvcs: |-
+            [AI] The `go install -buildvcs` command is used in Go programming language to build and install a package from source, while also including the VCS (Version Control System) metadata in the resulting binary.
+
+            Here's a brief explanation of each part:
+
+            * `go install`: This is the primary command for building and installing Go packages. It downloads the necessary dependencies, compiles the source code, links the binary or libraries, and copies it to the appropriate directory in your GOPATH.
+            * `-buildvcs`: The `-buildvcs` flag tells Go to include VCS metadata (committed hash of the source code) into the resulting binary. This can be useful for tracking version history of distributed binaries.
+            * In summary, `go install -buildvcs` command will build and install a package from source while also embedding the VCS metadata in the generated binary.
+        compiler: |-
+            [AI] The `go install` command is a built-in Go tool used to download, build, and install packages and their dependencies. The `-compiler` flag is an optional argument for this command. It specifies which compiler to use when building the Go code. By default, `go install` uses the native compiler for your system, but you can override it by using the `-compiler` flag followed by the name or path of a specific compiler. For example:
+
+            ```bash
+            $ go install -compiler=llvm-gcc mypackage/...
+            ```
+
+            This command would install the 'mypackage' package and its dependencies, compiling them with the LLVM compiler instead of the default one.
+        cover: '[AI] `go install -cover` is a command used in Go programming language to build and test source files with integrated code coverage measurement. The `-cover` flag enables the generation of a profile file during testing, which can be later used to produce a report showing which parts of the code were executed during the tests. This information can help identify undertested areas in the codebase for further improvement.'
+        coverpkg: '[AI] `go install -coverpkg` is a command used in Go programming language for generating test coverage reports during the build process. The `-coverpkg` flag specifies the package(s) for which to generate the coverage data, and the `go test` command with `-cover` option will output the HTML reports for the coverage results in the current directory. This helps developers to identify which parts of their code need improvement by providing information on which lines and functions were executed during testing and which were not.'
+        gccgoflags: '[AI] The `go install` command with the `-gccgoflags` flag is used in Go programming language to build and install a package, setting custom flags for the C compiler used by Go during the build process. Specifically, this flag allows passing extra options to the underlying C compiler (such as gcc) that are needed to build the Go package, especially when dealing with non-standard libraries or project-specific requirements. The actual flags depend on the specific use case and should be determined based on the C compiler documentation or the needs of the project.'
+        gcflags: '[AI] `go install` is a command used to build and install Go packages from source. The `-gcflags` option modifies the behavior of the Go compiler''s garbage collector. Specifically, it allows specifying different garbage collector flags that can affect collector performance, such as enabling parallel GC or adjusting heap size. For instance, `go install -gcflags="m:Delays=1"` enables delaying the mark phase in the garbage collector for better concurrency in multi-threaded programs.'
+        i: '[AI] The `go install -i` command is a Go programming language tool used to download, build, and install a specific package from the Go Modules system into your local $GOPATH. The `-i` flag stands for "install" and instructs the Go tool to install the package after building it, making it accessible for import by other Go code in your project. This command helps manage dependencies and ensure consistent versions across your projects.'
+        installsuffix: '[AI] The `-installsuffix` option in `go install` command is used to specify a suffix that gets appended to the name of the installed package when it''s built as a standalone executable or binary. This can be useful when you have multiple versions of the same package installed and want to differentiate between them, or if you''re developing a package that needs to be named differently from its import path. For example, `go install -installsuffix=v1 mypackage` will result in a binary named `mypackage_v1` being created upon installation.'
+        ldflags: '[AI] The `-ldflags` option in `go install` is used to set custom linker flags for the Go compiler during build process. Linker flags are arguments that control the linker''s behavior when building an executable or shared library. For example, they can be used to specify additional libraries to link against or to pass compile options directly to the linker. By default, `go install` sets some basic linker flags for standard libraries and executables, but custom flags can be passed using `-ldflags`. The flag value should be a string containing zero or more comma-separated name=value pairs that define the flags.'
+        linkshared: '[AI] The `go install -linkshared` command is a Go programming language build and installation command with an optional flag. When used, this flag instructs the Go compiler to create shared libraries instead of statically linked binaries during the build process. Shared libraries allow multiple programs to share the same code base in memory, reducing duplication and improving system resources utilization. This can be particularly useful when developing complex applications with interdependent modules or when running applications in containers or other resource-constrained environments.'
+        mod: '[AI] `go install -mod` is a command used in Go programming language to build and install a Go package, with the added flag `-mod` enabling Go''s Mod module system. This system manages dependency declarations within a `go.mod` file, allowing for consistent and reproducible builds by automatically downloading required dependencies and their dependencies recursively. The command installs the local package and its dependencies as executables or libraries, ready to use in your Go projects.'
+        modcacherw: '[AI] `go install -modcache` is a command used in Go programming language to download and cache the required modules from the Go Modules repository before building and installing the specified package locally. This command improves build time and reduces network usage by utilizing the cached modules instead of re-downloading them during subsequent builds with similar dependencies.'
+        modfile: '[AI] The `go install` command is a utility in Go programming language used to download, build, and install packages from the Go Modules system. The `-modfile` option specifies a Go.mod file that specifies the required modules and their versions for the project. By using this flag, you tell Go to manage dependencies based on the information in the specified Go.mod file, rather than using GOPATH or other external sources. This promotes a more consistent and reproducible dependency management approach across different development environments.'
+        msan: '[AI] The `go install -msan` command is used in Go programming language to build and install a package with Memory Safety Analyzer (MSAN) enabled. MSAN is a static analyzer that checks for potential memory safety issues during compile time, helping to prevent memory-related bugs such as use after free or null pointer dereferencing. By including `-msan` flag in the `go install` command, you instruct Go toolchain to enable MSAN analysis for the specific package being installed.'
+        "n": '[AI] `go install -n` is a command used in the Go programming language to compile and build a Go package, without actually installing it. The `-n` flag specifies that only the named package should be built, without linking or installing it into the GOPATH''s `bin` directory or global `$GOPATH/bin`. This is useful for testing, debugging, and building packages for other projects without interfering with your system''s installed Go packages.'
+        o: '[AI] `go install -o` is a command used in the Go programming language to build and install a Go package into an executable or binary file, named after the `-o` flag. The `go install` command downloads any necessary dependencies, compiles the source code, and creates the binary file in the current operating system''s default location for binaries, such as `$GOPATH/bin`. Using the `-o` flag allows specifying a custom name for the output binary file. For example, `go install -o myprogram mypackage` will create a binary named `myprogram` instead of the default one derived from the package name.'
+        overlay: '[AI] The `go install -overlay` command is a feature in Go language''s `go` tool. It allows for overlay installation, which means installing multiple versions of the same package into the same import path, but with different file sets. This command modifies the existing packages in place instead of replacing them completely. This can be useful when working on multiple branches or versions of a project that depend on different versions of the same third-party package. The changes are kept separate and do not interfere with each other.'
+        p: '[AI] `go install -p` is a command used in the Go programming language to build and install a Go package and its dependencies from source code into the Go workspace''s standard library directory. The `-p` flag specifies that only the packages listed on the command line should be installed, rather than the entire dependency tree, making it useful for installing specific packages without bringing in unnecessary dependencies.'
+        pgo: '[AI] `go install -pgo` is a command used in Go programming language for building and installing Go packages from source. The "-pgo" flag enables the use of the pogo compiler, which is an experimental, ahead-of-time (AOT) compiler for Go. It compiles the package code into machine code before installation, making it run faster since there''s no need to compile at runtime. By using `go install -pgo`, you can build and install packages with compiled binaries that have improved start-up times.'
+        pkgdir: '[AI] The `go install` command with the `-pkgdir` flag is used to install a Go package and specify a custom packages directory. By default, Go packages are installed in the `$GOPATH/pkg/mod` directory. However, you can use the `-pkgdir` flag followed by a path to install the package in a different location. This can be useful if you need to manage multiple versions of the same package or if you want to keep your installation directories organized in a specific way.'
+        race: '[AI] `go install -race` is a command-line option used with the Go programming language''s `install` tool. It enables the race detector during compilation and linking of the source code. The race detector is a static analysis tool that helps find data races in concurrent Go programs by detecting potential unsynchronized accesses to shared variables between goroutines or OS threads. By using this flag, you can identify and fix such concurrency issues in your code before deployment, improving the reliability and performance of your program.'
+        tags: |-
+            [AI] The `go install` command with the `-tags` flag is used in Go programming language to build and install a package with specific compilation options defined in a `TAGS` file. This flag allows selecting alternate builds, such as those for different architectures or optimization levels, without modifying the main source code. The `TAGS` file contains a list of tags and their associated build configurations. For instance, one can create a file named `mytags.go` with definitions like:
+
+            ```go
+            // +build linux darwin
+            // or
+            // +build windows
+            // etc.
+            ```
+
+            Using this flag, you can build the package for various target platforms or custom configurations by running:
+
+            ```sh
+            $ go install mypackage/... @mytags.go
+            ```
+
+            This will trigger Go to read and apply the specified tags from `mytags.go`.
+        toolexec: '[AI] The `go install -toolexec` command is a way to install Go packages and their dependencies, with the added feature that it marks the installed binary as executable. This means that after running this command, you can directly execute the installed binary without having to set its permissions manually. It''s particularly useful when dealing with tools or applications where you don''t need to modify the source code but want a convenient way to install and run them.'
+        trimpath: '[AI] The `go install` command is a part of Go programming language''s build system. It downloads, compiles, and installs the specified package and its dependencies. The `-trimpath` flag, when used with `go install`, tells the Go compiler to remove unnecessary path information from the imported packages'' file names during linking. This results in shorter and more readable import paths for the compiled binary or library. For example, instead of having an import path like `/Users/username/Go/src/company.com/myproject/mypackage`, you would have a shorter import path like `company/myproject/mypackage`.'
+        v: '[AI] `go install -v` is a command used in the Go programming language to build and install a Go package from its source code. The `-v` (short for verbose) flag enables detailed output during the installation process, providing information about each step taken, including the downloading of dependencies, compilation, and linking of the binary. This is useful for debugging and understanding the build process in detail.'
+        work: '[AI] The `go install -work` command is a Go programming language command used to build and install a Go package from its source code. The `-work` flag is an optional argument that specifies the directory where the intermediate object files will be placed during the build process. This can be useful when working on a large project with multiple dependencies, as it allows for parallel builds by allowing each dependency to have its own work directory. When used, the output of the installation will be placed in the specified work directory instead of overwriting the previously installed version.'
+        x: '[AI] The `go install -x` command is used in Go programming language to build and install all the packages that are required by the current Go source code file, but are not yet present on the system. The `-x` flag makes Go print out which packages are being installed for transparency. It searches for dependencies recursively in the `go.mod` and `go.sum` files, installs the missing packages, and then builds and installs the main package.'

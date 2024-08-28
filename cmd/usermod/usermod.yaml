@@ -1,0 +1,105 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: usermod
+description: modify a user account
+flags:
+    -G, --groups=: new list of supplementary GROUPS
+    -L, --lock: lock the user account
+    -P, --prefix=: prefix directory where are located the /etc/* files
+    -R, --root=: directory to chroot into
+    -U, --unlock: unlock the user account
+    -V, --del-subuids=: remove range of subordinate uids
+    -W, --del-subgids=: remove range of subordinate gids
+    -a, --append: append the user to the supplemental GROUPS
+    -b, --badnames: allow bad names
+    -c, --comment=: new value of the GECOS field
+    -d, --home=: new home directory for the user account
+    -e, --expiredate=: set account expiration date to EXPIRE_DATE
+    -f, --inactive=: set password inactive after expiration
+    -g, --gid=: force use GROUP as new primary group
+    -h, --help: display this help message and exit
+    -l, --login=: new value of the login name
+    -m, --move-home: move contents of the home directory to the
+    -o, --non-unique: allow using duplicate (non-unique) UID
+    -p, --password=: use encrypted password for the new password
+    -s, --shell=: new login shell for the user account
+    -u, --uid=: new UID for the user account
+    -v, --add-subuids=: add range of subordinate uids
+    -w, --add-subgids=: add range of subordinate gids
+documentation:
+    command: |-
+        [AI] `usermod` is a Linux command used to modify the details of existing user accounts. It allows you to change various attributes like the user ID (UID), group ID (GID), password, and other account-related settings such as home directory or shell. The basic syntax is:
+
+        ```
+        sudo usermod [OPTION]... USERNAME
+        ```
+
+        Replace `[OPTION]...` with specific options you want to use, like `-u` for changing the UID, `-g` for changing the GID, or `-d` for modifying the home directory. For example:
+
+        ```
+        sudo usermod -aG sudo myuser
+        ```
+
+        This command adds the 'sudo' group to the user 'myuser'. This change takes effect once the user logs back in.
+    flag:
+        add-subgids: |-
+            [AI] `usermod` is a command in Linux used to modify user account information. The specific option `--add-subgids` allows you to add supplementary group IDs (GIDs) to the primary group of an existing user account.
+
+            When you use this command, followed by the username and then a list of GID numbers separated by spaces, it adds those groups as additional group memberships for that user, without changing their primary group. This can be useful when you want to grant multiple secondary group privileges to a user without affecting their primary group membership.
+
+            For example: `usermod -a -G group1,group2 username`. Here, 'username' is the target account, and 'group1' and 'group2' are the supplementary groups to be added.
+        add-subuids: '[AI] `usermod --add-subuids` is a command used in Linux and Unix systems to add supplementary group IDs (GIDs) for a specific user. The `usermod` utility is used to modify various aspects of user accounts, such as changing the password or modifying the user''s home directory. The `--add-subuids` option allows you to specify a list of additional GIDs to be added to the primary group of the user. This can be useful when you want to grant a user access to multiple groups and their associated permissions without having to create a new user account for each one.'
+        append: '[AI] `usermod` is a command-line utility in Unix and Linux systems for managing user accounts. The option `--append` modifies the file specified by the argument to the `-a` option, typically `~/.bashrc` or `~/.profile`, by adding lines to the end of the file instead of overwriting it entirely. This allows you to add new configurations or aliases without losing existing ones.'
+        badnames: '[AI] `usermod` is a command in Linux for managing user accounts. The option `--badname` or `-l` followed by an argument is used to rename a user''s account by changing the login name while keeping the original UID (Unique Identifier) and GID (Group Identifier). However, it is important to note that using this command with a new username that is already in use will result in an error. The `--badname` option should be used with caution as it may cause issues with system services or dependencies linked to the original user account name.'
+        comment: |-
+            [AI] The `usermod` command with the `--comment` option is used to change or set the comment field (also known as the description or information) of a user account in Linux and Unix-based systems. This field can be set or modified using this option followed by a specified string argument:
+
+            ```bash
+            usermod [username] --comment="[new comment]"
+            ```
+
+            Replace `[username]` with the actual username and `[new comment]` with the desired description. For instance, you might use it to update a user's account information when creating or modifying an account for someone else:
+
+            ```bash
+            usermod john --comment="IT department member"
+            ```
+
+            In the shell output, the comment change will be shown as follows:
+
+            ```shell
+            $ sudo usermod john --comment="IT department member"
+            [sudo] password for user: root
+            User modified (/etc/passwd, /etc/shadow, and /etc/group updated)
+            ```
+
+            This information can be viewed with the `id`, `ls`, or `cat` commands. The comment field is stored in the `/etc/passwd` file but is not directly used for login or authentication purposes.
+        del-subgids: '[AI] `usermod --del-subgids <username>` is a command used in Linux and Unix systems to delete supplementary group memberships for the specified user account named `<username>`. This command modifies the user''s Group Membership List (GID list) by removing all groups associated with that user, except for the primary group. This can be useful when you need to remove a user from multiple groups at once.'
+        del-subuids: '[AI] `usermod` is a command-line utility in Unix and Linux systems used to modify user account information. The option `--del-subuids` is used to delete supplementary group IDs associated with the user. These supplementary group IDs allow the user to be a member of multiple groups, granting additional permissions beyond those given by their primary group membership. When this option is used, the specified user account will no longer belong to any supplementary groups.'
+        expiredate: '[AI] `usermod` is a command-line utility in Unix and Linux systems used to modify user account information. The option `--expiredate` sets or queries the expiration date for an account. When you set an expiration date, the account will become inactive after that date, requiring administrative intervention to extend it. If no argument is provided with this option, it will display the expiration date of the current user account or the specified user account if given as an argument.'
+        gid: '[AI] `usermod` is a command-line utility in Unix and Linux systems used to modify user account information. The option `--gid <GID>` sets the primary group ID (GID) for the specified user account. This means that when a user logs in, their default group will be changed to the one specified by the given GID.'
+        groups: '[AI] `usermod` is a command-line utility in Linux and Unix systems used to modify user account information. The `--groups` option specifies the supplementary groups for the user being modified. Supplementary groups are additional groups that a user can be a member of, granting them access to specific resources or permissions beyond those granted by their primary group. By using `usermod --groups <user> <group1> [<group2> ...]`, you can add or remove groups from the specified user account.'
+        help: |-
+            [AI] `usermod` is a command in Linux and Unix-based systems used to modify the details of existing user accounts. The `--help` option is used to display detailed information about how to use the command, including available options, their meanings, and usage examples. So, when you type `usermod --help`, you will get a help message that explains:
+
+            - Syntax: Basic command format (e.g., `usermod [OPTION]... USER`).
+            - Options: Detailed explanations of various options, such as `-a`, `-L`, `-u`, etc., which can be used to modify user account details like password, group membership, home directory, and more.
+            - Examples: Concrete examples demonstrating how to use the command with different options for various tasks, like changing a password, unlocking an account, or modifying group affiliations.
+        home: '[AI] `usermod` is a Linux command used to modify the details of existing user accounts. The option `--home <directory>` changes the home directory for the specified user account. When you use this command, the system updates the /etc/passwd and /etc/group files accordingly. For example, `usermod --home /newdir useraccount`.'
+        inactive: '[AI] The `usermod` command with the option `--inactive` is used in Unix-based systems to change various user account attributes, but specifically sets the user''s account expiration date. When this option is employed along with a valid date in the format of `YYYY-MM-DD`, it makes the account inactive on that specified date. After the set expiry date, the user will no longer be able to log into the system using their account, unless the account is manually activated beforehand or the expiration is disabled by an administrator.'
+        lock: |-
+            [AI] `usermod` is a utility in Unix-based operating systems used to modify the details of existing user accounts. The `--lock` option is not a standard or well-known option for `usermod`. It seems you might be mistaking it with other similar commands, such as `usermod --lock <username>` being similar to `passwd --lock <username>` or `pwlock <username>`.
+
+            The correct usage of those commands is to lock a user account, making them unable to log in, preventing any changes to their account and securing their home directory. It's important to note that this action should only be performed by an administrator.
+
+            In summary, the `usermod --lock` command, as it stands, does not exist. You might have meant one of the aforementioned options, specifically `passwd --lock` or `pwlock`, both of which lock user accounts in various Unix-based systems.
+        login: '[AI] `usermod` is a command used in Unix and Linux operating systems to modify the details of an existing user account. The option `--login` specifies that the changes being made will apply to the main, login account for that user. For example, `usermod --login newusername oldusername` would rename the account with the username "oldusername" to "newusername", making "newusername" the new primary login account for that user.'
+        move-home: '[AI] The `usermod` command with the option `--move-home` is used to move a user''s home directory to another location in the file system while preserving their home folder contents and moving it to the new location. This can be useful when managing user accounts, such as when creating a new system or when reorganizing directories. The command does not require any additional arguments beyond the `--move-home` option and the username of the account being modified. However, you should ensure that you have proper permissions to modify the specified user account and that the new location for the home directory is available and has sufficient space to hold the contents of the home folder.'
+        non-unique: '[AI] `usermod` is a command in Unix-based operating systems used to modify user account information. The `--non-unique` option is used when modifying multiple users with the same new value for a specific field, such as the same username or group name. Without this option, the command would result in an error because Unix user and group names must be unique within a system. With `--non-unique`, the command allows these non-unique changes without causing errors.'
+        password: '[AI] `usermod` is a command in Linux and Unix-based systems used to modify user account information. The option `--password` is used to change the encrypted password for an existing user account. When followed by a new password, this command updates the user''s password file accordingly. It''s essential to note that entering a new password without any other arguments will only prompt you to enter a new password but won''t save it, making it an effective way to change a password interactively without using the `passwd` command.'
+        prefix: '[AI] `usermod` is a utility in Unix-based systems for modifying user account information, such as changing passwords or adding users to groups. The option `--prefix=NEW_PREFIX` sets a new prefix for the user''s home directory and other data files when creating or modifying an account. With this option, any new user accounts created or modifications made with `usermod` will have their data files located under the specified `NEW_PREFIX` instead of the default `/home`.'
+        root: |-
+            [AI] The `usermod` command with the option `--root` is used in Linux and Unix-based systems to change the root directory of a user's home directory. This can be useful when managing users or systems that have multiple homes directories, such as in clustered environments or for backup purposes.
+
+            When you use `usermod --root <new_root> <user>`, it changes the location of the specified user's home directory from its default location (typically under /home/) to the new_root path that you specify. This command requires root privileges, as changing a user's home directory is considered a significant modification to their account.
+        shell: '[AI] `usermod` is a command in Unix-based operating systems used to modify the details of existing user accounts. The option `--shell` allows you to change the login shell for that user account. For instance, `usermod -s /usr/bin/bash username` would set the shell for user ''username'' to bash (located at /usr/bin/bash). This can be useful when you want to change the default shell for a user or when managing different environments with various shell configurations.'
+        uid: '[AI] `usermod` is a command-line utility in Unix and Linux systems used to modify user account information. The specific option `--uid <UID>` sets or changes the User ID (UID) of an existing user account. A UID uniquely identifies each user on a system, and specifying a new UID with this option allows adjusting the ownership of files and directories associated with that user.'
+        unlock: '[AI] `usermod` is a command-line utility in Unix-based operating systems used to modify user account information. The option `--unlock` or `-u 0` disables the account''s password lock, allowing users to log in with their current password. When an account is locked, repeated unsuccessful login attempts will result in a denied access message. By unlocking the account, regular login attempts will once again be allowed.'

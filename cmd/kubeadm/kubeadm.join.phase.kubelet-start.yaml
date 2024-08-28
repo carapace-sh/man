@@ -1,0 +1,61 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: kubelet-start
+description: Write kubelet settings, certificates and (re)start the kubelet
+flags:
+    --config=: Path to kubeadm config file.
+    --cri-socket=: Path to the CRI socket to connect. If empty kubeadm will try to auto-detect this value; use this option only if you have more than one CRI installed or if you have non-standard CRI socket.
+    --discovery-file=: For file-based discovery, a file or URL from which to load cluster information.
+    --discovery-token-ca-cert-hash*=: 'For token-based discovery, validate that the root CA public key matches this hash (format: "<type>:<value>").'
+    --discovery-token-unsafe-skip-ca-verification: For token-based discovery, allow joining without --discovery-token-ca-cert-hash pinning.
+    --discovery-token=: For token-based discovery, the token used to validate cluster information fetched from the API server.
+    --node-name=: Specify the node name.
+    --tls-bootstrap-token=: Specify the token used to temporarily authenticate with the Kubernetes Control Plane while joining the node.
+    --token=: Use this token for both discovery-token and tls-bootstrap-token when those values are not provided.
+documentation:
+    command: |-
+        [AI] The `kubeadm join` command is used to add a new node to an existing Kubernetes cluster. The specific phase "kubelet-start" refers to the point in the join process where the Kubelet service is started on the node.
+
+        During this phase, kubeadm configures and starts the Kubelet service, which is responsible for managing the containers running on the node and communicating with the cluster's etcd and API server. After "kubelet-start," other phases such as "container-runtime-setup" and "wait-ready" may still need to be completed before the node is fully integrated into the cluster.
+    flag:
+        config: |-
+            [AI] The `kubeadm join` command is used to join a worker node to a Kubernetes cluster. The specific option `--config <path>` specifies the configuration file containing the joining details, such as the master's address and token.
+
+            The `phase kubelet-start` argument signifies that this particular command will initiate the phase where the kubelet daemon starts on the worker node. Once started, the kubelet will register with the Kubernetes API server on the master node, enabling it to receive and execute containerized workloads (pods).
+
+            Therefore, `kubeadm join phase kubelet-start --config <path>` is a command that starts the kubelet daemon on a worker node as part of the process to join the node to a Kubernetes cluster, utilizing the provided configuration file.
+        cri-socket: |-
+            [AI] The `kubeadm join` command with the `--phase=kubelet-start --cri-socket` flag is used to initiate the process of joining a new node to a Kubernetes cluster managed by Kubeadm.
+
+            The `--phase=kubelet-start` argument instructs Kubeadm to begin the phase where the kubelet daemon is started on the node. The kubelet is the primary component that runs containers and maintains the desired state of the pods in the cluster.
+
+            The `--cri-socket` flag specifies the Unix domain socket path for the Container Runtime Interface (CRI) to be used by Kubernetes on this node. This is necessary for the kubelet to communicate with the container runtime, such as Docker or CRI-O, in order to manage containers and pods effectively.
+        discovery-file: |-
+            [AI] The `kubeadm join` command is used to join a worker node to a Kubernetes cluster managed by Kubeadm. The specific flag `--discovery-file` followed by the path to a file, instructs `kubeadm join` to use that file as the source for discovering the cluster's control-plane endpoint and join token.
+
+            The contents of this file must be in the format of a Kubernetes discovery document or contain the address and token of the control-plane node. The `kubelet-start` phase flag is used to automatically start the kubelet daemon after joining the cluster, which manages the containers on the worker node.
+
+            Therefore, using the command `kubeadm join --discovery-file <path_to_file> --kubelet-start` will cause the specified worker node to join the Kubernetes cluster and start the kubelet service automatically.
+        discovery-token: |-
+            [AI] The `kubeadm join` command is used to add a new node to a Kubernetes cluster. The specific flag `--discovery-token` is related to how the new node discovers and joins the existing cluster.
+
+            When you run `kubeadm init` on the first node in a cluster, it generates a token (a long string) that can be used by other nodes to join the cluster. The `--discovery-token` flag is used to pass this token during the join process. It tells `kubeadm` on the new node to use the provided discovery token to locate and connect to the existing cluster, instead of using the default methods like etcd or KubeAPI server discovery.
+
+            In summary, `kubeadm join phase kubelet-start --discovery-token <TOKEN>` is a command used on a new node to start the `kubelet` component with the given discovery token to allow it to connect and join an existing Kubernetes cluster.
+        discovery-token-ca-cert-hash: |-
+            [AI] The `kubeadm join` command with the `--discovery-token-ca-cert-hash` argument is used to join a worker node to a Kubernetes cluster using the token-based discovery method.
+
+            When a new worker node is added to the cluster, `kubeadm join` is executed on that node, and this flag specifies the CA certificate hash of the discovery token that was previously generated on the master node and distributed to the worker nodes. This ensures secure communication between the worker node and the master node by validating the authenticity of the token.
+
+            Once the `kubeadm join` command completes, the kubelet service is started automatically, registering the worker node with the Kubernetes cluster. The `--kubelet-start` flag indicates this behavior.
+        discovery-token-unsafe-skip-ca-verification: |-
+            [AI] The `kubeadm join` command with the `--phase=kubelet-start` and `--discovery-token-unsafe-skip-ca-verification` flags is used to add a new node to a Kubernetes cluster.
+
+            The `--phase=kubelet-start` flag tells `kubeadm` to start the kubelet service on the joining node. The `--discovery-token-unsafe-skip-ca-verification` flag is used to bypass the CA certificate verification during token discovery. This means that the joining node will trust any TLS certificate presented by the master node without verifying its authenticity, which can be a security risk if the communication between the nodes is not secure enough. It's important to use this flag only in trusted environments and for short periods of time.
+        node-name: '[AI] The `kubeadm join` command is used to add a new node to an existing Kubernetes cluster. The `--phase kubelet-start` option specifies that the joining process should skip over certain initialization phases and begin directly with starting the Kubelet daemon on the new node. The `--node-name` flag indicates the name or IP address of the new node being added to the cluster. In summary, this command starts the Kubelet on a new node without running other initialization processes that are not necessary for joining an existing cluster.'
+        tls-bootstrap-token: |-
+            [AI] The `kubeadm join` command is used to add a new node to a Kubernetes cluster. The specific flag `--kubelet-start --tls-bootstrap-token` instructs `kubeadm` to start the Kubelet daemon on the joining node and use a TLS Bootstrap Token for secure communication between nodes in the cluster.
+
+            The TLS Bootstrap Token is an automatic, one-time token that is generated when setting up the initial control plane nodes in a cluster using `kubeadm init`. This token is then used by worker nodes to join the cluster and communicate with the master node securely during the joining process. Once all nodes have joined, the TLS Bootstrap Token is rotated or revoked to maintain security.
+
+            In summary, the `--kubelet-start --tls-bootstrap-token` flag instructs `kubeadm` to start the Kubelet daemon on a node and use the TLS Bootstrap Token for secure communication with the cluster during the joining process.
+        token: '[AI] The `kubeadm join` command is used to add a worker node to a Kubernetes cluster managed by `kubeadm`. The `--token` argument specifies the token that was generated during initial cluster setup and must be provided to allow the new node to join. The `kubelet-start` phase, which can also be abbreviated as `phase=kubelet-start`, instructs `kubeadm` to start the Kubernetes Kubelet service on the worker node after joining the cluster. This service manages the container runtimes and ensures that containers are scheduled and running on the node.'

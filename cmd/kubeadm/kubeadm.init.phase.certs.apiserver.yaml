@@ -1,0 +1,52 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: apiserver
+description: Generate the certificate for serving the Kubernetes API
+flags:
+    --apiserver-advertise-address=: The IP address the API Server will advertise it's listening on. If not set the default network interface will be used.
+    --apiserver-cert-extra-sans*=: Optional extra Subject Alternative Names (SANs) to use for the API Server serving certificate. Can be both IP addresses and DNS names.
+    --cert-dir=: The path where to save and store the certificates.
+    --config=: Path to a kubeadm configuration file.
+    --control-plane-endpoint=: Specify a stable IP address or DNS name for the control plane.
+    --kubernetes-version=: Choose a specific Kubernetes version for the control plane.
+    --service-cidr=: Use alternative range of IP address for service VIPs.
+    --service-dns-domain=: Use alternative domain for services, e.g. "myorg.internal".
+documentation:
+    command: '[AI] `kubeadm init phase certs apiserver` is a command used in Kubernetes to generate and configure TLS certification for the Kubernetes Apiserver during the initial setup of a Kubernetes cluster using kubeadm. The command generates a CA certificate, an apiserver certificate, and an apiserver key, which are then configured into the Kubernetes configuration files for secure communication between the various components in the cluster.'
+    flag:
+        apiserver-advertise-address: |-
+            [AI] The command `kubeadm init phase certs apiserver --apiserver-advertise-address` is used to generate and configure the TLS certificates for the Kubernetes API server during the initialization process of a Kubernetes cluster using Kubeadm.
+
+            The option `--apiserver-advertise-address` specifies the IP address or hostname that the API server will advertise to other components in the cluster, allowing them to communicate with it. The generated certificates are saved in the `$HOME/.kube/certs` directory and include the server certificate, the client certificate, and the private key for the API server and client respectively. These certificates are necessary for secure communication between different components of the Kubernetes cluster.
+        apiserver-cert-extra-sans: |-
+            [AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The `phase certs apiserver` subcommand generates and configures the TLS certificates for the Kubernetes Apiserver.
+
+            The `--apiserver-cert-extra-sans` flag specifies additional Subject Alternative Names (SANs) to include in the generated Apiserver certificate. SANs are used to specify additional hostnames or IP addresses that the certificate is valid for, beyond the common name (CN). This can be useful when you want the Apiserver to be accessible via multiple network interfaces or domain names. By default, `kubeadm init` generates a certificate with only the localhost SAN. Adding additional SANs with this flag enables external access to your cluster.
+        cert-dir: '[AI] `kubeadm init` is a command-line utility used to bootstrap a Kubernetes cluster. The option `phase certs apiserver --cert-dir` instructs `kubeadm` to generate and save the TLS certificates for the Kubernetes API server in the specified directory (--cert-dir). These certificates are essential for secure communication between the API server and its clients, such as the kubelet and etcd members of the cluster. After running this command, the generated certificates will be stored in the given directory and can be used during the subsequent configuration steps to join worker nodes to the cluster.'
+        config: '[AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The `phase certs apiserver --config` argument is specifying that you want to generate and configure the TLS certificates for the Kubernetes API server. This is an important step in initializing your cluster, as it ensures secure communication between various components of your Kubernetes cluster. These certificates are stored in the specified configuration file, which can then be used during the actual initialization process of the Kubernetes API server.'
+        control-plane-endpoint: |-
+            [AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The `phase certs apiserver --control-plane-endpoint` argument within this command pertains to generating and configuring the Certificate Authority (CA), client certificate, and server certificate for the Kubernetes API server.
+
+            The API server is the central component of a Kubernetes cluster that provides the interface for interacting with the cluster. It handles communication between various components and external clients such as `kubectl`. The certificates are crucial for secure communications between these entities.
+
+            By specifying the `--control-plane-endpoint` option, you're instructing `kubeadm init` to create certificates for the API server specifically. These certificates ensure that only authorized clients can access and manipulate the cluster resources.
+        kubernetes-version: |-
+            [AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The `phase certs apiserver` argument within this command is related to generating and configuring TLS certificates for the Kubernetes Apiserver.
+
+            When you run `kubeadm init --kubernetes-version <VERSION>` with the `apiserver` phase argument, it performs the following tasks:
+
+            1. Generates a new CA certificate and key for the cluster's Certificate Authority (CA).
+            2. Generates an Apiserver certificate and key using the generated CA.
+            3. Configures the Kubernetes system components to use these certificates.
+            4. Writes the necessary configuration files and places them in the `$HOME/.kube/config` directory for client access.
+
+            This process ensures secure communication between various Kubernetes components, such as the Apiserver, etcd, and kubelets, within your cluster.
+        service-cidr: |-
+            [AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The specific option `phase certs apiserver --service-cidr` relates to the process of generating and configuring TLS certificates for the API server component of the Kubernetes control plane.
+
+            More specifically, `--service-cidr` is an argument that sets the CIDR block (IP address range) used by Kubernetes services within this cluster. The `certs apiserver` subcommand generates and configures the necessary TLS certificates for the secure communication between various components of the control plane, including the etcd data store, kubelet nodes, and client tools like `kubectl`. By combining these two options in one command, we are instructing `kubeadm` to generate the certificates while also configuring the API server to use the specified service CIDR.
+        service-dns-domain: |-
+            [AI] `kubeadm init` is a command used to bootstrap a Kubernetes cluster. The option `phase certs apiserver --service-dns-domain` specifies that the `init` phase for certificates of the API server should be executed, and sets the Service DNS domain for the cluster.
+
+            The API Server is the heart of a Kubernetes cluster, responsible for managing the state of the cluster and enforcing the desired configuration. To secure communication between different components in the cluster, TLS (Transport Layer Security) certificates are used. The `certs apiserver` option instructs `kubeadm init` to generate these certificates for the API Server component.
+
+            The `--service-dns-domain` flag sets the Service DNS domain, which is a DNS label used to identify services in the cluster. It's essential for proper communication between different components in a multinode Kubernetes environment. This option should be set consistently across all nodes in the cluster to ensure successful service discovery.

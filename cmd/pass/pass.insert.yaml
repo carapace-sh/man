@@ -1,0 +1,39 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: insert
+description: insert new password
+flags:
+    -e, --echo: echo the password back to the console
+    -f, --force: overwrite existing entry without prompt
+    -m, --multiline: multiline entry
+documentation:
+    command: |-
+        [AI] The `pass insert` command is a part of GnuPG's (GNU Privacy Guard) key management system. It is used to add a new subkey or an extension to an existing key. The general syntax is as follows:
+
+        ```bash
+        gpg --expert --edit-key <key_id>
+        gpg> addkey [--dearmor <file>.asc]
+        gpg> key ID <new_key_specification>
+        gpg> save
+        ```
+
+        Replace `<key_id>` with the identifier of the primary key you want to add a subkey or extension to. The `addkey` command initiates the process, and `key ID <new_key_specification>` sets the details for the new subkey or extension, such as its algorithm (RSA, ElGamal, etc.) and length. Finally, save the changes by using the `save` command.
+
+        The `pass insert` command specifically is used when creating a new subkey and requires a passphrase to encrypt it. To do this with the `insert` command, set the creation flag 'creation-time' to 'never' (optional) and then create the subkey with the 'create-only' flag:
+
+        ```bash
+        gpg --expert --edit-key <key_id>
+        gpg> addkey
+        gpg> key ID <new_key_specification>
+        gpg> creation-time never
+        gpg> create-only yes
+        gpg> save
+        gpg> edit <new_subkey_ID>
+        gpg> passwd <passphrase>
+        gpg> save
+        ```
+
+        Now, the new subkey is encrypted with the provided passphrase and will be required when using it for signing or encryption.
+    flag:
+        echo: '[AI] The `pass insert --echo` command is used in Pass, a password manager, to insert a saved password into the clipboard or output it to the console with an echo message. The `--echo` option displays the password on the terminal as plain text. This can be useful for manually entering a password in situations where copying to the clipboard isn''t possible or convenient.'
+        force: '[AI] The `git pass-filter` command with the `--force` option is used to override the default behavior of a git filter-branch or similar commands when dealing with rejected or conflicted commits during a rebase or filtering process. With the `--force` flag, Git will forcefully apply the filter or changes without asking for user confirmation or allowing the user to inspect or abort the process. This can be useful in situations where you want to automate or force-apply filters across all commits, but be aware that using it can potentially overwrite or lose data if used incorrectly.'
+        multiline: '[AI] `git diff --cached --staged --multiline | git apply --index <file> --patch -- < /dev/tty < new_commit_message >` with the `--multiline` option in a Git command means applying a diff as a series of multi-line hunks. This is useful when dealing with files containing large blocks of text changes, allowing for more precise editing before committing those changes. The `pass insert --multiline` is not an explicit Git command but rather a combination of commands involving Git''s staging area and applying patches.'

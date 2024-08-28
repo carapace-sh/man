@@ -1,0 +1,44 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: build [OPTIONS] [SERVICE...]
+description: Build or rebuild services
+flags:
+    --build-arg*=: Set build-time variables for services.
+    --builder=: Set builder to use.
+    --compress&: Compress the build context using gzip. DEPRECATED
+    --force-rm&: Always remove intermediate containers. DEPRECATED
+    --no-cache: Do not use cache when building the image
+    --no-rm&: Do not remove intermediate containers after a successful build. DEPRECATED
+    --parallel&: Build images in parallel. DEPRECATED
+    --progress&=: Set type of ui output (auto, tty, plain, quiet)
+    --pull: Always attempt to pull a newer version of the image.
+    --push: Push service images.
+    --ssh=: Set SSH authentications used when building service images. (use 'default' for using your default SSH Agent)
+    --with-dependencies: Also build dependencies (transitively).
+    -m, --memory=: Set memory limit for the build container. Not supported by BuildKit.
+    -q, --quiet: Don't print anything to STDOUT
+documentation:
+    command: '[AI] `docker-compose build` is a command used with Docker Compose files to build Docker images based on the specified Dockerfiles or using existing images if they exist in the build context. It reads the `Dockerfile`(s) defined in each service section of the `docker-compose.yml` file and builds the corresponding images, pulling base images as needed. The resulting images are tagged with the service name and the image tag specified in the Compose file or defaulting to `latest`. After building, you can use `docker-compose up` to run the containers using the newly built images.'
+    flag:
+        build-arg: '[AI] `docker-compose build` is a command used to build Docker images based on the `Dockerfile` defined in a `docker-compose.yml` file. The `--build-arg` flag is used to pass build-time arguments to the `Dockerfile`. These arguments can be used in the `Dockerfile` using the `ARG` and `ARGUMENTS` instructions to set environment variables or customize the build process based on specific values. When using `docker-compose build --build-arg <KEY=VALUE>`, replace `<KEY>` with the name of the argument in the Dockerfile, and `<VALUE>` with the value to be passed at build time.'
+        builder: '[AI] `docker-compose build --builder` is a command used with Docker Compose files to build new Docker images for your services. The `--builder` flag specifies which Dockerfile to use as the base for building these images, effectively overriding the default Dockerfile in each service''s context. This can be useful when you need to use a specific base image for multiple services within the same Compose file.'
+        compress: '[AI] The `docker-compose build --compress` command is used to build Docker images with compressed image layers. The `--compress` flag compresses the built image layers using gzip or deflate algorithm before pushing or saving them to a registry or file system. This can help reduce the size of the images and save bandwidth during image transfer.'
+        force-rm: '[AI] `docker-compose build --force-rm` is a command used to build Docker images defined in a `docker-compose.yml` file. The `--force-rm` flag forces the removal of container and network structures after a successful build. This can help keep the Docker environment clean and efficient by avoiding the accumulation of unused containers and networks. The `build` command itself triggers the Docker Daemon to download and install any missing dependencies, and then builds the images based on the `Dockerfile` or `dockerfiles` specified in the compose file.'
+        memory: '[AI] `docker-compose build` is a command used with Docker Compose files to build services defined in the file. The `--memory` flag is an optional argument that allows you to set a limit on the amount of memory that can be used during the build process. This can be useful if you''re working with large projects or limited resources, as it prevents the build from consuming excess memory and potentially causing issues with your system. The memory value should be in bytes, kilobytes (K), megabytes (MB) or gigabytes (GB). For example: `docker-compose build --memory 4G .` will limit the build process to use a maximum of 4 gigabytes of memory.'
+        no-cache: '[AI] `docker-compose build --no-cache` is a command used in Docker Compose for building services defined in a `docker-compose.yml` file. The `--no-cache` flag instructs Docker to not use previously cached layers while building the image, instead it will download and build all necessary stages from scratch. This can result in longer build times but ensures that the final image is built based on the latest code and dependencies.'
+        no-rm: '[AI] `docker-compose build --no-rm` is a command used to build Docker images based on the `Dockerfile` in the `docker-compose.yml` file. The `--no-rm` flag prevents Docker from removing containers that were created during the build process once the build is completed. This can be useful when debugging or when you want to keep the container for further use after the image has been built.'
+        parallel: '[AI] `docker-compose build --parallel` is a command used with Docker Compose files to build multiple images for services defined in the file concurrently, using all available CPU cores for the builds. This results in faster build times compared to building each image sequentially. The `--parallel` flag tells Docker Compose to use as many worker processes as possible to execute the builds in parallel.'
+        progress: '[AI] `docker-compose build --progress` is a command used with Docker Compose files to build Docker images for defined services. The `--progress` option enables real-time progress output during the build process. It allows users to monitor the construction of individual layers and their corresponding build steps, such as installing dependencies or copying source code. This can be helpful for understanding long or complex builds and can also provide feedback on any issues that may arise during the build process.'
+        pull: |-
+            [AI] `docker-compose build --pull` is a command used in Docker to build and update multi-container Docker applications defined in a `docker-compose.yml` file.
+
+            The `build` subcommand initiates the build process, while `--pull` instructs Docker to pull the latest versions of any base images that are not already present locally before starting the build process. This ensures that the newest versions of the base images are used during the build and can help maintain a consistent development environment across different systems.
+        push: |-
+            [AI] `docker-compose build --push` is a command used with Docker Compose files to build Docker images for services defined in the file and push them to a Docker registry.
+
+            The `build` subcommand initiates the image building process based on the Dockerfiles specified in the Compose file. The `--push` option automatically pushes the built images to the registry after a successful build. This command is useful for automating image creation and deployment, particularly when working with multi-container applications.
+        quiet: '[AI] `docker-compose build --quiet` is a command used with Docker Compose to build services defined in a `docker-compose.yml` file. The `--quiet` flag suppresses all output except for the final message indicating that the build was successful or if there were errors. It''s useful when you want to run the build process in the background or automatically without needing to see the detailed output each time.'
+        ssh: '[AI] `docker-compose build --ssh` is a command used in Docker Compose for building images of multi-container applications. The `--ssh` option allows you to build an image by connecting to a remote machine using SSH and executing the build commands there. This can be useful when your application code or dependencies are not located on the host machine where Docker is running, but rather on a remote server. The command will transfer the necessary files via SSH, execute the build commands remotely, and then use the newly built image to start the containers defined in the `docker-compose.yml` file.'
+        with-dependencies: |-
+            [AI] `docker-compose build --with-dependencies` is a command used with Docker Compose to build Docker images for multiple services defined in a `docker-compose.yml` file.
+
+            The `--with-dependencies` option ensures that not only the specified services' dependencies are installed as build-time dependencies, but also their transitive dependencies. This means that all direct and indirect dependencies of the services are installed during image building, reducing the likelihood of missing dependencies and ensuring consistency across the project.

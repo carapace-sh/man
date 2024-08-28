@@ -1,0 +1,95 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: bump-cask-pr
+description: Create a pull request to update <cask> with a new version
+group: developer
+flags:
+    --commit: When passed with `--write-only`, generate a new commit after writing changes to the cask file.
+    --debug: Display any debugging information.
+    --dry-run: Print what would be done rather than doing it.
+    --force: Ignore duplicate open PRs.
+    --fork-org: Use the specified GitHub organization for forking.
+    --help: Show this message.
+    --message: Prepend <message> to the default pull request message.
+    --no-audit: Don't run `brew audit` before opening the PR.
+    --no-browse: Print the pull request URL instead of opening in a browser.
+    --no-fork: Don't try to fork the repository.
+    --no-style: Don't run `brew style --fix` before opening the PR.
+    --quiet: Make some output more quiet.
+    --sha256: Specify the <SHA-256> checksum of the new download.
+    --url: Specify the <URL> for the new download.
+    --verbose: Make some output more verbose.
+    --version: Specify the new <version> for the cask.
+    --version-arm: Specify the new cask <version> for the ARM architecture.
+    --version-intel: Specify the new cask <version> for the Intel architecture.
+    --write-only: Make the expected file modifications without taking any Git actions.
+documentation:
+    command: '[AI] `brew bump-cask-pr` is a Homebrew command used to increment the version number in the PR (Pull Request) branch of Homebrew Cask, which is a repository that manages binary packages for Homebrew. When run, this command will automatically detect the current branch and update the version number in the `Formula` file associated with the package to be bumped, create a new commit with a descriptive message, and open a new PR against the `brew-cask` repository on GitHub. The updated PR will contain the incremented version number, ready for review and merging into the main `brew-cask` branch.'
+    flag:
+        commit: |-
+            [AI] The command `brew bump-cask-pr --commit` is a Homebrew (a package manager for macOS) command used to update the version number of a Cask (Homebrew's formulae for managing third-party binary packages) and create a Git commit.
+
+            This command performs an incremental update of the specified Cask's Formula's version number in the Homebrew repository using the given update rule, like `major`, `minor`, or `patch`. After that, it creates a new Git commit with a message describing the version bump and stashes any changes you may have made to the repository before executing this command. Finally, it sets up Git to stage and commit the changes, so you can push them to the remote repository when ready.
+        debug: |-
+            [AI] `brew bump-cask-pr --debug` is a command used in Homebrew, a popular package manager for macOS. This specific command has two main functions:
+
+            1. `brew bump-cask-pr`: It bumps the version number of outdated Cask (graphical user interface) dependencies in your Homebrew installation to their latest versions. This is useful when you want to keep your dependencies up-to-date.
+
+            2. `--debug`: The `--debug` flag is used to output additional debugging information during the command execution. This can help users understand what's happening behind the scenes and troubleshoot any potential issues that might arise.
+        dry-run: |-
+            [AI] `brew bump-cask-pr --dry-run` is a command used in Homebrew, a popular package manager for macOS. This specific command performs a dry run of the `bump-cask-pr` action.
+
+            The `bump-cask-pr` action modifies the version numbers of Cask installations (i.e., third-party apps and tools) in your Homebrew installation. By using the `--dry-run` flag, you're instructing Homebrew to simulate the action without actually making any changes. This allows you to preview the effects of running `bump-cask-pr` before executing it for real.
+
+            For example, if you run `brew bump-cask-pr --dry-run`, Homebrew will show you what versions of your Cask installations would be updated if you actually ran `brew bump-cask-pr`. If the output looks good, you can then safely run the command without the `--dry-run` flag to make the actual updates.
+        force: |-
+            [AI] `brew bump-cask-pr --force` is a command used in Homebrew, a package manager for macOS. This specific command has two parts:
+
+            1. `brew bump-cask-pr`: This part of the command tells Homebrew to update the version numbers of Cask (a dependency manager for macOS) formulas in the current Homebrew installation. Specifically, it increments the version number in the `Package-Recipe` file by one, preparing the formula for a new release.
+            2. `--force`: This is an optional flag that forces Homebrew to perform this action without asking for confirmation. It can be useful when you're sure about the changes and want to avoid being prompted. When used with `brew bump-cask-pr`, it will automatically update the formula versions.
+        fork-org: '[AI] The `brew bump` command is a Homebrew package manager command used to increment the version number of a specific Homebrew formula or tap, such as `cask`. The `--fork-org` option specifies the organization name in the GitHub repository that the formula or tap is forked from. For example, `brew bump-cask-pr --fork-org=myusername my-app` would increment the version number of a Cask formula or PR (Pull Request) belonging to "myusername"''s fork of "my-app".'
+        help: '[AI] The `brew bump` command is a part of Homebrew, a popular package manager for macOS. `bump` is used to increment the version number of a installed package. The `--cask` flag specifies that you want to work with Cask packages, which are used for installing macOS apps, and not Homebrew core packages. `pr` stands for "prepare release" and it prepares a Git tag and commit message for the version bump. Finally, the `--help` flag displays detailed help information about the command. So, in summary, `brew bump-cask-pr` is used to prepare a new release of a Cask package by incrementing its version number and creating a Git tag and commit message.'
+        message: |-
+            [AI] `brew bump` is a Homebrew command used to increment the version number of a specific package or formula in the Homebrew repository. The `--cask` option specifies that you want to work with Cask packages, which are third-party binaries managed by Homebrew.
+
+            The `bump-pr` subcommand creates and opens an interactive editor where you can edit the commit message for the upcoming version bump. You'll be prompted to enter a message describing what has changed in the package. After saving the commit message, Homebrew will create a new Git pull request with the version bump changes. The `--message` option allows you to set the initial commit message without having to interactively edit it in the editor.
+
+            So, the entire command `brew bump-cask-pr --message="Your custom commit message"` bumps the version number of a Cask package, creates a new pull request and sets the initial commit message as "Your custom commit message".
+        no-audit: '[AI] The command `brew bump-cask-pr --no-audit` is a Homebrew (a popular package manager for macOS) command used to increment the version number of a Cask formula in a Git repository, creating a new Pull Request (PR) without triggering an audit check by Homebrew''s continuous integration system. The `--no-audit` flag skips the automated security checks during the creation of the PR, enabling faster workflow and allowing for local testing and updates before submitting changes to the main repository.'
+        no-browse: |-
+            [AI] The command `brew bump-cask-pr --no-browse` is a Homebrew (a popular package manager for macOS) sub-command used to update the versions of Cask installations in the local system, without opening the Homebrew Cask room in the default web browser. Here's a brief explanation:
+
+            1. `brew`: This is the primary command for invoking Homebrew.
+            2. `bump-cask-pr`: A sub-command under `brew`, which automates version management of Cask installations (primarily used for managing dependencies and upgrading packages).
+            3. `--no-browse`: An option given to the command, instructing Homebrew not to open the Cask repository in a web browser when performing the update check or pull request.
+            4. In summary, `brew bump-cask-pr --no-browse` updates your local Cask installations without opening a web browser during the process.
+        no-fork: |-
+            [AI] The command `brew bump-cask-pr --no-fork` is used with Homebrew, a popular package manager for macOS. This specific command has three parts:
+
+            1. `brew`: This is the Homebrew command-line utility that manages software packages and dependencies.
+            2. `bump-cask-pr`: This is a subcommand of Homebrew specifically designed to manage Cask, which is a Homebrew extension for managing binary installers instead of packages from source code. The `bump-cask-pr` command updates the version number in the `Packages/` directory for one or more Cask formulas.
+            3. `--no-fork`: This option instructs Homebrew not to create a new Git branch when updating the version number, meaning that the changes will be made directly to the current branch instead of creating a separate branch for the update.
+        no-style: |-
+            [AI] The command `brew bump-cask-pr --no-style` is a Homebrew (a popular package manager for macOS) command used to update the version number of a Cask (a type of Homebrew formula for installing Mac applications) repository's pull request branch.
+
+            The `bump-cask-pr` subcommand updates the version numbers in the pull request branch, and `--no-style` prevents Homebrew from reformatting the commit messages according to its style guide. The flag `--pr` specifies that this action is being performed on a pull request rather than the main repository.
+        quiet: '[AI] The command `brew bump-cask-pr --quiet` is a Homebrew (a popular package manager for macOS) command used to update the version numbers of installed Cask formulas in a quiet mode. Cask is a Homebrew extension managing external dependencies, like Java or Node.js, that can''t be easily packaged with macOS packages. By using `--quiet`, the output of this command will not be displayed in the terminal to run it in a background process or automated scripts.'
+        sha256: |-
+            [AI] The command `brew bump-cask-pr --sha256` is a Homebrew (a package manager for macOS) sub-command used to manage Casks, which are Homebrew's external dependency installer.
+
+            In this specific command:
+
+            1. `brew`: It invokes the Homebrew command-line utility.
+            2. `bump-cask-pr`: This is a Homebrew sub-command responsible for managing Cask dependencies and their versions.
+            3. `--sha256`: This option instructs Homebrew to update the SHA256 checksum of the Cask formula after making changes, ensuring its integrity and security when installing or upgrading dependencies.
+        url: '[AI] The `brew bump` command is a Homebrew package manager tool for managing and updating dependencies in macOS. The `--cask` flag specifies that this operation should be applied to Cask packages, which are third-party binary installers managed by Homebrew. The `--pr` flag tells Homebrew to perform a pull request when updating a Cask formula, allowing users to review and merge changes before they''re applied. Finally, the `--url` option specifies the URL of the remote repository that contains the updated Cask formula.'
+        verbose: |-
+            [AI] `brew bump-cask-pr --verbose` is a command used with Homebrew, a popular package manager for macOS. This command performs a specific action related to Homebrew Cask, which is a component of Homebrew that manages the installation of Mac applications and scripts.
+
+            The `bump-cask-pr` subcommand is used to increment the version number in the Casks' PR (Pull Request) templates, preparing them for submission to GitHub or other version control systems. The `--verbose` flag increases the amount of output shown during the command execution, providing more detailed information about each step taken.
+        version: '[AI] The `brew bump` command is a Homebrew (a package manager for macOS) utility used to update the version number of a specific Homebrew tap or formula. The `--cask` option specifies that you want to work with Cask packages, which are bundled apps for macOS, instead of Core packages. The `--pr` option initiates an interactive rebase session, allowing you to create a pull request in GitHub, which will propose the update as a new commit. The `--version` argument is optional and specifies the desired version number to be updated. In summary, `brew bump-cask-pr --version` updates the Cask package version number, initiates an interactive Git rebasing session, and creates a pull request for submission.'
+        version-arm: |-
+            [AI] `brew bump` is a command used with Homebrew, a popular package manager for macOS. It's designed to update the version number of a specific Homebrew installation or tap (a remote repository). The `--cask` flag tells Homebrew to work with Cask packages, which are graphical applications that can be installed via Homebrew. `--pr` stands for pull request, meaning this command may be used to create a pull request with the proposed version update. `--version-arm` likely refers to an ARM architecture for the new package version, as Homebrew and Cask support various architectures like ARM, x86_64, etc.
+
+            In summary, `brew bump-cask-pr --version-arm` updates the version number of a specific Cask package and creates a pull request for that change, with the proposed update being for an ARM architecture.
+        version-intel: '[AI] The command `brew bump-cask-pr --version-intel` is a Homebrew (a package manager for macOS) task that interacts with Cask, Homebrew''s package manager for large binaries, and bumps the version of Intel-specific Cask formulas in your Homebrew installation. This command does not directly display or output any version information but instead updates the formulas to a newer version in your local repository for eventual merging and pull request submission via Git.'
+        write-only: '[AI] The `brew bump` command is a part of Homebrew, a popular package manager for macOS. The `--cask` option specifies that you want to work with Cask packages, which are used for managing apps and other large installables. The `--pr` option initiates a pull request mode, creating a new Git branch and preparing your local changes for submission as a pull request. The `--write-only` option tells Homebrew to only write the changes without opening an editor or prompting for any further input. In summary, `brew bump-cask-pr --write-only` creates a pull request with local Cask package updates without user interaction.'

@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: pop
+description: Restore state that was pushed onto the snapshot stack
+flags:
+    --no-delete: Don't delete the snapshot after the restore
+    --no-provision: Disable provisioning
+    --no-start: Don't start the snapshot after the restore
+    --provision: Enable provisioning
+    --provision-with=: Enable only certain provisioners, by type or by name.
+documentation:
+    command: |-
+        [AI] The `vagrant snapshot pop` command is used in Vagrant to restore a previously saved snapshot of a Virtual Machine (VM) to its current state. When you create a snapshot using `vagrant snapshot save`, it saves the current state of the VM including its filesystem, running processes, and network settings.
+
+        With the `pop` command, you can revert your VM back to that saved state, discarding any changes made since the snapshot was taken. This can be useful for quickly returning a VM to a known good state or for creating repeatable environments where you need consistent configurations between runs.
+    flag:
+        no-delete: '[AI] `vagrant snapshot pop --no-delete` is a Vagrant command used to revert the current Virtual Machine (VM) back to a previously saved snapshot while keeping the existing snapshots in the VM. The `--no-delete` option prevents Vagrant from deleting the snapshot that was popped, allowing it to be used again later if needed. This is useful for quickly reverting to a previous state of the VM without permanently losing the snapshot data.'
+        no-provision: |-
+            [AI] `vagrant snapshot pop --no-provision` is a Vagrant command used to revert a VM back to a specific saved state while keeping provisioning configuration. Here's a brief explanation:
+
+            1. **snapshot**: Vagrant provides the ability to save the current state of a VM as a snapshot, allowing you to easily recreate that state later.
+            2. **pop**: This command is used to revert back to a previously saved snapshot.
+            3. **--no-provision**: When using this option, Vagrant will not run provisioning scripts during the snapshot pop process. This means the VM will be returned to its previous state without reapplying any changes made by provisioners (such as Ansible or Shell scripts).
+
+            In summary, `vagrant snapshot pop --no-provision` lets you roll back a VM's configuration and keep existing provisioning settings without applying new configurations.
+        no-start: '[AI] `vagrant snapshot` is a Vagrant command used to create and manage snapshots of a Vagrant box''s state. The `pop` subcommand is used to revert back to a previously saved snapshot. The `--no-start` option prevents Vagrant from automatically starting the virtual machine after reverting to the snapshot. So, in summary, `vagrant snapshot pop <snapshot_name> --no-start` command reverts the current state of the VM back to the specified snapshot without starting the VM afterwards.'
+        provision: |-
+            [AI] The `vagrant snapshot pop --provision` command in Vagrant is used to restore a previous snapshot of a virtual machine and apply any provisioning scripts that were configured during the creation of that snapshot.
+
+            When you create a snapshot with the `vagrant halt` or `vagrant save` commands, Vagrant captures the state of the VM at that moment, including its filesystem and running processes. However, provisioning scripts, which are used to configure and manage your system, are not included in the snapshot.
+
+            By using the `snapshot pop --provision` command, you can restore a previous snapshot while also running any provisioning scripts that were configured at the time the snapshot was created. This is useful when you want to revert back to a previous state of your VM while keeping all your configuration management in place.
+        provision-with: '[AI] The `vagrant snapshot pop --provision-with` command in Vagrant is used to revert a VM to a specific saved state while keeping the provisions applied from the latest state. In simpler terms, it allows you to rollback the VM to a previous snapshot while maintaining the current provisioning configuration. This can be useful for testing or troubleshooting purposes.'

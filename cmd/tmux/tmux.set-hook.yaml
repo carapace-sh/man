@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: set-hook
+flags:
+    -t=: target-pane
+documentation:
+    command: '[AI] `tmux set-hook` is a TMUX (Terminal Multiplexer) command used to configure and customize various events in the terminal multiplexer environment. It allows setting commands or actions that will be run when specific events occur, such as window title changes, session attach and detach events, or keyboard shortcut keybindings. For example, `tmux set-hook Rwindow title "New Window: %d - %t"`, sets the title of a new window to display the window number and title. The general syntax is: `tmux set-hook <event> "<command>"`, where `<event>` is the event name, and `<command>` is the command or action to be run when that event occurs.'
+    flag:
+        t: |-
+            [AI] `tmux set-hook -t` is a command in the Tmux terminal multiplexer that allows you to define custom actions when specific events occur in your Tmux sessions. The `-t` option specifies the event type, such as `on_attach`, `on_detach`, or `on_bell`. By defining a hook function with this command, you can customize the behavior of Tmux when these events occur. For example:
+
+            ```bash
+            # Set a function to be run whenever a new window is attached
+            setw -g onwindows-created tmux-newwindow-hook
+
+            # Define the function
+            function tmux-newwindow-hook() {
+              # Your custom code here, e.g.:
+              echo "A new window has been created"
+            }
+
+            # Set the hook for the 'on_attach' event
+            setw -g default-shell "/bin/zsh"
+            setw -g set-title "Tmux Session: %{session_name}"
+            setw -g status-bg-colour "#005577"
+            setw -g status-fg-colour "#ffffff"
+            setw -t onattach tmux-newwindow-hook
+            ```

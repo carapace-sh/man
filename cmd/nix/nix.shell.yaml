@@ -1,0 +1,103 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: shell
+description: run a shell in which the specified packages are available
+group: main
+flags:
+    --arg*=: Pass the value expr as the argument name to Nix functions
+    --argstr*=: Pass the string string as the argument name to Nix functions
+    --commit-lock-file: Commit changes to the flake's lock file
+    --debug: Set the logging verbosity level to 'debug'
+    --debugger: Start an interactive environment if evaluation fail
+    --eval-store=: The Nix store to use for evaluations
+    --impure: Allow access to mutable paths and repositories
+    --inputs-from=: Use the inputs of the specified flake as registry entries
+    --log-format=: Set the format of log output
+    --no-registries: Don't allow lookups in the flake registries
+    --no-update-lock-file: Do not allow any updates to the flake's lock file
+    --no-write-lock-file: Do not write the flake's newly generated lock file
+    --override-flake=: Override the flake registries, redirecting original-ref to resolved-ref
+    --override-input=: Override a specific flake input (e.g. dwarffs/nixpkgs)
+    --quiet: Decrease the logging verbosity level
+    --recreate-lock-file: Recreate the flake's lock file from scratch
+    --update-input=: Update a specific flake input (ignoring its previous entry in the lock file
+    -I, --include: Add path to the list of locations used to look up <...> file names
+    -L, --print-build-logs: Print full build logs on standard error
+    -c, --command=: Command and arguments to be executed, defaulting to $SHELL
+    -i, --ignore-environment: Clear the entire environment
+    -k, --keep=: Keep the environment variable name
+    -u, --unset=: Unset the environment variable name
+    -v, --verbose: Increase the logging verbosity level
+documentation:
+    command: '[AI] `nix-shell` is a utility provided by Nix package manager that allows you to run a shell with specific environment variables, configurations, or even entire applications installed. It creates an isolated and self-contained shell environment, ensuring consistent build and development environments across different systems. This command starts a new shell session with the requested configuration or application installed, making it easier to work on projects that have complex dependencies.'
+    flag:
+        arg: '[AI] `nix-shell` is a Nix package manager command that creates an isolated environment for running commands with specific packages and their dependencies. The `--arg` option is used to pass arguments to the commands or scripts run inside the shell. For example, `nix-shell --arg myArg="value" cmd` starts a new shell with the command `cmd` and passes the argument `myArg="value"` to it.'
+        argstr: |-
+            [AI] `nix-shell` is a command from Nix, a package manager for Linux and other Un*x systems. It creates an isolated environment to run commands with specified packages and their dependencies. The `--argstr` option is used to pass arguments to the main application or script that runs inside the generated shell environment.
+
+            For example, if you have a Nix expression defining a project with some custom build flags:
+
+            ```nix
+            { config, pkgs, ... }:
+
+            let
+              myProject = pkgs.myPackage.buildPackages.x86_64-linux.myProject.configureFlags = { foo = "bar" };
+            in
+            {
+              environment.systemPackages = [ pkgs.zlib ];
+              shellHook = ''
+                # Custom setup for your project goes here
+                ${myProject}/configure $@ --with-flag=$myProject.config.foo
+              ''
+            }
+            ```
+
+            You can use `nix-shell` with the `--argstr` option to pass the value of the custom flag:
+
+            ```bash
+            $ nix-shell myProject --argstr '--with-flag=baz'
+            ```
+
+            This command will create a new shell environment, run it, and pass the custom flag `--with-flag=baz` to your project. Inside the new shell, you can see that the value of `$myProject_config_foo` is set to 'baz'.
+        command: |-
+            [AI] `nix-shell` is a utility provided by Nix, a package manager for Linux and other Unix systems. The command `nix-shell --command` is used to spawn a new shell environment with specific configurations or packages installed.
+
+            The `--command` option takes a command as an argument, which gets executed in the newly created shell environment. In simpler terms, it runs the given command inside a Nix-managed and isolated shell environment. This can be useful for running commands that rely on specific dependencies or configurations, without affecting the global system environment.
+        commit-lock-file: '[AI] `nix-shell` is a command in Nix packaging system to spawn a new shell environment. The `--commit-lock-file` option creates or updates a commit-lock file in the current directory. This file locks down the exact versions of packages and their dependencies that will be used within the `nix-shell` session. By using this option, you can ensure consistent reproducibility across builds and avoid unexpected package version upgrades or conflicts.'
+        debug: '[AI] `nix-shell --debug` is a command used in Nix, a package manager for Linux and other Unix systems. The `--debug` flag enables detailed debugging information to be output during the execution of a Nix expression or shell session. This can help diagnose issues with build processes, configuration settings, or other aspects of using Nix. The command `nix-shell` starts a new shell environment using the specified Nix expressions, which can include building and running applications. With `--debug`, more information about the environment setup and execution is provided for troubleshooting purposes.'
+        debugger: '[AI] `nix-shell --debugger` is a command used in Nix, a package manager for Linux and other Unix systems. This command starts a new shell session with a debugger pre-configured and installed inside the environment created by Nix. The debugger allows users to inspect and modify the environment''s runtime configuration, and step through the execution of the commands within it. This can be helpful for troubleshooting complex build environments or for understanding how different packages interact with each other.'
+        eval-store: '[AI] `nix-shell` is a utility provided by Nix, a package manager for Linux and other Unix systems. The `--eval-store` option is used to evaluate and run Nix expressions in an interactive shell environment. It loads the given expression into the Nix evaluation store (a database of evaluated expressions) before starting the shell session, allowing you to use the results directly within the shell without having to re-evaluate them each time. This can lead to performance improvements when dealing with complex expressions that take a long time to evaluate.'
+        ignore-environment: '[AI] `nix-shell` is a tool in Nix packaging system to create and manage isolated environments for building and testing software. The option `--ignore-environment` tells `nix-shell` not to load any external environment variables or custom configurations from files like `~/.bashrc`, `~/.profile`, or other files under the user''s home directory. This helps maintain a consistent and isolated build environment by only using the packages installed explicitly within that particular `nix-shell` session.'
+        impure: |-
+            [AI] `nix-shell` is a utility provided by Nix, a package manager for Linux and other Unix systems. The `--impure` flag is an option that can be passed to `nix-shell`.
+
+            When using `nix-shell`, it creates a new environment where only the specified packages are installed. By default, `nix-shell` runs in "pure" mode, which means no additional system packages are added to the environment. The `--impure` flag overrides this behavior and allows system packages (beyond those explicitly called for by your Nix expressions) to be available in the shell environment. This can be useful when you need certain system packages that aren't available as Nix packages but still want to use the isolation provided by `nix-shell`.
+        include: '[AI] The `--include` option in Nix Shell commands is used to include additional packages or environments into the current Nix Shell session. This can be useful when working with projects that have dependencies on multiple packages or environments, as it allows you to easily manage and access all of them within a single shell environment. For example, if you have a project that depends on both Haskell and Node.js, you could use `nix-shell --pure --run "your_command" --include haskell packaging:nodeJS` to start a new Nix Shell session with both Haskell and Node.js packages available. This would make all the necessary dependencies of both packages available in the session, allowing you to run your command without having to worry about installing or managing those dependencies separately.'
+        inputs-from: '[AI] The `--inputs-from` option in Nix Shell is used to specify a list of files or directories as inputs for building or running a project. These inputs are passed to the build or run command as arguments, allowing external dependencies or configuration files to be easily included in the shell session. The flag improves reproducibility by ensuring that the exact same files are used every time the shell is invoked.'
+        keep: '[AI] `nix-shell --keep` is a command provided by Nix, a package manager for Linux and other UnIX systems. This command creates a new shell environment using a specifically configured Nix expression, and keeps the created unikernel (a minimalist OS image) after execution. The main benefit is that each new shell session starts with an identical and reproducible environment defined by the specified expression, and the kept unikernel can be used for subsequent sessions without having to download and build the expression again.'
+        log-format: |-
+            [AI] `nix-shell` is a command-line tool provided by Nix package manager for creating isolated and reproducible environments to build and run applications. The option `--log-format` specifies the format of the output that will be logged during the execution of the shell session.
+
+            By default, `nix-shell` logs messages using plain text format. However, you can change this by providing a custom log format. For example, to use JSON format, you can run:
+
+            ```bash
+            $ nix-shell --log-format json your_command
+            ```
+
+            This will output the logs in a JSON format that is easier to parse and process using scripts or other tools. Other possible formats include YAML, tabular (CSV), and various others as defined by the `strace` logging library used by Nix. The format string should follow the syntax of the chosen logging library.
+        no-registries: '[AI] The `nix-shell` command is a utility in Nix packaging system that creates an isolated shell environment. The `--no-registries` option instructs `nix-shell` not to add any build or configuration management registries during the creation of the shell environment. This means that only packages defined locally in the current Nix expression or configuration file will be available in the shell, ensuring a predictable and reproducible environment without any external dependencies.'
+        no-update-lock-file: '[AI] `nix-shell` is a command-line tool from the Nix Package Manager that creates an isolated shell environment with pre-built and self-contained packages. The option `--no-update-lock-file` instructs `nix-shell` not to create or update the lock file in the system''s Nix store, allowing multiple users to use different versions of the same package without conflicts. By not updating the lock file, each user can have their own independent environment and avoid potential version conflicts that could arise from sharing a single lock file.'
+        no-write-lock-file: |-
+            [AI] The `nix-shell` command is a utility provided by Nix, a package manager for Linux and other UnIX systems. It creates an isolated environment where you can run specific packages or build software without affecting the global system.
+
+            The option `--no-write-lock-file` disables the creation of a write lock file when entering the shell environment. This flag is useful in situations where multiple users may want to use the same environment at the same time, as it prevents the need for acquiring exclusive access to the lock file, thereby enabling concurrent usage without conflicts.
+        override-flake: '[AI] `nix shell --override-flake` is a command used in Nix, a package manager for Linux and other Unix systems. The `nix shell` command creates a new shell environment with the specified Nix expressions installed. The `--override-flake` flag allows users to override dependencies or build configurations defined in the given Nix flakes file without having to modify it directly. This can be useful for experimenting with different versions of packages or customizing build settings temporarily.'
+        override-input: |-
+            [AI] The `nix-shell` command is a utility provided by Nix, a package manager for Linux and other Unix systems. It creates an isolated shell environment with specified packages and their dependencies.
+
+            The option `--override-input <path> <new-file>` allows users to replace an input file in the environment being created with a new file. This can be useful when working on custom configurations, as it allows users to modify specific files within the isolated environment without affecting the original system files.
+        print-build-logs: '[AI] `nix shell --print-build-logs` is a command used in Nix, a package manager for Linux and other Un*x systems. This command starts a new shell environment using a specific Nix expression, but instead of running the commands inside that environment, it prints out the build logs generated during the construction of that environment. The logs contain detailed information about the packages being built, their dependencies, and any error messages that may have occurred during the build process. This command can be helpful for debugging build issues or understanding the dependencies of a particular Nix expression.'
+        quiet: '[AI] `nix-shell --quiet` is a command in Nix, a package manager for Linux and other Unix systems. This command creates a new shell environment using the specified Nix expressions with minimal output. The `--quiet` option reduces the amount of printed output during the creation of the shell environment to only error messages and progress indicators. It''s useful when running automated scripts or when you prefer a quieter execution.'
+        recreate-lock-file: '[AI] The `nix-shell` command with the `--recreate-lock-file` option is used to create a new Nix expression evaluation environment, while ensuring that a lock file (used for reproducible builds) is updated if it already exists. In simple terms, this flag recreates or updates the lock file when running `nix-shell`.'
+        unset: '[AI] The `nix-shell --unset` command is used in Nix, a package manager for Linux and other UnIX systems. This command creates a new shell environment with specific Nix packages installed, while also unseting (removing) any previously set environment variables that were set outside of Nix. This allows for creating consistent and reproducible environments by ensuring that only the explicitly specified packages are available in the shell.'
+        update-input: '[AI] `nix-shell --update-input` is a command used in Nix, a package manager for Linux and other Unix systems. It creates a new shell environment with specifically defined build inputs. The `--update-input` option instructs Nix to update the input files (i.e., the build inputs) from the current Nix expression or configuration before starting the new shell session. This is useful when you want to ensure that your build process uses the latest versions of specific dependencies or configurations without having to rebuild the entire project.'
+        verbose: '[AI] `nix-shell` is a command-line tool provided by Nix, a package manager for Linux and other Unix systems. The `--verbose` option, when used with `nix-shell`, increases the amount of output produced during the execution of a shell session. This can be helpful in debugging or understanding the details of what commands are being run as part of the session setup. It does not create or manage any specific shell environment, but rather provides a way to interactively use Nix-managed packages within a new shell environment with the given verbosity level.'

@@ -1,0 +1,42 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: create
+description: Creates a stack on the project
+flags:
+    --after*=: Add a stack as after
+    --all-terraform: initialize all Terraform directories containing terraform.backend blocks defined
+    --before*=: Add a stack as before
+    --description=: Description of the stack, defaults to the stack name
+    --ensure-stack-ids: generate an UUID for the stack.id of all stacks which does not define it
+    --id=: ID of the stack, defaults to UUID
+    --ignore-existing: If the stack already exists do nothing and don't fail
+    --import*=: Add import block for the given path on the stack
+    --name=: Name of the stack, defaults to stack dir base name
+    --no-generate: Disable code generation for the newly created stacks
+documentation:
+    command: '[AI] `terramate create` is a command used in Terraform, an open-source infrastructure as code software tool. This command initiates the creation of a new Terraform project or module within your working directory. When invoked with the appropriate arguments, it sets up the basic directory structure and files, including a `main.tf`, `variables.tf`, and `outputs.tf` file. These files contain the necessary configurations for defining infrastructure resources using Terraform language syntax. It does not create any actual infrastructure yet; instead, it lays the foundation for further configuration and deployment.'
+    flag:
+        after: '[AI] The `terramate create --after` command is a part of Terraform''s `create` sub-command used for creating new resources or modules within Terraform configuration. The `--after` flag specifies an arbitrary Terraform expression that will be evaluated after the resource creation has completed, but before the state is saved. This expression can be used to modify the output of the create action, perform additional tasks, or update other resources based on the newly created resource''s properties. For example, it could be used to set a variable, call an external API, or apply a label to the new resource. The goal is to extend the capabilities of Terraform by allowing users to automate more complex workflows and manage their infrastructure with greater flexibility.'
+        all-terraform: |-
+            [AI] `terraform init` is a Terraform command used to initialize a working directory containing Terraform configuration files. It downloads necessary provider plugins and sets up the backend storage for managing state file.
+
+            `terraform create --all` is not a standard Terraform command. However, there seems to be a misunderstanding or typo in your command as it should be either `terraform init` or `terraform apply`.
+
+            To clarify, `terraform apply` is the command used to apply your infrastructure configuration changes based on the defined Terraform files. It reads the current state of your infrastructure and makes the required modifications to achieve the desired state specified in the configuration files. If you want to create new resources with `terraform`, use `terraform apply` instead.
+        before: '[AI] The `terraform init create --before` command is a sub-command of Terraform''s `create` action, used to create a new Terraform configuration file for managing an infrastructure resource or module. The `--before` flag is optional and instructs Terraform to generate the new configuration files based on the state of existing Terraform-managed infrastructure, rather than starting from an empty file. This can be useful when expanding the management scope of Terraform over an existing infrastructure, ensuring that the configuration matches the current state.'
+        description: '[AI] `terramate create` is a command used in Terraform, an open-source infrastructure as code software tool. The `--description` option is provided with this command for specifying a description or label for the new resource being created. This option helps to provide clear and concise documentation of the purpose and function of the resource within your Terraform configuration files, making it easier to manage and understand your infrastructure as code.'
+        ensure-stack-ids: '[AI] `terraform create` is a Terraform command used to create a new resource or module in your infrastructure configuration, applying the necessary changes to reach the desired state. The `--ensure-stack-ids` option is used when working with AWS CloudFormation and Terragrunt, ensuring that specific CloudFormation stacks are selected for Terraform to manage. This flag helps maintain consistent reference to the managed CloudFormation stacks during infrastructure deployment and updates in a multi-stack environment.'
+        id: '[AI] `terramate create --id` is a command used in Terraform, an open-source infrastructure as code software tool. This command creates a new resource or module with the specified ID within the current working directory using Terraform''s built-in `terraform init` and `terraform apply` processes. The `--id` argument sets the name of the new resource or module instance to be created.'
+        ignore-existing: |-
+            [AI] The `terraform init` command is used to initialize a working directory containing Terraform configuration files, setting up the necessary backend and downloading required provider plugins. The `create` subcommand under `terraform`'s `terraform` utility, specifically `terraform create --ignore-existing`, serves a different purpose.
+
+            This command creates new Terraform-managed resources based on the given configuration files without checking if resources with similar names already exist in the state file. If resources with matching names are present, they will be overwritten. This is useful when you want to recreate or update existing resources from scratch without worrying about their current state.
+
+            So, `terraform create --ignore-existing` is a powerful command that can potentially overwrite existing resources in your Terraform configuration. Use it with caution to ensure you don't unintentionally lose critical data.
+        import: '[AI] `terraform create --import` is a command in Hashicorp''s Terraform configuration management tool. This command is used to import existing infrastructure resources into Terraform''s state, allowing those resources to be managed and configured using Terraform. The command takes resource type and ID as arguments, and associates the specified resource with the corresponding Terraform configuration. Once imported, Terraform can be used to modify or update the imported resource in a consistent manner with the rest of the infrastructure defined in the Terraform configuration.'
+        name: '[AI] `terraform create` is a command used in Terraform, an open-source infrastructure as code software tool. The `--name` option is used to specify a custom name for the resource being created. This name is for identification purposes within Terraform and does not affect the actual infrastructure being managed. For example, `terraform create -t aws_instance --name my_instance aws_instance.tf`.'
+        no-generate: |-
+            [AI] `terraform init` is a Terraform command used to initialize a working directory containing Terraform configuration files, downloading necessary provider plugins and setting up the backend configuration.
+
+            The `create` subcommand under `terraform` is used to create empty files for new resources or modules based on provided configurations in HCL (Hashicorp Configuration Language). The `--no-generate` flag instructs this command not to generate any actual Terraform files, meaning it will only set up the necessary directory structure and configuration files but won't write any HCL code.
+
+            Therefore, using `terraform init create --no-generate` is useful when setting up a new project with an existing infrastructure or when you want to have empty file structures for your Terraform configurations without having any default code generated.

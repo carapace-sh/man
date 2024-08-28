@@ -1,0 +1,103 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: patch (-f FILENAME | TYPE NAME) [-p PATCH|--patch-file FILE]
+description: Update fields of a resource
+group: advanced
+flags:
+    --allow-missing-template-keys: If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
+    --dry-run?: Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
+    --field-manager=: Name of the manager used to track field ownership.
+    --local: If true, patch will operate on the content of the file, not the server-side resource.
+    --patch-file=: A file containing a patch to be applied to the resource.
+    --record&: Record current kubectl command in the resource annotation. If set to false, do not record the command. If set to true, record the command. If not set, default to updating the existing annotation value only if one already exists.
+    --show-managed-fields: If true, keep the managedFields when printing objects in JSON or YAML format.
+    --subresource=: If specified, patch will operate on the subresource of the requested object. Must be one of [status scale]. This flag is beta and may change in the future.
+    --template=: Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates [http://golang.org/pkg/text/template/#pkg-overview].
+    --type=: The type of patch being provided; one of [json merge strategic]
+    -R, --recursive: Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.
+    -f, --filename*=: Filename, directory, or URL to files identifying the resource to update
+    -k, --kustomize=: Process the kustomization directory. This flag can't be used together with -f or -R.
+    -o, --output=: 'Output format. One of: (json, yaml, name, go-template, go-template-file, template, templatefile, jsonpath, jsonpath-as-json, jsonpath-file).'
+    -p, --patch=: The patch to be applied to the resource JSON file.
+documentation:
+    command: '[AI] `kubectl patch` is a command used in Kubernetes for partial update of existing resources without having to create and apply a new YAML file. It allows modifying specific fields by providing a JSON patch document or using Strategy and Field selectors. This command sends the request to the Kubernetes API server, which applies the changes defined in the patch document and returns the updated resource status.'
+    flag:
+        allow-missing-template-keys: '[AI] `kubectl patch` is a command used to update Kubernetes resources with partial or complete configurations. The `--allow-missing-template-keys` flag allows for applying patches even if there are missing keys in the provided JSON data. This can be useful when making incremental updates to complex manifests, where not all keys may be present in every patch operation. However, it should be used with caution as missing keys could potentially lead to unexpected behavior or errors in the managed resources.'
+        dry-run: '[AI] `kubectl patch --dry-run` is a command used with the Kubernetes CLI (kubectl) to apply patches or partial updates to resources in a cluster without actually making the changes persistently. The `--dry-run` flag indicates that the operation should be performed in a simulation mode, meaning that it will display what the result of the patch would be if applied, but no changes are made to the actual resources. This can be useful for testing and verifying the intended effects of a patch before applying it permanently.'
+        field-manager: '[AI] `kubectl patch` is a command-line tool used to update Kubernetes resources with partial patches. The `--field-manager` flag is an optional argument that can be used with this command to specify the name of a Strategic Merge Patches (SMP) manager. An SMP manager is a custom strategy for merging conflicts when applying multiple patches to the same field in a resource. By using `--field-manager`, you can ensure that the merging process follows the desired conflict resolution strategy, avoiding potential conflicts and ensuring consistent updates to your Kubernetes resources.'
+        filename: '[AI] `kubectl patch` is a command-line tool used to update existing Kubernetes resources with partial modifications. The `--filename` flag specifies the file containing the patch document in JSON or YAML format. This flag is required, and the patch document describes the desired changes to be made to the resource using the Strategic Merge Patches (JSON) or YAML Patch syntax. After providing the filename, you can further specify the resource type and name with the `<resource>/<name>` syntax. For example, `kubectl patch deployment my-deployment --filename patch.yaml`.'
+        kustomize: '[AI] `kubectl patch --kustomize` is a command in the Kubernetes toolkit (kubectl) that applies patches defined in a Kustomize file to manage and update Kubernetes resources. Kustomize is a configuration management system for managing declarative configuration files for Kubernetes. With this command, you can modify the definitions of existing resources or create new ones without rewriting the entire YAML file. It''s a convenient way to make incremental changes to your Kubernetes manifests, facilitating efficient and precise updates to your clusters.'
+        local: '[AI] `kubectl patch --local` is a command-line tool used with Kubernetes to update the resources'' definitions in place, without sending the changes to the cluster for merging. The `--local` flag modifies the file in your local machine instead of creating a patch file that can be applied later or sent to the server. This approach is useful when you want to experiment with small changes before committing them to the version control system or when you need to make quick adjustments locally without affecting the cluster immediately.'
+        output: '[AI] `kubectl patch` is a command-line tool used to update resources in a Kubernetes cluster. The `--output` option specifies the format of the output when an operation is successful. It can be set to "json", "yaml", or "none". When set to "json" or "yaml", the command will print the updated resource configuration in the respective format; when set to "none", no output is displayed, and the success message will only indicate that the patch was applied successfully.'
+        patch: |-
+            [AI] `kubectl patch` is a command-line utility in Kubernetes used to update existing resources without creating or losing the current state of the resource. The `--patch` flag specifies the method for providing the desired changes using either JSON or YAML patches.
+
+            JSON and YAML patches are simple, human-readable formats that describe the intended modifications to a resource's configuration. For instance, you could change a single field value by assigning a new value to it, or you could add or remove entire sections of the document.
+
+            When using the `kubectl patch` command with the `--patch` flag, you provide your patch as either JSON or YAML input to the command line:
+
+            ```bash
+            $ kubectl patch <resource-kind>/<resource-name> --patch='{"op": "replace", "path": "/<field-path>", "value": "<new-value>"}'
+            ```
+
+            or
+
+            ```bash
+            $ kubectl patch <resource-kind>/<resource-name> --patch='[{"op": "replace", "path": "/<field-path>", "value": "<new-value>"}]'
+            ```
+
+            For example, to change the container image for a pod named `my-pod`, you could use:
+
+            ```bash
+            $ kubectl patch pod my-pod --patch='{"spec": {"containers": [{"image": "new-image:latest"}]}}'
+            ```
+
+            or
+
+            ```bash
+            $ kubectl patch pod my-pod --patch='[{"op": "replace", "path": "/spec/containers/0/image", "value": "new-image:latest"}]'
+            ```
+        patch-file: |-
+            [AI] `kubectl patch` is a command used in Kubernetes to update existing resources without re-creating them. The `--patch-file` option specifies a file containing the patch instructions in JSON or YAML format.
+
+            For instance, if you have a deployment named "myapp" and you want to modify its replicas count, you can create a patch file like:
+
+            ```yaml
+            apiVersion: apps/v1
+            kind: Deployment
+            metadata:
+              name: myapp
+            patches:
+            - op: replace
+              path: /spec/replicas
+              value: 5
+            ```
+
+            Then, run the command:
+
+            ```bash
+            kubectl patch deployment myapp --patch-file path_to_your_patch_file.yaml
+            ```
+
+            This will apply the patch and update the number of replicas to 5 for the "myapp" deployment.
+        record: '[AI] `kubectl patch --record` is a command used with Kubernetes'' `kubectl` tool to update existing resources in the cluster by applying partial modifications through JSON patches. The `--record` flag indicates that the operation should be recorded as a sequence of individual changes in the cluster''s change history. This enables version control and easier rollbacks if needed, making it particularly useful for managing important or complex manifests.'
+        recursive: '[AI] `kubectl patch --recursive` is a command-line tool used in Kubernetes for updating resources with partial modifications. The `--recursive` flag enables patches to be applied not only to the top level but also to nested objects within a resource, making it more powerful and flexible compared to regular `kubectl patch`. This flag can save time by avoiding the need to modify multiple files or apply multiple patches sequentially. It''s particularly useful when dealing with complex YAML files containing numerous nested objects.'
+        show-managed-fields: '[AI] `kubectl patch` is a command-line tool used for updating Kubernetes resources in place. The `--show-managed-fields` flag is an optional argument that provides additional output displaying the fields managed by Kubectl during the patch operation. This means, it will show the specific fields of the resource that were modified or affected by the patch command. It helps to understand which parts of the resource have been changed and assists in debugging any potential issues with the update process.'
+        subresource: '[AI] `kubectl patch` is a command-line tool used to update resources in Kubernetes with partial updates using strategic merging. The `--subresource` option allows you to target and modify nested fields within API objects, such as the spec.containers field of a Pod or the metadata.labels field of an Service. This provides more fine-grained control over updating complex resources without having to create or replace the entire resource.'
+        template: |-
+            [AI] `kubectl patch` is a command in Kubernetes used to update resources without creating or applying a full YAML manifest file. The `--template` flag is used with this command for applying partial updates using the JSON Patch or YAML RBAC template formats.
+
+            JSON Patch defines a set of instructions (operations) to modify specific fields within a resource, while YAMR BAC templates allow updating Kubernetes resources based on conditions and values from external data sources. By using `--template` flag with the `kubectl patch` command, you can define and apply these updates in a declarative way without writing or managing full YAML files.
+        type: |-
+            [AI] `kubectl patch` is a command-line utility used to update resources in Kubernetes clusters. The `--type` flag specifies how the difference between the new and old resource versions should be represented:
+
+            1. JSON Patch: Use this type when you have a JSON patch document that describes the modifications.
+            2. Strategy: Use this type when you want to specify a merge strategy, such as "merge" or "force". This can be useful for updating resources with conflicts.
+
+            For example, if you have a YAML manifest file and want to update it using JSON patch, you would use the following command:
+            ```css
+            kubectl patch <resource-kind>/<resource-name> -p '[{ "op": "replace", "path": "/<field>", "value": "<new-value>" }]' --type json
+            ```
+            If you want to update a resource with a merge strategy, use the following command:
+            ```css
+            kubectl patch <resource-kind>/<resource-name> --patch '{"op": "add", "path": "/<field>", "value": "<new-value>"}' --type merge
+            ```

@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: delete
+aliases:
+    - rm
+description: Delete one or more releases
+flags:
+    --delete-tag: Also delete the git tag for this release
+    -R, --remote=: Discover Gitea login from remote. Optional
+    -l, --login=: Use a different Gitea Login. Optional
+    -o, --output=: Output format. (simple, table, csv, tsv, yaml, json)
+    -r, --repo=: Override local repository path or gitea repository slug to interact with. Optional
+    -y, --confirm: Confirm deletion (required)
+documentation:
+    command: '[AI] The `tea releases delete` command is used in the Teaspoon testing framework for Elixir to delete a specific released version of a dependency from the application''s `mix.exs` file. This command helps manage and keep the project up-to-date with the latest dependencies while allowing fine-grained control over which versions to use.'
+    flag:
+        confirm: |-
+            [AI] The command `tea releases delete --confirm` is a command used in the Teaspoon CLI (Command Line Interface) tool for managing Git releases with Tea, a Git-based release management tool.
+
+            This command deletes an existing release in the Tea repository by providing a confirmation prompt before executing the action to prevent accidental deletion. The `--confirm` option ensures that the user enters "yes" or "y" when prompted for confirmation before the release is deleted.
+        delete-tag: '[AI] The command `tea releases delete --delete-tag <TAG>` is used in the Teapot Git toolkit to permanently delete a specified Git tag with the given `<TAG>` name from the default branch and remote repository. This action cannot be undone, as the deleted tag will no longer exist in the history. It''s an effective way to remove incorrect or outdated tags.'
+        login: '[AI] The command `tea releases delete --login` is related to the Teaspoon CLI (Command Line Interface) tool, which is used in the Teaspoon continuous delivery platform. This command is used to delete a release of an application managed in Teaspoon. The `--login` flag indicates that authentication should be handled using Teaspoon''s login functionality, allowing the user to provide their credentials interactively. So this command deletes a specific release and requires authentication for security purposes.'
+        output: '[AI] The command `tea releases delete --output json` is used in the Teapot, a GitOps tool for Kubernetes, to delete a specific release. The `--output json` flag is optional and specifies that the output of the command should be returned in JSON format. This can be useful for automating or scripting the deletion of releases.'
+        remote: |-
+            [AI] The command `git fetch origin --prune` is often shortened to `git pull origin prune`. The `--prune` option automatically deletes stale remote branches, i.e., branches that no longer exist on the remote repository. To delete local branches tracking those stale remote branches, use `git branch -D <branch>`, where `<branch>` is the name of the local branch to be deleted. If you want to delete multiple branches at once and also remove their upstream connections, use the following Git command:
+
+            ```bash
+            git fetch origin --prune --all --unshallow && for f in $(git branch -v | grep '->' | cut -d ' ' -f2); do git branch -D $f; done
+            ```
+
+            Or, using the more common `--delete-remote-branch` option:
+
+            ```bash
+            git fetch origin --prune --all --unshallow && git push origin --delete $(git branch | grep 'remote' | grep -v 'master' | awk '{print $2}')
+            ```
+
+            The `--delete-remote-branch` option deletes the remote branches that have been deleted locally. However, if you prefer to use `tea`, the TeaUI Git client, you can accomplish this using the following command:
+
+            ```bash
+            tea releases release delete --remote
+            ```
+
+            This command will fetch and prune local branches with stale remote tracking information, then delete the corresponding remote branches.
+        repo: '[AI] The command `tea releases delete --repo` is used with the Tea CLI (Command Line Interface) tool in a GitOps environment. It instructs Tea to delete a specific repository under its management, effectively removing all the deployed resources associated with that repository. This action can be useful when you want to remove an old or unnecessary repository from your GitOps workflow.'

@@ -1,0 +1,50 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: rollback
+description: roll back a release to a previous revision
+group: main
+flags:
+    --cleanup-on-fail: allow deletion of new resources created in this rollback when rollback fails
+    --dry-run: simulate a rollback
+    --force: force resource update through delete/recreate if needed
+    --history-max=: limit the maximum number of revisions saved per release. Use 0 for no limit
+    --no-hooks: prevent hooks from running during rollback
+    --recreate-pods: performs pods restart for the resource if applicable
+    --timeout=: time to wait for any individual Kubernetes operation (like Jobs for hooks)
+    --wait: if set, will wait until all Pods, PVCs, Services, and minimum number of Pods of a Deployment, StatefulSet, or ReplicaSet are in a ready state before marking the release as successful. It will wait for as long as --timeout
+    --wait-for-jobs: if set and --wait enabled, will wait until all Jobs have been completed before marking the release as successful. It will wait for as long as --timeout
+documentation:
+    command: |-
+        [AI] `helm rollback` is a Helm command used to revert a Kubernetes release to a previous revision. When you deploy an application using Helm, each deployment is considered a "release." Each release has a revision number, and `helm rollback` allows you to go back to a specific revision if needed.
+
+        The basic syntax for using `helm rollback` is:
+
+        ```bash
+        helm rollback <RELEASE_NAME> <REVISION_NUMBER>
+        ```
+
+        Replace `<RELEASE_NAME>` with the name of the release, and `<REVISION_NUMBER>` with the number of the revision you want to revert to. This command will replace the current release with the specified revision. Be aware that rollbacks may not be idempotent (i.e., applying the same rollback multiple times could lead to different results).
+    flag:
+        cleanup-on-fail: |-
+            [AI] `helm rollback` is a command used in Helm, a popular Kubernetes package manager. The `--cleanup-on-fail` flag is an optional argument for this command.
+
+            When you use `helm upgrade` to deploy or update a Helm chart, Helm creates a new release with a revision number. If the deployment fails for some reason during the rollout process, Helm keeps both the old and new releases, allowing you to roll back to the previous version if needed.
+
+            The `helm rollback` command is used to revert to a specific release by its revision number or name. The `--cleanup-on-fail` flag instructs Helm to delete the failed deployment when the rollback operation fails. This can help prevent resource waste and ensure that your Kubernetes cluster stays in a clean state.
+
+            In summary, `helm rollback --cleanup-on-fail` is a command used with Helm to revert to a previous release while cleaning up any failed deployments automatically during the rollback process.
+        dry-run: '[AI] `helm rollback` is a command in Helm, a popular Kubernetes package manager, used to revert a release back to a previous revision. The `--dry-run` option is used in conjunction with this command to simulate the rollback without actually executing any changes. It provides you with the proposed configuration changes that would be applied during the rollback, allowing you to review and assess the impact before proceeding with the actual rollback.'
+        force: |-
+            [AI] `helm rollback` is a command used in Helm, a popular Kubernetes package manager, to revert a previous release of a chart to a specific revision or state. The `--force` option is an argument that can be passed with this command to bypass any confirmation prompts and force the rollback operation to execute without asking for explicit approval.
+
+            Using `helm rollback --force` will perform the rollback immediately, potentially overwriting more recent changes or data in your Kubernetes cluster, depending on the specific use case. Be cautious when using this option as it can lead to unintended consequences if not used correctly.
+        history-max: '[AI] `helm rollback` is a command used in Helm, a popular package manager for Kubernetes, to revert a release back to a previous revision in its release history. The `--history-max` option sets the maximum number of revisions Helm keeps for each release by default, it''s 50. If you want to keep more revisions in the release history, you can increase this number using this flag. For instance, `helm rollback --history-max=100` would keep 100 revisions instead of the default 50.'
+        no-hooks: |-
+            [AI] `helm rollback` is a command used in Helm, a popular Kubernetes package manager. This command is used to revert a previous release of a Helm chart to a specific revision or state. The `--no-hooks` flag is an optional argument that disables the execution of hooks during the rollback process.
+
+            Hooks are scripts or commands defined in a Helm chart that can be run before or after the installation, upgrade, or removal of the chart. They are used to perform additional tasks like creating or deleting resources, generating configuration files, or performing version checks.
+
+            By using `--no-hooks` during a rollback, you are explicitly instructing Helm not to execute any hooks associated with the release being rolled back. This can be useful if you want to quickly revert to a previous state without triggering potential side effects that could come from running hooks. However, keep in mind that this may also mean that any cleanup or post-installation tasks defined in the chart's hooks will not be executed during the rollback process.
+        recreate-pods: '[AI] `helm rollback` is a command used in Helm, a popular package manager for Kubernetes, to revert a release to a previous revision. The `--recreate-pods` option tells Helm to recreate the pods when rolling back. This means that new pods will be created with the configuration of the specified revision, while existing pods will be gracefully terminated and their resources released. It''s important to note that this operation may cause downtime as new pods are being created, so it should be used carefully.'
+        timeout: '[AI] `helm rollback` is a command used in Helm, a popular package manager for Kubernetes, to revert a previous release of a chart to a specific revision or state. The `--timeout` option sets the maximum amount of time (in seconds) that Helm will wait for the rollback process to complete before it times out and returns an error. This is useful when rolling back large or complex deployments, as it provides a way to limit the duration of the operation if necessary. If no timeout is specified, Helm uses a default value.'
+        wait: '[AI] `helm rollback` is a command used in Helm, a popular Kubernetes package manager. This command is used to rollback a released chart to a previous revision. The `--wait` option is used with this command to make the operation asynchronous and wait for the rollback to complete before continuing. Essentially, it tells Helm to execute the rollback and then block until the process finishes successfully.'
+        wait-for-jobs: '[AI] `helm rollback` is a command used in Helm, a popular Kubernetes package manager, to revert a previous release of a chart to a specific revision or state. The `--wait-for-jobs` flag ensures that Helm waits for all the jobs associated with the rollback to complete before returning control to the user. This is useful when you want to ensure that the rolled-back deployment is fully operational before continuing with further operations.'

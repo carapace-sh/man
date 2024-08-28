@@ -1,0 +1,84 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: jq
+description: Command-line JSON processor
+flags:
+    --arg: pre-set a variable to a string
+    --argjson: pre-set a variable to an object
+    --args: remaining arguments are string arguments, not files
+    --indent=: indent output using given number of spaces
+    --jsonargs: remaining arguments are JSON arguments, not files
+    --rawfile: pre-set a variable to the contents of a file
+    --seq: use application/json-seq ASCII RS/LF scheme in input and output
+    --slurpfile: pre-set a variable to an array of JSON texts read from a file
+    --stream: parse input streamily (changes output)
+    --tab: indent output using TAB characters
+    --unbuffered: flush output after each JSON object
+    --version: output jq's version number
+    -C, --color-output: output in color
+    -L=: prepend a directory to the module search path
+    -M, --monochrome-output: output without color
+    -R, --raw-input: consider each input line as a JSON strings
+    -S, --sort-keys: output object keys in sorted order
+    -a, --ascii-output: restrict output to ASCII
+    -c, --compact-output: don't pretty-print
+    -e, --exit-status: report "false" and "null" results via exit code
+    -f, --from-file=: read filter from file
+    -j, --join-output: like -r, without newlines between outputs
+    -n, --null-input: input is ignored
+    -r, --raw-output: don't JSON-quote output if it's a string
+    -s, --slurp: join input JSON objects to array before filtering
+documentation:
+    command: '[AI] `jq` is a lightweight and flexible command-line JSON processor written in C. It allows filtering, mapping, transforming, and processing JSON data with ease using its simple yet powerful querying language. Think of it as the `awk` for JSON data.'
+    flag:
+        L: '[AI] `jq` is a lightweight and flexible command-line JSON processor. The option `-L` passed to `jq` instructs it to output raw strings for JSON objects instead of indented format, which can be useful when processing JSON data in scripts or pipelines.'
+        arg: |-
+            [AI] `jq` is a lightweight and flexible command-line JSON processor. The argument `--arg` is an option used to pass arguments to be treated as constants in the `jq` expression. This can be useful for providing dynamic values at runtime, allowing for more complex transformations on JSON data. For example:
+
+            ```bash
+            $ cat input.json
+            { "name": "${NAME}" }
+
+            $ jq --arg NAME "John Doe" '.name' input.json
+            { "name": "John Doe" }
+            ```
+
+            In the above example, `jq` processes a JSON file (input.json) with an embedded variable `${NAME}`. The option `--arg NAME <value>` is used to provide the value 'John Doe' for this variable at runtime when executing the command. This results in the output showing the processed JSON data with the value of 'John Doe' for the 'name' field.
+        argjson: '[AI] `jq` is a lightweight and flexible command-line JSON processor. The option `--argjson argname` is used to pass JSON data as an argument to `jq`. This allows you to supply external JSON values to be treated as input data during the execution of a `jq` filter expression. This can be useful for passing configuration or data from another process, script, or file into your `jq` command.'
+        args: '[AI] `jq` is a lightweight and flexible command-line JSON processor. The option `--args` is used to pass arguments to `jq` from the command line. Specifically, it allows passing multiple JSON files or strings as input to be processed by the same `jq` program. For instance, `jq --args file1.json file2.json .` would process both files in parallel using the given JQ expression (`.` by default). It simplifies handling multiple JSON inputs in a single pipeline.'
+        ascii-output: '[AI] `jq` is a lightweight and flexible command-line JSON processor. The option `--ascii-output` is used to produce output in plain text format without encoding special characters like `\u000a`, `\u000d`, or `\u000e` which are not human-readable, making it easier for further processing and interpretation by humans. This option overrides the default output format which is JSON, ensuring that all output is in ASCII format.'
+        color-output: '[AI] `jq` is a lightweight and flexible command-line JSON processor. The option `--color-output` is used to enable colorized output when using `jq`. It makes the printed JSON data more readable by highlighting different parts of the data in distinct colors, such as strings in red, numbers in green, keys in blue, etc. This can be particularly useful for debugging or exploring JSON data.'
+        compact-output: '[AI] `jq` is a lightweight and flexible command-line JSON processor. The option `--compact-output` is used to print JSON output with minimal whitespace, making the output more compact and easier to parse or feed into other tools. It is often used when dealing with large JSON data to save space and improve readability.'
+        exit-status: '[AI] `jq --exit-status` is a command-line option for the JavaScript file processing tool, `jq`. It modifies the default behavior of `jq` to exit with a zero exit status if and only if the filter expression evaluates to a value; otherwise, it exits with a non-zero status. This can be useful in shell scripts or pipelines when you want to check the success or failure of a `jq` command based on the result of its processing.'
+        from-file: |-
+            [AI] `jq` is a lightweight and flexible command-line JSON processor. The `--from-file` option is used to read the input JSON data from a file instead of reading it from standard input (STDIN). When using this option, you need to provide a file path as an argument. For example:
+
+            ```bash
+            jq --from-file input.json expression.jq > output.json
+            ```
+
+            In this example, the `input.json` file is read by `jq`, and an expression (`expression.jq`) is applied to it using the provided `jq` command. The output of the operation is then saved in a new file named `output.json`.
+        indent: '[AI] `jq` is a lightweight and flexible command-line JSON processor. The option `--indent` is used to pretty-print JSON output by applying indents and new lines for improved readability. It makes the output easier to understand for humans without losing any data or structure.'
+        join-output: '[AI] `jq --join-output` is a command-line option for the JavaScript object querying tool, `jq`. It instructs `jq` to output joined (concatenated) strings instead of JSON-formatted arrays or objects. This can be useful when processing multiple items and needing the results to be concatenated into a single string instead of an array. The exact joining behavior is determined by other filters used in conjunction with `--join-output`. For instance, `--slf join` will join strings with a space as a separator, whereas `--slf join.add` will add each joined string to an existing one.'
+        jsonargs: |-
+            [AI] `jq` is a lightweight and flexible command-line JSON processor. The option `--jsonargs` is used to pass multiple JSON arguments as separate files or strings to `jq`. When using this option, `jq` expects each argument to be in valid JSON format.
+
+            For example, if you have two JSON snippets stored in files `file1.json` and `file2.json`, you can use the following command to apply a filter to both:
+
+            ```bash
+            jq --jsonargs file1.json file2.json '. +'
+            ```
+
+            The filter `'. +'` simply merges the two JSON objects using the `+` operator. The result will be a single JSON object containing all properties from both input files.
+        monochrome-output: '[AI] `jq` is a lightweight and flexible command-line JSON processor. The option `--monochrome-output` is used to display the output in a monochrome format, meaning that colors are not applied to the output. This can be useful when working with scripts or integrating `jq` into other environments where colorized output may not be desirable.'
+        null-input: '[AI] `jq` is a lightweight and flexible command-line JSON processor. The `--null-input` option tells `jq` to consider an empty input as null, rather than an empty string. This means that if you''re processing JSON data where the absence of data can be represented differently (e.g., an empty string versus null), this option ensures that your filters properly handle both cases. In summary, `--null-input` allows `jq` to treat empty input as null when parsing and processing JSON.'
+        raw-input: '[AI] `jq` is a lightweight and flexible command-line JSON processor. The option `--raw-input` tells `jq` to read its input as raw text instead of JSON, which can be useful when processing files that don''t contain valid JSON data. When used with the `-f` flag to provide a filter file or script, the combined usage `jq --raw-input -f <filter.jq> <file>` processes `<file>` as raw text and applies the given filter script to it.'
+        raw-output: '[AI] `jq --raw-output` is a command-line option used with the JavaScript-like data manipulation tool, `jq`. It tells `jq` to output raw text instead of formatted JSON or other data structures. This can be useful when processing data in scripts, as it allows for direct manipulation of the unformatted data without having to deal with extra formatting.'
+        rawfile: '[AI] `jq` is a lightweight and flexible command-line JSON processor. The option `--rawfile` is used when reading input from a file as a whole, instead of treating it as separate lines. With this option, the contents of the file are read as a single JSON string, allowing for processing that may involve more complex JSON structures. This can be useful when dealing with large or more intricately nested JSON files.'
+        seq: '[AI] `jq --seq` is a command used with the JSON processing tool `jq`. The `--seq` option instructs `jq` to treat input as a sequence of numbers instead of JSON data. This is useful when processing arrays or lists, where each element is expected to be a number. With this option, various numerical operations can be performed on the input using `jq`''s filtering and transformation functions.'
+        slurp: '[AI] `jq --slurp` is a command-line option used with the JSON processing tool `jq`. The `--slurp` option instructs `jq` to read the entire input as a single JSON object or array, rather than processing each line separately. This can be useful when dealing with large JSON data that may not fit in memory when processed line by line. Instead, loading the entire data into memory at once allows for more complex transformations and queries.'
+        slurpfile: '[AI] `jq` is a lightweight and flexible command-line JSON processor. The option `--slurpfile` is used when reading in a large JSON file as a single string. Instead of treating the file as multiple input streams, `--slurpfile` reads it as a single slurped (i.e., parsed into memory as a single JSON object) input, allowing you to apply filtering and transformations on the entire data using `jq`. This can be more memory-efficient and easier to work with when dealing with large JSON files.'
+        sort-keys: '[AI] `jq` is a lightweight and flexible command-line JSON processor. The `--sort-keys` option is used with `jq` to sort the keys of a JSON object in ascending or descending order before outputting the filtered result. By default, it sorts in ascending order (alphabetically). For example, `jq ''. [input_json] | objects | .[] | .key as $k | { key: $k, value: .value } | sort_by(.key)` is a valid `jq` command that reads input JSON, sorts the keys of each object in ascending order and outputs sorted objects.'
+        stream: '[AI] `jq --stream` is a command-line option for the JavaScript Object Notation (JSON) processing tool `jq`. This option enables streaming mode, which processes JSON data as it''s being read from a file or pipe instead of waiting for the entire data to be loaded into memory before processing. It''s particularly useful when dealing with large JSON files or streams of JSON data that may exceed available memory. In streaming mode, `jq` applies filters and transformations on each incoming JSON object or event, making it an efficient choice for handling JSON data in real-time or batch processing scenarios.'
+        tab: '[AI] `jq --tab` is a command-line tool for processing JSON data using the query language called JQ. The `--tab` option formats output with indented tabulation instead of spaces, making JSON data easier to read and understand in hierarchical structures. This option helps improve the presentation of JSON data for further analysis or debugging purposes.'
+        unbuffered: '[AI] `jq` is a lightweight and flexible command-line JSON processor. The option `--unbuffered` is used when processing large JSON data streams, ensuring that `jq` does not buffer the input, but processes it in real-time as it is being fed to it from a pipe or a file. This can be useful when dealing with streaming data sources or large files to minimize memory usage and improve performance.'
+        version: '[AI] `jq` is a lightweight and flexible command-line JSON processor. The command `jq --version` is used to display the version information of the installed `jq` software, including the version number and the Git commit hash if built from source.'

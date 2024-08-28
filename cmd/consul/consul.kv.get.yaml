@@ -1,0 +1,58 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: get
+description: Retrieves or lists data from the KV store
+flags:
+    --base64: Base64 encode the value.
+    --ca-file=: Path to a CA file to use for TLS when communicating with Consul.
+    --ca-path=: Path to a directory of CA certificates to use for TLS when communicating with Consul.
+    --client-cert=: Path to a client cert file to use for TLS when 'verify_incoming' is enabled.
+    --client-key=: Path to a client key file to use for TLS when 'verify_incoming' is enabled.
+    --datacenter=: Name of the datacenter to query.
+    --detailed: Provide additional metadata about the key in addition to the value.
+    --http-addr=: The `address` and port of the Consul HTTP agent.
+    --keys: List keys which start with the given prefix, but not their values.
+    --namespace=: Specifies the namespace to query.
+    --recurse: Recursively look at all keys prefixed with the given path.
+    --separator=: String to use as a separator between keys.
+    --stale: Permit any Consul server (non-leader) to respond to this request.
+    --tls-server-name=: The server name to use as the SNI host when connecting via TLS.
+    --token-file=: File containing the ACL token to use in the request.
+    --token=: ACL token to use in the request.
+documentation:
+    command: '[AI] `consul kv get` is a command used in the Consul Key-Value (KV) store to retrieve the value of a specific key. The command takes the key as an argument and returns the corresponding value, which can be stored as a string or binary data. If the key does not exist in the store, `consul kv get` will return an error message instead. This command is essential for reading data from the Consul KV store.'
+    flag:
+        base64: '[AI] `consul kv get --base64` is a command used in the Consul Key-Value store, which is a part of the Consul service discovery and configuration management tool. This command retrieves the value of a specified key in the KV store, but instead of returning it in plain text format, it returns the value encoded in Base64 encoding. This is particularly useful when dealing with sensitive data such as credentials or certificates, to ensure data confidentiality during transmission and storage.'
+        ca-file: '[AI] `consul kv get --ca-file` is a command used with the Consul Key Value (KV) store, which is a part of the Consul service discovery and configuration management tool. This command retrieves data from the KV store using the given key, but with additional security by requiring a valid TLS certificate for secure communication. The `--ca-file` flag specifies the path to a trusted CA (Certificate Authority) file, which is used to verify the identity of the Consul server before establishing a secure connection.'
+        ca-path: '[AI] `consul kv get --ca-path` is a command used with Hashicorp''s Consul service to retrieve data from its key-value (KV) store. The `--ca-path` flag specifies the location of the CA (Certificate Authority) bundle file for TLS (Transport Layer Security) certificate verification during the communication between the client and the Consul server. In other words, it ensures secure communication by verifying the identity of the Consul server using the provided CA certificate.'
+        client-cert: '[AI] The `consul kv get --client-cert` command is used in the Consul Key Value store to retrieve data with SSL client certificate authentication enabled. This means that the request must be signed by a valid SSL client certificate for access. This command helps securely access specific keys in the Consul KV store using TLS encryption and client certificate verification. It''s particularly useful when dealing with sensitive information and ensuring only authorized clients can retrieve data.'
+        client-key: '[AI] The `consul kv get --client-key` command is used in the Consul Key Value (KV) store, which is a part of the Consul service discovery and configuration management tool. This command retrieves the value associated with a given key, but it does so using a client key instead of an ACL token. The client key is a unique identifier for an authenticated Consul agent or client. Providing the `--client-key` flag allows access to the KV store data even if you don''t have an ACL token with read permissions on the specific key. This can be useful when interacting with the KV store programmatically from a trusted agent or client.'
+        datacenter: '[AI] The `consul kv get --datacenter` command is used with Hashicorp''s Consul, a distributed, highly available, and data center aware toolchain for service discovery, configuration, and orchestration. This specific command retrieves the value of a key-value pair stored in Consul''s KeyValue store associated with a particular datacenter. The `--datacenter` flag specifies the name or ID of the datacenter to target.'
+        detailed: |-
+            [AI] `consul kv get --detailed` is a command used in the Consul KV (Key-Value) store, which is part of the Consul service discovery and configuration management tool.
+
+            This command retrieves the value associated with a specific key in the Consul KV store. The `--detailed` flag adds additional output to the response. This includes displaying the following information:
+
+            1. Version number of the data item (if it's a versioned data).
+            2. Create Index and Modify Index, which represent the index numbers of the first and last writes that affected the data item.
+            3. Flag indicating whether the data is locked or not.
+
+            The output format looks like this:
+            ```json
+            Key         Value                  Flags          Version  CreateIndex  ModifyIndex  LockID
+            ----------------------------------------------------------------------------------------
+            my_key      my_value               []             1           10          20          0
+            ```
+        http-addr: '[AI] `consul kv get` is a command used in Hashicorp Consul, a tool for service discovery, configuration, and orchestration. The `--http-addr` flag specifies the HTTP address to use when connecting to the Consul server. For example, if you have multiple Consul servers running, each with its own IP address and port, you can use this flag to specify which server to retrieve data from using a URL such as `--http-addr=192.168.0.1:8500`. This helps ensure that your requests are directed to the correct Consul instance.'
+        keys: '[AI] The `consul kv get --keys` command is a part of the Consul Key-Value (KV) store CLI tool in Hashicorp''s Consul service. This command retrieves the keys of all items stored under a given KV prefix, without returning their values. It helps to list down all the available keys in the specified namespace for easy identification and management.'
+        namespace: '[AI] The `consul kv get` command is a part of Consul''s Key-Value (KV) store interface. This command is used to retrieve values from Consul''s KV store. The `--namespace` flag is an optional argument for this command. When provided, it specifies the namespace of the key you want to retrieve. Namespaces help organize and manage keys within a Consul cluster. Without the `--namespace` flag, Consul will assume the default namespace (usually "default"). So, using the `consul kv get --namespace=<namespace> <key>` command retrieves a value in the specified namespace with the given key.'
+        recurse: '[AI] `consul kv get --recurse` is a command used in Hashicorp Consul, a tool for service discovery, configuration, and orchestration. This specific command retrieves values from the Consul Key-Value store in a recursive manner. In other words, it will return not only the value of the specified key but also the values of all subkeys beneath that key in the hierarchical KV database.'
+        separator: '[AI] The `consul kv get` command is a utility provided by Hashicorp''s Consul Key-Value store. It is used to retrieve one or more key-value pairs from the Consul KV store. The option `--separator` is used to specify a separator that will be used between multiple values when they are retrieved. For instance, if you have multiple values stored under the same key and use the `--separator=:` flag, then when you run `consul kv get <key>`, Consul will return those values separated by a colon (:). This can be useful for retrieving configuration data that includes multiple values that need to be treated as separate entities.'
+        stale: |-
+            [AI] The `consul kv get --stale` command is a part of Consul's Key-Value (KV) store interface in the Consul service discovery and configuration tool. This command is used to retrieve data from the Consul KV store even if it might be stale or outdated.
+
+            When data is updated in the Consul KV store, by default, any subsequent read operations will only return the latest version of the data. However, with the `--stale` flag, Consul returns any previous versions of the data that might exist. This can be useful when dealing with potential version conflicts or when troubleshooting issues where you need to compare older versions of data with their current state.
+
+            Keep in mind that using stale data may introduce inconsistencies and lead to incorrect results, so it's essential to use this flag judiciously and understand the potential implications of working with potentially outdated data.
+        tls-server-name: '[AI] The `consul kv get --tls-server-name` command is used in Consul, a service discovery and configuration management tool, to retrieve data from its Key Value (KV) store using TLS (Transport Layer Security). The `--tls-server-name` flag specifies the DNS name or IP address of the Consul server to connect to for encryption. This ensures secure communication between the client and the Consul server by enabling SSL/TLS encryption.'
+        token: '[AI] `consul kv get --token` is a command used in Hashicorp Consul, a service discovery and configuration management tool. This command retrieves the value of a specific key from the Consul Key Value (KV) store using a token for authentication. The flag `--token` specifies the authentication token to use for the request. This command returns the value associated with the key if it exists; otherwise, an error message is displayed.'
+        token-file: '[AI] The `consul kv get --token-file` command is used to retrieve key-value pairs from Consul''s Key Value (KV) store using a token for authentication. The `--token-file` option specifies the path to a file containing an authentication token, which is read by the Consul CLI tool to perform the secure request to the Consul server. This command is commonly used to retrieve sensitive information from the Consul KV store in a secure and controlled manner.'

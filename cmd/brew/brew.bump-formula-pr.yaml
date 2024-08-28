@@ -1,0 +1,111 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: bump-formula-pr
+description: Create a pull request to update <formula> with a new URL or a new tag
+group: developer
+flags:
+    --commit: When passed with `--write-only`, generate a new commit after writing changes to the formula file.
+    --debug: Display any debugging information.
+    --dry-run: Print what would be done rather than doing it.
+    --force: Ignore duplicate open PRs. Remove all mirrors if `--mirror` was not specified.
+    --fork-org: Use the specified GitHub organization for forking.
+    --help: Show this message.
+    --message: Prepend <message> to the default pull request message.
+    --mirror: Use the specified <URL> as a mirror URL. If <URL> is a comma-separated list of URLs, multiple mirrors will be added.
+    --no-audit: Don't run `brew audit` before opening the PR.
+    --no-browse: Print the pull request URL instead of opening in a browser.
+    --no-fork: Don't try to fork the repository.
+    --online: Run `brew audit --online` before opening the PR.
+    --python-exclude-packages: Exclude these Python packages when finding resources.
+    --python-extra-packages: Include these additional Python packages when finding resources.
+    --python-package-name: Use the specified <package-name> when finding Python resources for <formula>. If no package name is specified, it will be inferred from the formula's stable URL.
+    --quiet: Make some output more quiet.
+    --revision: Specify the new commit <revision> corresponding to the specified git <tag> or specified <version>.
+    --sha256: Specify the <SHA-256> checksum of the new download.
+    --strict: Run `brew audit --strict` before opening the PR.
+    --tag: Specify the new git commit <tag> for the formula.
+    --url: Specify the <URL> for the new download. If a <URL> is specified, the <SHA-256> checksum of the new download should also be specified.
+    --verbose: Make some output more verbose.
+    --version: Use the specified <version> to override the value parsed from the URL or tag. Note that `--version=0` can be used to delete an existing version override from a formula if it has become redundant.
+    --write-only: Make the expected file modifications without taking any Git actions.
+documentation:
+    command: '[AI] `brew bump-formula-pr` is a Homebrew command used to automatically generate a pull request on GitHub for updating the version number in a Homebrew formula. This command should be run from within the directory of the specific formula, and it will create a new branch, update the formula file with the next major or minor version number, and open a pull request against the Homebrew repository on GitHub.'
+    flag:
+        commit: |-
+            [AI] The `brew bump-formula-pr --commit` command is used with Homebrew, a popular package manager for macOS. This command creates and applies a pull request (PR) to update the version number of a specific Homebrew formula in the Homebrew repository.
+
+            Here's a breakdown of the components:
+
+            1. `brew`: Homebrew package manager command line interface.
+            2. `bump-formula-pr`: A subcommand that creates a pull request with a new version number for a specific formula by incrementing it according to the semantic versioning rules.
+            3. `--commit`: This option tells Homebrew to create a local commit of your changes before creating the PR, allowing you to review the changes locally before pushing them upstream.
+
+            So, in summary, this command creates and commits local changes to update the version number of a Homebrew formula, then generates and opens a pull request for those changes to be reviewed and potentially merged into the main repository.
+        debug: '[AI] `brew bump-formula-pr --debug` is a Homebrew command used to interactively update a formula''s Git repository, preparing it for submission as a pull request. The `--debug` flag enables verbose output for detailed information about the process.'
+        dry-run: '[AI] The command `brew bubble-formula-pr --dry-run` is a Homebrew (a popular package manager for macOS) command used to simulate the effects of merging a pull request (PR) into a Homebrew formula without actually making the change. The `--dry-run` flag indicates that this action should only be simulated, showing what would happen without making any permanent changes. This command can help reviewers understand the impact of a proposed PR before deciding whether to merge it.'
+        force: |-
+            [AI] `brew bump-formula-pr --force` is a command used with Homebrew, a popular package manager for macOS. This command interacts with Homebrew's formula PR (Pull Request) process.
+
+            When you make changes to a Homebrew formula, the recommended workflow is to create and submit a PR on GitHub. `brew bump-formula-pr` command automates the process of creating, opening, and pushing a PR based on local formula changes.
+
+            The `--force` flag is optional but adds more forceful behavior:
+
+            1. It will overwrite any existing PRs with the same commit hash. This can be useful when you want to update an existing PR or forcefully replace it with a new one.
+            2. It bypasses certain checks, like linting and travis CI, that may prevent your PR from being created. However, using this flag should be done carefully as it may introduce potential issues in your formula.
+
+            In summary, `brew bump-formula-pr --force` is a command used to create, update or forcefully push a Homebrew formula PR with changes made locally while bypassing certain checks and potentially overwriting existing PRs.
+        fork-org: |-
+            [AI] The `brew bump-formula-pr --fork-org` command is used with Homebrew, a popular package manager for macOS. This command creates and opens a pull request (PR) in the specified organization's repository on GitHub. The PR will update the given formula to increment its version number based on the current branch or commit.
+
+            Here's a breakdown of the command:
+
+            - `brew`: Invokes Homebrew, the package manager.
+            - `bump-formula-pr`: A subcommand provided by Homebrew that creates a PR for updating formula versions.
+            - `--fork-org`: An option to specify the organization's GitHub username for the target repository. The PR will be created in this organization's forked copy of the original repository.
+        help: |-
+            [AI] `brew bump-formula-pr` is a Homebrew command used to create a pull request (PR) on GitHub for updating the version number of a Homebrew formula. The `--help` option displays detailed information about how to use this command, including:
+
+            * Syntax: `brew bump-formula-pr <repository> [<commit>]`
+            * Description: Creates a new Git branch and opens a PR against a specified Homebrew repository with updated version numbers for one or more formulas. If no commit is provided, it uses the HEAD as the starting point.
+            * Options: `--dry-run` (prints what the command would do without actually doing it) and `--message=""` (sets the commit message).
+            * Example: `brew bump-formula-pr homebrew/core` will create a PR for updating all formulas in the core repository.
+        message: '[AI] `brew bump-formula-pr` is a Homebrew command used to create a pull request (PR) on GitHub for updating the version number in a specific Homebrew formula. The `--message` option sets the commit message for the PR. So, running `brew bump-formula-pr --message "New version X.Y.Z"` will create a PR that updates the formula with the new version and sets the commit message to "New version X.Y.Z".'
+        mirror: '[AI] The `brew bump-formula-pr` command is used in Homebrew, a popular package manager for macOS, to create a pull request (PR) on GitHub with updated formula files for Homebrew packages. The `--mirror` option tells Homebrew to fetch the latest changes from the original formula repositories on GitHub instead of using its local copies. This helps ensure that the PR contains the most recent formula changes and reduces the chances of merge conflicts. The resulting PR can then be reviewed and merged, updating the Homebrew formulas for the packages in question.'
+        no-audit: '[AI] `brew bump-formula-pr` is a Homebrew command used to create a pull request (PR) for updating the formula of a specific package installed with Homebrew. The `--no-audit` flag disables Homebrew''s built-in security auditing feature when creating the PR. This means that the command will not check for any known vulnerabilities in the dependencies or the updated formula, potentially allowing outdated or insecure packages to be proposed for update. Using `--no-audit` is generally discouraged, as it can introduce security risks into your system. It''s recommended to use this command responsibly and only when you trust the source of the updated formula.'
+        no-browse: '[AI] `brew bump-formula-pr` is a Homebrew command that interacts with GitHub Pull Requests related to Homebrew formula updates. Specifically, it creates or updates an existing pull request for a given formula in the Homebrew repository. The `--no-browse` flag prevents Homebrew from opening the browser after creating or updating the pull request.'
+        no-fork: |-
+            [AI] The `brew bump-formula-pr --no-fork` command is used in Homebrew, a popular package manager for macOS, to create and submit a pull request for updating the formula of a specific Homebrew package without forking the repository first.
+
+            When you run `brew bump-formula-pr <formula>`, Homebrew checks out the source tree of the Homebrew project, creates a new branch, edits the formula file for the specified package to update its dependencies or version numbers, and then sets up your text editor with the changes ready to be committed.
+
+            The `--no-fork` option skips the step where Homebrew would create a new fork of the original repository on GitHub. Instead, it directly creates a local branch based on the current Homebrew master branch. This means that you'll need to have write access to the original repository in order to submit the pull request successfully.
+
+            Once you make any necessary edits and commit them locally, you can then use `git push origin <branch_name>` to push your changes upstream to the original repository. Finally, you can open a pull request on GitHub to propose your updates for merging into the Homebrew project.
+        online: '[AI] The `brew bump-formula-pr --online` command is used with Homebrew, a popular package manager for macOS. This command creates and pushes a pull request (PR) to the Homebrew Formula repository on GitHub, proposing an update to a specific formula''s version number. The `--online` flag indicates that this action should be performed directly against the remote repository, rather than creating a local PR first. In summary, it updates a formula in Homebrew''s repository and submits the change as a pull request online.'
+        python-exclude-packages: '[AI] `brew bump-formula-pr` is a Homebrew command used to create a Pull Request (PR) for updating the version of a specific formula in the Homebrew project. The option `--python-exclude-packages` instructs Homebrew to exclude certain Python packages from being automatically updated when creating the PR. This can be useful if some of these packages have compatibility issues or are not needed for the updated formula version, avoiding potential conflicts and unnecessary work.'
+        python-extra-packages: |-
+            [AI] The command `brew bump-formula-pr --python-extra-packages` is used with Homebrew, a popular package manager for macOS. This specific command performs an interactive rebase of a Homebrew Formula PR (Pull Request) against the Python formula in the Homebrew repository.
+
+            The `--python-extra-packages` flag indicates that any additional Python packages specified in the PR should be updated to their latest versions when rebasing the PR. This ensures that the formula remains up-to-date and compatible with the latest version of Python and its dependencies.
+        python-package-name: '[AI] The `brew bump-formula-pr --python-package-name` command is used with Homebrew, a popular package manager for macOS. This command creates and opens a pull request (PR) on GitHub to increment the major version number of a specific Homebrew formula that depends on a Python package. By providing the `--python-package-name` option followed by the name of the Python package, the command automates the process of locating and updating the formula''s `Python: set_version()` function to use the new major version number, as well as modifying other files like `Manifest.json` if required, based on the latest version of the Python package from PyPI. This simplifies the process for Homebrew maintainers to keep their formulas up-to-date with the corresponding Python packages.'
+        quiet: '[AI] The `brew bump-formula-pr --quiet` command is used in Homebrew, a popular package manager for macOS, to create and submit a pull request (PR) for updating the version number of a specific Homebrew formula. The `--quiet` flag suppresses any verbose output during the process. This command generates a PR containing the changes needed to update the formula''s dependencies and metadata without displaying progress messages or other details.'
+        revision: |-
+            [AI] The `brew bump-formula-pr --revision` command is used in Homebrew, a popular package manager for macOS, to create a pull request (PR) against the Homebrew repository with an updated version of a specific formula's revision.
+
+            A formula in Homebrew is a recipe that describes how to build and install software packages. The `bump-formula-pr` subcommand helps maintainers update the formula's dependencies or other information, usually by incrementing a version number, and then creates a PR with the changes.
+
+            The `--revision` option is used to specify the revision (commit ID) of the branch you want to base your changes on. This could be useful if you're making changes based on a particular commit or branch that hasn't been merged yet into the main repository.
+        sha256: |-
+            [AI] The `brew bump-formula-pr --sha256` command is used with Homebrew, a popular package manager for macOS. This command generates a pull request (PR) against the Homebrew repository for updating the SHA256 checksum of a specific formula.
+
+            The SHA256 checksum is a unique digital fingerprint that verifies the integrity and authenticity of a file. In the context of Homebrew, formulas are scripts used to build and install software packages. When there's an update for a formula or its dependencies, it's important to update the corresponding SHA256 checksum in the formula's GitHub repository to ensure that the installed package remains secure and up-to-date.
+
+            The `brew bump-formula-pr` command creates a PR containing the necessary changes to update the SHA256 checksum, which can then be reviewed and merged by other developers in the Homebrew community. This process helps maintain the security and reliability of Homebrew and its packages.
+        strict: '[AI] `brew bump-formula-pr --strict` is a command used in Homebrew, a popular package manager for macOS. This command is used to increment the version number of an existing Homebrew formula in a Git repository and create a pull request. The `--strict` flag ensures that only major or minor version numbers can be bumped, not just any arbitrary number. This helps maintain a consistent versioning scheme within the project.'
+        tag: '[AI] The `brew bump-formula-pr --tag` command is used in Homebrew, a package manager for macOS, to create and open a pull request (PR) with formula updates for Homebrew using GitHub. The `--tag` option specifies the tag name for the PR, typically following the format `vX.Y.Z`, where X.Y.Z represents the new version number. This command analyzes the formula files in the current repository and suggests changes based on upstream formula updates. Once the suggested changes are reviewed and approved, they will be merged into Homebrew''s main repository, updating the corresponding formula for the specified package.'
+        url: '[AI] The `brew bump-formula-pr --url` command is used with Homebrew, a popular package manager for macOS. This command creates and opens a pull request (PR) in the Homebrew formula repository on GitHub. The `--url` option specifies the URL of the default branch of the user''s local Homebrew repository to be used as the base for the new PR. The purpose of this command is to propose an update or improvement to an existing Homebrew formula, typically by incrementing its version number and committing any changes to the local formula file before creating the PR.'
+        verbose: |-
+            [AI] The command `brew bump-formula-pr --verbose` is a Homebrew (a package manager for macOS) command used to create a pull request (PR) on GitHub, updating the formula version of a specific Homebrew formula. The `--verbose` option increases the amount of output information provided during the execution of the command.
+
+            When executed, it searches for changes required to increment the major, minor or patch version of the specified formula based on its current state in the Homebrew repository. After finding the necessary modifications, it sets up a GitHub personal access token and creates a new branch, prepares the commit message, and ultimately opens a PR with the specified updates.
+        version: '[AI] `brew bump-formula-pr --version` is a command used with Homebrew, a popular package manager for macOS. This command interacts with Git and Homebrew''s formulae (packages) repository. The `--version` flag instructs the command to display the current version number of the selected formula before making any changes. This can help ensure that you are aware of the state of your formula before applying any modifications, such as incrementing its version number using `brew bump-formula-pr`.'
+        write-only: '[AI] `brew bump-formula-pr --write-only` is a Homebrew command that interacts with Git and modifies a Homebrew formula file to increment its version number according to the specified bumping type (major, minor, or patch). The `--write-only` flag means that it will only modify the working directory without committing or creating a pull request. It generates a new commit message and stashes changes before applying them, keeping the original repository unchanged. This command is useful for testing changes locally before submitting a pull request.'

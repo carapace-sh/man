@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: view-last-applied (TYPE [NAME | -l label] | TYPE/NAME | -f FILENAME)
+description: View the latest last-applied-configuration annotations of a resource/object
+flags:
+    --all: Select all resources in the namespace of the specified resource types
+    -R, --recursive: Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.
+    -f, --filename*=: Filename, directory, or URL to files that contains the last-applied-configuration annotations
+    -k, --kustomize=: Process the kustomization directory. This flag can't be used together with -f or -R.
+    -l, --selector=: Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2). Matching objects must satisfy all of the specified label constraints.
+    -o, --output=: Output format. Must be one of (yaml, json)
+documentation:
+    command: |-
+        [AI] The `kubectl apply` command is used to create or update Kubernetes resources based on a given manifest file. The `view-last-applied` option is not a separate command but rather an argument that can be passed with the `apply` command.
+
+        When you use `kubectl apply <manifest-file>`, Kubernetes applies the changes specified in the manifest to your cluster. If you have previously applied the same manifest and want to see the last state of your resources as a result of that previous application, you can use `kubectl apply -f <manifest-file> --record=false --output=yaml --prune <resource-kind>/<namespace>/<resource-name> view-last-applied`.
+
+        The `--record=false` flag prevents Kubernetes from creating a record of the new state in its change history. The `--output=yaml` option makes Kubernetes print the output in YAML format, and the `--prune <resource-kind>/<namespace>/<resource-name>` option causes Kubectl to remove resources that no longer match the definition when comparing against the last applied configuration.
+
+        Finally, the `view-last-applied` argument is not explicitly stated but implied in the command above since it refers to the state of the resources after the previous successful application.
+    flag:
+        all: '[AI] `kubectl apply` is a command-line tool used to deploy or update Kubernetes resources from a definition file. The `view-last-applied` subcommand shows the most recent YAML manifest that was applied to create or modify a specific resource in your cluster. The `--all` flag expands this operation to display the last applied configuration for all resources in your current context. It provides a convenient way to review the latest state of multiple resources at once and helps ensure consistency between them.'
+        filename: '[AI] `kubectl apply` is a command-line tool used to deploy or update Kubernetes resources from a manifest file. The option `view-last-applied` is used to display the most recent Kubernetes resource manifests that have been applied using `kubectl apply`. The `--filename` flag specifies the name of the manifest file that was last applied. So, `kubectl apply view-last-applied --filename <file_name>` will display the contents of the most recently applied Kubernetes resource manifest with the given filename.'
+        kustomize: |-
+            [AI] `kubectl apply` is a command used in Kubernetes to deploy or update resources based on configuration files or using inline YAML definitions. The `view-last-applied` subcommand shows the most recently applied resource configuration. When used with the `--kustomize` flag, it applies and then shows the last applied customization overlay.
+
+            In simpler terms, `kubectl apply view-last-applied --kustomize` applies the latest Kustomize customization patch to your Kubernetes cluster and displays the resulting resource configuration as it was last applied.
+        output: |-
+            [AI] `kubectl apply` is a command used to deploy or update Kubernetes resources based on the configuration files provided. The `view-last-applied` subcommand shows the most recently applied configuration for a given resource, and the `--output` option is used to specify the desired output format.
+
+            The combination of these flags, `kubectl apply view-last-applied --output`, returns the YAML or JSON representation of the last successfully applied configuration for the specified Kubernetes resource. This can be useful for reviewing the current state of a resource's configuration without having to search through multiple configuration files or the Kubernetes cluster itself.
+        recursive: |-
+            [AI] `kubectl apply` is a command-line tool used for deploying and managing applications on Kubernetes clusters. The `view-last-applied` subcommand shows the most recent applied configuration for resources in a Kubernetes namespace or across an entire cluster.
+
+            The `--recursive` flag, when used with `view-last-applied`, recursively displays the configuration of all related resources (including dependent resources) for a given resource or collection of resources. This means that not only will you see the most recently applied configuration for the primary resource, but also for any child or related resources that may exist in the Kubernetes cluster.
+
+            In summary, `kubectl apply view-last-applied --recursive` provides a comprehensive view of the current state of an entire application stack by showing the most recent configurations of all resources (including dependent ones) within the specified namespace or across the entire cluster.
+        selector: '[AI] `kubectl apply` is a command used to deploy or update Kubernetes resources from a file or standard input. The option `--view-last-applied` shows the differences between the current state of your Kubernetes cluster and the changes that will be applied next. The selector `--selector` filters the resources based on labels for more specific manipulation. So, using `kubectl apply view-last-applied --selector` allows you to see the difference in the last applied changes specifically for the resources with the given labels.'

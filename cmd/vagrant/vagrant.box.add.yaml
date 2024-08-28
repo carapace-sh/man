@@ -1,0 +1,65 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: add
+description: add a box
+flags:
+    --box-version=: Constrain version of the added box
+    --cacert=: CA certificate for SSL download
+    --capath=: CA certificate directory for SSL download
+    --cert=: A client SSL cert, if needed
+    --checksum-type=: Checksum type (md5, sha1, sha256)
+    --checksum=: Checksum for the box
+    --insecure: Do not validate SSL certificates
+    --location-trusted: Trust 'Location' header from HTTP redirects and use the same credentials for subsequent urls as for the initial one
+    --name=: Name of the box
+    --provider=: Provider the box should satisfy
+    -c, --clean: Clean any temporary download files
+    -f, --force: Overwrite an existing box if it exists
+documentation:
+    command: '[AI] `vagrant box add` is a Vagrant command used to install a new VirtualBox or other provider''s box into your local Vagrant environment. The syntax is: `vagrant box add <name> <box-version-or-url>`. Here, `<name>` is the name given to the box in Vagrantfile, and `<box-version-or-url>` specifies the version number of the box or its URL if it''s hosted on a public registry. Once added, this box can be used to create new Vagrant machines with specific configurations and environments.'
+    flag:
+        box-version: '[AI] The `vagrant box add` command is used to install a new Vagrant box, which is a pre-prepared environment template for creating and configuring virtual machines or containers. The `--box-version` option specifies the desired version of the box to be added. For example, `vagrant box add hashicorp/precise64 --box-version 2017.05.03` installs the Precise64 box from Hashicorp with version 2017.05.03. If not specified, Vagrant will attempt to use the latest available version.'
+        cacert: '[AI] The `vagrant box add --cacert` command is used to add a custom CA (Certificate Authority) certificate to Vagrant for secure SSL connections during the box addition process. This helps in cases where the default certificates are not trusted by your environment or organization, allowing you to use self-signed or specific CA certificates. The flag `--cacert` specifies the path to the custom CA certificate file.'
+        capath: |-
+            [AI] `vagrant box add` is a command used in Vagrant, a tool for building and managing virtual machine environments. The `--base-box` option is commonly used with this command to specify the name or URL of an existing base box, which serves as the foundation for creating a new custom Vagrant box.
+
+            However, there's another lesser-known option called `--box-version`, and it accepts a path (`--capath`) instead of a version number or box name. This option is used when you have a local directory containing a pre-built Vagrant box (consisting of the necessary files and directories), and you want to add this custom box to your local Vagrant box repository without having to push it to a remote box registry first. The `--capath` argument points to the path of the local box directory.
+
+            For instance, if you have a locally-built Ubuntu 20.04 box in a folder named "ubuntu20" under your home directory (`~/boxes/ubuntu20`), you can add this custom box to your Vagrant environment by running:
+
+            ```bash
+            vagrant box add --base ubuntu/images/box_shapes/ubuntu-20.04 --capath ~/boxes/ubuntu20
+            ```
+
+            This command uses the `ubuntu/images/box_shapes/ubuntu-20.04` base box as a reference, and then adds your custom Ubuntu 20.04 box located at `~/boxes/ubuntu20`.
+        cert: |-
+            [AI] The `vagrant box add --cert` command is used in Vagrant, a tool for building and managing virtual machine environments, to add a custom or unofficial Vagrant box from an external source with SSL certification.
+
+            When you want to use a box from a source other than the VagrantCloud, which requires HTTPS connection, you may encounter a certificate verification error due to the lack of a trusted root certificate authority (CA) in your system. To bypass this issue and add the custom box, you need to provide a certificate file using the `--cert` option with the `box add` command.
+
+            The certificate file contains the CA certificate, which Vagrant uses to verify the authenticity of the SSL certificate presented by the external box repository during the box download process. The `--cert` option allows you to specify the location of the certificate file on your local machine for Vagrant to use during the box addition process.
+        checksum: '[AI] `vagrant box add --checksum` is a command used in Vagrant, a tool for building and managing virtual machine environments. This command is used to add a new box (a pre-prepared package of a virtual machine) to your local Vagrant environment with a specific checksum for verification purposes. The `--checksum` option allows you to specify the checksum of the box file to ensure its integrity and authenticity before adding it to your Vagrant environment.'
+        checksum-type: |-
+            [AI] The `vagrant box add` command is used to download and install a Vagrant box, which is a preconfigured virtual machine environment. The `--checksum-type` option specifies the type of checksum to use when verifying the authenticity of the downloaded box file.
+
+            There are two types of checksums: SHA1 (default) and SHA256. By using `--checksum-type sha256`, for instance, you're instructing Vagrant to validate the downloaded box file with a SHA256 checksum instead of the default SHA1. This additional layer of security helps ensure that the box you're installing is indeed from the intended source and hasn't been tampered with during the transfer.
+        clean: '[AI] The `vagrant box add --clean` command is used to remove any downloaded but not yet added Vagrant boxes from your local machine. It''s essentially a way to clear out your `.vagrant/boxes/` directory, which holds downloaded box files, without deleting any previously added boxes. This can help free up disk space and ensure that only desired boxes are present on the system.'
+        force: '[AI] The `vagrant box add --force` command is used in Vagrant, a tool for building and managing virtual machine environments. This command attempts to add a new box (a pre-prepared package of a specific operating system or application) to your local Vagrant box directory. If the box with the same name already exists, `--force` option will overwrite it without asking for confirmation. This can be useful when you want to update an existing box with new changes. However, use this command with caution as it may result in data loss if used on a box that contains important data.'
+        insecure: '[AI] The `vagrant box add --insecure` command is used to add a custom Vagrant box from an insecure source, such as a Git repository with unrestricted access or a direct download link without verification. This command bypasses the default security checks and allows the user to manually import the box, potentially exposing their system to security risks if the box contains malicious code. It''s important to note that using an insecure source to add boxes should only be done with trusted sources or after thoroughly evaluating the security of the box contents.'
+        location-trusted: |-
+            [AI] The `vagrant box add --location-trusted` command is used in Vagrant, a tool for building and managing virtual machine environments, to add a custom or local box with trusted source. This means that the box will be added to your local Vagrant environment with permissions allowing it to be installed on other machines without requiring user confirmation during installation.
+
+            By adding `--location-trusted`, Vagrant will bypass its standard security checks, assuming that the box has been obtained from a trusted source. This command should only be used when you are certain that the box is safe to install and comes from a reliable provider or developer. Misusing this option could potentially introduce insecure software into your environment.
+        name: |-
+            [AI] The `vagrant box add` command is used in Vagrant, a software provisioning tool for creating and configuring virtual machines. The `--name` option specifies the name of the new box to be added to Vagrant's list of available boxes. This name uniquely identifies the box within the Vagrant community, allowing users to easily reference it when creating new projects.
+
+            When you run `vagrant box add --name <box-name> <path-to-box>`, Vagrant downloads or copies the specified box file from the given location and adds it to your local Vagrant directory, so that it can be used in future Vagrant projects.
+        provider: |-
+            [AI] The `vagrant box add --provider` command is used to add a new provider to Vagrant, which is a tool for building and managing virtual machine environments. A provider is a backend component responsible for communicating with the infrastructure under Vagrant's control, such as VirtualBox or VMware. By using this command, you can extend Vagrant's capabilities to manage other types of infrastructure like AWS, Google Cloud Platform, or Azure.
+
+            For instance, if you want to use a specific cloud provider like AWS, first you need to install its corresponding Vagrant plugin (provider) using the `vagrant box add` command with the provider's URL:
+
+            ```bash
+            vagrant box add --provider "Amazon Web Services" <box_name> <box_version> <URL_to_the_box>
+            ```
+
+            This command will download and install the specified box along with its corresponding provider. After installation, you can create and configure new Vagrant environments using this added provider.

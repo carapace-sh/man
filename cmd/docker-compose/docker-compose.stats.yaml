@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: stats [OPTIONS] [SERVICE]
+description: Display a live stream of container(s) resource usage statistics
+flags:
+    --format=: 'Format output using a custom template:'
+    --no-stream: Disable streaming stats and only pull the first result
+    --no-trunc: Do not truncate output
+    -a, --all: Show all containers (default shows just running)
+documentation:
+    command: '[AI] `docker-compose stats` is a command used with Docker Compose to display real-time statistics of running containers, such as CPU usage, memory usage, network I/O, and disk I/O. It allows users to monitor the resource consumption of their services at a glance.'
+    flag:
+        all: '[AI] `docker-compose stats --all` is a command used with Docker Compose to monitor the real-time statistics of all running services and containers in a Docker Compose project. The `--all` option displays the statistics for every service and container, including their CPU usage, memory usage, network I/O, and other performance metrics. This can help users quickly identify resource consumption trends or potential bottlenecks within their application stack.'
+        format: |-
+            [AI] `docker-compose stats --format` is a command used with Docker Compose to retrieve real-time statistics of running services or containers. The `--format` option allows specifying an output format for the displayed data, which can be customized using templates supported by the Compose file format. For example, you might display only the CPU and memory usage of each container:
+
+            ```bash
+            $ docker-compose stats --format '{{range .}}{{.Name}} ({{index .Placement.Nodes .Slots[0]}}) {{join .ContainerStats.CPUPerc ["."] "."}}% CPU, {{index .MemStats.MemTotal - index .MemStats.MemFree - index .MemStats.MemMalloc - index .MemStats.MemRss - index .MemStats.MemStale}}/{{index .MemStats.MemTotal}} ({{index .MemStats.MemPerc}})% Memory'
+            ```
+
+            This command will list the container names, their associated nodes, and their current CPU and memory usage percentages.
+        no-stream: '[AI] `docker-compose stats --no-stream` is a command used with Docker Compose to display real-time statistics of running containers, such as CPU usage, memory usage, network I/O, and disk I/O. The `--no-stream` flag prevents the output from being displayed continuously in real time. Instead, it returns a JSON array containing the current statistics for each container when the command is run. This can be useful for scripting or automation purposes, allowing you to parse the output and process the data programmatically.'
+        no-trunc: |-
+            [AI] The `docker-compose stats --no-trunc` command is used to display real-time statistics of running services defined in a Docker Compose file. The `--no-trunc` option is used to prevent the output from being truncated, meaning that the full width of the terminal will be used to display the statistics.
+
+            The output includes various performance metrics such as CPU usage, memory usage, network I/O, and disk I/O for each service, updated in real-time. This command helps monitor the resource usage and performance of services at a glance, which is essential for identifying potential bottlenecks or issues in the containerized application.

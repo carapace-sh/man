@@ -1,0 +1,392 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: delta [OPTIONS] <MINUS_FILE> <PLUS_FILE>
+description: A viewer for git and diff output
+flags:
+    --blame-code-style=: Style string for the code section of a git blame line
+    --blame-format=: Format string for git blame commit metadata
+    --blame-palette=: Background colors used for git blame lines (space-separated string)
+    --blame-separator-format=: Separator between the blame format and the code section of a git blame line
+    --blame-separator-style=: Style string for the blame-separator-format
+    --blame-timestamp-format=: Format of `git blame` timestamp in raw git output received by delta
+    --blame-timestamp-output-format=: Format string for git blame timestamp output
+    --color-only: Do not alter the input structurally in any way
+    --commit-decoration-style=: Style string for the commit hash decoration
+    --commit-regex=: Regular expression used to identify the commit line when parsing git output
+    --commit-style=: Style string for the commit hash line
+    --dark: Use default colors appropriate for a dark terminal background
+    --default-language=: Default language used for syntax highlighting
+    --diff-highlight: Emulate diff-highlight
+    --diff-so-fancy: Emulate diff-so-fancy
+    --diff-stat-align-width=: Width allocated for file paths in a diff stat section
+    --features=: Names of delta features to activate (space-separated)
+    --file-added-label=: Text to display before an added file path
+    --file-copied-label=: Text to display before a copied file path
+    --file-decoration-style=: Style string for the file decoration
+    --file-modified-label=: Text to display before a modified file path
+    --file-removed-label=: Text to display before a removed file path
+    --file-renamed-label=: Text to display before a renamed file path
+    --file-style=: Style string for the file section
+    --file-transformation=: Sed-style command transforming file paths for display
+    --grep-context-line-style=: Style string for non-matching lines of grep output
+    --grep-file-style=: Style string for file paths in grep output
+    --grep-line-number-style=: Style string for line numbers in grep output
+    --grep-match-line-style=: Style string for matching lines of grep output
+    --grep-match-word-style=: Style string for the matching substrings within a matching line of grep output
+    --grep-separator-symbol=: Separator symbol printed after the file path and line number in grep output
+    --hunk-header-decoration-style=: Style string for the hunk-header decoration
+    --hunk-header-file-style=: Style string for the file path part of the hunk-header
+    --hunk-header-line-number-style=: Style string for the line number part of the hunk-header
+    --hunk-header-style=: Style string for the hunk-header
+    --hunk-label=: Text to display before a hunk header
+    --hyperlinks: Render commit hashes, file names, and line numbers as hyperlinks
+    --hyperlinks-commit-link-format=: Format string for commit hyperlinks (requires --hyperlinks)
+    --hyperlinks-file-link-format=: Format string for file hyperlinks (requires --hyperlinks)
+    --inline-hint-style=: Style string for short inline hint text
+    --inspect-raw-lines=: Kill-switch for --color-moved support
+    --keep-plus-minus-markers: Prefix added/removed lines with a +/- character, as git does
+    --light: Use default colors appropriate for a light terminal background
+    --line-buffer-size=: Size of internal line buffer
+    --line-fill-method=: Line-fill method in side-by-side mode
+    --line-numbers-left-format=: Format string for the left column of line numbers
+    --line-numbers-left-style=: Style string for the left column of line numbers
+    --line-numbers-minus-style=: Style string for line numbers in the old (minus) version of the file
+    --line-numbers-plus-style=: Style string for line numbers in the new (plus) version of the file
+    --line-numbers-right-format=: Format string for the right column of line numbers
+    --line-numbers-right-style=: Style string for the right column of line numbers
+    --line-numbers-zero-style=: Style string for line numbers in unchanged (zero) lines
+    --list-languages: List supported languages and associated file extensions
+    --list-syntax-themes: List available syntax-highlighting color themes
+    --map-styles=: Map styles encountered in raw input to desired output styles
+    --max-line-distance=: Maximum line pair distance parameter in within-line diff algorithm
+    --max-line-length=: Truncate lines longer than this
+    --merge-conflict-begin-symbol=: String marking the beginning of a merge conflict region
+    --merge-conflict-end-symbol=: String marking the end of a merge conflict region
+    --merge-conflict-ours-diff-header-decoration-style=: Style string for the decoration of the header above the 'ours' merge conflict diff
+    --merge-conflict-ours-diff-header-style=: Style string for the header above the 'ours' branch merge conflict diff
+    --merge-conflict-theirs-diff-header-decoration-style=: Style string for the decoration of the header above the 'theirs' merge conflict diff
+    --merge-conflict-theirs-diff-header-style=: Style string for the header above the 'theirs' branch merge conflict diff
+    --minus-emph-style=: Style string for emphasized sections of removed lines
+    --minus-empty-line-marker-style=: Style string for removed empty line marker
+    --minus-non-emph-style=: Style string for non-emphasized sections of removed lines that have an emphasized section
+    --minus-style=: Style string for removed lines
+    --navigate: Activate diff navigation
+    --navigate-regex=: Regular expression defining navigation stop points
+    --no-gitconfig: Do not read any settings from git config
+    --pager=: Which pager to use
+    --paging=: Whether to use a pager when displaying output
+    --parse-ansi: Display ANSI color escape sequences in human-readable form
+    --plus-emph-style=: Style string for emphasized sections of added lines
+    --plus-empty-line-marker-style=: Style string for added empty line marker
+    --plus-non-emph-style=: Style string for non-emphasized sections of added lines that have an emphasized section
+    --plus-style=: Style string for added lines
+    --raw: Do not alter the input in any way
+    --relative-paths: Output all file paths relative to the current directory
+    --right-arrow=: Text to display with a changed file path
+    --show-colors: Show available named colors
+    --show-config: Display the active values for all Delta options
+    --show-syntax-themes: Show example diff for available syntax-highlighting themes
+    --show-themes: Show example diff for available delta themes
+    --syntax-theme=: The syntax-highlighting theme to use
+    --tabs=: The number of spaces to replace tab characters with
+    --true-color=: Whether to emit 24-bit ("true color") RGB color codes
+    --whitespace-error-style=: Style string for whitespace errors
+    --word-diff-regex=: Regular expression defining a 'word' in within-line diff algorithm
+    --wrap-left-symbol=: End-of-line wrapped content symbol (left-aligned)
+    --wrap-max-lines=: How often a line should be wrapped if it does not fit
+    --wrap-right-percent=: Threshold for right-aligning wrapped content
+    --wrap-right-prefix-symbol=: Pre-wrapped content symbol (right-aligned)
+    --wrap-right-symbol=: End-of-line wrapped content symbol (right-aligned)
+    --zero-style=: Style string for unchanged lines
+    -V, --version: Print version information
+    -h, --help: Print help information
+    -n, --line-numbers: Display line numbers next to the diff
+    -s, --side-by-side: Display diffs in side-by-side layout
+    -w, --width=: The width of underline/overline decorations
+documentation:
+    command: '[AI] ` delta` is a command used in version control systems, particularly Git, to show the differences between commits or files. It calculates and displays the changes made between two specific versions or branches. The output typically includes added, modified, and deleted lines for easier comparison.'
+    flag:
+        blame-code-style: '[AI] ` delta --blame-code-style ` is a command in Git''s `delta` tool used to show the blame annotations with customized code style. It enhances the output of `git blame` by formatting each author''s contribution with specific formatting rules, such as highlighting added, modified, or deleted lines using different colors or symbols. This can make it easier to visually identify changes and understand the history of a file.'
+        blame-format: |-
+            [AI] The ` delta --blame-format` option in Git is used to customize the output format of the `git blame` command, which shows the annotated history of a file with the author, commit message, and the changed lines.
+
+            The `delta` sub-option modifies the way the changed lines are displayed. By default, Git uses "patch" format to show the difference between each revision and its predecessor. However, ` delta --blame-format` allows you to specify alternative formats for a more condensed and focused output. For instance, you could use "unified," "mixed," or "tree" formats depending on your preferences. Each format offers different advantages in terms of readability and compactness. Consult Git's documentation for detailed information about each available format.
+        blame-palette: '[AI] The ` delta --blame-palette` command is a feature in Git, specifically for the Git blame (or `log --interactive`) command. It sets the color palette used to highlight different parts of the commit history when using interactive blaming. The colors distinguish between authors, commits with no changes, additions, deletions, and renames. This can help improve readability and understanding of the Git blame output.'
+        blame-separator-format: |-
+            [AI] The `delta --blame-separator-format` option in Git is used to customize the format of the separator lines in the output of the `git blame` or `git diff` with `--diff-filter=d` command, which shows the history of a file with annotations for each author and their changes.
+
+            By default, Git uses `---------------` as the separator between each revision's changes. With this option, you can change that to any other format string that Git supports for formatting text, such as "%C(red)%h%Creset" for displaying the commit hash in red color. This can be useful when integrating the output with other tools or scripts that expect a specific separator format.
+        blame-separator-style: '[AI] ` delta --blame-separator-style ` is an option used with Git''s ` delta ` or ` blame ` commands to change the appearance of the output when showing the blame history of a file. The ` --blame-separator-style ` option allows you to specify how the separators between author commits should be displayed. For example, ` --blame-separator-style=patch` will display each author''s changes as a separate patch, while ` --blame-separator-style=lines` will show each change as a line with the author information at the start. Other options include "context" and "none." The default value is "none".'
+        blame-timestamp-format: '[AI] The `delta --blame-timestamp-format` flag in Git is used to specify the desired format for timestamps displayed in the blame output. This command is used to show the history of file revisions and the author, committer, and committed date for each line or hunk of changes. By using this flag, you can customize the appearance of the timestamps by providing a format string according to the strftime format specifiers. For instance, `--blame-timestamp-format=''%Y-%m-%d %H:%M''` would display the date in YYYY-MM-DD and time in HH:MM format.'
+        blame-timestamp-output-format: '[AI] The `--blame-timestamp-output-format` option in Git''s `delta show` or `git blame` commands controls how the timestamps are displayed in the output. By default, Git uses a human-readable format like "Mon Jan 21 14:53:01 2019 -0800". With this option, you can change the format to other alternatives like Unix timestamp ("1548366981"), ISO 8601 ("2019-01-21T14:53:01Z"), or a custom format using strftime syntax. This option helps users tailor the output to their specific needs for further processing or analysis.'
+        color-only: '[AI] The ` delta --color-only` command is a option used with version control systems like Git or Mercurial. It generates a diff output displaying only the color-coded changes without any contextual information such as file paths, author names, or commit messages. This can be useful for quickly identifying the differences between files or branches while working in a terminal environment.'
+        commit-decoration-style: |-
+            [AI] ` delta --commit-decoration-style` is a Git configuration option that influences how decorator information, such as tags or marks, are displayed when using the `git diff` command with the `--diff-index` or `--delta` options. The possible values for this option are:
+
+            1. `none`: No decoration information will be shown.
+            2. `list`: A list of decorator tags and marks will be displayed in the commit message.
+            3. `short`: A short form of the decorator, usually the tag name without the prefix "refs/tags/", will be shown as a suffix to each commit hash.
+            4. `long`: The full name of the decorator, including the prefix "refs/tags/" or other context information, will be displayed as a prefix to each commit hash.
+
+            For instance, if you have a tag named 'v1.0' on a Git branch and use `git diff --delta --commit-decoration=short`, you will see output like:
+
+            ```bash
+            [detached HEAD~2] commit message...
+            --
+             delta: 100644 100755
+
+            diff --git a/file.txt b/file.txt
+            ...
+
+            --- a/file.txt
+            +++ b/file.txt
+            ...
+
+            [detached HEAD~1] v1.0 commit message...
+            --
+             delta: 100644 100755
+
+            diff --git a/file.txt b/file.txt
+            ...
+
+            --- a/file.txt (v1.0)
+            +++ b/file.txt
+            ...
+            ```
+
+            Here, 'detached HEAD~2' is the previous commit without any decoration, while 'detached HEAD~1' is the commit with tag 'v1.0'.
+        commit-regex: '[AI] The `git delta --commit-regex` command is a Git tool used to compare and show the differences between two commits. The `--commit-regex` option allows filtering commits based on a regular expression pattern in their commit messages. When used, only the commits whose messages match the given regex will be compared with the base or previous commit. This can be useful for analyzing changes related to specific topics or issues across multiple commits.'
+        commit-style: |-
+            [AI] The `--commit-style=delta` option in Git is used to configure how new commits are created when using the `git rebase` or `git merge` commands.
+
+            With the delta commit style, instead of creating a new commit for each change made during a rebase or merge, Git generates a single commit that contains only the differences between the base and the current branches. This results in smaller and cleaner commit history, as there are fewer commits with identical content. However, it may make the commit messages less descriptive and harder to understand without additional context.
+        dark: '[AI] The `delta --dark` flag is a command-line option used with Delta, a popular Git patch tool. When this flag is passed, it enables dark mode in Delta''s graphical user interface (GUI), making the application appear darker and easier on the eyes in low-light conditions or for users who prefer this visual style.'
+        default-language: '[AI] `delta --default-language` is a command-line option for Delta, a tool used for comparing and synchronizing text files. This option sets the default language mode for Delta when dealing with markdown or other text files that contain code snippens in various programming languages. By default, Delta uses a basic syntax highlighting mode. However, by specifying `--default-language` followed by the name of a programming language (e.g., "python", "javascript"), Delta will use a more advanced and accurate syntax highlighting mode for that language, making code blocks in your text files easier to read and understand.'
+        diff-highlight: '[AI] ` delta --diff-highlight ` is a command used with version control systems like Git. It generates a unified difference output between two file versions, but with enhanced highlighting to clearly show the changes. The flags `--diff` requests the difference output, and `--diff-highlight` enhances it by using color or other visual cues to distinguish additions (green), deletions (red), and modifications (context-colored). This makes it easier for users to quickly understand the changes made between the two versions of a file.'
+        diff-so-fancy: '[AI] The `delta --diff-so-fancy` command is a Git utility used to display the differences between two commits or branches in a more human-readable and visually appealing format. This option enhances the output of the standard `git diff` command by using colored syntax, context lines, and a more organized layout to help developers better understand the changes made to files. It''s particularly useful when dealing with larger files and multiple changes.'
+        diff-stat-align-width: '[AI] The `delta --diff-stat-align- width` option in Git is used to control the width of columns that display alignment statistics when generating a diff output. This can be helpful for making the output easier to read, especially when dealing with large files or differences across multiple branches. By setting an appropriate value for this option, users can ensure that the statistics are aligned properly and take up only the necessary column width in their terminal or text editor.'
+        features: '[AI] ` delta --features ` is a command used in Delta Lake, an open-source, scalable, and ACID-compliant data lake platform built on Apache Spark and Hadoop. This command is used to list the features that are enabled or disabled for a specific Delta Lake table or dataset. The output includes the name of the feature, its current state (enabled or disabled), and other relevant information. For example, `delta --features table_name` will display the features of the given Delta Lake table. This command is useful for understanding and managing various configurations and optimizations available in Delta Lake.'
+        file-added-label: '[AI] The ` delta --file-added-label` flag is used with Git''s `diff` command to display a custom label for added files in the output. The label is appended to the name of each file that has been added to the repository during a commit. This can be helpful for easily identifying which files have been newly introduced when comparing revisions or branches. By default, Git does not show any label for added files, so using this flag can enhance readability and clarity of the diff output.'
+        file-copied-label: '[AI] The ` delta --file-copied-label` flag is a command used in Git LFS (Large File Storage) to manage versioning of large files. When using this command with an LFS operation, the flag sets a custom label for copied files. Copied files are those that have been fetched or pulled from another repository but not yet downloaded locally. This label can be useful for tracking and identifying such files during Git operations.'
+        file-decoration-style: |-
+            [AI] The `delta --file-decoration-style` flag in Git is used to configure how file decorations are displayed in the Git status output. File decorations are symbols added before filenames to indicate their state in the Git repository. For example, a 'M' decoration indicates that a file has been modified locally, and an 'A' decoration indicates that a file has been added to the staging area.
+
+            This flag allows you to customize how these decorations are displayed by setting one of the following values:
+
+            * `none`: No file decorations are shown.
+            * `listed`: Decorations are shown as prefixes to filenames when they are listed.
+            * `strip`: Decorations are shown as suffixes instead of prefixes, and trailing colons (:`) are stripped from filenames.
+            * `show`: Decorations are shown both as prefixes and suffixes, and trailing colons are not stripped.
+
+            The default value is `listed`.
+        file-modified-label: '[AI] The ` delta --file-modified-label` flag is used in Git to create a delta file instead of a full commit when making an incremental change to a file that has already been tracked and committed. The delta file records the differences between the previous committed version and the current changes, allowing for more efficient storage and faster transfer of data. The `--file-modified-label` option appends a label "delta" to the names of the created delta files, making it easier to identify them within Git history.'
+        file-removed-label: '[AI] The `delta --file-removed-label` flag is used with Git''s delta compression feature. It sets a label for files that have been removed from the next commit, allowing for more efficient data transfer and storage by encoding the difference between successive states of a file instead of storing the entire file again. By default, Git uses the label `--deltas--` for these files. You can specify your preferred label with this flag.'
+        file-renamed-label: '[AI] The `--file-renamed-label` flag under the `delta` command in Git is used to specify a custom name for labels representing file renames during Git delta compression. By default, Git uses the labels `R100`, `R200`, ... to represent file renames, but using this flag allows you to customize those labels with more descriptive names. This can make it easier to understand Git history when viewing or filtering based on these labels.'
+        file-style: |-
+            [AI] `delta --file-style` is a command-line option for Delta, a versatile Git file tracker and patch generator. This option influences how Delta formats its output, specifically related to handling files with different names or modifications in binary versus text data.
+
+            When you use `--file-style=patch`, Delta will produce traditional patch format files (`*.patch`). In contrast, using `--file-style=diff` will create Git-format diff files (`*-diff.gz` or `*-diff`). Both formats are widely used for code review and version control.
+
+            So, in summary, the `delta --file-style` option lets you customize the output format of Delta when generating patches for version control systems like Git.
+        file-transformation: |-
+            [AI] The `delta --file-transformation` flag is a command used in version control systems like Git and Apache Delta Lake. It's specifically related to delta files, which are optimized for handling large datasets with versioning and incremental updates.
+
+            When you run a command with this flag, such as `delta filter --file-filter '.*csv$' --transform-file my_script.py --file path/to/myfile.csv`, it applies the transformation script specified in the `--transform-file` argument to each delta file encountered during the command execution. This can be useful for performing data transformations, such as data cleaning or aggregation, as part of a larger workflow involving delta files.
+        grep-context-line-style: '[AI] The `delta --grep-context-line-style` option in Git is used to configure the display style of context lines when using the `git diff` or `git diff --cached` command with the `--numstat` or `--name-only` options and the `delta` format-filter. This option allows specifying how many lines of context should be shown before and after each changed line, using either a number or a percentage of the total hunk size. For example, `--grep-context 3` displays 3 lines of context around each changed line, while `--grep-context 50%` displays half the length of the longest hunk in the diff.'
+        grep-file-style: '[AI] ` delta --grep-file-style` is a command-line option for Delta, a Git tool for conflict resolution and file comparison. This option specifies the style used in file paths shown in grep commands run by Delta. The default is `posix`, but other options include `msys` (for Windows) and `osx`. For example, `delta --grep-file-style=osx` would be used when working on a macOS system to ensure that file paths displayed correctly in grep outputs.'
+        grep-line-number-style: |-
+            [AI] The ` delta --grep-line-number-style` option in Git is used to specify the style for displaying line numbers when using the `git diff` or `git log --patch` commands with the `--grep` flag.
+
+            With this option, you can choose between three styles:
+
+            1. `context`: Displays line numbers only for the added and deleted contexts around a hunk.
+            2. `number`: Displays line numbers for every changed line.
+            3. `none`: Does not display line numbers at all.
+
+            By default, Git uses the `context` style when showing line numbers with the `--grep` flag. To use a different style, specify it as an argument to the `--grep-line-number-style` option, for example:
+
+            ```bash
+            git diff --cached --name-only --grep="regex_pattern" --numstat -- <file>
+            git log --patch --grep="commit_message" --grep-line-number-style=number HEAD~5..HEAD
+            ```
+
+            In the first example, `--numstat` will display the number of added and deleted lines for each hunk. In the second example, using the `number` style will display line numbers for every changed line in the patch output.
+        grep-match-line-style: |-
+            [AI] `delta --grep-match-line-style` is a command-line option for the `delta` tool in Git, which controls how lines matching a grep search pattern are displayed. The options are:
+
+            * `--grep-header` (default): Prefaces each matching line with "****" followed by the matching pattern.
+            * `--grep-file` : Writes matching lines to a file instead of prefixing them with the header.
+            * `--grep-inverted` : Displays non-matching lines instead of matching ones.
+            * `--grep-quiet` : Only shows differences, without displaying any grep output.
+
+            Using `--grep-match-line-style` with no argument sets it to the default (`--grep-header`).
+        grep-match-word-style: |-
+            [AI] The `delta --grep-match-word-style` option in Git is used to control how regular expression matches are reported as hunks during a three-way merge conflict resolution. It determines if the regex pattern is matched as a whole word or not within each line of a file.
+
+            When set to `--word-regexp`, it treats the pattern as a whole word, requiring that it matches an entire word in the lines being compared. This can be useful when dealing with specific keywords or phrases in files, ensuring that only whole instances are considered during the merge conflict resolution process. On the other hand, when set to `--literal`, it treats the pattern as a literal string and not as a regex, matching exact sequences of characters.
+
+            In summary, this option allows users to fine-tune the way Git handles merge conflicts based on whether they want to consider only whole word matches or exact character sequences in their regular expressions during three-way merges.
+        grep-separator-symbol: '[AI] The ` delta --grep-separator-symbol ` flag is used with Git''s `diff` command to customize the separator symbol used when displaying differences in output that match a given pattern using the `--grep` option. This can be useful for improving the readability of diff outputs, especially when dealing with large or complex files. The value of this flag is set to the desired separator symbol, typically a character such as ''+'' or ''|''. For example, `git diff --grep-file=pattern.txt --grep-separator=''>'' file1 file2` will show differences with ''>'' as the separator symbol whenever a line matches the pattern specified in ''pattern.txt''.'
+        help: '[AI] ` delta --help` is a command used in Delta Lake, an open-source project that provides on-demand ACID transactions and unified metadata management over apache Hadoop. This command displays the help message for Delta CLI (Command Line Interface), which lists all available commands with their corresponding usage and descriptions. It''s essential for users to understand how each command functions when working with Delta Lake, allowing them to effectively manage their data processing tasks.'
+        hunk-header-decoration-style: |-
+            [AI] The `--hunk-header-decoration-style` flag in Git is used to customize the appearance of hunk headers during a diff or merge operation. Hunks represent individual changes in a file between two revisions.
+
+            This flag affects how decorative text like author names, commit messages, and commit hashes are displayed before each hunk. By default, Git shows this information prefixed to the hunk header with `@` symbol separators. With this flag, you can change the decoration style, such as prefixing or suffixing the hunk headers with custom text or symbols.
+
+            For example: `git diff --hunk-header-decoration-style=<prefix>: <commit1> <commit2>` will display the hunk headers with custom prefixes for each commit instead of default `@`.
+        hunk-header-file-style: |-
+            [AI] The `--hunk-header-file-style` option in Git's ` delta --diff-index` command affects how the hunk headers (the parts of a diff that indicate the start and end of changes to individual files) are formatted. With this option, you can specify either "newline" or "raw" style for the hunk headers.
+
+            * **Newline style**: Each line in a hunk header is ended by a newline character (`\n`). This is the default format and is more human-readable.
+            * **Raw style**: Hunk headers are not separated by newlines, but instead each header part is followed directly by the next part with no separator. This format makes the output easier to parse by machines or other scripts, as there are fewer newline characters to deal with.
+
+            The `delta --hunk-header-file-style` option lets you choose between these two styles when generating diff output.
+        hunk-header-line-number-style: |-
+            [AI] The `--hunk-header-line-number-style` option in Git's ` delta --diff-index` command controls how line numbers are displayed in the hunk headers of diff output. It can be set to one of three values: "internal" (default), "external", or "relative".
+
+            * The "internal" style displays line numbers relative to each hunk's context, with the first number being the line number within the hunk itself.
+            * The "external" style shows line numbers relative to the file as a whole.
+            * The "relative" style displays the difference in line numbers between each version of the file.
+
+            By specifying this option, you can customize the display of diff output to better suit your needs.
+        hunk-header-style: |-
+            [AI] The `delta --hunk-header-style` option in Git is used to control how the hunk headers (the part of a patch containing file changeset information) are displayed. It accepts two values: "minimal" and "none".
+
+            With the "minimal" style, Git shows only the filenames affected by each change, along with the addition or deletion indicator ("+" or "-") for each hunk. This is the default style and is typically sufficient for most use cases.
+
+            With the "none" style, Git does not display any hunk headers at all. This can be useful when dealing with very large patches, as it reduces the amount of output and makes it easier to focus on the actual changes in the files. However, without the hunk headers, it may be more difficult to identify which specific parts of a file are being modified.
+        hunk-label: '[AI] The `--hunk-label` option in Git''s `delta` command affects how patch hunks are labeled during a diff or merge operation. Specifically, it allows users to customize the labels that appear before each hunk in the output. By default, these labels show the file path and the range of lines affected within that file. With this option, you can specify a string to be used as the label instead, which can be helpful when dealing with complex merges or working on specific parts of a large patch.'
+        hyperlinks: '[AI] The `delta --hyperlinks` command is a feature of the Delta software version control system. It generates hyperlinked HTML diffs, which allow users to easily navigate between the changed parts in two versions of a file. When used with Git, it can be invoked as `git diff --diff-filter=d --unified=0 <commit1>..<commit2> | delta --hyperlinks`. This command will display the differences between two commits and provide hyperlinks for easy navigation to the specific changes within the files.'
+        hyperlinks-commit-link-format: |-
+            [AI] The `--hyperlinks-commit-link-format` flag in Git's `delta` filter is used to specify the format for creating hyperlinks to commit hashes in output text. It modifies how Git generates clickable links when you use commands like `git diff`, `git log`, or `git blame`. The default format is `%H`, which represents the raw hash value, but this flag allows setting formats such as:
+
+            - `%an`: Author name
+            - `%ad`: Author date (format-friendly)
+            - `%h`: Short commit hash
+            - `%s`: Subject of the commit message
+
+            For instance, using `--hyperlinks-commit-link-format='%h (%aN) %ad'` would display links with the format "commit-hash author-name author-date".
+        hyperlinks-file-link-format: '[AI] The `--hyperlinks-file-link-format` flag in Delta, a version control system for text files, specifies the format used to write hyperlink references to a file. When Delta generates diffs or merges files, it can identify and represent hyperlinks as clickable links within its output. This flag lets users configure the format of these link representations when they are written to an external file, such as an HTML file or a Markdown document.'
+        inline-hint-style: '[AI] ` delta --inline-hint-style ` is a command-line option for the ` delta ` version control tool. This option influences how Delta displays inline hints during a text-based diff comparison. The inline hints are suggestions or markers indicating which parts of the files have been changed between two versions. By setting ` --inline-hint-style ` to this value, the hints will be displayed as part of the modified lines themselves instead of being shown separately before or after each line. This can make it easier to visually identify and edit the changes directly in the diff output.'
+        inspect-raw-lines: '[AI] The `delta --inspect-raw-lines` command is a feature of the Delta compression algorithm used in Git for efficient data transfer between repositories. It allows inspecting the raw, binary diff hunks (changesets) between two file versions without applying them, providing a low-level view into the actual binary differences. This can be useful for debugging and understanding complex binary changes at the delta level.'
+        keep-plus-minus-markers: '[AI] The `delta --keep-plus-minus-markers` flag is a command in Git, specifically used with the `git diff` or `git diff --cached` commands. It instructs Git to keep the "+" and "-" symbols when displaying hunk differences between two versions of a file. These symbols indicate which lines have been added, deleted or modified in the hunk. By keeping these markers, it makes it easier for users to understand the changes made at a glance.'
+        light: '[AI] `delta --light` is a command-line option for Delta, a Git-like tool for incremental file syncing and backup. The `--light` flag enables a lighter mode of operation where only metadata changes are synced between repositories, resulting in less network traffic and faster transfers compared to the full syncing mode. This mode is ideal when the primary goal is to minimize bandwidth usage or when dealing with large repositories with many files that have not changed.'
+        line-buffer-size: '[AI] The `delta --line-buffer-size` flag is used with Delta, a Git-based collaborative text editing tool. It sets the size of the line buffer for text editing interactions, allowing users to configure it for better performance or smoother editing experience over slow network connections. By default, Delta uses a buffer size of 1024 characters per line, but this flag allows adjusting that value as needed by providing an integer argument. For instance, `delta --line-buffer-size 512` sets the line buffer size to 512 characters.'
+        line-fill-method: |-
+            [AI] `delta --line-fill-method` is a command-line option for the `delta` tool, which is used to show the differences between two text files. This option influences how new lines are filled when displaying the difference output.
+
+            There are three available methods:
+
+            1. `none`: No characters will be added to represent new lines in the output.
+            2. `eol` (default): Delta will add a `>` character at the beginning of lines that have been added or appended, and a `<` character at the beginning of lines that have been deleted. This is useful when you want to easily recognize which lines have changed between files.
+            3. `paged`: Delta will fill new lines with `+` characters until they reach the same length as the longest line in the context around the change, making it easier to view long differences in a paged output (such as when using `more` or `less`).
+        line-numbers: '[AI] The ` delta --line-numbers` flag is used with the Delta software tool for text-based file comparisons. This option displays line numbers in the output, making it easier to identify which lines have been added, modified or deleted between two versions of a file. It enhances the readability and clarity of the comparison result by providing a numerical reference alongside each changed line.'
+        line-numbers-left-format: '[AI] The `--line-numbers-left-format` flag in Delta, a Git diff tool, specifies the format for displaying line numbers on the left side of the patch. This can be used to customize the appearance of the line numbers in the output, such as adding prefixes or suffixes. For example, `--line-numbers-left-format=%d` will display line numbers with only the number, while `--line-numbers-left-format=%d-%3n` will display line numbers prefixed with the base file name and a hyphen followed by the line number.'
+        line-numbers-left-style: '[AI] `delta --line-numbers-left-style` is an option for the Delta command-line tool, which is used to compare and show the differences between two text files. This option changes the style of displaying line numbers on the left side when there are conflicts or additions in the difference output. Instead of traditional numbering, it displays a delta character followed by the line number, providing a clearer representation of the changes. For instance, ''+'' signifies new lines and ''-'' signifies deleted lines in the context of Git diff output.'
+        line-numbers-minus-style: '[AI] The ` delta --line-numbers-minus-style` option in version control tools like Git or Diffuse, modifies the display of line numbers in the difference view between files. The `--line-numbers` flag is used to show line numbers in the patch output. With the `--line-numbers-minus` (or `--line-numbers-minus-style`) option, the numbering scheme is reversed: added lines are displayed with negative numbers and deleted lines are shown with positive numbers. This can be useful for some users when working with large files or complex patches.'
+        line-numbers-plus-style: '[AI] The ` delta --line-numbers-plus-style` flag is used with the `git diff` command in Git version control system. It modifies the display of line numbers in the output, adding a "+" sign before lines that are added and a "-" sign before lines that are deleted. This helps to visually identify which lines have been changed during a commit or merge conflict.'
+        line-numbers-right-format: '[AI] ` delta --line-numbers-right-format` is an option used with Git''s `diff` command. It specifies a custom format for displaying line numbers in the right column during a diff output. The `--line-numbers-right-format` option allows you to customize how line numbers are displayed using a printf-style format string. For instance, `--line-numbers-right-format=''%d ''%d''` will display two columns of line numbers side by side. This can be useful for better alignment or formatting of the diff output.'
+        line-numbers-right-style: |-
+            [AI] The ` delta --line-numbers-right-style` option in Git is used to customize the display of line numbers when using the `git diff` command with the `--diff-filter=d` flag to show deleted lines. The `--line-numbers-right-style` specifically refers to how these deleted line numbers are displayed relative to the context on the right side of the diff.
+
+            This option accepts one argument: a character that specifies the style for the deleted line numbers. For example, using `'+'` will display the deleted line numbers with a `+` sign before them, while using `'/'` will display them with a `/` slash before them. This can help in quickly identifying which lines have been removed during a git diff comparison.
+        line-numbers-zero-style: '[AI] The `--line-numbers-zero-style` flag in ` delta`, a text-based diff tool, controls how line numbers are displayed when they are preceding added lines or following deleted lines. With this option set, the first line number of a new hunk (a sequence of added or deleted lines) is displayed as if it were the number of an existing line that was changed, rather than starting at 1. This can make the output more consistent with the context around the diff and may be preferred for some use cases.'
+        list-languages: '[AI] `delta --list-languages` is a command used in Delta, a version control system for files and folders, to list the supported programming languages that Delta can identify based on the content of files under version control. It does not make any changes to your files or repository but provides information about which languages are detected in your project. This command can help users understand which parts of their project Delta is able to manage effectively, ensuring accurate tracking and collaboration.'
+        list-syntax-themes: '[AI] `delta` is a version control system that helps compare and apply textual changes between two files or directories. The command `delta list-syntax-themes` returns a list of available syntax themes for displaying change representations in the terminal. These themes can customize the appearance of additions, deletions, and modifications within the diff output.'
+        map-styles: '[AI] `delta --map-styles` is a command-line option for Delta, a versatile text-based diff tool. This option allows users to customize the appearance of the output by applying different map styles. Map styles define how the added, deleted, and common lines are displayed in the diff output. Users can create their own styles using a simple configuration file or use one of the predefined styles for better readability and understanding of the differences between files.'
+        max-line-distance: '[AI] The ` delta --max-line-distance` flag is a command-line option for Git''s diff tool. It sets a limit on the maximum number of lines between two changes that will be considered as a single hunk in the output of the diff. This can help to reduce the amount of noisy output when dealing with large or complex files with many changes. By default, Git uses a heuristic to automatically detect the best max-line-distance value, but users can explicitly set it with this flag for better control over the diff output.'
+        max-line-length: |-
+            [AI] The ` delta --max-line-length` flag is a command-line option used with Git's diff tool (`git diff`). It sets the maximum length of a single line in the output diff, beyond which lines will be wrapped if necessary for proper display.
+
+            For example, `git diff --max-line-length=80 file1 file2` would set the maximum line length to 80 characters when generating the diff output between `file1` and `file2`. This can help improve the readability of the diff output by preventing excessively long lines.
+        merge-conflict-begin-symbol: '[AI] The `--merge-conflict-begin-symbol` flag is a Git option used during a merge conflict resolution process. It specifies the character that will mark the start of conflicted hunks in merged files. By default, Git uses `>><<` and `=====` symbols to mark the beginning and end of conflicted sections respectively. However, you can change these symbols by passing this flag followed by the desired begin symbol as an argument. For instance, `git merge --merge-conflict-begin-symbol=|||` sets `|||` as the start symbol for conflicted hunks. This flag allows users to customize the symbols used in the merge conflict resolution process for better understanding and managing of conflicting changes.'
+        merge-conflict-end-symbol: '[AI] The ` delta --merge-conflict-end-symbol` flag is used with version control systems like Git when dealing with merge conflicts. It specifies the end-of-line character that should be used to mark the conflicting areas in merge conflict files. By default, Git uses ">>>" and "<<<" to mark the start of conflicting sections; this flag sets the character used for the end of these sections. This can be useful when working with specific text editors or file formats where those symbols are problematic.'
+        merge-conflict-ours-diff-header-decoration-style: |-
+            [AI] The ` delta --merge-conflict-ours-diff-header-decoration-style` flag is a Git configuration option that affects how merge conflict markers are displayed in the diff output when using the `git diff` command with the `--merge-conflict` and `--diff-filter=d` options.
+
+            Specifically, this flag sets the style for the header decoration of the "ours" side of the merge conflict. The available styles include: `none`, `context`, `side-by-side`, or a custom string. By setting it to `ours`, Git will display the "Ours:" header decoration in the merge conflict diff output, indicating that the conflicting changes are from your local branch.
+        merge-conflict-ours-diff-header-style: '[AI] The ` delta --merge-conflict-ours-diff-header-style` flag is a Git configuration option used to customize the header style of merge conflict diff output when using the `git delta` command with the `--merge-conflict-ours` option. Specifically, it sets the format for the header that precedes the conflicted hunks in the diff output, allowing users to customize it according to their preferences or tooling requirements.'
+        merge-conflict-theirs-diff-header-decoration-style: |-
+            [AI] The `delta --merge-conflict-theirs-diff-header-decoration-style` flag is a Git configuration option used to customize the header decoration style for merge conflict diff messages produced by the `git delta --merges` or `git diff --merge` commands.
+
+            By default, this option is set to `'{0}<--{1}: {2}'`, where {0}, {1}, and {2} are placeholders representing the names of the first, second, and third commits involved in the merge conflict, respectively.
+
+            However, you can change this style using a custom string format. For example, `'{1}<--{0}: {2}'` would display the second commit before the first one and provide more context about which commit introduced the changes causing the merge conflict.
+        merge-conflict-theirs-diff-header-style: '[AI] The `delta --merge-conflict-theirs-diff-header-style` flag is used with Git''s delta compression algorithm to control the format of the diff hunks in merge conflict resolution when the "theirs" side is chosen. By default, Git will show the diff hunks with a header starting with "<<<". However, this flag can be used to change the header style to another format like "---" or ">>>" for better compatibility with certain text editors or tools. The flag accepts one of the following values: `none`, `eol`, or a custom string. For example, `delta --merge-conflict-theirs-diff-header-style=eol` will use "\n\n" as the separator between header and content in the diff hunks for the "theirs" side during merge conflicts resolution.'
+        minus-emph-style: '[AI] The `delta --minus-emph-style` flag is used in Git to modify the way emoticons and other emphasized text are displayed in the diff output. Specifically, it disables the underlining style for these elements, resulting in a plainer diff format without any special formatting for highlighted changes.'
+        minus-empty-line-marker-style: '[AI] `delta` is a versatile tool for comparing and merging files with diff output. The option `--minus-empty-line-marker-style` is used to change the way empty lines are marked in the diff output. By default, an empty line is marked with a `+` symbol before it in a add file context and a `-` symbol before it in a delete file context. With this option, you can change that behavior by setting it to one of three values: "none" (no empty lines markers), "context" (mark empty lines with the context of the surrounding non-empty lines), or "patch" (use the traditional patch format for empty lines markers).'
+        minus-non-emph-style: '[AI] ` delta --minus-non-emph-style ` is a command used in Git''s diff tool to display differences with a minimalistic and consistent styling for text formatting like emphases (italics) and strikes-through, ignoring other non-emphatic formattings. This flag modifies the output format of Git''s diff, making it easier to focus on the changes related to specific text formatting.'
+        minus-style: '[AI] The ` delta --minus-style` flag is a command-line option used with version control systems, specifically Git, to display the differences between files in a unified format. This format shows all changes side by side, making it easier to review and understand the modifications made to each file. The `--minus-style` option adds a minus sign (-) before context lines that are removed, and no sign for lines that are added or modified.'
+        navigate: |-
+            [AI] The `delta --navigate` command is a Git feature used to quickly move between commits in a repository, especially when working with large or complex commit histories. It provides an interactive way to traverse the commit graph using simple keyboard shortcuts and visualizing the relationships between commits.
+
+            When you run ` delta --navigate`, Git opens an interactive terminal where you can use h (previous) and j (next) keys to move between nearby commits. You can also use other keys like g (go to a specific commit hash), p (go to the parent of the current commit), and t (go to the author's next/prev commit).
+
+            Additionally, you can use various modifiers with these keys to navigate in different ways:
+
+            * `--short`: Navigate using only the commit messages.
+            * `--stat`: Show a diff of each commit as you navigate.
+            * `--quiet`: Suppresses all output except for the new hash and the number of affected files (useful for scripts).
+            * `--no-editing`: Don't stop at each commit; just show the information and continue navigating.
+
+            Overall, the `delta --navigate` command offers a convenient way to explore your Git history and provides more control over how you traverse the commit graph than using simple "git checkout [commit]" commands.
+        navigate-regex: |-
+            [AI] ` delta --navigate-regex` is a command in Git, specifically a part of the `git diff` tool. It's used to navigate between hunks (differences between two file versions) in a more fine-grained way than the default hunk numbers.
+
+            The `--navigate-regex` option allows you to specify a regular expression pattern instead of an exact hunk number. When you run `git diff --cached --numstat <commit>^..<commit> | grep '^[0-9]+' | awk '{print $1}' | xargs -L1 sh -c 'git show --pretty=format:"%h %s" --no-notes <' -- <file_path> | grep -P '<delta--navigate-regex>' | awk '{print $1, $2}'`, you can replace `<delta--navigate-regex>` with your regular expression. This will allow Git to navigate directly to the specific line containing the difference that matches the pattern in the file.
+        no-gitconfig: '[AI] ` delta --no-gitconfig ` is a command used in Git version control system for performing incremental file synchronization between local and remote repositories. The `--no-gitconfig` option disables the use of Git global configuration files, meaning that only the configuration settings specified locally in the current repository will be used during the delta sync process. This can be useful when dealing with complex setup or when working across different environments where consistency of configurations may not be desired.'
+        pager: '[AI] ` delta --pager` is a command used in Git, specifically with the `git delta` command, to control how the output is displayed when comparing file changes. The `--pager` option tells Git to use a pager (like `less` or `more`) to display the differences one page at a time, making it easier to review large differences. Without this option, the entire difference would be printed in the terminal, which could be unwieldy for large files.'
+        paging: '[AI] The `--paging` flag in Delta Lake, a storage layer for big data processing, is used to enable or disable paging when reading data from a Delta Lake table. When set to true, Delta Lake will return results in smaller batches or pages instead of loading the entire result set into memory at once. This can be useful when dealing with large result sets and limited memory resources. It improves the efficiency of query execution by allowing the engine to process larger data sets without overwhelming available system resources.'
+        parse-ansi: '[AI] ` delta --parse-ansi ` is a command-line option for Delta, a Git patch tool. This option enables ANSI color codes in the output, making it easier to distinguish between different types of changes in text-based terminal interfaces. It does not modify the underlying data or behavior of Delta itself but only affects how the output is displayed.'
+        plus-emph-style: '[AI] The ` delta --plus-emph-style` is a Git configuration option that sets the style for emojis and other emoticons in git diff output. Specifically, it sets the emphasis style to "plus" which means that any added lines will be highlighted with a `+` sign before each line, and the emoticons or emojis will be rendered with their full graphical representation. This can make the diff output more visually appealing and easier to understand when dealing with changes that include these types of annotations.'
+        plus-empty-line-marker-style: '[AI] `delta` is a version control tool used for diffing and merging files. The option `--plus-empty-line-marker-style` is related to how empty lines are marked in the output of a diff. By default, an empty line is marked with a `+` sign at the beginning of the line in the file that is being added. With this option, the empty lines can be marked with a blank `+++` instead, providing a clearer visual representation when dealing with large numbers of empty lines.'
+        plus-non-emph-style: |-
+            [AI] `delta --plus-non-emph-style` is a Git command option used to configure the output format of the `git diff` or `git log --graph` commands. It changes the way non-emphasized additions and deletions are displayed in the patch, making them stand out better from other changes.
+
+            Instead of the default underlined style (e.g., `+` for additions and `-` for deletions), this option sets a context diff style that uses a different background color or indentation to indicate non-emphasized changes in the patch. This can be useful when dealing with large files or complex changesets, as it makes it easier to distinguish between different types of modifications at a glance.
+        plus-style: '[AI] `delta --plus-style` is a command-line option used with the ` delta ` version control tool for Git. It specifies the output format style for three-way merge conflicts resolution. The `--plus` option enables the "+" conflict resolution style, which adds context lines from both branches to the conflicting hunks, making it easier for developers to visually identify and resolve the differences.'
+        raw: '[AI] ` delta --raw` is a command used in Git version control system. It computes and outputs the raw difference between two files or sets of files, without creating a new Git commit or staging area. The `--raw` option tells Git to output the differences in a raw format that can be easily parsed by other tools, such as diff utilities or scripts. This command is often used for comparing files outside of a Git workflow, or for automating comparison and merging tasks using external tools.'
+        relative-paths: '[AI] The ` delta --relative-paths` flag is used with Git''s `git diff` or `git diff-index` commands. It modifies the output to show differences between files using relative paths instead of absolute ones. This can make it easier to understand the context of changes when working on projects with complex directory structures. The `--relative-paths` option makes Git show the path differences between files as if they are all located in the current repository''s root, making diff output more compact and easy to read within the repository context.'
+        right-arrow: '[AI] The ` delta --right-arrow ` flag is a Git command used during merge conflicts resolution. It indicates that the right branch (the one being merged into the current one) has new commits not present in the current branch. This flag allows the user to preview and selectively apply those changes using an interactive mergetool like `git mergetool`. The arrow symbol represents the direction of the merge flow: from right to left, meaning that the changes are coming from the branch being merged.'
+        show-colors: '[AI] `delta --show-colors` is a command used with the Delta data comparison tool. This option enables the display of colored differences between files, making it easier for users to visually identify and handle modifications. It enhances the output by highlighting added, modified, or deleted lines in distinct colors: red for additions, green for modifications, and struck-through text or red for deletions.'
+        show-config: '[AI] ` delta show-config` is a command used in Delta Lake, an open-source storage layer that brings ACID transactions and unified metadata management to Apache Spark and big data workloads. The command displays the current configuration of Delta Lake, including properties related to the Metastore (database storing the metadata), database location, transaction state management, and other settings. This information can be useful for debugging or understanding the setup of a Delta Lake environment.'
+        show-syntax-themes: '[AI] `delta --show-syntax-themes` is a command used in Delta, a Git patch tool, to display available syntax themes for highlighting differences between versions of files. It does not make any changes but instead shows the list of themes that can be used to customize the appearance of patches or diffs. These themes help in improving readability and understanding of the differences between file versions.'
+        show-themes: '[AI] The ` delta --show-themes` command is a Git configuration option used with the Delta compression algorithm. It displays a list of available themes for Git''s diff and merge tools, helping users to choose or switch between different visual styles for viewing changes in their repositories.'
+        side-by-side: '[AI] ` delta --side-by-side ` is a command used in version control systems like Git, to show the differences between two files or directories in a side-by-side comparison format. This makes it easier for users to visually identify and understand the changes made to the files. The `--side-by-side` option ensures that the differences are displayed with corresponding lines aligned horizontally.'
+        syntax-theme: '[AI] The `--syntax-theme` flag in Delta, a version control and collaboration tool, is used to apply a specific syntax theme when displaying code differences between two versions. It does not change the underlying code, but only affects how the changes are displayed for improved readability. By default, Delta uses a light syntax theme, but you can switch to dark or other available themes using this flag. For instance, `delta --syntax-theme dark` would apply the dark syntax theme when displaying differences.'
+        tabs: '[AI] `delta --tabs` is a command in the Delta project, which is a set of tools for incremental file syncing and backup for Git repositories. The `--tabs` option specifically is used to manage tab-delimited text files, providing efficient delta encoding for such files. When you run `delta add <file> --tabs`, it adds the specified tab-delimited file under Delta''s version control, and when you run `delta push`, only the changes to the tab-delimited data will be sent to the remote repository instead of the entire file. This results in reduced network usage and faster syncing or backup times for large tab-delimited files.'
+        true-color: '[AI] The `delta --true-color` flag is a command used in Git for performing a diff comparison between two commit versions, with an emphasis on true color representation. This means that when viewing differences between files, colors will be preserved and accurately represented, allowing for easier identification of changes. It''s particularly useful when working with graphical files or code containing color-specific elements.'
+        version: '[AI] `delta --version` is a command used in Delta Lake, an open-source project for handling versioning and managing transactions on Apache Spark data. This command returns the version information of Delta Lake installed on your system. It helps users to check if they have the latest or required version of Delta Lake for their use case.'
+        whitespace-error-style: |-
+            [AI] The `--whitespace-error-style` flag in Git's ` delta --staged` or `git diff` commands determines how whitespace differences are reported during a comparison of files.
+
+            Three styles are available: `context`, `no-notes`, and `none`.
+
+            1. **context**: This is the default style, which shows the difference in context, displaying added lines preceded by a '+' sign, deleted lines preceded by a '-' sign, and unchanged lines with no prefix. Whitespace differences are highlighted as context lines around the change.
+
+            2. **no-notes**: This style only displays the content of the changed lines without any notes (e.g., '+' or '-') and does not highlight whitespace changes. It's useful when dealing with large files with many changes, where it can simplify the output and focus on the actual code differences.
+
+            3. **none**: This style doesn't show any context or notes related to whitespace differences. It only shows added lines in green color (for Unix terminals), deleted lines in red, and unchanged lines in the default text color.
+
+            The `--whitespace-error-style` flag is used to set the preferred style for reporting whitespace differences. For example:
+
+            ```bash
+            git diff --cached --whitespace=squiggle <file>
+            ```
+
+            Sets the error style to 'squiggle' (context), which underlines potential whitespace issues with a wavy line.
+        width: '[AI] The `delta --width` option in version control systems like Git, is used to set the width of the diff output. It affects how wide each changed line will be displayed when generating a difference between files or commits. A larger value allows for more context to be shown in the diff output making it easier to review changes. For instance, `delta --width 80` would set the width to 80 characters per line.'
+        word-diff-regex: |-
+            [AI] ` delta --word-diff-regex` is a command-line option for the `delta` tool, which is used for comparing and merging text files. This specific option modifies how `delta` identifies changed words during a diff (the process of showing the differences between two versions of a file).
+
+            Instead of using a simple regular expression to find changed words (e.g., based on whole words), `--word-diff-regex` uses a more complex regex for identifying and highlighting changed sequences of characters that form a word, even if they don't conform to a strict whole-word boundary.
+
+            This can be particularly useful when dealing with files that have irregular or compound words with hyphenated parts, as it ensures that these are treated as single changeable units during the diff process.
+        wrap-left-symbol: '[AI] `delta --wrap-left-symbol` is a command-line option for Delta, a diff and patch tool. This option changes how text that is added or deleted in diffs is displayed. Specifically, it causes long lines of added or deleted text to be wrapped with a specified symbol (default is "~") at column 72 or other specified column, making the output more readable when dealing with wide changes.'
+        wrap-max-lines: '[AI] ` delta --wrap-max-lines ` is an option used with Git''s ` delta ` command, which is typically invoked by other Git subcommands like ` git diff ` or ` git format-patch `. This option sets the maximum number of lines that will be displayed in context differences between files. By default, Git shows around 3 lines of context before and after each change, but with ` --wrap-max-lines ` you can adjust this value to fit your needs. For example, ` git diff --wrap-max-lines=100 ` would display 50 lines of context before and after the changes.'
+        wrap-right-percent: '[AI] The `delta --wrap-right-percent` flag is a command-line option used with the `delta` tool, primarily in Git version control systems. This option adjusts how `delta` formats the output of its patch diff by wrapping the right side of the context at a given percentage instead of the default fixed width. The percentage specifies the maximum line length as a percentage of the terminal width. For example, using `--wrap-right-percent 80` would set the maximum line length to be 80% of the terminal width. This can make patch output more readable when working with large files or wide terminals.'
+        wrap-right-prefix-symbol: |-
+            [AI] `delta --wrap-right-prefix-symbol` is an option in Delta, a version control system for Git repositories. This option modifies how symbolic diffs are displayed when using the `delta diff` command. Specifically, it changes the position of the prefix symbols (like '+' or '-') to be printed to the right of the hunk header instead of the left.
+
+            This can make diff output more readable when dealing with long file paths or narrow terminal windows, as it prevents the prefix symbols from overlapping with the start of the file path.
+        wrap-right-symbol: '[AI] The `delta --wrap-right-symbol` is an option used with Delta, a diff and patch tool. This option modifies how Delta represents the right side of changes in a diff or patch file by wrapping it with a specific symbol, usually a tilde (~) character. This can make it easier to visually identify the context of the changes on the right side and is particularly useful when dealing with large differences or complex files.'
+        zero-style: '[AI] ` delta --zero-style` is an option used with Git''s `delta` command, which computes the differences between files or trees. The `--zero-style` option changes the output format to a binary one called "zero-diff", which only transmits the byte offsets and lengths of changed chunks instead of the entire changed lines. This can significantly reduce the size of the patch file and speed up the transfer or processing time, especially when dealing with large files or many differences.'

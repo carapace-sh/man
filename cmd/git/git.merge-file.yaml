@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: merge-file
+description: Run a three-way file merge
+group: low-level manipulator
+flags:
+    --diff3: use a diff3 based merge
+    --marker-size=: for conflicts, use this marker size
+    --ours: for conflicts, use our version
+    --theirs: for conflicts, use their version
+    --union: for conflicts, use a union version
+    -L=: set labels for file1/orig-file/file2
+    -p, --stdout: send results to standard output
+    -q, --quiet: do not warn about conflicts
+documentation:
+    command: '[AI] `git merge-file` is a Git command used to resolve conflicts when merging files from two different branches. It takes three arguments: the names of the files to be merged, followed by the branch to get the source of the changes, and the target branch that will receive the changes. The command opens a text editor allowing users to manually edit the conflicting parts in the files, enabling them to merge the changes successfully. Once edited, Git completes the merge process.'
+    flag:
+        L: '[AI] The `git merge-file` command is a Git utility used to resolve merge conflicts when merging two branches or commits. The `-L` option is a suboption under `--allow-mine`, which tells Git to use your version of the conflicting files as the base for the final merged file, discarding any changes from the other branch. In other words, it forces Git to keep only your local changes and overwrite the changes in the target branch with yours.'
+        diff3: '[AI] `git merge-file` is a Git command used to perform a three-way merge between two files and a common ancestor, producing a new merged file as output. The `--diff3` option generates three-way difference output, showing the differences among the base, local, and remote versions of the file before merging them. This can be useful for manually resolving merge conflicts. When using `git merge`, the `--merge-file` option can also be used to perform a merge using an external merge tool instead of Git''s internal merge algorithm.'
+        marker-size: '[AI] `git merge-file` is a Git command used to resolve merge conflicts between two branches or files. The `--marker-size` option specifies the size of conflict markers in lines, with larger values displaying more context for easier resolution. By default, this value is set to 72 columns, but can be changed using this option to accommodate larger or smaller conflict areas.'
+        ours: |-
+            [AI] `git merge-file --ours` is a Git command used to resolve merge conflicts during a git merge operation. When Git encounters differences between the local and remote branches, it marks the files as conflicted. To manually resolve the conflict, you can use various strategies like theirs, ours, or yours_ours.
+
+            The `--ours` strategy keeps your local changes, discarding any changes made in the remote branch. When you run `git merge-file --ours <path/to/conflicting/file>`, Git replaces the conflicted file with your local version and removes the merge markers (<<<<<<<, >>>>>>>>, and =======). This command is useful when you're confident that your changes are correct and want to overwrite any differences from the remote branch.
+        quiet: '[AI] `git merge-file --quiet` is a Git command used to manually merge the differences between two files using a text editor. The `--quiet` option is used to suppress informational messages during the merging process. This command reads from the standard input the contents of the local file, followed by the remote version, and writes the resulting merged content back to the standard output. It''s useful when you want to automate the merging process or when dealing with conflicts in scripts or automated workflows.'
+        stdout: '[AI] `git merge-file --stdout` is a Git command used to merge the differences between two files and output the result to standard output stream (STDOUT). It takes two file paths as arguments, one from the current branch and another from a commit or another branch. The command then displays the merged content in the console, allowing users to apply it manually to their working directory or use it for further automation. This command is particularly useful when merging files with conflicts that cannot be automatically resolved by Git''s merge algorithm.'
+        theirs: |-
+            [AI] `git merge-file --theirs` is a Git command used to resolve merge conflicts when merging branches or resolving differences between local and remote files.
+
+            The `--theirs` option tells Git to use the version of the file from the branch you're merging into (upstream) as the base for the resolved conflicted file, discarding any changes made in your local working directory. This can be useful when you want to accept all the changes introduced in the upstream branch and discard your local modifications.
+        union: |-
+            [AI] The `git merge-file --union` command is used to merge the differences between a local file and a commit's version of that file into the working directory, while keeping both versions of the changes.
+
+            This means that after running this command, the local file will contain all the changes from both the local modifications and the committed changes, with any conflicting areas marked as unmerged. The user then needs to manually resolve these conflicts before committing the merged file.
+
+            The `--union` flag instructs Git to store all changes in the local file, rather than creating a new file with the name of the base file plus a suffix, like when using `git checkout --theirs` or `git checkout --ours`.

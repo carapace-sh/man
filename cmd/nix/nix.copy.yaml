@@ -1,0 +1,103 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: copy
+description: copy paths between Nix stores
+group: infrequently used
+flags:
+    --arg*=: Pass the value expr as the argument name to Nix functions
+    --argstr*=: Pass the string string as the argument name to Nix functions
+    --commit-lock-file: Commit changes to the flake's lock file
+    --debug: Set the logging verbosity level to 'debug'
+    --debugger: Start an interactive environment if evaluation fail
+    --eval-store=: The Nix store to use for evaluations
+    --from=: URL of the source Nix store
+    --impure: Allow access to mutable paths and repositories
+    --inputs-from=: Use the inputs of the specified flake as registry entries
+    --log-format=: Set the format of log output
+    --no-check-sigs: Do not require that paths are signed by trusted keys
+    --no-registries: Don't allow lookups in the flake registries
+    --no-update-lock-file: Do not allow any updates to the flake's lock file
+    --no-write-lock-file: Do not write the flake's newly generated lock file
+    --override-flake=: Override the flake registries, redirecting original-ref to resolved-ref
+    --override-input=: Override a specific flake input (e.g. dwarffs/nixpkgs)
+    --quiet: Decrease the logging verbosity level
+    --recreate-lock-file: Recreate the flake's lock file from scratch
+    --to=: URL of the destination Nix store
+    --update-input=: Update a specific flake input (ignoring its previous entry in the lock file
+    -I, --include: Add path to the list of locations used to look up <...> file names
+    -L, --print-build-logs: Print full build logs on standard error
+    -s, --substitute-on-destination: Whether to try substitutes on the destination store
+    -v, --verbose: Increase the logging verbosity level
+documentation:
+    command: |-
+        [AI] `nix-copy` is a command from Nix Package Manager used to copy files or directories between two locations within the same Nix expression. It does not directly involve user interaction, but instead relies on Nix expressions and configuration files to define the source and destination paths. This command is particularly useful when managing complex system configurations with Nix. The basic syntax is as follows:
+
+        ```bash
+        nix-copy <source-expression> <destination-expression>
+        ```
+
+        For example, copying a file from one profile to another:
+
+        ```bash
+        nix-copy /nix/var/cache/nixpkgs/{profile1}/{path-to-source} /nix/var/cache/nixpkgs/{profile2}/{path-to-destination}
+        ```
+
+        This command does not create or modify the original source file. Instead, it creates a new copy with the same content in the specified destination location.
+    flag:
+        arg: '[AI] The `nix-copy` command is a utility from Nix, a package manager for Linux and other systems. The `--arg` option is used to pass an argument to the command or script being executed during the copy operation. For instance, if you have two configurations of a Nix-managed application, `config1` and `config2`, and you want to create a symbolic link from one configuration to another, you can use `nix-copy --link config1 config2 --arg ''--link''`. The `--arg ''--link''` specifies the type of link (symbolic) to be created.'
+        argstr: |-
+            [AI] `nix-copy` is a command in Nix package manager for copying files and directories between systems or builds. The `--argstr` option is used to pass arguments as strings to the Nix expression being executed during the copy operation. This can be useful when dealing with complex expressions that require specific arguments. The general syntax of using this option would be:
+
+            ```bash
+            nix-copy --from <source> --to <destination> --argstr <argument_name argument_value> ...
+            ```
+
+            For instance, if you have an expression that depends on a certain value and needs to be passed during the copy process, you can use `--argstr` as follows:
+
+            ```bash
+            nix-copy --from source/path --to destination/path --argstr myArg "myValue"
+            ```
+        commit-lock-file: '[AI] `nx copy --commit-lock-file` is a command used in Nx, a DevOps toolkit built on Angular and Nest.js. This command is responsible for creating a copy of existing files or directories while adding a commit lock file to prevent concurrent modifications during Git operations. The flag `--commit-lock-file` generates a Git commit message template along with a .gitcommit-lock file at the root of the affected project directory, signaling other team members that someone is currently working on those files and preventing them from being overwritten or modified until the first person has completed their changes and committed them.'
+        debug: '[AI] `nix-copy` is a command-line utility from NixOS, a Linux distribution and configuration management system. The `--debug` flag is an option that can be passed to this command for increased output during its execution. It enables more detailed diagnostic information, which can be helpful in troubleshooting any issues that may arise while copying or linking files within the NixOS environment.'
+        debugger: '[AI] `nx copy --debugger` is a command used in Nx, a DevTools Suite for Angular and other projects built with Angular CLI or other supported frameworks. This command is specifically designed to start the file copy task with the Nx debugger attached. The debugger allows developers to step through the task execution, inspect variables, and troubleshoot issues in real-time. It helps in deep understanding of how tasks within Nx projects are executed, providing valuable insights for advanced customization or debugging complex scenarios.'
+        eval-store: '[AI] `nix-copy --eval-store` is a command provided by Nix, a package manager for Linux and other Unix systems. This command copies a file or a set of files from one location to another while evaluating expressions in the Nix expression language stored in the files and saving the results into an output store. The evaluated expressions are persisted in the Nix store, which is a centralized repository used by Nix to manage software packages and their dependencies. This command is useful when you want to create new Nix packages or modify existing ones, as it allows you to evaluate and save expressions that define the package''s behavior before building and installing the actual package.'
+        from: '[AI] `nix-copy` is a command from Nix, a package manager for Linux and other Unix systems. The `--from` option specifies the source location of the data or files to be copied. This can be a Nix expression (like a package name), a file path, or a URI. The copied data will have the same versioning and dependency management as in the original Nix environment, ensuring consistency and reproducibility.'
+        impure: '[AI] `nx copy --impure` is a command from Nx, a DevOps tool built with Angular and Nx Workspace. It''s used to copy files or directories between projects within an Nx workspace without rebuilding or cleaning the affected projects. The `--impure` flag ensures that only the specified source files are copied, without triggering any builds or compilation processes in the target project. This is useful when you need to share files between projects without affecting their build states.'
+        include: |-
+            [AI] The `nix-copy` command is a part of Nix, a packaging system and distribution for Linux and other operating systems. The `--include` option is used with this command to specify that only files or directories matching certain patterns should be copied during the file transfer.
+
+            When you use `nix-copy` with the `--include` flag, followed by a list of patterns, it will copy only those files or directories from the source location to the destination that match the given patterns. For instance, `nix-copy --from-store /nix/store/path/to/source --to /destination --include '**/*.txt'` would only copy all '.txt' files from the source to the destination directory. This can be useful for selectively transferring specific files or directories while excluding others during Nix package installations or updates.
+        inputs-from: |-
+            [AI] `nx copy` is a command from Nx, a DevOps toolkit built on Angular. The `--inputs-from` option is used to specify input artifacts or projects for a copy task in Nx. It allows you to copy files or directories between locations based on the output of other builds or tasks. The general syntax is:
+
+            ```bash
+            nx copy @project1:build-output @project2:path --outputs-to=outputPath --inputs-from=inputPath
+            ```
+
+            Here, `@project1:build-output` represents the output directory of a build command from project1, and `@project2:path` refers to a specific file or directory path in project2. The `--outputs-to` option specifies the desired output path for the copied artifacts, while `--inputs-from` specifies the input artifact or project paths that trigger the copy operation.
+        log-format: |-
+            [AI] `nx copy` is a command-line tool in Nx, a DevOps platform built with Angular and other technologies. The `--log-format` option specifies how the output of the `nx copy` command should be formatted for the logs. It accepts several formats like "short", "json", or "plain".
+
+            The default log format is "short" which shows a brief summary of each task and its status, including the project name, task name, and duration. With `--log-format=json`, you can get detailed JSON output with more fields such as start time, end time, and the command that was executed.
+
+            Using `--log-format=plain` provides a simple text format with all the details for each task. Choose the desired log format based on your requirements for viewing and processing the Nx copy logs.
+        no-check-sigs: |-
+            [AI] The `nix-copy` command with the `--no-check-sigs` option is a utility from Nix Package Manager. This option disables signature checks during the copying process of Nix expressions or configurations.
+
+            When you use this command, it copies the source file or expression to the destination without verifying the authenticity of the data using signatures. This can be useful when you trust the source and want to avoid any potential delays caused by the signature verification process. However, using `--no-check-sigs` may pose a security risk as it bypasses the important step of ensuring the integrity of the copied data.
+        no-registries: '[AI] `nix-copy` is a command in Nix packaging system to clone and copy builds from one Nix expression to another. The option `--no-registries` instructs the command not to pull any new registry images while performing the copy operation. This means that only the locally available images will be used for building, bypassing the need to download updates or new images from remote registries.'
+        no-update-lock-file: '[AI] The `nix-copy` command is a utility from Nix, a package manager for Linux and other systems. The `--no-update-lock-file` option is used to disable the creation of a lock file during the copying process. A lock file ensures that only one instance of a Nix build or installation can run at a time, preventing conflicts or inconsistencies. By using `--no-update-lock-file`, you allow multiple instances to perform the copy operation concurrently. This option might be useful when performing parallel or non-destructive tasks.'
+        no-write-lock-file: '[AI] `nix-copy` is a command from Nix, a package manager for Linux and other Unix systems. The `--no-write-lock-file` option instructs `nix-copy` not to create a write lock file when performing the copy operation. A write lock file ensures that only one process can modify a file at a time to prevent conflicts and data corruption. By disabling this feature, multiple processes may concurrently make changes to the copied files, which could potentially lead to conflicts or inconsistencies.'
+        override-flake: |-
+            [AI] `nix-copy` is a command from Nix, a package manager for Linux and other Unix systems. The `--override-flake` option modifies the behavior of Nix when copying a Nix expression, which defines how software packages are built and managed.
+
+            Normally, Nix creates a new flake lock file when copying an expression to preserve its exact state. However, with `--override-flake`, Nix will not create a new lock file but instead use the existing one in the source directory, allowing you to override the original lock file with any modifications you may have made before copying.
+
+            In summary, `nix copy --override-flake` copies an expression while preserving any custom changes you might have made to its flake lock file.
+        override-input: '[AI] `nx copy --override-input` is a command used in Nx, a DevTools Suite for Angular and other frameworks. This command is used to copy an existing artifact from one project to another within the same Nx workspace. The `--override-input` flag allows replacing the input artifact in the destination project with the specified source artifact, even if they have different names or versions. In other words, it forces the copy operation and overwrites any existing artifact at the destination location.'
+        print-build-logs: '[AI] `nix copy --print-build-logs` is a command in Nix, a package manager for Linux and other systems. It copies a build output from one Nix expression to another and prints the build logs associated with that output. This can be useful for debugging or analyzing the build process of complex configurations or packages. The logs provide detailed information about the build steps, their outputs, and any error messages.'
+        quiet: '[AI] `nix-copy` is a command-line utility from NixOS, a Linux distribution and configuration management system. The `--quiet` option is used to suppress informational messages during the execution of the command. When you run `nix copy --quiet`, it will perform the file or directory copy operation silently without displaying any progress or status updates on the terminal. This can be useful when automating tasks or running scripts where you don''t need to see the output from `nix-copy`.'
+        recreate-lock-file: '[AI] `nix-copy` is a command from Nix, a package manager for Linux and other Unix systems. The `--recreate-lock-file` option is used when copying a Nix expression or configuration file. It ensures that the destination directory has a new lock file (a .lock file) created, even if one already exists. This helps to prevent conflicts when multiple instances of Nix are trying to build or install the same package at the same time by ensuring only one can proceed.'
+        substitute-on-destination: '[AI] `nix-copy` is a command from Nix, a package manager for Linux and other systems. The `--substitute-on-destination` option instructs `nix-copy` to perform substitution of variables in the destination file or directory path, after the copying process has been completed. This means that the values of Nix expressions or variables specified in the source path will be replaced by their actual values in the destination path. For instance, if the source path is `/nix/store/hash-of-source-file-${version}/source-file` and `version` is a variable with value `1.0`, then the destination path would be `/nix/store/hash-of-destination-file-1.0/destination-file`. This option can be useful for automating and managing the installation or distribution of software packages in Nix environment.'
+        to: '[AI] `nx copy --to` is a command used in Nx, a DevOps toolkit built on Angular and Nest.js, for copying artifacts or outputs of existing projects to another project or location. The `--to` flag specifies the target directory or project where the copied files will be placed. For instance, `nx copy --from=projects.myproject:build --to=path/to/destination` copies the build output of the "myproject" Nx project to the specified destination path.'
+        update-input: '[AI] `nx copy --update-input` is a command from Nx, a DevOps tool built on Angular CLI and Node.js. This command is used for copying assets or files between projects within an Nx workspace. The `--update-input` flag instructs the tool to update the input file reference in the destination project''s configuration files when running the command. By doing this, you ensure that the changes made to the source file are reflected in the destination project without having to manually update the configuration files. This streamlines the process of maintaining multiple projects that share common assets or files within an Nx workspace.'
+        verbose: '[AI] `nix-copy` is a command from Nix Package Manager, used to copy files and directories between systems or within a Nix environment. The `--verbose` option increases the amount of output that `nix-copy` displays during the transfer process. It provides detailed information such as progress bars, timestamps, and source and destination paths for each file being copied. This can be helpful for troubleshooting, monitoring large transfers, or understanding the exact files that are being synchronized between systems.'

@@ -1,0 +1,39 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: exec [OPTIONS] SERVICE COMMAND [ARGS...]
+description: Execute a command in a running container.
+flags:
+    --index=: index of the container if service has multiple replicas
+    --privileged: Give extended privileges to the process.
+    -T, --no-TTY: Disable pseudo-TTY allocation. By default `docker compose exec` allocates a TTY.
+    -d, --detach: 'Detached mode: Run command in the background.'
+    -e, --env*=: Set environment variables
+    -i, --interactive&: Keep STDIN open even if not attached.
+    -t, --tty&: Allocate a pseudo-TTY.
+    -u, --user=: Run the command as this user.
+    -w, --workdir=: Path to workdir directory for this command.
+documentation:
+    command: '[AI] `docker-compose exec` is a command used with Docker Compose to execute commands in the containers defined in a `docker-compose.yml` file. It starts the container if it''s not running, then runs the specified command inside the container. For example: `$ docker-compose exec <container_name> <command>`. This can be useful for tasks like checking logs or making ad-hoc changes to containers without having to build new images.'
+    flag:
+        detach: '[AI] `docker-compose exec` is a command used in Docker Compose to run a command in the container. The `--detach` or `-d` option detaches the executing process from the console, running it in the background as a daemon process. This means that the container will keep running even if the terminal window is closed. So, using `docker-compose exec --detach` will run a command in a background detached container.'
+        env: '[AI] `docker-compose exec` is a command in Docker Compose that allows executing a command in the container, connected to a service defined in a docker-compose file. The `--env` flag sets or appends environment variables for the container when running the command. This can be useful for passing sensitive information or configuration options to the container without hardcoding them in the application code. For example, `docker-compose exec my_service bash -c "echo $MY_VAR" --env MY_VAR=my_value` would run a bash command in the container and print out the value of the environment variable `MY_VAR`.'
+        index: '[AI] `docker-compose exec` is a command used with Docker Compose files to run commands in the containers defined by the file. The `--index` option is not a valid flag for this command. If you meant to use other flags such as `--with-restart`, `--service-ports`, or `--entrypoint`, please specify them instead.'
+        interactive: '[AI] `docker-compose exec` is a command used in Docker Compose to run a command in the container(s) defined in the compose file. The `--interactive` flag enables an interactive TTY session in the container, allowing you to interact with the process in real time. This can be useful for tasks such as debugging or running complex commands that require user input.'
+        no-TTY: '[AI] `docker-compose exec` is a command used to run a command in a running Docker container. The `--no-TTY` flag disables sending and interpreting TTY (Teletype) data between the container and the host or local terminal. This can be useful when the command being run does not require interactive input or output, as it reduces the overhead of managing a TTY session. It also makes the container''s process table look cleaner from the host''s perspective.'
+        privileged: |-
+            [AI] `docker-compose exec` is a command used to run a command in a container that is part of a Docker Compose project. The `--privileged` flag grants the container additional privileges, allowing it to perform actions that are normally restricted for security reasons. For instance, this flag allows a container to:
+
+            * Access raw sockets (TCP and Unix domain) and TTY.
+            * Bind any host port.
+            * Use host network interfaces.
+            * Mount any host directory as read-write.
+
+            This can be useful in certain edge cases, such as running databases or other services that require low-level access to the host system. However, it should be used with caution due to potential security risks.
+        tty: |-
+            [AI] `docker-compose exec` is a command used with Docker Compose to run a command in one or more containers. The `--tty` option requests a TTY (Text Teletype) allocation for the container's standard input, output, and error streams. This allows you to interact with the container as if it were a terminal session. For example:
+
+            ```bash
+            $ docker-compose exec my_container sh
+            # Now you have a shell session in "my_container"
+            ```
+        user: '[AI] `docker-compose exec` is a command used to run a command in a container that is part of a Docker Compose project. The `--user` option allows you to specify a custom user (in the format `<username>:<groupname>`) for the command to be executed with, instead of using the default root user. This can be useful for running commands as a specific non-root user within the container.'
+        workdir: '[AI] `docker-compose exec` is a command used in Docker Compose to run a command in the container. The `--workdir` option sets the working directory for the command. When you run `docker-compose exec <container> --workdir=<path> <command>`, it executes the command with the specified working directory inside the container. This can be useful when you need to ensure that a command starts in a specific location within a container''s file system.'

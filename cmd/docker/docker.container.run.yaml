@@ -1,0 +1,447 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: run [OPTIONS] IMAGE [COMMAND] [ARG...]
+description: Create and run a new container from an image
+flags:
+    --add-host=: Add a custom host-to-IP mapping (host:ip)
+    --blkio-weight-device=: Block IO weight (relative device weight)
+    --blkio-weight=: Block IO (relative weight), between 10 and 1000, or 0 to disable (default 0)
+    --cap-add=: Add Linux capabilities
+    --cap-drop=: Drop Linux capabilities
+    --cgroup-parent=: Optional parent cgroup for the container
+    --cgroupns=: Cgroup namespace to use (host|private)
+    --cidfile=: Write the container ID to the file
+    --cpu-count=: CPU count (Windows only)
+    --cpu-percent=: CPU percent (Windows only)
+    --cpu-period=: Limit CPU CFS (Completely Fair Scheduler) period
+    --cpu-quota=: Limit CPU CFS (Completely Fair Scheduler) quota
+    --cpu-rt-period=: Limit CPU real-time period in microseconds
+    --cpu-rt-runtime=: Limit CPU real-time runtime in microseconds
+    --cpus=: Number of CPUs
+    --cpuset-cpus=: CPUs in which to allow execution (0-3, 0,1)
+    --cpuset-mems=: MEMs in which to allow execution (0-3, 0,1)
+    --detach-keys=: Override the key sequence for detaching a container
+    --device-cgroup-rule=: Add a rule to the cgroup allowed devices list
+    --device-read-bps=: Limit read rate (bytes per second) from a device
+    --device-read-iops=: Limit read rate (IO per second) from a device
+    --device-write-bps=: Limit write rate (bytes per second) to a device
+    --device-write-iops=: Limit write rate (IO per second) to a device
+    --device=: Add a host device to the container
+    --disable-content-trust: Skip image verification
+    --dns-opt=: Set DNS options
+    --dns-option=: Set DNS options
+    --dns-search=: Set custom DNS search domains
+    --dns=: Set custom DNS servers
+    --domainname=: Container NIS domain name
+    --entrypoint=: Overwrite the default ENTRYPOINT of the image
+    --env-file=: Read in a file of environment variables
+    --expose=: Expose a port or a range of ports
+    --gpus=: GPU devices to add to the container ('all' to pass all GPUs)
+    --group-add=: Add additional groups to join
+    --health-cmd=: Command to run to check health
+    --health-interval=: Time between running the check (ms|s|m|h) (default 0s)
+    --health-retries=: Consecutive failures needed to report unhealthy
+    --health-start-period=: Start period for the container to initialize before starting health-retries countdown (ms|s|m|h) (default 0s)
+    --health-timeout=: Maximum time to allow one check to run (ms|s|m|h) (default 0s)
+    --help: Print usage
+    --init: Run an init inside the container that forwards signals and reaps processes
+    --io-maxbandwidth=: Maximum IO bandwidth limit for the system drive (Windows only)
+    --io-maxiops=: Maximum IOps limit for the system drive (Windows only)
+    --ip=: IPv4 address (e.g., 172.30.100.104)
+    --ip6=: IPv6 address (e.g., 2001:db8::33)
+    --ipc=: IPC mode to use
+    --isolation=: Container isolation technology
+    --kernel-memory=: Kernel memory limit
+    --label-file=: Read in a line delimited file of labels
+    --link-local-ip=: Container IPv4/IPv6 link-local addresses
+    --link=: Add link to another container
+    --log-driver=: Logging driver for the container
+    --log-opt=: Log driver options
+    --mac-address=: Container MAC address (e.g., 92:d0:c6:0a:29:33)
+    --memory-reservation=: Memory soft limit
+    --memory-swap=: 'Swap limit equal to memory plus swap: ''-1'' to enable unlimited swap'
+    --memory-swappiness=: Tune container memory swappiness (0 to 100)
+    --mount=: Attach a filesystem mount to the container
+    --name=: Assign a name to the container
+    --net-alias=: Add network-scoped alias for the container
+    --net=: Connect a container to a network
+    --network-alias=: Add network-scoped alias for the container
+    --network=: Connect a container to a network
+    --no-healthcheck: Disable any container-specified HEALTHCHECK
+    --oom-kill-disable: Disable OOM Killer
+    --oom-score-adj=: Tune host's OOM preferences (-1000 to 1000)
+    --pid=: PID namespace to use
+    --pids-limit=: Tune container pids limit (set -1 for unlimited)
+    --platform=: Set platform if server is multi-platform capable
+    --privileged: Give extended privileges to this container
+    --pull=: Pull image before running ("always", "missing", "never")
+    --read-only: Mount the container's root filesystem as read only
+    --restart=: Restart policy to apply when a container exits
+    --rm: Automatically remove the container when it exits
+    --runtime=: Runtime to use for this container
+    --security-opt=: Security Options
+    --shm-size=: Size of /dev/shm
+    --sig-proxy: Proxy received signals to the process
+    --stop-signal=: Signal to stop the container
+    --stop-timeout=: Timeout (in seconds) to stop a container
+    --storage-opt=: Storage driver options for the container
+    --sysctl=: Sysctl options
+    --tmpfs=: Mount a tmpfs directory
+    --ulimit=: Ulimit options
+    --userns=: User namespace to use
+    --uts=: UTS namespace to use
+    --volume-driver=: Optional volume driver for the container
+    --volumes-from=: Mount volumes from the specified container(s)
+    -P, --publish-all: Publish all exposed ports to random ports
+    -a, --attach=: Attach to STDIN, STDOUT or STDERR
+    -c, --cpu-shares=: CPU shares (relative weight)
+    -d, --detach: Run container in background and print container ID
+    -e, --env=: Set environment variables
+    -h, --hostname=: Container host name
+    -i, --interactive: Keep STDIN open even if not attached
+    -l, --label=: Set meta data on a container
+    -m, --memory=: Memory limit
+    -p, --publish=: Publish a container's port(s) to the host
+    -q, --quiet: Suppress the pull output
+    -t, --tty: Allocate a pseudo-TTY
+    -u, --user=: 'Username or UID (format: <name|uid>[:<group|gid>])'
+    -v, --volume=: Bind mount a volume
+    -w, --workdir=: Working directory inside the container
+documentation:
+    command: |-
+        [AI] `docker container run` is a command used to create and start a new Docker container from an image. Here's a brief explanation of its usage:
+
+        1. **Image**: The first argument specifies the name or ID of the Docker image you want to use.
+        2. **Command**: An optional command can be provided after the image name, enclosed within quotes ("") or escaped (\), that will be run when the container starts.
+        3. **Flags**: Various flags and options can be added before the image argument for customizing the container's behavior (e.g., `-d` to run in detached mode, `-p` to publish ports, etc.).
+        4. **Arguments**: Any additional arguments will be treated as environment variables or volumes that get mounted inside the container.
+        5. **Working Directory**: An optional working directory can be set by including a colon (':') followed by the desired directory path before specifying the image name.
+
+        For example, `docker container run -d myimage:latest --name mycontainer --publish 80:80 mycommand`. This command creates and starts a new container from the 'myimage:latest' Docker image, named 'mycontainer', runs 'mycommand' inside it, sets up port forwarding from the host's port 80 to container port 80, and runs the container in detached mode.
+    flag:
+        add-host: |-
+            [AI] The `--add-host` flag in Docker's `run` command is used to add a custom hostname and IP address mapping between the container network and the host machine. This can be useful when you need to access a service running inside the container from the host or other containers, but they cannot reach each other directly using their container names or IP addresses.
+
+            When you use `--add-host hostname:IP`, Docker adds an entry to the `/etc/hosts` file of both the container and the host with the specified `hostname` and `IP`. This allows the container to refer to the host by the given `hostname`, and vice versa.
+
+            For example, if you have a container running a web application on localhost (127.0.0.1), but need to access it from your host machine using a specific hostname like "myapp", you can add that mapping with:
+
+            ```bash
+            docker run --add-host myapp:127.0.0.1 my_image:latest
+            ```
+
+            Now, the host and the container can communicate using the `hostname` "myapp" instead of having to deal with the container's IP address that might change during its lifetime.
+        attach: '[AI] `docker run --attach` is a command used to run a Docker container with attachments for standard input, output, and error streams. This means that the container''s stdin, stdout, and stderr will be connected to the terminal from which the command was run, allowing real-time interaction between the user and the container. The flag `--attach` can also be used with detached containers (running in the background), but with the addition of the `--interactive` flag to maintain the standard input connection.'
+        blkio-weight: '[AI] The `--blkio-weight` flag in the `docker run` command is used to configure Block I/O (I/O operations for reading and writing data to and from storage devices) weight sharing between containers running on the same host. This flag allows you to specify a value (as a percentage) that represents the proportion of total block I/O throughput that should be allocated to the container, ensuring fair resource distribution among multiple containers. For example, `--blkio-weight 50` would assign 50% of the total block I/O resources to the container.'
+        blkio-weight-device: |-
+            [AI] The `--blkio-weight` flag in Docker is used to control I/O bandwidth for containers on a Linux host with the Cgroup-based I/O controller (also known as the Blkio controller). Specifically, the `--blkio-weight-device` option sets the I/O weight for a specific block device.
+
+            By default, Docker applies the same I/O weight to all devices in a container. However, using this flag allows you to assign different weights to certain devices. The value is a decimal number between 0 and 1 that represents the proportion of the total I/O bandwidth that the device should be allowed to use. For example, `--blkio-weight-device=/dev/sda:10` would set the I/O weight for the /dev/sda block device to 10%. This can be useful in cases where you want to limit or prioritize I/O on specific devices based on your application requirements.
+        cap-add: '[AI] The `--cap-add` flag in Docker is used to grant specific Linux capabilities to a running container. Capabilities are permissions that can be associated with a container process, allowing it to perform certain system actions that might not be allowed by default. By using `--cap-add`, you can add one or more capabilities to the container at runtime for enhanced security and functionality. For example, `--cap-add=SYSV:` allows a container to manage system processes (sysadmin tasks). Other examples include `NET_ADMIN` for managing network interfaces or `AUDIT_CONTROL` for controlling audit rules.'
+        cap-drop: '[AI] `--cap-drop` is a flag used in Docker to drop (remove) specific Linux capabilities from the container''s privileged process. Capabilities are permissions that can be granted to processes and contain root-like access. By default, containers run with all capabilities enabled. However, using `--cap-drop` allows you to restrict certain capabilities, enhancing security by limiting potential attacks or unwanted system actions within the container. For instance, `docker run --cap-drop=SYS_ADMIN` would drop the SYS_ADMIN capability from the container''s privileged process.'
+        cgroup-parent: |-
+            [AI] The `--cgroup-parent` option in the `docker run` command is used to set the cgroup (Control Group) parent hierarchy for the new Docker container. This allows you to control the container's resource usage and prioritize it within a larger hierarchy of containers or system processes.
+
+            By specifying the ID or name of an existing cgroup, the new container will become a child of that group, inheriting its resource limits and priorities. This can be useful in managing resources across multiple containers, ensuring that critical containers have sufficient resources, and preventing resource starvation.
+        cgroupns: '[AI] `--cgroupns` is a flag used with the `docker run` command in Docker, which allows creating a new Linux Control Group (cgroup) namespace for the container. This flag helps to isolate and manage the container''s cgroups separately from the host system and other containers. This can be useful in certain use cases like resource management or security policies. When you set this flag, Docker creates a new control group hierarchy just for the container, ensuring that its resource usage is managed independently of others.'
+        cidfile: '[AI] The `--cidfile` option in the `docker run` command is used to save the Container ID (CID) of the newly created container into a specified file instead of printing it on the console. This can be useful for automation scripts or CI/CD pipelines that need to reference the created container''s ID. The flag takes an argument which is the path to the output file.'
+        cpu-count: '[AI] The `--cpu-count` option in the `docker run` command is used to set the number of CPU cores that a Docker container should be limited to use. This option allows you to configure container resource limits for better resource utilization and isolation between containers. By specifying a value for `--cpu-count`, you can limit the container to use only that number of CPU cores, preventing it from consuming more than its fair share of system resources.'
+        cpu-percent: '[AI] The `--cpu-percent` option in the `docker run` command sets the maximum CPU usage limit for the contained process as a percentage of the total host CPU. This can be useful for ensuring that Docker containers do not consume excessive resources and impact the performance of other processes running on the host system.'
+        cpu-period: '[AI] The `--cpu-period` flag is a Docker resource limitation setting for containers. It specifies the maximum amount of CPU time (in microseconds) that a container can use in a given period. This helps ensure fair sharing of CPU resources among multiple containers and can prevent one container from monopolizing the host system''s CPU. The default value is 100,000 microseconds (100ms).'
+        cpu-quota: '[AI] `docker run --cpu-quota` is a command-line option used when running Docker containers to set a CPU usage limit for the container. The option takes an integer value representing the number of shared CPU units or a decimal value with the suffix "m" or "millicore" for a fraction of a CPU core. This can be useful in managing container resources and ensuring fair sharing among multiple containers on a host system.'
+        cpu-rt-period: '[AI] The `--cpu-rt-period` flag is a Docker option used to configure the CPU real-time (RT) scheduling policy for containers. It specifies the time slice (in nanoseconds) that the container''s RT tasks will be guaranteed to run in. This can help ensure predictable and timely processing of certain tasks within the container, especially those requiring hard real-time constraints. By setting this flag, you are prioritizing the container''s RT tasks over its normal (CPC) tasks. This flag is primarily used in industrial automation, robotics, or other applications that have strict real-time requirements.'
+        cpu-rt-runtime: |-
+            [AI] The `--cpu-rt-runtime` flag is a Docker option used to specify the real-time (RT) CPU scheduling policy for a container's runtime. With this flag, you can set a container to use the Completely Fair Scheduling (CFS) or Real-Time Scheduling (RT) policy for its CPU resources allocation.
+
+            When using `--cpu-rt-runtime`, Docker sets up the container as a realtime-class process in the Linux kernel, which prioritizes the container's tasks over other non-realtime tasks, ensuring that they receive their required processing time. This can be useful for running applications with strict real-time constraints or those that require deterministic latency.
+
+            Using this flag does not assign any particular CPU cores to a container; it only sets the scheduling policy. The actual CPU resources allocation is determined by other factors, such as the available system resources and the container's priority level.
+        cpu-shares: '[AI] The `--cpu-shares` option in the `docker run` command is used to set the relative share of CPU resources that a Docker container can consume. It is expressed as a decimal number or percentage, with a default value being proportional to the total weight of all containers on the host. A larger number implies a greater share of the CPU resources and prioritization over other containers. This can be useful when managing resource-intensive containers or ensuring fair distribution of resources across multiple containers.'
+        cpus: '[AI] The `--cpus` option in the `docker run` command is used to specify the number of CPU cores that a Docker container should be allowed to use. This can help ensure that containerized applications are allocated sufficient resources and don''t interfere with other running processes on the host system. By default, Docker containers will use a proportionate share of available system resources without explicit limits. However, setting `--cpus` can provide more fine-grained control for resource-intensive workloads or to avoid potential contention between containers. For example, `docker run --cpus 2 myimage:latest` would instruct Docker to allocate up to two CPU cores for the containerized application identified by `myimage:latest`.'
+        cpuset-cpus: '[AI] The `--cpuset-cpus` flag in Docker is used to bind a container to specific CPUs or CPU cores on the host system. By setting this option, you restrict the container from using any other CPU cores except the ones specified. This can be helpful in ensuring predictable performance and preventing resource contention between containers. For example, `--cpuset-cpus 0,1` would bind the container to the first and second CPUs on a system with two cores.'
+        cpuset-mems: '[AI] The `--cpuset-mems` option in the `docker run` command is used to limit the containers'' access to specific CPU cores and memory nodes. It takes a comma-separated list of memory node or CPU socket indices as an argument. For instance, `--cpuset-mems 0-2,4,5` sets the container to only use memory nodes 0-2 and 4,5 for its memory allocation. Similarly, `--cpuset-cpus` can be used to limit a container''s access to specific CPU cores by providing a list of core indices instead. This option is useful for resource management and ensuring predictable container performance in multi-container environments.'
+        detach: '[AI] `--detach`, also known as `--detach-as-daemon` or `--background`, is a flag used in Docker to run containers in the detached mode. This means that the container will run in the background, and the terminal from which you issued the `docker run` command will return immediately, allowing you to continue working on other tasks without having to keep the terminal window open for the container to run. The container''s standard input, output, and error streams are automatically redirected to the Docker daemon process running in the background.'
+        detach-keys: '[AI] The `--detach-keys` option in the `docker run` command is used to specify one or more key combinations for detaching from a running Docker container. When a container is started with this option, it will automatically detach (or detach the terminal) and run in the background. This allows you to start containers without keeping a terminal window open for them. The specified key combinations can be used later to reattach to the container''s console if needed. For example, `--detach-keys=CTRL-MS-UP` will use the `Win+Ctrl+Up` key combination to attach back to the container.'
+        device: '[AI] The `--device` flag in Docker''s `run` command allows you to give read-write access from a container to specific devices on the host system. This can be useful for interacting with hardware, such as cameras or scanners, or for running applications that require low-level access to certain devices. When using this flag, you can specify the device as `/dev/<device_name>` on the host and Docker will map it to the corresponding location inside the container, typically `/dev/<device_name>`. This creates a bi-directional communication channel between the container and the host for the specified device.'
+        device-cgroup-rule: |-
+            [AI] The `--device-cgroup-rule` option in the Docker `run` command is used to configure Container Resource Limits (CRL) for a specific device or set of devices within a Docker container.
+
+            When you run a container with this flag, you can define custom CRL rules that allow the container to access and manage certain devices based on their class or control group (cgroup). These rules help enforce resource limitations and prioritization for different containers or applications running on the host system.
+
+            For example, `--device-cgroup-rule=rLIMIT_CPU=1000:2000 --device-cgroup-rule=rLIMIT_MEMORY=3072M:4096M` allows the container to use up to 2000 CPU shares (out of a total of 10,000) and consume between 3GB and 4GB of memory.
+
+            By using this flag, you can ensure better resource management and isolation for your Docker containers, preventing potential conflicts or overconsumption of system resources.
+        device-read-bps: '[AI] The `--device-read-bps` flag in Docker is used to set a limit on the number of bytes per second that a container can read from a specified device file. This can be useful for limiting the data transfer rate between a container and the host system, preventing potential performance issues or denial of service attacks caused by excessive data transfer. The flag takes an integer value representing the desired number of bytes per second. For example, `--device-read-bps 10m` sets the limit to 10 megabytes per second.'
+        device-read-iops: '[AI] The `--device-read-iops` flag is a Docker option when running a container. It is used to specify a read Input/Output Per Second (IOPS) limit for devices attached to the container. By setting this flag, you can limit the number of read IOPS that the container can perform on the corresponding device. This can be useful in controlling the performance impact of containers on host systems with limited hardware resources.'
+        device-write-bps: |-
+            [AI] The `--device-read-bps` and `--device-write-bps` flags are options used with the `docker run` command in Docker. They are used to limit the number of bytes that can be read from or written to a device connected to the container per second.
+
+            Setting the `--device-write-bps` flag restricts the amount of data that can be written to a specified device from the container, helping to prevent excessive I/O operations and potential performance issues. By specifying a value in bytes per second (BPS), you can control the maximum data transfer rate for write operations on the device.
+
+            For example, `docker run --device-write-bps=10m image_name` would limit the write traffic to 10 megabytes per second from the container to the connected device.
+        device-write-iops: |-
+            [AI] The `--device-read-iops` and `--device-write-iops` flags are advanced options used when running Docker containers. These flags allow limiting the input/output (IOPS) operations for specific devices connected to the host system.
+
+            The `--device-write-iops` flag specifically sets a limit on the number of write IOPS (Input/Output Operations Per Second) that can be performed by a container on a particular device. This can be useful in controlling the performance impact of a container on the underlying hardware, particularly when dealing with devices with limited throughput or when running multiple containers concurrently.
+
+            For example, `docker run --device-write-iops=500 my_container` would limit the write IOPS for connected devices to 500 per second while the container is running.
+        disable-content-trust: '[AI] The `--disable-content-trust` flag is used when running a Docker container to bypass content trust verification. Content trust is a security feature in Docker that ensures the authenticity and integrity of images and their contents before they are executed in a container. By disabling this feature, you are allowing the container to run even if its content has not been verified or if the signature does not match. This can pose a potential security risk, as it may introduce malicious code into your system. It''s recommended that you only use this flag when necessary and with caution.'
+        dns: '[AI] The `--dns` option in the `docker run` command is used to configure the DNS (Domain Name System) settings for containers. By default, Docker uses the host system''s DNS settings. However, if you want your container to use a specific DNS server or resolution order, you can set it with this flag. For example, `--dns 8.8.8.8 --dns-search example.com` sets the DNS servers to Google''s public DNS and adds ''example.com'' as a search domain for DNS queries. This can be useful in various scenarios, such as running containers in isolated networks or when using custom DNS configurations.'
+        dns-opt: '[AI] `--dns-opt` is an option used with the `docker run` command in Docker for managing containers. It allows users to configure custom DNS options for the container''s network interface. The flag takes a key-value pair argument, such as `--dns-opt=options:dns-server=8.8.8.8`, where "options" is the keyword and "dns-server=8.8.8.8" sets the DNS server address to 8.8.8.8. This can be useful when you want a container to use specific DNS servers for name resolution instead of the default ones provided by Docker or the host system.'
+        dns-option: '[AI] The `--dns-option` flag in the `docker run` command is used to configure custom DNS options for the containers'' networks. This can be particularly useful when running containers that require specific DNS settings, such as those using custom DNS servers or resolving domains with non-standard record types. The flag accepts a JSON formatted string of key-value pairs where each pair represents a specific DNS option (e.g., `--dns-option ''dns-server=8.8.8.8''` sets the container''s DNS server to Google''s public DNS). Multiple options can be passed by separating them with commas within a single pair of quotes (e.g., `--dns-option ''dns-search=example.com,dns-server=8.8.4.4''` sets the container''s search domain and DNS server).'
+        dns-search: |-
+            [AI] The `--dns-search` option in the `docker run` command is used to set custom search domains for DNS queries made within a Docker container. This can be useful when running containers that need to communicate with services or other resources using specific domain names not covered by the default DNS settings.
+
+            For example, if you have a Docker image for an application that communicates with a database server named `db-server` on the domain `example.com`, and your Docker host's DNS configuration doesn't include this domain, you can use the `--dns-search` flag to tell the container to search for the database server in the `example.com` domain:
+
+            ```bash
+            $ docker run --name myapp \
+                --dns-search example.com \
+                myimage:latest
+            ```
+
+            This will make sure that the container can locate and connect to the database server using its hostname (`db-server`) even if it's not directly accessible via IP address. The custom search domain `example.com` is appended to each partial DNS query made by the container, allowing it to find the full FQDN of the desired service or resource.
+        domainname: |-
+            [AI] The `--domainsname` option in the `docker run` command sets a custom hostname for the Docker container. This can be useful when running multiple containers in an environment where you want to ensure each container has a unique hostname. By setting the domainname, you can append it to the container name to create a unique hostname.
+
+            For example, if you run a container with the command `docker run --domainsname mydomain myimage`, and the container name is `mycontainer`, then the container's hostname will be `mycontainer.mydomain`. This can help in configuring networking and other services that require unique hostnames within your environment.
+        entrypoint: |-
+            [AI] `docker run` is a command used to create and start a new Docker container. The `--entrypoint` option specifies the primary command that Docker should use when starting the container, instead of using `Dockerfile`'s `CMD` instruction or user's `ENTRYPOINT`. It overrides the default shell and arguments in the image. For example:
+
+            ```bash
+            docker run --entrypoint="/usr/bin/my_custom_script" myimage:latest
+            ```
+
+            This command tells Docker to use `/usr/bin/my_custom_script` as the main process when starting the container from the `myimage:latest` image. This can be useful for ensuring consistent start-up behavior, especially in multi-container environments or for custom applications that do not follow the standard `CMD` or `ENTRYPOINT` conventions in their base images.
+        env: '[AI] `docker run` is a command used to create and start a new Docker container from an image. The `--env` option sets one or more environment variables that will be made available inside the container when it''s started. For example, `docker run --env VAR_NAME=VAR_VALUE image_name` will set the variable "VAR\_NAME" to "VAR\_VALUE" inside the container. Multiple environment variables can be set by separating each variable with a space, like so: `docker run --env VAR1=VAL1 --env VAR2=VAL2 image_name`. These environment variables can then be accessed and used within the container as needed.'
+        env-file: '[AI] The `--env-file` option in the `docker run` command is used to set environment variables for a Docker container based on key-value pairs read from an external file. The file should be located in the host system and specified using an absolute path or a relative path starting from the context in which the command is run. This option can be helpful when dealing with multiple environment variables or when keeping environment configurations separate from the container image.'
+        expose: '[AI] The `--expose` option in the `docker run` command is used to inform Docker that the container listens on the specified network ports at runtime, without publishing them to the host machine. This means that the container''s ports are exposed for other containers or services in the same network to access, but they are not exposed to the host or external networks by default. The syntax is `--publish/expose <port>[/<protocol>]` where `<port>` is a number indicating the port to be exposed and `<protocol>` is an optional protocol (TCP or UDP). For example, `--expose 80` would expose port 80 in the container.'
+        gpus: '[AI] The `--gpus` flag in a `docker run` command is used to specify which NVIDIA GPUs should be made available to a Docker container for GPU-accelerated applications. By default, Docker does not provide access to GPUs. However, with NVIDIA''s container runtime and appropriate system setup (specifically, an NVIDIA driver installed), you can allocate one or more GPUs to your Docker containers using the `--gpus` flag followed by a comma-separated list of GPU indices or names. For example: `docker run --gpus all my_image`. Here ''all'' means that all available GPUs will be allocated to the container.'
+        group-add: '[AI] `--group-add` is a flag used in Docker to add a container to one or more Linux groups. This flag modifies the container''s security profile, allowing specified group members to have certain privileges within the container, such as changing file ownership or accessing world-readable files. It enhances container isolation and security by controlling access based on group membership rather than individual user IDs.'
+        health-cmd: '[AI] The `--health-cmd` option in the `docker run` command is used to configure Docker to periodically check the status of a running container based on the given command. This command should return a zero exit code if the container is healthy and running as expected, or a non-zero exit code if there are issues. If the health check fails, Docker can automatically restart the container to help ensure its continued availability. This feature can be useful for monitoring and managing containers that require regular checks to ensure they''re functioning properly.'
+        health-interval: |-
+            [AI] The `--health-interval` flag in the `docker run` command is used to configure Docker's built-in container monitoring and reporting system, called "container health checking." This system periodically probes a running container to determine its health status by executing a specified command or accessing an HTTP endpoint.
+
+            The flag sets the interval (in seconds) between these checks. For example, `--health-interval=30s` means that Docker will check the container's health every 30 seconds. If no response is received from the health check command within a specified timeout (default: 5 seconds), Docker marks the container as unhealthy and restarts it to try and bring it back online. This can be useful for ensuring that important services or applications are up and running, and can help prevent containers from being left in an unresponsive state.
+        health-retries: '[AI] The `--health-retries` option in the `docker run` command sets the number of times Docker will attempt to check the specified container''s health using the `--health-check` flag before considering it as unhealthy. If the container becomes unresponsive or fails to meet the defined health check conditions, Docker will automatically restart it up to the number of retries specified. This option helps ensure the availability and reliability of containers by providing automated recovery mechanisms in case of failures.'
+        health-start-period: '[AI] The `--health-start-period` flag in Docker''s `container run` command is used to configure the time period (in seconds) that a newly created and starting container is given before beginning the initial health check. During this period, any failed health checks are ignored and won''t result in the container being marked as unhealthy or potentially being restarted. This flag can be useful when dealing with containers that take some time to initialize or start up properly before they become ready for health checks.'
+        health-timeout: '[AI] The `--health-check` flag in Docker runs a command to periodically check the health of a running container. The `--health-timeout` option sets the maximum time allowed for this check to complete before considering the container unhealthy. If the check fails within this time, Docker marks the container as unhealthy and may take action based on your system''s configuration (e.g., restarting the container).'
+        help: |-
+            [AI] The `docker run --help` command displays the help information for running a Docker container using the `run` subcommand. It provides an overview of the syntax, available options, and usage examples for creating and starting new containers from an image.
+
+            Here's a brief summary of some commonly used flags:
+
+            - `--image <image>:<tag> or --name <name>`: Specifies the Docker image to use (with its tag if specified) or creates a new container with the given name.
+            - `-d, --detach, --interactive, --rm`: Detaches from the container's stdin/stdout/stderr streams, runs the container in interactive mode, and removes the container once it has stopped.
+            - `-p, --publish <host>:<container>`: Publishes a container port to the host.
+            - `-v, --volume <hostpath>:<containerpath> or --mount type=<type>=<source>`: Mounts a volume from the host to the container.
+            - `--env <key=value>`: Sets environment variables for the container.
+
+            For a comprehensive list of all available options and their descriptions, run `docker run --help`.
+        hostname: '[AI] The `--hostname` option in the `docker run` command sets a custom hostname for the created Docker container instead of using the default automatic one based on the container name or ID. This can be useful when you want to assign a specific hostname to your container for network services that rely on it, such as databases or email servers. It''s important to note that this custom hostname will only apply within the Docker environment and won''t affect the underlying host system.'
+        init: '[AI] The `--init` flag in the `docker run` command is used to ensure that a container''s primary process is replaced only if it terminates by signal, not if it simply exits. This flag helps maintain the container''s state and ensures that processes inside the container are properly initialized before user-defined entrypoint or command is executed. It sets up a PID 1 process called `tini` (Terminal Interactive Notifier daemon) as an init process, which restarts the main process if it exits unexpectedly.'
+        interactive: '[AI] The `--interactive` flag when using the `docker run` command tells Docker to run the container in an interactive mode. This means that a new terminal window will be opened for the container, allowing you to interact with it by sending input and receiving output in real-time. It''s useful when you need to manage applications or services that require user input or monitoring of console output. Without this flag, the container would run in the background without any attached terminal.'
+        io-maxbandwidth: '[AI] The `--io-maxbandwidth` flag is a Docker option for limiting the maximum input/output (I/O) bandwidth of a container. It helps manage network traffic and prevent excessive data transfer between the container and the host or other containers. By setting this flag, you can specify the maximum I/O throughput in bytes per second (Bps), which is applied to both read and write operations. This can be useful for optimizing resource usage, improving application performance, and maintaining network stability within a Docker environment.'
+        io-maxiops: '[AI] `--io-maxiops` is a Docker runtime option for controlling the maximum number of I/O operations per second (IOPS) that a container can perform on a storage system, such as a host file system or a networked storage volume. This flag helps manage and limit the I/O load for containers to prevent potential performance degradation or exhaustion of the underlying storage resources. By setting an appropriate value, you can maintain a desired balance between multiple containers while ensuring they have enough I/O capacity to function effectively.'
+        ip: '[AI] The `--ip` option in the `docker run` command sets a custom IP address for the created container. By default, Docker assigns an internal IP address from the private network `172.x.x.x/16`. However, using the `--ip` flag allows you to specify a different IP address, either within the same private network or even in the host''s network interface. This can be useful when configuring container-to-container communication or accessing a container from the host network.'
+        ip6: '[AI] The `--ip6` flag in the `docker run` command is used to assign an IPv6 address to a Docker container instead of the default IPv4 addressing. When this option is set, Docker will create a unique IPv6 address for the container and map it to a port on the host machine. This can be useful in environments where IPv6 networking is preferred or required. Note that if no IPv6 addresses are assigned to the host interface, this flag may not have any effect.'
+        ipc: |-
+            [AI] The `--ipc` flag in the `docker run` command determines how the container's process table interacts with the host system and other containers. There are three options:
+
+            1. **Host**: The container shares the same IPC namespace as the host, allowing it to communicate with processes on the host directly.
+            2. **Container**: The container runs in its own IPC namespace isolated from the host and other containers. This is the default behavior when `--ipc` is not specified.
+            3. **Shared**: Multiple containers are placed in the same IPC namespace, allowing them to communicate with each other as if they were part of the same process table.
+
+            By using this flag, you can customize the inter-process communication (IPC) between your Docker containers and the host or other containers, depending on your use case.
+        isolation: |-
+            [AI] `--isolation` is an option used in the `docker run` command to specify the container isolation level. Isolation levels impact how the container interacts with the host system and other containers. There are three isolation levels:
+
+            1. **Default (no option)**: Docker containers run in the default mode, which uses the host's kernel and shares namespaces such as network, PID, etc., with the host. This is less secure but allows for more efficient resource usage.
+
+            2. `--isolation=process`: Runs a container using the process namespace isolation, also known as "pidth1" mode. In this mode, each container runs in its own init process and has its own PID namespace, which provides better security by isolating processes from the host and other containers.
+
+            3. `--isolation=container`: This is the most secure isolation level (also known as "user namespace" mode). It provides the same level of isolation as the `--isolation=process` option but also includes user namespaces, further separating containers from the host's users and processes. This mode is commonly used in production environments for improved security.
+        kernel-memory: |-
+            [AI] The `--kernel-memory` flag is a parameter used with the `docker run` command when creating and starting Docker containers. This option allows you to specify an upper limit for the amount of kernel memory that can be consumed by the container's processes. By default, the kernel allocates memory based on the container image's requirements and the available system resources.
+
+            Using `--kernel-memory` can help prevent Out-of-Memory (OOM) errors in situations where the container's memory usage exceeds the available kernel memory. It also provides a way to fine-tune container resource utilization, ensuring that other system processes have sufficient memory. The value should be specified in bytes, for example: `--kernel-memory 1g` or `--kernel-memory 2048m`.
+        label: |-
+            [AI] The `--label` option in the `docker run` command is used to assign metadata keys and values (labels) to a Docker container. Labels provide additional information about the container, which can be useful for filtering or organizing containers based on specific labels. The syntax for using `--label` is as follows:
+
+            ```bash
+            docker run --label <key>=<value> ...
+            ```
+
+            Multiple labels can be set by adding multiple `--label` options in the command:
+
+            ```bash
+            docker run --label key1=value1 --label key2=value2 ...
+            ```
+
+            Labels are stored as annotations in the container metadata and can be retrieved using various Docker tools, such as `docker inspect` or the Docker API. They can also be used by other tools that interact with Docker, such as orchestration platforms like Kubernetes.
+        label-file: '[AI] The `--label-file` option in the `docker run` command is used to apply metadata labels to a Docker container from a file instead of specifying them directly on the command line. The file should contain key-value pairs separated by `=`, with one label per line. When this option is used, Docker reads and applies these labels as metadata to the created container. This can be useful for managing and organizing containers based on their associated metadata.'
+        link: '[AI] The `--link` option in the `docker run` command is used to create a link between containers. This means that when one container is started, another container is automatically connected to it. The linked container''s name and alias are added as environment variables to the dependent container. This allows the dependent container to access services or data on the linked container without having to explicitly connect to it using network or volume mechanisms. It simplifies communication between containers in a multi-container setup.'
+        link-local-ip: '[AI] The `--link` flag in Docker is used to create a link between containers, allowing them to communicate with each other using their container names as hosts. The `--link-local-ip` option is an extension of this flag, which makes the linked container''s local IP address available to the linking container. This can be useful when you want to access services running in the linked container from the application container without relying on DNS or hostname resolution. It enables direct communication between the containers using their local IP addresses instead.'
+        log-driver: |-
+            [AI] The `--log-driver` option in the `docker run` command is used to configure the logging driver for a Docker container. Docker comes with several built-in logging drivers such as `json-file`, `syslog`, `gelf`, etc., which determine how logs are collected, stored, and forwarded.
+
+            For instance, if you use the `--log-driver=json-file` option, Docker will write container logs to a JSON file on the host machine. If you specify `--log-driver=syslog`, logs will be sent to the system logging daemon (rsyslog or syslog-ng).
+
+            Custom log drivers can also be used by providing their configuration files as images or volumes during container creation. This enables advanced logging capabilities, such as real-time data processing and forwarding logs to external services like Elasticsearch or Splunk for further analysis.
+        log-opt: |-
+            [AI] The `--log-opt` option in the `docker run` command is used to configure the logging settings for a Docker container. Specifically, it allows you to customize the output format and destination of the container's logs.
+
+            For example, you might use `--log-opt max-logs=5` to limit the number of logs displayed to 5, or `--log-opt flag=true` to enable a specific log flag. Other options include specifying the log driver (e.g., `--log-opt driver=json-file`) and setting the log level (e.g., `--log-opt level=debug`).
+
+            Overall, using `--log-opt` can help you manage and monitor your container logs more effectively by allowing you to customize the logging output to fit your specific needs.
+        mac-address: |-
+            [AI] The `--mac-address` option in the `docker run` command is used to set a custom MAC address for the virtual Ethernet adapter assigned to a Docker container. This can be useful for certain networking configurations or when dealing with applications that rely on specific MAC addresses.
+
+            By default, Docker assigns random MAC addresses to containers' virtual adapters. However, you can specify a particular MAC address using the `--mac-address` flag followed by the desired hexadecimal value (e.g., `--mac-address 02:45:60:8B:01:23`). Keep in mind that modifying MAC addresses might interfere with your network security and should be used with caution.
+        memory: |-
+            [AI] The `--memory` option in the `docker run` command is used to limit the amount of memory that a Docker container can use. It takes an integer value followed by the suffix K (for kilobytes), M (for megabytes), or G (for gigabytes) to represent the memory limit.
+
+            For example, `--memory=512M` sets a memory limit of 512 megabytes for the container. If the container attempts to allocate more than the specified amount of memory, Docker will start killing processes and freeing resources in order to keep the usage below the limit. This can help prevent out-of-memory errors and ensure that containers do not consume excessive system resources.
+        memory-reservation: '[AI] `--memory-reservation` is a flag used in the `docker run` command to set a minimum reserved memory limit for a Docker container. This means that Docker ensures that the container gets at least this amount of memory, even if it hasn''t used it all yet. By reserving memory, you can prevent other containers from starving the current container of resources when they experience spikes in memory usage. Setting an appropriate memory reservation helps maintain stability and performance in your Docker environment.'
+        memory-swap: |-
+            [AI] The `--memory` and `--memory-swap` flags in the `docker run` command are used to configure the amount of RAM and swap memory allocated for a Docker container.
+
+            `--memory` sets the limit on the amount of RAM that a container can use, while `--memory-swap` sets the limit on the combined size of both RAM and swap memory that the container is allowed to use. Swap memory is the virtual memory space on the host system that Docker uses when the container requires more memory than is available.
+
+            For example, `docker run --memory=2g --memory-swap=4g image_name` sets the container's RAM limit to 2GB and the combined RAM+swap limit to 4GB. This means that the container can use up to 2GB of physical memory, and if it needs more memory, Docker will use up to an additional 2GB of swap memory on the host system.
+
+            It's important to note that setting high `--memory-swap` limits can lead to performance issues or even cause the container to crash due to excessive paging, so these settings should be used carefully and with an understanding of the resource requirements of the application running inside the container.
+        memory-swappiness: |-
+            [AI] `--memory-swappiness` is an optional argument when running a Docker container using the `docker run` command. It sets the memory swappiness level for the Linux kernel's Out-of-Memory (OOM) killer, which determines the order in which it kills processes when system memory is exhausted.
+
+            A value between 0 and 100 can be specified. The default value is 60, meaning that the Linux kernel will attempt to free up memory by swapping out data from the least recently used pages before killing running processes. A lower value (e.g., 0) means that less memory will be swapped out in favor of keeping as much RAM as possible for the container's processes. However, this can increase the risk of an OOM situation and may negatively impact container performance if insufficient physical memory is available. Conversely, higher values (e.g., 100) allow more aggressive swapping out and might lead to more frequent process terminations but could help keep the host system stable during memory pressure.
+        mount: '[AI] `docker run` is a command used to create and start a new Docker container from an image. The `--mount` option, also sometimes written as `-v` or `--volume`, specifies that data should be mounted into the container. This can be used to bind a host directory to a container directory, or to mount a dangling volume. This allows data to persist outside of the container''s lifecycle and enables data sharing between containers or with the host system. For example, `--mount type=bind,src=/host/path,dst=/container/path` binds the host directory to the container directory.'
+        name: |-
+            [AI] `docker run` is a command used to create and start a new Docker container from an image. The `--name` option allows you to give a custom name to the container when it's created. Without this option, Docker will automatically generate a random name for the container.
+
+            So in summary, `docker run --name <container_name>` creates and starts a new container using the specified image, and assigns the given name `<container_name>` to the container.
+        net: |-
+            [AI] The `--net` flag in the `docker run` command is used to configure the network mode for the newly created container. Docker supports various networking modes, including:
+
+            * Bridge: Connects a container to the default Docker bridge network, making it reachable from other containers and the host machine using their respective IP addresses.
+            * Host: Makes the container's network stack part of the host's, allowing the container to access the host's network interfaces directly.
+            * MacVlan: Assigns a unique MAC address for each container in the same subnet. It is useful when dealing with multiple containers on the same network and requires more resources.
+            * Overlay: Creates a virtual layer (overlay network) that supports communication between containers across different Docker hosts.
+            * None: Isolates the container's network stack, not connecting it to any other network.
+
+            By specifying the `--net` flag followed by the desired networking mode (e.g., `--net bridge`, `--net host`, or another supported mode), you can configure the container's network settings when running it using the Docker CLI.
+        net-alias: |-
+            [AI] The `--net-alias` flag in Docker is used to assign a custom name or alias to a network interface created by a container when it's connected to a bridge, overlay or macvlan network. This can be useful for simplifying network configuration and improving readability when working with multiple containers that need to communicate with each other using specific labels. The general syntax is `--net-alias <alias_name>` and it should be used in combination with the `docker run` command followed by the container image name or ID. For example:
+
+            ```bash
+            $ docker run -d --net-alias myapp-db -e MYAPP_DB=mydbuser:mydbpass@mydatabase:5432 myregistry/myimage:latest
+            ```
+
+            In this example, the container named `myimage` will be given a network alias called `myapp-db`, which can then be referenced by other containers when configuring their connections.
+        network: |-
+            [AI] The `--network` flag in the `docker run` command is used to configure the networking mode for a Docker container. By default, containers are networked in a bridge mode where they are connected to a virtual bridge created by Docker on the host machine.
+
+            With the `--network` flag, you can specify different networking modes, such as:
+
+            * `--network=bridge` (default): Connects the container to a new Docker bridge network.
+            * `--network=host:` Connects the container to the host's network stack, sharing its network stack with the container.
+            * `--network=none:` Disables networking in the container, requiring you to manually set up networking using other tools or methods.
+            * `--network=container:<container_name_or_id>`: Connects the container to the network of another container.
+            * `--network=overlay|macvlan|ipvlan|bridge-can|none|aws-vpc|aws-egress|docker-for-desktop`: Uses a specific Docker networking driver for more advanced network configurations, depending on your use case and environment.
+
+            These options allow you to customize the container's networking according to your needs in terms of security, performance, and connectivity with other containers or external resources.
+        network-alias: '[AI] The `--network-alias` flag in Docker is used to assign a custom hostname or alias to a running container instead of the automatically generated one. This can be useful when you need to access the container using its hostname from other services or containers in the same network. For example, if you have two containers communicating with each other, you may want to use `--network-alias` to assign them easily identifiable names. The format is: `docker run --network-alias=<alias>:<container_name> ...`.'
+        no-healthcheck: '[AI] The `--no-healthcheck` flag used with the `docker run` command instructs Docker not to set up or use a container''s built-in health check mechanism. This health check is typically used to periodically probe the container to ensure it''s running and responsive. When you provide this flag, Docker will neither start nor manage any health checks for the specified container.'
+        oom-kill-disable: '[AI] The `--oom-kill-disable` flag in Docker''s `run` command disables the Out of Memory (OOM) killer feature in the Linux kernel for the container. When the system runs low on memory, the OOM killer process selects a running process to terminate to free up memory. By disabling this feature with `--oom-kill-disable`, Docker containers will not be automatically killed when they run out of memory, but instead, they may continue to consume resources and potentially bring down the host system due to resource exhaustion. It''s important to note that this flag should only be used in trusted environments where container misbehavior or excessive resource consumption is not a concern.'
+        oom-score-adj: |-
+            [AI] The `--oom-score-adj` option in the `docker run` command is used to adjust the Out of Memory (OOM) scoring for a Docker container. OOM score is a value assigned by the Linux kernel that determines which processes to kill when memory becomes scarce. A positive score makes it less likely for a process to be killed, while a negative score increases the likelihood. By default, all containers start with an OOM score of 0.
+
+            Using `--oom-score-adj` allows you to set a custom value (-1000 to +1000) to prioritize or deprioritize memory usage for a specific container relative to other processes running on the system. A higher positive value increases the priority, while a lower negative value decreases it. This can be useful in scenarios where you have memory-intensive containers that may benefit from being given more precedence over others when memory becomes tight.
+        pid: |-
+            [AI] The `--pid` flag in the `docker run` command is used to configure the container's process isolation mode. By default, Docker runs containers in their own separate process namespaces, which isolates their processes from the host and other containers. However, the `--pid` flag can be used to change this behavior:
+
+            * `--pid=host`: The container shares the same process namespace as the host, meaning its processes are not isolated and are directly part of the host's process table.
+            * `--pid=container:` followed by the container ID or name: The container uses the same process namespace as a specified container, which makes their processes co-mingled within that namespace.
+
+            By using these options, you can customize how Docker manages process isolation for your containers.
+        pids-limit: '[AI] The `--pids-limit` option in the `docker run` command is used to limit the maximum number of processes a container can have. It sets a soft and hard limit on the number of processes that can be created in the container. The soft limit is the maximum number of processes that can be created before the container starts sending signals to existing processes to terminate, while the hard limit is the maximum number of processes after which no new processes can be started. This option improves the container''s resource utilization and isolation by preventing unwanted or rogue processes from consuming excessive system resources.'
+        platform: '[AI] The `--platform` option in the `docker run` command is used to specify the operating system and architecture on which a Docker image should be run. This is particularly useful when working with multi-platform images, where a single image can be built to support multiple OS/Arch combinations. By specifying the desired platform with `--platform`, Docker will ensure that a compatible container is created and started.'
+        privileged: |-
+            [AI] The `--privileged` flag in Docker is used to grant special permissions to a container, allowing it to perform actions that require higher levels of privileges than a standard container. These permissions include:
+
+            1. PID namespace: The container can manage the processes in the host's PID namespace. This means the container has control over all processes running on the host, which is a significant security risk and should be used with caution.
+            2. IPC namespace: The container can create, send, and receive Inter-Process Communication (IPC) messages and semaphores, allowing for more efficient communication between the host and container.
+            3. Network stack: The container has full control over its own network stack, allowing it to bind to any port or IP address, including those below 1024, which are usually restricted. It can also perform raw socket programming and other advanced networking tasks.
+            4. Host access: The container can access the host's devices and files using absolute paths, even if the file isn't in the container's file system. This is useful for certain applications that need direct access to hardware or specific files on the host.
+            5. Capabilities: The container has all capabilities enabled by default, which is more than what a standard container gets.
+
+            It's important to note that using `--privileged` flag can pose significant security risks, and it should only be used in trusted environments and for specific use cases where there is no alternative.
+        publish: '[AI] The `--publish` flag in Docker''s `run` command maps a container''s port to the host machine''s port, allowing external traffic to reach the container. The syntax for this flag is `--publish <host-port>:<container-port>`, where `<host-port>` is the port on the host machine and `<container-port>` is the corresponding port inside the container. This enables direct communication between the container and external clients, making it useful for accessing applications or services running inside the container from outside the Docker environment.'
+        publish-all: '[AI] The `--publish-all` flag is a shorthand option used with the `docker run` command for publishing all exposed ports of a Docker container to the host machine randomly at runtime, without requiring explicit mapping. Instead of specifying individual port mappings using the `-p` or `--publish` option, this option exposes all ports and assigns them to available random ports on the host machine. This can simplify the process of making containers accessible from the host machine but might also lead to potential conflicts if other services are using the same ports.'
+        pull: '[AI] The `--pull` option in the `docker run` command instructs Docker to pull the latest image for the specified container, even if a locally available image with an identical tag already exists. This is useful when you want to ensure that your containers are always running with the latest image versions, or when you''re working with images that have regular updates and bug fixes. The `--pull` flag ensures that the newest image will be downloaded before starting the container.'
+        quiet: '[AI] The `--quiet` flag is an option that can be used with the `docker run` command to suppress all output except for the container ID. This means that only the ID of the created container will be displayed, and there will be no other output such as progress messages or success/error messages. It''s useful when running containers in scripts or automation workflows where you don''t need to see the detailed output each time.'
+        read-only: '[AI] The `--read-only` flag is used when running a Docker container. It makes the container read-only, meaning that writes to the container''s filesystem are prevented. This can be useful in certain scenarios such as running a container as a data consumer or a web server, where write access is not required and may introduce security risks. Additionally, using read-only containers helps ensure consistency between container instances and reduces the risk of accidental data modification.'
+        restart: |-
+            [AI] The `--restart` flag in Docker's `run` command determines how a container should be started if it stops or exits. It accepts three values:
+
+            1. `always`: The container is automatically restarted whenever it exits, regardless of the reason. This can be useful for services that should always be running.
+            2. `on-failuer`: The container is only restarted if it exits with a non-zero status code (indicating an error). This is the default behavior if no `--restart` flag is provided.
+            3. `never`: The container is never automatically restarted, even if it exits due to an error.
+
+            For example, `docker run --restart always my-image` would ensure that a container based on the `my-image` image is always running and is automatically restarted if it stops for any reason.
+        rm: '[AI] The `--rm` flag in a `docker run` command instructs Docker to automatically remove the container once its process exits. This is useful when running containers that do not need to persist data or continue running after their process completes, as it simplifies container management and reduces resource usage.'
+        runtime: |-
+            [AI] The `--runtime` option in the `docker run` command is used to specify which runtime engine Docker should use to create and manage a container's process isolation and resource management. By default, Docker uses its own built-in container runtime called "docker-container-engine." However, Docker also supports other container runtimes such as containerd or CRI-O.
+
+            Using `--runtime` allows users to choose an alternative runtime engine if they have specific requirements or preferences. For instance, users may opt for a more lightweight runtime or one that provides additional features not available in the default Docker engine. To use this option, simply provide the name or path of the desired container runtime as an argument. For example:
+
+            ```bash
+            docker run --runtime my-custom-container-runtime image:name
+            ```
+        security-opt: '[AI] The `--security-opt` flag in Docker is used to set various security options for a container. It allows specifying different SELinux (Security-Enhanced Linux) or AppArmor profiles, Capability additions or removals, and other security features. These settings help enhance the security of the container by controlling what the container can access or do on the host system. For instance, `--security-opt seccomp:rule=SECCOMP_FILTER:` sets a custom Seccomp filter to restrict the container''s syscalls. This flag provides an extra layer of protection and control over the container''s capabilities and interactions with the host system.'
+        shm-size: '[AI] The `--shm-size` option in the `docker run` command sets the size of the shared memory (also known as Temporary Shared Memory or tmpfs) that will be used by Docker for storing data that needs to be shared between the container and the host, or between containers. The default value is usually set based on system configuration, but it can be explicitly set with this option. A larger value may improve performance for certain applications, while a smaller value can save disk space.'
+        sig-proxy: |-
+            [AI] The `--signal-proxy` option in the `docker run` command is used to forward signals between the Docker host and the running container. This can be useful when you want to send specific signals (like SIGTERM or SIGHUP) to a container without having to access the container's process directly.
+
+            When the `--signal-proxy` flag is set, Docker will automatically create a proxy process on the host machine that listens for signals and relays them to the corresponding container process. This way, you can send signals to a container using standard Unix signal commands (like `kill <container_id> <signal>`) as if they were running natively on the host.
+
+            It's important to note that this feature is primarily meant for sending predefined signals and should not be used for more complex communication scenarios, such as IPC or inter-process messaging between containers or between the host and a container.
+        stop-signal: '[AI] The `--stop-signal` option in the `docker run` command is used to specify the signal that Docker should send to a container when it''s being stopped. By default, Docker sends the SIGTERM signal (number 15) when stopping a container. However, you can use this option to change the signal to another value, such as SIGKILL (number 9), which forces the container to stop immediately. This can be useful in certain scenarios where you need more control over how your containers are terminated.'
+        stop-timeout: '[AI] The `--stop-timeout` flag in Docker''s `run` command sets a time limit for how long a container can be gracefully stopped before being forcefully terminated. Once the specified time elapses, Docker sends a SIGTERM signal to the container and waits for it to stop. If the container does not respond within the set time, Docker sends a SIGKILL signal to forcefully terminate it. This flag is useful in preventing unresponsive containers from lingering indefinitely when they are no longer needed or when an application fails to gracefully shut down. The default value for `--stop-timeout` is 10 seconds.'
+        storage-opt: '[AI] The `--storage-opt` option in the `docker run` command is used to set custom options for the Docker storage driver. It allows you to configure various aspects of how data is stored and managed within a Docker container. Some common use cases include setting up volumes, using external storage systems, or adjusting the size and performance of the underlying storage layer. For example, `--storage-opt dm.bsize=65536` sets the block size for the device mapper storage driver to 65KB. Consult the Docker documentation for a complete list of available options and their meanings.'
+        sysctl: |-
+            [AI] The `--sysctl` option in the `docker run` command allows users to set custom kernel parameters for a Docker container at runtime. This can be useful when certain system settings are required but not provided by the base image or the host environment. By specifying the key-value pairs of desired sysctl options, this flag overrides the default settings and helps in optimizing container performance or ensuring security. For example:
+
+            ```bash
+            docker run --sysctl net.core.rmem_max=65536 --sysctl net.ipv4.ip_local_port_range=1024 8080:80 image_name
+            ```
+
+            In the above example, the container will have `net.core.rmem_max` and `net.ipv4.ip_local_port_range` sysctl parameters set to 65536 and 1024-65535, respectively.
+        tmpfs: '[AI] The `--tmpfs` flag in a Docker `run` command creates temporary filesystems in volatile memory for specified directories or files instead of using the host file system or a data volume. This can improve security and performance by keeping the data isolated within the container and avoiding disk I/O. For example, `docker run --tmpfs /data:10g myimage` creates a 10GB tmpfs mount named "/data" for the container.'
+        tty: '[AI] The `--tty` flag when using the `docker run` command asks Docker to allocate a pseudo-TTY for the container. A TTY (Teletype) is a device that supports text-based interaction, allowing a process to read and write text character by character. By allocating a TTY, containers can have interactive console access which is useful for running applications that require user input or that produce output in real-time.'
+        ulimit: |-
+            [AI] The `--ulimit` option in the `docker run` command sets Ulimit (Unix Limit) resources for a Docker container. Ulimits are restrictions set on various resources such as CPU usage, memory consumption, open files, and number of processes.
+
+            By using `--ulimit <resource> <value>`, you can specify the limit for a resource in the container. For instance, `--ulimit CPU 100 --ulimit MEMORY 512m` sets a CPU usage limit to 100% and a memory limit of 512 MB for the container.
+
+            This helps in preventing containers from consuming excessive system resources and ensures fairness across multiple containers running on the host system.
+        user: '[AI] `--user` is an option used with the `docker run` command in Docker to specify the User Namespace for the container. It allows setting the effective UID and GID for the container, overriding the default root user (0:0). This can be useful for running containers as non-root users or specific system users for security reasons or to mimic production environments. For example, `--user myusername:mypassword` sets the user in the container to ''myusername'' with the given password. If no password is provided, Docker will use the password from the system''s /etc/passwd file.'
+        userns: |-
+            [AI] `--userns` is a Docker option when running a container, which allows setting custom User Namespace for the container. This can be useful in various scenarios such as:
+
+            1. Running containers as non-root users for better security.
+            2. Complying with certain requirements in production environments where containers are required to run as specific users or groups.
+            3. Maintaining application isolation.
+
+            By using `--userns`, you can specify a User Namespace (created via `docker create network` or `docker run --detach --rm --restart=no --name myns -p 0.0.0.0:5000:5000 myregistry/myimage:latest`) and then use that namespaced container when running a new container via `--userns <option> <namespace-name>`.
+
+            For example, `docker run --userns <option> myns myimage:latest` will create the container in the specified namespace.
+        uts: '[AI] The `--uts` option in the `docker run` command is used to specify that the Docker container and the host system should share the same UTC (Coordinated Universal Time) timeSync namespace. This means that both the container and the host will have the same system clock, which can be useful when running applications that require tight synchronization between the container and the host for logging or other purposes. Sharing the UTC timeSync namespace improves the accuracy of timestamps in the application logs and helps to avoid potential issues caused by clock skew between the container and the host.'
+        volume: |-
+            [AI] The `--volume` option in the `docker run` command is used to mount a volume from the host machine into the Docker container. This allows data to be shared between the container and the host, or between multiple containers.
+
+            When you use this option, you can specify a directory path on the host machine as the source of the volume, followed by an optional name for the volume inside the container. For example, `-v /host/path:/container/path`. If no name is provided, Docker will automatically generate one based on the source and destination paths.
+
+            This can be useful in a number of scenarios, such as persisting data generated by a container even after it has been stopped or removed, sharing files between containers, or allowing containers to access sensitive data from the host without exposing it publicly through a network port.
+        volume-driver: '[AI] The `--volume-driver` option in the `docker run` command is used to specify which volume driver to use for managing persistent data volumes for Docker containers. A volume driver is a plugin that provides a way to manage data volumes outside of Docker''s default implementation. This can be useful when working with specific storage systems or cloud providers, as it allows data to be stored and accessed consistently across container restarts and host machines. The most commonly used volume drivers are `local` (for on-host data) and `aws`, `azure`, and `gce` for cloud providers.'
+        volumes-from: '[AI] `--volumes-from` is a flag used in Docker to mount the volumes of one container into another container when running it. This allows containers to share data or configurations with each other without the need for an explicit network connection or using named volumes. The source container must be running and its volumes are made available to the target container as if they were local volumes.'
+        workdir: '[AI] The `--workdir` flag in a `docker run` command sets the working directory for containers started from an image. It specifies the initial working directory within the container when a process running in that container is started. This can be important for ensuring consistency and ease of use when managing applications inside containers. For example, if an application expects to have its files in a certain location, setting the workdir to that location can help avoid potential issues.'

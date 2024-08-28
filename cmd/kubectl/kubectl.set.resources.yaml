@@ -1,0 +1,71 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: resources (-f FILENAME | TYPE NAME)  ([--limits=LIMITS & --requests=REQUESTS]
+description: Update resource requests/limits on objects with pod templates
+flags:
+    --all: Select all resources, in the namespace of the specified resource types
+    --allow-missing-template-keys: If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
+    --dry-run?: Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
+    --field-manager=: Name of the manager used to track field ownership.
+    --limits=: The resource requirement requests for this container.  For example, 'cpu=100m,memory=256Mi'.  Note that server side components may assign requests depending on the server configuration, such as limit ranges.
+    --local: If true, set resources will NOT contact api-server but run locally.
+    --record&: Record current kubectl command in the resource annotation. If set to false, do not record the command. If set to true, record the command. If not set, default to updating the existing annotation value only if one already exists.
+    --requests=: The resource requirement requests for this container.  For example, 'cpu=100m,memory=256Mi'.  Note that server side components may assign requests depending on the server configuration, such as limit ranges.
+    --show-managed-fields: If true, keep the managedFields when printing objects in JSON or YAML format.
+    --template=: Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates [http://golang.org/pkg/text/template/#pkg-overview].
+    -R, --recursive: Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.
+    -c, --containers=: The names of containers in the selected pod templates to change, all containers are selected by default - may use wildcards
+    -f, --filename*=: Filename, directory, or URL to files identifying the resource to get from a server.
+    -k, --kustomize=: Process the kustomization directory. This flag can't be used together with -f or -R.
+    -l, --selector=: Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2). Matching objects must satisfy all of the specified label constraints.
+    -o, --output=: 'Output format. One of: (json, yaml, name, go-template, go-template-file, template, templatefile, jsonpath, jsonpath-as-json, jsonpath-file).'
+documentation:
+    command: |-
+        [AI] The `kubectl set resources` command is used to update the resource requirements or limits for Kubernetes objects such as Pods, Deployments, and ReplicaSets. The syntax is:
+
+        ```bash
+        kubectl set resources <resource-kind>/<name> --container <container-name> --resources <resource-request/limit>
+        ```
+
+        For example, to update the CPU request for a container named `my-container` in a Pod named `my-pod`, you can use:
+
+        ```bash
+        kubectl set resources pods/my-pod --container my-container --resources req=100m cpu
+        ```
+
+        This command updates the resource definition of the specified Kubernetes object to include or modify the requested or limited resources for the specified container.
+    flag:
+        all: '[AI] `kubectl set resources` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`. This command allows you to update the resource requirements of running Kubernetes objects, such as Pods or Deployments. The `--all` flag extends this operation to apply the update to all objects of the specified kind in the current namespace by default, or across all namespaces if no namespace is provided. For instance, `kubectl set resources deployments --all --resource-version=1.23.4 resources=req.cpu:500m,req.memory:1Gi` updates the resource requirements of all Deployments in the cluster to request 500m of CPU and 1Gi of memory.'
+        allow-missing-template-keys: '[AI] `kubectl set resources` is a command used with the Kubernetes command-line interface (CLI) tool to update specific fields in YAML manifests. The `--allow-missing-template-keys` flag enables the update of fields even if they are missing in the manifest, but present in the running Kubernetes resource. This can be useful when making incremental updates to resources without modifying the entire manifest and causing unnecessary redeployments. However, it''s essential to use this flag with caution, as missing keys might lead to unexpected results or errors if not handled properly.'
+        containers: '[AI] `kubectl set resources` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`, to modify the resource requirements of containers in a running Kubernetes pod. The `--containers` flag specifies that the operation should be applied to all containers within the selected pod(s). By default, this command updates the CPU and memory requests and limits. You can also provide specific values for custom resources like GPUs or Ingress controllers using labels or selectors.'
+        dry-run: '[AI] `kubectl set resources` is a command used in Kubernetes to modify the resource requirements or limits of Kubernetes objects, such as Pods or Deployments, without actually applying the changes. The `--dry-run` flag is used in conjunction with this command to display what the changes would be if they were applied, without making any permanent modifications to the cluster. This is useful for testing and reviewing proposed changes before executing them.'
+        field-manager: |-
+            [AI] `kubectl set resources` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`. This command allows you to update the resource requirements or limits for one or more Kubernetes objects without having to edit the YAML files and then reapply the changes.
+
+            The `--field-manager` flag is an optional argument for `kubectl set resources`. It's used to specify the custom controller that manages the field updates. When you use this flag, any changes made with `kubectl set resources` will be tracked and managed by the specified custom controller rather than Kubernetes' built-in Reconcile loop. This is particularly useful when dealing with complex configurations where fine-grained control over resource updates is required.
+        filename: '[AI] `kubectl set resources` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`. This command allows you to update the resource requirements or limits of existing Kubernetes objects described by files, without having to edit and reapply those files. The `--filename` option specifies the path to the file that describes the object. So, in summary, this command is used for updating resource configurations of Kubernetes resources using a file.'
+        kustomize: |-
+            [AI] `kubectl set resources` is a command used with the Kubernetes command-line tool (kubectl) to modify the resource requirements or limits of existing Kubernetes objects, such as Pods, Deployments, or StatefulSets, in a cluster. The `--kustomize` flag is an optional argument that enables the use of Kustomize files for applying patches or modifications to the resource manifests.
+
+            When using `--kustomize`, you provide a path to a directory containing one or more Kustomize files (YAML files with a `.yaml` extension and a file named `configMap.yaml`), which define the desired changes to be made to the resource manifests. The command applies these patches to the resource manifests before updating them in the cluster, allowing for declarative and incremental configuration management.
+        limits: '[AI] `kubectl set resources` is a command used with the Kubernetes CLI (kubectl) to update the specified resource limits for running Kubernetes objects, such as Deployments or StatefulSets. The `--limits` flag is used to specify new resource limits in the format of "key/value" pairs, where key represents the resource type (CPU or memory), and value represents the desired limit in the units understood by Kubernetes (e.g., millicores for CPU or Mib for memory). By executing `kubectl set resources --limits <resource-type>/<limit> [<object-name]`, you update the resource limits for the specified object in your Kubernetes cluster.'
+        local: '[AI] `kubectl set resources` is a command used in Kubernetes to update the desired resource limits or requests for specific fields in a YAML manifest file without changing other parts of the file. The `--local` flag indicates that the changes will only be applied to the current copy of the file and not pushed back to the remote Kubernetes cluster or any version control system. In summary, `kubectl set resources --local` updates the resource requirements locally in a YAML file without affecting the original or remote configuration.'
+        output: '[AI] `kubectl set resources` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`. This command is used to update the specified resource(s) in a Kubernetes cluster with new values without modifying the original YAML manifest file. The `--output` flag specifies the format of the output. For instance, `json`, `yaml`, or `wide` can be used to display the output as JSON, YAML, or with additional columns respectively. So, when you use `kubectl set resources --output json <resource>`, it updates and returns the updated resource in JSON format.'
+        record: '[AI] `kubectl set resources` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`. This command allows updating the requested or limiting resource quantities for one or more fields in a Kubernetes manifest file or current deployment, replica set, statefulset, or other custom resource. The `--record` flag indicates that this update will be recorded as a new revision in Deployment history, creating a new rolling update. This way, users can roll back to previous versions if necessary.'
+        recursive: '[AI] `kubectl set resources` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`. This command allows updating the resource requirements of one or more Kubernetes objects in a cluster. The `--recursive` flag extends this operation to update the resource requirements for all contained objects in the specified directory recursively. For instance, if you run `kubectl set resources --recursive -d <directory>`, all YAML files under that directory will be scanned and updated with any specified resource changes. This is useful when managing large Kubernetes deployments where multiple config files are involved.'
+        requests: |-
+            [AI] `kubectl set resources` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`. This command is used to update the requested CPU and memory resources for one or more Kubernetes pods or containers in a deployment. The updated resource requirements are specified using the `--resources` flag followed by a raw JSON object indicating the desired CPU and memory requests and limits. For example:
+
+            ```bash
+            kubectl set resources deployment/my-deployment --resources='{ "limits": { "cpu": "2", "memory": "512Mi" }, "requests": { "cpu": "1", "memory": "256Mi" } }'
+            ```
+
+            This command updates the resource requirements for the `my-deployment` deployment, setting the requested CPU to 1 and memory to 256 MiB, while leaving the limits at their current values. Note that this command only changes the specified resources for the pods in the updated deployment or pod, it does not affect any other objects in the cluster.
+        selector: '[AI] `kubectl set resources` is a command used with Kubernetes'' `kubectl` tool for managing and configuring cluster resources. The `--selector` option filters the selection of objects based on their labels. When you use this command, followed by `set`, `resources`, and then `--selector`, you are updating the label selectors for one or more Kubernetes resources (such as pods, services, etc.) in your cluster. This can be helpful for adjusting selectors when deployments need to target new versions of containers or when managing resources with dynamic labels.'
+        show-managed-fields: |-
+            [AI] `kubectl set resources` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`, to update the specified resource(s) in a Kubernetes cluster. The `--show-managed-fields` flag is an optional argument that, when included, will display the fields managed by `kubectl` in the output of the command.
+
+            In other words, this flag helps you see which fields have been modified or set explicitly by the `set resources` command, as opposed to showing the entire YAML manifest for the resource(s). This can be helpful when you want to understand exactly what changes were made without having to parse an entire YAML file.
+        template: |-
+            [AI] `kubectl set resources` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`. This command allows updating the resource requirements or limits of Kubernetes objects, such as deployments or statefulsets, without editing YAML files or reapplying the configuration.
+
+            The `--template` flag is an optional argument that can be used with `set resources` to apply a custom template for generating the new YAML configuration based on existing resources and the specified updates. The template can include Kubernetes expression language (KEEL) to perform calculations or manipulate data. This feature is useful when making small, incremental changes to resource requirements or limits while keeping most of the original configuration unchanged.

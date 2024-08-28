@@ -1,0 +1,102 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: clean
+description: remove object files and cached files
+flags:
+    -C=: Change to dir before running the command
+    -a: force rebuilding of packages that are already up-to-date
+    -asan: enable interoperation with address sanitizer
+    -asmflags=: arguments to pass on each go tool asm invocation
+    -buildmode=: build mode to use
+    -buildvcs?: whether to stamp binaries with version control information
+    -cache: remove the entire go build cache
+    -compiler=: name of compiler to use
+    -cover: enable code coverage instrumentation
+    -coverpkg=: apply coverage analysis to each package matching the patterns
+    -gccgoflags=: arguments to pass on each gccgo compiler/linker invocation
+    -gcflags=: arguments to pass on each go tool compile invocation
+    -i: remove the corresponding installed archive or binary
+    -installsuffix=: a suffix to use in the name of the package installation directory
+    -ldflags=: arguments to pass on each go tool link invocation
+    -linkshared: build code that will be linked against shared libraries
+    -mod=: module download mode to use
+    -modcache: remove the entire module download cache
+    -modcacherw: leave newly-created directories in the module cache read-write
+    -modfile=: read and possibly write an alternate go.mod file
+    -msan: enable interoperation with memory sanitizer
+    -n: print the commands but do not run them
+    -overlay=: read a JSON config file that provides an overlay for build operations
+    -p=: the number of programs to run in parallel
+    -pgo=: specify the file path of a profile for profile-guided optimization
+    -pkgdir=: install and load all packages from dir
+    -r: apply recursively to all the dependencies
+    -race: enable data race detection
+    -tags=: a comma-separated list of build tags to consider satisfied during the
+    -testcache: expire all test results in the go build cache
+    -toolexec=: a program to use to invoke toolchain programs like vet and asm
+    -trimpath: remove all file system paths from the resulting executable
+    -v: print the names of packages as they are compiled
+    -work: print the name of the temporary work directory
+    -x: print the commands
+documentation:
+    command: '[AI] The `go clean` command is used to remove object files and compiled packages created by the Go compiler during a build process. It helps in keeping a clean workspace and ensures that no outdated files are left behind before starting a fresh build. When executed, it deletes files under the `bin`, `obj`, and `pkg` directories for the current module.'
+    flag:
+        C: '[AI] `go clean -C` is a command used in Go programming language to remove object files and cleaned compiler cache. The `-C` flag indicates that the command should be run on the current directory only, cleaning the Go workspaces in that directory recursively. This command is typically used before building or testing code from scratch to ensure a clean environment for the next compilation or test run.'
+        a: '[AI] `go clean -a` is a command used in Go programming language to remove object files and compiled packages generated during a build process. The `-a` flag stands for "all," meaning it cleans up the entire workspace, not just the current directory. This command helps keep the workspace tidy by removing intermediate files, allowing for a fresh start when preparing to build or test code.'
+        asan: '[AI] The command `go clean -cache` in Go programming language is used to remove object files and cache data generated during compilation. This operation helps to free up disk space and ensure a clean build environment before starting a new build. By using the `-cache` option, only the cached data will be removed, leaving the source code untouched. The flag name itself suggests that it is a Go-specific command related to cleaning the project.'
+        asmflags: '[AI] `go clean -asmflags` is a command used in Go programming language to remove object files and assembler files generated during compilation. The `-asmflags` option is an extra flag passed specifically to the assembler during cleaning. It instructs the assembler to also remove the output assembler files when running the `go clean` command.'
+        buildmode: '[AI] `go clean -buildmode=none` is a command used in Go programming language to remove object files and cleaned-up files generated during previous builds, leaving only source files. The `-buildmode=none` option is used to disable the Go build mode feature, which by default generates precompiled packages for faster builds on subsequent runs. When using this command, you''ll need to rebuild from scratch.'
+        buildvcs: |-
+            [AI] `go clean -buildvcs` is a command used in Go programming language to perform two actions:
+
+            1. `go clean`: This command removes all object files and compiled packages created during the previous build process from the $GOPATH directory, ensuring a clean start for subsequent builds.
+
+            2. `-buildvcs`: This flag instructs go to update the .git or other version control system's data before building. It's useful when working in a version controlled environment and you want to make sure your code is up-to-date with the latest changes before building.
+        cache: '[AI] `go clean -cache` is a command used in Go programming language to remove the build cache. The Go compiler stores compiled objects and packages in this cache for faster builds in subsequent sessions. However, when making changes to your code or working on new features, it''s often necessary to clear the cache to ensure that the latest version of your code is being built. Running `go clean -cache` will delete all cached files in the $GOPATH/pkg/mod/ and $GOPATH/cache/ directories, forcing Go to re-download and rebuild all required packages from scratch during the next build process.'
+        compiler: '[AI] The `go clean -compiler` command is used in Go programming language to remove object files and cached compiler data generated during a previous build. Specifically, it runs the `go clean` command with an additional flag `-compiler`, which instructs Go to also delete the compiled parser and type checker data that are specific to the current Go version. By doing this, you ensure that when you start a new build, Go will rebuild everything from source code, rather than using previously generated intermediate files. This can be helpful when changing Go versions or experiencing build issues.'
+        cover: |-
+            [AI] `go test -cover` and `go clean -cover` are two different Go commands.
+
+            `go test -cover` is used to run tests with the coverage report enabled. It provides percentage coverage information for each source file in the package being tested. The output is typically saved in a file named `cover.out` or `coverprofile`.
+
+            `go clean -cover` is used to remove the object files and test results, but it keeps the coverage data. This command is often run before running `go test -cover` to ensure that there's no old coverage data affecting the results. The coverage data is saved in a file named `cover.out` or `coverprofile`, which will be preserved during the clean operation.
+        coverpkg: '[AI] `go test -coverpkg` is a Go command used to run tests and generate coverage reports for specific packages within a Go project. The flag `-coverpkg` specifies which packages to include in the report. When used with `go clean`, it clears the previous coverage data before generating new reports.'
+        gccgoflags: '[AI] `go clean -gccgoflags` is a command used in Go programming language to remove object files and compiled packages generated during a previous build. The `-gccgoflags` option allows specifying additional flags for the C compiler used by Go''s `cc` command when building. These flags can be used, for example, to enable optimizations or debug information.'
+        gcflags: '[AI] `go clean -gcflags` is a command used in Go programming language to remove object files and run the Garbage Collector with specific flags. The `clean` command removes the object files generated during compilation, while `-gcflags` specifies additional flags for the garbage collector. These flags can affect the collector''s performance, memory usage, or other characteristics. Commonly used flags include `-m`, which prints detailed information about the GC pauses, and `-X`, which sets custom GC parameters.'
+        i: '[AI] `go clean -i` is a command used in Go programming language to remove object files and compiled packages. The `-i` (or `--interactive`) flag makes the operation interactive, meaning it will prompt before removing files that are not matched by the given file patterns. This can help prevent unintended deletions when cleaning multiple directories or projects.'
+        installsuffix: '[AI] The `-installsuffix` flag in Go''s `clean` command is used to specify a suffix that will be appended to installed package file names during a clean operation. This can be helpful when dealing with multiple versions of the same package, as it allows you to easily remove specific installations by using the correct suffix. For example, if you have packages named "mypkg-v1" and "mypkg-v2", you could use `go clean -installsuffix v1` to delete only the files related to "mypkg-v1".'
+        ldflags: '[AI] The `go clean -ldflags` command is used in Go programming language to remove object files and cleaned build artifacts generated during a previous compile, and then print the linker flags that were used during the last successful build. This command helps in keeping a clean workspace by removing unnecessary build files and provides information about the linker flags for reference during future builds.'
+        linkshared: '[AI] `go clean -linkshared` is a command used in Go programming language to remove object files and shared libraries generated during compilation. This command is typically run before building an application from scratch, as it helps to keep the build area clean and reduces the build time by avoiding recompilation of unchanged source files. The `-linkshared` option tells the Go toolchain to delete shared libraries instead of static ones when performing the clean operation.'
+        mod: '[AI] `go clean -mod` is a command used in Go programming language to remove unused object files and rebuild all Go modules from scratch. The `-mod` flag ensures that Go''s built-in module system is used during the build process, making it ideal for managing dependencies in large projects or when working with third-party packages. When executed, this command clears out the previous builds, ensuring a clean starting point for subsequent builds.'
+        modcache: '[AI] `go clean -modcache` is a command used in Go programming language to remove the cached module mode information. The Go mod system manages dependency downloads and versioning, storing cache data in the `go-mod.cache` directory. Running `go clean -modcache` deletes this cache, which can be helpful when dealing with dependency conflicts or when starting a new project from scratch, ensuring that all dependencies are fetched afresh.'
+        modcacherw: '[AI] The `go clean -modcache` command is used in Go programming language to remove the cached Go module downloads and build artifacts from the `$GOPATH/pkg/mod` directory. This command is typically run before starting a fresh build or when encountering issues with the module cache, such as dependency conflicts or outdated modules. Running this command ensures that you start with a clean environment and download the latest versions of your project dependencies.'
+        modfile: '[AI] `go clean -modfile` is a command used in Go programming language to remove the downloaded and built modules from the specified file or directory, named in the argument. This command helps to prepare the workspace for a fresh build or start of the project without keeping the previous module versions. By default, it removes all the files under the `go-mod.sum` and `go.sum` files within the current module, but you can use `-cache` flag to remove cache as well.'
+        msan: '[AI] The `go clean -msan` command is used in the Go programming language to remove object files and executables generated during compilation, while also enabling memory safety analysis with AddressSanitizer (MSAN). This command is typically run before building or testing a Go project from scratch to ensure a clean environment. It does not perform any actual analysis but prepares the workspace for it by removing old intermediates and setting up MSAN for further usage.'
+        "n": '[AI] The `go clean -n` command in Go programming language is used to remove object files and compiled packages created by a previous build. The `-n` (or --dry-run) flag is optional and it only prints out what files would be deleted without actually deleting them, allowing users to review the changes before executing the command.'
+        overlay: '[AI] `go clean -overlay` is a command used in Go programming language to remove object files and cleaned test files from the current directory and its subdirectories. The `-overlay` flag is optional and if used, it keeps the original source files instead of removing them during the cleaning process. This flag is particularly useful when working on large projects where rebuilding everything from scratch can take a long time, as only the outdated files will be replaced.'
+        p: '[AI] `go clean -p` is a command used in the Go programming language to remove object files and cleaned-up compilation artifacts from the current directory and all included subdirectories. The `-p` flag instructs Go to perform the cleanup recursively, ensuring that no leftover files remain after a build or compile process has been interrupted or aborted.'
+        pgo: |-
+            [AI] The command `go clean -pgo` is used in Go programming language for cleaning and rebuilding the entire project. Here's a breakdown of what each part does:
+
+            - `go`: This is the command-line interface (CLI) tool used to build and manage Go projects.
+            - `clean`: The `clean` subcommand removes all object files and compiled packages in the current module or workspace, leaving only source code behind.
+            - `-pgo`: The `-pgo` flag is short for `-prunetasns, -buildvcs, -obuildall`. It performs several tasks during the build process:
+              * `-prunetasns`: Prunes unused Go modules to save disk space and improve build times.
+              * `-buildvcs`: Builds and installs Go modules as needed based on their version control system (VCS) metadata, like Git or Mercurial. This ensures that the project has all its dependencies up-to-date before building.
+              * `-obuildall`: Rebuilds all packages within the current module, including those not directly used by the main package but may be required as dependencies for other packages.
+
+            In summary, `go clean -pgo` cleans the project (removes object files) and rebuilds everything with updated dependencies, optimized modules, and a more efficient build process.
+        pkgdir: '[AI] `go clean -pkgdir` is a command used in Go programming language to remove the object files and packages built from previous `go build` or `go install` commands in a specific directory (specified by `-pkgdir` flag). It helps to keep a clean workspace, prepare for a fresh build, and save disk space.'
+        r: '[AI] `go clean -r` is a command used in Go programming language to remove object files and compiled packages generated during previous builds. The `-r` flag stands for recursive, meaning it cleans not only the current directory but also all subdirectories. This can be useful before starting a fresh build or when preparing a project for sharing or submission.'
+        race: |-
+            [AI] `go clean -race` is a command used in the Go programming language to remove object files and race detection data generated during compilation.
+
+            The `-clean` flag instructs the Go toolchain to delete the object files (`.o`) and executable binaries generated from the previous build. This can be useful before starting a fresh build or when troubleshooting build issues.
+
+            The `-race` flag enables the race detector, which is a static analyzer in the Go compiler that identifies potential data races between goroutines. When building with `-race`, Go generates additional files containing race detection information. The `go clean -race` command removes these files as well.
+        tags: '[AI] `go clean -tags` is a command used in Go programming language to remove object files and cleaned tags in the $GOPATH directory. The `-tags` option indicates that the command should also delete tags for untagged builds, which can help reduce the amount of data stored during repeated build processes. This command is often used before running tests or building a project from scratch to ensure a clean environment.'
+        testcache: '[AI] `go testcache` is a command used in Go programming language to clear the test cache. The test cache is a feature in Go''s testing framework that stores compiled test files and their results, allowing for faster test runs on subsequent builds. By running `go testcache --clear`, you instruct Go to delete the cached test data, which can be useful when you''ve made changes to your tests or codebase and want to ensure a clean test run with freshly compiled tests.'
+        toolexec: '[AI] `go clean -tooldir` is a command used in Go programming language to remove unused object files and the cache of go.mod and go.sum files generated during compilation. The `-tooldir` flag specifies the location of the Go tools directory, where Go looks for third-party tools like `gometalinter`, `govendor`, etc., before searching in other standard directories. By cleaning this directory, you remove the cached versions of these tools and force Go to re-download their latest versions when needed.'
+        trimpath: '[AI] `go clean -trimpath` is a command used in Go programming language to remove object files and other build artifacts from the current directory and its subdirectories. The `-trimpath` option shortens the paths of the deleted files to only include their filenames, making it easier to maintain a clean workspace.'
+        v: '[AI] `go clean -v` is a command used in Go programming language to remove object files and compiled packages created during a build process. The `-v` flag stands for verbose mode, which means that it provides detailed output about the files being cleaned. This command can help keep your workspace clean by removing unnecessary files and is often run before starting a new build.'
+        work: '[AI] `go clean -cache` is a command used in Go programming language to remove object files and the build cache from the $GOPATH directory. It helps to ensure a clean environment before starting a new build by removing unused files, which can improve build time and reduce disk space usage.'
+        x: '[AI] `go clean -x` is a command used in Go programming language to remove object files and compiled binaries from the $GOPATH directory. The `-x` flag indicates that this operation should be performed recursively across all GOPATH directories. It''s often used before building or testing code to ensure a clean slate.'

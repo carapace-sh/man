@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: gc
+description: Cleanup unnecessary files and optimize the local repository
+group: main
+flags:
+    --aggressive: be more thorough (increased runtime)
+    --auto: enable auto-gc mode
+    --force: force running gc even if there may be another gc running
+    --keep-largest-pack: repack all other packs except the largest pack
+    --prune?: prune unreferenced objects
+    -q, --quiet: suppress progress reporting
+documentation:
+    command: '[AI] `git gc` is a Git command that initiates Garbage Collection (GC). This process runs in the background and automatically cleans up unused data, such as unreachable objects and packed refs, to save disk space and improve Git performance over time. It does not affect your current Git repository or working directory, but it may take some time to complete depending on the size of your Git history.'
+    flag:
+        aggressive: '[AI] `git gc --aggressive` is a Git command used to run Garbage Collection (GC) with an aggressive mode. The primary goal of GC in Git is to optimize and reduce the size of the local Git repository by removing unreachable objects from the pack files and the database. In aggressive mode, this command performs more thorough checks and cleanup, resulting in a more compact repository. It may take longer to complete than a standard `git gc` but offers improved performance and storage efficiency over time.'
+        auto: '[AI] `git gc --auto` is a Git command used to run Garbage Collection (GC) process in background mode with automatic pruning of unreachable objects. This command triggers Git to optimize and clean up the local repository''s database by finding and removing unreferenced objects, which saves disk space and makes Git operations faster. The `--auto` flag instructs Git to start the GC process when it deems necessary based on certain conditions, such as reaching a specific threshold of packed objects or elapsed time since last GC, allowing you to focus on other tasks without having to manually initiate it.'
+        force: |-
+            [AI] `git gc --force` is a Git command used to run Garbage Collection (GC) with the force option. Garbage collection is a process that helps optimize your Git repository by cleaning up unnecessary data and freeing up disk space.
+
+            When you use the `--force` flag, Git will overwrite any existing packed git objects without asking for confirmation. This can be useful if you're dealing with a corrupted or large repository, as it forces Git to regenerate all packed objects, potentially fixing issues or reducing file size. However, be cautious when using this command as it may irreversibly overwrite data.
+        keep-largest-pack: |-
+            [AI] `git gc --keep-largest-pack` is a Git command used to run Garbage Collection (GC) with an additional option. The GC process is essential for managing the local Git repository's background housekeeping tasks, such as reducing the disk space used by storing multiple versions of large pack files and reclaiming storage.
+
+            The `--keep-largest-pack` option instructs Git to keep the largest pack file during the garbage collection process instead of deleting it after merging. It is helpful when dealing with large repositories where keeping multiple large pack files improves fetching and cloning performance from remote servers.
+        prune: '[AI] `git gc --prune` is a Git command used to run Garbage Collection (GC) with the additional option `--prune`. The GC process helps to optimize and reduce the size of your Git repository by identifying and removing unreachable objects, such as deleted branches or commits. The `--prune` flag further removes local dangling branches that have been integrated into their respective upstream branches or no longer have an upstream branch. This command ensures a clean and efficient Git environment.'
+        quiet: '[AI] `git gc --quiet` is a Git command that triggers Garbage Collection (GC) process in background with minimal output. This command helps to reduce the size of Git repositories by removing unused data, such as packed objects that are no longer referenced by any branch or tag. The `--quiet` flag suppresses all informational messages during the execution, making it suitable for use in scripts or automated processes where only the result matters.'

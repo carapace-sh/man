@@ -1,0 +1,49 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: fork <repo>
+description: Create a fork of a GitLab repository
+flags:
+    --remote: Add remote for fork {true|false}
+    -c, --clone: Clone the fork {true|false}
+    -n, --name=: The name assigned to the resultant project after forking
+    -p, --path=: The path assigned to the resultant project after forking
+documentation:
+    command: '[AI] The `glab repo fork` command is used with GitLab''s CLI (Command Line Interface) tool, Glab. This command forks a repository from one GitLab account to another by creating a new copy of the original project under a new namespace or personal account. It does not require any local files or changes; instead, it acts directly on your GitLab projects via API interactions. To use this command effectively, make sure you have Glab installed and configured with access to both the source and target accounts.'
+    flag:
+        clone: |-
+            [AI] The `git clone` command with the `--recurse-submodules` or shorthand `--deep-subdir-forest` option and the `glab` tool's `repo fork` command are used to clone a Git repository along with its sub-modules initialized and updated. Here's a brief explanation of each part:
+
+            1. `git clone <url>`: This command is used to create a local copy of an existing remote Git repository.
+            2. `--recurse-submodules` or `--deep-subdir-forest`: These options ensure that the sub-modules (if any) in the cloned repository are initialized and updated during the cloning process. Without these options, sub-modules would be left uninitialized or broken.
+            3. `glab repo fork <upstream> [<new_remote>]`: This command from Glab (Git-ALB) is used to create a new Git branch based on an existing remote branch (forking), and clones the repository to your local machine. The optional `<new_remote>` argument lets you specify a custom name for the new remote. By default, it will be named as "origin".
+
+            So, if you want to clone a Git repository with sub-modules initialized and updated, use:
+            ```bash
+            glab repo fork <upstream> --clone --recurse-submodules
+            ```
+            or equivalently,
+            ```bash
+            git clone --recurse-submodules <url> <new_repository_directory>
+            ```
+            where `<url>` is the Git URL of the repository to be cloned and `<new_repository_directory>` is the local directory where you want to store the cloned repository.
+        name: '[AI] The `glab repo fork --name` command is used with Glab, a Git CLI tool for GitHub and GitLab. This specific command creates a new repository as a copy or "fork" of an existing one under your personal account on GitHub or GitLab. The `--name` option specifies the desired name for the new repository. For example, `glab repo fork --name my-new-repo origin user/repo.git`. This command creates a new repository named "my-new-repo" based on the contents of the original repository "user/repo".'
+        path: |-
+            [AI] The `git fetch` or `git pull` command with the flags `glab repo fork --path <new_repo_path>` is used to create a new repository as a fork of an existing one, on the local machine.
+
+            Here's a brief explanation of each flag:
+
+            1. `glab`: This is a Git alias tool that provides more user-friendly interfaces for common Git operations. The command `glab` is used to invoke it.
+            2. `repo`: This flag tells Glab to work with repository operations.
+            3. `fork`: This flag instructs Glab to create a new repository as a fork of an existing one on a remote Git server, usually GitHub.
+            4. `--path <new_repo_path>`: This flag specifies the local path where the new repository should be created.
+
+            In summary, this command creates a new local Git repository as a fork of an existing remote repository and sets up the remote origin to point back to the original repository for easy upstream and downstream updates.
+        remote: |-
+            [AI] The `git fetch origin <branch-name> --unshallow` command is often used when cloning a repository that was initially cloned as a shallow clone, meaning only the current branch was downloaded instead of the entire repository history. To make further operations like forking or merging easier, it's recommended to first pull in the full repository history using `git fetch --unshallow` before performing these tasks.
+
+            The command you provided, `git clone <url> --recurse-submodules --depth=1 && cd <repo-name> && git checkout -b <new-branch> && git push origin <new-branch-name> && cd .. && git remote add <remote-name> <forked-repo-url> && git fetch origin && git pull --rebase <remote-name> <feature-branch> && git push origin <new-branch-name>`, is a common sequence of Git commands for forking a repository, creating and checking out a new branch based on the forked repository, merging any upstream changes from the original repository into your local repository using rebase, and finally pushing those changes back to your forked repository.
+
+            The `git clone <url> --recurse-submodules --depth=1` part of the command clones the repository with submodules initialized, but only downloads a shallow copy of the submodule history (--depth=1). The `&& cd <repo-name> && git checkout -b <new-branch> && git push origin <new-branch-name>` sequence creates and checks out a new branch based on your local repository, and pushes that branch to the remote repository.
+
+            The next command, `git remote add <remote-name> <forked-repo-url>`, sets up a new remote named `<remote-name>` pointing to the URL of the forked repository. The following command, `git fetch origin`, downloads any new changes from the original repository into your local repository without merging them yet. This is important because you will merge these changes into your feature branch later using rebase.
+
+            The next command, `git pull --rebase <remote-name> <feature-branch>`, uses rebase to merge the changes in your remote feature branch into your local feature branch. This allows you to see the differences between your work and the upstream changes before merging them. Finally, `git push origin <new-branch-name>` pushes those merged changes back to your forked repository on GitHub.

@@ -1,0 +1,48 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: exec
+description: Execute a command in a Kubernetes pod.
+flags:
+    --invite=: A comma separated list of people to mark as invited for the session.
+    --no-participant-req&: Displays a verbose list of required participants in a moderated session.
+    --no-quiet&: Only print output from the remote session
+    --no-stdin&: Pass stdin to the container
+    --no-tty&: Stdin is a TTY
+    --participant-req: Displays a verbose list of required participants in a moderated session.
+    --reason=: The purpose of the session.
+    -c, --container=: Container name. If omitted, use the kubectl.kubernetes.io/default-container annotation for selecting the container to be attached or the first container in the pod will be chosen
+    -f, --filename=: to use to exec into the resource
+    -q, --quiet: Only print output from the remote session
+    -s, --stdin: Pass stdin to the container
+    -t, --tty: Stdin is a TTY
+documentation:
+    command: '[AI] `tsh kube exec` is a command used in the Tenable Security Center''s Tenable Shield (tsh) tool to execute commands on containers running in a Kubernetes cluster. The command takes the form `tsh kube exec <namespace>/<pod-name> -- <container-command>`. It establishes a connection to the selected container, runs the specified command, and displays the output. This functionality allows users to troubleshoot or perform tasks within their containers directly from the Tenable Security Center interface.'
+    flag:
+        container: '[AI] The `kubectl tsh exec` command is used to execute a shell or command inside a running container in a Kubernetes cluster. The `--container` flag specifies the name of the target container within the pod for the execution. This allows you to access and manage processes running within that specific container. This command requires prior setup such as having the `kubectl` tool installed and configured with access to your Kubernetes cluster.'
+        filename: '[AI] The `kubectl tsh exec` command is used to execute a shell or a command in a container running inside a Kubernetes cluster. The `--filename` flag is an option provided with this command, which specifies the name of a script file that contains the commands you want to run in the container. Instead of directly typing the commands into the terminal, you can create and manage your scripts outside the Kubernetes environment before executing them using this flag.'
+        invite: '[AI] The `tsh kube exec --invite` command is a part of the `kubectl` toolset in Kubernetes, specifically utilizing its `tsh` (short for Tilt Shift) mode. This command sends an invitation to join a running container''s process through SSH or a similar terminal-based interface. It does not create a new container but allows you to interact with an existing one, making debugging and inspection more convenient. The target container needs to have an interactive terminal-compatible shell installed.'
+        no-participant-req: '[AI] `tsh` is short for Tanzu Service Mesh, a tool provided by Red Hat for managing and configuring service meshes using Istio. The command `tsh kube exec --no-participant-req` is used to execute a command in a container running in a Kubernetes cluster without requiring the participation of sidecars or proxies managed by Istio. This means that the command will be executed directly in the container without any interception or modification by the service mesh sidecar.'
+        no-quiet: |-
+            [AI] `tsh` is short for Tanzu Service Mesh, a tool for managing and configuring service meshes in Kubernetes environments. The command `tsh kube exec --no-quiet` is used to run a command inside a pod managed by Tanzu Service Mesh with some specific flags.
+
+            * `kube exec`: This flag indicates that the command will be executed directly on a container within a pod, using the Kubernetes executor (kubectl).
+            * `--no-quiet`: This flag instructs `tsh` not to run commands quietly or without displaying output. If the command completes successfully, it returns a zero exit code; if it fails, it returns a non-zero exit code, along with an error message. By default, `tsh kube exec` runs commands in quiet mode (without displaying output), which can make logs harder to follow. Using the `--no-quiet` flag helps ensure that you see the output of your command as it runs.
+        no-stdin: '[AI] `tsh` is a Telescopic CLI tool for interacting with Kubernetes clusters, and `kubeexec` is one of its subcommands. The `--no-stdin` flag is an option passed to `kubeexec` when using the `exec` function. It prevents the container from automatically receiving standard input (STDIN) once it is started. Instead, you would manually provide input to the container through other means, such as interactively in the terminal or via files. This flag can be useful when running containers that don''t require interactive input or when you wish to manage their input separately.'
+        no-tty: '[AI] `tsh` is a Tanelorn Shell, a user-friendly command-line interface for Kubernetes. The command `tsh kube exec --no-tty` executes a command in a running container within a Kubernetes cluster without allocating a TTY (Teletype) device. This allows the process to run in the background and does not open a terminal window, making it useful for non-interactive tasks like script execution or system monitoring.'
+        participant-req: |-
+            [AI] The `--participant-req` flag in the `kubectl tsh exec` command is used to specify the level of participation required by the container being executed in a TSH (Telnet Serverside) session within a Kubernetes cluster. The available options are:
+
+            1. `active`: The default option, allowing the container to interactively receive input and send output during the execution. This is suitable when you want to run a command that interacts with the terminal.
+            2. `passive`: The container does not receive any input during its execution, but it can still send output to the terminal. This option is useful for monitoring or logging purposes without providing interactive input.
+            3. `optional`: The container receives input and sends output like the active mode, but its termination doesn't prevent the TSH session from continuing. When the container finishes executing, it does not automatically end the TSH session; you must explicitly close the session using an external command or tool.
+
+            The flag helps control the level of interaction between your Kubernetes cluster and the container being executed, providing more fine-grained control over the TSH session's behavior.
+        quiet: '[AI] `tsh` is a Tectonic (now Red Hat OpenShift) CLI tool for managing Kubernetes clusters. The command `tsh kube exec --quiet` is used to execute a command in a container running in a Kubernetes cluster, with quiet mode enabled. Quiet mode suppresses the output of progress indicators and container logs during execution. This can be useful when automating scripts or running multiple commands at once and only needing to see the final result.'
+        reason: |-
+            [AI] The `kubectl tsh exec` command is used to execute a shell or command in a running container within a Kubernetes cluster. The option `--reason` is not a standard flag for this command but is specific to the Tilt Shift (TSH) mode of Kubectl, which is an extension for deploying and managing applications on Kubernetes using Tilt.
+
+            The `--reason` flag provides a human-readable description or reason for invoking the container execution. It's useful when you want to record why the command was run within the Kubernetes event logs. The value provided with this flag will be included as an annotation in the container's pod log.
+        stdin: |-
+            [AI] `tsh` is a Telescope SHell command-line tool used in Red Hat OpenShift to interact with containers in an OpenShift cluster. The command `tsh kube exec --stdin` is used to execute a command in a running container and pass standard input (STDIN) interactively from the terminal.
+
+            This means that when you use this command, you'll be able to type your command directly into the container's environment as if you were connected via a terminal session. The flag `--stdin` ensures that STDIN is passed to the container rather than being read from a file.
+        tty: '[AI] `tsh` is short for Tilt Shift, a popular Kubernetes tool for local development. The command `tsh kube exec --tty` executes a command in a running container in the background of your terminal with a TTY (text teletype) allocation. This allows for interactive sessions and better console output. In simple terms, it runs a command inside a Kubernetes container with an interactive terminal.'

@@ -1,0 +1,81 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: gpg-agent
+description: Secret key management for GnuPG
+flags:
+    --allow-emacs-pinentry: allow passphrase to be prompted through Emacs
+    --allow-preset-passphrase: allow presetting passphrase
+    --daemon: run in daemon mode (background)
+    --default-cache-ttl=: expire cached PINs after N seconds
+    --disable-scdaemon: do not use the SCdaemon
+    --enable-ssh-support: enable ssh support
+    --extra-socket=: accept some commands via NAME
+    --ignore-cache-for-signing: do not use the PIN cache when signing
+    --keep-display: ignore requests to change the X display
+    --keep-tty: ignore requests to change the TTY
+    --log-file: use a log file for the server
+    --no-allow-external-cache: disallow the use of an external password cache
+    --no-allow-loopback-pinentry: disallow caller to override the pinentry
+    --no-allow-mark-trusted: disallow clients to mark keys as "trusted"
+    --no-detach: do not detach from the console
+    --options=: read options from FILE
+    --pinentry-program=: use PGM as the PIN-Entry program
+    --scdaemon-program=: use PGM as the SCdaemon program
+    --server: run in server mode (foreground)
+    --ssh-fingerprint-digest=: use ALGO to show ssh fingerprints
+    --supervised: run in supervised mode
+    -c, --csh: csh-style command output
+    -q, --quiet: be somewhat more quiet
+    -s, --sh: sh-style command output
+    -v, --verbose: verbose
+documentation:
+    command: '[AI] `gpg-agent` is a background process in GnuPG (GPG) used for managing and improving the performance of encryption keys. It provides a keycache, enabling symmetric and public key decryption without requiring the user to enter long passphrases frequently. Additionally, it supports smart cards for key storage. The `gpg-agent` communicates with applications using the GnuPG agent protocol to securely exchange keys and passphrase information.'
+    flag:
+        allow-emacs-pinentry: '[AI] `gpg-agent --allow-emacs-pinentry` is a command-line option for GPG (GNU Privacy Guard) agent, which enables Emacs as the default Pinentry application to handle user interactions during cryptographic operations such as decryption and signing. Pinentry is a helper program that handles the user interface for entering passphrases or other secret data required by GPG. By allowing Emacs as the Pinentry client, users who prefer Emacs as their text editor can conveniently perform these tasks within the Emacs environment without having to switch applications.'
+        allow-preset-passphrase: |-
+            [AI] `gpg-agent --allow-preset-passphrase` is a command-line option for the GnuPG (GPG) key management and encryption tool's background process, gpg-agent. This option enables the use of predefined passphrases stored in your operating system's keyring or other password managers when decrypting or signing data with specific keys.
+
+            By allowing gpg-agent to access these presets, you can avoid repeatedly entering the same passphrase for frequently used keys and enjoy better security through improved key handling and protection of your sensitive data.
+        csh: '[AI] `gpg-agent --csh` is a command-line option for the `gpg-agent` program in GnuPG (GNU Privacy Guard). It sets up the `gpg-agent` to use the C shell (tcsh) as its default shell for handling SSH keys. With this option, `gpg-agent` will manage SSH keys using tcsh''s features, enabling better integration with OpenSSH and simplifying key management within a tcsh environment.'
+        daemon: '[AI] `gpg-agent --daemon` is a background process in GnuPG (GPG) used to manage and cache decryption keys for improved performance and security. It runs as a separate daemon, which means it continues running even after you close the terminal session. This constant availability allows applications like email clients or text editors to access encrypted data without requiring users to enter their passphrases repeatedly. The --daemon option instructs gpg-agent to run as a background process.'
+        default-cache-ttl: '[AI] `gpg-agent --default-cache-ttl` is a command-line option for the GPG agent, which sets the default time-to-live (TTL) for cryptographic keys in its cache. The TTL specifies how long encrypted data can be reused before requiring the user to enter their passphrase again. A longer TTL increases convenience, but also security risk; a shorter TTL enhances security, but requires more frequent passphrase entries. By default, `gpg-agent` uses a TTL of 1 hour, but this can be changed using this option. For example, `--default-cache-ttl 4h` sets the default TTL to 4 hours.'
+        disable-scdaemon: '[AI] `gpg-agent --disable-scdawn` is a command line option used with the GPG (GNU Privacy Guard) agent program. The option disables the SCD (Smart Card Daemon), which is a component of gpg-agent that handles operations related to smart cards, such as signing and decrypting data using a smart card. By disabling the SCD, the gpg-agent will not communicate with any connected smart cards, and it will only use keys stored in its keyring for cryptographic operations.'
+        enable-ssh-support: '[AI] `gpg-agent --enable-ssh-support` is a command-line option for GPG (GNU Privacy Guard) agent, which enables SSH support in the GPG keychain. The GPG agent is used to manage and protect keys for encrypting and signing data with GPG. With `--enable-ssh-support`, the agent can also handle SSH keys and pass them securely to SSH for authentication. This improves security by keeping the SSH private key in the GPG agent''s keyring, which is protected by a strong passphrase.'
+        extra-socket: '[AI] `gpg-agent --extra-socket` is an option used with the `gpg-agent` command in GnuPG (GNU Privacy Guard) to create additional socket file paths for secure communication between `gpg-agent` and other applications. By default, `gpg-agent` listens on a Unix domain socket located at `~/.gnupg/S.gpg-agent.socket`. The `--extra-socket` option allows specifying one or more additional sockets with different access permissions or locations. This can be useful in various use cases such as running multiple instances of `gpg-agent` for different users or processes, or setting up dedicated sockets for specific applications with customized security settings.'
+        ignore-cache-for-signing: '[AI] The `--ignore-cache-for-signing` option for the `gpg-agent` command in GnuPG is used to bypass the signature cache when signing data or keys. This means that `gpg-agent` will not use previously stored keys from the cache for signing, instead it will search for the required keys anew each time a signing operation is performed. This can be useful in situations where you want to ensure that you are using the correct and most up-to-date keys for signing, such as when dealing with keys from multiple trust centers or when there is a risk of key compromise. By ignoring the cache, you can force `gpg-agent` to perform a more thorough key search and verification process each time, increasing security.'
+        keep-display: '[AI] `gpg-agent --keep-display` is a command-line option for the GPG agent (gnupg''s background process) which ensures that the GUI (Graphical User Interface) pinentry window stays open even if the user switches to another application or logs out. This is useful in certain environments like X11 sessions, SSH sessions, or other non-interactive contexts where the user might not be able to respond to pinentry prompts immediately. By using `--keep-display`, pinentry will remain visible and interactive, allowing the user to enter their passphrases when convenient.'
+        keep-tty: '[AI] `gpg-agent --keep-tty` is a command-line option for the GnuPG (GPG) agent, which is used to manage and protect encryption keys. The option `--keep-tty` instructs the GPG agent to keep its terminal connection alive, preventing it from disconnecting when the terminal window is inactive or minimized. This is particularly useful for graphical user interfaces (GUIs) that communicate with the GPG agent through the terminal, ensuring a persistent connection and smoother key management workflows.'
+        log-file: '[AI] `gpg-agent --log-file` is a command-line option for the GPG agent program. This option specifies a file where all logs generated by the GPG agent should be written to. By default, the GPG agent does not log its activities. Enabling logging with this option can help in troubleshooting and understanding the flow of data during cryptographic operations. The log files can be analyzed for debugging purposes using various text editors or log parsing tools.'
+        no-allow-external-cache: '[AI] `gpg-agent --no-allow-external-cache` is a command-line option for GPG (GNU Privacy Guard)''s key management agent. It disables the use of external caches in the gpg-agent, which are secondary offline storage locations for keys and keyrings in addition to the primary cache located within the agent itself. This can be useful for security reasons, as it ensures that all key handling stays within the local system without relying on potentially insecure external media or networks.'
+        no-allow-loopback-pinentry: |-
+            [AI] The `gpg-agent --no-allow-loopback-pinentry` is a command-line option for the GPG (GNU Privacy Guard) agent. This option disables the allowance of loopback connections for the Pinentry interface.
+
+            Pinentry is a user interface that allows users to enter passphrases or approve operations requiring confirmation. In the context of GPG, it is used to interact with key management and encryption/decryption processes.
+
+            By default, `gpg-agent` can accept connections from localhost (loopback) for pinentry interactions. Disabling this option ensures that only remote connections are accepted, thus increasing security by preventing potential attacks originating from the local machine.
+        no-allow-mark-trusted: '[AI] The `gpg-agent --no-allow-mark-trusted` is a command-line option used with the GPG agent (gnupg''s background process for managing and securing cryptographic keys). This flag disables the feature that allows keys to be marked as trusted without further confirmation. In other words, it prevents users from marking keys as trusted without providing explicit approval, adding an extra layer of security.'
+        no-detach: '[AI] `gpg-agent --no-detach` is a command line option for the GPG agent, which runs the agent in the foreground rather than as a background process. By default, `gpg-agent` detaches itself from the terminal and runs as a daemon process after initialization. However, using `--no-detach` prevents this behavior and keeps the agent running in the current terminal session. This can be useful when debugging or for specific use cases where having the GPG agent continuously visible is preferred.'
+        options: |-
+            [AI] `gpg-agent --options` is a command used to start the GPG (GnuPG) agent with customizable options. The GPG agent is a background process that provides key management services for GnuPG, including decryption and signing of data.
+
+            The `--options` flag allows specifying various options for the agent at startup. Some common options include:
+
+            - `--daemon`: Starts the agent in daemon mode, which runs in the background as a separate process.
+            - `--batch`: Enables batch processing mode, which processes commands without user interaction.
+            - `--list-keys`: Displays the list of available keys managed by the agent.
+            - `--allow-batch`: Allows batch processing for non-interactive sessions.
+            - `--bind-to`: Specifies the network interface and port number to bind to.
+
+            These are just a few examples; there are many other options that can be used with `gpg-agent --options`. For more information, consult the GnuPG manual or use the `--help` flag.
+        pinentry-program: '[AI] `gpg-agent` is a background process used by GnuPG (GPG) to manage and store encryption keys. The `--pinentry-program` option specifies the external Pinentry application that gpg-agent will use for user interaction, such as entering passphrases during decryption or signing operations. This allows users to implement their preferred method for handling such interactions, including graphical Pinentry applications, command-line tools, or even hardware tokens.'
+        quiet: '[AI] `gpg-agent --quiet` is a command-line option for the GnuPG (GPG) agent, which runs in the background managing keys and cryptography operations. The `--quiet` option requests that gpg-agent runs with minimal output or logging, making it suitable for automated scripts or systems where excessive console messages could be distracting or disruptive.'
+        scdaemon-program: |-
+            [AI] `gpg-agent --scdaemon-program` is an option used with the `gpg-agent` command in GnuPG (GNU Privacy Guard), a popular open-source cryptography library and toolkit. The option specifies the path to the SCD (Synchronous Command Daemon) helper program for `gpg-agent`.
+
+            When `--scdaemon-program` is set, `gpg-agent` will communicate with this external helper process instead of running its built-in SCD. This configuration can be useful when you need to use a custom or third-party SCD that provides additional features or functionality not available in the standard `gpg-agent`.
+
+            For example, if you're using YubiKey hardware tokens with GnuPG, you may need to set `--scdaemon-program` to point to the YubiKey's SCD to enable proper communication between your GnuPG setup and the YubiKey device.
+        server: '[AI] `gpg-agent --server` is a command-line option for GPG (GNU Privacy Guard) agent, which starts the GPG agent in server mode. In this mode, the GPG agent listens on a Unix domain socket or TCP port for client connections instead of running interactively in the foreground. This allows multiple GPG processes to share the same keyring and perform cryptographic tasks without having to reload keys each time. The server can be accessed remotely over a network using SSH tunneling or other methods, making it useful for securely managing and accessing encryption keys across different systems.'
+        sh: '[AI] `gpg-agent --sh` is a Bash shell script wrapper for the GPG agent (`gpg-agent`). It sets up the environment variables and starts or reconnects to the `gpg-agent` process in detached mode, allowing it to run in the background and manage cryptographic keys for GnuPG operations. This setup is useful when working in a terminal session and allows for convenient use of the GPG encryption and decryption utilities (such as `gpg` or `gpgsm`) without having to start the agent manually each time.'
+        ssh-fingerprint-digest: '[AI] `gpg-agent --ssh-fingerprint-digest` is a command used with the GPG (GNU Privacy Guard) agent. This command generates the SHA-256 or SHA-1 digest of an SSH key''s fingerprint, which is stored in the GPG keyring. By default, gpg-agent does not display the fingerprint digest when handling SSH keys. Using this command allows users to retrieve and compare the digests for verification purposes, enhancing security in public key-based authentication systems.'
+        supervised: '[AI] `gpg-agent --supervised` is a command-line option for the GPG (GNU Privacy Guard) agent. It instructs gpg-agent to run in supervised mode, which means that another process is responsible for managing and monitoring its lifecycle. This mode can be useful in environments where strict control over processes is required, such as system services or containerized applications. When run in supervised mode, gpg-agent will periodically report its status to the parent process, and will terminate if requested.'
+        verbose: '[AI] `gpg-agent --verbose` is a command used in GnuPG (GPG) to start the gpg-agent daemon with enhanced debug output. The verbose option increases the amount and detail of messages displayed during the execution of the command, helping to diagnose issues and gain insights into the internal workings of the gpg-agent. This can be useful for advanced users or in troubleshooting scenarios.'

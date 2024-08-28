@@ -1,0 +1,109 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: up
+description: Builds, pushes and deploys OpenFaaS function containers
+flags:
+    --annotation*=: Set one or more annotation (ANNOTATION=VALUE)
+    --build-label*=: Add a label for Docker image (LABEL=VALUE)
+    --constraint*=: Apply a constraint to the function
+    --copy-extra*=: Extra paths that will be copied into the function build context
+    --disable-stack-pull: Disables the template configuration in the stack.yml
+    --envsubst: Substitute environment variables in stack.yml file
+    --fprocess=: fprocess value to be run as a serverless function by the watchdog
+    --handler=: Directory with handler for function, e.g. handler.js
+    --image=: Docker image name to build
+    --lang=: Programming language template
+    --name=: Name of the deployed function
+    --network=: Name of the network
+    --no-cache: Do not use Docker's build cache
+    --parallel=: Build in parallel to depth specified.
+    --quiet: Perform a quiet build, without showing output from Docker
+    --read-template: Read the function's template
+    --readonly: Force the root container filesystem to be read only
+    --replace: Remove and re-create existing function(s)
+    --secret*=: Give the function access to a secure secret
+    --shrinkwrap: Just write files to ./build/ folder for shrink-wrapping
+    --skip-deploy: Skip function deployment
+    --skip-push: Skip pushing function to remote registry
+    --squash: 'Use Docker''s squash flag for smaller images [experimental] '
+    --tag=: Override latest tag on function Docker image, accepts 'latest', 'sha', 'branch', or 'describe'
+    --tls-no-verify: Disable TLS validation
+    --update: Perform rolling update on existing function(s)
+    -b, --build-arg*=: Add a build-arg for Docker (KEY=VALUE)
+    -e, --env*=: Set one or more environment variables (ENVVAR=VALUE)
+    -g, --gateway=: Gateway URL starting with http(s)://
+    -k, --token=: Pass a JWT token to use instead of basic auth
+    -l, --label*=: Set one or more label (LABEL=VALUE)
+    -n, --namespace=: Namespace of the function
+    -o, --build-option*=: Set a build option, e.g. dev
+documentation:
+    command: '[AI] The `faas-cli up` command is used in the FaaS (Function-as-a-Service) context with the FaaS CLI tool. It deploys and starts functions defined in a local Faas application directory to a specified Faas provider or gateway. The deployment includes building Docker images for each function, pushing them to a registry if configured, and configuring the provider or gateway to use these images. This command ensures that your functions are available and ready to be invoked by an external client.'
+    flag:
+        annotation: '[AI] `faas-cli up --annotation` is a command used in FaaS (Function-as-a-Service) development with the FaaS CLI tool. This command deploys and starts a local Faa functions server, attaches annotations to the deployed functions. Annotations are key-value pairs that provide additional metadata for the functions. The `--annotation` option allows you to specify specific annotations to add during deployment.'
+        build-arg: '[AI] `faas-cli up --build-arg` is a command used with the FaaS (Function-as-a-Service) CLI tool, specifically the `up` subcommand. The `--build-arg` flag is used to pass build-time arguments to the container image being built. These arguments can be used in the Dockerfile or the function code itself to customize the build process. For example, you might use this flag to pass environment variables or version numbers to the build. The overall effect is to customize the container image that will run your serverless function in a FaaS platform like OpenFaas or Cloud Foundry.'
+        build-label: '[AI] The `faas-cli up --build-label` command is used in Faas (Function-as-a-Service) systems to deploy and build a new Docker image for a particular function. The `--build-label` flag sets a custom label on the newly created Docker image. This label can be useful for organizing and managing functions within the FaaS environment based on specific tags or versions.'
+        build-option: '[AI] `faas-cli up --build-option` is a command used in Function-as-a-Service (FaaS) development with the FaaS CLI tool. This command deploys and builds a function locally or on a cloud provider using the given `--build-option`. The flag passes additional build settings to the underlying build system, typically Docker, when creating a new container image for the function. For instance, it might be used to set environment variables or compile source code before deploying.'
+        constraint: '[AI] The `faas-cli up --constraint` command is used with the FaaS (Function-as-a-Service) CLI tool to deploy a serverless function. The `--constraint` option specifies a deployment constraint, which defines conditions for where the function can be deployed. These constraints include min/max memory and CPU requirements. By using this option, you ensure that the function is deployed on an execution environment that meets your defined constraints. This helps maintain optimal performance and resource usage for your serverless application.'
+        copy-extra: |-
+            [AI] The `faas-cli up --copy-extra` command is used in the FaaS (Function-as-a-Service) development with Faas-Netes, an open-source platform for deploying and managing serverless functions.
+
+            This specific command performs an update of existing functions and applications deployed on a cluster, while also copying additional files or directories to the container image besides the function code. These extra files can include configuration files, environment variables, or any other necessary resources for the function to run effectively in production.
+        disable-stack-pull: '[AI] The `faas-cli up --disable-function-pull` command is used in FaaS (Function-as-a-Service) development with the FaaS CLI tool. This command tells the FaaS platform to deploy existing functions without pulling new versions of the functions from the specified function repositories or registries. In other words, it skips the process of fetching the latest code for the functions during deployment, which can be useful when you want to use the currently deployed versions instead.'
+        env: '[AI] `faas-cli up --env` is a command used in FaaS (Function-as-a-Service) development with the FaaS CLI tool. This command deploys and starts a local FaaS server, making functions available for testing and development. The `--env` flag sets environment variables that will be passed to the function when it runs. These variables can be used to configure function behavior and interact with external services during execution.'
+        envsubst: |-
+            [AI] `faas-cli up --envsubst` is a command used in Faas (Function as a Service) technology with the FaaS CLI (Command Line Interface) tool. This command has two parts:
+
+            1. `faas-cli up`: This part instructs the Faaas CLI to build, deploy, and start your serverless functions locally or remotely. The `up` command checks for code changes and updates the function accordingly.
+
+            2. `--envsubst`: This flag enables environment variable substitution during deployment. It replaces placeholders in the `.env` file with their actual values before deploying the function, making it easier to manage sensitive information like API keys or database credentials without hardcoding them directly into your code.
+        fprocess: '[AI] The `faas-cli up --fprocess` command is used with the FaaS (Function-as-a-Service) CLI tool to build and deploy a local Faas development environment. Specifically, it starts a function process for the specified function file using the given language execution handler. This allows developers to test and develop their serverless functions locally before deploying them to a production FaaS platform.'
+        gateway: '[AI] The `faas-cli up --gateway` command is used with the FaaS (Function-as-a-Service) CLI tool to deploy and start a FaaS function, as well as create or update an associated API gateway. This gateway enables external traffic to reach your functions via HTTP(S). When you run `faas-cli up --gateway`, it builds the function image locally, pushes it to a registry if configured, deploys it on your chosen FaaS platform (like AWS Lambda or OpenFaas), and creates/updates the API gateway. This command simplifies the process of deploying both the function and the gateway in one step.'
+        handler: '[AI] The `faas-cli up --handler` command is used with the FaaS (Function-as-a-Service) CLI tool to deploy a local function as an serverless function. The `--handler` option specifies the path to the handler file of the function, which is the main entry point for the function code when it''s invoked. This command builds and packages the function code before deploying it to the specified FaaS provider, such as OpenFaas or AWS Lambda.'
+        image: |-
+            [AI] The `faas-cli up --image` command is used with the FaaS (Function-as-a-Service) CLI tool to deploy a local function as an executable container image to a supported cloud provider or local server.
+
+            The `--image` flag specifies the name of the Docker image that will be built locally and pushed to a registry before deployment. The FaaS CLI tool uses this image to create and run the Function container in the cloud or on-premises environment.
+        label: '[AI] `faas-cli up --label` is a command used in Faas (Function as a Service) technology to deploy a new version of a function or create a new function using the Faas CLI tool. The `--label` option allows you to add a custom key-value pair metadata label to the deployed function. This label can be useful for organizing and identifying functions in the Faas cluster.'
+        lang: |-
+            [AI] The `faas-cli up --lang` command is used with the FaaS (Function-as-a-Service) CLI tool to deploy a local FaaS function to a specific runtime language environment.
+
+            The `up` command initiates the deployment process, and the `--lang` option specifies the desired runtime language for the function. For example, `faas-cli up --lang nodejs` would deploy a Node.js FaaS function. The CLI will then build the function using the specified language's packager (e.g., webpack for Node.js), create a container image with the built function, and register it in the running FaaS gateway to be invoked via HTTP requests.
+        name: '[AI] The `faas-cli up --name` command is used with the FaaS (Function-as-a-Service) CLI tool to deploy a local function project to a specific cloud provider or local gateway. The `--name` flag is used to provide a descriptive name for the deployed service, which can help distinguish between different instances of the same function when they are running in the cloud. The command deploys the code and sets up the infrastructure required to run the function as serverless code.'
+        namespace: '[AI] `faas-cli up --namespace` is a command used with the FaaS (Function-as-a-Service) CLI tool to deploy a Faa function. The `up` command initiates the deployment process, and the `--namespace` flag specifies the Kubernetes namespace where the deployed function should reside. This means that the function will be created or updated in the given namespace within the cluster.'
+        network: '[AI] The `faas-cli up --network` command is used with the FaaS (Function-as-a-Service) CLI tool to deploy a FaaS function. Specifically, it deploys and starts the function with network access enabled. This means that the function can communicate with other services using external networks while it''s running in its container. The command pushes the function image to the specified FaaS provider (like OpenFaas or CloudEvents), creates or updates the function, and sets up the networking configuration.'
+        no-cache: '[AI] `faas-cli up --no-cache` is a command used in FaaS (Function-as-a-Service) development with the Faas CLI tool. This command deploys a local function project to a specific provider''s serverless infrastructure, such as AWS Lambda or Google Cloud Functions. The `--no-cache` flag instructs the command not to use previously cached build artifacts during deployment. Instead, it will rebuild and package the project from scratch before sending it to the cloud provider for execution.'
+        parallel: '[AI] `faas-cli up --parallel` is a command used in FaaS (Function-as-a-Service) development with the Faas-cli tool. This command deploys multiple functions in parallel within the same app, reducing the deployment time. The `--parallel` flag enables the concurrent execution of function deployments.'
+        quiet: '[AI] `faas-cli up --quiet` is a command used in FaaS (Function-as-a-Service) development with the Faas CLI tool. This command deploys and starts newly built or updated functions from your local environment to the specified provider''s platform, like AWS Lambda or Google Cloud Functions. The `--quiet` option suppresses the usual output of progress updates during deployment.'
+        read-template: '[AI] `faas-cli up --read-template` is a command used with the FaaS (Function-as-a-Service) CLI tool. This specific command is for creating or updating a serverless function without deploying it right away. Instead, it only reads and generates a template file based on the function''s configuration. This template can be further edited before deploying with other tools or using the FaaS CLI to ensure the desired settings are met.'
+        readonly: '[AI] The `faas-cli up --readonly` command is used with the FaaS (Function-as-a-Service) CLI tool to deploy a serverless function to a local development cluster or a cloud provider, setting it in read-only mode. This means that the function can only be served and no write operations are allowed on it. It''s useful for testing and reviewing functions before making them writable and open to modifications.'
+        replace: '[AI] `faas-cli up --replace` is a command used in FaaS (Function-as-a-Service) development with the FaaS CLI tool. This command deploys or updates an existing function by replacing the current version with a new one. It''s particularly useful when you have made changes to your function code and want to reflect those changes in the live deployment without affecting other instances or versions of the same function. The `--replace` flag ensures that the updated function instance takes over immediately, replacing any existing instance.'
+        secret: '[AI] The `faas-cli up --secret` command is used with the FaaS (Function-as-a-Service) CLI tool to deploy a function written in a serverless environment. The `--secret` flag indicates that a file containing sensitive data, such as API keys or access tokens, will be passed as an argument to the deployment process. This file should be located at the default path `$HOME/.secrets/<filename>`. The command deploys and starts the function locally for testing or builds and pushes the function to a cloud provider like OpenFaaS or OpenWhisk for production use.'
+        shrinkwrap: '[AI] `faas-cli up --shrinkwrap` is a command used with the FaaS (Function-as-a-Service) CLI tool from the open-source FaasNet project. This specific command is for shrinking and bundling the size of the application by creating a smaller Docker image without unnecessary dependencies. The `--shrinkwrap` flag initiates this process, while `up` is used to build and deploy the function. Together, they help optimize the container image for efficient usage in FaaS environments that often require minimal resource utilization.'
+        skip-deploy: '[AI] `faas-cli up --skip-deploy` is a command used in FaaS (Function-as-a-Service) development with the FaaS CLI tool. This command initiates the build and deployment process of Faa functions, but skips the actual deployment step. The functions are built locally, and their updated images are sent to the target provider''s registry for storage. No new instances will be created or deployed in the cloud as a result. This command is useful when you want to test your local builds before deploying them to production.'
+        skip-push: |-
+            [AI] `faas-cli up --skip-push` is a command used in FaaS (Function-as-a-Service) development with the Faas-cli tool. This command does the following:
+
+            1. It deploys local functions to a running FaaS server or provision a new one if not running.
+            2. It skips the final step of pushing the function image to a registry, such as Docker Hub.
+
+            So in summary, `faas-cli up --skip-push` is used for local development and testing without having to build and push images every time. This can save time during the development process.
+        squash: |-
+            [AI] `faas-cli up --squash` is a command used in Faas (Function as a Service) technology with the FaaS CLI (Command Line Interface). This command does two things:
+
+            1. It deploys or updates your Faa functions to your selected Faas backend (like AWS Lambda, OpenFaas, etc.)
+            2. It squashes multiple revisions of a function into a single deployment using the latest revision's code. This results in a cleaner and more efficient function environment.
+        tag: |-
+            [AI] The `faas-cli up --tag` command is used in Faas (Function as a Service) technology to deploy or update a specific version of a function. Here's a brief explanation:
+
+            1. `faas-cli`: This is the Function-as-a-Service Command Line Interface tool for managing and deploying functions.
+            2. `up`: The `up` command is used to start or update services, including functions in this context.
+            3. `--tag`: The `--tag` option specifies the Docker image tag that you want to deploy or update. This allows you to target a specific version of your function. For example, if your function's image tag is `myfunction:v1`, you would use `--tag myfunction:v1`.
+
+            So, `faas-cli up --tag` followed by the desired image tag updates or deploys the specified version of the function.
+        tls-no-verify: '[AI] The `faas-cli up --tls-no-verify` command is used in the FaaS (Function-as-a-Service) context with the FaaS CLI tool. This specific command instructs the tool to deploy functions to a provider, ignoring TLS certificate verification during the process. In simpler terms, it bypasses the security check that verifies the authenticity of the SSL/TLS certificates presented by the target server during communication. This flag might be used in cases where you trust the target server and need to quickly deploy functions without waiting for the certificate verification process. However, using this command should be done with caution as it disables a crucial security feature.'
+        token: '[AI] The `faas-cli up --token` command is used with the FaaS (Function-as-a-Service) CLI tool to deploy a new version of a serverless function. The `--token` option is for providing an authentication token to securely interact with the Faas provider''s API. This command deploys your code and sets up the necessary infrastructure, ensuring that your function is ready to be invoked in response to events or HTTP requests.'
+        update: |-
+            [AI] The `faas-cli up --update` command is used with the FaaS (Function-as-a-Service) CLI tool to deploy or update existing functions in a FaaS environment, such as OpenFaaS or FaaSd. Here's what each part of the command does:
+
+            1. `faas-cli`: This is the name of the command-line interface (CLI) tool for interacting with Faas systems.
+            2. `up`: The `up` subcommand is used to deploy functions or services to a Faas platform. It checks if there are any updates available and deploys them if so.
+            3. `--update`: The `--update` flag tells the CLI to check for new function versions and update existing functions with the latest version if it exists. This is useful when you have made changes to your code and want to deploy the updated version to the FaaS platform.

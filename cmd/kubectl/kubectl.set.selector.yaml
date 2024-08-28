@@ -1,0 +1,59 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: selector (-f FILENAME | TYPE NAME) EXPRESSIONS [--resource-version=version]
+description: Set the selector on a resource
+flags:
+    --all: Select all resources in the namespace of the specified resource types
+    --allow-missing-template-keys: If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
+    --dry-run?: Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
+    --field-manager=: Name of the manager used to track field ownership.
+    --local: If true, annotation will NOT contact api-server but run locally.
+    --record&: Record current kubectl command in the resource annotation. If set to false, do not record the command. If set to true, record the command. If not set, default to updating the existing annotation value only if one already exists.
+    --resource-version=: If non-empty, the selectors update will only succeed if this is the current resource-version for the object. Only valid when specifying a single resource.
+    --show-managed-fields: If true, keep the managedFields when printing objects in JSON or YAML format.
+    --template=: Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates [http://golang.org/pkg/text/template/#pkg-overview].
+    -R, --recursive: Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.
+    -f, --filename*=: identifying the resource.
+    -o, --output=: 'Output format. One of: (json, yaml, name, go-template, go-template-file, template, templatefile, jsonpath, jsonpath-as-json, jsonpath-file).'
+documentation:
+    command: |-
+        [AI] `kubectl set selector` is a command used with Kubernetes to update the label selectors for existing Kubernetes resources, such as Deployments or DaemonSets. It modifies the labels that are matched by the controller to manage the desired state of the resource. For example:
+
+        ```bash
+        kubectl set selector deployment/my-deployment key1=value1,key2=value2
+        ```
+
+        This command updates the label selectors for the "my-deployment" Deployment by adding or modifying existing labels. Use it when you want to change the labels that define which pods belong to a particular deployment.
+    flag:
+        all: '[AI] `kubectl set selector` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`. The `--all` flag modifies all the objects of a kind in a cluster based on the provided label selector. This command changes the labels of the selected objects to update their matching selectors for effective scheduling and management within the Kubernetes environment.'
+        allow-missing-template-keys: '[AI] The `kubectl set selector` command is used to update labels on Kubernetes resources. The `--allow-missing-template-keys` flag allows for setting labels even if all specified keys do not exist in the current resource. Instead of failing, Kubernetes will create the missing keys with the provided values. This can be useful when applying configurations that introduce new labels, or when updating multiple resources with a common label scheme, where not all resources may have the same set of labels initially.'
+        dry-run: |-
+            [AI] `kubectl set selector` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`. This command is used to update or modify the label selectors of existing Kubernetes resources, such as Pods or Deployments. The `--dry-run` flag is an optional argument that provides a preview of what the command would do without actually making any changes to the cluster.
+
+            When you run `kubectl set selector <resource> --dry-run`, it will display the YAML manifest of how the resource would be updated if you were to run the command without the `--dry-run` flag. This allows you to review and understand the changes that would be made before actually applying them to your cluster, which can help prevent accidental modifications or misconfigurations.
+        field-manager: '[AI] The `kubectl set selector` command is used to update the selectors of Kubernetes resources, such as Pods or Deployments. The `--field-manager` flag in this command specifies which field manager should be responsible for managing the updates made by this command. It ensures that any updates made using `kubectl set selector` are properly tracked and synchronized with the desired state in the Kubernetes cluster, avoiding potential conflicts or inconsistencies. The default field manager is usually the Kubernetes API server itself, but it can also be explicitly specified using this flag if needed.'
+        filename: '[AI] The `kubectl set selector` command is used to update the selectors of Kubernetes resources specified in a YAML file. The `--filename` option argues the path to the YAML file. Once applied, the changes made to the selectors will be saved in the given file. This command is useful for updating selectors dynamically without having to edit the files manually or re-create the resources from scratch.'
+        local: |-
+            [AI] `kubectl set selector` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`. This command allows you to update the label selectors for one or more Kubernetes resources in your cluster without changing other properties like annotations or metadata.
+
+            When using the `--local` flag along with this command, it modifies only the local replica of a resource (e.g., a Deployment), and does not propagate the change to the remote clusters. This can be useful when testing label selectors without affecting your production environment.
+
+            Here's an example:
+
+            Suppose you have a Deployment named "my-app," and you want to update its selector labels to target a new pod template with different labels. You could use the following command to modify the local copy of your deployment:
+
+            ```
+            kubectl set selector in my-namespace/my-app --local key1=value1,key2=value2
+            ```
+
+            Replace "my-namespace" and "my-app" with the actual namespaces and deployment name you are using. Also, replace "key1," "value1," "key2," and "value2" with your specific label keys and values. The command updates the local selector labels for the "my-app" Deployment without applying the change to any remote clusters or other replicas of the deployment.
+
+            To apply the changes to the production environment, you would need to use `kubectl apply` instead of `set selector --local`.
+        output: '[AI] `kubectl set selector` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`. It''s used to update the selectors for one or more Kubernetes objects in a cluster, such as pods or deployments. The `--output` flag modifies the output format of the command. When you include this flag with no value, it defaults to ''json'', and it will display the manipulated resource in JSON format. Other common formats are ''yaml'' for YAML formatted output or ''table'' for a tabular format. The overall purpose is to update and manage selectors dynamically while observing the desired state of your applications running on Kubernetes.'
+        record: '[AI] `kubectl set selector` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`, to update the labels on a specific Kubernetes resource, such as a Pod or Deployment. The `--record` flag indicates that the change should be persisted in the version history of the Kubernetes Manifest file, meaning that the change will be tracked and can be rolled back if needed using Gitops or other version control tools. Without the `--record` flag, changes to labels are not recorded and cannot be reverted.'
+        recursive: '[AI] `kubectl set selector` is a command used with the Kubernetes CLI (kubectl) to update the selectors of one or more Kubernetes resources, such as Pods or Deployments. The `--recursive` flag allows for updating cascading dependencies between resources based on the updated selectors. This means that if a Deployment''s selector is changed and there are replicas with unsatisfied labels, those Pods will be deleted and new ones will be created with the updated labels, while maintaining the desired number of replicas for the Deployment. The command aims to ensure consistency across related resources in a Kubernetes cluster based on changes to selectors.'
+        resource-version: '[AI] The `kubectl set selector` command is used to update the selectors of Kubernetes resources, such as Pods or Deployments. The `--resource-version` flag specifies the desired resource version for the update. This is particularly useful when making updates that might conflict with concurrent changes, or when rolling back to a previous state of a resource. By providing the resource version, you ensure that Kubernetes applies your update using the specific revision of the resource you specify.'
+        show-managed-fields: |-
+            [AI] `kubectl set selector` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`. This command is used to update or modify the label selectors of Kubernetes resources, such as pods or services. The `--show-managed-fields` flag is an optional argument that can be passed with this command to display a more detailed output.
+
+            When you run `kubectl set selector <resource> --selector key=value`, it updates the label selectors of the specified resource. With the `--show-managed-fields` flag, the output will include details about the managed fields that were modified during the operation. Managed fields are fields that Kubernetes tracks and manages during the lifecycle of a customizable object. This includes fields marked with the `manager: "<controller-name>"` annotation or fields that are part of the OpenAPI schema for Kubernetes resources. By displaying this information, you can better understand what changes were made to your resource and how they were managed by Kubernetes.
+        template: '[AI] `kubectl set selector` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`. This command allows updating the selectors of one or more Kubernetes objects in the cluster, such as pods, without having to delete and recreate them. The `--template` flag is used along with a template string that defines the desired new labels or selectors for the object(s). When run, `kubectl set selector` will apply the specified labels or selectors to the selected objects in the cluster. This can be useful for modifying selectors when using strategies like rolling updates, canary deployments, or when managing resources with dynamic labels.'

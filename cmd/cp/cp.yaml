@@ -1,0 +1,111 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: cp
+description: copy files and directories
+flags:
+    --attributes-only: don't copy the file data, just the attributes
+    --backup=: make a backup of each existing destination file
+    --context=: like -Z, or if CTX is specified then set the SELinux or SMACK security context to CTX
+    --copy-contents: copy contents of special files when recursive
+    --help: display this help and exit
+    --no-preserve*=: don't preserve the specified attributes
+    --parents: use full source file name under DIRECTORY
+    --preserve*=: 'preserve the specified attributes (default: mode,ownership,timestamps), if possible additional attributes: context, links, xattr, all'
+    --reflink=: control clone/CoW copies
+    --remove-destination: remove each existing destination file before attempting to open it (contrast with --force)
+    --sparse=: control creation of sparse files.
+    --strip-trailing-slashes: remove any trailing slashes from each SOURCE argument
+    --version: output version information and exit
+    -H: follow command-line symbolic links in SOURCE
+    -L, --dereference: always follow symbolic links in SOURCE
+    -P, --no-dereference: never follow symbolic links in SOURCE
+    -R: copy directories recursively
+    -S, --suffix=: override the usual backup suffix
+    -T, --no-target-directory: treat DEST as a normal file
+    -Z: set SELinux security context of destination file to default type
+    -a, --archive: same as -dR --preserve=all
+    -b: like --backup but does not accept an argument
+    -d: same as --no-dereference --preserve=links
+    -f, --force: if an existing destination file cannot be opened, remove it and try again (this option is ignored when the -n option is also used)
+    -i, --interactive: prompt before overwrite (overrides a previous -n option)
+    -l, --link: hard link files instead of copying
+    -n, --no-clobber: do not overwrite an existing file (overrides a previous -i option)
+    -p: same as --preserve=mode,ownership,timestamps
+    -r, --recursive: copy directories recursively
+    -s, --symbolic-link: make symbolic links instead of copying
+    -t, --target-directory=: copy all SOURCE arguments into DIRECTORY
+    -u, --update: copy only when the SOURCE file is newer than the destination file or when the destination file is missing
+    -v, --verbose: explain what is being done
+    -x, --one-file-system: stay on this file system
+documentation:
+    command: '[AI] The `cp` command in Unix-based operating systems is used for copying files or directories. Its basic syntax is `cp source_file target_file`, where `source_file` is the file to be copied and `target_file` is the desired name of the new file after copying. If specifying a directory as the source, the entire hierarchy will be copied to the destination with the `-r` or `--recursive` option. For instance, `cp -r source_directory target_directory` would copy the entire contents of `source_directory`, including its subdirectories and their contents.'
+    flag:
+        H: '[AI] The `-H` option used with the `cp` (copy) command in Unix-based systems is called the "symlink prescription" or the "copy links" option. It instructs cp to follow and copy symbolic links, preserving the original symlinks instead of copying the linked files themselves. This results in the creation of new symbolic links that point to the same target as the original ones.'
+        R: '[AI] The `cp` command with the option `-R` is used for copying directories and their contents recursively in Unix-based systems. This means that when you use `cp -R <source> <destination>`, it will copy the entire source directory, including all its subdirectories and files, to the destination location preserving the directory structure.'
+        Z: '[AI] The `cp` command with the `-Z` option is used in Unix or Linux operating systems for copying files preserving their timestamps (atime, mtime, and ctime) along with the file ownership and permissions. The `-Z` flag ensures that SELinux contexts are also preserved during the copy process. It is particularly useful when dealing with secure files where maintaining access control information is important.'
+        archive: '[AI] `cp --archive` is a command in Unix-based operating systems used for copying files and directories, preserving their permissions, timestamps, and symbolic links. The `--archive` (or `-a`) option ensures that the copied files or directories retain their original attributes as much as possible during the copy process. It is equivalent to using the options `-R` (recursive), `-p` (preserve permissions), `-t` (no overwrite), and `-P` (preserve symbolic links) all at once.'
+        attributes-only: '[AI] The `cp --attributes-only` command in Unix-based systems is used to copy only the file attributes, such as permissions, timestamps, and ownership, from a source file to a destination file without actually copying the file content. This can be useful when you want to maintain identical metadata between files while keeping different contents.'
+        b: '[AI] The `cp` command with the option `-b` is used in Unix and Unix-like operating systems for copying files with the preservation of symbolic links, named pipes, and other special file attributes. This option ensures that the copied file retains all the attributes including the ownership, permissions, and any hard links to the original file. It creates a new file as an exact copy, but with a different file name. If the destination file already exists, `cp` will append a numeric suffix to make the new filename unique. For example: `cp -b source_file destination_file`.'
+        backup: '[AI] The `cp --backup` command is a file copying command in Unix-like operating systems, specifically using the `cp` utility with the `--backup` option. This option creates a backup of the original file before copying it to the new location. A tilde (~) character will be appended to the name of the original file to indicate the existence of a backup. If a destination file already exists, it will be backed up and renamed accordingly.'
+        context: '[AI] `cp --context` is a command-line option for the `cp` (copy) utility in Unix-like operating systems. This option preserves the metadata of the source file or directory, including ownership, permissions, and timestamps, when copying a file or directory. Additionally, it also preserves the symbolic links, named pipes, and special permissions (setuid, setgid) if applicable. In summary, `cp --context` ensures that the copied file or directory retains all of its attributes, not just its contents.'
+        copy-contents: '[AI] The `cp --copy-contents` command in Unix-based systems is used for copying files with their contents entirely. This means that not only the file content is copied, but also the file metadata such as ownership, permissions, and timestamps are preserved, resulting in an exact duplicate of the source file at the destination location.'
+        d: '[AI] The `cp` command with the `-d` option is used for copying files or directories in Unix-based systems. The `-d` flag stands for "no dereference" or "no symbols." In other words, when using this option, if you try to copy a symbolic link, it will be replaced with the file or directory that the link points to instead of copying the link itself. This can be useful in situations where you want to make a copy of the actual content, not the link itself.'
+        dereference: |-
+            [AI] The `cp --dereference` option is used with the `cp` (copy) command in Unix-based systems for copying files or directories, but specifically handling symbolic links differently during the operation.
+
+            Instead of copying a symbolic link itself (creating a new identical link), this flag instructs the `cp` command to follow (dereference) the link and copy the file or directory that it points to. In other words, when using `cp --dereference`, the command will perform a recursive copy of the referenced file/directory along with its contents, rather than just creating a new identical symbolic link.
+        force: '[AI] The `cp --force` command is a file copying instruction in Unix-like operating systems, using the cp (copy) utility with the force option (--force or -f). This option overwrites existing files without asking for confirmation and copies hidden and protected files. In other words, it forces the copy operation to overwrite any existing destination file or directory, even if it is read-only or not empty, making it a powerful tool when dealing with automated file transfer tasks or when certainty of actions is required.'
+        help: '[AI] `cp --help` is a command used in Unix-based systems to copy files or directories. The `--help` option displays detailed usage information about the `cp` command, including valid options and their meanings, examples, and other relevant details. It''s a way for users to quickly understand how to use cp effectively and correctly.'
+        interactive: '[AI] The `cp --interactive` command in Unix-based systems is used to copy files or directories with an interactive mode. This option adds a confirmation prompt before each file is copied, allowing the user to verify and cancel the operation if needed. It helps prevent accidental overwriting of important files, making it useful when copying multiple files with similar names or into a critical directory.'
+        link: |-
+            [AI] `cp --link` is a command in Unix-based operating systems for creating hard links or symbolic links (also called symlinks).
+
+            A hard link creates a new directory entry for the same file, pointing to the same data on disk. Multiple hard links to the same file share the same inode number and occupy no extra disk space. This option is typically used with `cp -h` for creating symbolic links when copying files across different file systems or directories.
+
+            A symbolic link (or symlink) creates a new file that acts as a shortcut to the original file or directory. When you access the symlink, it appears as if you're accessing the original file or directory. Symbolic links occupy very little disk space and can be created across different file systems or directories. This option is typically used with `cp -s` for creating symbolic links directly.
+
+            Usage: `cp [OPTION]... SOURCE DESTINATION [OPTION]...` or `cp [OPTION]... SOURCE DESTINATION_DIRECTORY/LINKNAME [OPTION]...`
+
+            Example:
+            - To create a hard link of file 'src' to 'backup': `cp src backup`
+            - To create a symbolic link of file 'src' to 'link': `cp -s src link` or `ln src link` (the `ln` command can also be used to create symlinks)
+        no-clobber: '[AI] The `cp --no-clobber` command in Unix-based systems is used to copy files while preventing the overwriting of existing files with the same name but different sizes or types. The `--no-clobber` option instructs cp not to replace destination files that already exist and are larger than the source files being copied. This can be useful to prevent accidental data loss. If a file with the same name but different size or type is present in the destination directory, it will not be overwritten during the copy operation.'
+        no-dereference: '[AI] The `cp --no-dereference` command is a version of the COPIES or COпиES and MOVES or COпие file in Unix-like operating systems. The `--no-dereference` option instructs cp to copy files as they are, without following symbolic links or other forms of references within the source file. This means that if the source is a symbolic link, the destination will also be a symbolic link pointing to the same target as the source, rather than the actual contents at the target location. If the source is a regular file, it will be copied verbatim to the destination.'
+        no-preserve: '[AI] The `cp --no-preserve` command in Unix-based systems is used to copy files or directories from one location to another. However, it does not preserve the modification and access times, or the flags of the original file in the destination file. This means that the copied file will have the same content as the original but its metadata (timestamp and permissions) will be reset to match those of the new file in the destination directory.'
+        no-target-directory: '[AI] The `cp --no-target-directory` command is a Linux utility used for copying files and directories. The `--no-target-directory` option tells cp not to create an empty target directory if the destination path does not exist, but is a directory name instead. Instead, it will give an error if the destination is a non-existent directory and copies the source file directly into the working directory or the current directory if no explicit destination is provided. In other words, this option prevents cp from creating empty directories when copying files.'
+        one-file-system: '[AI] The `cp --one-file-system` command in Unix-based systems is a variation of the standard `cp` (copy) command, which is used to create copies of files and directories. With the `--one-file-system` option, cp only copies the files within a single mounted file system. This is useful when you want to copy files between different file systems but avoid unintended copying or conflicts due to overlapping files or directories with similar names. By limiting the operation to a single file system, it reduces the chances of errors and makes the copy process more predictable.'
+        p: '[AI] The `cp` command with the `-p` option in Unix-based systems is used for copying files or directories while preserving their metadata, such as file permissions, ownership, and timestamps. In simple terms, the `-p` flag ensures that the copied file or directory retains all of its original attributes when it''s moved to a new location.'
+        parents: '[AI] The `cp --parents` option in Unix-based file systems is used when copying directories. It ensures that the copied directory preserves the same hierarchy and ownership as the original directory, including all subdirectories and their contents. In other words, it copies not only the target directory but also all of its contents and subdirectories recursively while keeping the directory structure intact. This is often referred to as a "copy-recursive with preservation of timestamps and file permissions" or "preserve symlinks" operation.'
+        preserve: '[AI] The `cp --preserve` flag is used with the `cp` (copy) command in Unix-based systems for copying files or directories while preserving their attributes, including timestamps, permissions, and symbolic links. This option ensures that the copied file retains the same metadata as the original file. It is also known as the `--archive` or `-a` flag in some Unix implementations.'
+        recursive: '[AI] `cp --recursive` is a command in Unix-based operating systems used for copying files and directories, including their contents recursively (i.e., the copied directory contains the same subdirectories and files as the original one). The `--recursive` or `-r` option ensures that the entire hierarchy is copied.'
+        reflink: '[AI] The `cp --reflink` command is a function in GNU Core Utilities used for copying files and directories. The `--reflink` option creates hard links to existing files instead of making copies, when used with the `cp` command on symlinked files or directories that point to immutable files (files with the immutable flag set). This preserves the original file''s metadata and is particularly useful in backup scenarios, as it reduces storage requirements by only keeping one copy of an unchanged file. The linked copies behave identically to the original, including modification time and access permissions.'
+        remove-destination: '[AI] The `cp --remove-destination` command in Unix-based systems is used to copy a file from one location to another while removing the destination file if it already exists. In other words, it performs a safe overwrite of the destination file with the source file. This can be useful when you want to ensure that the destination file is always updated with the latest version of the source file and avoid potential data loss due to accidental overwriting of important files.'
+        sparse: '[AI] The `cp --sparse` command in Unix-based systems is used to create a copy of a file or directory, with the `--sparse` option enabling sparse files or directories creation. Sparse files are large files that occupy only the space necessary for non-zero data. They are commonly used for backup or snapshot purposes of large files like databases or virtual machines. The `cp --sparse` command creates a new file with the same sparseness properties as the original file, meaning it will only allocate space for the data that differs between the original and the copy.'
+        strip-trailing-slashes: |-
+            [AI] The `cp --strip-trailing-slashes` command is a feature of the `cp` (copy) utility in Unix and Unix-like operating systems. This option is used when copying file or directory paths that may contain trailing slashes ("/") at the end, which represent the directory path rather than the file name itself.
+
+            When `--strip-trailing-slashes` is specified, the copied path will not include any trailing slashes in its destination. For instance, if you copy a file located in `/dir1/file.txt`, and use the command `cp --strip-trailing-slashes /dir1/file.txt /destination`, then the destination path `/destination/file.txt` will be used instead of `/destination/file.txt/`. This can be useful when scripting or automating file operations to ensure consistent directory and file naming conventions.
+        suffix: '[AI] The `cp --suffix` option in Unix-like file copying commands like `cp` (short for "copy") is used to perform a copy operation while keeping the same base name and appending a suffix to the destination file. For example, with `cp source_file dest_file --suffix=.bak`, the destination file would be named as `dest_file.bak`. This can be useful for creating backup files or maintaining multiple versions of a file with different extensions.'
+        symbolic-link: |-
+            [AI] The `cp --symbolic-link` command in Unix-based systems is used to create a symbolic link (also known as a soft link) between two files or directories. It's part of the cp (copy) utility.
+
+            The basic syntax is: `cp -L <source> <target>`, where `<source>` is the existing file or directory that you want to create a link for, and `<target>` is the name of the new symbolic link. The `-L` option tells cp to create a symbolic link instead of a hard link.
+
+            For example, if you have a file named "source.txt" in one directory and you want to create a symbolic link named "link.txt" pointing to it in another directory, you would use:
+
+            ```bash
+            $ cd <source-directory>
+            $ cp -L source.txt ../<target-directory>/link.txt
+            ```
+
+            This command will create the symbolic link `link.txt` in `<target-directory>`, while keeping the original file in its current location. If you attempt to access the linked file using the symbolic link, the system will actually open the original source file.
+        target-directory: |-
+            [AI] The `cp --target-directory` option in Unix-based file systems is used with the `cp` (copy) command for copying files or directories while creating a new empty directory as the destination if it does not exist. This is particularly useful when dealing with directories as regular copying may result in errors due to overwriting existing directories. With this option, only the target directory will be created and the source file(s) or directory will be copied into it. For instance:
+
+            ```bash
+            cp -r source_directory/ destination_directory/ --target-directory
+            ```
+
+            This command would copy the contents of `source_directory` to `destination_directory`, creating a new empty `destination_directory` if it does not already exist.
+        update: '[AI] `cp --update` is a command in Unix-based operating systems used for copying files. The `--update` option tells cp to only copy files that have been modified more recently than the existing destination file. If the destination file does not exist or is older, it will be replaced; if it exists and is up-to-date, no action will be taken. This behavior can help prevent unintended overwriting of files when updating multiple copies of the same file in different directories.'
+        verbose: '[AI] `cp --verbose` is a command in Unix-like operating systems used for copying files and directories. The `--verbose` option makes the `cp` command print messages describing each file as it is being copied, including the source file name, destination file name, and confirmation message once the copy is successful. This option helps users to keep track of which files are being copied during a complex operation or when multiple files are being processed in one go.'
+        version: '[AI] `cp --version` is a command used in Unix-based operating systems to copy files or directories. The `--version` option displays the version information of the cp utility itself, providing details such as its name, version number, and compilation information. This helps users check which version of the cp tool they are using for potential compatibility issues or updates.'

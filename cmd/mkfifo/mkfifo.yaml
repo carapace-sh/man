@@ -1,0 +1,41 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: mkfifo
+description: make FIFOs (named pipes)
+flags:
+    --context=: like -Z, or if CTX is specified then set the SELinux
+    --help: display this help and exit
+    --version: output version information and exit
+    -Z: set the SELinux security context to default type
+    -m, --mode=: set file permission bits to MODE, not a=rw - umask
+documentation:
+    command: '[AI] `mkfifo` is a Unix command used to create named pipes, also known as FIFOs (First In, First Out). A FIFO is a special type of file that acts as a inter-process communication channel. Data written to the pipe''s write end is read from its read end in the order it was sent, making it useful for passing data between processes. The `mkfifo` command creates a new named pipe (specified by the filename argument) with optional permissions set using the standard Unix chmod format. For example, `mkfifo mypipe.fifo mode`. Where `mode` is the desired file permission string (e.g., 755 or 644).'
+    flag:
+        Z: '[AI] The `mkfifo` command with the `-Z` option is used in Unix-like operating systems for creating FIFO (First In, First Out) pipes with the Zero size flag set. A FIFO pipe is a special type of file that acts as a inter-process communication channel where data written to one end can be read from the other end. The `-Z` option sets the size of the FIFO pipe to zero bytes, meaning it will not take up any disk space until data is written to it.'
+        context: '[AI] `mkfifo` is a Linux command used to create named pipes, also known as FIFOs (First In, First Out). The `--context` option is not a standard option for `mkfifo`. It appears in some documentation as an optional argument for the `stig` or `ossec` security tools to specify context information for auditing purposes. These tools help monitor and secure system configurations. When using `mkfifo --context`, you provide additional data describing the file''s context, which is then recorded for further analysis in security reports.'
+        help: |-
+            [AI] `mkfifo` is a Linux command used to create named pipes, also known as FIFOs (First In, First Out). A FIFO acts as both a file and a pipeline.
+
+            The `--help` option when used with `mkfifo`, displays detailed information about the command's usage:
+
+            - Creates a FIFO with the specified FILE name. If MODE is provided, it specifies the file permissions.
+            - SYNTAX: `mkfifo [OPTION]... NAME[MODE]...`
+            - OPTIONS:
+              - `--mode=MODE`, sets the file mode (umask is applied).
+              - `--help`, displays this help message and exits.
+              - `--version`, outputs version information and exits.
+            - EXAMPLES:
+              - Create a FIFO named 'myfifo': `mkfifo myfifo`
+              - Create a readable-writable FIFO with mode 0666: `mkfifo myfifo `.
+
+            It's important to note that since FIFOs are not actual files, you cannot cat or view their content directly. Instead, they act as intermediaries for transferring data between processes via pipes (|) or redirections (< and >).
+        mode: '[AI] `mkfifo` is a Linux command used to create named pipes, also known as FIFOs (First In, First Out). The `--mode` option is used to specify the file permissions for the created FIFO. It follows the standard format of `u`(user) `g`(group) `o`(others) `rwx`(read) `w`(write) `x`(execute). For example, `mkfifo --mode 755 myfifo` creates a FIFO named "myfifo" with read-write permissions for the owner and group, and read-execute permissions for others.'
+        version: |-
+            [AI] `mkfifo` is a command-line utility in Unix and Unix-like operating systems used to create FIFOs (First In, First Out), also known as named pipes. The `--version` option is used to display the version information of the `mkfifo` command itself, including its name, release version number, and compilation date. For example:
+
+            ```sh
+            $ mkfifo --version
+            mkfifo from util-linux 2.37
+            Compiled in Feb  5 2023 15:48:39
+            ```
+
+            This output indicates that the `mkfifo` command is part of the util-linux package, and it was compiled on February 5, 2023.

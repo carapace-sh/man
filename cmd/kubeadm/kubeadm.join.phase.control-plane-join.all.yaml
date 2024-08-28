@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: all
+description: Join a machine as a control plane instance
+flags:
+    --apiserver-advertise-address=: If the node should host a new control plane instance, the IP address the API Server will advertise it's listening on. If not set the default network interface will be used.
+    --config=: Path to kubeadm config file.
+    --control-plane: Create a new control plane instance on this node
+    --node-name=: Specify the node name.
+    --patches=: Path to a directory that contains files named "target[suffix][+patchtype].extension".
+documentation:
+    command: '[AI] `kubeadm join` is a command used to join worker nodes to a Kubernetes cluster managed by `kubeadm` on a control plane node. The `phase control-plane-join all` argument specifies that the control plane roles (etcd, apiserver, controller) should be joined on all worker nodes. In other words, these nodes will become both workers and part of the control plane, which is typically not recommended due to increased resource usage and potential risks. This command does not start or manage these components; it only configures the nodes for them.'
+    flag:
+        apiserver-advertise-address: |-
+            [AI] `kubeadm join` is a command-line tool used to join worker nodes to a Kubernetes cluster managed by `kubeadm`, a component of the Kubernetes control plane. The `--control-plane-join` flag is used to join a node as a control plane node, which can run the control plane components like etcd, kube-apiserver, and kube-controller-manager.
+
+            The `all` argument specifies that this node should take on all control plane roles. This means it will host multiple control plane components, which is generally not recommended for security reasons as it increases the attack surface of each node.
+
+            The `--apiserver-advertise-address` flag sets the IP address of this node that other nodes and clients will use to communicate with the Kubernetes API server running on this node. This IP address must be reachable from all nodes in your cluster, and it's usually set to an internal IP address within your cluster network.
+        config: |-
+            [AI] `kubeadm join` is a command used to join worker nodes to a Kubernetes cluster managed by `kubeadm`. The flag `--config` specifies the location of the configuration file for joining the node.
+
+            The `phase control-plane-join all` flag indicates that this node will be joining the control plane nodes in the cluster, rather than becoming a worker node. This is typically used when adding additional master nodes to the existing cluster.
+
+            By using `all`, it means that the new control plane node will take on all the roles: etcd member, control plane component (e.g., apiserver, kubelet, kube-apiserver), and etcd leader election.
+
+            With this command, you're configuring the worker node to join the control plane as a new master, which makes your cluster highly available and scalable.
+        control-plane: '[AI] `kubeadm join` is a command-line tool used to join worker nodes to a Kubernetes cluster managed by `kubeadm`, a component of the Kubernetes control plane. The `phase control-plane-join all --control-plane` argument is used to specify that the node should be joined as a control plane node, which means it will become part of the management layer of the cluster, responsible for managing and coordinating the workload across other nodes. By using `all`, you''re telling `kubeadm join` to perform this action on all control plane roles (etcd, apiserver, controller). This results in creating multiple control plane components on that node.'
+        node-name: '[AI] `kubeadm join` is a command-line tool used to join worker nodes to a Kubernetes cluster managed by `kubeadm` on a control plane node. The option `--phase control-plane-join all --node-name <nodename>` specifies the joining phase as control plane, meaning this node will become part of the Kubernetes control plane, which includes etcd and the Kubernetes API server. The `all` argument indicates that this node should also become a master node capable of running and managing cluster components. Finally, `--node-name <nodename>` specifies the name of the joining node.'
+        patches: '[AI] `kubeadm join` is a command used to join worker nodes to a Kubernetes cluster managed by `kubeadm` on a control plane node. The option `--phase control-plane-join all --patches` specifies the joining phase as control plane, which is suitable for joining additional control planes or etcd servers, and applies patches during the process. Patches could be used to apply cluster updates or fixes, and are typically provided in the form of Kubernetes manifests or `--config` files. This command ensures that the joining node adheres to the desired state of the cluster by applying these patches during the join process.'

@@ -1,0 +1,107 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: verify
+description: verify the integrity of store paths
+flags:
+    --arg*=: Pass the value expr as the argument name to Nix functions
+    --argstr*=: Pass the string string as the argument name to Nix functions
+    --commit-lock-file: Commit changes to the flake's lock file
+    --debug: Set the logging verbosity level to 'debug'
+    --debugger: Start an interactive environment if evaluation fail
+    --eval-store=: The Nix store to use for evaluations
+    --impure: Allow access to mutable paths and repositories
+    --inputs-from=: Use the inputs of the specified flake as registry entries
+    --log-format=: Set the format of log output
+    --no-contents: Do not verify the contents of each store path
+    --no-registries: Don't allow lookups in the flake registries
+    --no-trust: Do not verify whether each store path is trusted
+    --no-update-lock-file: Do not allow any updates to the flake's lock file
+    --no-write-lock-file: Do not write the flake's newly generated lock file
+    --override-flake=: Override the flake registries, redirecting original-ref to resolved-ref
+    --override-input=: Override a specific flake input (e.g. dwarffs/nixpkgs)
+    --quiet: Decrease the logging verbosity level
+    --recreate-lock-file: Recreate the flake's lock file from scratch
+    --update-input=: Update a specific flake input (ignoring its previous entry in the lock file
+    -I, --include: Add path to the list of locations used to look up <...> file names
+    -L, --print-build-logs: Print full build logs on standard error
+    -n, --sigs-needed=: Require that each path is signed by at least n different keys
+    -s, --substituter=: Use signatures from the specified store
+    -v, --verbose: Increase the logging verbosity level
+documentation:
+    command: '[AI] `nix store verify` is a command in Nix, a package manager for Linux and other systems. This command checks the integrity of files stored in a Nix store, which is a centralized repository used by Nix to manage and distribute software packages. By verifying the store, users can ensure that the files have not been tampered with or corrupted since they were originally downloaded or built. The command uses cryptographic hashes to compare the stored file against its original definition in the Nix expression language, providing an additional layer of security for software installation.'
+    flag:
+        arg: '[AI] `nix store verify --arg` is a command used in Nix, a package manager for Linux and other Unix systems. This command is used to check the integrity of a Nix store entry, which is a file or directory containing a built or installed package. The `--arg` option allows passing an argument to the verification process, which can be the name of a specific store path or a regular expression pattern to match multiple paths. The command retrieves the cryptographic hash of the stored data and compares it against the originally computed hash during the build or installation process, ensuring the authenticity and integrity of the package.'
+        argstr: |-
+            [AI] The `nix store verify` command is a utility provided by Nix, a package manager for Linux and other Unix systems. It's used to verify the authenticity and integrity of a Nix expression or store path.
+
+            The `--argstr` option is an argument passed to the command following the actual store path or expression being verified. This option is used to provide additional arguments that may be required by the specific command being run inside the Nix expression or package, such as flags or configuration options. By including these arguments with the `verify` command, they will be propagated through to the underlying command when it is executed.
+
+            Here's an example usage:
+            ```bash
+            nix store verify /path/to/nix-expression --argstr foo=bar baz=qux
+            ```
+            In this case, `/path/to/nix-expression` represents the path to a Nix expression or store path that is being verified. The `--argstr` option is used to pass two additional arguments (`foo=bar` and `baz=qux`) to the command that is executed as part of the Nix expression or package.
+        commit-lock-file: '[AI] `nix store verify` is a command provided by Nix, a package manager for Linux and other systems. The `--commit-lock-file` option is used to check the integrity of a specific commit in a Nix expression or configuration file. This means checking that the stored content in the Nix store matches the committed hash in the lock file. This command ensures the integrity and reproducibility of the software build or configuration, by verifying that the stored data has not been tampered with since being originally built or committed.'
+        debug: '[AI] `nix store verify --debug` is a command used in Nix, a package manager for Linux and other Unix systems. This command checks the authenticity and integrity of a Nix store item by downloading its signature from the Nix public keyserver and verifying it against the content of the item using GPG. The `--debug` flag increases the verbosity of output, providing additional details about the signature verification process.'
+        debugger: |-
+            [AI] The `nix-store verify --debugger` command is a diagnostic tool in Nix, a package manager for Linux and other Unix systems. This command performs an extensive verification check on the files in the Nix store, which is where Nix stores all of its installed packages.
+
+            The `--debugger` option enables more detailed debug information to be displayed during the verification process. If there are any issues with the integrity or consistency of the files in the store, this command will help identify and diagnose the problem by providing extensive information about each file, including its origin, checksums, and other relevant metadata.
+
+            In summary, `nix-store verify --debugger` is a powerful tool for troubleshooting and debugging issues related to the Nix store and its contents. It provides detailed diagnostic information that can help identify and resolve problems with package installations or upgrades.
+        eval-store: '[AI] `nix store verify` is a command from Nix Package Manager, used to check the integrity and authenticity of installed Nix expressions or store items. The option `--eval-store` tells it to evaluate and verify expressions in the Nix store instead of files on the file system. This means that the command will read the expression data directly from the store, build the resulting derivation, and finally check its hash sum for correctness against the stored reference. This ensures the integrity and reproducibility of the Nix expressions and their builds.'
+        impure: '[AI] `nix store verify --impure` is a command from the Nix Package Manager used to check the integrity and authenticity of installed Nix packages. The `--impure` flag allows checking stores that may contain impure or untrusted content, such as those obtained outside of the official Nix channel. This command performs cryptographic verification of package data using the stored checksums to ensure their correctness and authenticity. It helps maintain system security by allowing administrators to double-check the integrity of packages before use.'
+        include: '[AI] `nix store verify` is a command in Nix, a package manager for Linux and other Unix systems. The `--include` option is used to specify a list of Nix store paths or Nix expression hashes to be verified. The verification process checks the authenticity and integrity of the software packages or configurations stored in those paths or hashes. This helps ensure that the installed software is trustworthy and has not been tampered with.'
+        inputs-from: |-
+            [AI] The `nix store verify --inputs-from` command is a part of Nix, a package manager for Linux and other Unix systems. This command is used to verify the integrity of Nix expressions or built packages by checking their digital signatures against trusted keys.
+
+            The `--inputs-from` option specifies the paths or hashes of the input files that were used to build the expression or package being verified. The command retrieves and compares the public keys associated with those inputs against the ones stored in the Nix keyring, ensuring their authenticity. It provides an additional layer of security by confirming that the packages are built from trusted sources.
+        log-format: |-
+            [AI] The `nix store verify` command is a utility in Nix, a package manager for Linux and other systems. It's used to check the integrity of installed packages or configuration files in the Nix store.
+
+            The option `--log-format` determines how the output of the verification process should be formatted. Here are some commonly used formats:
+
+            1. `plain`: The most basic format, providing minimal information about each verification.
+            2. `json`: A more detailed JSON format that can be parsed by other applications for further processing.
+            3. `tree`: This format provides a tree view of the verified items and their statuses. It's useful when verifying large or complex systems.
+            4. `human-readable`: This format presents verification results in a more human-readable way, making it easier to understand for end users.
+
+            Using `nix store verify --log-format json` would output the verification results in JSON format for further processing by scripts and applications.
+        no-contents: '[AI] `nix store verify --no-contents` is a command used in Nix, a package manager for Linux and other Unix systems. This command is used to check the authenticity of a Nix store item without checking its contents. It verifies the cryptographic hash of the item against the expected value to ensure it has not been tampered with during download or transfer. The `--no-contents` flag tells Nix to skip the verification of the contents of the item itself, focusing only on the authenticity of the store entry.'
+        no-registries: |-
+            [AI] `nix store verify --no-registries` is a command in Nix, a package manager for Linux and other systems. This command checks the integrity of Nix store items, which are self-contained and atomic packages or configurations stored in a Nix distribution.
+
+            The option `--no-registries` tells Nix to skip checking against remote registries. In other words, it only verifies the locally stored items without connecting to any external servers or repositories. This can be useful when you want to ensure the authenticity and consistency of your local Nix store without depending on network connectivity or third-party sources.
+        no-trust: |-
+            [AI] The `nix store verify` command is a utility provided by Nix, a package manager for Linux and other systems. It is used to check the integrity of installed packages or configuration files in the Nix Store, which is a centralized repository for software distribution managed by Nix.
+
+            The `--no-trust` flag disables the default trust model of Nix where it automatically trusts the authenticity of packages signed with the NixOS and Nixpkgs signing keys. By using this flag, the command will only verify the signature against the given key, but it won't check if that key is trusted by the system or not. This can be useful when dealing with custom or untrusted packages, where you might want to manually inspect the public key and make your own judgement on its trustworthiness before verifying the package.
+        no-update-lock-file: |-
+            [AI] `nix store verify` is a command from Nix, a package manager for Linux and other systems. The `--no-update-lock-file` option disables creating or checking the update lock file when running this command.
+
+            The update lock file is used to prevent concurrent modifications to the system configuration by multiple Nix processes. When the flag is set, Nix will not create or check the lock file and may allow multiple processes to modify the system configuration at the same time, potentially leading to inconsistencies or conflicts. Therefore, it should be used with caution, typically in automated scripts or testing environments where such conflicts are acceptable or easily resolved.
+
+            In summary, `nix store verify --no-update-lock-file` disables the update lock file when checking the integrity of installed packages or configuration files managed by Nix.
+        no-write-lock-file: |-
+            [AI] The `nix store verify` command is a utility provided by Nix, a package manager for Linux and other Unix systems. This command is used to check the integrity of installed packages or files in the Nix store, ensuring they have not been tampered with.
+
+            The option `--no-write-lock-file` prevents the creation of a write lock file during the verification process. A write lock file ensures that only one verification process can run at a time for a given package to avoid conflicts and inconsistencies. By disabling this option, multiple verification processes can be run concurrently on different packages, which may increase the overall verification speed but at the cost of potentially having conflicting or inconsistent results if the packages share dependencies that are being updated during the verification process.
+        override-flake: |-
+            [AI] `nix store verify` is a command provided by Nix, a package manager for Linux and other Unix systems. The `verify` subcommand checks the integrity of installed Nix packages.
+
+            The option `--override-flake` modifies the behavior of this command. In its default mode, `verify` only checks the downloaded Nix expressions (Flakes) against their stored cryptographic hashes. With `--override-flake`, it also applies any available overrides to the checked Flakes. Overrides are user-defined modifications to a Flake's input and build configurations. This command ensures the integrity of your customized package installations, as well as any applied configuration changes.
+        override-input: '[AI] `nix store verify --override-input` is a command used in Nix, a package manager for Linux and other Unix systems. This command is used to check the integrity of a previously installed Nix expression or package from the Nix Store. The `--override-input` option allows the user to specify a new input file instead of using the one originally used during installation. This can be useful when the original file has been modified or corrupted, and the user wants to verify the integrity of the new file without reinstalling the package from scratch.'
+        print-build-logs: '[AI] `nix store verify` is a command from Nix, a package manager for Linux and other Unix systems. The `--print-build-logs` option asks Nix to output the build logs of the verified software during the construction process. These logs provide detailed information about what was built, any errors that occurred, and other useful debugging information. This can help in troubleshooting issues or gaining insight into how a particular package was built with Nix.'
+        quiet: '[AI] `nix store verify --quiet` is a command in Nix package manager to check the integrity of installed or stored packages. It verbosely compares the computed checksums of the files against their recorded checksums and displays only error messages if any discrepancy is found. The `--quiet` option suppresses non-error output, providing a silent verification process.'
+        recreate-lock-file: |-
+            [AI] The `nix store verify` command is a utility provided by Nix, a package manager for Linux and other Unix systems. This command checks the authenticity of files in the Nix store, which is a central repository of precompiled packages used by Nix.
+
+            The option `--recreate-lock-file` generates or updates a lock file that records the exact state of the currently installed system, including all the installed packages and their versions. This can be useful when working with multiple environments or collaborating with others on projects, as it ensures consistency and reproducibility by capturing the exact package configurations in use.
+
+            By running `nix store verify --recreate-lock-file`, you are performing a verification of your installed packages while updating or generating the lock file with the latest information. This helps maintain a reliable and consistent system configuration.
+        sigs-needed: '[AI] The `nix store verify --sigs-needed` command is used in the Nix package manager to check the authenticity of installed software packages. It verifies that the digital signatures of the packages match their expected values, ensuring that the packages have not been tampered with during transfer or installation. The `--sigs-needed` option only displays the names of packages whose signatures are missing or need updating.'
+        substituter: '[AI] `nix store verify --substituter` is a command in Nix, a package manager for Linux and other Unix systems. The `verify` subcommand checks the integrity of files in the Nix store, which is a centralized repository for software packages managed by Nix. The `--substituter` option tells Nix to also check the integrity of substitutes, which are precompiled binary versions of packages that can be faster to install than building from source. In essence, `nix store verify --substituter` ensures both the files in the store and their corresponding substitutes are authentic and unaltered.'
+        update-input: '[AI] `nix store verify --update-input` is a command used in Nix, a package manager for Linux and other Unix systems. This command checks the authenticity of existing Nix expressions or configurations stored in the local Nix store. By running `--update-input`, it also updates the inputs (i.e., dependencies) of those expressions to their latest versions, ensuring that your system always uses the most recent, verified versions for building and installing software.'
+        verbose: |-
+            [AI] `nix store verify --verbose` is a command used in Nix, a package manager for Linux and other systems. The purpose of this command is to check the authenticity and integrity of Nix stores, which are repositories storing binary packages built from Nix expressions.
+
+            The `--verbose` option increases the amount of output produced during the verification process. This includes displaying more detailed information about each store being verified, such as its location, size, and signature status. The output also indicates whether the store's signature is valid or not, ensuring that the downloaded packages have not been tampered with before installation.

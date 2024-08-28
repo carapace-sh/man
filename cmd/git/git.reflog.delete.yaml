@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: delete
+description: Delete single entries from the reflog
+flags:
+    --rewrite: Adjust a reflogs "old" SHA-1 to be equal to the "new" SHA-1 field of the entry that now precedes it
+    --updateref: Update the reference to the value of the top reflog entry
+    --verbose: Print extra information on screen.
+    -n, --dry-run: Do not actually prune any entries
+documentation:
+    command: '[AI] The `git reflog delete` command is used to remove a specific ref (branch or tag) entry from the Git reflog history. When you run this command followed by the ref name, Git will delete the specified ref entry that is not yet garbage collected. It''s essential to note that deleting a ref entry does not change the associated commits or branches in any way; it just removes the reference to them from your local repository. Additionally, deleted ref entries can usually be recovered using `git reflog` with the `--all` or `--expire` options.'
+    flag:
+        dry-run: '[AI] `git reflog delete --dry-run` is a Git command used to simulate the deletion of a specific reflog entry before actually executing it. Reflog is a Git feature that records every change to a branch or commit, allowing you to recover deleted commits. By using the `--dry-run` option with the `delete` command, you can check what exactly would be deleted without causing any permanent changes to your Git history.'
+        rewrite: '[AI] `git reflog delete --rewrite` is a Git command used to delete reflog entries and their associated commits, effectively removing the ability to undo or revert changes made before those commits in the current branch. This operation irreversibly modifies commit history, and as such, it should be used with caution. The `--rewrite` option enables fast-forward updates, allowing the new branch tip to overwrite older entries.'
+        updateref: '[AI] `git reflog delete --updateref` is a Git command used to delete a specific reference (a branch or a tag) from the local repository''s reflog, and update the current branch to point to the last commit before the deleted reference. In other words, it removes the history of a branch or a tag from the reflog, but keeps the commits in the main Git history. This can be useful when accidentally creating or pushing unwanted branches or tags.'
+        verbose: |-
+            [AI] `git reflog delete --verbose` is a Git command used to remove a specific reference or branch from the local `reflog`. The `--verbose` option increases the output detail, providing more information about the operation being performed.
+
+            When this command is run with a reference or branch name as an argument, Git will first show the existing ref logs related to that reference or branch, then proceed to delete the specified reference from the reflog and finally display a message confirming the deletion. The output includes the committer's name, email address, and the timestamp of the reflog entry creation and deletion.

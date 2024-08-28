@@ -1,0 +1,79 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: scp
+description: OpenSSH secure file copy
+flags:
+    "-3": Copies between two remote hosts are transferred through the local host
+    "-4": Forces scp to use IPv4 addresses only
+    "-6": Forces scp to use IPv6 addresses only
+    -A: Allows forwarding of ssh-agent to the remote system
+    -B: Selects batch mode
+    -C: Compression enable
+    -D=: Connect directly to a local SFTP server program
+    -F=: Specifies an alternative per-user configuration file for ssh
+    -J=: Connect to the target host by first making an scp connection to the jump host
+    -O: Use the legacy SCP protocol for file transfers instead of the SFTP protocol
+    -P=: Specifies the port to connect to on the remote host
+    -R: Copies between two remote hosts are performed by connecting to the origin host and executing scp there
+    -S=: Name of program to use for the encrypted connection
+    -T: Disable strict filename checking
+    -X*=: Specify an option that controls aspects of SFTP protocol behaviour
+    -c=: Selects the cipher to use for encrypting the data transfer
+    -i=: Selects the file from which the identity for public key authentication is read
+    -l=: Limits the used bandwidth, specified in Kbit/s
+    -o*=: Can be used to pass options to ssh in the format used in ssh_config
+    -p: Preserves modification times, access times, and file mode bits from the source file
+    -q: Quiet mode
+    -r: Recursively copy entire directories
+    -v: Verbose mode
+documentation:
+    command: |-
+        [AI] `scp` (Secure Copies) is a command-line utility in Unix and Linux systems for securely copying (or moving) files between hosts over SSH (Secure Shell). It provides authenticated and encrypted data transfer, ensuring data integrity and confidentiality. The basic syntax of the `scp` command is:
+
+        ```bash
+        scp [user@remote_host:]source_file target_location[user@destination_host:]
+        ```
+
+        For instance, to copy a file from a remote server named "example.com" to your local machine:
+
+        ```bash
+        scp user@example.com:/path/to/remote/file ./local/target/directory
+        ```
+    flag:
+        "3": '[AI] The command "scp -3" is used in Secure Copy (scp) file transfer protocol in Unix or Linux systems. The flag "-3" enables SSH compression during data transfer to reduce the amount of data being sent over the network, which can help save bandwidth and improve transfer speed. However, compressing data adds some overhead, so it might not always result in faster transfers depending on the specific network conditions.'
+        "4": '[AI] The command "scp -4" is not a valid format for the Secure Copy (SCP) protocol in SSH. The option "-4" does not exist in standard SCP usage. A correct SCP command would look like this: "scp <source> <destination>", where "<source>" is the file or directory to be copied from, and "<destination>" is the file or directory to which it will be copied. If you intended to use an option with a number 4, make sure to write it correctly: for example "-P 4" sets port number to 4 for SCP connection.'
+        "6": '[AI] The `scp` (Secure Copy) command is a utility used in Unix-based systems for securely transferring files between a local system and a remote one. The option `-6` is related to the SSH (Secure Shell) protocol version used by `scp`. Specifically, `-6` indicates that version 6 of the SSH protocol should be used during the file transfer process. This ensures the most recent security features are applied for secure data transmission.'
+        A: '[AI] `scp` is a command-line file transfer protocol tool in the Secure Shell (SSH) suite. The option `-A` or `--archive` is used with `scp` to preserve symbolic links, permissions, and other file attributes during a transfer. It archives files and directories recursively. This means that when you use `scp -A source user@destination:target`, the entire directory structure, including all the files and their properties, will be transferred to the destination location.'
+        B: '[AI] The `-B` option in the `scp` (Secure Copy) command is used for batching or transferring multiple files with identical permissions, ownerships, and timestamps in one operation. It ensures that the receiving file''s metadata remains the same as the original files while being transferred between two Unix systems over SSH. This can save time and effort when dealing with large numbers of identical files.'
+        C: '[AI] The `-C` option in the `scp` (Secure Copy) command is used to enable Compression during the file transfer. This can help reduce the amount of data transmitted over the network and save bandwidth, especially when transferring large files or multiple files. It achieves this using the SSH compression feature which adaptively adjusts the compression level based on the system load and network conditions.'
+        D: '[AI] The `-D` option in the Secure Copy (SCP) command is used to specify the SSH identity file for connecting to the remote server. It allows specifying an alternate location of the private key file for authentication instead of the default one located in the user''s home directory (~/.ssh/identity_file). This option can be useful when dealing with multiple keys or configuring automated scripts that require different keys for accessing various servers.'
+        F: '[AI] The `scp` (Secure Copy) command is a utility used in Unix and Unix-like operating systems for copying files between a local host and a remote host over SSH (Secure Shell). The option `-F` or `--quote-filename` is used to allow special characters in filenames during file transfers. When this option is set, the special characters in the filename are quoted with an escaping character (usually a backslash), allowing the transfer of files with non-standard characters in their names. For example: `scp -F user@remote_host:/path/to/file /local/path/to/destination`.'
+        J: '[AI] The option `-J` in an `scp` (Secure Copy) command is used to connect using SSH (Secure Shell) with multiple identities or keys, specified in a single file, defined by the `-i` option. The flag `-J` tells `scp` to connect to the remote host using each identity file listed, one after another. This can be useful when dealing with multiple keys for different hosts or different access levels within the same host.'
+        O: |-
+            [AI] The `scp` (Secure Copy) command is a utility in Unix-based systems for transferring files between a local and a remote host over SSH (Secure Shell). The option `-O`, or more specifically `-o`, followed by various key-value pairs, allows specifying custom OpenSSH options. These options can modify the behavior of the SSH client used by `scp`. For example:
+
+            * `-o "IdentitiesFile=~/.ssh/id_rsa"` specifies an alternative SSH identity file for authentication.
+            * `-o "Port=2222"`, `HostName=remote.example.com` sets the remote host and port number.
+            * `-o "User=john"` sets the remote user name.
+
+            These options help customize the SSH connection during file transfer using `scp`.
+        P: '[AI] The `-P` option in the `scp` (Secure Copy) command is used to specify the SSH (Secure Shell) port number other than the default 22 for establishing an encrypted connection between two hosts for file transfer. This can be useful when there are multiple SSH services running on different ports, or if the SSH server has been configured to listen on a non-standard port. The syntax is `scp -P <port_number> <source_file> user@<destination_host>:<destination_path>`.'
+        R: '[AI] `scp` is a command-line file transfer protocol tool in the Secure Shell (SSH) suite. The `-R` option stands for "recursive." When used with `scp`, it means that the command will transfer an entire directory and its contents recursively, including all subdirectories and their files, from one location to another over SSH. This is useful when you need to copy a whole directory structure between remote servers or from a local machine to a remote server.'
+        S: '[AI] `scp` is a command-line file transfer protocol used to securely copy files between a local and remote system. The option `-S` or `--no-suppress-ident` is used to suppress the display of SSH identities verification when connecting to a remote server. By default, `scp` will ask for confirmation before proceeding with the connection if it encounters an unrecognized RSA or DSA key fingerprint from the server. The `-S` option disables this behavior and automatically adds the new key to the known_hosts file without asking for confirmation. This can be useful in automated scripts or when transferring files between trusted systems.'
+        T: |-
+            [AI] The `scp` (Secure Copy) command is a utility used to securely transfer files between a local system and a remote system over SSH (Secure Shell). The option `-T` is not a standard flag for `scp`. It seems you might have confused it with the `-t` flag.
+
+            The `-t` flag in `scp` stands for "preserve timestamps," meaning that it preserves the modification time, access time, and change time of the original file on the remote system when copying files between systems.
+
+            As mentioned earlier, there is no standard option called `-T` for the `scp` command. If you meant to ask about another related utility or command with this flag, please let me know so I can provide a more accurate explanation.
+        X: |-
+            [AI] The `scp` (Secure Copy) command is a utility in Unix and Unix-like operating systems for copying files between two unauthenticated hosts over SSH (Secure Shell). The `-X` option is used with `scp` to enable the X11 protocol forwarding.
+
+            X11 protocol forwarding allows the remote server to open graphical application windows on the local machine, which can be useful when running graphically intensive applications remotely. When using `scp -X`, the SSH connection established between the source and destination hosts is automatically configured to allow X11 traffic, making it easier to execute X11 applications over the secure copy session.
+        c: '[AI] `scp` is a command-line file transfer protocol used in Unix-based systems to securely copy files between a local and remote host. The `-c` option sets the encryption algorithm for data compression during the transfer. Specifically, it activates Compression with the Cipher `Crypto` (AES128-CTR or Blowfish-CBC) which can improve the transfer speed by reducing the amount of data being transferred without increasing the risk of data interception.'
+        i: '[AI] `scp` is a command-line file transfer protocol used in Unix and Unix-like operating systems. The option `-i <identity_file>` is used with `scp` for SSH key authentication. It specifies the path to an SSH private key file, which allows passwordless login or key-based authentication between hosts. This option enhances security by avoiding the need to enter a password every time files are transferred using SSH.'
+        l: '[AI] `scp -l` is a command used in Secure Copy (SCP) file transfer protocol for displaying the size and transfer speed statistics of files or directories during the transfer process. The `-l` option stands for "long format" or "verbose" mode, which outputs detailed information about the data being transferred. This includes the source file name, destination file name, file sizes before and after transfer, transfer speed, and elapsed time.'
+        o: '[AI] The `scp` (Secure Copy) command is used to securely transfer files between a local and remote system over SSH. The option `-o` followed by an argument, allows for specifying custom OpenSSH options for the SSH connection established during the file transfer. These options can be useful for adjusting various aspects of the connection behavior, such as setting the port number, enabling compression, or setting environmental variables on the remote side. For example, `scp -o "Compression=on" username@remote:/path/to/file` would enable data compression during the transfer.'
+        p: '[AI] The `scp` (Secure Copy) command is a utility used to securely transfer files between a local and remote system over SSH (Secure Shell). The `-p` option that can be passed with this command stands for "preserve symbols and modification times." When used, it ensures that the file permissions, ownerships, and timestamps on the destination file are preserved during the transfer. This is particularly useful when copying files between systems while maintaining their original metadata.'
+        q: '[AI] `scp` is a command-line file transfer protocol tool in Unix-based systems, used to securely copy files between a local and a remote host. The option `-q` stands for "quiet" or "silent". When using this flag, scp suppresses the progress information normally displayed during the file transfer process. This can be useful when automating scripts or running multiple transfers in the background without needing the output clutter.'
+        r: '[AI] The command `scp -r` is used in Secure Copy (SCP) file transfer protocol to recursively copy an entire directory and its contents securely from one host to another. The `-r` option stands for "recursive" and instructs SCP to transfer the specified directory, including all files and subdirectories inside it. This is particularly useful when you need to transfer a whole project or application with its dependencies between servers.'
+        v: '[AI] `scp` is a command-line file transfer protocol tool in Unix-based systems, used to securely copy (scp stands for Secure Copy) files between a local and a remote host. The option `-v` (verbose) is used to increase the amount of information displayed during the data transfer process. With this flag enabled, `scp` will print out additional details about the progress of the transfer, such as the name of each file being transferred, the percentage of the file that has been sent or received, and other debugging information. This can be helpful for troubleshooting or monitoring large transfers.'

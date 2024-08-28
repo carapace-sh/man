@@ -1,0 +1,66 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: certs
+description: Generate the certificates for the new control plane components
+flags:
+    --apiserver-advertise-address=: If the node should host a new control plane instance, the IP address the API Server will advertise it's listening on. If not set the default network interface will be used.
+    --config=: Path to kubeadm config file.
+    --control-plane: Create a new control plane instance on this node
+    --discovery-file=: For file-based discovery, a file or URL from which to load cluster information.
+    --discovery-token-ca-cert-hash*=: 'For token-based discovery, validate that the root CA public key matches this hash (format: "<type>:<value>").'
+    --discovery-token-unsafe-skip-ca-verification: For token-based discovery, allow joining without --discovery-token-ca-cert-hash pinning.
+    --discovery-token=: For token-based discovery, the token used to validate cluster information fetched from the API server.
+    --node-name=: Specify the node name.
+    --tls-bootstrap-token=: Specify the token used to temporarily authenticate with the Kubernetes Control Plane while joining the node.
+    --token=: Use this token for both discovery-token and tls-bootstrap-token when those values are not provided.
+documentation:
+    command: '[AI] The `kubeadm join` command with the `phase control-plane-prepare certs` argument is used during the initial setup of a Kubernetes cluster to prepare and generate Certificate Authority (CA) and client certificate keys for the control plane components (etcd, kube-apiserver, kube-controller-manager, and kube-scheduler). These certificates are essential for secure communication between different control plane components in the cluster. This phase is a prerequisite before running other join phases to add worker nodes to the cluster or install additional components.'
+    flag:
+        apiserver-advertise-address: '[AI] The `kubeadm join` command with the `--control-plane-prepare` flag and the `certs` subcommand is used to prepare the control plane components (etcd, apiserver, and kube-controller-manager) for joining a Kubernetes cluster as a master node. This specific option, `--apiserver-advertise-address`, specifies the IP address or hostname that the apiserver component of the control plane will advertise to other nodes in the cluster for them to connect to. In summary, this command generates and configures SSL certificates for the apiserver and sets its advertised address before starting it as part of the master node setup process.'
+        config: |-
+            [AI] `kubeadm join` is a command-line utility used to join worker nodes to a Kubernetes cluster managed by `kubeadm`, an open-source project for deploying and managing Kubernetes clusters. The `--config` flag specifies the configuration file path that contains the necessary information to join the node, including the address of the Kubernetes control plane.
+
+            The `control-plane-prepare certs` subcommand generates and configures the SSL/TLS certificates for the Kubernetes control plane components (such as the API server, etcd, and kubelet). These certificates are necessary for secure communication between the control plane and worker nodes. By using this command before adding a new node to the cluster, you ensure that all nodes use the same set of certificates, which is essential for maintaining a secure and functional Kubernetes cluster.
+        control-plane: '[AI] `kubeadm join` is a command-line tool used to add nodes to a Kubernetes cluster managed by `kubeadm`. The `phase control-plane-prepare certs` argument specifies the phase of joining process related to preparing control plane certificates. In this phase, `kubeadm` generates and configures necessary TLS certificates for the control plane components (etcd, kube-apiserver, kube-controller-manager, and kube-scheduler) on the node being joined to the cluster. These certificates enable secure communication between the control plane components and ensure the authenticity of cluster communication.'
+        discovery-file: |-
+            [AI] The `kubeadm join` command is used to add a worker node to a Kubernetes cluster managed by `kubeadm`. The `control-plane-prepare certs` subcommand generates and configures the necessary SSL certificates for the control plane components of the cluster.
+
+            The option `--discovery-file` specifies the path to a file containing discovery information about the existing cluster, which is used by the new node to establish secure communication with the existing nodes and join the cluster. The contents of this file typically include the IP address or hostname of the etcd server and the token for joining the cluster. This flag ensures that the newly generated certificates are compatible with the existing ones in the cluster, enabling seamless integration.
+        discovery-token: '[AI] The `kubeadm join` command is used to join worker nodes to a Kubernetes cluster. The option `--control-plane-prepare certs` starts the process of creating TLS certificates for the control plane components, including the etcd server and the Kubernetes API server. The option `--discovery-token` generates and prints out a token used by worker nodes during joining to authenticate with the cluster. This token is required to be provided when running the `kubeadm join` command on the worker node to ensure only authorized nodes join the cluster.'
+        discovery-token-ca-cert-hash: '[AI] `kubeadm join` is a command used to add a worker node to a Kubernetes cluster managed by `kubeadm`. The option `--control-plane-prepare certs` starts the process of preparing SSL certificates for the control plane components. The suboption `--discovery-token-ca-cert-hash` specifies the hash value of the CA certificate used to sign the discovery tokens, which are used during the initial bootstrap and joining processes in a Kubernetes cluster using token authentication. The flag ensures that the worker node uses the correct CA certificate for generating and validating discovery tokens, enabling secure communication with the existing control plane components.'
+        discovery-token-unsafe-skip-ca-verification: |-
+            [AI] The `kubeadm join` command with the argument `--control-plane-prepare certs --discovery-token-unsafe-skip-ca-verification` is used to prepare and generate the necessary TLS certificates for setting up a new control plane node in a Kubernetes cluster managed by Kubeadm.
+
+            The `--discovery-token-unsafe-skip-ca-verification` flag allows joining a Kubernetes cluster without verifying the CA (Certificate Authority) of the join token's issuing certificate, which can be useful for test environments or when dealing with self-signed certificates where the CA may not be trusted.
+
+            By using this option, you are bypassing the standard security checks and allowing insecure communication during the joining process, so it is essential to use it carefully and only when necessary.
+        node-name: |-
+            [AI] `kubeadm join` is a command used to add a worker node to a Kubernetes cluster managed by `kubeadm`. The `phase control-plane-prepare certs --node-name` argument relates to the process of preparing TLS certificates for the control plane components on that specific node.
+
+            When you run this command, it initiates the following steps:
+
+            1. Generates a new certificate signing request (CSR) for the node's client certificate using the node name as the Common Name (CN).
+            2. Sends the CSR to the CA endpoint defined in your Kubernetes configuration to obtain a signed client certificate.
+            3. Downloads and installs the necessary control plane components, such as etcd, kube-apiserver, kube-controller-manager, and kube-scheduler, along with their keys and certificates.
+            4. Prepares the TLS certificates for these control plane components using the client certificate obtained in step 2.
+            5. Configures the systemd units for the control plane components and starts them.
+            6. Registers the node with the Kubernetes cluster by adding its information to etcd.
+
+            In summary, this command prepares TLS certificates for the control plane components on a worker node and configures it to join the Kubernetes cluster as a new member.
+        tls-bootstrap-token: |-
+            [AI] The `kubeadm join` command with the `phase control-plane-prepare certs --tls-bootstrap-token` argument is used during the initial setup of a Kubernetes cluster to prepare TLS certificates for the control plane components, specifically the etcd and kube-apiserver.
+
+            Here's a breakdown of each part of the command:
+
+            * `kubeadm join`: This is the main command for joining worker nodes or setting up new control plane nodes to an existing Kubernetes cluster.
+            * `phase control-plane-prepare`: This argument indicates that we are preparing the environment for setting up a control plane node.
+            * `certs`: This argument tells `kubeadm` to generate and prepare TLS certificates for the control plane components.
+            * `--tls-bootstrap-token`: This flag provides the token used for bootstrapping secure communication between the control plane and worker nodes during the initial join process. It ensures that only authorized nodes can join the cluster.
+        token: |-
+            [AI] The `kubeadm join` command with the `--control-plane-prepare certs --token` option is used to generate and prepare the necessary TLS certificates for a new control plane node in a Kubernetes cluster managed by Kubeadm. Here's a brief explanation of the components:
+
+            * `kubeadm join`: This is the main command for adding new nodes to an existing Kubernetes cluster using Kubeadm.
+            * `--control-plane-prepare`: This sub-option tells Kubeadm that the node being joined will be part of the control plane, which includes the etcd, API server, and other critical components.
+            * `certs`: This specifies that Kubeadm should generate and prepare the necessary TLS certificates for the control plane nodes. The certificates are used to secure communication between different control plane components and ensure the authenticity of their interactions.
+            * `--token <token>`: This option specifies a token that is needed to allow this node to join the cluster as a control plane member. The token must be generated on an existing control plane node using the `kubeadm init` command, and it expires after a certain period of time. The new node's certificate generation process requires this token to proceed.
+
+            Overall, this command generates and prepares the TLS certificates required for a new control plane node, which is an essential step in joining a Kubernetes cluster as a control plane member using Kubeadm.

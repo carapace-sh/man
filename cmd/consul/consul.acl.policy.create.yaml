@@ -1,0 +1,102 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: create
+description: Create an ACL policy
+flags:
+    --ca-file=: Path to a CA file to use for TLS when communicating with Consul.
+    --ca-path=: Path to a directory of CA certificates to use for TLS when communicating with Consul.
+    --client-cert=: Path to a client cert file to use for TLS when 'verify_incoming' is enabled.
+    --client-key=: Path to a client key file to use for TLS when 'verify_incoming' is enabled.
+    --datacenter=: Name of the datacenter to query.
+    --format=: Output format.
+    --from-token=: The legacy token to retrieve the rules for when creating this policy.
+    --http-addr=: The `address` and port of the Consul HTTP agent.
+    --meta: Indicates that policy metadata such as the content hash and raft indices should be shown for each entry
+    --name=: The new policy's name.
+    --namespace=: Specifies the namespace to query.
+    --rules=: The policy rules.
+    --stale: Permit any Consul server (non-leader) to respond to this request.
+    --tls-server-name=: The server name to use as the SNI host when connecting via TLS.
+    --token-file=: File containing the ACL token to use in the request.
+    --token-secret: Indicates the token provided with -from-token is a SecretID and not an AccessorID
+    --token=: ACL token to use in the request.
+    --valid-datacenter*=: Datacenter that the policy should be valid within.
+documentation:
+    command: |-
+        [AI] `consul acl policy create` is a command used in Consul, an open-source tool for service discovery, configuration, and orchestration. This command is utilized to create a new Access Control List (ACL) policy within the Consul service. The syntax of the command is as follows:
+
+        ```sh
+        consul acl policy create [name] [description] [rules]
+        ```
+
+        Here's a brief explanation of each argument:
+
+        1. `[name]`: A descriptive name for the policy.
+        2. `[description]`: An optional description explaining what the policy does.
+        3. `[rules]`: One or more rules that define what actions are allowed or denied under specific conditions. Each rule consists of a key, a principal (user or role), and permissions or actions. For example:
+
+           ```sh
+           - key: "data/service/*"
+             policy: read
+             principals:
+               - id: <USER_ID>
+           ```
+
+        This command creates a new ACL policy with the given name, description, and rules. Once created, this policy can be applied to Consul resources or services using other Consul ACL commands.
+    flag:
+        ca-file: |-
+            [AI] The `consul acl policy create` command with the `--ca-file` flag is used to create a new Access Control List (ACL) policy in Consul, an open-source tool for service discovery, configuration, and orchestration.
+
+            The `--ca-file` flag specifies the path to a file containing the PEM-encoded Certificate Authority (CA) key that will be used to sign the newly created ACL policy document. This is necessary when creating policies that require signing authority, such as those with advanced permissions or scope beyond a single Consul datacenter.
+
+            Once the policy is created, it can be applied to Consul clients and services for access control management.
+        ca-path: '[AI] The `consul acl policy create` command is used to create a new Access Control List (ACL) policy in Consul, an open-source tool for service discovery, configuration, and orchestration. The option `--ca-path` specifies the path to the CA (Certificate Authority) bundle file when creating a self-signed certificate for securing the ACL communications between servers. This flag is important for ensuring secure communication between Consul servers in an ACL setup by enabling encryption of ACL API requests.'
+        client-cert: |-
+            [AI] The `consul acl policy create --client-cert` command is used to create an Access Control List (ACL) policy in Consul, a connectivity and service discovery tool. This specific command creates a policy with client certificate authentication enabled.
+
+            Client certificates are digital certificates that are issued to clients to authenticate their identity. By enabling this feature in the ACL policy, only clients with valid and trusted certificates will be allowed to access the services or perform certain actions within Consul. This adds an additional layer of security to your infrastructure by ensuring that only authorized clients can interact with Consul.
+
+            The `--client-cert` flag indicates that this policy will use client certificate authentication for enforcing access control rules. This command assumes you have already generated and configured the necessary certificates for your clients, and it is your responsibility to ensure secure storage and distribution of these certificates.
+        client-key: '[AI] The `consul acl policy create --client-key` command is used to create a new Access Control List (ACL) policy in Hashicorp Consul, a service discovery and configuration management tool. This command requires providing the key of the client making the API request for security purposes. The newly created ACL policy will define permissions for different actions (read, write, etc.) that can be granted or denied to different entities (users, roles, or teams) within a Consul datacenter. These permissions can be applied to various resources such as keys, values, and configurations. The specific permissions and entities defined in the policy depend on the requirements of your use case.'
+        datacenter: |-
+            [AI] The `consul acl policy create --datacenter` command is used to create a new Access Control List (ACL) policy in Consul, which is an open-source tool for service discovery, configuration, and orchestration.
+
+            The `--datacenter` flag specifies that the new policy will be applied to a specific datacenter in a multi-datacenter setup. Consul supports multiple datacenters for improved availability and disaster recovery.
+
+            When you run this command, you'll need to provide some mandatory parameters such as the name of the new policy, the rules defining which entities (services, clients, etc.) can perform specific actions (read, write, connect, etc.), and any conditions or exceptions that apply to those rules.
+
+            For example:
+            ```bash
+            consul acl policy create --name my_policy --rule "path = 'service/my-service' { capabilities = ['read'] }" --datacenter dc1
+            ```
+            This command creates a new ACL policy named `my_policy` and applies the rule that grants read access to the `my-service` service in datacenter `dc1`.
+
+            Consul uses the Hierarchical Access Control Language (HACL) for defining policies. HACL provides a flexible and fine-grained way to define complex ACL rules, conditions, and exceptions.
+
+            After you create the policy using this command, it will be applied to the specified datacenter based on your Consul configuration.
+        format: '[AI] `consul acl policy create --format` is a command used in Hashicorp Consul, an open-source distributed, highly available, and data center aware solution to connect and secure services. This command creates a new Access Control List (ACL) policy in Consul and outputs the result in a specified format for further processing or storage outside of the Consul CLI. The `--format` flag specifies the desired output format, such as JSON or HCL.'
+        from-token: '[AI] The `consul acl policy create --from-token` command is used to create a new Access Control List (ACL) policy in Consul, a connectivity and service discovery tool. The `--from-token` flag specifies that the new policy should be created based on the currently authenticated token''s permissions. This means that the new policy will inherit the same level of access as the token, allowing or denying actions based on its existing capabilities. This command is typically used by an administrator to easily create a new policy with similar permissions to an existing one.'
+        http-addr: '[AI] The `consul acl policy create --http-addr` is a command used with Consul, an open-source tool for service discovery, configuration, and orchestration. This specific command creates a new Access Control List (ACL) policy in Consul with a specified HTTP address. When you run this command, you provide the ACL policy name and the HTTP address as arguments, and Consul sets up rules to grant or deny access to its HTTP API based on those definitions. It''s an essential tool for managing fine-grained access control within your Consul environment.'
+        meta: |-
+            [AI] The `consul acl policy create --meta` command is used to create a new Access Control List (ACL) policy in Consul, an open-source tool for service discovery and configuration management. This command allows you to create a new policy with custom metadata.
+
+            The `--meta` flag is used to provide key-value pairs as metadata associated with the newly created policy. This can be useful for adding descriptive information or tags that help manage and identify policies within Consul's ACL system.
+
+            Here's an example of using this command:
+
+            ```bash
+            consul acl policy create my_policy --name my_policy_name --display-name "Display name" --meta key1=value1 key2=value2
+            ```
+
+            In the above command, `my_policy` is the name of the new policy, and `my_policy_name`, `Display name` are its display name. The `--meta` flag is used to associate two custom metadata keys (key1 and key2) with values value1 and value2, respectively.
+        name: '[AI] The `consul acl policy create` command is used in Consul, an open-source distributed computing platform, to create a new Access Control List (ACL) policy. The `--name` flag specifies a unique name for the new policy. This command sets up permissions and access rules for different users or services within Consul''s service mesh or key/value store.'
+        namespace: '[AI] The `consul acl policy create --namespace` command is used in Hashicorp Consul, an open-source tool for service discovery, configuration, and orchestration. This specific command creates a new Access Control List (ACL) policy within a given namespace. It sets the permission rules for who can perform various actions on different resources within that namespace. The `--namespace` flag specifies the name of the target namespace where the new ACL policy will be created.'
+        rules: '[AI] The `consul acl policy create --rules` command is used to create a new Access Control List (ACL) policy in Consul, a Connectivity and Service Discovery tool. This command takes one or more rules as arguments, defining what actions are allowed for specific entities or paths in the Consul service registry or configuration. The rules can specify permissions for different types of Consul clients, such as read, write, or delete access to various resources. These policies help secure and manage access to services, configurations, and other data within a Consul cluster.'
+        stale: '[AI] The `consul acl policy create --stale` command is used in Consul, an open-source tool for service discovery, configuration, and orchestration. This command creates a new Access Control List (ACL) policy with the given name and definition, but without waiting for a acknowledgement from all Consul servers in the cluster. The `--stale` flag allows creating the policy even if some servers may not have received the update yet. This can help to quickly implement new policies while minimizing potential downtime or delays caused by waiting for full replication across all servers. However, it''s important to note that using this flag might result in temporary inconsistencies within the cluster, as not all nodes will have the updated policy immediately.'
+        tls-server-name: |-
+            [AI] The `consul acl policy create --tls-server-name` command is used in Hashicorp Consul, an open-source distributed config management, and service registration tool. This command creates a new Access Control List (ACL) policy with TLS server name verification enabled.
+
+            When creating a new ACL policy, you can specify various options to control access to different parts of the Consul service. The `--tls-server-name` option is used to require that the client providing requests to the Consul API presents a specific TLS server name during TLS handshakes. This helps ensure that only trusted clients can connect to and interact with the Consul API, adding an additional layer of security.
+        token: '[AI] The `consul acl policy create --token` command is used to create a new Access Control List (ACL) policy in Consul, an open-source tool for service discovery, configuration, and orchestration. The `--token` option specifies the token of an authenticated client or a Consul server, which is required to perform ACL-related actions. This command allows you to define and apply permissions on resources within the Consul hierarchy (e.g., keys, services, etc.). It helps ensure secure access and manage the usage of your Consul environment by defining granular policies for different users or teams.'
+        token-file: '[AI] The `consul acl policy create` command is used in Hashicorp Consul, an open-source tool for service discovery, configuration, and orchestration, to create Access Control Lists (ACL) policies. The `--token-file` flag specifies the path to a file containing an authentication token, which is required to authenticate and perform administrative tasks in Consul. This token should have sufficient permissions to create new ACL policies within the Consul datacenter.'
+        token-secret: '[AI] The `consul acl policy create --token-secret` command is used in Consul, an open-source tool for service discovery, configuration, and orchestration. This command creates a new Access Control List (ACL) policy with a token-based secret. The secret is essential to authenticate and authorize access to Consul resources. When you run this command, you''ll need to specify the name of the policy, the ACL rules that define which actions are allowed or denied for specific entities, and the new token secret. Once created, this policy can be applied to clients, services, or other Consul entities to control their access to the service registry, configuration data, and other functionalities within the Consul ecosystem.'
+        valid-datacenter: '[AI] The `consul acl policy create --valid-datacenter` command in Consul is used to create an Access Control List (ACL) policy with the specified datacenter name set as valid. This means that the created policy will only apply to the named datacenter, restricting access control rules to that particular data center''s nodes and services. The flag ensures that the provided datacenter name is valid within the Consul environment before creating the policy.'

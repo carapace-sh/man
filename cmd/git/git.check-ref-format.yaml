@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: check-ref-format
+description: Ensures that a reference name is well formed
+group: low-level helper
+flags:
+    --allow-onelevel: Controls whether one-level refnames are accepted
+    --branch: Check for valid branch name
+    --no-allow-onelevel: Controls whether one-level refnames are accepted
+    --normalize: Normalize refname by removing any leading slash characters
+    --refspec-pattern: Interpret <refname> as a reference name pattern for a refspec
+documentation:
+    command: '[AI] `git check-ref-format` is a Git command used to validate the syntax of ref names. Refs in Git are simply references to specific commit SHA1 hashes or branches that track those commits. This command checks if a given ref name conforms to Git''s ref naming rules, such as starting with a refs/ prefix for local refs or a remote/ prefix for remote-tracking refs. It returns an error message if the ref name is invalid and prints nothing if it''s valid.'
+    flag:
+        allow-onelevel: |-
+            [AI] The `git check-ref-format` command is a built-in Git command used to verify if a ref (short for reference, which in Git represents a name for a commit) follows the required format. The `--allow-onelevel` option is an argument that can be passed along with this command to allow a ref to exist at only one level below the current head ref.
+
+            In other words, when using `git check-ref-format --allow-onelevel`, Git will still enforce the basic rules for reference names (e.g., they must start with a refs/ prefix and contain a branch or tag name), but it will also permit branches that have only one level of nesting.
+
+            For example, if you are currently on the master branch and create a new branch called `hotfix`, Git would normally require that `hotfix` has an associated remote tracking branch (e.g., `origin/hotfix`) or a detached head indicating a new branch. However, using `--allow-onelevel` allows you to create the local branch `hotfix` without an associated remote branch or a detached head. This can be useful in situations where you want to create a temporary branch for testing or development purposes locally without affecting your remote repository just yet.
+        branch: '[AI] `git check-ref-format` is a command used to verify if a given ref name (typically a branch name) follows Git''s naming conventions. The `--branch` option is used to specify that you want to check the branch names specifically. This command does not change the current repository; it only checks whether the given branch names are valid or not, according to Git''s rules for branch names (which allow alphanumeric characters, hyphens, and periods, but do not allow forward slashes or spaces). If all checked branch names pass this validation, the command exits with a successful status. Otherwise, it will display an error message for each invalid branch name.'
+        no-allow-onelevel: |-
+            [AI] The `git check-ref-format` command is used to validate the syntax of Git references, which are pointers to specific commits or branches in a Git repository. The `--no-allow-onelevel` flag modifies the default behavior of this command.
+
+            By default, Git allows a ref to be set directly under the current branch, a configuration known as "one level detached HEAD". With the `--no-allow-onelevel` option, Git will refuse to allow such refs and consider them invalid. This flag is useful when you want to enforce a strict branching model and prevent accidental or intentional creation of one-level detached branches.
+        normalize: '[AI] `git check-ref-format --normalize` is a Git command that checks and normalizes the given ref names according to Git''s reference format rules. The "--normalize" option ensures that each ref name is in the canonical form, which is typically "refs/<namespace>/<name>" where <namespace> can be empty or contain one or more segments (like "refs/heads" or "refs/tags"). This command does not make any changes to the refs by default; it only prints out the normalized forms of the given ref names.'
+        refspec-pattern: '[AI] The `git check-ref-format` command is a plumbing command in Git used to validate ref names against certain rules. The `--refspec-pattern` option is an argument that allows specifying a regular expression pattern to match against the refspec part of a ref name. For example, `refs/heads/*` matches any ref starting with `refs/heads/`, and `^(?:[^+=][0-9]+)(?P<branch>[^-]++)(?P<upstream>:-?(refs|remotes)[/-]|[^:]+):.+$` matches refs in the format `branch:upstream` or `branch:upstream/remote`, where `branch` is any name and `upstream` starts with `remote` or `refs` followed by a colon and the name of a remote. The goal is to ensure that ref names follow a consistent naming convention in a repository.'

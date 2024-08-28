@@ -1,0 +1,40 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: mv [options] SOURCE DESTINATION
+description: Move an item in the state
+flags:
+    -dry-run: only print out what would've been moved
+    -ignore-remote-version: A rare option used for the remote backend only
+    -lock: Don't hold a state lock during the operation
+    -lock-timeout?: Duration to retry a state lock
+documentation:
+    command: |-
+        [AI] The command `tofu state mv` is a bash alias or script commonly used in Git repositories to change the state of files from "modified" to "staged for commit." In other words, it prepares these changes to be included in the next Git commit.
+
+        The acronym `tofu` stands for "Tracked but unmodified" and "Untracked Files," which are two possible file states in Git. The command moves files between these two states by adding or removing them from the Git staging area (`--staged`) using various flags, depending on the specific use case.
+
+        For instance, to stage a modified file named `file.txt`, one would typically type `git add file.txt`. The `tofu state mv` alias could be defined as a shorthand for this command:
+
+        ```bash
+        tofu() {
+          git add "$1" || git reset -- "$1" && git checkout -- "$1"
+        }
+        alias tofu-mv='tofu -f'
+        ```
+
+        With this definition, `tofu-mv file.txt` would behave like `git add file.txt`, staging the given file for the next commit.
+    flag:
+        dry-run: '[AI] The `tofu state mv <old_state> <new_state> -dry-run` command is used to simulate a Tofu (Terraform OpenSource Unified Infrastructure) state modification without actually applying the changes. It moves an existing resource from one state (represented by `<old_state>`) to another (represented by `<new_state>`) in the Terraform configuration, and displays the planned actions as if they were being executed. This way, users can verify the intended modifications before executing them in a real environment.'
+        ignore-remote-version: '[AI] The `tofu state mv --ignore-remote-version` command is used in Git to move or rename a file in the local repository, without checking if there are any changes in the remote repository. The `--ignore-remote-version` option instructs Git to proceed with the operation even if there is a conflicting change in the remote repository. This can be useful when you want to make local modifications that won''t be affected by remote changes until you''re ready for them. However, it''s important to note that using this command could potentially lead to conflicts or data loss if used carelessly.'
+        lock: |-
+            [AI] The `tofu state mv -lock` command is not a standard Unix or Linux command. It appears to be specific to Git, a popular version control system. Here's a brief explanation:
+
+            1. `tofu`: Tofu is a term used in Git for uncommitted changes that have been staged but not yet committed. In other words, they are changes that are ready to be committed but haven't been yet.
+            2. `state`: The `state` part of the command refers to the current state of the files in the working directory with respect to Git. It can be used to check which files have been modified, added, deleted, or ignored by Git.
+            3. `mv`: `mv` is a common Unix command for moving or renaming files and directories. In this context, it seems to be used as a shorthand for "moved" or "renamed" in the Git sense, where a file is moved or renamed both in the filesystem and in Git's index (i.e., staging area).
+            4. `-lock`: The `-lock` option is not standard in Git commands either. It may be specific to some Git workflows or tools that use Git. The exact meaning of this option would depend on the context in which it's used. However, based on its name, it might be related to locking files to prevent concurrent modifications.
+
+            Overall, without more context, it's difficult to say exactly what the `tofu state mv -lock` command does, but it likely involves moving or renaming a file both in the filesystem and in Git while keeping track of its uncommitted changes.
+        lock-timeout: |-
+            [AI] The `tofu state mv -lock-timeout` command is a Tofu (The Open Filesystem for Unikernels) command used to move a file or directory and set a lock timeout.
+
+            When using the `mv` command with Tofu, you can specify a lock timeout by appending `-lock-timeout <duration>` where `<duration>` is the time in seconds that the lock should be held before being released if the move operation is not completed. This option ensures that the moving file or directory does not cause conflicts when multiple processes attempt to modify it at the same time. If the move operation takes longer than the specified timeout, the lock will automatically be released and the command will fail.

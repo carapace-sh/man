@@ -1,0 +1,58 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: edit
+aliases:
+    - e
+description: Edit one or more issues
+flags:
+    --remove-labels=: Comma-separated list of labels to remove
+    -D, --deadline=: Deadline timestamp to assign
+    -L, --add-labels=: Comma-separated list of labels to assign. Takes precedence over --remove-labels
+    -R, --remote=: Discover Gitea login from remote. Optional
+    -a, --add-assignees=: Comma-separated list of usernames to assign
+    -d, --description=: ""
+    -l, --login=: Use a different Gitea Login. Optional
+    -m, --milestone=: Milestone to assign
+    -r, --repo=: Override local repository path or gitea repository slug to interact with. Optional
+    -t, --title=: ""
+    -v, --referenced-version=: commit-hash or tag name to assign
+documentation:
+    command: '[AI] The `tea issues edit` command is used in the GitTea version control system to open an existing issue for editing. It assumes that you have already initialized a GitTea repository and fetched any available issues from a remote server. Once you''ve identified the issue number, use this command to open it in your default text editor or IDE for making modifications. After saving your changes, commit them using `tea commit` followed by a message describing the updates, and then push the changes back to the remote repository with `tea push`.'
+    flag:
+        add-assignees: '[AI] The `git flag "tea issues edit --add-assignees"` is used with the GitHub Tuleap or GitLab Git management systems to edit an issue and add assignees. When this command is executed, it opens the issue in the text editor for editing, allowing you to make changes to the issue description. Additionally, you can use this opportunity to assign new team members or developers to the issue by adding their usernames in the `Assignees` field before saving and committing the changes.'
+        add-labels: '[AI] The `--add-labels` flag is used with GitHub''s `git push` command when working with issues. It allows you to assign one or more labels to an issue during the push operation. This can be useful for automating label assignment workflows, such as adding a label based on the issue title or content. The flags takes a comma-separated list of labels as an argument. For example: `git push origin master --add-labels bug,feature`.'
+        deadline: '[AI] The `--deadline` option in the Git command `git request-pull` or `git push` with the subcommand `tea` (Transport over SSH using Ed25519 Authentication) sets a deadline for the transfer of files. This means that the transfer must be completed within a specified time, otherwise it will be aborted. The flag takes a value in seconds, specifying the maximum allowed transfer time. It is useful when dealing with large repositories or slow networks to prevent long and unproductive transfers.'
+        description: '[AI] The `git flag" tea issues edit --description"` command is used to open the text editor for editing the description of the last commit in a Git repository. The `--description` option specifies that only the commit message should be edited, not the body or footer parts of the commit message. This command allows users to modify the description of their last commit before pushing it to a remote repository.'
+        login: '[AI] "tea issues edit --login" is a command used in Git, a version control system. It modifies the content of a file or files in a local Git repository and then stages those changes for commit. The "--login" option refers to using SSH keys for authentication when pushing the commits to a remote Git repository, typically a server hosting the project. This command allows users to edit their code locally, make necessary changes, and update the remote repository with their modifications securely.'
+        milestone: '[AI] The `--tea issues edit --milestone` command is used in GitHub''s Terminal or Command Line Interface (CLI) to update an existing issue with a new milestone assignment. The `edit` function allows you to modify the issue details, while the `--milestone` option sets the specified milestone for the updated issue. This command helps manage and prioritize issues within a project''s milestones.'
+        referenced-version: '[AI] The `--referenced-version` option in the Git command `git checkout -- tea-file TEABRANCH` or `git reset --mixed -- TEABRANCH tea-file` is used to specify which branch''s version of a file you want to check out or reset, referred to as "TEABRANCH" in this case. The `--tea-issues` flag is not a standard Git option and seems to be specific to certain workflows or tools built on top of Git. It likely refers to an issue tracking system, possibly integrated with Git, that uses the term "tea" for some purpose. When using this flag along with `--referenced-version`, it indicates that you want to check out or reset a file based on its state in the specified referenced branch, as recorded in the issue tracking system.'
+        remote: |-
+            [AI] The Git command `git checkout -- TEAm/branch --remote` is used to fetch and checkout a specific branch from a remote repository directly into your local working directory.
+
+            Here's a breakdown of each part of the command:
+
+            1. `git checkout`: This is the main command for managing your Git branches and the files in your working directory.
+            2. `-- TEAm/branch`: Replace `TEAm/branch` with the name of the remote repository and the branch you want to fetch and checkout. The `--` is used to separate the argument from any potential local branches or file paths that might have the same name.
+            3. `--remote`: This option tells Git to perform the checkout directly from the remote repository without creating a new local branch (if it doesn't already exist). It also updates your local repository with any recent changes on the remote branch.
+        remove-labels: '[AI] The `--remove-labels` option in the `git` command `git teasmoke issue edit` is used to remove all existing labels from a GitHub Issue. This command is typically used when you want to reset an issue''s labeling, for instance, when creating a new template or workflow for issue reporting. By running this command, all previous labels are removed and can be added again as needed.'
+        repo: |-
+            [AI] The command `git config --global alias.tee 'push origin head --force' && git config --global alias.edit '!) f() { git checkout -b $1 ${%(ref master)}.branch; git pull origin $1 --rebase; }; f $*; git push origin --all --tags` is a series of Git configuration commands written in Bash. The first command sets up two aliases, "tee" and "edit".
+
+            The "tee" alias (`alias.tee 'push origin head --force'`) is used to force-push changes to the remote repository. This can be useful when you have made local changes that conflict with the latest version on the remote repository and want to override it.
+
+            The "edit" alias (`alias.edit '!) f() { ... } f $*`) does the following:
+
+            1. Creates a new branch based on the current branch, appending `.branch` to the name of the current branch.
+            2. Fetches and rebase the changes from the remote repository onto the new branch.
+            3. Pushes all branches (both local and remote) to the origin with all the changes.
+
+            The "edit" alias is often used when you want to make a change on your local branch, pull in any latest updates from the remote repository, and then push your changes back to the remote while keeping the history intact.
+        title: |-
+            [AI] The command `git checkout -- <file> && git add <file> && git commit -m "<message>" && git push origin <branch-name> --force && git checkout master && git pull origin master && git checkout <branch-name> && git rebase origin/<branch-name> --edit-rebase --strategy-option theirs <file> && git add . && git commit -m "<new-message>" && git push origin <branch-name>` is a set of instructions written in Git, a version control system. This command sequence, often referred to as a "tea party" or "rebase tea," aims to resolve merge conflicts during a rebase operation by manually editing files with text editors.
+
+            The specific parts of this command related to editing are:
+            - `git checkout <branch-name> && git rebase origin/<branch-name> --edit-rebase --strategy-option theirs <file>`: This sequence checks out the branch for rebasing, starts a rebase operation and, when encountering merge conflicts, opens each conflicting file in an editor for manual resolution. The `--strategy-option theirs <file>` argument tells Git to use the version of the file from the remote branch as the starting point for merging.
+
+            The rest of the command sequence manages the Git environment and changes:
+            - `git checkout -- <file>`: This command discards local modifications and switches back to the previous commit's version of a file, without committing any changes.
+            - `git add <file>`: After editing, this command stages the edited files for the next commit.
+            - `git commit -m "<message>" && git push origin <branch-name>`: These commands save and apply the changes to the branch locally, then push those changes to the remote repository, updating the branch with the new version.

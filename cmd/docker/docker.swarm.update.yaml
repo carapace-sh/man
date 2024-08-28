@@ -1,0 +1,34 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: update [OPTIONS]
+description: Update the swarm
+flags:
+    --autolock: Change manager autolocking setting (true|false)
+    --cert-expiry=: Validity period for node certificates (ns|us|ms|s|m|h)
+    --dispatcher-heartbeat=: Dispatcher heartbeat period (ns|us|ms|s|m|h)
+    --external-ca=: Specifications of one or more certificate signing endpoints
+    --max-snapshots=: Number of additional Raft snapshots to retain
+    --snapshot-interval=: Number of log entries between Raft snapshots
+    --task-history-limit=: Task history retention limit
+documentation:
+    command: '[AI] `docker swarm update` is a command used to update the configuration of a Docker Swarm cluster. It can be used to apply new changes to the Swarm manager node or worker nodes, such as adding or removing nodes, updating network plugins, or applying new constraints on node labels. The updated configuration is then applied across the cluster for optimal performance and functionality.'
+    flag:
+        autolock: '[AI] `docker swarm update --autolock` is a command used in Docker Swarm clustering to update and enable the autolocking feature. Autolocking automatically locks and unlocks nodes based on their availability, ensuring that only sufficient nodes are in the cluster for the desired services to run. This improves cluster resiliency and simplifies node management by automatically adjusting to changes in node status.'
+        cert-expiry: '[AI] The `docker swarm update --cert-expiry` command is used to update the TLS certificates in a Docker Swarm cluster. The `--cert-expiry` flag specifies the number of days before the current date that the new certificates will expire. This helps ensure that the certificates are regularly rotated for improved security. When this command is run, Docker generates and distributes new TLS certificates to all nodes in the cluster, and the Swarm manager and worker nodes are updated accordingly. The old certificates are then automatically replaced with the new ones.'
+        dispatcher-heartbeat: |-
+            [AI] `docker swarm update --dispatcher-heartbeat` is a command used in Docker Swarm mode to update the Dispatcher heartbeat interval. The Dispatcher is the component responsible for managing and scheduling tasks across nodes in a Docker Swarm cluster.
+
+            The `--dispatcher-heartbeat` option sets the time interval (in seconds) between two consecutive pings that the Dispatcher sends to its workers. A shorter heartbeat interval ensures quicker detection of worker failure, but increases network traffic. Conversely, a longer interval reduces network traffic but may delay detection of a failed worker.
+
+            The command updates this configuration setting on all nodes in the Swarm cluster, ensuring that all nodes adhere to the same Dispatcher heartbeat policy.
+        external-ca: '[AI] The `docker swarm update --external-ca` command is used to update the external Certificate Authority (CA) certificate in a Docker Swarm cluster. This CA certificate is used for secure communication between nodes and Swarm components such as Router and Manager. When you run this command, you provide the new CA certificate file as an argument, which Docker then replaces with the old one on all worker nodes. It''s important to note that you need to update the Manager node first, and then the workers will automatically follow the update. This helps maintain secure communication within your Swarm cluster.'
+        max-snapshots: |-
+            [AI] The `docker swarm update --max-snapshots` command is used to configure the maximum number of snapshots that can be retained for a Docker service in a Swarm mode cluster.
+
+            When you deploy a new version of a service, Docker creates a snapshot of the previous configuration. By default, Docker keeps up to 10 snapshots per service. This command allows you to increase or decrease this limit up to a maximum value. For example, `docker swarm update --max-snapshots=5 my_service` sets the limit to 5 snapshots for the `my_service`.
+
+            The updated configuration is then rolled out to all nodes in the Swarm cluster. This command is useful when you want to reduce the storage usage or when you have a large number of services and need to manage snapshot storage efficiently.
+        snapshot-interval: '[AI] `docker swarm update --snapshot-interval` is a command used in Docker Swarm mode to configure the interval at which Swarm creates and saves snapshots of the current cluster state. These snapshots can be used for disaster recovery or to apply configuration changes without downtime, as they contain the desired state of the cluster. The option `--snapshot-interval` sets the time interval for creating these snapshots. For example, `--snapshot-interval 1h` creates a snapshot every hour.'
+        task-history-limit: |-
+            [AI] The `docker swarm update --task-history-limit` command is used to configure the maximum number of stored task history revisions in a Docker Swarm cluster. By default, Docker keeps all task history revisions. However, you can limit the number of revisions using this update command.
+
+            For instance, to set the limit to 10 revisions per service, run `docker swarm update --task-history-limit=10`. This command updates the Swarm manager and worker nodes to keep only the last 10 task history revisions for each service in your cluster. Older revisions will be pruned to save storage space.

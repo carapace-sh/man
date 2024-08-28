@@ -1,0 +1,136 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: ssh
+description: OpenSSH remote login client
+flags:
+    "-4": Forces ssh to use IPv4 addresses only
+    "-6": Forces ssh to use IPv6 addresses only
+    -A: Enables forwarding of connections from an authentication agent
+    -B=: Bind to given address before attempting to connect
+    -C: Requests compression of all data
+    -D=: Specifies a local “dynamic” application-level port forwarding
+    -E=: Append debug logs to log_file instead of standard error
+    -F=: Specifies an alternative per-user configuration file
+    -G: Causes ssh to print its configuration after evaluating Host and Match blocks and exit
+    -I=: Specify the PKCS#11 shared library ssh should use
+    -J=: Connect to the target host by using given jump host
+    -K: Enables GSSAPI-based authentication and forwarding of GSSAPI credentials
+    -L=: Specifies that connections are to be forwarded
+    -M: Places the ssh client into “master” mode for connection sharing
+    -N: Do not execute a remote command.  This is useful for just forwarding ports.
+    -O=: Control an active connection multiplexing master process
+    -Q=: Queries ssh for the algorithms supported
+    -R=: Specifies that connections ar to be forwarded
+    -S=: Specifies the location of a control socket
+    -T: Disable pseudo-terminal allocation
+    -V: Display the version number and exit
+    -W=: Requests that standard input and output on the client be forwarded
+    -X: Enables X11 forwarding
+    -Y: Enables trusted X11 forwarding
+    -a: Disables forwarding of the authentication agent connection.
+    -b=: Use bind_address on the local machine as the source address of the connection
+    -c=: Selects the cipher specification for encrypting the session
+    -e=: Sets the escape character for sessions with a pty
+    -f: Requests ssh to go to background just before command execution
+    -g: Allows remote hosts to connect to local forwarded ports
+    -i=: Selects a file from which the identity (private key) is read
+    -k: Disables forwarding of GSSAPI credentials to the server
+    -l=: Specifies the user to log in as on the remote machine
+    -m=: A comma-separated list of MAC algorithms
+    -n: Redirects stdin from /dev/null
+    -o=: Can be used to give options in the format used in the configuration file
+    -p=: Port to connect to on the remote host
+    -q: Quiet mode
+    -s: May be used to request invocation of a subsystem on the remote system
+    -t: Force pseudo-terminal allocation
+    -v: Verbose mode
+    -w=: Requests tunnel device forwarding
+    -x: Disables X11 forwarding
+    -y: Send log information using the syslog system module
+documentation:
+    command: '[AI] "SSH" stands for Secure Shell. It''s a cryptographic network protocol used for securely connecting to and accessing remote servers or systems. SSH provides secure communications between two untrusted hosts over an insecure network, such as the internet. The "ssh" command is typically used in terminal sessions on Unix-based operating systems to initiate and manage these secure connections. It encrypts all data transmitted between the local and remote computers, providing strong authentication, confidentiality, and integrity mechanisms for remote access.'
+    flag:
+        "4": '[AI] The command `ssh -4` is used in Secure Shell (SSH) to force version 4 of the SSH protocol to be used during the connection. The number 4 specifies the protocol version, and the `-4` option ensures that only SSH version 4 is used. This option can be useful when connecting to a server that only supports SSH version 4. It''s important to note that SSH protocol version 5 (the latest) is recommended for security reasons due to various improvements and fixes over the older versions.'
+        "6": '[AI] The option "-6" in an SSH (Secure Shell) command relates to the IPv6 protocol. It instructs the SSH client to use IPv6 addresses instead of the default IPv4 when connecting to a remote server. This can be useful when working with networks that exclusively use IPv6 or when connecting to specific IPv6-enabled services. For example, the command "ssh -6 user@[ipv6address]:port" will establish an SSH connection using IPv6 to the specified address and port.'
+        A: '[AI] The `-A` option in an `ssh` (Secure Shell) command stands for "AgentForward" and is used to forward authentication agents, such as Pageant or ssh-agent, to a remote server. This allows users to authenticate to the remote server using keys stored on their local machine without having to enter the key passphrases repeatedly. Essentially, it enables transparent authentication for secured shell connections.'
+        B: '[AI] The `-B` option in an `ssh` (Secure Shell) command stands for "Batch mode, background as soon as possible." With this option, an SSH client will execute a remote command and return control to the local terminal immediately, instead of waiting for the remote command to finish before returning. This is useful when you want to initiate a long-running process on a remote server and continue using your local terminal without being blocked by the SSH session. The `-B` flag also enables "Training Mode" in `pkgssh-agent`, which allows the SSH client to forward X11 connections in the background.'
+        C: '[AI] The `-C` option in an `ssh` (Secure Shell) command is used to enable Compression of data transmitted between the client and server during the session. This can help reduce bandwidth usage and improve transfer speeds, especially over slow or limited connections. It does not affect encryption or authentication processes, but rather focuses on data compression.'
+        D: '[AI] The `-D` option in an `ssh` (Secure Shell) command sets up a SOCKS proxy on the local machine, allowing local applications to access remote servers through an encrypted connection. Specifically, it creates a dynamic socket mapping, listening on localhost on port 8080 by default, forwarding the traffic to the remote server via an SSH tunnel. This can be useful for circumventing firewalls or accessing restricted resources remotely.'
+        E: |-
+            [AI] The `-E` option in an `ssh` (Secure Shell) command is used to specify a custom identity file for the SSH client's private key. This can be useful when you have multiple keys with different aliases and want to use a specific one for a given connection.
+
+            For example, `ssh -I my_key_file username@remote_host` would use the specified key file, `my_key_file`, instead of the default one for authentication when connecting to the remote host.
+        F: '[AI] The `-F` option in OpenSSH''s `ssh` command is used to specify a custom configuration file instead of the default one (usually located at `~/.ssh/config`). This can be useful when dealing with complex SSH configurations involving multiple hosts, identities, or proxy servers. The custom config file should be in the INI format, where each section represents a host and its properties are defined as key-value pairs.'
+        G: '[AI] The `-G` option in an SSH (Secure Shell) command generates RSA key pairs for use with Key-Based Authentication. When used with the `ssh-keygen` command, it will generate a new key pair consisting of a public key (for sharing) and a private key (for secure storage). The public key is saved in the default location (~/.ssh/id_rsa.pub), ready to be shared or copied to remote servers for authentication.'
+        I: |-
+            [AI] The `-I` option in an `ssh` (Secure Shell) command specifies a specific identity file to use for authentication when connecting to a remote server. This option is followed by the path to the private key file. For example:
+
+            ```bash
+            ssh -i /path/to/private/key user@remote_server
+            ```
+
+            This command connects to `user` on `remote_server` using the provided private key file instead of using default authentication methods such as a password. This can be useful for automating tasks or accessing servers with restricted public key access.
+        J: |-
+            [AI] The `-J` option in an SSH (Secure Shell) command is used for setting up SSH proxies or jumping through multiple hosts with a single connection. This allows users to establish a secure tunnel to a final destination host, which may be behind multiple layers of firewalls or unreachable directly. The `-J` flag follows the `-j` (or `-o ProxyCommand`) option and is followed by a command that specifies how to set up the jump host proxy. For example:
+
+            ```bash
+            ssh user1@intermediaryhost -p port -i keyfile -J 'ssh -w %h:%p user2@jumphost' user@destinationhost
+            ```
+
+            In this example, `user1` connects to the `intermediaryhost`, which then establishes a connection to `jumphost`, and forwards that connection to `user@destinationhost`. This can save time and simplify complex network configurations.
+        K: '[AI] The `-K` option in an `ssh` command is used to specify a keyfile for authenticating encrypted SSH connections. This option allows users to authenticate using a private key file instead of entering a password each time they connect to a remote server. By default, `ssh` looks for the keyfile in the user''s home directory under the name `~/.ssh/identity` or `~/.ssh/id_rsa`, but with the `-K` option you can provide an alternative path to the desired key file. For example, `ssh -i /path/to/mykeyfile user@remotehost`.'
+        L: |-
+            [AI] The `-L` option in an SSH (Secure Shell) command is used to set up a local forward for outbound traffic from the client machine. In other words, it allows you to redirect specific incoming connections on the remote server to specific applications running on your local machine.
+
+            The syntax for using the `-L` option is:
+            ```bash
+            ssh -L [local_port]:[local_host]:[remote_port] user@remote_host
+            ```
+            Here's a brief explanation of each component:
+
+            * `local_port`: The port number on the local machine that will be forwarded.
+            * `local_host`: The IP address or hostname of the local machine.
+            * `remote_port`: The port number on the remote server that you want to forward to.
+            * `user@remote_host`: Your SSH username and the target remote server's IP address or hostname.
+
+            For example, if you have a web application running on port 8080 of your local machine, and you want to access it remotely via a web browser using an SSH tunnel, you can use the following command:
+            ```bash
+            ssh -L 8080:localhost:8080 user@remote_server
+            ```
+            This will forward all incoming connections on port 8080 of the remote server to your local machine's port 8080. Then, you can access your web application by visiting `http://localhost:8080` in a web browser on the remote server.
+        M: '[AI] The `-M` option in an SSH (Secure Shell) command configures the SSH client to identify a specific host key when connecting to a new server, allowing the creation of associate keys. These keys can be used for forwarding local or remote ports, or for establishing tunnels between servers. Essentially, `-M` sets up an SSH agent that manages and forwards the specified key(s) during connections.'
+        "N": '[AI] The `ssh` command with the `-N` option is used in SSH (Secure Shell) to reserve a privileged port forwarding on the local machine, without creating a shell session or running a command on the remote host. This can be useful for certain applications that require an SSH connection to function but don''t need to execute commands on the remote host directly. The `-N` flag tells SSH not to execute a command upon connecting.'
+        O: |-
+            [AI] The `-O` option in an `ssh` (Secure Shell) command modifies the output of various SSH commands. Instead of executing a command on the remote server, it generates metadata about the command that would be run. This is often used to inspect or manipulate SSH connections before they are established. For example:
+
+            * `ssh -O "CheckHostKey fingerprint %h" user@server` will print out the expected SSH host key for the given server, allowing you to verify its correctness before connecting.
+            * `ssh -O "ConnectHostKey <path>" user@server` specifies a custom file containing the host keys to use for the connection instead of the default system ones.
+
+            These are just a couple of examples; there are many other ways to use the `-O` flag in conjunction with various SSH options and commands. Its primary purpose is to provide flexibility and control over how an SSH connection is established and configured.
+        Q: '[AI] The `ssh -Q` command is used to query the OpenSSH SSH client for information about supported cryptography keys and authentication methods without actually initiating a connection. The `-Q` option stands for "query mode." This command allows administrators or users to check if their SSH client supports certain encryption algorithms, signatures, or key types before setting them up for production use. It returns an exit status indicating the success or failure of the query and does not establish a connection to the server.'
+        R: '[AI] The `-R` option in an `ssh` (Secure Shell) command is used to set up a reverse SSH tunnel. This means that instead of connecting from a local machine to a remote server, traffic is forwarded from the remote server back to the local machine on a specified port. This can be useful for various purposes such as securely exposing local services over the internet or bypassing restrictive firewalls. The general syntax is `-R [bind_address]:[bind_port]:[remote_address]:[remote_port]`. For example, `ssh -R 127.0.0.1:8080:example.com:80 user@server` would forward all traffic from localhost port 8080 to example.com''s port 80 when the ssh session is established.'
+        S: '[AI] The `-S` option in an SSH (Secure Shell) command sets the socket file used for specifying an alternate client authentication key or agent. This allows users to use multiple SSH identities when connecting to remote servers, making it more flexible and secure for managing different keys for various services or projects.'
+        T: '[AI] The `ssh` command with the option `-T` is used in the context of Secure Shell (SSH) connections. This option does not directly display a flag, but instead modifies the behavior of SSH. Specifically, it tells SSH to open an interactive terminal session without executing a command on the remote side. Instead, it allows for the user to interactively use the session for tasks such as transferring files using `scp` or `rsync`, or simply opening a remote terminal session for working on the remote system.'
+        V: '[AI] The `ssh -V` command is used to display the version information of OpenSSH (Secure Shell) client, which is a popular suite of secure networking utilities based on the Secure Shell protocol for connecting and transferring data between a local and a remote server securely. By running `ssh -V`, you can check the specific version number, compilation options, and other relevant details about your installed OpenSSH client. This command helps system administrators and users to verify their SSH client''s software versions for compatibility, bug fixes, or security updates.'
+        W: '[AI] The option `-W` in an `ssh` command stands for "Windows" mode in OpenSSH client. It enables opening multiple sessions in sub-shells of the same terminal window or tab, allowing users to interactively split their terminal windows and run multiple SSH sessions concurrently within them. Each session is represented as a separate tab or pane, with input/output automatically routed between the corresponding applications. This can be useful for managing several remote systems at once or monitoring their activities in real-time.'
+        X: '[AI] The `-X` option in an `ssh` command enables X11 forwarding. X11 forwarding is a feature that allows graphical applications on a remote server to be displayed on the local machine''s display, as if they were locally installed. This can be useful when you need to run GUI applications on a remote server and want to view their output on your local machine. The `-X` option should be passed to the `ssh` command in the following way: `ssh -X user@remote_host cmd ...`.'
+        "Y": '[AI] The `-Y` flag in an SSH (Secure Shell) command enables and forwards X11 connections from the remote server to the local machine. This allows graphical applications on the remote server to be displayed on the local machine''s desktop, providing a seamless experience for users who require access to graphical applications over SSH.'
+        a: '[AI] The `-a` option in an SSH (Secure Shell) command is used to specify the identity file for the SSH client''s private key. This can be useful when you have multiple keys and need to specify which one to use for a particular connection. For example, `ssh -i mykey.pem user@example.com` would use the private key "mykey.pem" to authenticate with the remote server at the specified address.'
+        b: '[AI] The `-b` option in an SSH (Secure Shell) command is used for sending a background job over an SSH connection. When you run a command with this option, SSH will allocate a new background shell session on the remote server and execute the command there as if it was run interactively, without waiting for its completion before closing the connection. This can be useful for long-running processes or scripts that don''t require user interaction once started. The standard output and error streams of the command are redirected to files on the local machine by default, but you can also specify remote file paths for these streams using `-o "ServerStdoutFile"` and `-o "ServerStderrFile"`, respectively.'
+        c: '[AI] The `-c` option in an SSH (Secure Shell) command sets a specific client-side execution command to be run after a successful connection is established. For instance, `ssh -c "command;"` connects to the remote server using SSH and executes the specified command upon login. This can be useful for running custom shell commands or scripts on the remote machine without having to manually type them in the terminal session.'
+        e: '[AI] The `-e` option in an SSH (Secure Shell) command is used to specify an identity file for authentication. Instead of using the default location for SSH keys, you can pass the path to a specific key file with this flag. For instance, `ssh -i /path/to/mykey user@remote_host` will use the provided key file for authentication when connecting to `user@remote_host`.'
+        f: '[AI] The `-f` option in an SSH (Secure Shell) command is used to put the ssh session into the background after the remote connection has been established. In other words, the terminal session does not need to remain attached to the command for the ssh session to continue running. It is often used with commands like `ssh -f user@remote_host ''command''` or `scp -f source file user@remote_host:destination`, where you want to run a specific command on the remote host and detach from the session. This allows you to continue using your local terminal while the remote command runs.'
+        g: '[AI] The `ssh` command with the option `-G` is used to enable and configure the OpenSSH server to support the GatewayPorts feature. This allows a single SSH server to forward multiple external ports to different internal addresses or services. When you run `ssh -G`, it generates a new ssh-keys file with listening sockets for each port that will be forwarded, and adds necessary configuration lines to the sshd_config file. Note that this option must be used as a server-side configuration and requires administrative privileges.'
+        i: '[AI] The `ssh -i` command is used in Unix-based systems to specify the identity file (key file) for Secure Shell (SSH) authentication when connecting to a remote server. The option `-i` followed by the file path allows specifying the private key to use for encryption and decryption of data during the SSH session. For example, `ssh -i /path/to/mykey file@remote_server` will use the provided key file to authenticate and establish an encrypted connection to the remote server.'
+        k: '[AI] The `ssh -k` command in OpenSSH is used to generate or manage RSA or DSA key pairs for secure shell (SSH) connections. The `-k` option stands for "specify key file." Without further arguments, the command generates a new key pair in the default location (~/.ssh/id_rsa and ~/.ssh/id_rsa.pub for RSA keys or ~/.ssh/id_dsa and ~/.ssh/id_dsa.pub for DSA keys). If used with an existing key file, the command will display its details or allow you to change its passphrase.'
+        l: '[AI] The `ssh -l` command is used in Unix-based systems to list the usernames available on a remote host using SSH (Secure Shell) authentication. This command does not require any password or passphrase, as it only displays the usernames and does not establish an actual connection. It''s typically utilized when you don''t remember which users can log in to a particular machine or when trying to determine valid usernames for further operations like `scp` (secure copy) or `sftp` (secure file transfer protocol).'
+        m: '[AI] The `-m` option in an SSH (Secure Shell) command stands for "specify-keys-file." It is used to specify a file containing one or more private keys that should be used for authentication when connecting to a remote host via SSH. This can be useful when you have multiple keys and want to choose which one to use for a particular connection without manually specifying the key every time. The specified file should be a valid private key file in the OpenSSH format (usually with a `.pem` or `.pkcs12` extension). For example, `ssh -i mykey.pem user@remotehost.com` would use the private key `mykey.pem` for authentication when connecting to the remote host.'
+        "n": '[AI] The `ssh` command with the `-n` flag is used in the context of Secure Shell (SSH) connections. The `-n` option stands for "no-pty" and it is used to disable the allocation of a terminal window or pseudo-TTY on the remote end when making an SSH connection. This can be useful when you want to run background jobs or scripts remotely without creating a full interactive session. When using this flag, the SSH client does not send any keyboard input to the remote server and only performs network data transfer.'
+        o: '[AI] The `-o` option in an SSH (Secure Shell) command is used to pass custom options to the ssh client. The flag is followed by a key-value pair argument, for example: `-o "UserKnownHostsFile=/path/to/file"` or `-o "ForwardAgent yes"`. These options can be used to configure various aspects of the SSH connection, such as specifying a custom file for storing known hosts, enabling agent forwarding, or setting other connection parameters.'
+        p: '[AI] The `-p` option in an SSH (Secure Shell) command specifies a custom port number for the connection, instead of using the default SSH port number 22. For example, `ssh -p 1234 user@server.com` establishes an encrypted connection to the server running on port number 1234, rather than the standard port 22. This can be useful for situations where the default SSH port is blocked or for managing multiple services listening on different ports on a single server using SSH.'
+        q: '[AI] The `-q` option in an `ssh` (Secure Shell) command stands for "quiet mode." When used, it suppresses most of the informational messages that `ssh` normally displays during the connection process. This can be useful when automating SSH tasks or when you prefer a minimal output from the command. The primary goal is to reduce the amount of textual output and focus on the success or failure of the connection itself.'
+        s: '[AI] The `-s` option in an SSH (Secure Shell) command is used to specify the identity file of an SSH key. It allows specifying a private key file instead of entering the passphrase each time a connection is established using that key. For example, `ssh -i ~/.ssh/mykey user@server` will use the ''mykey'' private key file located in the ''.ssh/'' directory for authentication when connecting to ''user@server''.'
+        t: '[AI] The `ssh -t` command is used in Unix-based systems to open an interactive shell session in a remote server using SSH (Secure Shell) protocol. The `-t` option requests that the allocated terminal device be allocated for the remote shell, providing a more "interactive" experience as it enables the allocation of a TTY (Teletype) device on the remote side. This can be useful when managing terminals-based applications or when you need to run graphical programs remotely via X11 forwarding.'
+        v: '[AI] The `-v` option when using the `ssh` (Secure Shell) command increases the verbosity of the connection attempt. It displays detailed information about each step of the process, including the version number of SSH client and server being used, the exchange of cryptographic keys, and any warnings or errors that occur during the connection attempt. This option can be helpful for debugging connection issues or understanding the underlying details of the SSH protocol.'
+        w: '[AI] The `-W` or `-o "WarningMode=all"` option in an `ssh` (Secure Shell) command enables all warning messages to be displayed during the SSH connection establishment. It is used for enhanced security awareness, allowing users to identify potential issues and respond accordingly.'
+        x: '[AI] The `-x` option in an `ssh` (Secure Shell) command enables X11 forwarding, which allows graphical applications on a remote server to be displayed on the local machine. This is particularly useful for running GUI applications remotely. When using this flag, SSH creates a secure tunnel through which the X11 protocol data can be transmitted, ensuring secure communication between the client and server.'
+        "y": '[AI] The `ssh` (Secure Shell) command with the `-y` flag is used in Unix-based systems for confirming yes to all prompts automatically without requiring user intervention. It''s often utilized in scripts or automated processes where multiple password or key confirmation prompts may be encountered during an SSH session establishment. By passing `-y`, these prompts are answered affirmatively, thus streamlining the process.'

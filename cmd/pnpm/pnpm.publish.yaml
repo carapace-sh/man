@@ -1,0 +1,52 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: publish
+description: Publishes a package to the npm registry
+flags:
+    --access=: Published as public or restricted
+    --changed-files-ignore-pattern=: Defines files to ignore when filtering for changed projects
+    --dry-run: Does everything a publish would do except actually publishing
+    --filter-prod=: Restricts the scope to package names matching the given pattern
+    --filter=: set filter
+    --force: Publish packages even if their current version is already in the registry
+    --ignore-scripts: Ignores any publish related lifecycle scripts
+    --json: Show information in JSON format
+    --no-git-checks: Don't check if current branch is your publish branch, clean, and up to date
+    --otp: When publishing packages that require two-factor authentication
+    --publish-branch: Sets branch name to publish
+    --report-summary: Save the list of the newly published
+    --tag=: Registers the published package with the given tag
+    --test-pattern=: 'Defines files related to tests '
+    -r, --recursive: Publish all packages from the workspace
+documentation:
+    command: |-
+        [AI] `pnpm publish` is a command used in the package manager, pnpm. It builds and publishes a local package to the npm registry or a private repository for sharing and reuse among different projects. The command goes through several steps:
+
+        1. It checks the current directory for a valid `package.json` file.
+        2. If the file exists, it installs dependencies as specified in `package.json`.
+        3. It builds the project using scripts defined in `package.json`.
+        4. It generates a `.tgz` or `.zip` archive containing the project and its metadata.
+        5. It authenticates with the registry if publishing to npm, then publishes the package.
+        6. It updates the version number in `package.json`, commits the changes, and pushes them to the Git repository (optional).
+        7. The published package can now be installed using `npm install <package-name>` or with pnpm.
+    flag:
+        access: '[AI] `pnpm publish --access` is a command used with pnpm, a package manager for Node.js projects. This command publishes a local npm package to the pnpm registry with restricted access. When using this command, the package will be made publicly available for other users who have been granted access by the publisher. It''s useful when sharing packages within a team or organization while keeping them private from the general public.'
+        changed-files-ignore-pattern: '[AI] `pnpm publish` is a command used in package management with npm or pnpm to publish a local package to the npm registry. The option `--changed-files-ignore-pattern` is used to specify a pattern to ignore files that have been changed but not included in the publication. This can be useful when certain files, such as logs or test results, are accidentally committed and should not be published. By specifying this option, those files will be ignored during the publishing process.'
+        dry-run: '[AI] `pnpm publish --dry-run` is a command used with pnpm, a package manager for JavaScript projects. This command simulates the process of publishing a new version of an npm package or updating an existing one without actually pushing the changes to the registry. It checks the current directory for valid packages, builds them if necessary, and generates the publication metadata, but it doesn''t make any changes to the remote repository. This can be useful when wanting to test the publishing process locally before making the actual release.'
+        filter: '[AI] `pnpm publish --filter` is a command used with the Package Manager for Node.js projects, pnpm. It publishes a package to the npm registry but only includes specific files or directories based on a filter expression. The filtering helps in reducing the package size and keeping sensitive information private by excluding unnecessary files from being published. The filter can be specified using a glob pattern or a JSON object in the `pnpm-publish.json` file.'
+        filter-prod: |-
+            [AI] `pnpm publish` is a command used with the Package Manager for Node.js projects called pnpm. It's utilized to publish packages to the npm registry or other package repositories. The `--filter-prod` flag is an optional argument that can be passed when publishing.
+
+            This flag filters the files that will be published in the production build of your package. By default, pnpm publishes all files under `node_modules`, `lib`, and `dist` directories (among others). But with `--filter-prod`, only files under the `lib` and `dist` directories are included in the published package. This is helpful to keep your package lean, as production builds typically don't need development dependencies or other non-essential files.
+        force: '[AI] `pnpm publish --force` is a command used with the package manager PnPM. It publishes a local package to the PnPM registry, making it accessible for others to install as a dependency in their projects. The `--force` flag overrides certain safety checks and allows publishing even if there are potential conflicts or inconsistencies, such as packages with the same name but different versions. It''s important to use this command carefully to avoid accidentally overwriting other packages.'
+        ignore-scripts: '[AI] `pnpm publish --ignore-scripts` is a command used with npm packaging tool pnpm. It publishes a package to the npm registry but ignores running any scripts mentioned in the package''s `package.json` file during the publication process. This can be useful when you want to publish an updated version of a package without triggering its scripts, for instance, if some scripts cause errors or unwanted side effects during the publishing process.'
+        json: '[AI] `pnpm publish --json` is a command used with the Parcel Packages Manager (pnpm). It publishes a new version of an npm package from the local directory to the npm registry, and generates a JSON file containing detailed metadata about the published package. This file can be useful for understanding and managing the package''s distribution.'
+        no-git-checks: '[AI] `pnpm publish --no-git-checks` is a command used with the package manager, pnpm. This command publishes a local npm package to the npm registry without performing any Git checks. The `--no-git-checks` option disables Git hooks and validation of the current Git branch or commit state before publishing. This can be useful when working on multiple branches or in situations where Git checks are not desired during the packaging process.'
+        otp: |-
+            [AI] `pnpm publish --otp` is a command used with npm packaging tool PnPM. The `publish` action is for distributing a package to the npm registry, making it available for other developers to install via `npm install`.
+
+            The `--otp` flag stands for "one-time token". It allows publishing a package without having to authenticate with two-factor authentication (2FA) every time. With this flag, you provide an OTP (One-Time Password) or a previously generated token file to complete the publish process once. This is useful when you have 2FA enabled but need to automate or quickly publish packages without the extra step of entering the code each time.
+        publish-branch: '[AI] `pnpm publish --publish-branch` is a command used with npm package managers like pnpm for publishing packages to the npm registry. The `--publish-branch` option specifies that the publishing process should create a new Git branch for each publish event, allowing for easier management of pre-releases or specific version branches. This command pushes the package to the main branch (by default) and also creates a new branch based on the current HEAD commit. Once you''re satisfied with your changes in this new branch, you can merge it back into the main branch before publishing the final stable release.'
+        recursive: '[AI] `pnpm publish --recursive` is a command used with the Package Manager for Node.js projects, pnpm. This command publishes a package and all its dependent packages (sub-dependencies) to the npm registry in one go. The `--recursive` option ensures that when publishing a package, all its sub-dependencies are also published automatically, making the distribution of monorepos or multiple related projects more efficient.'
+        report-summary: '[AI] `pnpm publish --report-summary` is a command used with the package manager, pnpm. This command publishes a new version of your npm package to the npm registry and generates a summary report showing details about the published packages, such as their names, versions, sizes, and the number of downloads for each package. The `--report-summary` option displays this information in the console output. This is useful for keeping track of your package versions and their usage statistics.'
+        tag: '[AI] `pnpm publish --tag` is a command used with the package manager, pnpm. It publishes a local npm package to the npm registry under a specific tag. By default, packages are published without a tag as version v1.0.0. The `--tag` option allows specifying a custom tag when publishing, useful for releasing pre-releases or hotfixes with different versions but identical codebase. This command first builds and tests the local package, then creates a new Git tag referencing the current commit, and finally publishes the package to the npm registry under the specified tag.'
+        test-pattern: '[AI] `pnpm publish --test-pattern` is a command used with the package manager, pnpm. This command publishes a local npm package to the npm registry and runs tests specified by the `--test-pattern` option before publishing. The `--test-pattern` argument is a glob pattern used to select test files or directories in the package. The published version will only be tagged as ''published'' if all tests pass, ensuring package stability before distribution.'

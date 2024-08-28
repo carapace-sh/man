@@ -1,0 +1,79 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: watchexec
+description: Execute commands when watched files change
+flags:
+    --changes-only: Only print path change information. Overridden by --verbose
+    --force-poll=: Force polling mode (interval in milliseconds)
+    --no-default-ignore: Skip auto-ignoring of commonly ignored globs
+    --no-environment: Do not set WATCHEXEC_*_PATH environment variables for the command
+    --no-ignore: Skip auto-loading of ignore files (.gitignore, .ignore, etc.) for filtering
+    --no-meta: Ignore metadata changes
+    --no-process-group: Do not use a process group when running the command
+    --no-vcs-ignore: Skip auto-loading of .gitignore files for filtering
+    --on-busy-update=: Select the behaviour to use when receiving events while the command is running.
+    --shell=: Use a different shell, or `none`. E.g. --shell=bash
+    -N, --notify: Send a desktop notification when watchexec notices a change
+    -V, --version: Prints version information
+    -W, --watch-when-idle: Deprecated alias for --on-busy-update=do-nothing, which will become the
+    -c, --clear: Clear screen before executing command
+    -d, --debounce=: Set the timeout between detected change and command execution, defaults to 100ms
+    -e, --exts=: Comma-separated list of file extensions to watch
+    -f, --filter=: Ignore all modifications except those matching the pattern
+    -h, --help: Prints help information
+    -i, --ignore=: Ignore modifications to paths matching the pattern
+    -n, --no-shell: 'Do not wrap command in a shell. Deprecated: use --shell=none instead.'
+    -p, --postpone: Wait until first change to execute command
+    -r, --restart: Restart the process if it's still running.
+    -s, --signal=: Send signal to process upon changes, e.g. SIGHUP
+    -v, --verbose: Print debugging messages to stderr
+    -w, --watch=: Watch a specific file or directory
+documentation:
+    command: '[AI] `watchexec` is a command-line tool for Linux systems, typically used in conjunction with other tools such as `inotifywait` or `fsmon`. It allows you to run a command or script whenever a file under its watch is modified or executed. The tool continuously polls the filesystem for changes and triggers the specified action accordingly. This can be useful for automating tasks, testing, or monitoring file activity in real-time.'
+    flag:
+        changes-only: |-
+            [AI] `watchexec --changes-only` is a command used in development environments, specifically with Node.js projects. It's part of the `chokidar` package and is used for automatic file rebuilding and monitoring.
+
+            The `--changes-only` flag means that `watchexec` will only restart the specified task when it detects changes in the files being watched, avoiding unnecessary rebuilds and speeding up the development workflow. It's particularly useful when working on larger projects or when frequent saves are made.
+        clear: '[AI] `watchexec --clear` is a command used in development environments like Node.js, which allows automatically rebuilding and restarting projects when files change. The `--clear` option clears the watch list, effectively disabling all active watches and stopping any running processes. This can be useful when making extensive changes to your project or configuration, as it ensures a clean starting point before setting up new watches.'
+        debounce: '[AI] `watchexec --debounce` is a command-line tool used in Node.js development for managing watching file system changes. The `--debounce` option is used to specify a time delay before executing the specified command after detecting a change in a watched file. This can be helpful to reduce the number of unnecessary build or test runs when multiple files are being changed simultaneously. For example, you might use `watchexec --debounce 300` to wait for 300 milliseconds (or 0.3 seconds) after a file change before executing the command again. This can help improve overall performance and reduce unnecessary processing.'
+        exts: '[AI] `watchexec --exts` is a command-line option for the `watchexec` tool, which is used to automatically rebuild files and watch for changes in real time. The `--exts` flag allows specifying a list of file extensions to monitor and execute the specified build command when any file with one of those extensions is modified. For example, if you run `watchexec --exts ".js"`, it will rebuild and watch for changes in all `.js` files.'
+        filter: |-
+            [AI] `watchexec --filter` is a command-line utility provided by the `watchman` ecosystem for Node.js projects. It allows automatic restarting of a Node.js application whenever any file under its watch directory is modified.
+
+            The `--filter` option in this context specifies one or more file extension filters to apply on files being watched. For example, `watchexec --filter ".js$" --watch "." node index.js` will only restart the Node.js process when any JavaScript file under the current directory is modified (`.js$` being the filter for .js files).
+        force-poll: '[AI] `watchexec --force-poll` is a command used in development environments, particularly with Node.js projects, to automatically restart a Node.js application whenever a file under its watch changes. The `--force-poll` flag forces the watcher to check for file changes more frequently than the default setting, which can be helpful when making iterative updates or working on large projects where quick feedback is desired. Essentially, it increases the polling interval of the watcher, leading to faster detection and response times.'
+        help: |-
+            [AI] `watchexec --help` is a command used in Node.js development to manage watch scripts with automatic restart functionality. When run, it displays detailed information about how to use the `watchexec` command line tool. Here's a brief overview of some key features:
+
+            - Automatically restarts Node.js script when file changes are detected.
+            - Supports various file watching patterns and filters.
+            - Allows for concurrent execution of multiple scripts.
+            - Provides customizable options such as polling interval, log output, etc.
+
+            For more information on specific usage, refer to the displayed help message or consult the `watchexec` documentation.
+        ignore: '[AI] `watchexec --ignore` is a command-line option for the `watchexec` tool, which is used to automatically re-execute a given command when a file it monitors is modified. The `--ignore` option allows specifying one or more files or directories that should be ignored and not trigger a re-execution of the command even if they are modified. This can be useful to exclude files or directories from the monitoring scope, avoiding unnecessary re-runs and improving performance.'
+        no-default-ignore: '[AI] `watchexec` is a Node.js development tool that runs scripts based on file modifications in real time. The command `watchexec --no-default-ignore` tells `watchexec` to not use the default ignore pattern list and ignore no files by default during the watch process. This means, only explicitly ignored files or directories via custom ignore patterns will be excluded from the file monitoring and recompilation.'
+        no-environment: '[AI] `watchexec --no-environment` is a command used in Node.js development with the `watch` package. This flag disables the loading of process environment variables when executing a watched file. By doing so, it helps to prevent unintended variable overrides and maintain a consistent development environment.'
+        no-ignore: '[AI] `watchexec --no-ignore` is a command-line tool in Node.js used for managing and automatically restarting Node.js scripts based on file changes. The `--no-ignore` flag disables file pattern ignoring, meaning it will monitor and react to all files in the specified directory without any exclusion patterns.'
+        no-meta: '[AI] `watchexec --no-meta` is a command used in Node.js development with the `watch` package. It starts a Node.js application and continuously watches for file changes in specified directories. The `--no-meta` flag disables the monitoring of metadata files like `.git`, `.DS_Store`, or `.svn`. This flag helps to exclude unnecessary files from being watched, which can improve performance and reduce false positives during development.'
+        no-process-group: |-
+            [AI] `watchexec` is a Node.js development tool that runs scripts in watch mode, automatically rebuilding and restarting your project whenever files change. The `--no-process-group` flag is an option used with `watchexec`.
+
+            When you run `watchexec` without any flags, it creates a new Node.js process for every file being watched. This can lead to excessive process creation and resource usage. With the `--no-process-group` flag, `watchexec` uses the same Node.js process for all watched files, avoiding the overhead of creating multiple processes.
+
+            In summary, `watchexec --no-process-group` keeps your project in watch mode with only one Node.js process instead of spawning a new process for each file being watched. This can help reduce the overall resource usage and make the development experience smoother.
+        no-shell: '[AI] `watchexec --no-shell` is a command used in Node.js development with Watchman CLI (watched executor for Webpack). This command runs a script with the specified Webpack configuration file, but it does not start a new shell or terminal session. Instead, it directly executes the script within the current Node.js process. It is often used when working in continuous integration environments to avoid unnecessary shell overhead and improve build performance.'
+        no-vcs-ignore: '[AI] `watchexec` is a Node.js development tool that runs scripts when specific files change in a watched directory. The `--no-vcs-ignore` option is used to disable the ignore of certain files or directories based on their presence in version control systems like Git. With this flag, all files and directories will be monitored for changes regardless of whether they are ignored by .gitignore or similar configuration files.'
+        notify: '[AI] `watchexec --notify` is a command-line utility for Node.js projects, which runs scripts or tasks in watch mode with real-time file change notifications. This allows developers to see the results of their code changes immediately without having to manually restart the build process. The `--notify` flag specifically enables this feature by sending a system notification or message to the terminal when a file is modified.'
+        on-busy-update: '[AI] `watchexec --on-busy-update` is a command from the Watchman NATS toolkit used in continuous delivery pipelines. This option configures `watchexec` to execute a command when it detects that another command, running with the same file or directory being watched, has changed and is taking a long time to complete (busy). This can help prevent unnecessary parallel execution of commands on the same resource. When `--on-busy-update` is set, `watchexec` will pause the execution of the new command until it detects that the previous command has completed.'
+        postpone: '[AI] `watchexec --postpone` is a command-line utility from the Node.js `watch` package. It allows running a script or command whenever a file changes within a watched directory, but with a delay (postponement) before actually executing it. This feature can help reduce the number of unnecessary script runs caused by frequent and potentially unimportant file modifications. The delay is typically set in milliseconds.'
+        restart: |-
+            [AI] `watchexec --restart` is a command from the Watchman CLI (Command Line Interface) tool for Node.js projects. It automatically restart Node.js applications when their source files change, ensuring that the updated code is executed.
+
+            The `--restart` flag instructs `watchexec` to automatically restart the application process whenever a file being watched is modified. This way, developers can keep working on their project without having to manually start or reload the server each time they make changes. It streamlines the development workflow and helps ensure that the code runs as intended at all times.
+        shell: '[AI] `watchexec --shell` is a command from the `watchexec` package in Node.js. It''s used to automatically run tests or tasks when specific file changes are detected. The `--shell` option specifies that the command to be executed is a shell command itself, and not a Node.js script. This allows for the use of shell scripts or other commands directly within the watched directory.'
+        signal: '[AI] `watchexec --signal` is a command used with the Watchman CLI tool in Node.js development. It allows for monitoring file changes and automatically restarting or reloading a Node.js application based on specified signals. The `--signal` option specifies which signal to use when restarting, such as `SIGINT`, `SIGTERM`, or `SIGHUP`. When a monitored file is changed, the application receives the specified signal and restarts or reloads the new code, ensuring that changes take effect immediately.'
+        verbose: '[AI] `watchexec --verbose` is a command used in Node.js development with the `watch` package. It starts a Node.js application and continuously watches for file changes. When a change is detected, it rebuilds and restarts the application automatically. The `--verbose` flag increases the output level of information provided during the watch process, giving more details about the events and actions taken.'
+        version: '[AI] `watchexec --version` is a command used in Node.js development to check the version of the WatchExec package installed globally in your system. This command returns the version number of the Watchexec library, indicating whether it''s up-to-date or if an update is required.'
+        watch: '[AI] `watchexec --watch` is a command-line utility from the `nodemon` project, which is used to automatically restart a Node.js application when any file within a specified directory is modified. It achieves this by running the application with `node`, but also monitoring the files using the `chokidar` library. When a watched file is changed, `watchexec` restarts the application with the updated code. In effect, it provides a convenient way to develop and test Node.js applications with live reloading capabilities.'
+        watch-when-idle: '[AI] `watchexec` is a command-line tool for Node.js projects that automatically runs tasks whenever specific files change. The `--watch-when-idle` flag means that the watch process will only start running tasks when there are no other active processes in the Node.js application. This can help save resources by not unnecessarily rebuilding or testing files when they don''t need to be changed.'

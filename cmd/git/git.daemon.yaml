@@ -1,0 +1,102 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: daemon
+description: A really simple server for Git repositories
+group: low-level synching
+flags:
+    --access-hook=: Every time a client connects, first run an external command specified by the <path>
+    --allow-override=: Allow overriding the site-wide default with per repository configuration
+    --base-path-relaxed: Attempt to lookup without prefixing the base path
+    --base-path=: Remap all the path requests as relative to the given path
+    --detach: Detach from the shell
+    --disable=: Disable the service site-wide per default
+    --enable=: Enablethe service site-wide per default
+    --export-all: Allow pulling from all directories that look like Git repositories
+    --forbid-override=: Forbid overriding the site-wide default with per repository configuration
+    --group=: Change daemon’s gid before entering the service loop
+    --inetd: Have the server run as an inetd service
+    --informative-errors: Report more verbose errors to the client
+    --init-timeout=: Timeout (in seconds) between the moment the connection is established and the client request is received
+    --interpolated-path=: Use an interpolated path template can be used to dynamically construct alternate paths
+    --listen=: Listen on a specific IP address or hostname
+    --log-destination=: Send log messages to the specified destination
+    --max-connections=: Maximum number of concurrent clients
+    --no-informative-errors: Do not report more verbose errors to the client
+    --pid-file=: Save the process id in file
+    --port=: Listen on an alternative port
+    --reuseaddr: Use SO_REUSEADDR when binding the listening socket
+    --strict-paths: Match paths exactly and don’t do user-relative paths
+    --syslog: Short for --log-destination=syslog
+    --timeout=: Timeout (in seconds) for specific client sub-requests
+    --user-path?: Allow ~user notation to be used in requests
+    --user=: Change daemon’s uid before entering the service loop
+    --verbose: Log details about the incoming connections and requested files
+documentation:
+    command: '[AI] `git daemon` is a Git service that runs in the background, acting as a server for other Git repositories. It allows read-only access to the repository over the network using Git protocol. The command `git daemon init` is used to start the daemon and configure it to listen on a specific port or interface. Once started, clients can clone or fetch from the repository using standard Git commands with the URL of the form `git://<host>:<port>/<repo.git>`.'
+    flag:
+        access-hook: |-
+            [AI] The `git daemon --access-hook` is a configuration option in Git, which allows you to set up access hooks for Git daemon servers. Access hooks are scripts that get executed on the server-side before each request. These scripts can be used for various purposes such as:
+
+            1. Implementing access control policies (e.g., allow/deny based on usernames or IP addresses).
+            2. Enforcing additional security measures (e.g., two-factor authentication, rate limiting).
+            3. Logging or auditing requests.
+
+            The hook scripts are placed in the `hooks/access` directory of a Git daemon installation, and they will be automatically executed when a client makes a request to the server. By using access hooks, you can customize the behavior of your Git daemon server to suit your specific needs.
+        allow-override: '[AI] `git daemon --allow-override` is a Git command used to run a Git daemon with relaxed access control. The `--allow-override` option allows customizing the access control lists (ACLs) in the `git-daemon-export-keys` file, which defines which SSH keys are allowed to access the Git repository over the network. This can be useful when you want to grant read or write access to specific users or teams beyond what''s defined in the default ACLs. In a nutshell, it enhances the security and flexibility of sharing Git repositories over a network.'
+        base-path: '[AI] `git daemon` is a Git server that runs in the background, serving repositories over the network using Git protocols like FTP, HTTP, or SSH. The `--base-path` option is used to specify the base directory for the Git repositories served by the Git daemon. When you run `git daemon --base-path=/path/to/base`, it will serve Git repositories located under `/path/to/base` and its subdirectories to clients. This allows managing multiple Git repositories from a single Git daemon instance, making it more flexible and efficient in handling repository management for larger teams or projects.'
+        base-path-relaxed: |-
+            [AI] `git daemon` is a Git server component that allows read-only access to Git repositories over the network using the Git protocol or HTTP. The `--base-path-relaxed` option is a configuration flag for this command.
+
+            When `--base-path-relaxed` is used, Git daemon will serve Git repositories located in subdirectories under the specified base path as if they were in the base path itself. This means that instead of having to specify an exact path to the repository when cloning or fetching, clients can simply use the name of the repository directory relative to the base path.
+
+            For example, with `--base-path=/home/git`, if there is a repository named `myproject` located at `/home/git/repositories/myproject`, a client can access it using `git clone git://example.com/myproject`. Without the `--base-path-relaxed` flag, the client would need to use `git clone git://example.com/repositories/myproject`.
+        detach: '[AI] `git daemon --detach` is a command in Git, a version control system. It starts the Git daemon in detached mode, which means it runs in the background as a separate process. The Git daemon listens for incoming git protocol requests over a network and serves them by sending the requested data from its local repositories. When started in detached mode, the Git daemon continues running even if the terminal or SSH connection is lost. This can be useful for long-term sharing of Git repositories over a network without requiring constant availability of a specific user account.'
+        disable: '[AI] `git daemon --disable` is a command used in Git, a version control system. This command disables the Git daemon mode of operation. The Git daemon is a background process that listens for incoming Git requests over a network connection and serves read-only repositories to other Git users. Disabling it stops this functionality, making the Git server a regular Git server where users must clone or check out repositories using their own Git clients instead of accessing them anonymously over the network.'
+        enable: '[AI] `git daemon` is a Git server component that allows read-only access to Git repositories over the network using the Git protocol. The option `--enable` is used to enable and start the Git daemon service. When you run `git daemon --enable`, it starts the Git daemon in the background, allowing other clients to access your Git repositories over the network using the Git protocol. This command should be executed in a terminal or command prompt while in the directory containing your Git repositories.'
+        export-all: |-
+            [AI] `git daemon --export-all` is a Git command used to export all branches, tags, and commits from a Git repository over the network using the Git daemon protocol. This is typically used for read-only access to a repository where multiple clients can fetch data without requiring write permissions.
+
+            When this command is run, Git starts the daemon process in the background and exports all branches, tags, and commits in the repository as packed data or individual files over the network on port 9418 by default. Clients can then connect to the daemon using `git clone` or other Git commands to fetch this data without requiring direct access to the server's file system.
+
+            This command is useful for creating read-only mirrors of repositories, setting up centralized hosting solutions, and providing multiple clients with quick access to large amounts of data without the need for each client to download the entire repository every time.
+        forbid-override: '[AI] `git daemon --forbid-override` is a Git daemon configuration option that prevents remote repositories from being overwritten with force pushes. When this option is set, only non-fast-forward updates are allowed. This helps maintain the security and integrity of the distributed repository by preventing unintended or malicious changes.'
+        group: '[AI] The `git daemon` is a Git service that allows read-only access to repositories over the network using the Git protocol. The `--group` option, when used with this command, sets the group that the Git daemon process will run under. This can be useful for managing access and permissions on Unix-based systems. Setting the group with this flag allows fine-grained control of read-only repository access based on system group membership.'
+        inetd: |-
+            [AI] The `git daemon --inetd` command is used to set up a Git server that runs as an inetd-styled service. Inetd (Internet Daemon) is a common system daemon that manages other network services by listening for incoming connections and then launching the appropriate service on demand.
+
+            When you run `git daemon --inetd`, Git sets up to listen for incoming Git protocol requests on a specified port (usually 9418), instead of binding to a specific socket or listening on all interfaces. This allows multiple clients to connect and perform Git operations concurrently, as the inetd daemon handles the connection and process management.
+
+            This configuration is useful when you want to run a Git server on systems with limited resources, where it's preferable to not run dedicated background services for each Git repository. It also makes it easier to control access to repositories by using the standard inetd access control mechanisms.
+        informative-errors: '[AI] `git daemon --informative-errors` is a command used with Git''s built-in daemon server to enable more descriptive error messages when clients connect and perform operations like cloning or fetching. By using this option, the server provides detailed error messages instead of just returning generic errors, making it easier for users to understand and resolve connection issues or other errors that may occur during Git transfers.'
+        init-timeout: '[AI] The `git daemon --init-timeout` is an option for Git''s daemon mode of operation, which allows remote Git repositories to be accessed over a network. This option sets the maximum time in seconds that the daemon waits for a client to complete the initial handshake during the Git protocol negotiation phase. If the client fails to complete the handshake within this time, the connection is closed. By default, there is no timeout, but setting it can help prevent long-running or unresponsive clients from tying up server resources.'
+        interpolated-path: |-
+            [AI] The `git daemon --interpolated-path` command is a Git feature that allows the daemon to serve repositories from paths constructed by interpolating environment variables and other placeholders in the path string.
+
+            When this option is used, the daemon will look for repositories not only in the current directory but also in any directories specified using placeholders like `$HOME`, `%GIT_DIR%, %FETCH_DIR%`, etc. The actual paths are constructed by interpreting these placeholders before serving the repository.
+
+            For example, if you set an environment variable `GIT_REPOS="~/git_repositories"`, and use the command `git daemon --interpolated-path=--export-all %GIT_REPOS%`, Git will serve repositories from that directory and all its subdirectories. This can be useful if you have multiple repositories spread across different directories, and you want to serve them from a single daemon instance.
+        listen: '[AI] `git daemon --listen` is a Git command that starts a background process to serve as a Git repository over the network using the Git Daemon protocol. It binds the Git daemon to all available IP addresses and listens for incoming connections. Clients can then clone, fetch, or push changes to the served repository using standard Git client tools such as Git for Windows or Git for Mac. This command is typically used to host a central Git repository that multiple developers can access over a network, such as in a team development environment.'
+        log-destination: |-
+            [AI] The `git daemon --log-destination` command is used to set the logging destination for Git Daemon, a lightweight Git server. By default, Git Daemon logs to the console (stderr and stdout). However, you can change this behavior by specifying a log file or other logging backends using the `--log-file`, `--log-level`, or `--syslog` options.
+
+            For instance, `git daemon --log-destination=info --log-file=/path/to/logfile.log` sets both the logging level to "info" and specifies a log file for Git Daemon output. Similarly, `git daemon --log-destination=syslog` sends logs to the system logging facility.
+
+            This command is particularly useful for managing and monitoring Git Daemon's activity in a production environment or when you need to maintain detailed records of Git operations.
+        max-connections: |-
+            [AI] `git daemon --max-connections` is a command used in Git, a popular version control system. This command sets the maximum number of concurrent connections that can be made to a Git daemon running on a server.
+
+            When Git daemon is run with this option, it specifies the limit for the number of incoming Git protocol requests it will accept at the same time. By default, there is no limit, but setting a limit can help prevent excessive resource usage or denial-of-service attacks.
+
+            For example, `git daemon --max-connections=5` sets the maximum number of connections to 5. Once that limit is reached, any additional incoming requests will be denied until an existing connection terminates. This command can be useful for hosting repositories publicly and managing resource usage on the server.
+        no-informative-errors: '[AI] `git daemon --no-informative-errors` is a command-line option used with Git''s daemon mode. It instructs the daemon to suppress informative error messages and only return error codes when serving Git requests over the network. This can be useful for running the daemon in automated or headless environments where detailed error messages are not required, making the error reporting more terse and focusing on successful or failed transfers.'
+        pid-file: '[AI] The `git daemon --pid-file` command is used to start Git as a background daemon process, which listens for incoming Git requests over a network connection (usually on port 9418 by default). The `--pid-file` option specifies the file where Git should write its process ID (PID) when it starts up. This is useful for managing and monitoring the Git daemon process, as you can check the status of the process and even reap any zombie processes by reading this file with tools like `pgrep` or `ps`.'
+        port: '[AI] The `git daemon --port` command is used to start a Git daemon server that listens on a specified port number for incoming Git requests. This allows other machines to clone or fetch repositories from the server without requiring SSH access or explicit user authentication. By specifying a port number, you can customize which network interface and port the Git daemon uses to listen for incoming connections. This is particularly useful in setups where multiple services are running on the same machine and different ports need to be used to avoid conflicts.'
+        reuseaddr: '[AI] The `git daemon --reuseaddr` is a command-line option used with Git''s daemon mode. It allows the daemon to reuse the same local address and port for new connections, instead of binding to a new one each time. This can be beneficial in situations where the daemon is behind a NAT or firewall that assigns ephemeral ports, as it helps minimize port usage and simplifies network configuration. In essence, this option enhances the Git daemon''s compatibility with networks that restrict dynamic ports and improves its overall performance by maintaining persistent connections.'
+        strict-paths: |-
+            [AI] The `git daemon` is a Git server component that serves read-only Git repositories over various protocols like HTTP, FTP, and others. The option `--strict-paths` is a security feature that is enabled by default since Git version 2.14.
+
+            With this option enabled, the Git daemon will only serve files to clients whose paths in their clones match exactly the paths of files in the original repository. This means that if a client tries to access a file from a different branch or with a modified path, they will be denied access. The goal is to prevent unwanted changes and ensure data integrity. However, it may also restrict some legitimate uses, so it's essential to consider its implications when setting up your Git server.
+        syslog: '[AI] `git daemon --syslog` is a command used in Git, a popular version control system. This command starts the Git daemon server with syslog support. The Git daemon is used to serve Git repositories over the network, allowing other Git users to clone or pull from the repository without requiring direct access to the machine hosting the repository. By using `--syslog`, the Git daemon will log its activities to the system''s syslog instead of its default log file. This can be useful for centralizing and managing logs in a network environment.'
+        timeout: '[AI] `git daemon --timeout` is a Git command-line option used when running a Git daemon server. It sets a timeout value for client connections. Once this time elapses, the server will close the connection to conserve resources and improve overall performance. The argument following `--timeout` specifies the duration in seconds before the timeout occurs.'
+        user: '[AI] The `git daemon` is a Git service that runs in the background and allows other Git repositories to fetch or push changes over a network using the Git protocol. When starting the Git daemon with the `--user` option, it specifies the user name and email address to be used for all Git operations, which can be useful when running the daemon as an unprivileged user or in a multi-user environment where each user should have their own Git identity. For example, `git daemon --user=myusername myemail@example.com`.'
+        user-path: '[AI] `git daemon --user-path` is a command in Git, a popular version control system. This option sets the user path for the Git daemon background server process. The user path refers to the home directory where Git will look for the configuration files and keys used by the daemon to authenticate incoming Git connections. By default, it uses the system or global Git configuration, but specifying `--user-path` allows you to override this with a custom path. This can be useful in multi-user environments where different users need to have separate configurations.'
+        verbose: '[AI] `git daemon --verbose` is a command used in Git, a distributed version control system. When run with the `--verbose` option, the Git daemon starts in verbose mode, which means it provides more detailed information about its actions and internal processes while operating. This can be helpful for debugging or understanding the underlying workings of the Git daemon when serving repositories over the network to other Git clients.'

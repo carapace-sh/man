@@ -1,0 +1,201 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: run
+description: Run the linters
+flags:
+    --allow-parallel-runners: Allow multiple parallel golangci-lint instances running. If false (default) - golangci-lint acquires file lock on start.
+    --allow-serial-runners: "Allow multiple golangci-lint instances running, but serialize them\taround a lock. If false (default) - golangci-lint exits with an error if it fails to acquire file lock on start."
+    --build-tags*=: Build tags
+    --deadline&=: Deadline for total work
+    --disable-all: Disable all linters
+    --dupl.threshold&=: 'Dupl: Minimal threshold to detect copy-paste'
+    --enable-all: Enable all linters
+    --errcheck.check-blank&: 'Errcheck: check for errors assigned to blank identifier: _ = errFunc()'
+    --errcheck.check-type-assertions&: 'Errcheck: check for ignored type assertion results'
+    --errcheck.exclude&=: Path to a file containing a list of functions to exclude from checking
+    --errcheck.ignore&=: Comma-separated list of pairs of the form pkg:regex. The regex is used to ignore names within pkg
+    --exclude-case-sensitive: If set to true exclude and exclude rules regular expressions are case sensitive
+    --exclude-use-default: 'Use or not use default excludes:'
+    --fast: Run only fast linters from enabled linters set (first run won't be fast)
+    --fix: Fix found issues (if it's supported by the linter)
+    --go=: Targeted Go version
+    --goconst.ignore-calls&: 'Goconst: ignore when constant is not used as function argument'
+    --goconst.match-constant&: 'Goconst: look for existing constants matching the values'
+    --goconst.max&=: maximum value, only works with goconst.numbers
+    --goconst.min&=: minimum value, only works with goconst.numbers
+    --goconst.min-len&=: 'Goconst: minimum constant string length'
+    --goconst.min-occurrences&=: 'Goconst: minimum occurrences of constant string count to trigger issue'
+    --goconst.numbers&: 'Goconst: search also for duplicated numbers'
+    --gocyclo.min-complexity&=: Minimal complexity of function to report it
+    --gofmt.simplify&: 'Gofmt: simplify code'
+    --golint.min-confidence&=: 'Golint: minimum confidence of a problem to print it'
+    --govet.check-shadowing&: 'Govet: check for shadowed variables'
+    --internal-cmd-test&: Option is used only for testing golangci-lint command, don't use it
+    --issues-exit-code=: Exit code when issues were found
+    --lll.tab-width&=: 'Lll: tab width in spaces'
+    --maligned.suggest-new&: 'Maligned: print suggested more optimal struct fields ordering'
+    --max-issues-per-linter=: Maximum issues count per one linter. Set to 0 to disable
+    --max-same-issues=: Maximum count of issues with the same text. Set to 0 to disable
+    --modules-download-mode=: Modules download mode. If not empty, passed as -mod=<mode> to go tools
+    --new-from-patch=: Show only new issues created in git patch with file path `PATH`
+    --new-from-rev=: Show only new issues created after git revision `REV`
+    --no-config: Don't read config
+    --out-format=: 'Format of output: colored-line-number|line-number|json|tab|checkstyle|code-climate|html|junit-xml|github-actions|teamcity'
+    --path-prefix=: Path prefix to add to output
+    --print-issued-lines: Print lines of code with issue
+    --print-linter-name: Print linter name in issue line
+    --print-resources-usage: Print avg and max memory usage of golangci-lint and total time
+    --print-welcome&: Print welcome message
+    --skip-dirs*=: Regexps of directories to skip
+    --skip-dirs-use-default: 'Use or not use default excluded directories:'
+    --skip-files*=: Regexps of files to skip
+    --sort-results: Sort linter results
+    --tests: Analyze tests (*_test.go)
+    --timeout=: Timeout for total work
+    --uniq-by-line: Make issues output unique by line
+    --whole-files: Show issues in any part of update files (requires new-from-rev or new-from-patch)
+    -D, --disable*=: Disable specific linter
+    -E, --enable*=: Enable specific linter
+    -c, --config=: Read config from file path `PATH`
+    -e, --exclude*=: Exclude issue by regexp
+    -n, --new: 'Show only new issues: if there are unstaged changes or untracked files, only those changes are analyzed, else only changes in HEAD~ are analyzed.'
+    -p, --presets*=: Enable presets (bugs|comment|complexity|error|format|import|metalinter|module|performance|sql|style|test|unused) of linters. Run 'golangci-lint linters' to see them. This option implies option --disable-all
+documentation:
+    command: '[AI] `golangci-lint` is a static code analysis tool for Go language. The command `golangci-lint run` is used to analyze source code for potential issues, errors, and non-compliance with coding conventions or style guides. It scans the current directory for `.go` files by default, but you can specify a different directory or individual files as an argument. The output includes suggestions for fixing the detected issues and explanations of why they are problems.'
+    flag:
+        allow-parallel-runners: |-
+            [AI] `golangci-lint` is a popular static analyzer tool for Go programming language. The command `golangci-lint run` is used to analyze Go source code files for potential issues, bugs, and inefficiencies.
+
+            The option `--allow-parallel-runners` enables parallel processing of multiple Go files during the analysis. In other words, it allows `golangci-lint` to analyze several files at once instead of one after another. This can significantly improve the analysis speed, especially for larger projects.
+        allow-serial-runners: |-
+            [AI] `golangci-lint` is a popular static code analysis tool for Go programming language. The command `golangci-lint run` is used to execute checks on one or more Go source files.
+
+            The option `--allow-serial-runners` is used when running multiple instances of `golangci-lint` in serial, i.e., one after another, on the same project. It disables the built-in parallel execution feature and ensures that each instance finishes before the next one starts. This can be useful when dealing with large or complex projects where potential false positives from parallel analysis might lead to confusion or inconsistencies.
+
+            Using `--allow-serial-runners` helps maintain a more stable and consistent analysis environment, as checks are run sequentially rather than concurrently.
+        build-tags: '[AI] `golangci-lint run --build-tags` is a command used in Go programming language development. It invokes Golangci Lint, a static code analysis tool for Go, to check source files for potential issues and coding style violations. The `--build-tags` option specifies one or more build tags to filter the files being checked based on their associated build tags. This can be useful when working with large projects where not all parts need to be linted at once.'
+        config: '[AI] `golangci-lint run --config` is a command used to execute golangci-lint, a static code analysis tool for Go programming language. The `--config` option specifies the path to a custom configuration file containing settings and rules for the linting process. By default, golangci-lint uses a reasonable set of rules but allowing custom configurations can help enforce specific coding guidelines or styles within a team or project.'
+        deadline: '[AI] `golangci-lint run` is a command used in Golang development to perform static code analysis on source files using golangci-lint, a popular linter tool. The `--deadline` option sets a hard deadline for the analysis process. If the analysis takes longer than the specified time, the command will be interrupted and an error will be returned. This can help prevent long-running analyses from blocking other processes or taking excessively long to complete.'
+        disable: '[AI] `golangci-lint run --disable` is a command used to run golangci-lint, a popular static code analysis tool for Go language, with specific rules disabled. The `--disable` flag follows the list of rules to be excluded, separated by commas. For example, `golangci-lint run --disable=errcheck,unparam` will run golangci-lint without checking errcheck and unparam rules. This can be useful when you want to temporarily suppress warnings or focus on specific issues in your codebase.'
+        disable-all: '[AI] `golangci-lint` is a static analyzer tool for the Go programming language. The command `golangci-lint run` executes lint checks on one or more Go source files. The option `--disable-all` disables all rules by default, meaning that no checks will be performed during the analysis. This can be useful when you want to override the default behavior and explicitly enable only specific rules that you''re interested in. If you want to run the checks with all rules enabled, simply omit the `--disable-all` option.'
+        dupl.threshold: '[AI] `golangci-lint` is a static analyzer for Go code. The command `golangci-lint run` is used to analyze all Go files in the current directory and its subdirectories. The option `--dupl.threshold` sets the threshold for reporting duplicate imports. By default, it''s set to 1, meaning that only imports that appear exactly twice will be reported. Increasing this value will suppress reports of imported packages that are used multiple times but less than the specified number. For instance, `--dupl.threshold=3` would allow up to three identical imports before reporting an error.'
+        enable: '[AI] `golangci-lint run --enable` is a command used in Go programming language development to perform static code analysis on Go source files using golangci-lint tool. The `--enable` flag enables specific lint rules that are not enabled by default. It allows developers to customize the checking process by activating additional rules based on their project''s requirements, enhancing code quality and adherence to Go best practices.'
+        enable-all: '[AI] `golangci-lint` is a popular static code analysis tool for Go language. The command `golangci-lint run` with the argument `--enable-all` enables all rules in the tool. This means that during the analysis, it checks for potential issues against every available rule in the tool, ensuring thorough code inspection. It helps to maintain code quality and adherence to best practices within Go projects.'
+        errcheck.check-blank: |-
+            [AI] `golangci-lint` is a static code analysis tool for the Go programming language. The command `golangci-lint run --errcheck.check-blank` specifically checks for blank errors in Go source code files.
+
+            Errcheck is a Go package that helps prevent untreated errors from being ignored in your code. It provides checks to ensure that all potential errors are handled properly, and the `--check-blank` option focuses on checking for blank errors: errors that are assigned a value of `nil` or an empty slice/map/string but not treated as errors.
+
+            By running this command, you can identify any instances where blank errors might be present in your codebase, helping to improve error handling and avoid potential runtime issues.
+        errcheck.check-type-assertions: |-
+            [AI] `golangci-lint` is a static code analysis tool for Go language. The command `golangci-lint run` executes lint checks on the Go source files in the current directory.
+
+            The option `--errcheck.check-type-assertions` specifically enables errcheck, a linter that checks type assertions on error values in Go code. It ensures that type assertions on errors are properly used by checking if the type being asserted is the expected error type or if there's an error value in the function call that might contain this error type. This helps to avoid potential runtime errors and improve the robustness of your Go code.
+        errcheck.exclude: |-
+            [AI] `golangci-lint` is a popular static analyzer tool for the Go programming language. The `--errcheck.exclude` option, when used with the `run` command, instructs `golangci-lint` to exclude specific errcheck rules from checking during the analysis.
+
+            Errcheck is one of the checks provided by `golangci-lint`, which focuses on analyzing error handling practices in Go code. By excluding certain errcheck rules with `--errcheck.exclude`, developers can avoid warnings or errors related to specific rules that they know are intentional or acceptable for their use case, allowing them to focus on other potential issues in the codebase.
+
+            For example, you might want to exclude a rule like 'errcheck/context' if you have a custom context handling mechanism in your project, or errcheck/no-error-shadow if you have a specific reason for using error shadowing in some parts of your code.
+
+            Using `--errcheck.exclude` helps tailor the analysis results to better fit your project requirements and maintain consistency across your Go sourcebase while reducing false positives.
+        errcheck.ignore: '[AI] `go lacici-lint run --errcheck.ignore` is a command used in Go programming language to run Golangci Lint, a popular static code analysis tool for Go. The `--errcheck.ignore` flag is an option that disables the checking of errcheck rules. Errcheck is a specific rule set provided by Golangci Lint that checks for potential issues with error handling in Go code. By ignoring this rule set, developers can choose to suppress warnings related to error handling when running their lint checks. It''s important to use this option judiciously, as neglecting potential errors might lead to unexpected runtime issues.'
+        exclude: '[AI] `golangci-lint run --exclude` is a command used with golangci-lint, a popular static code analysis tool for Go programming language. The `--exclude` option is used to exclude specific files or directories from being lint checked during the analysis process. By providing a file path or a glob pattern as an argument to `--exclude`, you can exclude that particular file or set of files from the linting process, which may be useful when dealing with large codebases or when certain files are known to produce false positives or require manual intervention for corrections.'
+        exclude-case-sensitive: |-
+            [AI] `golangci-lint` is a popular static analysis tool for Go programming language. The command `golangci-lint run` is used to execute lint checks on Go source files in the current directory and its subdirectories.
+
+            The option `--exclude-case-sensitive` is used to exclude specific files or directories from being checked by case-sensitive file name matching. This means that files with the same name but different case (e.g., "file.go" and "File.go") will not be checked for lint issues if they are excluded using this option. By default, `golangci-lint` checks all Go source files in the specified directory tree without any case sensitivity consideration.
+        exclude-use-default: '[AI] `golangci-lint` is a popular tool for linting Go code. The command `golangci-lint run --exclude-use-default` tells the tool to check all files in the current directory for linting issues, but it will not enforce the use of default rules. Default rules are the set of rules that come with `golangci-lint` and apply by default when running without any flags. By excluding the use of default rules, custom or project-specific rules can be prioritized instead.'
+        fast: '[AI] `golangci-lint run --fast` is a command used to perform a fast static analysis check on Go source code using the Golangci Linter tool. The `--fast` flag speeds up the analysis process by skipping some less critical checks, resulting in faster feedback for common issues. It''s helpful for developers working on large projects or during continuous integration processes where quick turnaround is required.'
+        fix: '[AI] `golangci-lint run --fix` is a command used in Go programming language development. It runs Golangci Lint, a tool for static code analysis for Go projects, with the `--fix` flag enabling automated code fixes. This means it checks your source code against a set of rules and attempts to correct any issues found on the spot, improving code quality and adherence to best practices.'
+        go: '[AI] `golangci-lint run --go` is a command used to execute Golang static code analysis with the tool golangci-lint. The "--go" flag specifies that it should be applied to the current Go project in the working directory, analyzing the Go source files for potential issues and suggesting improvements based on the configured rules.'
+        goconst.ignore-calls: '[AI] `golangci-lint` is a popular static analysis tool for Go language. The command `golangci-lint run` is used to execute checks on Go source files. The flag `--goconst.ignore-calls` is used to ignore specific function calls that are marked as constant but are called in the codebase. This can be useful when dealing with complex use cases where certain functions marked as constants are unintentionally being called, and silencing this warning would simplify the codebase without introducing potential security risks. However, it''s important to note that ignoring these warnings should only be done after thorough consideration and understanding of the implications.'
+        goconst.match-constant: |-
+            [AI] `golangci-lint` is a popular static analysis tool for Go code. The command `golangci-lint run` executes lint checks on all files in the current directory and subdirectories.
+
+            The option `--goconst.match-constant` modifies the behavior of one specific check within `golangci-lint`, which is called `go:consistent-consts`. This check ensures that constants are declared consistently throughout a project, i.e., with the same casing and spelling.
+
+            With the `--goconst.match-constant` option, `golangci-lint` will also consider constants in comments as part of the check. This can be useful when you want to ensure that constant names are used consistently not only in your code but also in documentation.
+        goconst.max: '[AI] `golangci-lint run --goconst.max` is a command used with the Golang static code analysis tool, golangci-lint. The `--goconst.max` flag sets a limit on the maximum number of constant values in a single file. If the number of constants exceeds this limit, golangci-lint will report an error. This helps enforce consistency and reduce the complexity of large Golang codebases by limiting the number of constants per file.'
+        goconst.min: |-
+            [AI] `golangci-lint` is a static code analysis tool for Go language. The command `golangci-lint run` executes lint checks on source code files in the current directory and its subdirectories.
+
+            The option `--goconst.min` sets the minimum required Go version for constant declarations to the specified Go version number. If this option is not provided, `golangci-lint` uses the default value which allows constant declarations in all valid Go versions. Using `--goconst.min` helps ensure code compatibility with a specific Go version.
+        goconst.min-len: |-
+            [AI] `golangci-lint` is a popular static analysis tool for Go programming language. The command `golangci-lint run` invokes this tool to perform various checks on the source code to ensure adherence to best practices and coding standards.
+
+            The option `--goconst.min-len` specifically focuses on constants in your Go code. It enforces a minimum length for identifiers of constants, with the default value being 2 characters long. By including this flag, you are setting a custom minimum length for constant identifier names. For example, running `golangci-lint run --goconst.min-len=5` would enforce a minimum length of 5 characters for all constant identifiers in your codebase.
+        goconst.min-occurrences: |-
+            [AI] `golangci-lint` is a static code analysis tool for Go language. The command `golangci-lint run` executes a lint check on the source files in the current directory.
+
+            The option `--goconst.min-occurrences` sets a minimum number of occurrences required for a Go constant to be reported as an error if it is defined but never used. For example, `--goconst.min-occurrences=2` would report an error for any constant defined only once in the codebase. This helps ensure that constants are intentionally used throughout the project and reduces the likelihood of errors due to misconfigured or unused constants.
+        goconst.numbers: |-
+            [AI] `golangci-lint` is a static code analysis tool for Go programming language. The command `golangci-lint run` executes lint checks on the source code in the current directory.
+
+            The option `--goconst.numbers` specifically enables a rule named `go:const` which checks for issues related to using numeric literals as constants instead of defining them as named constants (`const` keyword). This helps ensure consistency and readability in the codebase, and can prevent potential mistakes or bugs by enforcing the use of explicitly defined constants.
+        gocyclo.min-complexity: '[AI] `golangci-lint` is a popular tool for linting Go code. The command `golangci-lint run --gocyclo.min-complexity` requests it to execute several checks on the source files, among which is "go cyclo" (short for "Go Cyclomatic Complexity"), which measures the number of independent paths in a piece of code and provides an indication of its complexity. The `--gocyclo.min-complexity` option sets a threshold value: any function with a cyclomatic complexity below that value will be considered simple and won''t trigger warnings or errors. By running this command, you can ensure your Go project follows good coding practices, including keeping complex functions at acceptable levels to maintain code readability and maintainability.'
+        gofmt.simplify: |-
+            [AI] `golangci-lint` is a popular tool used for linting Go code. The command `golangci-lint run` executes a lint check on the specified Go files or packages, identifying potential issues and suggesting improvements to maintain coding standards.
+
+            The option `--gofmt.simplify` that follows this command is used for formatting the code according to Go's standard style guide during the linting process. By enabling `--gofmt.simplify`, you can automatically apply gofmt formatting adjustments as part of your linting workflow, ensuring consistent code formatting and reducing the need for separate gofmt runs.
+        golint.min-confidence: '[AI] `golangci-lint` is a static code analysis tool for Go language. The command `golangci-lint run` executes a lint check on all Go source files in the current directory and its subdirectories. The option `--golint.min-confidence=X` sets the minimum confidence level required to report an issue, where X is a number between 0 (least restrictive) and 1 (most restrictive). For example, `--golint.min-confidence=0.8` will only report issues with a linting confidence score of 80% or above. This can help to filter out potentially false positive issues.'
+        govet.check-shadowing: |-
+            [AI] `golangci-lint` is a popular linter tool for Go programming language. The command `golangci-lint run --govet.check-shadowing` specifically runs Golang Veteran (govet) checks provided by golangci-lint, focusing on the shadowing issue.
+
+            Shadowing refers to a situation where an identifier used in inner scopes hides an identifier with the same name in an outer scope. This can lead to unexpected behavior and errors. The `--govet.check-shadowing` flag ensures that your Go code does not have any such issues, making it adhere to good coding practices and reducing potential bugs.
+        internal-cmd-test: '[AI] `golangci-lint run --internal-cmd-test` is a command used in Go programming language to perform static code analysis using golangci-lint, a popular linter tool. The `--internal-cmd-test` flag specifically runs tests that are located within the source code being analyzed, in addition to the standard checks and rules defined by golangci-lint. It helps identify potential issues related to custom test functions and ensures adherence to internal testing best practices within the project.'
+        issues-exit-code: '[AI] `golangci-lint run --issues-exit-code` is a command used with Golang linting tool, `golangci-lint`. This command runs the tool to check for potential issues and errors in Go source code files. The `--issues-exit-code` flag specifies that the tool should exit with a non-zero status code only if there are linting issues found. In other words, it means that even if there are warnings, the command will still return a zero exit code, allowing the CI/CD pipeline to continue unless there are critical errors or issues.'
+        lll.tab-width: |-
+            [AI] `golangci-lint` is a static analyzer for Go code. The command `golangci-lint run --lll.tab-width` is used to run `golangci-lint` with specific configuration options.
+
+            The `--lll` flag enables the Linter Linting Language (LLL) config format, and the `.tab-width` option sets the width of tabs in the code to a specified value (default is 8). Thus, this command runs `golangci-lint` with the configuration that uses tab indentation with a custom width (specified by the user).
+        maligned.suggest-new: '[AI] `golangci-lint` is a static analyzer for Go code. The command `golangci-lint run` executes lint checks on the Go source files in the current directory. The option `--maligned.suggest-new` enables a feature that suggests new rules based on errors found during the linting process. These suggestions are not applied by default, but can be reviewed and added manually to improve the code quality.'
+        max-issues-per-linter: '[AI] `golangci-lint` is a popular static code analysis tool for Go programming language. The command `golangci-lint run` executes lint checks across all files in the current directory. The option `--max-issues-per-linter` sets a limit to the maximum number of issues each linter can report before it is stopped, preventing a single linter from overwhelming the output with excessive warnings or errors. This helps keep the feedback actionable and manageable for developers.'
+        max-same-issues: |-
+            [AI] `golangci-lint` is a popular static analyzer tool for the Go programming language. The command `golangci-lint run` executes lint checks on one or more Go source files in the current directory.
+
+            The option `--max-same-issues <number>` sets a limit to the maximum number of identical issues that will be displayed when running the analysis. For instance, if there are more than the specified number of identical issues found within your codebase, only the first `<number>` occurrences will be shown, while the rest will be suppressed. This can help to reduce redundant information and focus on addressing the most critical issues first.
+        modules-download-mode: |-
+            [AI] `go Lanci-lint run --modules-download-mode` is a command used in Go programming language for static code analysis with Golangci-lint, a popular linter and code quality tool. The `--modules-download-mode` option determines how to handle the downloading of required Go modules during the linting process:
+
+            1. `on-demand` (default): Only download missing modules when needed, while checking and analyzing the source code. This mode is useful for projects with multiple independent components or for testing linting on a subset of the codebase.
+            2. `download-all`: Download all required modules before starting the linting process. This can help ensure consistent results by using the same versions of dependencies across all analyses and make the linting process faster by not having to download the modules on each run. However, it may take longer initially due to the time taken for downloading the modules.
+            3. `off`: Disable the downloading of missing modules altogether. This can be useful when running Golangci-lint locally against a project that has all its dependencies checked into version control or when using continuous integration tools like GitHub Actions or Travis CI to manage dependency downloads.
+
+            Choose the appropriate `--modules-download-mode` based on your specific use case and workflow requirements.
+        new: '[AI] `golangci-lint run --new` is a command used to perform static code analysis on new or modified Go files with GolangCI Lint, a popular linter tool for the Go programming language. The `--new` flag tells it to only check files that have been modified since the last commit in a Git repository, helping ensure code quality and adherence to coding standards during development.'
+        new-from-patch: '[AI] `golangci-lint run --new-from-patch` is a command used with Golang''s static code analysis tool, GolangCI-Lint. This specific invocation tells the tool to analyze a new Go file or set of changes introduced by a Git patch. The `--new-from-patch` option causes GolangCI-Lint to read the changes from a Git patch file instead of the current working directory. It helps ensure that newly added or modified Go code follows the project''s coding standards and best practices.'
+        new-from-rev: '[AI] `golangci-lint run --new-from-rev` is a command used with the Golang static code analysis tool, golangci-lint. This command runs golangci-lint on all .go files in the current directory and checks for new issues that have not been flagged before. The `--new-from-rev` option specifies a Git commit hash or branch name to only consider new issues introduced since that point. This is useful for continuous integration workflows where you want to ensure newly introduced code does not introduce any new linting issues.'
+        no-config: '[AI] `golangci-lint` is a popular static analyzer for Go (Golang) projects. The command `golangci-lint run --no-config` tells the tool to check the current Go source files for linting issues without using any custom configuration files. In other words, it applies the default rules and best practices for Golang coding style set by `golangci-lint`.'
+        out-format: '[AI] `golangci-lint` is a static code analysis tool for Go programming language. The command `golangci-lint run` executes lint checks on one or more Go source files. The option `--out-format` specifies the output format of the results. By default, the results are printed to the console. With this option, you can redirect the output to a file (e.g., `--out-format json > report.json`) or to standard error instead of standard output (e.g., `--out-format terminal -- -- > /dev/stderr`). This allows for custom processing and integration with other tools.'
+        path-prefix: |-
+            [AI] `golangci-lint` is a static code analysis tool for Go languages. The command `golangci-lint run` executes lint checks on source code files in the current directory and subdirectories.
+
+            The option `--path-prefix` allows specifying a prefix to the file paths that will be checked. For instance, `--path-prefix="./pkg/"` would only check files under `./pkg/` and its subdirectories. This can be useful when working on large projects with multiple packages or when focusing on specific parts of the codebase.
+        presets: '[AI] `golangci-lint run` is a command used to execute Golang static code analysis with GolangCI-Lint, a popular linter and fixer for Go projects. The `--presets` option specifies the use of a preset configuration file, which bundles together common linter rules for specific project needs or best practices, simplifying the linting process. For instance, using `go.mod` as the dependency manager requires a different set of presets compared to using `vendoring`.'
+        print-issued-lines: '[AI] `golangci-lint` is a static code analysis tool for Go languages. The command `golangci-lint run` executes lint checks on the source code. The option `--print-issued-lines` instructs it to output the line numbers where each issue was found, making it easier to locate and address the specific issues in the codebase.'
+        print-linter-name: '[AI] `golangci-lint run --print-linter-name` is a command used with Golang''s static code analysis tool, golangci-lint. This command runs golangci-lint on your Go source files and prints out the name of each linter that was invoked during the analysis process. The goal is to provide transparency about which linters were executed and help developers understand which parts of their codebase are being checked by which linters.'
+        print-resources-usage: |-
+            [AI] `golangci-lint` is a static code analysis tool for Go programming language. The command `golangci-lint run` is used to execute lint checks on one or more Go source files.
+
+            The option `--print-resources-usage` is used to display the estimated resource usage of each checked package, including CPU and memory consumption. This information can help developers understand which parts of their codebase might require additional optimization in terms of resource utilization.
+        print-welcome: '[AI] `golangci-lint run --print-welcome` is a command used with the golangci-lint tool in Go programming language. The `--print-welcome` flag is optional, but when included, it prints out a welcome message upon execution. This message typically includes information about the version of golangci-lint being used, as well as some brief instructions on how to use the tool effectively for linting Go code.'
+        skip-dirs: |-
+            [AI] `golangci-lint` is a static code analysis tool for Go language. The command `golangci-lint run` is used to analyze all Go source files in the current directory and its subdirectories for potential issues. The option `--skip-dirs` allows excluding specific directories from the analysis by providing their paths as arguments. For instance, if you want to exclude a directory named "test" and another one named "vendor", you can run:
+
+            ```bash
+            golangci-lint run --skip-dirs test vendor
+            ```
+
+            This will analyze all Go files in the current directory, excluding those located within the "test" and "vendor" directories.
+        skip-dirs-use-default: |-
+            [AI] `golangci-lint` is a popular static analyzer tool for the Go programming language. The command `golangci-lint run` executes lint checks on all source files in the current directory by default.
+
+            The option `--skip-dirs-use-default` skips applying the default ignore rules to specific directories. This means that any ignore rules defined in `.gitignore`, `.lint.yml` or other similar configuration files will not be applied to those specified directories. Instead, they will use the default linting rules set by `golangci-lint`.
+
+            This can be useful when working on a project where you want to enforce consistent linting rules across all source code, but also allow some exceptions in certain directories for specific reasons.
+        skip-files: '[AI] `golangci-lint` is a popular static analyzer tool for the Go programming language. The command `golangci-lint run --skip-files` tells the tool to perform a lint check on all Go files in the current directory, excluding those listed in the `--skip-files` flag. This allows developers to focus on fixing issues in specific files while ignoring others for the time being. The skip list is provided as a comma-separated string of file globs or paths.'
+        sort-results: '[AI] `golangci-lint` is a static analyzer tool for the Go programming language. The command `golangci-lint run` executes lint checks on one or more Go source files. The option `--sort-results` sorts the output of the lint check results in ascending order based on the file path and line number. This helps to easily identify and address issues across different files in a consistent order.'
+        tests: '[AI] `golangci-lint run --tests` is a command used to perform static analysis and run tests in Go programming language projects using Golangci Lint, an open-source linter and test runner tool. The "run" subcommand executes both lint checks and tests with a single command, saving time and effort compared to running each individually. This helps ensure code quality by identifying potential issues and fixing them before committing changes.'
+        timeout: '[AI] `golangci-lint run` is a command used in Go programming to perform static code analysis on Go source files with golangci-lint, an open-source tool. The `--timeout` flag sets a maximum amount of time (in seconds) allowed for the linting process to complete before reporting an error and terminating the operation. This helps prevent long-running or unresponsive lint checks from causing delays in continuous integration workflows or other development processes.'
+        uniq-by-line: '[AI] `golangci-lint` is a static analysis tool for Go programming language. The command `golangci-lint run --uniq-by-line` checks all the Go files in the current directory and their dependencies for potential issues, errors, and convention violations. The `--uniq-by-line` option makes the output unique per line, meaning that each error or warning will be printed only once even if it occurs multiple times across different files. This can help to declutter the output and make it easier to understand and address the issues.'
+        whole-files: '[AI] `go Lacci-lint run --whole-files` is a command used in Go programming language to perform static code analysis on all files in the current directory using GolangCI-Lint tool. It checks each file for potential issues and violations against common Go coding standards, helping developers maintain code quality and adherence to best practices.'

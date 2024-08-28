@@ -1,0 +1,122 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: pkill
+description: look up for processes based on name and other attributes
+flags:
+    --ns=: match the processes that belong to the same namespace as <pid>
+    --nslist=: list which namespaces will be considered for the --ns option.
+    --signal=: signal to send (either number or name)
+    -F, --pidfile=: read PIDs from file
+    -G, --group=: match real group IDs
+    -L, --logpidfile: fail if PID file is not locked
+    -P, --parent=: match only child processes of the given parent
+    -U, --uid=: match by real IDs
+    -V, --version: output version information and exit
+    -c, --count: count of matching processes
+    -e, --echo: display what is killed
+    -f, --full: use full process name to match
+    -g, --pgroup=: match listed process group IDs
+    -h, --help: display this help and exit
+    -i, --ignore-case: match case insensitively
+    -n, --newest: select most recently started
+    -o, --oldest: select least recently started
+    -r, --runstates=: match runstates [D,S,Z,...]
+    -s, --session=: match session IDs
+    -t, --terminal=: match by controlling terminal
+    -u, --euid=: match by effective IDs
+    -x, --exact: match exactly with the command name
+documentation:
+    command: '[AI] `pkill` is a Linux utility command used to send signals to processes based on their names or process IDs (PIDs) in the current terminal session. It searches for processes matching specified criteria and terminates them using predefined signals such as SIGTERM or SIGKILL. This command can be useful when attempting to gracefully stop a runaway process without having its PID, or when dealing with multiple instances of a process with similar names.'
+    flag:
+        count: '[AI] `pkill` is a Unix utility used to send signals to processes based on their names or process IDs. The `--count` option is an additional argument that this command accepts. When you use `pkill --count <signal> <pattern>`, it sends the specified signal (default is SIGTERM) to each matching process and then prints out how many processes were affected by the signal. In other words, it displays the number of processes killed by the command.'
+        echo: '[AI] The `pkill` command with the `--echo` option is a utility in Unix-like operating systems used to send signals to processes based on their names. When you run `pkill --echo <signal> <process_name>`, it displays the name of the process that would be killed if no errors occur, but does not actually terminate the process. This is useful for double-checking which process will be affected before issuing a potentially destructive command.'
+        euid: |-
+            [AI] `pkill` is a command-line utility in Unix-like operating systems used to send signals to processes based on their names or process IDs (PIDs). The option `--euid` is used with `pkill` to specify the effective user ID of the processes to be killed. This can be useful when you want to terminate processes that are running as a specific user, even if they don't have distinct PIDs. For instance:
+
+            ```
+            pkill --euid 1000 my_process
+            ```
+
+            This command will send the default signal (usually TERM) to all processes with an effective user ID of 1000 and the name `my_process`. Remember that using such a command should be done carefully, as killing processes without proper understanding may cause unintended consequences.
+        exact: '[AI] `pkill` is a Unix utility used to send signals to processes based on their names or process IDs. The `--exact` option refines the search criteria of `pkill`. With this option, only exact matches of the provided argument (process name or command) will be killed. For instance, if you use `pkill --exact firefox`, only the processes with the exact name "firefox" will be terminated. This level of specificity helps avoid unintended consequences when using `pkill`.'
+        full: '[AI] `pkill` is a command-line utility in Unix-like operating systems used to send signals to processes based on their names or process IDs (PIDs). The `--full` option, also written as `-F`, is an advanced feature of `pkill`. It allows users to specify complex patterns for filtering processes using extended regular expressions. This can be useful in situations where a simple process name isn''t sufficient to identify the desired target. When used with `--full`, the `pkill` command searches through the entire `/proc` filesystem to find matching processes and sends the specified signal (default is SIGTERM) to each of them.'
+        group: '[AI] `pkill` is a Linux utility command used to send signals to processes based on their names or process group IDs. The `--group` option in `pkill` is used to terminate all processes that belong to a specific process group. When used with the `SIGTERM` signal by default, it sends a termination signal to the entire process group. If no process name is provided with `pkill --group`, it will require the process group ID as an argument. This command is useful when managing background processes that cannot be easily stopped using other means like sending signals to individual processes or using jobs in the terminal.'
+        help: |-
+            [AI] `pkill` is a Unix utility used to send signals to processes based on their names or process IDs. The `--help` option displays detailed information about how to use `pkill`. Here's a brief summary of the help output:
+
+            - `pkill [OPTIONS] PATTERN [PID...]`: The basic syntax is to provide the signal name (e.g., `SIGTERM` or `SIGKILL`) and the process pattern or ID(s) to terminate.
+            - `Options:` Various options are available, such as `-F` for regex patterns in process names, `-P` to send a signal to the controlling process of the given process group, and `-SIG` to specify a custom signal.
+            - `Patterns:` These can be process names, part of a name (using wildcard characters), or process ID numbers. Multiple patterns can be combined using logical operators like `OR` (`|`) and `AND` (`&`).
+            - `Examples:` The help message includes examples demonstrating the usage of `pkill`, such as terminating all processes named "firefox" or those with the process IDs 1234 and 5678.
+        ignore-case: '[AI] `pkill` is a command-line utility for Unix and Linux systems, used to send signals to processes based on their names or other properties. The option `--ignore-case` makes `pkill` search process names in a case-insensitive manner, meaning that it will match processes with names that have the same characters as the given name but possibly in different cases (upper or lower). For example, if you run `pkill --ignore-case firefox`, it will match and signal both processes named "Firefox" and "firefox".'
+        logpidfile: '[AI] `pkill` is a Linux utility command used to send signals to processes based on their names or process IDs (PIDs). The option `--logpidfile` is used to log the PID(s) of the processes that are terminated by the command. This can be useful for keeping track of the PIDs in scripts or for debugging purposes. When using `pkill --logpidfile <signal> <pattern>`, the PID(s) of the matched processes will be written to a specified file, allowing you to refer back to them later.'
+        newest: '[AI] `pkill` is a command-line utility in Unix-like operating systems used to send signals to processes based on their names. The `--newest` option is not a standard option for `pkill`. It seems there might be some confusion with another tool called `pkill-newest`, which is an extension of the `pkkill` command, specifically designed to find and kill the newest instance of a process by name. With this tool, you can use the command `pkill-newest <process_name>` to terminate the most recently started process with the given name.'
+        ns: '[AI] `pkill` is a command-line utility for sending signals to processes based on their names or other identifying information, such as process IDs (PIDs). The `--ns` option in `pkill` specifies that the signal should be sent only to processes belonging to a specific namespace. By default, `pkill` sends signals to all running processes. Using `--ns <namespace>` restricts the scope of the signal to just those processes running within the specified namespace. This can be useful in containerized environments where multiple namespaces exist.'
+        nslist: |-
+            [AI] `pkill` is a command-line utility in Unix-like operating systems, used to send signals to processes based on their names or other characteristics. The option `--nslist` is not a standalone command but rather an argument that can be passed to `pkill`. It modifies the output format of the command.
+
+            When using `pkill --nslist`, instead of just listing the PIDs (Process IDs) of matching processes, it will also display their namespace information such as PID, PGID (Process Group ID), TGID (Session ID), and NSID (Namespace ID). This can be helpful in understanding the process hierarchy and relationship within a system.
+        oldest: '[AI] `pkill` is a Unix utility for sending signals to processes based on their names or process IDs. The command `pkill --oldest` sends a signal (default is SIGTERM) to the oldest process among those matching the given name pattern. It''s often used when you want to terminate the oldest running instance of a process to free up system resources. If no signal is specified, SIGTERM is used by default. If you want to forcefully terminate processes, use SIGKILL instead.'
+        parent: '[AI] `pkill` is a command-line utility for sending signals to processes based on their names or other attributes in Unix-like operating systems. The option `--parent` tells `pkill` to send a signal to the parent process of the specified process IDs instead of the processes themselves. This can be useful when you want to terminate a whole process tree, rather than just individual processes.'
+        pgroup: |-
+            [AI] `pkill` is a Unix command-line utility used to send signals to processes based on their names or process IDs (PIDs). The `--pgroup` option is an extension to this command, available in some implementations of `pkill`, such as the GNU version.
+
+            With `--pgroup`, you can send a signal not just to a single process with a specific PID but also to all processes belonging to a process group. A process group is a set of processes that have the same process group ID (PGID). By specifying a process group ID instead of a process name or PID, `pkill` will terminate all processes in that group.
+
+            For example:
+
+            1. First, create a new process group using `pgrep` and `bg` commands:
+               ```
+               pgrep -lfd <process_name> > output.txt
+               read PGID < output.txt
+               bg %<job_number>
+               ```
+               This command creates a list of processes matching the given process name, extracts the first process group ID from the list, and puts it into the background.
+
+            2. Now you can use `pkill` with the `--pgroup` option to terminate all processes in that group:
+               ```
+               pkill --pgroup <PGID>
+               ```
+        pidfile: '[AI] `pkill` is a Linux utility used to send signals to processes based on their names or process IDs (PIDs) stored in a file called a pidfile. The command `pkill --pidfile <filename>` instructs `pkill` to search for a process with a matching pidfile and sends a signal to terminate the process associated with that pidfile. This command can be used to manage processes whose names or PIDs are not known but have been saved in a file.'
+        runstates: |-
+            [AI] `pkill` is a Linux command-line utility for sending signals to processes based on their names or process IDs. The `--runstates` option modifies its behavior to match processes with specific running states.
+
+            With `--runstates`, you can specify one or more states, such as "D" for uninteractive sleepers or "T" for stopped processes, using the "-F" flag followed by a comma-separated list of state codes. For example: `pkill --runstate D -F state:D`.
+
+            When you use this option, `pkill` will only target and signal processes that match the specified states in addition to their names or IDs. This can be helpful when dealing with specific process situations in your system.
+        session: |-
+            [AI] `pkill` is a Linux utility used to send signals to processes based on their names or process IDs (PIDs). The `--session` option is an extended feature in some implementations of `pkill`, such as the popular `pkill` from the `signal-utils` package.
+
+            With this option, you can send signals not only to a specific process but also to all processes belonging to a given session. A session is a collection of related processes, usually created when a terminal-based application starts in a terminal window. This can be useful for terminating an entire application session with one command instead of individually terminating each process.
+
+            The basic syntax for using this option is:
+            ```
+            pkill --session [TERMINAL|TTY|SESSIONID]
+            ```
+            Replace `[TERMINAL|TTY|SESSIONID]` with the terminal device file name, TTY number, or session ID, respectively. The default signal sent is `SIGTERM`, but you can use other signals like `SIGKILL` by adding the corresponding signal number:
+            ```css
+            pkill --signal SIGKILL --session [TERMINAL|TTY|SESSIONID]
+            ```
+        signal: '[AI] `pkill` is a Unix utility command used to send signals to processes based on their names or process IDs (PIDs). The `--signal` option specifies which signal to send, typically expressed using its name or number. Common signals include `SIGTERM` (default, termination), `SIGKILL` (immediate process termination), and `SIGINT` (equivalent to sending a keyboard interrupt). So, `pkill --signal SIGTERM <process_name>` sends the `SIGTERM` signal to the process with the given name.'
+        terminal: '[AI] `pkill` is a Unix utility used to send signals to processes based on their names or process IDs. The `--terminal` option is an optional argument that sends the SIGTSTP signal, which is typically used to suspend a foreground process, making it detachable and movable between terminals. In summary, using `pkill --terminal <process-name>` will send the SIGTSTP signal to the process with the given name, allowing it to be moved between terminal sessions.'
+        uid: |-
+            [AI] `pkill` is a command-line utility in Unix-like operating systems used to send signals to processes based on their names or other characteristics, such as user ID (UID). The syntax for sending a signal to processes owned by a specific UID is:
+
+            ```bash
+            pkill --uid <UID>
+            ```
+
+            This command searches the process table for processes with the specified UID and sends the default signal (usually SIGTERM) to each matched process. If you want to send a different signal, add the signal number as an option:
+
+            ```bash
+            pkill --signal=SIGKILL --uid <UID>
+            ```
+
+            The `--uid` option is used to specify the UID of the processes you wish to terminate. Remember that using this command requires appropriate permissions.
+        version: |-
+            [AI] `pkill` is a Linux utility command used to send signals to processes based on their names or process IDs. The `--version` option is used to display the version information of the `pkill` command, including its name, version number, and compilation information. For example, running `pkill --version` in a terminal might produce output similar to:
+
+            ```bash
+            pkill from util-linux 2.34.1
+            ```
+
+            This indicates that the `pkill` command is part of the `util-linux` package, and its current version is 2.34.1.

@@ -1,0 +1,41 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: taint NODE NAME KEY_1=VAL_1:TAINT_EFFECT_1 ... KEY_N=VAL_N:TAINT_EFFECT_N
+description: Update the taints on one or more nodes
+group: cluster management
+flags:
+    --all: Select all nodes in the cluster
+    --allow-missing-template-keys: If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
+    --dry-run?: Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
+    --field-manager=: Name of the manager used to track field ownership.
+    --overwrite: If true, allow taints to be overwritten, otherwise reject taint updates that overwrite existing taints.
+    --show-managed-fields: If true, keep the managedFields when printing objects in JSON or YAML format.
+    --template=: Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates [http://golang.org/pkg/text/template/#pkg-overview].
+    --validate?: Validation mode.
+    -l, --selector=: Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2). Matching objects must satisfy all of the specified label constraints.
+    -o, --output=: 'Output format. One of: (json, yaml, name, go-template, go-template-file, template, templatefile, jsonpath, jsonpath-as-json, jsonpath-file).'
+documentation:
+    command: '[AI] `kubectl taint` is a command used in Kubernetes to modify the pod scheduling behavior by adding, updating, or deleting taints from nodes or node selectors in a cluster. A taint sets a condition on a node that can prevent new pods from being scheduled on it or selectively schedules compatible pods based on their tolerations. It is an essential tool for managing node capacity and enforcing node access policies.'
+    flag:
+        all: '[AI] `kubectl taint --all` is a command used in Kubernetes to remove all existing taints from all nodes in a cluster. A taint is a label on a node that marks it as not suitable for running certain workloads based on specific key-value pairs. By removing all taints with this command, the nodes become unscheduled and no longer have any preferred characteristics, allowing them to potentially host any type of pod. However, be cautious when using this command as it can impact node availability and application continuity.'
+        allow-missing-template-keys: |-
+            [AI] The `kubectl taint` command with the `--allow-missing-template-keys` flag is used to apply a taint to Kubernetes nodes or pods, allowing them to be unscheduled even if there are missing keys in the selectors of their matching labels.
+
+            Normally, Kubernetes requires that all keys in the template selector must have corresponding values for a pod to be scheduled on a node with a compatible label. However, when `--allow-missing-template-keys` is used, Kubernetes will ignore any missing keys and still schedule the pod if the existing labels match the required ones, ensuring flexibility in managing your cluster without disrupting running applications.
+        dry-run: |-
+            [AI] `kubectl taint --dry-run` is a command used in Kubernetes to simulate the application of node taints without actually modifying the cluster state. The `--dry-run` option causes `kubectl` to output the YAML manifest that would be applied if the operation were run for real. This can be useful for reviewing the changes before applying them, or for automating the process of generating and applying manifests in scripts.
+
+            In terms of node taints specifically, a taint is a label that identifies nodes that should not run specific workloads due to certain conditions (e.g. low memory or high CPU usage). The `kubectl taint` command can be used to apply, delete, or manage taints on nodes in the cluster. When using this command with the `--dry-run` option, you will get the output showing how your specified node or nodes would be affected by applying the taint changes without actually making those changes in your Kubernetes cluster.
+        field-manager: '[AI] `kubectl taint` is a command in Kubernetes used to add, update, or delete taints from nodes or node labels in a cluster. The `--field-manager` flag is an optional argument that specifies the name of the Custom Controllers Manager (CCM) that manages the taint''s lifecycle. When you use `--field-manager`, it ensures that any changes made to the taint are managed by the specified CCM, maintaining consistency across your cluster''s configuration.'
+        output: '[AI] `kubectl taint` is a command-line tool used in Kubernetes to modify or delete taints from nodes or node labels. The `--output` flag is optional and specifies the output format of the command. If this flag is not provided, the command will output in plain text format by default. When using the `--output=json` format, the command returns a JSON-formatted response, providing more detailed information about the taint being applied or deleted.'
+        overwrite: '[AI] `kubectl taint` is a command used in Kubernetes to modify the taints on nodes or pods. The `--overwrite` flag modifies an existing taint instead of adding a new one. When you use this flag, you are updating the existing taint''s value or key if it already exists, without creating a new taint. This can be useful when you need to change the effect or cause of an existing taint, for example, to remove a NoSchedule taint and replace it with a PreferNoSchedule one.'
+        selector: '[AI] `kubectl taint` is a command-line tool used in Kubernetes to modify the taints on nodes or pods. The `--selector` option filters the selection of objects based on their labels. When using this command with `--selector`, you''re specifying that only the objects with matching labels should be affected by the taint operation. This allows for fine-grained control over which nodes or pods are impacted by the taint, helping to manage cluster resources more effectively.'
+        show-managed-fields: '[AI] `kubectl taint --show-managed-fields` is a command used in Kubernetes to display the managed fields of a taint. A taint is a label that indicates an unfriendly node condition, making it undesirable for certain workloads. The `--show-managed-fields` flag displays only the fields managed by the Kubernetes system and not the user-defined ones, providing insight into the internal state of managed Kubernetes objects.'
+        template: |-
+            [AI] `kubectl taint` is a command-line tool used to manage taints and affinities in Kubernetes clusters. The `--template` flag is an optional argument that allows you to apply a templating engine, like Go templates or JSONpath, to specify the key-value pairs of the taint. For example, if you want to add a new taint with the key `Key`, value `Value`, and effect `NoSchedule`, you can use the following command:
+
+            ```bash
+            kubectl taint <node-name> --key=Key --value=Value --effect=NoSchedule --template='metallb/api-server: {}'
+            ```
+
+            This command adds a new taint with the specified key, value, and effect on the `<node-name>`. The last argument `--template='metallb/api-server: {}'` is used to target the specific API server component named "metallb" in this example. This templating engine allows for more complex use cases where you might need to apply multiple taints or conditions to a node or pod.
+        validate: '[AI] `kubectl taint --validate` is a command used with Kubernetes'' `kubectl` tool to check if it''s possible to apply a taint on a node or a pod without causing any conflicting pod evictions. A taint modifies the scheduling behavior of the cluster, preventing new pods from being scheduled onto nodes that have the same label key and value as the taint. The `--validate` flag is used to verify whether applying a taint would result in any existing pods being forcibly terminated or not, before actually performing the action.'

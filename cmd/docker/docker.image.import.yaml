@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: import [OPTIONS] file|URL|- [REPOSITORY[:TAG]]
+description: Import the contents from a tarball to create a filesystem image
+flags:
+    --platform=: Set platform if server is multi-platform capable
+    -c, --change=: Apply Dockerfile instruction to the created image
+    -m, --message=: Set commit message for imported image
+documentation:
+    command: |-
+        [AI] `docker image import` is a command used to create a new Docker image from an external source, such as a tarball file or a URL containing a packed Docker image. The basic syntax is:
+
+        ```bash
+        docker image import <source> <image>:<tag>
+        ```
+
+        Replace `<source>` with the path to the local tarball file or the URL, and `<image>:<tag>` with the desired name and tag for the new image. For example:
+
+        ```bash
+        docker image import myimage.tar mynewimage:latest
+        ```
+
+        or
+
+        ```bash
+        docker image import https://example.com/myimage.tar mynewimage:latest
+        ```
+    flag:
+        change: '[AI] The `docker image import --change` command is used to import a tarball or a filesystem folder as a new Docker image, with an optional modification of the image''s `Dockerfile`. The `--change` flag allows you to apply one or more modifications to the `Dockerfile` in-place, without having to create a new file. This can include updating instructions, changing base images, and adding or removing files from the Dockerfile. This command is useful when you want to modify an existing image or add customizations before sharing it with others.'
+        message: '[AI] `docker image import --message` is a command used in Docker to import an image from a tarball file or a URL and add a user-defined message to the image''s metadata. When you save an image using `docker save`, it stores the image data as a tarball file. When you import this tarball back into Docker, you can also specify a message that gets added to the image''s metadata under the `Description` key. This command is useful for creating custom images with descriptive information that explains what changes have been made to the base image.'
+        platform: '[AI] The `docker image import` command is used to create a new Docker image from files that exist on the local file system, such as a tarball or a zip file containing a Dockerfile. The `--platform` flag is an option for this command that allows specifying the target platform architecture and operating system for the imported image. For example, `docker image import --platform=linux/amd64:latest myimage.tar` would import the contents of `myimage.tar` into a new Docker image with the specified Linux amd64 architecture and the latest platform version. This flag ensures that the imported image is built for the desired target platform, which can be important when dealing with multi-arch images or creating images for specific use cases.'

@@ -1,0 +1,40 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: deny (-f FILENAME | NAME)
+description: Deny a certificate signing request
+flags:
+    --allow-missing-template-keys: If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
+    --force: Update the CSR even if it is already denied.
+    --show-managed-fields: If true, keep the managedFields when printing objects in JSON or YAML format.
+    --template=: Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates [http://golang.org/pkg/text/template/#pkg-overview].
+    -R, --recursive: Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.
+    -f, --filename*=: Filename, directory, or URL to files identifying the resource to update
+    -k, --kustomize=: Process the kustomization directory. This flag can't be used together with -f or -R.
+    -o, --output=: 'Output format. One of: (json, yaml, name, go-template, go-template-file, template, templatefile, jsonpath, jsonpath-as-json, jsonpath-file).'
+documentation:
+    command: |-
+        [AI] The `kubectl certificate deny` command is not a valid Kubernetes command. There is no such command in the Kubernetes `kubectl` tool. Instead, you may be looking for the following commands related to managing certificates in a Kubernetes cluster:
+
+        * `kubectl create clusterrolebinding <name> --clusterrole=<role> --serviceaccount=<namespace>/<service-account>`: This command creates a cluster role binding that denies access to certain resources or actions for a specific service account. You can achieve certificate denial by creating a cluster role with no allowed certificates and binding it to the appropriate service account.
+        * `kubectl delete certificate <name>`: This command deletes an existing certificate from your cluster. You can use this command to revoke access granted by a specific certificate.
+        * `kubectl create certificate <name> --signer-cert ca.crt --signer-key ca.key --duration 8760h`: This command creates a new certificate in your cluster, which can be used for granting access to certain resources or actions. By not mounting this certificate in any pods or deployments, you effectively deny its use.
+
+        For more fine-grained control over certificates, consider using an Ingress Controller like NGINX or Traefik that allows you to manage TLS certificates through its configuration files.
+    flag:
+        allow-missing-template-keys: '[AI] `kubectl configure Admissions set webhook --certificate-authority <CA_file> --client-ca-file <Client_CA_file> --server https://<admission-webhook>:<port> --namespace <namespace> --label-prefix <prefix> --deny deny--missing-template-keys` is a command used to configure the `kubectl` tool to interact with Kubernetes Admission Controllers. The option `--deny deny--missing-template-keys` instructs the admission controller to reject any API requests that contain missing template keys. This can help ensure that only properly formatted and complete Kubernetes objects are deployed in a cluster, improving security and consistency.'
+        filename: '[AI] The `kubectl` command `certificate deniy --filename` is used to deny a specific Kubernetes certificate file from being accepted or used in a cluster managed by `kubectl`. The `--filename` option specifies the path to the certificate file. This command prevents the certification authority (CA) associated with that certificate from issuing new certificates or trusting existing ones within the Kubernetes environment. It''s an essential security measure when dealing with sensitive certificate management and rotation tasks in a Kubernetes cluster.'
+        force: '[AI] The `kubectl` command `certificate deny --force` is used to reject a specific certificate signing request (CSR) in Kubernetes, bypassing any approvals that may be in place. When you run this command with the `--force` flag, Kubernetes will deny the CSR without asking for approval from any approver or signing the certificate immediately. It''s an advanced operation and should only be used when necessary, as it can override security policies.'
+        kustomize: '[AI] The `kubectl` command `certificate denyl --kustomize` is used to deny the application or usage of a specific Kubernetes certificate with the help of Kustomize customization framework. It prevents the specified certificate from being processed further in the Kubernetes cluster. This can be useful for enforcing security policies by disallowing certain certificates that do not meet desired security standards.'
+        output: |-
+            [AI] `kubectl certificate deny` is a command used with the Kubernetes CLI (kubectl) to reject or revoke a specific client certificate from being used in a Kubernetes cluster. The `--output` flag is optional and specifies the output format for the command's result, which can be set to `json` or `yaml`. For example:
+
+            ```bash
+            kubectl certificate deny mycert --key /path/to/mycert.key --output json > revoke.json
+            ```
+
+            This command denies the client certificate named "mycert" and saves the result in a JSON file called "revoke.json". If no output format is specified, the default output will be displayed on the console.
+        recursive: '[AI] The `kubectl` command `certificate deny --recursive` is used to deny access to Kubernetes resources with specific certificates across an entire hierarchy. It denies access recursively, meaning it affects not only the directly matched resource but also any child resources that may exist beneath it in the Kubernetes cluster''s namespace hierarchy. The command is typically used for enforcing fine-grained access control based on client certificates within a Kubernetes environment.'
+        show-managed-fields: |-
+            [AI] `kubectl certificates denyl --show-managed-fields` is a command used with Kubernetes' `kubectl` tool to deny a specific certification signing request (CSR) or certificate in a cluster. The `--show-managed-fields` flag option displays only the managed fields, which are the fields that were set by Kubernetes and cannot be modified directly.
+
+            When you use this command, it denies the CSR/certificate with the specified name or selector, but only modifies the managed fields. This means that any custom fields in the certificate will not be affected by the command, allowing for more fine-grained control over the certificate's settings.
+        template: '[AI] The `kubectl certificates denyl` command with the `--template` flag is used to reject or deny the issuance of certificates based on a Kubernetes template. This command doesn''t actually create any certificates but rather defines rules for certificate issuance. It allows you to specify custom validation and signing policies by providing a template file as an argument. The template file should be written in the X.509 Certificate Signing Request (CSR) format or in OpenSSL configuration file format, and it can include conditions that must be met before a certificate is issued. For example, you might use this command to deny certificates for certain domains or IP addresses, enforce specific encryption algorithms, or add custom validity periods. In summary, this command provides a way to control the issuance of certificates within your Kubernetes cluster by defining custom validation and signing policies using templates.'

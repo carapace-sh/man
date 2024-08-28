@@ -1,0 +1,62 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: plan [options]
+description: Show changes required by the current configuration
+group: main
+flags:
+    --generate-config-out?: write HCL configuration for resources to path
+    -compact-warnings: Show warnings in a more compact form that includes only the summary messages.
+    -destroy: Select the "destroy" planning mode.
+    -detailed-exitcode: Return detailed exit codes when the command exits.
+    -input?: Ask for input for variables if not directly set.
+    -lock: Don't hold a state lock during the operation.
+    -lock-timeout?: Duration to retry a state lock.
+    -no-color: If specified, output won't contain any color.
+    -out?: Write a plan file to the given path.
+    -parallelism?: Limit the number of concurrent operations.
+    -refresh: Skip checking for external changes to remote objects while creating the plan.
+    -refresh-only: Select the "refresh only" planning mode.
+    -replace?: Force replacement of a particular resource instance using its resource address.
+    -state?: A legacy option used for the local backend only.
+    -target?: Limit the planning operation to only the given module, resource.
+    -var-file?: Load variable values from the given file.
+    -var=: Set a value for one of the input variables in the root module of the configuration.
+documentation:
+    command: '[AI] `terraform plan` is a Terraform command used to preview the proposed changes to your infrastructure before actually applying them. It reads your configuration files and generates an execution plan, displaying the intended modifications in human-readable format. This way, you can review and decide if the planned changes align with your intentions before executing them with `terraform apply`.'
+    flag:
+        compact-warnings: '[AI] `terraform plan -compact-warnings` is a command used in Terraform, an open-source infrastructure as code software tool. This command runs a Terraform plan and returns the output in a compact format with only warnings, excluding informational messages. It helps users to focus on potential issues that may require attention during the infrastructure configuration change.'
+        destroy: '[AI] `terraform plan -destroy` is a command used in Terraform, an open-source infrastructure as code software tool. This command is used to simulate the destruction of infrastructure resources managed by Terraform without actually executing the destruction. The output shows a detailed plan of which resources will be destroyed if the command is run with `apply`. Using this command helps prevent accidental destruction of resources and ensures that the intended infrastructure changes are understood before they''re executed.'
+        detailed-exitcode: |-
+            [AI] The `terraform plan -detailed -exitcode` command is used in Terraform, an open-source infrastructure as code software tool, to execute a planning operation with detailed output and to return an exit code indicating whether the plan succeeded or failed.
+
+            The `-detailed` flag increases the amount of information displayed during the planning process, providing more details about the proposed changes. The `exitcode` option returns a non-zero exit code if there are any errors or warnings encountered during the operation, allowing scripts and automation tools to handle failures appropriately.
+        generate-config-out: '[AI] `terraform plan --generate-config-out` is a command in Hashicorp''s Terraform infrastructure configuration tool. It generates an output file containing the current configuration of your Terraform setup in HCL (Hashicorp Configuration Language). This can be useful for versioning or sharing your infrastructure configurations outside of Terraform''s state management system. The `--generate-config-out` option specifies the filename for this output file.'
+        input: |-
+            [AI] The `terraform plan` command is a core functionality of Terraform, an open-source infrastructure as code software tool. It allows users to preview the changes that would be made to their infrastructure if they applied the current configuration.
+
+            The `-input` flag is an optional argument for this command. When used, it specifies the path to a file containing input variables and their values. This can be useful when the values of some inputs are not known at the time of running the `plan` command or when these values need to be managed outside of Terraform's state file. The input file overrides the default values defined in the configuration files for the given variables.
+        lock: '[AI] `terraform plan -lock` is a command used in Terraform, an open-source infrastructure as code software tool, to set or acquire a lock on the current state of your configured resources before performing destructive operations like deletion or modification. The locking feature helps prevent concurrent modifications to the same resources by different team members, ensuring consistency and avoiding unintended changes. It''s essential in multi-user environments where multiple people might be working on the same infrastructure configuration simultaneously.'
+        lock-timeout: '[AI] The `terraform plan -lock-timeout` flag is used in Terraform, an open-source infrastructure as code software tool, to configure the length of time that Terraform should wait before acquiring a lock on the state file when multiple instances of Terraform are running concurrently. The default value is 30 seconds, but you can increase it with this flag if there''s a chance of longer-running plans causing conflicts. If a plan takes longer than the specified timeout to complete, Terraform will give up and return an error. This helps prevent unintended state changes when multiple users are managing infrastructure simultaneously.'
+        no-color: |-
+            [AI] `terraform plan -no-color` is a command used in Terraform, an open-source infrastructure as code software tool. The `plan` action is used to execute a simulation of the changes that would be made if you apply your configuration.
+
+            The `-no-color` option disables colored output in the terminal. This can be useful when working in environments where colored text is not supported or preferred, such as in scripting or automated workflows. It does not affect the functionality of Terraform itself; it only changes the formatting of the output.
+        out: '[AI] `terraform plan -out` is a command used in Terraform, an open-source infrastructure as code software tool. This command generates an output file containing Terraform''s proposed execution plan. The output file can be later applied using the `terraform apply <file>` command to create or update infrastructure based on the plan. It''s a common workflow step for reviewing and ensuring changes before actually applying them, promoting safety and reducing potential human errors.'
+        parallelism: '[AI] `terraform plan` is a command used in Hashicorp''s Terraform infrastructure configuration tool to show what changes would be made if you apply your configuration. The `-parallelism` option specifies the number of actions that can be executed in parallel when Terraform is generating the execution plan. By default, this value is set to 1, meaning only one action will be executed at a time. Increasing this value can lead to faster execution times for large and complex configurations as more actions can run concurrently. However, using too high of a parallelism level could result in increased resource usage and potential contention issues.'
+        refresh: '[AI] `terraform plan -refresh` is a command used in Terraform, an open-source infrastructure as code software tool. This command is used to update the state of your Terraform configuration with the latest changes in your cloud provider without applying those changes yet. It''s often used when you''ve made changes outside of Terraform (manually in the UI or through another tool) and want Terraform to be aware of those changes before planning the next set of actions to bring your infrastructure in line with your desired configuration. This command does not apply any changes but only updates the state, allowing you to review the planned changes with `terraform plan` before applying them with `terraform apply`.'
+        refresh-only: '[AI] The `terraform plan -refresh-only` command is a Terraform configuration management tool''s sub-command used to update the state of your infrastructure resources without making any actual changes or applying new configurations. It refreshes the current state of your infrastructure and reads the updated configuration from your Terraform files, allowing you to see what changes would be applied if you run `terraform apply` next. It does not apply the changes; it only shows you the differences, enabling you to review them before actually implementing any modifications.'
+        replace: |-
+            [AI] `terraform plan -replace` is a command used in Terraform, an open-source Infrastructure as Code (IaC) software tool. The `plan` subcommand is used to execute a simulation of the actions Terraform would take when applying configuration changes, without actually making those changes.
+
+            The `-replace` flag modifies this behavior. Instead of showing a plan that includes all resources that will be added, modified, or removed due to the proposed changes, it only shows the differences between the current state and the desired state in terms of the resources that need to be replaced. This can help reduce the amount of output and make it easier to understand the specific changes needed for a given configuration update.
+        state: |-
+            [AI] The `terraform plan` command is a key part of Terraform's workflow for infrastructure as code. It allows you to review proposed changes to your infrastructure before actually applying them, ensuring that desired state is correctly defined in your configuration files.
+
+            The `-state` flag is an optional argument for the `plan` command. When used, it tells Terraform to use the specified state file instead of creating a new one. The state file records the current configuration and the desired end state of your infrastructure, allowing you to track changes and apply them incrementally.
+
+            By using the `-state` flag, you can maintain consistency between runs, compare planned changes with the previously executed plan, and resume incomplete plans if needed. This is especially useful when managing complex infrastructures that involve multiple resources or have long-running deployment processes.
+        target: '[AI] `terraform plan -target` is a command used in Terraform, an open-source infrastructure as code software tool. This command is utilized to perform a planning operation on specific modules or resources within a Terraform configuration instead of the entire infrastructure. The `-target` argument specifies the IDs or names of the resources or modules to be planned and updated. This can help reduce the time it takes to run a plan, especially when working with large configurations, as only the targeted resources will undergo the planning process.'
+        var: '[AI] `terraform plan -var` is a command used in Hashicorp''s Terraform infrastructure configuration tool. It generates a proposed execution plan for applying changes to your infrastructure based on the current configuration and input variables. The `-var` option allows passing variable values directly to the command, overriding the default values or values from a file. This can be useful when testing out specific configurations without modifying the state file or variables file.'
+        var-file: |-
+            [AI] `terraform plan` is a command in Hashicorp's Terraform infrastructure as code tool. It simulates the execution of Terraform configuration files, showing what would be created or modified without actually applying the changes.
+
+            The `-var-file` option specifies a variable file to read input variables from instead of passing them on the command line directly. This allows for managing and separating variables in a separate file, improving configuration management and reusability.

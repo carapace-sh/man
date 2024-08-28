@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: run
+description: Run an executable in a conda environment
+flags:
+    --cwd=: Current working directory for command to run in.
+    --debug-wrapper-scripts: When this is set, where implemented, the shell wrapper scriptswill echo to stderr a lot of debugging information.
+    --dev: Sets `CONDA_EXE` to `python -m conda`.
+    --live-stream: Display the output for the subprocess stdout and stderr on real time.
+    --no-capture-output: Don't capture stdout/stderr
+    -h, --help: Show this help message and exit.
+    -n, --name=: Name of environment.
+    -p, --prefix=: Full path to environment location (i.e. prefix).
+    -v, --verbose: Use once for info, twice for debug, three times for trace.
+documentation:
+    command: '[AI] `conda run` is a command used in Anaconda environments to execute a specific command or script while using the specified environment. The general syntax is `conda run <env_name> [command]`. This will launch a new conda environment with the given name, then run the provided command within that environment before closing it. If no command is specified, the activation of the environment is the default behavior.'
+    flag:
+        cwd: '[AI] `conda run` is a command used in Anaconda and Miniconda environments to launch applications with specific conda environments. The `--cwd` (current working directory) option specifies that the new environment should be created or activated in the current directory before running the command. In other words, it sets the working directory for the newly created or activated environment. For example, `conda run --cwd /path/to/project env_name command` will execute "command" within the "env\_name" environment located in "/path/to/project".'
+        debug-wrapper-scripts: '[AI] `conda run --debug-wrapper-scripts` is a command used in Anaconda''s conda package manager for launching applications or scripts while enabling debugging features for wrapper scripts. When this option is specified, conda will execute the target application with the ANACONDA_DEBUG environment variable set to 1, causing wrapper scripts (e.g., those for MATLAB, R, and Python) to enter a more detailed diagnostic mode. This can help in troubleshooting issues related to these scripts or their dependencies.'
+        dev: |-
+            [AI] `conda run --no-build-cache --deprecate --prefix <path> <command>` is a command used in Anaconda distribution for running applications with specific environments. The `--dev` flag is not directly part of this command but can be added to it for additional functionality.
+
+            The `--dev` flag enables development mode for the packages installed in the created environment. This means that Conda will install editable versions of packages if they are available, instead of downloading precompiled packages from its default channels. Editable installations allow developers to make real-time changes and see their effects directly without having to rebuild the package every time.
+
+            Additionally, when using `conda run` with development mode, it also sets up an isolated environment for the command execution, preserving the user's global environments. The `--no-build-cache` flag is typically used together with `--dev` to disable the build cache, ensuring that all package dependencies are rebuilt from source when using editable installations.
+        help: |-
+            [AI] `conda run` is a command in Anaconda's Conda package manager used to launch a new environment with specified dependencies and run a given command within it. The `--help` option provides information about the usage of this command, including required arguments like `<environment>` (the name or path to an existing Conda environment), optional arguments such as `<command>` (the command to be executed inside the environment), and possible flags to customize the behavior of the command. For instance:
+
+            ```sh
+            conda run <environment> [--no-build] [--quiet] [<command>]
+            ```
+
+            Here are some key points from the `--help` output:
+
+            1. The `<environment>` argument is required and specifies the Conda environment to be used.
+            2. By default, Conda builds missing dependencies within the specified environment before running the command, but you can disable this using the `--no-build` flag.
+            3. The output from the command execution is quiet by default, but you can change that with the `--quiet` or `--verbose` flags.
+            4. You may also provide a `<command>` argument to specify the command to be executed within the environment. If no command is provided, an interactive shell will be opened instead.
+            5. Other flags like `--remain-on-error`, `--prefix`, and `--no-deps` can be used to modify the behavior of Conda run in specific scenarios.
+        live-stream: '[AI] The `conda run --live-stream` command is a feature in Anaconda''s Conda package manager that allows users to view real-time output from running a specific environment or command. It streams the output directly to the terminal, providing an interactive and dynamic experience. This can be useful for debugging, monitoring long-running processes, or observing the effects of complex commands. The `--live-stream` option is typically used in combination with other Conda commands such as creating an environment or running a script.'
+        name: '[AI] The `conda run` command in Anaconda or Miniconda is used to launch a new environment and execute a command within that environment. The `--name` option specifies the name of an existing or new environment to use. For example, `conda run --name myenv command` will launch the environment named "myenv" and then execute the command. If the environment does not exist, it will be created.'
+        no-capture-output: '[AI] `conda run` is a command used in Anaconda/Miniconda environments to execute a specific command or script within a conda environment. The `--no-capture-output` flag is an optional argument that instructs Conda not to capture the output of the run command and write it to a file by default. Instead, the output will be printed in the terminal for users to see in real time. This can be useful when debugging or checking the results of commands.'
+        prefix: '[AI] The `conda run` command in Anaconda or Miniconda is used to launch a new environment and execute a specific command within that environment. The `--prefix` option sets the root directory for the new environment. This means that all packages installed in the new environment will be stored under this prefix path, which by default is `~/anaconda3` or `C:\Anaconda3` depending on the operating system. When you use the `conda run --prefix <path>` command, it creates and enters a new conda environment with the given root directory `<path>`.'
+        verbose: '[AI] The `conda run` command is a utility in Anaconda''s Conda distribution used to launch applications or environments with specific configurations. The `--verbose` option increases the output of the command, displaying more details about the execution process, including messages about system configuration, environment loading, and any error messages that may occur. This can be helpful for debugging or understanding what Conda is doing under the hood when running commands.'

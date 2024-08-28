@@ -1,0 +1,59 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: revert
+description: Revert some existing commits
+group: main
+flags:
+    --abort: cancel revert or cherry-pick sequence
+    --cleanup=: 'how to strip spaces and #comments from message'
+    --continue: resume revert or cherry-pick sequence
+    --quit: end revert or cherry-pick sequence
+    --rerere-autoupdate: update the index with reused conflict resolution if possible
+    --skip: skip current commit and continue
+    --strategy=: merge strategy
+    -S, --gpg-sign?: GPG sign commit
+    -X, --strategy-option=: option for merge strategy
+    -e, --edit: edit the commit message
+    -m, --mainline=: select mainline parent
+    -n, --no-commit: don't automatically commit
+    -s, --signoff: 'add Signed-off-by:'
+documentation:
+    command: '[AI] `git revert` is a Git command used to create a new commit that undoes the changes introduced by some existing commits. It doesn''t lose any data, instead it creates a new commit with the reversed changes. This can be useful for reverting a mistake made in a previous commit or rolling back the effects of a merge conflict. The syntax is typically `git revert <commit>`, where `<commit>` is the hash or branch name of the commit to revert.'
+    flag:
+        abort: '[AI] `git revert --abort` is a Git command used to abandon an ongoing revert operation. When you start a revert, Git creates a new commit with the changes that would reverse the specified commit(s). If for any reason, you decide against completing the revert, you can use the `--abort` option to discard the work-in-progress commit and leave your working directory unchanged. This command does not affect any commits in your repository.'
+        cleanup: '[AI] `git revert --cleanup` is a Git command used to remove deleted files and reapplied changes that were not successfully reverted. It does not create a new commit, but instead cleans up the working directory after an unsuccessful revert attempt. This command can be useful when attempting to revert a commit with conflicting changes or large binary files. By using `--cleanup`, you can keep your working directory in a clean state and try to revert again without carrying over any unwanted changes.'
+        continue: '[AI] `git revert --continue` is a Git command used after initiating a revert operation with `git revert`. This command continues the revert process once the text editor has been used to confirm the commit messages for each commit being reverted. It applies the changes introduced by those commits in reverse order, creating new commits that undo the changes made by the original ones.'
+        edit: '[AI] `git revert --edit` is a Git command used to create a new commit that undoes some or all of the changes introduced by a previous commit. The `--edit` option opens up an interactive editor where you can modify the commit message and the content of the commit, allowing you to review and customize the changes before committing. This can be useful when you need to revert a commit with complex or numerous changes, or if you want to make adjustments to the commit message before creating the new commit.'
+        gpg-sign: '[AI] `git revert --gpg-sign` is a Git command used to create a new commit that reverses the changes introduced by some existing commits, while also signing the commit message with your GPG key. This ensures that the signed tag can be verified using the corresponding public key, maintaining the integrity and authenticity of the change history.'
+        mainline: '[AI] `git revert --mainline` is a Git command used to create a new commit that undoes the changes introduced by the most recent common ancestor of the current branch and the given reference, typically a remote branch. In other words, it reverts the most recent merge or pull from the mainline branch into your current local branch, allowing you to discard those changes if needed. This command creates a new commit with an informative commit message detailing the reverted changes, preserving the history of the project.'
+        no-commit: '[AI] `git revert --no-commit` is a Git command used to create a new commit that undoes the changes introduced by a specific commit, but it does not automatically apply those changes to the current branch. Instead, it leaves you with a new commit object and the staged state of your working directory unchanged. This allows you to review the changes made by the revert before deciding whether or not to apply them using `git commit`.'
+        quit: '[AI] `git revert --quit` is a Git command used to initiate an interactive revert operation, but then stop it before committing the changes. This can be useful when you''ve started a revert but decided that you don''t want to keep those changes after all. The ''--quit'' option causes Git to leave the working directory and index in their initial pre-revert state.'
+        rerere-autoupdate: |-
+            [AI] `git revert --rerere-autoupdate` is a Git command used to create a new commit that reverts changes made in a previous commit, while also enabling the rerere (reusable rebase) feature with the autoupdate option.
+
+            When you use `--rerere-autoupdate`, Git will automatically attempt to find and apply existing commits that contain the same changes as those being reverted. This can save time when dealing with repeated changes in a project, as it avoids the need to manually create and apply individual revert commits for each instance of the change.
+
+            In summary, `git revert --rerere-autoupdate` is a command that creates a new commit that reverts changes while also automatically applying previously recorded changes during the revert process.
+        signoff: '[AI] `git revert --signoff` is a Git command used to create a new commit that undoes the changes introduced by one or more previous commits. The `--signoff` option adds a Signed-off-by line to the commit message file, indicating that the developer has reviewed and committed to the changes made in that commit. This is useful for projects that require commits to be signed off before merging into shared repositories.'
+        skip: '[AI] `git revert --skip` is a command used to skip the commit message input during an interactive revert operation in Git. When you use `git revert`, Git opens up an editor to allow you to modify the commit message for the new commit that will be created by the revert operation. With `git revert --skip`, Git skips this step and creates a new commit with the same message as the original commit being reverted, effectively bypassing the commit message editing process.'
+        strategy: |-
+            [AI] The `git revert` command with the `--strategy` option allows you to choose different strategies for how Git should apply your revert commit. Here are some common strategies:
+
+            1. `--no-commit`: This strategy performs the revert in the index and does not create a new commit. You need to manually commit the changes.
+            2. `--edit`: This strategy allows you to edit the commit message before creating the new commit.
+            3. `--interactive`: This strategy opens an interactive rebase session, where you can specify which commits to revert and how (e.g., squash multiple reverts into one).
+            4. `--commit-msg`: This strategy lets you edit the commit message directly without using an external editor.
+            5. `--keep-commits`: This strategy keeps the original commits in your history after applying the revert, while creating a new commit that undoes their changes.
+            6. `--ignore-whitespace`: This strategy ignores any whitespace-only conflicts during the revert process.
+            7. Custom strategies: You can also write your own custom revert strategies by providing a script to Git.
+        strategy-option: |-
+            [AI] `git revert` is a command used to revert changes made in the Git repository. The `--strategy-option` is an optional argument that allows you to customize how Git performs the reversion.
+
+            When you run `git revert <commit>`, Git attempts to create a new commit that undoes the changes introduced by the specified commit. However, sometimes this simple approach may not work due to complex merge histories or conflicting changes. In such cases, Git provides several strategies to help resolve these conflicts and complete the reversion.
+
+            The `--strategy-option` argument allows you to specify which strategy Git should use during the revert process:
+
+            1. `--no-commit`: This strategy performs the reversion without creating a new commit. It's useful for testing or when you want to see the changes that would be made before actually committing them.
+            2. `--commit` (default): This strategy creates a new commit after performing the reversion, which is usually what you want when working in a production environment.
+            3. Other strategies like `--merge`, `--interactive`, and `--edit` provide more control over the reversion process by allowing you to manually merge or edit the changes before committing them.
+
+            In summary, `git revert --strategy-option` is an advanced Git command that allows you to customize how Git performs the reversion process by specifying which strategy to use.

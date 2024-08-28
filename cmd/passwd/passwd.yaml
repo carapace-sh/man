@@ -1,0 +1,57 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: passwd
+description: change user password
+flags:
+    -R, --root=: directory to chroot into
+    -S, --status: report password status on the named account
+    -a, --all: report password status on all accounts
+    -d, --delete: delete the password for the named account
+    -e, --expire: force expire the password for the named account
+    -h, --help: display this help message and exit
+    -i, --inactive=: set password inactive after expiration to INACTIVE
+    -k, --keep-tokens: change password only if expired
+    -l, --lock: lock the password of the named account
+    -n, --mindays=: set minimum number of days before password change to MIN_DAYS
+    -q, --quiet: quiet mode
+    -r, --repository=: change password in REPOSITORY repository
+    -u, --unlock: unlock the password of the named account
+    -w, --warndays=: set expiration warning days to WARN_DAYS
+    -x, --maxdays=: set maximum number of days before password change to MAX_DAYS
+documentation:
+    command: '[AI] The `passwd` command is a Linux utility used to change the password of a user account. When invoked without any options, it brings up an interactive text interface where you can enter and confirm the new password for the currently logged-in user or specify another user by using the `-u` option followed by the username. The system stores encrypted versions of passwords, so the command does not display or reveal the original plaintext password during or after setting it.'
+    flag:
+        all: '[AI] The `passwd --all` command is used in Unix-like operating systems to change the passwords of all user accounts listed in the system''s password file. It modifies the encrypted password fields in the /etc/passwd or /etc/shadow file, depending on the system''s security configuration. This can be useful for bulk password resets during system administration tasks, such as after a security incident or during new user account creation. The command does not display any output by default but returns an exit status indicating success (0) or failure (non-zero).'
+        delete: |-
+            [AI] The `passwd --delete` command is a utility used in Unix-based systems for managing user passwords. This specific command is used to remove or disable a user account's password, effectively locking the account without deleting it from the system.
+
+            When you run this command with the username as an argument (e.g., `passwd --delete username`), the account's password field in the /etc/shadow file is set to '!*' or an empty string. This configuration prevents new passwords from being set and forces a user to enter their old password if they try to log in, effectively disabling their account.
+
+            It's important to note that this action does not delete the user's home directory or other system data associated with that account. To permanently remove a user account from the system, you would use the `userdel` command instead (e.g., `userdel username`).
+        expire: |-
+            [AI] The `passwd --expire` command is a utility in Unix-based systems used to manage user account password expiration policies. It doesn't directly set or change a specific password, but instead configures the account settings related to password aging and expiry.
+
+            By default, most Linux distributions don't enforce password expiry, meaning users don't have to change their passwords until they choose to do so. However, using this command, an administrator can set a password expiration policy for specific user accounts or system-wide.
+
+            The basic syntax of the command is: `sudo passwd --expire [<days>|<never>] <username>`
+
+            Here's what each component means:
+
+            * `passwd`: This is the name of the utility command, which deals with user account password management.
+            * `--expire`: This option specifies that the command will be used to set or modify the password expiration policy.
+            * `<days>` (optional): If you specify a number followed by 'days', it sets the password expiry period in days. For instance, if you enter 30 days, then the user's password will expire after 30 days.
+            * `never` (optional): If you specify 'never', it disables password expiration for the specified user account.
+            * `<username>`: The username of the account to which the policy applies.
+
+            For example, if you want to set the password expiration period for the user 'john' to 60 days, use this command: `sudo passwd --expire 60 john`. To disable password expiration for 'mary', type: `sudo passwd --expire never mary`.
+        help: '[AI] The `passwd --help` command is used in Unix-like operating systems to display detailed information about the `passwd` utility. This command allows users to change their password and manage user accounts. When you run `passwd --help`, it will show a brief description of the command, followed by a list of available options and their corresponding descriptions. These options can include things like specifying which user''s password to change, whether or not to force the user to pick a new password at next login, or even whether to unlock an account that has been locked due to multiple failed login attempts.'
+        inactive: '[AI] The `passwd --inactive` command is a utility in Unix-like operating systems that modifies the account expiration details of user accounts. Specifically, it sets or changes the inactive account age, which is the time after which an account will be marked as inactive and no longer able to log in. This can be used as an additional security measure to ensure that inactive accounts are periodically reviewed and either reactivated or deleted if they''re no longer needed. The syntax for the command typically looks like `sudo passwd -i [number] [username]` where [number] represents the number of days before the account is considered inactive, and [username] is the name of the user account being modified.'
+        keep-tokens: '[AI] The `--keep-tokens` option in the `passwd` command is used to prevent the automatic removal of expired password tokens when changing a user''s password. By default, unused or expired password tokens are purged during password changes to ensure security. However, with `--keep-tokens`, these tokens are retained and can be used later if needed, without requiring the user to generate new tokens. This option can be useful in environments where multi-factor authentication (MFA) is employed and users need to keep their existing tokens for continuity.'
+        lock: '[AI] The `passwd --lock` command is used in Unix-based systems to lock a user account, preventing it from being accessed by setting an uncrackable password. This can be useful when managing accounts that should not be in use, such as disabled or decommissioned accounts, or when dealing with compromised accounts to prevent further damage. The command typically requires superuser (root) privileges for execution.'
+        maxdays: '[AI] The `--maxdays` option in the `passwd` command is used to set or modify the maximum number of days before a user''s password expires. When this threshold is reached, the user will be required to change their password again to maintain account security. By default, most Linux distributions set the password expiration to 90 days, but it can be adjusted using this option. For example, `passwd --maxdays=60 username` sets the password expiration for the ''username'' account to 60 days.'
+        mindays: '[AI] The `--mindays` option in the `passwd` command relates to password expiration policy in Unix-like operating systems. It sets the number of days after which a user must change their password. For instance, if a system administrator sets `passwd --mindays 30`, users will be required to change their password every 30 days.'
+        quiet: '[AI] The `passwd --quiet` command is a utility in Unix-like operating systems for changing the password of a user account without any confirmation prompts or outputting any success messages. It is used when automating system tasks or scripts that require password modification silently.'
+        repository: '[AI] The `passwd --repository` command in Samba is used to manage the location of the password database file, also known as the passdb_backend or passdb_ldap. It specifies the type and path of the backend to be used for storing and retrieving user authentication data. This can be a local file (e.g., `tdb`, `ldap`, or `rdb`), or an external system like LDAP or Active Directory. The syntax is typically: `passwd --repository=<type>:<path>`. For example, to use an LDAP backend, you might use: `passwd --repository=ad:ldaps://example.com:389`. This command helps ensure that the correct authentication data is being used for Samba file sharing and printing services.'
+        root: '[AI] The `passwd --root` command is used in Unix-based systems to change the password for the root user account. It requires superuser (root) privileges to execute. This command does not modify any other system settings, but only updates the encrypted password hash value for the root account in the /etc/passwd or /etc/shadow file. After running this command, a new password will be required to log in as the root user.'
+        status: '[AI] The `passwd --status` command is used in Unix-based systems to check the status of the password database, specifically the shadow file or the passwd file with shadowed passwords. This command displays various details about the password aging and expiration policies applied to user accounts in the system. It shows information like the minimum number of days before a password can be changed, the warning period before a password expires, the maximum number of days a password is valid, and whether or not password expiry is enforced on the system. This command helps system administrators manage and maintain password policies in a secure manner.'
+        unlock: '[AI] The `passwd --unlock` command is a utility in Unix-like operating systems used to unlock a user account that has been previously locked due to multiple failed login attempts or manual locking by an administrator. When an account is locked, no one can log into it until it''s unlocked. This command is typically used by system administrators and root users to grant access to locked accounts. Once the account is unlocked, users are then able to change their password using the regular `passwd` command.'
+        warndays: '[AI] The `--warndays` option in the `passwd` command is used to set or display the number of days of warning before a user''s password expires. When a user logs in after this warning period, they will receive a message notifying them that their password is about to expire. This option helps ensure users change their passwords regularly for better security.'

@@ -1,0 +1,89 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: build
+description: build a derivation or fetch a store path
+group: main
+flags:
+    --arg*=: Pass the value expr as the argument name to Nix functions
+    --argstr*=: Pass the string string as the argument name to Nix functions
+    --commit-lock-file: Commit changes to the flake's lock file
+    --debug: Set the logging verbosity level to 'debug'
+    --debugger: Start an interactive environment if evaluation fail
+    --eval-store=: The Nix store to use for evaluations
+    --expr=: Interpret installables as attribute paths relative to the Nix expression expr
+    --impure: Allow access to mutable paths and repositories
+    --inputs-from=: Use the inputs of the specified flake as registry entries
+    --json: Produce output in JSON format, suitable for consumption by another program.
+    --log-format=: Set the format of log output
+    --no-link: Do not create symlinks to the build results.
+    --no-registries: Don't allow lookups in the flake registries
+    --no-update-lock-file: Do not allow any updates to the flake's lock file
+    --no-write-lock-file: Do not write the flake's newly generated lock file
+    --override-flake=: Override the flake registries, redirecting original-ref to resolved-ref
+    --override-input=: Override a specific flake input (e.g. dwarffs/nixpkgs)
+    --print-out-paths: Print the resulting output paths
+    --profile=: The profile to update.
+    --quiet: Decrease the logging verbosity level
+    --rebuild: Rebuild an already built package and compare the result to the existing store paths.
+    --recreate-lock-file: Recreate the flake's lock file from scratch
+    --update-input=: Update a specific flake input (ignoring its previous entry in the lock file
+    -I, --include: Add path to the list of locations used to look up <...> file names
+    -L, --print-build-logs: Print full build logs on standard error
+    -f, --file=: Interpret installables as attribute paths relative to the Nix expression stored in file
+    -o, --out-link=: Use path as prefix for the symlinks to the build results.
+    -v, --verbose: Increase the logging verbosity level
+documentation:
+    command: '[AI] `nix-build` is a command from Nix Package Manager used to build and derive new outputs from existing Nix expressions or configurations. When invoked with a path to a Nix expression file, it evaluates the expression, builds the specified output, and saves the result in the system''s Nix store directory. The resulting output can then be referenced using its derived hash. In essence, `nix-build` is used to construct and compile software packages within the Nix ecosystem.'
+    flag:
+        arg: '[AI] `nix build` is a command-line tool provided by Nix Package Manager to build and produce outputs from a Nix expression or configuration file. The `--arg` option is used to pass arguments to the built package or configuration. For example, `nix build --arg myArg="myValue" path/to/your/expression.nix` will pass the argument "myArg" with value "myValue" when building the expression located at "path/to/your/expression.nix". This can be useful for customizing the build process or settings of the resulting package or output.'
+        argstr: |-
+            [AI] `nix build` is a command-line tool from the Nix Package Manager used to build and manage software projects. The `--argstr` option is passed to `nix build` to provide arguments to the built package or configuration.
+
+            For example, if you have a Nix expression defining a Haskell project with a variable `myArg`, you can pass an argument to it during build time using:
+
+            ```bash
+            $ nix build --argstr myArg=myValue path/to/project
+            ```
+
+            Replace `myArg` and `myValue` with the actual names of your custom argument, and update the path accordingly. This command will build the project with the provided argument value.
+        commit-lock-file: '[AI] `nix build` is a command-line tool provided by Nix, a package manager for Linux and other systems. The `--commit-lock-file` option creates or updates a commit-locked file after building a project with Nix. This file records the exact build inputs used to produce the output artifacts, ensuring reproducibility and preventing unintentional changes. When using this flag, Nix builds are deterministic, meaning the same output will be produced given the same input.'
+        debug: '[AI] `nix-build` is a command-line tool used in the Nix Package Manager to build and install software from a Nix expression or configuration file. The `--debug` option is used to print detailed debugging information during the build process, including the Nix expression being executed, intermediate build steps, and any errors that occur. This can be helpful for troubleshooting build issues, understanding the underlying build process, or for developers working on Nix expressions and configurations.'
+        debugger: '[AI] `nix-build --debugger` is a command used in Nix, a package manager for Linux and other Unix systems. It initiates a new build process with additional debugging information. When an error occurs during the build process, `--debugger` provides more detailed error messages and enables interactive debugging sessions using GDB (GNU Debugger) or other debuggers supported by Nix. This allows developers to identify and fix issues more efficiently.'
+        eval-store: '[AI] `nix-build` is a command-line tool from Nix Package Manager used to build and manage software packages in a reproducible way. The `--eval-store` flag is an option for `nix-build`. It instructs `nix-build` to evaluate expressions defined in a `Nixexpressions` file, instead of building a package from a `Nix` configuration file. The output of evaluating the expression is then stored in the Nix store, allowing you to reference and use it later for other builds or configurations. This flag is particularly useful when working with complex configurations that cannot be easily expressed using traditional Nix configuration files.'
+        expr: |-
+            [AI] `nix-build` is a command-line tool from Nix Package Manager used to build and derive new configurations or derivations. The `--expr` option is used to evaluate a Nix expression in the current system configuration.
+
+            The expression is typically written in Nix expression language, and its result determines which derivation(s) will be built. The output of `nix-build --expr` is a derived Nix store path representing the result of evaluating the expression.
+        file: '[AI] The `nix-build` command is a utility provided by Nix Package Manager, used to build and manage software packages. The `--file` option specifies a Nix expression file that defines the package or configuration being built. This file typically includes dependencies, build inputs, and other metadata required for building the software. By using this option, you can customize the build process by providing your own Nix expressions or modifying existing ones.'
+        impure: |-
+            [AI] `nix-build` is a command-line tool provided by Nix, a package manager for Linux and other Unix systems. The `--impure` flag is an option used with this command to request Nix to build a project without enforcing its implicit build isolation.
+
+            In Nix's default configuration, the build process is isolated from the system environment and other builds to ensure reproducibility. However, `nix-build --impure` bypasses this isolation and uses the current system environment and previous builds as inputs for the new build, potentially leading to non-reproducible results or conflicts between dependencies.
+
+            This option is useful when you need to use specific system packages or configurations during the build process that cannot be easily managed with Nix's package manager. However, it comes with the risk of introducing inconsistencies and unexpected behavior in your builds.
+        include: '[AI] `nix-build` is a command-line tool from Nix Package Manager used to build and manage software packages. The `--include` option is used to specify a list of additional packages that are required as dependencies for the main package being built. These dependencies will be automatically downloaded, built, and installed by `nix-build`. This allows for easy management of complex projects with multiple interdependent components.'
+        inputs-from: '[AI] `nix-build` is a command-line utility provided by Nix Package Manager, which is used to build and manage software packages. The option `--inputs-from <file>` specifies a Nix expression file that lists the input packages required for building the desired package. This flag ensures that those input packages are fetched and prepared before executing the build command, avoiding potential build errors due to missing dependencies.'
+        json: '[AI] `nix build` is a command-line tool from Nix Package Manager used to build and package software. The `--json` option generates a JSON output describing the build process, including input files, outputs, and their attributes such as file paths, sizes, and timestamps. This information can be useful for automation scripts or for analyzing build outcomes in detail.'
+        log-format: |-
+            [AI] `nix build` is a command-line tool from the Nix Package Manager used to build and derive new outputs from configurations in `Nixexpressions`. The `--log-format` option specifies the format of the output generated during the build process. Available formats include "plain", "json" or "progress".
+
+            * "plain": Displays a simple, human-readable log message for each build step. It's suitable for most users who want to follow the progress of their build without needing extensive details.
+            * "json": Generates a JSON formatted log output that can be parsed easily by other programs or scripts.
+            * "progress": Displays a real-time, interactive progress bar while building. This format is useful when you're working with large builds and want to monitor the progress visually.
+        no-link: '[AI] `nix build` is a command-line tool used in the Nix Package Manager to build and package software. The `--no-link` option is passed to this command to prevent linking of libraries during the build process. This means that each component will be built separately, without relying on other components being linked first. It''s useful when dealing with complex builds where you may want to check the build stages of individual components before proceeding further.'
+        no-registries: '[AI] `nix build` is a command in Nix packaging system used to build and derive outputs from a Nix expression or configuration file. The `--no-registries` option disables the use of remote package registries during the build process. In other words, it instructs `nix build` to only use locally available packages, bypassing any external sources like Nixpkgs or custom registries. This can be useful in airgap environments or when working offline.'
+        no-update-lock-file: '[AI] `nix build` is a command in Nix package manager used to build and derive outputs from a specific Nix expression or configuration. The option `--no-update-lock-file` disables the creation of a lock file during the build process. A lock file records the exact versions of packages that will be used for a build, preventing unintended package version updates. By disabling this feature, each build invocation may potentially use different versions of packages. This can lead to inconsistent or unreproducible builds but allows more flexibility in development environments where using the latest package versions is desired.'
+        no-write-lock-file: '[AI] `nix build` is a command in Nix Package Manager for building and installing software from a Nix expression or configuration file. The option `--no-write-lock-file` prevents Nix from creating a lock file during the build process. A lock file is used to ensure that multiple builds of the same configuration do not interfere with each other by preventing concurrent modifications to the project. Using this option can be useful when working on a local development environment where you want to avoid the overhead of managing locks. However, keep in mind that without the lock files, there''s an increased risk of conflicts when multiple builds are run simultaneously.'
+        out-link: '[AI] `nix build --out-link` is a command used in Nix Package Manager to build a specific project and produce an output file that contains links to the built outputs instead of the actual binary files. This can be useful for distributing or sharing the build results without having to transfer large binaries, as the link file only contains references to the original build artifacts stored on the system where `nix build` was run. The linked outputs can be accessed using `nix-store --list-links`.'
+        override-flake: |-
+            [AI] `nix build` is a command in Nix, a package manager for Linux and other Unix systems. The `--override-flake` option is used to override specific aspects of a Nix expression or configuration, called a Flake, that's managed by Nix.
+
+            This flag allows users to modify the input or build inputs of an existing Flake, forcing it to rebuild even if the inputs haven't changed. It can be useful when making local modifications to a project and wanting to force a rebuild to see the changes take effect without having to update the Flake file itself. The new inputs are specified using a JSON object passed as an argument to `--override-flake`.
+        override-input: '[AI] `nix build --override-input` is a command used in Nix, a package manager for Linux and other systems. It allows users to override inputs of a Nix expression during the build process. In other words, it enables users to provide custom inputs (inputs that differ from the default or previously built) when invoking `nix build`. This can be useful when working with custom configurations or dependencies that are not available in the default Nix channels.'
+        print-build-logs: '[AI] `nix build` is a command in Nix Package Manager used to build and install software packages. The `--print-build-logs` option is used to display detailed logs of the build process, including any errors or warnings that may occur. This can be helpful for debugging issues during package builds.'
+        print-out-paths: '[AI] `nix build` is a command in Nix Package Manager used to build and produce outputs from a Nix expression or configuration. The `--print-out-paths` option is used to print the output paths of the build process, indicating where the built artifacts will be stored after the build completes. This can be useful for determining the location of specific outputs or for integrating with other systems or workflows that rely on the location of the produced artifacts.'
+        profile: '[AI] `nix-build` is a command-line tool provided by Nix Package Manager to build and manage software packages. The `--profile` option is used to generate a Nix profile, which is a set of configurations and environment variables that can be used to run a specific application or environment. This profile can then be loaded using the `nix-env` command to make those configurations available in the current shell session or for other applications. In summary, `nix build --profile` builds a Nix package and generates a new profile that can be used to manage the dependencies and configurations of that application.'
+        quiet: '[AI] `nix-build` is a command-line tool from Nix Package Manager used to build and derive new configurations or outputs based on existing Nix expressions or configurations. The `--quiet` flag is an option that reduces the amount of output generated during the build process. By using this flag, only essential information related to the build progress will be displayed, making the output less verbose and more focused on the build status.'
+        rebuild: '[AI] `nix-build` is a command-line tool from Nix Package Manager used for building and managing software packages. The `--rebuild` flag instructs `nix-build` to rebuild the specified package from its source code, ignoring any cached results. This ensures that the latest version of the package is built, even if it has not changed since the last build.'
+        recreate-lock-file: '[AI] `nix build` is a command-line tool from Nix Package Manager used to build and manage projects. The `--recreate-lock-file` option instructs `nix build` to create or update the project''s lock file (Nix expression) containing the exact versions of all packages required for the build, ensuring reproducibility and consistency across different machines.'
+        update-input: '[AI] `nix-build` is a command in Nix Package Manager used to build and manage software packages. The `--update-input` option is used to instruct Nix to update the input files or sources of a specific build expression before rebuilding. By doing so, it ensures that the latest versions of dependencies are fetched and used during the build process, promoting the use of up-to-date components.'
+        verbose: '[AI] `nix build` is a command-line utility provided by Nix Package Manager for building and managing software projects. The `--verbose` option increases the amount of output produced during the build process to provide more detailed information about each step involved, including any error messages or warnings. This can be helpful for debugging issues or gaining insights into the build process.'

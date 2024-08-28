@@ -1,0 +1,114 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: copy-log
+description: copy build logs between Nix stores
+flags:
+    --arg*=: Pass the value expr as the argument name to Nix functions
+    --argstr*=: Pass the string string as the argument name to Nix functions
+    --commit-lock-file: Commit changes to the flake's lock file
+    --debug: Set the logging verbosity level to 'debug'
+    --debugger: Start an interactive environment if evaluation fail
+    --eval-store=: The Nix store to use for evaluations
+    --from=: URL of the source Nix store
+    --impure: Allow access to mutable paths and repositories
+    --inputs-from=: Use the inputs of the specified flake as registry entries
+    --log-format=: Set the format of log output
+    --no-registries: Don't allow lookups in the flake registries
+    --no-update-lock-file: Do not allow any updates to the flake's lock file
+    --no-write-lock-file: Do not write the flake's newly generated lock file
+    --override-flake=: Override the flake registries, redirecting original-ref to resolved-ref
+    --override-input=: Override a specific flake input (e.g. dwarffs/nixpkgs)
+    --quiet: Decrease the logging verbosity level
+    --recreate-lock-file: Recreate the flake's lock file from scratch
+    --to=: URL of the destination Nix store
+    --update-input=: Update a specific flake input (ignoring its previous entry in the lock file
+    -I, --include: Add path to the list of locations used to look up <...> file names
+    -L, --print-build-logs: Print full build logs on standard error
+    -v, --verbose: Increase the logging verbosity level
+documentation:
+    command: '[AI] The `nix store copy-log` command is used in Nix, a package manager for Linux and other Unix systems, to copy the log file of an existing store entry to another location within the Nix store. This can be useful for debugging or backup purposes. The syntax is as follows: `nix store --copy-log old-entry-path new-path`. For instance, `nix store --copy-log /nix/store/abc123-somepackage-1.0.0/log /home/user/logs/somepackage_log.txt`.'
+    flag:
+        arg: '[AI] `nix store copy-log` is a command provided by Nix, a package manager for Linux and other Unix systems. The `--arg` option is used to specify an argument to be passed to the command or script being copied from one Nix store location to another using this command. For instance, `nix store copy-log <src-store-path> --arg myArg=value <dest-store-path>` would copy a log file from source store path with the argument "myArg=value" and paste it into the destination store path. This can be useful for preserving custom configuration options when moving files between Nix environments.'
+        argstr: |-
+            [AI] The `nix store copy-log` is a command used in Nix, a package manager for Linux and other Unix systems. It's specifically designed to copy the log file of a given Nix expression or derivation. The command takes an argument `--argstr` to provide additional arguments as strings.
+
+            For instance, if you have a Nix expression with an identifier `myPackage`, you can generate a log file of its build process by running:
+
+            ```bash
+            nix store copy-log myPackage --argstr '--strict' --argstr '--dry-run'
+            ```
+
+            In this example, the command copies the log file while applying the `--strict` and `--dry-run` arguments. The former makes the command fail if it encounters an error or a warning, and the latter performs a simulated build without actually executing the commands.
+        commit-lock-file: '[AI] The `nix store copy-log --commit-lock-file` command is a utility provided by Nix, a package manager for Linux and other Unix systems. It copies the log files of a specific Nix store entry to a new location while creating a commit lock file to ensure concurrent copying does not occur. The lock file guarantees that only one instance of this operation can run at a time within the same Nix environment, preventing potential conflicts and maintaining the consistency of the package store.'
+        debug: '[AI] The `nix store copy-log --debug` command is a Nix expression used to generate a debug output of the file copying process in the Nix Package Manager. This command creates a log of each file that is being copied, including its source and destination paths, size, and checksum. It provides detailed information for debugging purposes, helping users to identify issues during the installation or building of Nix packages.'
+        debugger: |-
+            [AI] The `nix store copy-log --debugger` command is a Nix expression used to generate debugging information for a specific log file in the Nix store, which is a component of the Nix Package Manager.
+
+            The `copy-log` function is responsible for copying the contents of a log file from one store path to another. In this case, it's being used with the `--debugger` flag to produce extensive debugging information when executing. This data can be helpful in troubleshooting issues related to Nix package installation and configuration.
+
+            In summary, `nix store copy-log --debugger` generates detailed logs during the execution of a specific log file copy operation within the Nix store.
+        eval-store: |-
+            [AI] The `nix store copy-log --eval-store` command is a utility provided by Nix, a package manager for Linux and other Unix systems. This command is used to evaluate and apply specific modifications to the Nix store, which is where Nix stores all its built packages.
+
+            The `copy-log` subcommand copies the log files from one store path to another. The `--eval-store` flag tells Nix to process and apply any recorded store changes in the log files when copying them over. This allows for the application of specific modifications or upgrades to packages without having to rebuild the entire system from scratch.
+
+            In summary, the command `nix store copy-log --eval-store <source_path> <destination_path>` applies any recorded changes in the log files from the source store path to the destination store path, effectively updating or modifying the packages stored there.
+        from: '[AI] The `nix store copy-log --from` command is a utility in Nix, a package manager for Linux and other systems. This command copies the log file of a specific Nix store snapshot (the directory where Nix stores built packages) to the standard output or a specified file. The `--from` option specifies the hash or path of the desired snapshot. The log provides detailed information about the build process, including timestamps and error messages if any errors occurred during the build.'
+        impure: |-
+            [AI] The `nix store copy-log --impure` command is a Nix expression that generates a log of files and directories copied during the creation or updating of a Nix store, which is a central part of the Nix Package Manager's file system layout.
+
+            The `--impure` flag means that the log includes not only files and directories that were newly copied (i.e., files that didn't exist in the previous store version), but also files that were modified or updated during the store creation or update process. In other words, it provides a more detailed and comprehensive log of all files involved.
+
+            The output is typically redirected to a file for further analysis or review. This command can help you understand what files changed between Nix store versions and aid in troubleshooting or tracking down why a specific change occurred.
+        include: '[AI] The `nix store copy-log --include` command is used in Nix, a package manager for Linux and other Unix systems. This command copies the logs of specific builds or store items from the Nix store to the standard output (or a file if specified). The `--include` option takes one or more arguments which are the hashes or paths of the desired items. The logs provide details about the build process, including timestamps, outputs, and errors, allowing for easier debugging and version tracking.'
+        inputs-from: '[AI] The `nix store copy-log` command is a utility provided by Nix, a package manager for Linux and other systems. This command is used to copy the logs of Nix build and installation processes. The option `--inputs-from` allows specifying one or more Nix expressions (or files containing them) as inputs for the build or installation process whose logs are to be copied. This can be useful when wanting to track the provenance of specific builds or installations.'
+        log-format: |-
+            [AI] The `nix store copy-log` command is a utility provided by Nix, a package manager for Linux and other Unix systems. It's used to copy a log file from one location to another within the Nix expression language.
+
+            The `--log-format` option specifies the format of the log file to be copied. Log files generated by Nix come in different formats (like json, text, or bz2), and this option allows you to specify which one you want to copy. For instance, `--log-format="json"` will copy a JSON log file. This helps maintain consistency when dealing with logs across different parts of your system.
+        no-registries: |-
+            [AI] `nix store copy-log` is a command in Nix, a package manager for Linux and other Unix systems. This command is used to copy the log of a build or installation process from one Nix store to another.
+
+            The option `--no-registries` tells Nix not to consult the default registries when resolving the source of the store item being copied. Instead, it uses only the local stores specified in the command. This can be useful if you want to copy an item from one local Nix environment to another without depending on remote registries or the global Nix configuration.
+        no-update-lock-file: |-
+            [AI] The `nix store copy-log` command is a part of Nix, a package manager for Linux and other Unix systems. This specific command is used to copy the log file associated with a particular Nix expression or build output.
+
+            The `--no-update-lock-file` flag is an optional argument that instructs the command not to update the lock file after the copy operation. A lock file ensures that only one instance of a build or installation process can run at a time for a given expression or package. By using this flag, you may choose to keep multiple versions of the log file without worrying about updates interfering with ongoing processes.
+        no-write-lock-file: |-
+            [AI] The `nix store copy-log` command is a utility from Nix, a package manager for Linux and other systems. It's used to record the history of file modifications within the Nix store.
+
+            The `--no-write-lock-file` option instructs the command not to create or use a write lock file while performing the copy-log operation. This means that another instance of `copy-log` can run concurrently without waiting for the first one to finish, which may improve performance in some scenarios where multiple processes need to record changes to the same set of files at the same time.
+
+            In summary, using `nix store copy-log --no-write-lock-file` allows for parallel execution of file change logging without the need to acquire a write lock file.
+        override-flake: |-
+            [AI] The `nix store copy-log --override-flake` command is a Nix expression used to copy a specific log file from one Nix store to another while overriding the flake output.
+
+            The Nix store is a part of the Nix package manager where all installed packages and their dependencies are stored. The `copy-log` function is used to copy logs from one store to another.
+
+            With the `--override-flake` option, you can replace the existing flake output in the destination store with the new log file. This is particularly useful when working with Nix flakes, a feature for managing multiple revisions of a project and their dependencies, allowing you to easily switch between different versions.
+
+            The command does not build or install anything; it only copies the log files. So, it won't have any side effects on your system besides updating the specified log file in the destination store.
+        override-input: |-
+            [AI] The `nix store copy-log --override-input` command is used in Nix, a package manager for Linux and other Unix systems. This command copies the log file of an existing Nix store entry to a new store entry, effectively updating or overriding the previous input with the new one.
+
+            In more detail, `nix store copy-log` is a Nix command that copies the log file of an existing store entry to a new store path. The `--override-input` flag specifies that the new store entry should replace the old one, discarding any differences in their content other than the log file.
+
+            For instance, when you build and install a new version of a package, you may want to keep the previous version for reference or roll back to it later. With `nix store copy-log --override-input`, you can update the store entry by copying over its log file while effectively replacing the old content with the new one.
+        print-build-logs: '[AI] The `nix store copy-log` command with the `--print-build-logs` option is used in Nix, a package manager for Linux and other systems. This command copies a specific log file from the Nix store, which is a centralized repository of software packages and their builds, to the standard output (terminal) instead of a file. The logs contain detailed information about how each package was built, including timestamps, commands executed, and outputs. This can be helpful for debugging build issues or understanding the provenance of installed packages.'
+        quiet: '[AI] The `nix store copy-log --quiet` command is a Nix expression used to generate a quiet log of file copies made by the Nix package manager during system upgrades or builds. The `--quiet` flag suppresses progress messages, making the output consist only of the source and destination paths of the copied files. This can be useful for automated scripts that do not require human intervention and want to minimize output.'
+        recreate-lock-file: '[AI] The `nix store copy-log` command is a utility from the Nix Package Manager. It copies a log file from one store path to another, maintaining the log file''s metadata and ensuring that any locks are properly managed. The `--recreate-lock-file` option instructs the command to create a new lock file at the destination. This can be useful when moving or copying a channel or profile, as it ensures that all lock files are updated accordingly.'
+        to: |-
+            [AI] The `nix store copy-log --to` command is a Nix expression used to copy the log files of a specific store entry (version or build output) from one store path to another. It does not actually move or rename the stores, but only copies the log files.
+
+            Here's a brief overview of its syntax and usage:
+
+            ```bash
+            nix store copy-log --to <source-path> <destination-path> <store-ref>
+            ```
+
+            * `<source-path>`: The path to the source Nix store where the logs are located.
+            * `<destination-path>`: The path to the destination Nix store where you want to copy the logs to.
+            * `<store-ref>`: A reference to the specific store entry (version or build output) whose log files you want to copy.
+
+            This command can be useful when you need to keep a backup of logs or share them with others for debugging purposes.
+        update-input: '[AI] The `nix store copy-log --update-input` command is a utility in the Nix Package Manager system. It updates an existing log file by copying new log entries from an input Nix store path and appending them to the existing file. This command helps maintain a record of Nix build and installation events, allowing for easier tracking and management of software packages within the Nix environment.'
+        verbose: '[AI] The `nix store copy-log --verbose` command is a Nix expression used to view detailed information about file copies made by Nix during package builds or installations. When executed with the `--verbose` flag, it prints out extensive logs that include the source and destination paths of each copied file, the size of the files before and after copying, and timestamps. The output is intended for debugging and troubleshooting purposes to understand the specific actions performed by Nix during its operations.'

@@ -1,0 +1,66 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: woeusb
+description: A Linux program to create a Windows USB stick installer
+flags:
+    --about: Show info about this application
+    --debug: Enable script debugging
+    --no-color: Disable message coloring
+    --target-filesystem=: Specify the filesystem to use as the target
+    --tgt-fs=: Specify the filesystem to use as the target
+    --workaround-bios-boot-flag: Workaround BIOS bug that won't include the device in boot menu
+    -V, --version: Print application version
+    -d, --device: Completely WIPE the entire USB storage device
+    -h, --help: show this help message and exit
+    -l, --label=: Specify label for the newly created file system
+    -p, --partition: Copy Windows files to an existing partition
+    -v, --verbose: Verbose mode
+documentation:
+    command: '[AI] `woeusb` is a cross-platform tool used for creating USB installation media for Windows operating systems. It stands for "Windows Operating System Easy Universal Build". The command line utility allows users to extract ISO files and build customized installation media onto USB drives with minimal effort, supporting various Windows versions including Server editions.'
+    flag:
+        about: '[AI] `woeusb --about` is a command used with the WoeUSB software tool, which stands for Write an ISO to USB. This command displays detailed information about the tool itself, such as its version number, authors, license, and other relevant metadata. It helps users check if they are using the latest or correct version of the software, providing transparency and ensuring compatibility with their specific use case.'
+        debug: '[AI] `woeusb --debug` is a command-line argument used with WoeUSB, a graphical utility for creating USB install media for various operating systems. When this option is included, WoeUSB runs in debug mode. This enables more detailed output and can be useful for troubleshooting or investigating issues during the USB creation process.'
+        device: '[AI] `woeusb --device` is a command used in the WoeUSB software for creating USB bootable media from an ISO file. The `--device` option specifies the target device, which can be a USB drive or other storage media connected to the system. When used, it takes an argument that represents the device path, such as `/dev/sdX`, where X is a letter representing the device. This command writes the ISO contents directly to the specified device and overwrites all data on it, so use with caution.'
+        help: |-
+            [AI] `woeusb` is a command-line utility for creating bootable USB drives. The `--help` option provides a brief summary of its usage:
+
+            ```bash
+            Usage: woeusb [OPTIONS] SOURCE DESTination
+
+            Options:
+              --device DEVICE      Use the given device instead of auto-detecting
+              --drive LETTER       Assign the drive letter to the USB once created
+              --format             Format the USB drive before copying files
+              -h, --help            Show this message and exit.
+              -V, --version         Show program's version number and exit.
+            ```
+
+            The basic usage of `woeusb` is to create a bootable USB from an ISO file using the following command:
+
+            ```bash
+            woeusb [OPTIONS] SOURCE DESTination
+            ```
+
+            Replace `SOURCE` with the path to the source ISO file, and `DESTination` with the target device or drive letter (for example, `/dev/sdc1` or `E:`). Use the `--help` option for detailed information on available options.
+        label: '[AI] `woeusb --label` is a command-line argument used with the WoeUSB tool, which stands for Write an ISO to USB Stick Universal Schneider. This option sets or overwrites the label of the persistent data partition on a USB drive when writing an ISO image to it using WoeUSB. The label appears as the name of the drive in file explorers and other operating systems, making it easier for users to identify the specific drive among multiple connected drives.'
+        no-color: '[AI] The `--no-color` option is a flag used with WoeUSB, a graphical USB creator for Windows. This flag disables the color output of WoeUSB''s console interface. By using this flag, the text displayed in the console will not include any colors or formatting, making the output more suitable for scripts or users who prefer plain text without color.'
+        partition: |-
+            [AI] The `woeusb --partition` command is a utility used in creating and managing USB drives with a specific partition layout, typically for installing or repairing operating systems such as Windows.
+
+            The `--partition` option specifies that the tool will format and create partitions on the USB drive, preparing it for a specific installation image or bootable media. The tool supports various partition schemes like MBR (Master Boot Record) and GPT (GUID Partition Table). It also allows users to specify the size and type of each partition, including FAT32, NTFS, EFI System, and others.
+
+            After creating the partitions, the `woeusb` tool can then copy an installation image or boot files to the USB drive, depending on the user's needs. Overall, this command simplifies the process of creating a customized and functional USB installer or bootable media for various operating systems.
+        target-filesystem: |-
+            [AI] The `--target-filesystem` option in the `woeusb` command is used to specify the filesystem format of the target USB drive or image file. This option allows `woeusb` to correctly write and format the data for the specified filesystem type. Commonly used filesystems include FAT32, NTFS, and exFAT. For example:
+
+            ```bash
+            woeusb --drive-letter Z: --path /path/to/imagefile --target-filesystem ntfs
+            ```
+
+            In this command, `--target-filesystem ntfs` tells `woeusb` to write the image data as an NTFS filesystem on drive Z.
+        tgt-fs: '[AI] `woeusb` is a versatile USB creation tool that can format and write various file systems to USB drives. The option `--tgt-fs` specifies the target filesystem to be written on the USB drive. For instance, if you want to create an EXT4 formatted USB drive using `woeusb`, you would use the command `woeusb --target=D: --format=ext4 --tgt-fs=ext4 your_image.iso`. Here, `your_image.iso` is the input ISO file containing the operating system or data to be written on the USB drive, and `D:` represents the letter of the target USB drive. Therefore, `--tgt-fs=ext4` instructs `woeusb` to format the target USB drive with the EXT4 filesystem.'
+        verbose: '[AI] `woeusb --verbose` is a command-line option for the WoeUSB software tool. This option increases the level of output detail during the USB creation process, providing more information about each step and potential issues that may arise. It can help users troubleshoot and better understand what''s happening behind the scenes during the creation or formatting of a USB drive using this utility.'
+        version: '[AI] `woeusb --version` is a command used with the WoeUSB software, which is a simple utility that helps create USB install media from ISO files. The command is used to display the current version number of the installed WoeUSB application on your system. Running this command in a terminal or command prompt will output the version information as text, allowing you to verify if your installation is up-to-date.'
+        workaround-bios-boot-flag: |-
+            [AI] The `--workaround-bios-boot-flag` option in the `woeusb` tool is a workaround to bypass certain UEFI firmware settings that prevent bootable USB drives from being recognized. These firmware settings are sometimes implemented as a security measure to restrict booting from external media, but they can also cause issues when attempting to create a bootable USB drive using tools like `woeusb`.
+
+            By using the `--workaround-bios-boot-flag` option, `woeusb` sets specific bit flags in the USB drive's partition table that help bypass these UEFI firmware restrictions and enable successful booting from the USB drive. However, it is important to note that disabling such security measures can potentially introduce risks, so using this workaround should be done with caution and at your own risk.

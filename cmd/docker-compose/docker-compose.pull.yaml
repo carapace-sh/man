@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: pull [OPTIONS] [SERVICE...]
+description: Pull service images
+flags:
+    --ignore-buildable: Ignore images that can be built.
+    --ignore-pull-failures: Pull what it can and ignores images with pull failures.
+    --include-deps: Also pull services declared as dependencies.
+    --no-parallel&: DEPRECATED disable parallel pulling.
+    --parallel&: DEPRECATED pull multiple images in parallel.
+    --policy=: Apply pull policy ("missing"|"always").
+    -q, --quiet: Pull without printing progress information.
+documentation:
+    command: '[AI] `docker-compose pull` is a command used with Docker Compose files to update the specified services by pulling the latest images for each service from the configured registries mentioned in the `docker-compose.yml` file. It checks the `image:` field and pulls the corresponding image if it does not exist locally or if there is a newer version available.'
+    flag:
+        ignore-buildable: |-
+            [AI] `docker-compose pull --ignore-buildable` is a command used with Docker Compose to update the services defined in a docker-compose.yml file by pulling the latest images for specified services from their official registries, ignoring any images marked as buildable in the process.
+
+            Buildable images are those that have a `Dockerfile` associated with them, meaning that Docker Compose would attempt to build an image locally instead of pulling an existing one when running `docker-compose up`. The `--ignore-buildable` flag bypasses this behavior, ensuring that only the latest prebuilt images are downloaded and used.
+        ignore-pull-failures: '[AI] `docker-compose pull --ignore-pull-failures` is a command used in Docker Compose to update the containers defined in a docker-compose.yml file with their corresponding images from a registry. The `--ignore-pull-failures` flag tells Docker Compose to continue pulling other images even if an image fails to pull due to network issues or unauthorized access. This can be useful when dealing with large projects where some images may take longer to download, or when the network connection is not stable, as it allows the process to continue without being halted by a single failure. However, this flag should be used with caution as it can result in using outdated or unauthorized images if an image fails to pull permanently.'
+        include-deps: '[AI] `docker-compose pull --include-deps` is a command used with Docker Compose files to update and download the latest versions of images specified in the Compose file, as well as their dependencies. The `--include-deps` flag ensures that not only the images for the services defined directly in the Compose file are pulled, but also those needed by those images as dependencies. This helps keep your environment up-to-date and consistent with the specified Compose configuration.'
+        no-parallel: '[AI] `docker-compose pull --no-parallel` is a command used with Docker Compose to update the specified services by pulling the latest images for each service, but it does so one at a time instead of in parallel as the default behavior. This option can be useful when working on a slow network or when resource limitations do not allow multiple image pulls to occur simultaneously without negatively impacting other processes.'
+        parallel: '[AI] `docker-compose pull --parallel` is a command used with Docker Compose to fetch the latest images for services defined in a `docker-compose.yml` file. The `--parallel` option enables parallel downloads of multiple images, which can significantly reduce the time required to update an application when new image versions are available. This command pulls the images from the default registries or those specified in the Compose file and stores them locally for use by Docker.'
+        policy: |-
+            [AI] The `docker-compose pull --policy` command is used to update the Docker images defined in a `docker-compose.yml` file. The `--policy` option specifies the image updating strategy. By default, Docker Compose uses the "always" policy which pulls new images even if an identical one already exists on the local system. Other available policies include:
+
+            * `never`: Images are never pulled, even if they do not exist locally or have a newer version.
+            * `if-not-present`: Images are only pulled if they do not exist locally at all. If an image with the same name and tag already exists, Docker Compose does not pull it again.
+            * `on-failures`: Images are pulled when a build or rebuild fails and are unable to be used.
+
+            Using `docker-compose pull --policy never` will prevent new images from being downloaded even if there is an update available. This can help in scenarios where you want to control when updates occur, for instance, during continuous integration or testing environments.
+        quiet: '[AI] `docker-compose pull --quiet` is a command used with Docker Compose to pull the latest images for all services defined in a `docker-compose.yml` file, without displaying any output or progress indicators. The `--quiet` option suppresses the standard output of the command. This can be useful when running automated tasks or scripts where you don''t need to see the detailed pulling process for each service.'

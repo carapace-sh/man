@@ -1,0 +1,61 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: cut
+description: remove sections from each line of files
+flags:
+    --complement: complement the set of selected bytes, characters
+    --help: display this help and exit
+    --output-delimiter=: use STRING as the output delimiter
+    --version: output version information and exit
+    -M: from first to M'th (included) byte, character or field
+    -b, --bytes=: select only these bytes
+    -c, --characters=: select only these characters
+    -d, --delimiter=: use DELIM instead of TAB for field delimiter
+    -f, --fields=: select only these fields;  also print any line
+    -n: (ignored)
+    -s, --only-delimited: do not print lines not containing delimiters
+    -z, --zero-terminated: line delimiter is NUL, not newline
+documentation:
+    command: '[AI] `cut` is a command-line utility in Unix and Unix-like operating systems used to manipulate and extract sections from text files or standard input. It reads lines, one at a time, and for each line cuts out the specified fields using delimiters like tab or comma by default. Syntax: `cut [OPTION]... [-d [DELIM]] FILE1 [FILE2 ...]` where `[OPTION]` sets various behaviors, `[DELIM]` is the delimiter to use for field separation, and `FILE*` are the files or inputs to operate on. Common usages include extracting specific columns from CSV files or removing unwanted sections (fields) from text data.'
+    flag:
+        M: '[AI] The `cut` command in Unix is used to select and print specific columns from text files. The option `-f` specifies which columns to select, followed by a list of column indices or ranges. The option `-M` activates the magical records feature, where blank lines are treated as separate records. If no columns are specified with `-f`, all delimited fields on each line will be printed. For example, `cut -d '','' -f 1,3 file.csv` would print the first and third columns from each record in a comma-delimited file, while `cut -d ''\n'' -f - file.txt` would print all lines that contain a given character, treating newline characters as separate records.'
+        bytes: |-
+            [AI] The `cut` command in Unix-based operating systems is used to select and extract specific columns or bytes from text files. The `--bytes` option is one of its arguments that allows specifying byte ranges instead of column indices, to extract specified bytes instead of columns.
+
+            For example, `cut -b 1-3 filename.txt` will output the first three bytes of the file, while `cut -b 5-10 filename.txt` will output bytes 5 through 10. Multiple byte ranges can be provided by separating them with a hyphen or a comma.
+        characters: '[AI] The `cut` command in Unix is used to select and print specific columns from a text file or standard input stream. The `--characters` option specifies that only the specified characters (rather than whole fields) should be printed for each selected column. For example, `cut -c 1-3 filename` would output the first three characters of each line in the given file.'
+        complement: '[AI] The `cut` command in Unix is used to select and print specific columns or fields from a given input, such as a file or output of another command. The `--complement` option inversionally selects all columns or fields that do not match the given delimiter or expression. For instance, if we have a tab-separated file and use `cut --delimiter=''\t'' --complement -f1`, it will print all columns except for the first one.'
+        delimiter: '[AI] The `cut` command in Unix is used to manipulate and extract sections from various types of data files, such as delimited text files or tab-separated values (TSV). The `--delimiter` option specifies the character used as a separator for delimited files. For example, `cut --delimiter='','' file.csv` will treat each comma as a separator and extract specific columns based on the other options provided with the command.'
+        fields: '[AI] `cut` is a command-line utility in Unix and Unix-like operating systems for manipulating text files by removing sections from each line based on fields or bytes. The `--fields` option specifies that the following arguments are field numbers, indicating which columns to print. For example, `cut --fields=1,3 file.txt` will output the first and third columns of `file.txt`. By default, `cut` separates fields using whitespace, but you can change this with other options such as `--delimiter=tab` for tab-separated files.'
+        help: |-
+            [AI] The `cut` command in Unix-based operating systems is used to select and extract specific columns from text files or other input streams. The `--help` option is a command-line argument that provides detailed information about how to use the `cut` command. When you type `cut --help`, the output will display various options, their meanings, and usage examples for using the `cut` command effectively. For instance:
+
+            ```bash
+            cut [OPTION]... [FILE]...
+
+            Cut out columns that match a delimiter or regular expression from each line in FILE(S).
+
+            Options:
+              -d DELIM Delimiters (by default any white space).
+              --bytes=N Treat N as bytes instead of fields.
+              -f N[,M]... Extract fields N through M.
+                  --omit-empty-fields Do not print empty output fields.
+                  --output=FILE(S) Write output to FILE(S), rather than stdout.
+              --quoted-output Quote columns containing delimiters with the character specified by IFS.
+              -s, --only-logging Don't read or output data; only print the headers.
+                  --complement Invert the sense of the output: select lines where output is not present.
+              --help Display this help message and exit.
+            ```
+        "n": '[AI] The `cut` command in Unix-based systems is used to select and extract sections from text files or standard input. The `-n` option is used with `cut` to specify that only columns, not entire lines, should be output. It takes an additional argument specifying the number of the column(s) to be extracted. For example, `cut -f 3 file.txt` would print the third column of each line in "file.txt", while `cut -n 5- file.txt` would print columns 5 through the end of each line.'
+        only-delimited: '[AI] The `cut` command in Unix is used to select and print parts of lines based on delimiters (such as tab, space, or newline characters). The option `--only-delimited` instructs `cut` to only print the parts of a line that are delimited by the specified delimiter(s), discarding any other parts. This can be useful for processing data in specific columns or fields.'
+        output-delimiter: '[AI] The `cut` command in Unix/Linux is used to manipulate and extract sections from various types of data files, specifically delimited text files. The `--output-delimiter` option is an argument that specifies a custom delimiter character (other than the default tab or newline) for outputting the selected fields. For example, `cut --delimiter='','' --fields=1,3 file.csv` would extract and print columns 1 and 3 from the CSV file "file.csv", with commas as field delimiters in the output.'
+        version: |-
+            [AI] The `cut` command is a utility in Unix-like operating systems used to select and extract sections from various types of data files such as tabular data. The `--version` option is used to display the version information of the `cut` command, including its name, version number, and compilation information. For example, running `cut --version` in a terminal would output something like:
+
+            ```bash
+            cut from GNU CoreUtils 8.27
+            Copyright (c) 2014 Free Software Foundation, Inc.
+            This is free software; see the source for copying conditions. There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+            ```
+
+            This output shows that the `cut` command being used is part of the GNU CoreUtils package, its version number is 8.27, and it was compiled with no explicit warranty.
+        zero-terminated: '[AI] The `cut` command with the option `--zero-terminated` is used to extract specific columns from a file where each line is terminated by a null character instead of a newline character by default. This is particularly useful when working with binary data or fixed-width fields, as it ensures that the extracted columns are correctly separated and do not contain any trailing white space or other characters from the original line.'

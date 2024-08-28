@@ -1,0 +1,63 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: set-config
+description: Modify the current Connect CA configuration
+flags:
+    --ca-file=: Path to a CA file to use for TLS when communicating with Consul.
+    --ca-path=: Path to a directory of CA certificates to use for TLS when communicating with Consul.
+    --client-cert=: Path to a client cert file to use for TLS when 'verify_incoming' is enabled.
+    --client-key=: Path to a client key file to use for TLS when 'verify_incoming' is enabled.
+    --config-file=: The path to the config file to use.
+    --datacenter=: Name of the datacenter to query.
+    --force-without-cross-signing: Indicates that the CA reconfiguration should go ahead even if the current CA is unable to cross sign certificates.
+    --http-addr=: The `address` and port of the Consul HTTP agent.
+    --stale: Permit any Consul server (non-leader) to respond to this request.
+    --tls-server-name=: The server name to use as the SNI host when connecting via TLS.
+    --token-file=: File containing the ACL token to use in the request.
+    --token=: ACL token to use in the request.
+documentation:
+    command: '[AI] `consul connect ca set-config` is a command used in Hashicorp Consul Connect, which is part of the Consul ecosystem. This command is used to configure Certificate Authority (CA) settings for the CA plugin in Consul Connect. The configuration can include details such as the private key and certificate files for the CA, renewal periods for certificates issued by the CA, and other options related to TLS certificates management. By updating the CA configuration with this command, you ensure secure communication between services connected through Consul Connect.'
+    flag:
+        ca-file: '[AI] `consul connect ca set-config --ca-file` is a command used in Hashicorp Consul Connect to configure the Certificate Authority (CA) file for the TLS certificates managed by the service. The `--ca-file` flag specifies the path to the CA file, which is used to sign and issue new certificates upon request from clients joining the Consul Connect network. This command helps ensure secure communication between services in a Consul Connect mesh by managing and issuing trusted certificates.'
+        ca-path: '[AI] `consul connect ca set-config --ca-path` is a command used in Hashicorp Consul Connect, a service mesh solution that manages and secures communication between services. The `--ca-path` option specifies the location of the CA (Certificate Authority) certificates to be used for mutual TLS (Transport Layer Security) authentication between services. In other words, it allows you to configure Consul Connect to use specific CA certificates when establishing secure communications between your microservices in a service mesh environment.'
+        client-cert: |-
+            [AI] The `consul connect ca set-config --client-cert` command is used in the Consul service mesh to configure the certificate for a client that will communicate with the Connect service.
+
+            Consul Connect is a service mesh solution from Hashicorp, which provides features such as service discovery, load balancing, and security using certificates. The `--client-cert` flag specifies the path to the client's SSL/TLS certificate file. This certificate will be used to authenticate the client when it communicates with Connect.
+
+            The `set-config` command is used to update the configuration of a Consul service or client, such as updating its certificates. By using this command with the `--client-cert` flag, you can configure the certificate for a specific client in the Consul service mesh. This helps ensure secure communication between services and clients within the mesh.
+        client-key: |-
+            [AI] The `consul connect ca set-config` command is used in Consul Connect, a service mesh solution provided by Hashicorp's Consul platform. This command is responsible for managing the Certificate Authority (CA) configuration related to client certificates.
+
+            The specific flag `--client-key` refers to the location or contents of a private key file associated with a client in the service mesh. When using this flag, you are providing the CA with the client's private key, allowing it to issue a corresponding certificate. This certificate can then be used by the client to authenticate and securely communicate with other services within the Consul Connect service mesh.
+        config-file: |-
+            [AI] The `consul connect ca set-config` command is a part of Hashicorp's Consul Connect, which is used for securing service-to-service communication and encryption in the Consul service discovery platform. This specific command is responsible for managing Certificate Authority (CA) configurations.
+
+            The `--config-file` option is used to specify a file from where the new CA configuration should be read. The contents of this file are expected to follow the HCL (Hashicorp Configuration Language) format and define the details of the new or updated CA, such as its name, key, and certificate.
+
+            When executed, this command reads the provided configuration file, updates the Consul Connect CA configuration accordingly, and restarts the Certificate Authority to apply the changes. This can be useful in managing multiple CAs within a Consul cluster, or when making updates to existing CAs.
+        datacenter: |-
+            [AI] The `consul connect ca set-config --datacenter` command is used with Hashicorp's Consul Connect, a service mesh solution built on top of Consul. This command sets configuration for the Certificate Authority (CA) component in Consul Connect, specifically related to the datacenter.
+
+            Consul Connect uses TLS certificates for secure communication between its components, and the CA is responsible for issuing these certificates. By using `--datacenter`, you specify which datacenter this particular CA will serve, enabling service discovery and connectivity only within that datacenter. This is useful in multi-datacenter setups where you want to maintain isolation between datacenters while allowing communication within each one.
+        force-without-cross-signing: |-
+            [AI] `consul connect ca` is a tool provided by Hashicorp Consul for managing Certificate Authorities (CAs) in a Consul service mesh. The command `set-config --force-without-cross-signing` is used to update the CA configuration without enforcing cross-signing.
+
+            Cross-signing is a security feature that ensures the chain of trust between different certificates is maintained. It involves signing each certificate with multiple CAs, creating a chain of trust from one root CA to all other CAs and services in the mesh.
+
+            The `--force-without-cross-signing` flag disables this requirement for updating the CA configuration. This might be used when you need to make an urgent change to your CA configuration without following the standard cross-signing workflow, but it reduces the security posture of your service mesh as it bypasses the validation process for new certificates.
+
+            Use this command with caution and only when necessary, as it weakens the overall security of your Consul service mesh.
+        http-addr: |-
+            [AI] `consul connect ca set-config --http-addr` is a command used with Hashicorp's Consul service, specifically within the Connect component. This command sets the HTTP address configuration for Consul Connect.
+
+            The `--http-addr` flag specifies the IP address and port number that Consul Connect listens on for HTTP requests. This information is essential as it allows other services or clients to communicate with Consul Connect through this endpoint. The format for the flag value is usually `<IP_ADDRESS>:<PORT_NUMBER>`, for example: `127.0.0.1:8500`.
+        stale: '[AI] `consul connect ca set-config --stale` is a command used in Hashicorp Consul Connect to update the Certificate Authority (CA) configuration with a new CA certificate, while bypassing the normal checks for revoking previously issued certificates that have not yet expired. The `--stale` flag allows the operation to be performed even if it would normally be blocked due to existing valid certificates. This can be useful in certain situations where you need to quickly add a new CA certificate without waiting for all existing certificates to expire first. However, it''s important to note that using `--stale` may pose a security risk if the new CA certificate introduces any vulnerabilities or compromises the existing certificates. Always use this command with caution and ensure you fully understand its implications before executing it.'
+        tls-server-name: |-
+            [AI] `consul connect ca set-config --tls-server-name` is a command used with Hashicorp's Consul Connect, which manages secure communication between services. This specific command configures the TLS server name for Certificate Authority (CA) certificates. The CA certificates are essential for establishing secure communications between services using Consul Connect's built-in service discovery and mutual TLS authentication.
+
+            In simple terms, `--tls-server-name` is an option that allows you to specify a particular hostname or FQDN (Fully Qualified Domain Name) for the CA certificates during their generation or update process. This name will be used as the "Common Name" in the generated CA and client certificates, allowing secure communication between services with trusted identities based on these names.
+        token: |-
+            [AI] `consul connect ca set-config --token` is a command used in Hashicorp Consul, a connectivity and service discovery tool. This command sets configuration for the CA (Certificate Authority) used by Consul Connect for TLS certificate management.
+
+            The `--token` argument specifies the token used to authenticate with the Consul API server. With this command, you can update or configure the CA's certificate and key, which are essential components of secure communication within your Consul Connect service mesh.
+        token-file: '[AI] The `consul connect ca set-config --token-file` command is used with Hashicorp''s Consul Connect to manage CA (Certificate Authority) configuration. This command sets up the CA configuration using a token file that contains an access token, allowing secure communication between services in a Consul Connect service mesh. The flag `--token-file` specifies the path to this token file, enabling the configuration update through the Consul API.'

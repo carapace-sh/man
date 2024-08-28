@@ -1,0 +1,84 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: sign
+description: sign store paths
+flags:
+    --arg*=: Pass the value expr as the argument name to Nix functions
+    --argstr*=: Pass the string string as the argument name to Nix functions
+    --commit-lock-file: Commit changes to the flake's lock file
+    --debug: Set the logging verbosity level to 'debug'
+    --debugger: Start an interactive environment if evaluation fail
+    --eval-store=: The Nix store to use for evaluations
+    --impure: Allow access to mutable paths and repositories
+    --inputs-from=: Use the inputs of the specified flake as registry entries
+    --log-format=: Set the format of log output
+    --no-registries: Don't allow lookups in the flake registries
+    --no-update-lock-file: Do not allow any updates to the flake's lock file
+    --no-write-lock-file: Do not write the flake's newly generated lock file
+    --override-flake=: Override the flake registries, redirecting original-ref to resolved-ref
+    --override-input=: Override a specific flake input (e.g. dwarffs/nixpkgs)
+    --quiet: Decrease the logging verbosity level
+    --recreate-lock-file: Recreate the flake's lock file from scratch
+    --update-input=: Update a specific flake input (ignoring its previous entry in the lock file
+    -I, --include: Add path to the list of locations used to look up <...> file names
+    -L, --print-build-logs: Print full build logs on standard error
+    -k, --key-file: File containing the secret signing key
+    -v, --verbose: Increase the logging verbosity level
+documentation:
+    command: '[AI] `nix store --sign` is a command used in Nix packaging system for creating GPG-signed Nix expressions or stores. It signs the content of a Nix expression file or an existing Nix store directory using a specified GPG key. This adds authentication and verification to the distributed packages, ensuring their integrity during transfer and installation. The signed data can then be shared or published to other Nix users for trustful package management.'
+    flag:
+        arg: |-
+            [AI] The `nix store --sign` command is a part of Nix Pakages Manager, which is used to sign artifacts stored in a Nix Store. The `--arg` option is not a standard flag for this command but seems like you might be missing some context or intending to use it with another command or argument.
+
+            When using the `nix store --sign` command, you usually provide the path to the store item that needs signing as an argument: `nix store --sign /path/to/store/item`. The `--arg` option is not documented in the official Nixpkgs manual and its usage might depend on specific use cases or custom scripts. If you meant to pass an additional argument to a specific command, please provide more context or check the command's documentation for more information.
+        argstr: '[AI] The `--argstr` flag is an argument passed to a command in Nix, a package manager for Linux and other Unix systems. It allows providing custom arguments as a list or a map to the command being invoked, which can be later accessed within the command''s script using the `$NIX_CONF_ARGV` variable. This flag is useful when configuring commands with complex options or when Nix does not provide built-in support for specific configurations.'
+        commit-lock-file: '[AI] The `--commit-lock-file` flag in Nix, a package manager for Linux and other Unix systems, instructs Nix to create a commit lock file when performing a commit operation. This ensures that only one build or installation process can modify the affected Nix expression at a time, preventing conflicts. When using multiple build or configuration machines, this flag helps maintain a consistent state of the system by enforcing concurrent access control.'
+        debug: '[AI] `nix-store --debug` is a command provided by Nix, a package manager for Linux and other Unix systems. This command displays detailed debug information about the Nix store, which is a data directory where Nix stores built packages and their derivations. The flag "--debug" enhances the output with more verbose and low-level details, useful for advanced users or when troubleshooting issues.'
+        debugger: '[AI] The `nix-store --debugger` command is a diagnostic tool provided by Nix, a package manager for Linux and other Unix systems. It allows users to inspect the contents of the Nix store, which is a large, read-only filesystem hierarchy where all Nix packages are installed. By invoking this command with the `--debugger` flag, users can access advanced debugging features such as examining the manifest files that describe each package''s contents and dependencies or exploring the graph of related store items. This tool can be useful in troubleshooting complex Nix setup issues or gaining a deeper understanding of how Nix manages its packages.'
+        eval-store: |-
+            [AI] `nix store --eval-store` is a command used in Nix, a package manager for Linux and other Unix systems. This command evaluates and creates or updates an entry in the Nix store, which is a central repository of software packages managed by Nix.
+
+            When you run `nix store --eval-source <path-to-your-package>`, it builds and prepaes your package for distribution, then evaluates and adds it to the Nix store with a unique store path. The resulting store path is printed to standard output, allowing easy reference for other commands that use the Nix store, such as `nix-env` or system configuration management tools like NixOS.
+        impure: '[AI] The `--impure` flag in the Nix expression language is used when defining a derivation that produces impure outputs, meaning the output files may depend on the build environment or user inputs outside of the source code being built. This flag informs Nix build system about this deviation from the pure functional programming paradigm, allowing it to handle such cases correctly during the build process. It''s important to note that using impure derivations should be avoided when possible, as pure derivations offer better reproducibility and consistency across different systems.'
+        include: |-
+            [AI] The `nix-store --include` command is a part of Nix, a package manager for Linux and other Unix systems. This command is used to include specific files or directories from external sources into the Nix store, which is the central repository where all Nix packages are built and stored.
+
+            The basic syntax of the command is: `nix-store --include <path> [--link|--symlink] [<destination>]`
+
+            Here's a brief explanation of each argument:
+
+            * `<path>`: The path to the file or directory that you want to include in the Nix store.
+            * `[--link|--symlink]`: An optional flag indicating whether you want to create a hard link or a symbolic link instead of copying the file or directory into the Nix store.
+            * `<destination>`: An optional argument specifying the destination path within the Nix store where the linked or copied file/directory will be placed. If not provided, it defaults to the same name and location as in the original source.
+
+            So, for example, if you have a custom configuration file that is not included in any Nix package, but you want to use it with a Nix-managed application, you can include it in the Nix store using the `nix-store --include` command. This way, Nix will be able to find and use the file during the build or execution of your application.
+        inputs-from: '[AI] The `nix store` command is a part of Nix, a package manager for Linux and other systems. The `--inputs-from` option specifies that the output of a build or installation should depend on specific inputs, i.e., outputs from other builds or installations in the Nix store. This is useful when creating derivative packages or managing complex dependencies. The flag helps ensure reproducibility by ensuring that the same inputs lead to the same output.'
+        key-file: '[AI] The `nix-store` is a part of Nix, a powerful package manager for Linux and other Unix systems. The `--key-file` option is used with the `nix-store sign` command to digitally sign a file or a set of files in the Nix store. This adds an extra layer of security by verifying the authenticity and integrity of the software packages installed using Nix. By specifying a private key file, `--key-file <path>`, the user can authenticate themselves and sign the files, ensuring that only trusted and verified content is installed on their system.'
+        log-format: |-
+            [AI] The `--log-format` option in Nix's `store --log-format` command is used to specify the format of the logs generated when running Nix commands. The available log formats include:
+
+            1. plain: Displays logs in a simple text format.
+            2. json: Generates logs in JSON format for easier parsing and processing by scripts or other tools.
+            3. short: Outputs only the command executed, its status (success/failure), and any error messages.
+            4. oneline: Provides a single line of output showing the command, its status, and any error messages if applicable.
+
+            By default, Nix uses the plain format. To change the log format while executing a command, use the `--log-format` option followed by the desired format name. For example, `nix-build --log-format json` generates JSON logs.
+        no-registries: '[AI] The `nix store` command in Nix is used to build and store software packages. The option `--no-registries` tells the command not to search for or download any packages from remote repositories (also called "registries"). This means that only locally available packages will be used in the build process. This can be useful in offline environments or when working with trusted local package collections.'
+        no-update-lock-file: '[AI] The `nix store` command is a part of Nix, a package manager for Linux and other Unix systems. The `--no-update-lock-file` option is used to prevent the creation of a lock file when performing an operation such as `fetch`, `build`, or `install`. A lock file ensures that only one instance of a build or installation process can run at a time, preventing race conditions. However, in some cases, disabling this feature might be desirable for parallel builds or other specific use cases.'
+        no-write-lock-file: |-
+            [AI] The `nix store` command is a part of Nix, a package manager for Linux and other Unix systems. The `--no-write-lock-file` option is used to prevent the creation of a write lock file when performing an operation.
+
+            When you run a Nix command that involves modifying files or directories, by default it will create a write lock file to ensure that only one process can modify those files at a time. This helps prevent data corruption and conflicts between concurrent modifications.
+
+            However, if you want to run a command without creating this lock file, you can use the `--no-write-lock-file` option. This might lead to data inconsistencies or conflicts if multiple processes try to modify the same files at the same time, so it should be used with caution and only when you're certain that no other processes will be modifying those files concurrently.
+        override-flake: '[AI] The `nix store --override-flake` command is used in Nix, a package manager for Linux and other systems. It allows forcing the installation or update of a specific version of a Nix Flake, which is a composable and reproducible build system based on Nix expressions. By using the `--override-flake` option, users can override the default behavior of Nix and install or upgrade to a particular revision or commit hash of a Flake instead of the latest available version. This can be useful when testing or working with specific versions of software packages.'
+        override-input: |-
+            [AI] The `nix-store` command in Nix, a package manager for Linux and other Unix systems, is used to manage the Nix store, which is a special directory tree where Nix stores all its built packages.
+
+            The option `--override-input` modifies the build process of a specific package by allowing the user to specify an alternative input (source file or dependency) instead of using the one specified in the original recipe. This can be useful when dealing with custom modifications, outdated dependencies, or when needing to build a package against different versions or configurations.
+
+            The usage syntax is as follows: `nix-store --override-input <path-to-recipe> <new-input-path>`. Replace `<path-to-recipe>` with the path to the Nix recipe file, and `<new-input-path>` with the new input's location. This command creates or updates a new store link for the given package with the specified override input.
+        print-build-logs: '[AI] `nix store --print-build-logs` is a command provided by Nix, a package manager for Linux and other systems. This command prints the build logs of a specific Nix expression or store path. In simpler terms, it displays the output and error messages generated during the construction or build process of a Nix package. It helps in debugging issues related to package builds, tracking the progress of builds, and understanding the steps involved in building a Nix package from source.'
+        quiet: '[AI] The `nix-store sign --quiet` command is a Nix expression that generates a digital signature for a file or a set of files in the Nix store, which is a component of the Nix Package Manager. The `--quiet` option is used to suppress informational messages during the signing process. This means that the command will only output the result of the signing operation (success or failure) without displaying any progress messages or other details.'
+        recreate-lock-file: '[AI] The `nix store` command with the `--recreate-lock-file` option is used to recreate a lock file in the Nix expression language''s output directory. A lock file ensures that multiple processes do not modify the same file concurrently, preventing conflicts or inconsistencies. When this option is given, the existing lock file will be deleted and a new one will be created, ensuring that any subsequent builds or installations use the latest version of the locked file.'
+        update-input: '[AI] The `nix-store` command with the `--update-input` flag is used in Nix, a package manager for Linux and other Unix systems. This command updates the input files of an existing Nix expression or derivation without rebuilding the entire dependency tree. It''s particularly useful when you want to fetch new versions of specific packages while keeping your current system configuration intact.'
+        verbose: '[AI] The `nix store --verbose flag` is used with Nix Pakages Manager to provide more detailed output during various operations such as build, install, or update. With this flag enabled, Nix will print out extensive information about the progress of each task, including the input and output paths, the commands being run, and any errors that occur. This can be helpful for troubleshooting issues with package builds or for gaining a deeper understanding of how Nix manages packages.'

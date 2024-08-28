@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: rm [OPTIONS] CONTAINER [CONTAINER...]
+aliases:
+    - remove
+description: Remove one or more containers
+flags:
+    -f, --force: Force the removal of a running container (uses SIGKILL)
+    -l, --link: Remove the specified link
+    -v, --volumes: Remove anonymous volumes associated with the container
+documentation:
+    command: '[AI] The `docker container rm` command is used to remove one or more containers in Docker. It takes the container ID or name as an argument and sends a SIGKILL signal by default, immediately stopping and deleting the container. If you want to delete a container gracefully, use the `--volumes` flag to preserve data in linked volumes, or the `--force` flag without `--volumes` to remove containers and their associated volumes forcefully.'
+    flag:
+        force: '[AI] The `docker container rm --force` command is used to forcibly remove a Docker container despite having one or more running processes inside. The `--force` option overrides the default behavior that prevents container removal if it has any associated running processes. With this command, all the changes made in the container will be lost unless they are saved as images before removal. It is important to use this command with caution to avoid losing unsaved data or work in progress.'
+        link: |-
+            [AI] The `docker container rm --link` command is used to remove a Docker container along with its associated linked containers. When you create a container using the `--link` option, Docker automatically creates and starts one or more linked containers that are connected to the primary container through named pipes. These linked containers provide specific services or dependencies to the primary container.
+
+            The `docker container rm --link <container_name>` command will remove the specified container and its linked containers as well, making sure that all dependent containers are also removed if they're not being used elsewhere in your Docker environment. This can be useful when you want to clean up unused resources or when you need to tear down a multi-container application.
+        volumes: |-
+            [AI] The `docker container rm --volumes` command is used to remove a Docker container along with its associated volumes. When you create and run containers, they may use Docker volumes to persist data. If you want to delete the container but keep the data, you would typically detach the container and then remove it without the `--volumes` flag.
+
+            However, if you want to remove both the container and its associated volumes, you can use this command. It sends the `SIGKILL` signal to the container process, then removes the container and deletes any volumes that were created for that container. Be aware that using this command will permanently delete the data stored in those volumes.

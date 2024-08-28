@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: inspect [OPTIONS] IMAGE [IMAGE...]
+description: Display detailed information on one or more images
+flags:
+    -f, --format=: 'Format output using a custom template:'
+documentation:
+    command: '[AI] `docker image inspect` is a Docker command used to retrieve detailed information about a specific image, including its configuration such as container runtime, base image, size, and built layers. This command provides a more in-depth view of an image compared to just listing the images with `docker images`. The output can be customized using various options like `--format` or `json` to display specific details.'
+    flag:
+        format: |-
+            [AI] `docker image inspect --format` is a command used in Docker to retrieve specific information from a Docker image in a custom format. The `--format` option allows specifying a custom template for the output of the `inspect` command, using Go's text templating syntax. This can be useful for extracting specific data points or creating structured outputs that can be easily consumed by other scripts or tools. For example:
+
+            ```bash
+            $ docker image inspect --format '{{ .Config.Image: .Id }}' myimage:latest
+            myimage:latest
+
+            $ docker image inspect --format '{{ range $key, $value := .Config.Env }} {{ $key}}={{ $value}} {{ end }}' myimage:latest | grep -i "environment"
+            environment=SOME_VAR=some_value
+            ```

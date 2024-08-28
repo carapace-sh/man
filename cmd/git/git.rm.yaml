@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: rm
+description: Remove files from the working tree and from the index
+group: main
+flags:
+    --cached: only remove from the index
+    --ignore-unmatch: exit with a zero status even if nothing matched
+    --pathspec-file-nul: pathspec elements are separated with NUL character
+    --pathspec-from-file=: read pathspec from file
+    -f, --force: override the up-to-date check
+    -n, --dry-run: dry run
+    -q, --quiet: do not list removed files
+    -r: allow recursive removal
+documentation:
+    command: |-
+        [AI] `git rm` is a Git command used to remove files or directories from your local repository. It has two modes of operation:
+
+        1. **Removing untracked files:** By providing one or more file paths after the command, you can remove untracked files from your working directory and Git index.
+        2. **Removing tracked files:** If you provide a commit message after the `--cached` flag followed by the file path(s), you can remove a file from the Git staging area without deleting it from your working directory or local repository, keeping its history intact.
+
+        Overall, this command helps manage your Git repository by removing unwanted files from different stages of your version control system.
+    flag:
+        cached: '[AI] `git rm --cached` is a Git command used to remove files from the index, also known as the staging area. This means that the changes made to those files in the working directory will not be included in the next commit. If you want to permanently delete the file from your local repository, use `git rm --cached <file>` followed by `git commit -m "message" .git/hooks/rm_cache`. Be cautious as this command will remove the file from the index only and not your working directory or local filesystem.'
+        dry-run: '[AI] `git rm --dry-run` is a Git command used to perform a simulation or preview of removing files or directories from your Git repository before actually executing the removal. The `--dry-run` option causes Git to show what would be removed without making any permanent changes. This can help prevent accidental deletions and ensure that you are making the intended modifications.'
+        force: '[AI] `git rm --force` is a Git command used to permanently remove a file or a directory from the local repository and the staging area. The `--force` option overrides the protection that prevents the deletion of committed files, allowing you to forcefully remove files even if they have been previously committed. This command does not affect the remote repository unless you use additional commands like `git push origin <branch> --force`.'
+        ignore-unmatch: '[AI] `git rm --ignore-unmatch` is a Git command used to remove files from the staging area or the working directory based on patterns specified in the argument following the `--ignore-unmatch` option. The command removes only the files that match the pattern, even if they do not currently exist in the repository. If a file being removed is already tracked by Git and has changes that have not been committed yet, those changes will be lost without any warning.'
+        pathspec-file-nul: '[AI] `git rm --pathspec-file-nul` is a Git command used to remove files or directories from the staging area and the local repository. The `--pathspec-file-nul` option is used to read paths to remove from a file with null-delimited paths, which can be useful when dealing with binary files or files with unusual line endings. This option allows specifying paths using a list where each path is preceded by a null character instead of a newline, making it possible to pass such files as input to Git commands.'
+        pathspec-from-file: '[AI] `git rm --pathspec-from-file` is a Git command used to remove files or directories from the index and the working directory based on a list specified in a file. The filename containing the pathspecs is provided as an argument to this command. This allows for bulk removal of multiple files without having to list them individually. The changes are staged for commit, meaning that these removals will be included in the next Git commit unless you use `--cached` option to remove only from the index or add `--force` to remove without confirming.'
+        quiet: '[AI] The `git rm --quiet` command is used to remove files from the Git index and working directory. The `--quiet` option suppresses Git from displaying messages for each file being removed, making the operation run quietly in the background. This command does not delete the files permanently but only removes them from Git tracking. If you want to permanently delete the files from your working directory as well, use `git rm --quiet --cache` instead.'
+        r: '[AI] `git rm -r` is a Git command used to remove files or directories from your local repository. The `-r` flag stands for recursive, which means it will delete the specified directory and all of its contents. When you run this command, Git will first move the files to the Git index (staging area), preparing them for removal. After confirming the removal with `--force` or leaving it without the confirmation prompt, the files will be permanently removed from your local repository. Keep in mind that committing this change will also remove these files from the project''s history.'

@@ -1,0 +1,56 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: list [flags]
+aliases:
+    - ls
+description: List project incidents
+flags:
+    --author=: Filter incident by author <username>
+    --in=: search in {title|description}
+    --not-assignee*=: Filter incident by not being assigneed to <username>
+    --not-author*=: Filter by not being by author(s) <username>
+    --not-label*=: Filter incident by lack of label <name>
+    --search=: Search <string> in the fields defined by --in
+    -A, --all: Get all incidents
+    -C, --confidential: Filter by confidential incidents
+    -F, --output-format=: One of 'details', 'ids', or 'urls'
+    -M, --mine&: Filter only incidents assigned to me
+    -P, --per-page=: Number of items to list per page.
+    -a, --assignee=: Filter incident by assignee <username>
+    -c, --closed: Get only closed incidents
+    -l, --label*=: Filter incident by label <name>
+    -m, --milestone=: Filter incident by milestone <id>
+    -o, --opened&: Get only open incidents
+    -p, --page=: Page number
+persistentflags:
+    -R, --repo=: Select another repository using the `OWNER/REPO` or `GROUP/NAMESPACE/REPO` format or full URL or git URL
+    -g, --group=: Select a group/subgroup. This option is ignored if a repo argument is set.
+documentation:
+    command: |-
+        [AI] `glab` is a Git command-line interface tool by GitLab that aims to simplify common Git operations with GitLab-specific features. The `incident list` command is used to list all the incidents (issues or merge requests) in a project, assigned to a specific team or user. It can be filtered by various criteria like state, milestone, or labels. For example:
+
+        ```bash
+        glab incident list --assignee username --state open --label bug
+        ```
+
+        This command will return a list of all the open incidents assigned to 'username' and labeled as 'bug'.
+    flag:
+        all: '[AI] The `glab incident list --all` command is a Glab (GitLab CLI) utility used to list all incidents in GitLab. The option `--all` means that it will show incidents from all projects connected to the user''s account, not just the current one. Incidents represent security events or vulnerabilities in your GitLab environment and can be managed within the GitLab Security & Compliance application. This command helps you quickly review the status of your security posture across multiple projects.'
+        assignee: '[AI] The `glab incident list --assignee` command is used with GitLab''s CLI (Command-Line Interface) tool, `glab`. This command lists all incidents (issues marked as security vulnerabilities or incidents in GitLab) assigned to a specific user. It helps users to quickly check and manage incidents assigned to them, ensuring that potential security risks are addressed efficiently.'
+        author: '[AI] The `glab incident list --author` command is used with GitLab''s CLI (Command Line Interface) tool, Glab. This command retrieves a list of incidents (issues or merge requests) that were created or modified by a specific author in a GitLab project. It helps developers and operations teams to quickly identify and manage issues related to a particular contributor.'
+        closed: '[AI] The `glab incident list --closed` command is used with GitLab''s CLI (Command Line Interface) tool, `glab`. This command retrieves a list of closed incidents (issues or merge requests tagged as an incident type) from a specific GitLab project. Closed incidents are those that have been resolved and marked as done in the system. The output is typically displayed in a table format with columns for ID, title, author, created at, and other relevant information.'
+        confidential: '[AI] The `glab` command with the option `--confidential incident list` is used in GitLab to retrieve a list of confidential issues or incidents from a specific project. Confidential issues or incidents contain sensitive data, which can only be accessed by users with the appropriate permissions. The command returns the IDs and titles of these confidential items, helping administrators manage access control and maintain security within their GitLab projects.'
+        in: '[AI] The `glab` command with the option `--in <file>` for the `incident list` subcommand is used to read and display a list of incidents from a specified file instead of querying the GitLab API directly. This can be useful when working offline or when automating tasks that require access to incident data stored in a file. The `<file>` argument should contain one JSON object per incident with the same format as the output of the `glab incident list` command.'
+        label: '[AI] The `glab` command with the option `incident list --label` is used to list all incidents in GitLab, filtered by a specific label. This can be helpful for reviewing and managing incidents tagged with a particular label, such as "bug", "security", or "feature request". By using this command, you''ll get a list of the incidents along with their titles, descriptions, and other relevant information, making it easier to focus on specific types of issues.'
+        milestone: '[AI] The `glab incident list --milestone` command is a GitLab CLI (Command Line Interface) command used to fetch a list of incidents (issues marked with the label "incident") that have reached a specific milestone in a given project. This command helps users filter and manage incidents based on their development stage, making it easier to prioritize and track progress in the incident management process.'
+        mine: '[AI] The `glab` command with the option `--mine` and the sub-command `incident list` is used to list down the security incidents that have been detected by GitLab for the current user''s personal projects only. In other words, it displays a summary of any security issues or vulnerabilities found in your own repositories. It helps developers keep track of their project''s security status and take appropriate actions when necessary.'
+        not-assignee: '[AI] The `glab incident list --not-assignee` command is a GitLab CLI (Command Line Interface) command used to list all incidents (issues or merge requests marked as an incident in GitLab) that do not have any assignee. This means the command will display only those incidents where no team member has been assigned to resolve them yet. It''s a useful tool for teams managing multiple incidents and wanting to focus on unassigned ones.'
+        not-author: '[AI] The `glab` command with the argument `--not-author` in the context of GitLab is used to display an incident list where the commits or changes are not by the current user (i.e., not authored by you). This can be helpful for reviewing changes made by others, monitoring team activity, or managing merge requests when you''re a collaborator on a project in GitLab.'
+        not-label: '[AI] The `glab incident list --not-label` command is a GitLab CI/CD tool command used to list all incidents, excluding those with labels. It retrieves information about past and ongoing incidents in a GitLab project that don''t have any specified labels assigned to them. This can be useful for viewing or managing unlabelled incidents separately.'
+        opened: '[AI] The `glab incident list --opened` command is a Glab (GitLab CLI) command used to retrieve a list of opened incidents in a GitLab project. An incident, also known as an issue or a ticket, represents a reported problem or request for improvement within the project. By running this command, users can view a list of all open incidents, including their IDs, titles, and creators, helping them keep track of ongoing work and prioritize tasks effectively.'
+        output-format: |-
+            [AI] `glab` is a GitLab CLI tool for interacting with GitLab repositories and projects programmatically. The `incident list` command shows a list of incidents (issues, merge requests, epics, etc.) that match certain filters.
+
+            The `--output-format` option specifies the desired output format for the command. Available formats include `json`, `table`, `csv`, and others. By default, the command outputs data in a human-readable table format. Using `--output-format=json`, for instance, will return the result as a JSON object instead. This can be useful for further processing the output with scripts or other tools.
+        page: '[AI] The `glab` command is a GitLab CLI tool used to interact with GitLab programs and projects. The specific command `glab incident list --page` is used to list all open incidents in GitLab, starting from the specified page. The `--page` option defines the page number to be displayed. For instance, `glab incident list --page 2` will display the incidents on the second page.'
+        per-page: '[AI] The `glab incident list --per-page` command is used in GitLab to display a list of incidents (also known as issues or tickets) from a specific project. The `--per-page` option sets the number of incidents displayed per page in the output. For example, `glab incident list --per-page 10` will show 10 incidents per page. This can be useful for large projects with numerous incidents to manage more efficiently by viewing them in smaller batches.'
+        search: '[AI] The `glab` command with the option `--search <query>` followed by `incident list` is used to search for specific incidents in the GitLab project''s issue tracker using Glab, a CLI tool for GitLab. This command sends an HTTP request to the GitLab API and filters the results based on the provided search query to display relevant incident issues.'

@@ -1,0 +1,140 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: mount
+description: mount a filesystem
+flags:
+    --make-private: mark a subtree as private
+    --make-rprivate: recursively mark a whole subtree as private
+    --make-rshared: recursively mark a whole subtree as shared
+    --make-rslave: recursively mark a whole subtree as slave
+    --make-runbindable: recursively mark a whole subtree as unbindable
+    --make-shared: mark a subtree as shared
+    --make-slave: mark a subtree as slave
+    --make-unbindable: mark a subtree as unbindable
+    --options-mode=: what to do with options loaded from fstab
+    --options-source-force: force use of options from fstab/mtab
+    --options-source=: mount options source
+    --source=: explicitly specifies source (path, label, uuid)
+    --target-prefix=: specifies path used for all mountpoints
+    --target=: explicitly specifies mountpoint
+    -B, --bind: mount a subtree somewhere else (same as -o bind)
+    -F, --fork: fork off for each device (use with -a)
+    -L, --label=: synonym for LABEL=<label>
+    -M, --move: move a subtree to some other place
+    -N, --namespace=: perform mount in another namespace
+    -O, --test-opts=: limit the set of filesystems (use with -a)
+    -R, --rbind: mount a subtree and all submounts somewhere else
+    -T, --fstab=: alternative file to /etc/fstab
+    -U, --uuid=: synonym for UUID=<uuid>
+    -V, --version: display version
+    -a, --all: mount all filesystems mentioned in fstab
+    -c, --no-canonicalize: don't canonicalize paths
+    -f, --fake: dry run; skip the mount(2) syscall
+    -h, --help: display this help
+    -i, --internal-only: don't call the mount.<type> helpers
+    -l, --show-labels: show also filesystem labels
+    -n, --no-mtab: don't write to /etc/mtab
+    -o, --options=: comma-separated list of mount options
+    -r, --read-only: mount the filesystem read-only (same as -o ro)
+    -t, --types=: limit the set of filesystem types
+    -v, --verbose: say what is being done
+    -w, --rw=: mount the filesystem read-write (default)
+documentation:
+    command: '[AI] The `mount` command in Linux and Unix-based systems is used to attach or make a filesystem accessible by the operating system. It takes one or more filesystem devices, partitions, or file paths as arguments, and mounts them on specific directory paths in the file hierarchy. This allows users to access the files under those mounted directories. The `mount` command can also be used to check the currently mounted filesystems with the `-l` or `--lists-all` option.'
+    flag:
+        all: '[AI] `mount --all` is a command in Linux and Unix systems used to mount all available file systems that have been defined in the operating system''s filesystem table (/etc/fstab). This command automatically mounts all known file systems, including local filesystems like ext4 or XFS, as well as remote filesystems like NFS or SMB. It simplifies the process of manually mounting multiple file systems and can be useful during system startup or administration tasks.'
+        bind: '[AI] The `mount` command with the `--bind` option allows binding a source and target directory in a file system mount. It creates a new mount point where the source directory is mounted as if it were located at the specified target location, effectively making the source directory accessible under the target path without moving or copying files. This can be useful for sharing directories between containers or processes while preserving their original locations.'
+        fake: '[AI] `mount --fake` is a command used in Linux and Unix-based systems to mount a filesystem or a device without actually making it accessible. Instead, it sets up the mount point and performs any necessary checks, but does not physically read or write data to the device. This can be useful for scripts or automated processes that need to check the availability of a filesystem or device before attempting to mount it in read/write mode.'
+        fork: '[AI] The `mount --fork` command is a Linux utility used for creating a new mount point with an identical mount configuration of an existing one, instead of re-reading the file system from scratch. It achieves this by copying the mounted filesystem''s superblock and other necessary data to the new mount point using the fork() system call. This results in faster mount times for identical mount points, as the filesystem is not read anew. However, it is important to note that both mount points will share the same underlying file descriptor, meaning changes made to one will be reflected in the other.'
+        fstab: |-
+            [AI] The `mount --fstab` command is used to automatically mount file systems listed in the `/etc/fstab` file at system boot time or when the `mount` command is executed with root privileges.
+
+            The `--fstab` option tells the `mount` command to read the list of file systems to be mounted from the `/etc/fstab` file instead of specifying individual file systems to mount as arguments.
+
+            This command is essential for ensuring that necessary file systems such as root file systems, swap spaces, and other partitions are properly mounted at boot time. It helps in managing file system mount points systematically and efficiently.
+        help: '[AI] `mount --help` is a command used in Unix-based systems to display help information about the `mount` utility. This command provides detailed explanations of various options and arguments that can be used with the `mount` command for mounting filesystems or parts thereof on a file hierarchy. The output includes brief descriptions, usage examples, and optional flags. It is often used when one needs to understand how to properly use the `mount` command for specific filesystem types or situations.'
+        internal-only: '[AI] The `mount` command with the `--internal-only` option is used in Linux file systems to mount only filesystems that are locally-attached and ignore remotely-mounted filesystems. This option ensures that only filesystems that are directly connected to the system (such as ext3, ext4, XFS, etc.) will be mounted, and not those that are accessed via network or other remote means. It can help improve security by limiting the number of potential attack vectors and reducing dependencies on external systems.'
+        label: '[AI] The `mount` command with the `--label` option is used to mount a filesystem based on its label instead of its device or mount point. The label is a user-defined string that can be set when creating or modifying a filesystem. This option facilitates identifying and mounting specific filesystems, making it easier to manage and work with them, especially in complex systems where multiple devices or partitions may have similar names or locations.'
+        make-private: '[AI] The `mount --make-private` command is used in Linux and Unix-based systems to make a currently mounted file system private. A private file system can only be accessed by the user who mounted it, providing an extra layer of security for sensitive data. This command does not create or mount new file systems but modifies the existing ones by changing their mount options. When you run `mount --make-private <device>`, the file system will be remounted with the private flag `(rw,sync,noatime,private)` which restricts access to the files under that file system to the user who mounted it.'
+        make-rprivate: |-
+            [AI] The `mount --make-rprivate` command is used in Linux and other Unix-based systems to change the file system permission mode of a mounted file system to be read-only for all users, including the root user. This means that no one will be able to write or modify files on the mounted file system unless it is remounted with different permissions.
+
+            This command can be useful in various situations such as:
+
+            1. Preventing accidental changes to important data on a mounted file system.
+            2. Ensuring that a file system remains read-only during system maintenance or troubleshooting.
+            3. Securing a file system against potential unauthorized access or modifications.
+
+            It's important to note that this command only affects the mount point and does not modify the underlying file system itself. Therefore, any changes made before running this command will still persist on the original file system. Additionally, you may need superuser (root) privileges to use this command depending on your Linux distribution's specific configuration.
+        make-rshared: '[AI] The `mount --make-rshared` command is used in Linux to change the read-only shared memory file system into a read-write one. When a process creates a shared memory segment, it is initially created as read-only. However, sometimes applications may need to modify the data in the shared memory segment. In such cases, the `--make-rshared` option can be used with the `mount` command to change the permission of the shared memory file system from read-only to read-write. This allows processes to write to the shared memory segment, enabling them to collaboratively modify its contents.'
+        make-rslave: '[AI] `mount --make-rslave` is a Linux command used to create a read-only slave mount of an existing file system. A read-slave mount is mounted with the `--bind` or `--rbind` option and the `ro` flag set, meaning it can only be read from but not written to. It''s typically used when mounting a filesystem on multiple locations or in containers, ensuring data consistency and avoiding accidental data modifications.'
+        make-runbindable: '[AI] The `mount` command with the option `--make-runbindable` is used in Linux to make a specified binding between a host directory and a container filesystem. This binding makes it possible for containers to execute files that reside in the host''s file system, without having to copy or install those files within the container itself. The `--make-runbindable` flag enables run permissions on the mounted files and directories inside the container, allowing the execution of those files directly from the host. This can simplify the process of sharing resources between containers and the host system.'
+        make-shared: '[AI] The `mount --make-shared` command is used in Linux to modify a mounted filesystem''s file access permissions. Specifically, it makes a read-write filesystem become a shared read-write filesystem. This means that when multiple processes access the same file on the shared filesystem, they can do so concurrently without causing data corruption or inconsistencies, as each process will see the changes made by other processes in real time. This command is typically used to enable NFS (Network File System) clients to write data back to the server, while still allowing multiple clients to read and write the same files simultaneously.'
+        make-slave: |-
+            [AI] The `mount --make-slave` command is used in Linux and Unix-based systems to create a block device as a slave in a master-slave setup for file system mounting. In this configuration, one device acts as the master (controlling the data I/O) while the other functions as a slave (following the master's instructions).
+
+            By running `mount --make-slave` on a block device, you are setting it up to be mounted as a slave device when another device is mounted as a master. This means that the filesystem on the slave device will be accessible through the filesystem of the master device. It doesn't actually mount the device but only sets it up for being mounted in this manner.
+        make-unbindable: '[AI] The `mount --make-unbindable` command is used in Linux to make a mounted file system or overlay file system unbindable. An unbindable file system or overlay cannot be unmounted or detached from its parent without first unmounting all the mounts that depend on it, ensuring data consistency and preventing data loss. This flag is particularly useful when dealing with complex setups like container images or snapshots to ensure proper cleanup of mounted filesystems during container removal.'
+        move: |-
+            [AI] The `mount --move` command is a Linux utility used to change the mount point of an existing file system without unmounting and remounting it. This can be useful when you want to move a mounted filesystem without downtime or data loss.
+
+            The syntax for using this command is:
+
+            `sudo mount --move /old-mount-point /new-mount-point`
+
+            This command first unlinks the old mount point, then relinks it to the new one and updates the mount table accordingly. It's important to note that the source and target directories must be empty before using this command, as well as having the same file system type.
+
+            Also, you need root privileges to execute this command. It's essential to double-check the source and destination directories before running `mount --move` to prevent data loss or other unintended consequences.
+        namespace: |-
+            [AI] The `mount --namespace` command is used to manage Linux namespace mounts in a system. Namespaces provide a way to isolate processes and their descendants from the rest of the system, including the process's filesystem view.
+
+            When you use the `mount --namespace` command, you can specify a new namespace for a filesystem mountpoint or mount a filesystem into an existing namespace. This allows you to create isolated environments with their own file hierarchies, which is useful in containerization and other advanced Linux use cases.
+
+            For example, you might use `mount --namespace=mynamespace <source> <target>` to mount a filesystem within the mynamespace namespace, or `mount --bind <source> <target>:<new_namespace>` to bind a source directory into a new namespace with a specific target name.
+
+            Keep in mind that manipulating namespaces can have significant system implications, and it's essential to understand their usage before implementing them in your environment.
+        no-canonicalize: '[AI] The `--no-canonicalize` option in the `mount` command is used to prevent the filesystem being mounted from being canonicalized (i.e., having its path normalized) during the mount process. This can be useful in certain situations, such as when dealing with symbolic links or complex file paths, where preserving the original path is important for specific use cases. By default, `mount` will attempt to canonicalize the filesystem path before mounting it, potentially leading to unexpected behavior or errors. Therefore, using `--no-canonicalize` can help ensure that the intended file or directory is mounted correctly.'
+        no-mtab: '[AI] The `mount --no-mtab` command is used in Linux and Unix systems to mount filesystems without updating the mount table file (/etc/mtab). This can be useful when you want to perform certain operations, such as mounting a filesystem with specific options that may not be possible if the mount table is updated first. By using `--no-mtab`, the command will mount the filesystem without modifying the mount table file. This means that the mounted filesystem will not automatically be recognized by other processes or services that rely on the mount table for information. It''s important to note that this command does not affect the functionality of the mounted filesystem itself, but rather how it is recognized and interacted with by other parts of the system.'
+        options: |-
+            [AI] The `mount` command in Linux is used to mount filesystems or partitions onto the file hierarchy. The `--options` flag is an optional argument that can be passed to the `mount` command to set specific mount options.
+
+            Mount options are various parameters that can be specified when mounting a filesystem, such as read-only access (ro), setgid (enables setting group ID on newly created files), or noatime (prevents last access time from being updated). By passing `--options` followed by a comma-separated list of options, you can customize the mount behavior.
+
+            For example: `mount /dev/sdb1 /mnt --type vfat --options ro,sync,noatime` will mount the filesystem on `/dev/sdb1` to `/mnt`, using the vfat file system type, and setting it to read-only (ro), syncing data before writing it to the disk (sync), and preventing last access time from being updated (noatime).
+        options-mode: '[AI] `mount --options-mode` is not a valid command or option in Linux file systems. The `mount` command is used to mount filesystems or attach block devices as file system volumes, while `--options` is an option that can be used with it to specify various mounting options. However, there is no known option named `--mode` for setting file permissions or access modes when using this command. If you meant to ask about setting specific file system mount options related to permissions or access modes, please refer to the documentation of the particular filesystem you are working with, as different filesystems may have different options available for such purposes.'
+        options-source: |-
+            [AI] `mount --options-source` is not a valid command or option for the `mount` utility in Linux or Unix-based systems. The correct usage of the `mount` command is to mount a filesystem, partition, or device onto a directory in the file hierarchy.
+
+            The `--options` flag can be used with the `mount` command to specify additional mount options, such as read-only, setgid, or noexec. However, there's no `--options-source` flag defined in the standard `mount` command implementation.
+
+            For example, if you want to mount a filesystem from another server using SSH and specific mount options, you can use the following command instead:
+
+            ```bash
+            ssh user@remote_server "mkdir /mnt/remote && mount -t nfs <source_filesystem> /mnt/remote -o <mount_options>"
+            ```
+
+            Replace `<user>`, `<remote_server>`, `<source_filesystem>`, and `<mount_options>` with the appropriate values. The `mount_options` can include any valid mount options, such as `rw`, `ro`, `noexec`, or `sync`.
+        options-source-force: |-
+            [AI] The `mount` command with the `--options` and `--source-force` flags is used in Linux and Unix-based systems for mounting filesystems or volumes with specific options.
+
+            The `--options` flag allows you to specify additional mount options that aren't defined in the default mount point. For example, `mount --source /dev/sda1 --target /mnt --options ro,sync`. This will mount the filesystem located at `/dev/sda1` to the target directory `/mnt` with read-only (ro) and synchronous (sync) options.
+
+            The `--source-force` flag is an optional modifier for the `--options` flag. It overrides existing mount options for a specific device or source, allowing you to forcefully apply new mount options while ignoring any conflicting ones that may be already set. For example: `mount --source /dev/sda1 --target /mnt --options rw,noatime,sync --source-force`. This command will mount the filesystem located at `/dev/sda1` to the target directory `/mnt` with read-write (rw), noatime, and synchronous (sync) options, while ignoring any existing mount options that may conflict with these.
+        rbind: '[AI] `mount --rbind` is a command used in Linux and Unix-based systems for binding a host directory to a container or a docker volume. It creates a read-write bind mount, meaning both the source and target directories can be modified. The "--rbind" option allows specifying the source directory on the host machine and the destination path inside the container. This is particularly useful when working with development environments where changes made in the container need to be reflected on the host machine in real-time.'
+        read-only: '[AI] The `mount --read-only` command is used to mount a file system with read-only access. This means that only data can be accessed from the mounted file system, but no modifications are allowed. This can be useful in certain situations where ensuring data integrity is important, such as in a production environment or when working with critical files. The command takes various options and arguments to specify the device or file to mount, the mount point, and other settings.'
+        rw: '[AI] The `mount` command with the option `--rw` is used to mount a file system in read-write mode. When you mount a file system, it makes it accessible for reading and writing data. The `--rw` flag explicitly specifies this mode. This means that any processes or users who access the mounted file system can modify its contents, making it suitable for storing and modifying files.'
+        show-labels: '[AI] `mount --show-labels` is a command used in Linux and Unix systems to display file system labels along with their mounted points. The command is typically run as root or with sudo privileges. When executed, it lists the currently mounted filesystems, including any labels that have been set for them using the `label` option during mounting. This command can be useful for identifying specific partitions or file systems in system logs or scripts.'
+        source: '[AI] The `mount --source` command is a utility in Linux and other Unix-like operating systems used to mount a file or a device from a given source, typically specified as a URL or a block device. This command takes the source and target as arguments, where the target is the directory or the filesystem where you want to mount the source. It''s commonly used with remote filesystems like NFS (Network File System) or SMB (Server Message Block). The basic syntax for using this command is `mount [options] --source <source> <target>`. For example, `mount --type nfs --source server:/path/to/share /mnt/nfs`.'
+        target: '[AI] The `mount --target` command is a utility in Linux for mounting filesystems or special devices. It''s used to specify the target file or directory where the filesystem or device will be mounted. This is provided as an argument after the `--target` option, and the source filesystem or device must also be specified separately using other mount options like `-s`, `-t`, or `-o`. For example, `mount --target /mnt/data /dev/sdb1` would mount the filesystem on `/dev/sdb1` to the directory `/mnt/data`.'
+        target-prefix: '[AI] The `--target-prefix` option in the `mount` command is used to specify a prefix to be added to the target device or filesystem label when displaying output. This can be helpful for distinguishing between multiple targets with similar names, especially in complex system environments. For example, `mount --target-prefix=my_label_prefix /dev/sda1 /mnt` will display the mounted filesystem as `/dev/sda1 (my_label_prefix)` instead of just `/dev/sda1`.'
+        test-opts: '[AI] `mount --test-opts` is a command used in Linux to check if the specified file system can be mounted with the given options without actually mounting it. The `--test-opts` option allows testing the mount compatibility of a filesystem with certain mount options without performing the actual mount operation. This can help prevent potential errors or data loss when attempting to mount a filesystem with unfamiliar or incompatible options.'
+        types: '[AI] The `mount` command with the `--types` option is used to display a list of mount points and their corresponding file systems types on Linux systems. The `--types` option allows filtering the output to show only the mounts of specific file system types. For example, `sudo mount --types nfs` will display only NFS mounted filesystems. It helps in managing and troubleshooting various file systems mounts.'
+        uuid: '[AI] `mount --uuid` is a command used in Linux and Unix-based systems to mount a file system using its Universally Unique Identifier (UUID) instead of specifying the device or file path. This can be useful when dealing with filesystems that are regularly moved between different devices or locations, as the UUID remains constant regardless of where the filesystem is mounted. The basic syntax for this command is `mount <device|file> <mount-point> --uuid=<UUID>`.'
+        verbose: '[AI] The `mount --verbose` command is a Linux utility used to mount filesystems or attach block devices to the file hierarchy. With the `--verbose` option, it provides detailed information about the mount process, including the device, mount point, filesystem type, options used, and any error messages if applicable. It''s useful for troubleshooting and understanding the intricacies of file system mounting.'
+        version: |-
+            [AI] The `mount --version` command is used to display the version information of the `mount` utility installed on a Linux or Unix-like operating system. When executed in a terminal, it returns output similar to:
+
+            ```bash
+            mount from util-linux 2.35
+            ```
+
+            This output indicates that the `mount` command is part of the util-linux package and its version number is 2.35. It helps users ensure they have the correct and desired version of this essential system utility installed for managing file systems in their operating environment.

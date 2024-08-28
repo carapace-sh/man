@@ -1,0 +1,116 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: config
+description: Get and set repository or global options
+group: manipulator
+flags:
+    --add: 'add a new variable: name value'
+    --blob=: read config from given blob object
+    --bool: value is "true" or "false"
+    --bool-or-int: value is --bool or --int
+    --bool-or-str: value is --bool or string
+    --default=: with --get, use default value when missing entry
+    --expiry-date: value is an expiry date
+    --fixed-value: use string equality when comparing values to 'value-pattern'
+    --get: 'get value: name [value-pattern]'
+    --get-all: 'get all values: key [value-pattern]'
+    --get-color: 'find the color configured: slot [default]'
+    --get-colorbool: 'find the color setting: slot [stdout-is-tty]'
+    --get-regexp: 'get values for regexp: name-regex [value-pattern]'
+    --get-urlmatch: 'get value specific for the URL: section[.var] URL'
+    --global: use global config file
+    --includes: respect include directives on lookup
+    --int: value is decimal number
+    --local: use repository config file
+    --name-only: show variable names only
+    --path: value is a path (file or directory name)
+    --remove-section: 'remove a section: name'
+    --rename-section: 'rename section: old-name new-name'
+    --replace-all: 'replace all matching variables: name value [value-pattern]'
+    --show-origin: show origin of config (file, standard input, blob, command line)
+    --show-scope: show scope of config (worktree, local, global, system, command)
+    --system: use system config file
+    --unset: 'remove a variable: name [value-pattern]'
+    --unset-all: 'remove all matches: name [value-pattern]'
+    --worktree: use per-worktree config file
+    -e, --edit: open an editor
+    -f, --file=: use given config file
+    -l, --list: list all
+    -t, --type=: value is given this type
+    -z, --null: terminate values with NUL byte
+documentation:
+    command: '[AI] `git config` is a Git command used to set or configure various settings and parameters for your Git installation or a specific Git repository. It can be used to modify user identity, core settings like line endings and editor, and system-wide versus local repository configurations. Settings are stored in files called gitconfig located at different levels: system-wide (usually ~/.gitconfig), global (~/.config/git/config), or in the repository itself (.git/config). The command can be followed by subcommands such as `--list`, `--global`, or specific section/key names to query or modify specific settings. For example, `git config user.name "John Doe"` sets the name for the author of Git commits.'
+    flag:
+        add: '[AI] `git config --add` is a Git command used to set or add a new configuration variable with a specified key and value. The `--add` option ensures that the change is added to the local .git/config file and takes effect immediately, without requiring a commit. It can be used to set both user-specific (e.g., `--global`) or repository-specific configurations.'
+        blob: |-
+            [AI] The `git config --blob` command is used to view or set the value of a specific blob (binary file) object in Git configuration. Blobs store files at a particular commit in Git, and this command allows you to interact with them directly. When used without any arguments, it lists all blob configurations. If followed by a blob name or key, it sets or shows the value associated with that blob. For example:
+
+            - `git config --blob myfile.txt`: Displays the configuration value associated with the blob storing `myfile.txt`.
+            - `git config --blob myfile.txt "new value"`: Sets the configuration value for the blob storing `myfile.txt` to `"new value"`.
+        bool: |-
+            [AI] `git config --bool` is a command used in Git version control system to set or retrieve Boolean values for configuration variables. Instead of using strings for boolean values, `--bool` option sets or returns true or false values directly. For example:
+
+            ```bash
+            $ git config init.commit.signing.allowNonFastForwards false
+            ```
+
+            Sets the 'init.commit.signing.allowNonFastForwards' configuration to false, and
+
+            ```bash
+            $ git config --bool init.commit.signing.allowNonFastForwards
+            false
+            ```
+
+            Retrieves the value of 'init.commit.signing.allowNonFastForwards', which is set to false.
+        bool-or-int: '[AI] `git config --bool-or-int` is a command used in Git configuration to set or retrieve boolean or integer values for certain configurations. The `--bool-or-int` option allows setting these values in a way that Git can interpret them as either true/false (boolean) or 0/1 (integer). For example, you can use it to configure a Git variable like `core.autocrlf` with the value `true`, which Git will interpret as `true` or `1`. This command is useful when working with configurations that require boolean or integer values and ensures consistency in how they are handled across different Git environments.'
+        bool-or-str: '[AI] `git config --bool-or-str` is a command used in Git version control system to set or retrieve configuration variables. The `--bool-or-str` option allows setting boolean configuration variables with a string value instead of a boolean value, effectively allowing overriding existing boolean values with strings. This can be useful when dealing with complex configurations or merging different configuration settings. Note that when retrieving the value of such a variable, Git will return a string interpretation of the value, not a boolean one.'
+        default: |-
+            [AI] `git config --global` sets configuration values permanently for all Git repositories on a given system for a user.
+
+            `git config --local` sets configuration values only for the current repository.
+
+            `git config --default` sets a default value for a configuration variable that is used when no local or global value is set. It applies to new repositories cloned from the same source, but does not affect existing repositories or the user's system-wide settings.
+        edit: '[AI] `git config --edit` is a Git command used to open the system-wide or user-specific Git configuration file in a text editor for editing. It allows modifying key-value pairs directly in the configuration files, enabling users to customize various aspects of their Git environment, such as user name and email, default branch names, merge tools, and editor settings. When executed, Git opens the file using the system''s default text editor, allowing users to make changes, save the file, and reload the updated settings in their Git environment.'
+        expiry-date: '[AI] `git config --expiry-delete <key>` sets an expiration date for a Git configuration variable. Once the specified date is reached, the configuration will be automatically deleted. This can be used as an extra layer of security to protect sensitive information such as access tokens or keys in a Git repository. The command `git config --expiry-date <key> <date>` sets the expiration date for the given configuration key to the specified date.'
+        file: '[AI] `git config --file` is a Git command used to specify or view the file path of a Git configuration file, either system-wide (usually located at `/etc/gitconfig`) or user-specific (located at `~/.gitconfig` by default). This command allows users to modify or create custom configurations, such as setting up aliases or adjusting global settings, in their preferred configuration files.'
+        fixed-value: '[AI] `git config --fixed-value` is a Git command used to set a configuration variable with a fixed value, overriding any existing value. The "--fixed-value" option ensures that the specified key has the exact given value in the Git configuration file (`.gitconfig` or `~/.config/git/config`) and in the local repository''s `config` file (if applicable). This is useful when you want to enforce a specific setting across multiple environments without having it being overridden by other configurations.'
+        get: '[AI] `git config --get` is a Git command used to retrieve the value of a specific configuration variable. When you run this command followed by the name of the variable, Git will return the current value for that setting. For example, `git config --get user.name` would print the currently set Git username.'
+        get-all: '[AI] `git config --get-all` is a Git command used to display all the current configuration variables and their values in the Git repository or global settings. It shows the entire configuration file as a key-value pair list, providing a comprehensive view of the Git setup. This command is useful when you need to check or verify multiple configurations at once.'
+        get-color: '[AI] `git config --get-color` is a Git command used to retrieve the current color settings for the Git terminal output. It displays the configuration values for various elements such as branch names, messages, and prompts in Git. These colors help distinguish between different types of information in the Git terminal interface, enhancing the user experience.'
+        get-colorbool: '[AI] `git config --get-colorbool` is a Git command used to retrieve the boolean value of a configuration variable with a color setting. The option `--get-colorbool` tells Git to output the value in boolean format instead of the default colored format, which makes it easier to programmatically parse the output. For example, you can use this command to check if the "autocannon" or "diff.ascii" configuration variables are set to enable colors in Git.'
+        get-regexp: '[AI] `git config --get-regexp` is a Git command used to retrieve the value of a configuration variable that matches a regular expression pattern. The command searches for configurations with keys that match the given regular expression and returns the corresponding values if found. It can be helpful when dealing with multiple configurations having similar keys but different values, allowing you to extract the desired information efficiently.'
+        get-urlmatch: '[AI] `git config --get-urlmatch` is a Git configuration command used to display or set the URL pattern for a remote repository''s URL. This can be useful when dealing with multiple repositories that share a common URL structure. By setting a URL match, Git can automatically replace parts of the URL during a fetch or push operation, simplifying the process and reducing the need for manual adjustments. The command retrieves the current URL pattern configuration if used without arguments, or sets a new one when followed by an equal sign and the desired pattern. For example, `git config --get-urlmatch origin refs/remotes/origin/.` would return the existing URL match for the ''origin'' remote, while `git config --get-urlmatch origin refs/remotes/origin/ myrepo.example.com:` would set a new URL pattern for the ''origin'' remote with the given pattern.'
+        global: '[AI] `git config --global` is a Git command used to set or modify global configuration variables. Global configurations apply to all Git repositories on a given system, as opposed to per-repository configurations. The command takes key-value pairs as arguments, such as `git config --global user.name "John Doe"`, or `git config --global user.email "john.doe@example.com"`. This is commonly used to set the Git user identity for commits made from any repository.'
+        includes: |-
+            [AI] `git config --include` is a Git command used to specify the location of files that modify the Git configuration. By default, Git looks for configuration variables in several files located in the system and user directories. However, you can use this command to include additional custom files or overwrite existing configurations.
+
+            For example, if you have a file `~/.gitconfig.local` with custom configurations, you can include it using `git config --include ~/.gitconfig.local`. This command will read the specified file and merge its contents with the existing configuration variables.
+
+            Using multiple includes is also possible by specifying them one after another: `git config --include .gitconfig --include my-custom-file.conf`.
+
+            This command provides a way to customize Git configurations at various levels, such as system-wide, user-specific, and project-specific, allowing you to tailor the behavior of Git to your needs.
+        int: '[AI] `git config --int` is a Git command used to set or get an integer configuration value. The `--int` option is used to specify that the value being configured is an integer type. For example, you can use it to configure the number of items kept in the reflog history with `git config --int core.reflogSizeLimit 50`.'
+        list: '[AI] `git config --list` is a Git command used to display a list of current configuration variables and their values. It shows settings in three scopes: system, global, and local for the current repository. The output includes the key (name), value, and scope (file path) for each configuration item.'
+        local: '[AI] `git config --local` is a Git command used to set or configure local-only key-value pairs in the .git/config file of a Git repository. This command modifies the configuration file in the current working directory, affecting only that specific repository. By default, it lists the current configuration settings. When used with an option and a value (e.g., `git config --local user.email "your.email@example.com"`), it sets the specified configuration option to the given value.'
+        name-only: '[AI] `git config --name-only` is a Git command used to list the names (keys) of configuration variables without displaying their values. This command is useful when you want to see a list of available configuration options but don''t need or don''t want to see their current settings.'
+        "null": |-
+            [AI] `git config --global --null <key>` is a Git command used to unset or remove a configuration variable. The `--null` option sets the variable to an empty value instead of deleting it completely, which can be useful in some cases when working with other tools that require an empty value to be represented as two consecutive empty strings (e.g., in a Git hooks script). For example:
+
+            ```sh
+            git config --global --null user.email ''
+            ```
+
+            This command sets the global `user.email` configuration variable to an empty string instead of deleting it.
+        path: '[AI] `git config --path` is a Git command used to display the files where Git configuration variables are stored for the current repository. The output of this command is the file path to the Git configuration directory, which typically includes the system-wide Git configuration in `/etc/gitconfig`, the user-specific Git configuration in `~/.gitconfig`, and the project-specific Git configuration in a `.git/config` file within the repository itself.'
+        remove-section: |-
+            [AI] `git config --remove-section` is a Git command used to delete a entire section from the git configuration file (`.gitconfig` or in a project's `config` file). This can be useful when you want to remove specific configurations, such as remote repository URLs or user identities, that are no longer needed.
+
+            The command takes one argument, which is the name of the section to be removed. For instance, `git config --remove-section core.editor` would delete the entire "core.editor" section from the configuration file.
+        rename-section: '[AI] `git config --rename-section` is a Git command used to rename a section in the global or system-wide Git configuration file (`.gitconfig`). This command takes one argument, which is the name of the current and desired new section names. By default, it moves the entire content of the old section to the new one. This can be useful when you want to modify the organization of your configuration file without manually moving each key-value pair. For instance, `git config --rename-section filter.myfilter filter.newname` would rename the ''filter.myfilter'' section to ''filter.newname''.'
+        replace-all: '[AI] `git config --replace-global` or `--replace-all` is a Git command used to set or update a global configuration variable with the given key and value, replacing any existing value for that key. This command affects all Git repositories in your system, making it a good choice when you want to set a configuration option universally across all your projects.'
+        show-origin: '[AI] The `git config --show-origin` command displays the URLs configured for the remote repositories in your Git repository. In other words, it shows you where each branch is tracking to - the origin or upstream repository. This can be useful when working with multiple remotes or when trying to understand the relationship between your local and remote repositories.'
+        show-scope: '[AI] `git config --show-scope` is a Git command used to display the scope of configured variables. The scope defines whether a configuration option applies to the global Git settings or just the current repository. By default, Git stores both global and local configurations in separate files (`.gitconfig` for global and `.git/config` for local). This command helps distinguish between them by showing the prefix (global or local) of each configuration variable.'
+        system: '[AI] `git config --system` is a Git command used to set or view configuration variables with system-wide scope. These settings apply to all Git repositories on the current machine, whereas local configurations (set with `git config`) only affect the specific repository in which they are set. System-wide configurations can be managed by modifying the files located in the `--system` or `--global` configuration directories (usually `~/.config/git` for Linux systems and `%AppData%\Roaming\git` for Windows).'
+        type: '[AI] `git config --type` is a Git command used to list or show the configuration variables and their values, filtered by the type of the variable. The types are: file (stored in .gitconfig files), user (stored in user''s global .gitconfig), and local (stored in the repository''s config file). By default, `git config` displays all types combined. Using `--type` lets you specify which type(s) to display for better organization and understanding of where specific configurations are set.'
+        unset: '[AI] `git config --unset` is a Git command used to remove or unset a specific configuration variable. When you run this command followed by the name of the configuration option, Git will delete that option''s key-value pair in your system or user Git configuration files. This can be useful when you want to reset a particular configuration setting to its default value or when you no longer need it.'
+        unset-all: '[AI] `git config --unset-all` is a Git command used to reset all configuration variables to their default values. This command does not unset specific configurations; instead, it unsets all of them. It can be useful when you want to start fresh with the default settings or if you accidentally set some configurations that you wish to undo. Note that this operation is permanent and cannot be easily reversed.'
+        worktree: '[AI] The `git config --worktree` command is used to configure the path to the working directory of a Git repository, which is separate from the repository''s main `.git` directory. This can be useful when working with shared or networked repositories where multiple people may be working on different branches or committing changes independently. By setting the worktree configuration option, each user can have their own working directory with unique files and modifications while still sharing the same Git repository. This can improve collaboration and reduce conflicts when merging changes back into the main branch.'

@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: replace
+description: Create, list, delete refs to replace objects
+group: manipulator
+flags:
+    --convert-graft-file: Creates graft commits for all entries in $GIT_DIR/info/grafts and deletes that file upon success
+    --edit=: Edit an object’s content interactively
+    --format=: When listing, use the specified <format>
+    --graft=: Create a graft commit
+    --raw: When editing, provide the raw object contents rather than pretty-printed ones
+    -d, --delete: Delete existing replace refs for the given objects
+    -f, --force: If an existing replace ref for the same object exists, it will be overwritten
+    -l, --list=: List replace refs for objects that match the given pattern
+documentation:
+    command: '[AI] `git replace` is a Git command used to replace specific commits in a branch''s history with new ones. It takes one or more commit hashes as arguments and replaces them with a new commit. This can be useful for correcting mistakes or introducing a new version of a commit without creating a new branch or using rebase. Note that force-pushing is required to make this change permanent in the remote repository.'
+    flag:
+        convert-graft-file: '[AI] `git replace --convert-graft-file` is a Git command used to replace specific commit(s) in a branch''s history with new commits while updating and converting graft points from the original graft file to a new one. This can be helpful when dealing with complex merges, rebase conflicts, or in cases where certain commits need to be replaced for any reason. The conversion of graft files ensures that references to the old commits are updated accordingly, maintaining the integrity and continuity of the project history.'
+        delete: '[AI] `git replace --delete` is a Git command used to remove specific commits from the current branch''s history. This command works by replacing the specified commit(s) with their parent commit(s), effectively deleting those commits from the branch. The `--delete` option confirms that you want to permanently delete these commits and their entire history, making this a destructive operation. Be cautious when using it as the change cannot be undone easily.'
+        edit: |-
+            [AI] `git replace --edit` is a Git command used to replace a specific commit or range of commits in a repository with a new commit. The `--edit` option opens the editor to allow modifying the content of the replacement commit before it's committed. This can be useful when you need to make changes to the content of one or more commits without creating a new branch, or if you want to fix a mistake in the commit message or file content.
+
+            When used, `git replace --edit` first removes the specified commits from the current branch and then opens your default editor with an empty commit template. After saving and committing the changes, Git creates a new commit that replaces the original commits. The new commit will have the same author, date, and parent commits as the replaced commits, but their content will be different.
+
+            It's important to note that using `git replace --edit` can potentially rewrite repository history, so it should be used with caution and only when necessary. It's generally recommended to use this command in isolated branches before merging back into the main branch or sharing the repository with others.
+        force: '[AI] `git replace --force` is a Git command used to replace a specific commit or range of commits with a new commit in the current branch. The `--force` option is used to override any existing protected branches or force push the replacement commits upstream without asking for confirmation. This command should be used with caution as it can potentially cause data loss if used incorrectly.'
+        format: '[AI] `git replace --format` is a Git command used to perform a replacement operation on the commit messages of existing commits in a repository. The `--format` option allows specifying a custom template for the new commit message. When you run this command, Git will replace the specified old text with the new text in all commit messages that match the search conditions. This can be useful for fixing inconsistencies or typos in commit messages across multiple commits.'
+        graft: '[AI] `git replace --graft` is a Git command used to replace a specific commit or range of commits in a repository with new commits, while keeping the commit history intact. The `--graft` option enables the use of a graft file that specifies the new commits to be introduced at certain points in the history. This command can be useful for resolving merge conflicts or for implementing alternative development histories without rewriting the original one. The graft file is a plain text file describing the replacement commits using their SHA-1 identifiers and commit messages.'
+        list: '[AI] `git replace --list` is a Git command used to list all replacements made with the `git replace` command in the current repository. This command shows the SHA-1 commit hashes and messages for each replaced commit. It can be useful for keeping track of which commits have been replaced, and when, within a Git project.'
+        raw: '[AI] `git replace --raw` is a Git command used to replace specific commit objects in a repository with new ones, bypassing the normal commit message prompt. This is often useful for force-pushing changes to a remote branch without triggering a conflict due to uncommitted modifications. The `--raw` option disables the default creation of a new commit object and instead replaces the existing one directly using its raw hash or object ID. It''s important to note that using this command can lead to data loss, as it skips the normal commit process, so it should be used with caution and only when necessary.'

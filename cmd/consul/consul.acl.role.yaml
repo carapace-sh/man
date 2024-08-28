@@ -1,0 +1,61 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: role
+description: Manage Consul's ACL roles
+flags:
+    --ca-file=: Path to a CA file to use for TLS when communicating with Consul.
+    --ca-path=: Path to a directory of CA certificates to use for TLS when communicating with Consul.
+    --client-cert=: Path to a client cert file to use for TLS when 'verify_incoming' is enabled.
+    --client-key=: Path to a client key file to use for TLS when 'verify_incoming' is enabled.
+    --datacenter=: Name of the datacenter to query.
+    --http-addr=: The `address` and port of the Consul HTTP agent.
+    --stale: Permit any Consul server (non-leader) to respond to this request.
+    --tls-server-name=: The server name to use as the SNI host when connecting via TLS.
+    --token-file=: File containing the ACL token to use in the request.
+    --token=: ACL token to use in the request.
+documentation:
+    command: |-
+        [AI] `consul acl role` is a command used in Consul, an open-source distributed configuration and orchestration tool. This command is utilized to create, update, or list roles within the Access Control List (ACL) system of Consul. Roles define a set of permissions for an ACL policy, which can be assigned to specific entities such as teams or users. The exact usage of the command depends on whether you are creating, listing or updating a role, and it requires appropriate permissions in Consul's ACL system. For instance:
+
+        - `consul acl roles create <role_name> -policy-file <path_to_policy_file>` creates a new role with the specified name and applies the policy defined in the given file.
+        - `consul acl roles list` lists all available roles in the system, displaying their names and associated policies.
+        - `consul acl roles update <role_name> -policy-file <path_to_new_policy_file>` updates an existing role with a new policy defined in the specified file.
+    flag:
+        ca-file: |-
+            [AI] The `consul acl role --ca-file` command is used in Consul, an open-source tool for service discovery, configuration, and orchestration. This command is part of Consul's Access Control List (ACL) functionality and is utilized to create or update roles with a specific CA file.
+
+            The `--ca-file` flag refers to the location of the Certificate Authority (CA) file on the local system. The CA file contains the public key that will be used to sign the certificates for the principals (users, services, etc.) belonging to this role. By providing a valid CA file, Consul can verify the authenticity of the certificates issued for these principals.
+
+            This command creates or updates an ACL role definition in the Consul server, enabling you to assign specific policies and permissions to a group of resources or services.
+        ca-path: |-
+            [AI] The `consul acl role --ca-path` command is used with Consul, an open-source tool for service discovery, configuration, and orchestration. This specific command is related to Access Control Lists (ACLs) in Consul.
+
+            The `--ca-path` option specifies the path to a trusted Certificate Authority (CA) certificate file. When creating or updating ACL roles in Consul, this CA certificate is required for validating the certificates of clients or services that are subject to the role's permissions. This ensures secure communication between Consul and its clients/services, as well as maintaining a robust access control system within your infrastructure.
+        client-cert: '[AI] The `consul acl role --client-cert` command is used in the Consul Access Control List (ACL) system to assign roles based on client certificates. This command takes a client certificate file as an argument and associates it with a specific ACL role. With this setup, Consul can enforce access policies based on the presenting client certificate. This helps secure communication between clients and the Consul server by ensuring that only authorized clients can perform certain actions within the Consul ecosystem.'
+        client-key: '[AI] `consul acl role --client-key` is a command used in Consul, an open-source tool for service discovery, configuration, and orchestration. This command allows you to create or modify an Access Control List (ACL) role with a specific client key. ACL roles define permissions for different users or clients in the Consul environment. The `--client-key` flag specifies the unique identifier for the client associated with the role, enabling fine-grained access control.'
+        datacenter: |-
+            [AI] The `consul acl role --datacenter` command is used in Hashicorp Consul, an open-source distributed, highly available, and data center aware solution to connect and secure services. This command is specifically for managing Access Control Lists (ACLs) roles related to datacenters within Consul.
+
+            When you run `consul acl role --datacenter`, it lists the currently defined ACL roles for datacenters in your Consul environment. These roles control access to services and key-value pairs across multiple datacenters, ensuring that only authorized communication occurs between them.
+
+            The output includes the following fields per role: name, policy ID, policies (which permissions are granted), and tags. Policies can include actions like read, write, or connect, along with resources like services or keyspaces.
+
+            This command is essential for managing multi-datacenter Consul deployments, enabling fine-grained control over communication between different sites while maintaining a secure and consistent environment.
+        http-addr: |-
+            [AI] The `consul acl role --http-addr` command is used in Consul, an open-source tool for service discovery, configuration, and orchestration. This command sets the HTTP address for an Access Control List (ACL) role in Consul.
+
+            An ACL role defines a set of permissions that can be assigned to an entity in Consul, such as a team or a service. The `--http-addr` option specifies the HTTP address where this role can be accessed. This is important for securing access to Consul's ACL functionality and ensuring that only authorized entities can manage access control policies.
+        stale: '[AI] The `consul acl role --stale` command in Consul is used to list roles that have been defined, along with any assignments or memberships that may no longer be valid due to changes in the Consul ACL policy. These stale roles are not enforcing access control policies, but still exist in the system and can potentially cause security issues if not cleaned up. By using this command, an administrator can identify and remove these stale roles to maintain a secure and up-to-date Access Control List (ACL) policy.'
+        tls-server-name: |-
+            [AI] The `consul acl role --tls-server-name` command is used in Hashicorp Consul, an open-source tool for service discovery, configuration, and orchestration. It generates an Access Control List (ACL) role definition with TLS server name verification enabled.
+
+            When creating or updating an ACL role, this flag sets the `server_name` field to a specific value, which is used by Consul's built-in HTTPS server to validate the identity of TLS clients that assume this role. This feature helps ensure secure communication between Consul and its clients.
+
+            Here's a brief explanation of how it works:
+            1. Generate an ACL role definition using the `consul acl` command.
+            2. Use the `--tls-server-name` flag to set the desired server name.
+            3. Save the generated role definition, and apply it to Consul clients or services that need secure communication with the Consul server.
+            4. Clients or services that assume this role will have their TLS connection verified against the provided server name.
+
+            In summary, using the `consul acl role --tls-server-name` command helps ensure secure communications between Consul and its clients or services by requiring TLS client certificates to present a valid server name during the TLS handshake.
+        token: '[AI] The `consul acl role --token` command is used in Consul, an open-source tool for service discovery, configuration, and orchestration. This command retrieves the access control list (ACL) role associated with a given token. ACL roles define permissions and capabilities granted to different entities within a Consul datacenter. By supplying a token, this command helps administrators understand which roles have been assigned to specific entities, enabling better management of security and access controls in Consul environments.'
+        token-file: '[AI] The `consul acl role --token-file` command is used with the Consul Access Control List (ACL) tool to create or update an ACL role in a Consul cluster. This command requires a valid token file containing an administrative Consul token for authentication. The flag `--token-file` specifies the path to this token file. With this token, you can define and manage permissions for different entities (like policies, users, services) within your Consul environment.'
