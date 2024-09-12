@@ -1,0 +1,160 @@
+ABRT: |
+  The [ABRT](ps://signal/ABRT) signal is sent to a process to tell it to **abort**, i.e. to terminate.
+  The signal is usually initiated by the process itself when it calls `abort()` function of the C Standard Library,
+  but it can be sent to the process from outside like any other signal.
+IOT: |
+  [IOT](ps://signal/IOT) indicates that the CPU has executed an explicit "trap" instruction (without a defined function),
+  or an unimplemented instruction (when emulation is unavailable).
+ALRM: |
+  The [ALRM](ps://signal/ALRM), [VTALRM](ps://signal/VTALRM) and [PROF](ps://signal/PROF) signals
+  are sent to a process when the corresponding time limit is reached.
+  The process sets these time limits by calling `alarm` or `setitimer`.
+  The time limit for [ALRM](ps://signal/ALRM) is based on real or clock time;
+  [VTALRM](ps://signal/VTALRM) is based on CPU time used by the process;
+  and [PROF](ps://signal/PROF) is based on CPU time used by the process
+  and by the system on its behalf (known as a *profiling timer*).
+  On some systems [ALRM](ps://signal/ALRM) may be used internally by the implementation of the `sleep` function.
+VTALRM: |
+  The [ALRM](ps://signal/ALRM), [VTALRM](ps://signal/VTALRM) and [PROF](ps://signal/PROF) signals
+  are sent to a process when the corresponding time limit is reached.
+  The process sets these time limits by calling `alarm` or `setitimer`.
+  The time limit for [ALRM](ps://signal/ALRM) is based on real or clock time;
+  [VTALRM](ps://signal/VTALRM) is based on CPU time used by the process;
+  and [PROF](ps://signal/PROF) is based on CPU time used by the process
+  and by the system on its behalf (known as a *profiling timer*).
+  On some systems [ALRM](ps://signal/ALRM) may be used internally by the implementation of the `sleep` function.
+PROF: |
+  The [ALRM](ps://signal/ALRM), [VTALRM](ps://signal/VTALRM) and [PROF](ps://signal/PROF) signals
+  are sent to a process when the corresponding time limit is reached.
+  The process sets these time limits by calling `alarm` or `setitimer`.
+  The time limit for [ALRM](ps://signal/ALRM) is based on real or clock time;
+  [VTALRM](ps://signal/VTALRM) is based on CPU time used by the process;
+  and [PROF](ps://signal/PROF) is based on CPU time used by the process
+  and by the system on its behalf (known as a *profiling timer*).
+  On some systems [ALRM](ps://signal/ALRM) may be used internally by the implementation of the `sleep` function.
+BUS: |
+  The [BUS](ps://signal/BUS) signal is sent to a process when it causes a **bus error**.
+  The conditions that lead to the signal being sent are, for example,
+  incorrect memory access alignment or non-existent physical address.
+CHLD: |
+  The [CHLD](ps://signal/CHLD) signal is sent to a process when a **child process** terminates,
+  is stopped, or resumes after being stopped.
+  One common usage of the signal is to instruct the operating system to clean up the resources
+  used by a child process after its termination without an explicit call to the `wait` system call.
+CONT: |
+  The [CONT](ps://signal/CONT) signal instructs the operating system to **continue** (restart)
+  a process previously paused by the [STOP](ps://signal/STOP) or [TSTP](ps://signal/TSTP) signal.
+  One important use of this signal is in job control in the Unix shell.
+FPE: |
+  The [FPE](ps://signal/FPE) signal is sent to a process when an exceptional (but not necessarily erroneous)
+  condition has been detected in the floating point or integer arithmetic hardware.
+  This may include division by zero, floating point underflow or overflow, integer overflow,
+  an invalid operation or an inexact computation.
+  Behaviour may differ depending on hardware.
+HUP: |
+  The [HUP](ps://signal/HUP) signal is sent to a process when its controlling terminal is closed.
+  It was originally designed to notify the process of a serial line drop (a **hangup**).
+  In modern systems, this signal usually means that the controlling pseudo or virtual terminal has been closed.
+  Many daemons (who have no controlling terminal) interpret receipt of this signal as a request to reload their
+  configuration files and flush/reopen their logfiles instead of exiting.
+  [nohup](cmd://nohup) is a command to make a command ignore the signal.
+ILL: | 
+  The [ILL](ps://signal/ILL) signal is sent to a process when it attempts to execute an **illegal**,
+  malformed, unknown, or privileged instruction.
+INT: |
+  The [INT](ps://signal/INT) signal is sent to a process by its controlling terminal when a user wishes to **interrupt** the process.
+  This is typically initiated by pressing Ctrl+C, but on some systems, the "delete" character or "break" key can be used.
+KILL: |
+  The [KILL](ps://signal/KILL) signal is sent to a process to cause it to terminate immediately (**kill**).
+  In contrast to [TERM](ps://signal/TERM) and [INT](ps://signal/INT), this signal cannot be caught or ignored,
+  and the receiving process cannot perform any clean-up upon receiving this signal.
+  The following exceptions apply:
+  
+  -   Zombie processes cannot be killed since they are already dead
+      and waiting for their parent processes to reap them.
+  -   Processes that are in the blocked state will not die until they wake
+      up again.
+  -   The *init* process is special: It does not get
+      signals that it does not want to handle, and thus it can ignore [KILL](ps://signal/KILL).
+      An exception from this rule is while init is ptraced on Linux.
+  -   An uninterruptibly sleeping process may not terminate (and free its resources) even when sent [KILL](ps://signal/KILL).
+      This is one of the few cases in which a UNIX system may have to be rebooted to solve a temporary software problem.
+  
+  [KILL](ps://signal/KILL) is used as a last resort when terminating processes in most system shutdown procedures
+  if it does not voluntarily exit in response to [TERM](ps://signal/TERM).
+  To speed the computer shutdown procedure, Mac OS X 10.6, aka Snow Leopard,
+  will send [KILL](ps://signal/KILL) to applications that have marked themselves "clean"
+  resulting in faster shutdown times with, presumably, no ill effects.
+  The command has a similar, while dangerous effect, when executed e.g. in Linux;
+  it does not let programs save unsaved data.
+  It has other options, and with none, uses the safer SIGTERM signal.
+PIPE: |
+  The [PIPE](ps://signal/PIPE) signal is sent to a process when it attempts to write to a
+  pipe without a process connected to the other end.
+POLL: |
+  The [POLL](ps://signal/POLL) signal is sent when an event occurred on an explicitly watched file descriptor.
+  Using it effectively leads to making asynchronous I/O requests since the kernel
+  will **poll** the descriptor in place of the caller.
+  It provides an alternative to active polling.
+RTMIN: |
+  The [RTMIN](ps://signal/RTMIN) to [RTMAX](ps://signal/RTMAX) signals are intended to be used foruser-defined purposes.
+  They are **real-time** signals.
+RTMAX: |
+  The [RTMIN](ps://signal/RTMIN) to [RTMAX](ps://signal/RTMAX) signals are intended to be used foruser-defined purposes.
+  They are **real-time** signals.
+QUIT: |
+  The [QUIT](ps://signal/QUIT) signal is sent to a process by its controlling terminal when the user requests
+  that the process **quit** and perform a core dump.
+SEGV: |
+  The [SEGV](ps://signal/SEGV) signal is sent to a process when it makes an invalid virtual memory reference,
+  or segmentation fault, i.e. when it performs a **seg**mentation **v**iolation.
+STOP: |
+  The [STOP](ps://signal/STOP) signal instructs the operating system to **stop** a process for later resumption.
+SYS: |
+  The [SYS](ps://signal/SYS) signal is sent to a process when it passes a bad argument to a system call.
+  In practice, this kind of signal is rarely encountered since applications rely on libraries (e.g. libc) to make the call for them.
+  [SYS](ps://signal/SYS) can be received by applications violating the Linux Seccomp security rules configured to restrict them.
+  [SYS](ps://signal/SYS) can also be used to emulate foreign system calls, e.g. emulate Windows system calls on Linux.
+TERM: |
+  The [TERM](ps://signal/TERM) signal is sent to a process to request its **termination**.
+  Unlike the [KILL](ps://signal/KILL) signal, it can be caught and interpreted or ignored by the process.
+  This allows the process to perform nice termination releasing resources and saving state if appropriate.
+  [INT](ps://signal/INT) is nearly identical to [TERM](ps://signal/TERM).
+TSTP: |
+  The [SIGTSTP](ps://signal/TSTP) signal is sent to a process by its controlling **terminal**
+  to request it to **stop** (**t**erminal **st**o**p**).
+  It is commonly initiated by the user pressing Ctrl-Z.
+  Unlike [STOP](ps://signal/STOP), the process can register a signal handler for, or ignore, the signal.
+TTIN: |
+  The [TTIN](ps://signal/TTIN) and [TTOU](ps://signal/TTOU) signals are sent to a process
+  when it attempts to read **in** or write **out** respectively from the **tty** while in the background.
+  Typically, these signals are received only by processes under job control;
+  daemons do not have controlling terminals and, therefore, should never receive these signals.
+TTOU: |
+  The [TTIN](ps://signal/TTIN) and [TTOU](ps://signal/TTOU) signals are sent to a process
+  when it attempts to read **in** or write **out** respectively from the **tty** while in the background.
+  Typically, these signals are received only by processes under job control;
+  daemons do not have controlling terminals and, therefore, should never receive these signals.
+TRAP: |
+  The [TRAP](ps://signal/TRAP) signal is sent to a process when an exception (or **trap**) occurs:
+  a condition that a debugger has requested to be informed of for example,
+  when a particular function is executed, or when a particular variable changes value.
+URG: |
+  The [URG](ps://signal/URG) signal is sent to a process when a socket has **urgent**
+  or out-of-band data available to read.
+USR1: |
+  The [USR1](ps://signal/USR1) and [USR2](ps://signal/USR2) signals are sent to a process to indicate **user-defined conditions**.
+USR2: |
+  The [USR1](ps://signal/USR1) and [USR2](ps://signal/USR2) signals are sent to a process to indicate **user-defined conditions**.
+XCPU: |
+  The [XCPU](ps://signal/XCPU) signal is sent to a process when it has used up the **CPU** for a duration that
+  **exceeds** a certain predetermined user-settable value.
+  The arrival of a [XCPU](ps://signal/XCPU) signal provides the receiving process a chance to quickly
+  save any intermediate results and to exit gracefully,
+  before it is terminated by the operating system using the [KILL](ps://signal/KILL) signal.
+XFSZ: |
+  The [XFSZ](ps://signal/XFSZ) signal is sent to a process when it grows a **file** that
+  **exceeds** the maximum allowed **size**.
+WINCH: |
+  The [WINCH](ps://signal/WINCH) signal is sent to a process when its controlling terminal
+  changes its size (a **win**dow **ch**ange).
