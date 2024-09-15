@@ -1,0 +1,36 @@
+D: |
+  The process is **blocked** and that state cannot be interrupted (e.g. with [kill](cmd://kill)).
+  Usually while in this state the kernel is performing I/O on behalf of the process,
+  and the kernel code in question isn't able to handle interruptions.
+I: |
+  The process is a kernel thread that currently has nothing to do and is **blocked** waiting for new work.
+  This state is technically the same as [D](ps://state/D) (as usually kernel threads aren't interruptible).
+  It was introduced for accounting/cosmetic reasons, because processes in [D](ps://state/D) state are considered contributing to the system load.
+R: |
+  The process is **waiting** to run or **running**.
+  These are all processes the scheduler can and will schedule on the available CPUs.
+  Internally the kernel can differentiate between running and waiting processes
+  but this isn't exposed through the process state codes.
+S: |
+  The process is **blocked** and that state can be interrupted with [kill](cmd://kill).
+  This state is entered with most system calls that wait for some event (`sleep`, `select`, `poll`, `wait`, etc.).
+T: |
+  The process is **blocked** from being scheduled by a signal like [STOP](ps://signal/STOP).
+  This state doesn't match perfectly into the theoretical state "Blocked"
+  because the process doesn't wait for an event by itself,
+  but is usually blocked from further running by intervention of another process or the user (`Ctrl+Z`).
+t: |
+  Similar to [T](ps://state/T).
+  The process is **blocked** from being scheduled by a debugger or tracing process, not by itself waiting for an event.
+W: |
+  Obsolete. The process is **blocked** waiting for a memory page to be read from swap into RAM.
+  This code was used up until Linux v1.1.30.
+  Since v2.3.43 there's no way to put a process in this state any more,
+  and since v2.5.50 every reference to this state was removed.
+X: |
+  The process is **terminated** and currently being removed from the process list.
+  You won't see this state often as it only appears when [ps](cmd://ps) runs exactly in the split second
+  while the kernel cleans up a process entry on another CPU core.
+Z: |
+  The process is **terminated** and the entry in the process list only exists
+  so that the parent process can collect the exit status information.
