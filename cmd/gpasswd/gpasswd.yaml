@@ -1,0 +1,54 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: gpasswd
+description: administer /etc/group and /etc/gshadow
+flags:
+    -A, --administrators=: set the list of administrators for GROUP
+    -M, --members=: set the list of members of GROUP
+    -Q, --root=: directory to chroot into
+    -R, --restrict: restrict access to GROUP to its members
+    -a, --add=: add USER to GROUP
+    -d, --delete=: remove USER from GROUP
+    -h, --help: display this help message and exit
+    -r, --remove-password: remove the GROUP's password
+documentation:
+    command: '[AI] `gpasswd` is a command-line utility in Unix-like operating systems used to manage group and user passwords and memberships for various system accounts and groups. It allows you to add or remove users from groups, change the password of a group or user account, and set the user''s expiry date and other related attributes. This command is particularly useful when managing access control for Linux systems with multiple users or shared resources.'
+    flag:
+        add: '[AI] `gpasswd --add` is a command-line utility in GNU/Linux systems used to add new users to existing groups or modify the membership of existing groups. The syntax is: `sudo gpasswd <group> <user>`. This command modifies the /etc/group file directly, which stores group information. After running this command, the user specified becomes a member of the named group and needs to log out and log back in for the changes to take effect.'
+        administrators: '[AI] The `gpasswd` command with the option `--administrators` is used to manage system group administrators in the GNU/Linux environment. Specifically, it allows you to add or remove users from the `admin` group, which typically has administrative privileges. For instance, `sudo gpasswd --add user admin` adds a user to the `admin` group, and `sudo gpasswd --remove user admin` removes a user. The changes take effect immediately without requiring a system reboot.'
+        delete: '[AI] `gpasswd --delete` is a command used in Linux and Unix-based systems to remove or delete user accounts from the group password file. This command takes one argument, which is the username of the account to be deleted. When executed with root privileges, it removes the specified user from the group memberships defined in the system''s group files. This can be useful when managing user access to resources controlled by group permissions.'
+        help: |-
+            [AI] `gpasswd` is a command-line utility in GNU/Linux systems for managing group and user passwords and memberships. The option `--help` displays detailed usage information about the `gpasswd` command, including available options, arguments, and their descriptions. For example:
+
+            ```sh
+            $ gpasswd --help
+            Usage: gpasswd [OPTIONS] [FILE | --help | --version]
+
+            Change the password or group membership of a user or file.
+
+            Options:
+              --help                       Display this help and exit
+              --version                    Output version information and exit
+              --no-log-passwd              Don't record password changes in the system log
+              --stdin                      Read new password from standard input instead of asking
+              --force                      Force user name or group name change without confirmation
+              --encrypted-password PASSWORD  Set a user's encrypted password (ignore this if changing a group password)
+              --member ADD|DEL:USER:[GID]     Add or delete a user from a group
+              --rename NAME:NEWNAME         Rename a group
+            ```
+
+            The output above shows the available options, their meanings, and usage examples for `gpasswd`.
+        members: '[AI] `gpasswd --members` is a command-line utility in GNU Core Utilities used to display the current members of a group in a Linux system. This command shows the list of users who belong to a specific group, along with their UIDs (User IDs). The group name must be provided as an argument. It''s often used for administration tasks and troubleshooting group membership issues.'
+        remove-password: |-
+            [AI] The `gpasswd` command is a utility in Linux and Unix systems used to manage group memberships and passwords for user accounts. The specific command you mentioned, `gpasswd --remove-password`, is used to remove a password from a user account, effectively making it a "no-password" or "null-password" account.
+
+            This means that the user can still log in using other methods such as SSH keys or smart cards but won't be prompted for a password when logging in locally at the console or via other traditional means like RDP or VNC. This is typically used in automated setups where you don't want to require a password to log in, but still need user-level access for tasks like system maintenance or software installation.
+        restrict: |-
+            [AI] `gpasswd --restrict` is a command used in Linux and Unix systems to modify access restrictions for specific users on a group-owned file or directory. This command changes the access flags (read, write, execute) for a user when using the group's password database (e.g., /etc/group).
+
+            The basic syntax is `gpasswd --restrict [user] [file_or_directory]`. The [user] argument specifies the username of the user whose access should be modified, and [file_or_directory] refers to the path of the file or directory.
+
+            Access can be granted by using the '+' symbol followed by the desired access flags (r for read, w for write, x for execute). To remove access, use the '-' symbol instead. For example:
+
+            - `gpasswd --restrict user1 myfile.txt +rxw` grants read and write permissions to user1 on myfile.txt
+            - `gpasswd --restrict user2 mydirectory -rwx` revokes read, write, and execute permissions for user2 on mydirectory.
+        root: '[AI] `gpasswd` is a Linux command-line utility used to manage group and user passwords. The specific command `gpasswd --root` grants superuser (root) privileges to a specified user account, allowing the user to perform administrative tasks. This operation should be used with caution as it confers significant system access. Typically, this command is used for temporary access or for granting root privileges to trusted users in a multi-user environment. The basic syntax is `sudo gpasswd --root <username>`, where `<username>` is the account name of the user to be granted root privileges.'

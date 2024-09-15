@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: rdp
+description: connects to machine via RDP
+documentation:
+    command: |-
+        [AI] The `vagrant rdp` command is not a standard Vagrant command. It seems to be a misconfiguration of intending to use `vagrant ssh-config` with an RDP (Remote Desktop Protocol) client, such as MSTSC (Microsoft Terminal Services Client) or xRDP on Linux.
+
+        To set up RDP access using Vagrant:
+
+        1. Install the Vagrant Guest Additions and a compatible RDP server on the guest machine.
+        2. Set up port forwarding in your `Vagrantfile`:
+
+           ```ruby
+           config.vm.network "forwarded_port", protocol: "tcp", host: 3389, guest: 3389
+           ```
+
+        3. Use the `vagrant ssh-config` command to configure your RDP client with the SSH connection details and forwarded port information:
+
+           ```bash
+           vagrant ssh-config > ~/.ssh/config
+           ```
+
+        4. Connect using your RDP client (MSTSC or xRDP) and enter the guest machine's IP address, username, and password, as well as the forwarded port number you defined in the `Vagrantfile`.
+
+           The full command structure for connecting via RDP using Vagrant is:
+
+           ```bash
+           mstsc /v:<guest_machine_ip>:<port_number> /username:<username> /password:<password>
+           ```
+
+           Replace `<guest_machine_ip>`, `<port_number>`, `<username>`, and `<password>` with the appropriate values.

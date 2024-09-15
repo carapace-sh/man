@@ -1,0 +1,240 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: mitmproxy
+description: interactive, SSL/TLS-capable intercepting proxy
+flags:
+    --allow-hosts*=: Opposite of --ignore-hosts
+    --anticache: Strip out request headers that might cause the server to return 304-not-modified
+    --anticomp: Try to convince servers to send us un-compressed data
+    --cert-passphrase=: Passphrase for decrypting the private key provided in the --cert option
+    --certs=: SSL certificates of the form "[domain=]path"
+    --commands: Show all commands and their signatures
+    --console-layout-headers: Show layout component headers
+    --console-layout=: Console layout
+    --http2: Enable HTTP/2 support
+    --ignore-hosts*=: Ignore host and forward all traffic without processing it
+    --intercept=: Intercept filter expression
+    --key-size=: TLS key size for certificates and CA
+    --listen-host=: Address to bind proxy to
+    --map-local=: Map remote resources to a local file
+    --no-anticache: Do not strip out request headers that might cause the server to return 304-not-modified
+    --no-anticomp: Do not try to convince servers to send us un-compressed data
+    --no-console-layout-headers: Do not show layout component headers
+    --no-http2: Disable HTTP/2 support
+    --no-rawtcp: Disable raw TCP connections
+    --no-server-replay-kill-extra: Do not kill extra requests during replay
+    --no-server-replay-nopop: Remove flows from server replay state after use
+    --no-server-replay-refresh: ""
+    --no-showhost: Do not use the Host header to construct URLs for display
+    --no-ssl-insecure: Verify upstream server SSL/TLS certificates
+    --options: Show all options and their default values
+    --proxyauth=: Require proxy authentication
+    --rawtcp: Enable raw TCP connections
+    --server: Start a proxy server
+    --server-replay-kill-extra: Kill extra requests during replay
+    --server-replay-nopop: Don't remove flows from server replay state after use
+    --server-replay-refresh: Refresh server replay responses by adjusting date, expires and last-modified headers
+    --set*=: Set an option
+    --showhost: Use the Host header to construct URLs for display
+    --stickyauth=: Set sticky auth filter
+    --stickycookie=: Set sticky cookie filter
+    --tcp-hosts=: Generic TCP SSL proxy mode for all hosts that match the pattern
+    --upstream-auth=: Add HTTP Basic authentication to upstream proxy and reverse proxy requests
+    --version: show version number and exit
+    --view-filter=: Limit the view to matching flows
+    -B, --modify-body=: Replacement pattern
+    -C, --client-replay=: Replay client requests from a saved file
+    -H, --modify-headers=: Header modify pattern
+    -M, --map-remote=: Map remote resources to another remote URL
+    -S, --server-replay=: Replay server responses from a saved file
+    -h, --help: show this help message and exit
+    -k, --ssl-insecure: Do not verify upstream server SSL/TLS certificates
+    -m, --mode=: Set mode
+    -n, --no-server: Do not start a proxy server
+    -p, --listen-port=: Proxy service port
+    -q, --quiet: Quiet
+    -r, --rfile=: Read flows from file
+    -s, --scripts*=: Execute a script
+    -v, --verbose: Increase log verbosity
+    -w, --save-stream-file=: Stream flows to file as they arrive
+documentation:
+    command: '[AI] Mitmproxy is a powerful interactive HTTP/S proxy tool for inspecting, intercepting, and modifying traffic. It sits in the MITM (Man-in-the-Middle) position between clients and servers to enable deep packet inspection, providing real-time filtering, request/response editing, and SSL certification verification. Mitmproxy is particularly useful for network security testing, web application penetration testing, and debugging HTTP/HTTPS communications. It''s written in Python and supports various protocols like WebSocket and HTTP/2.'
+    flag:
+        allow-hosts: '[AI] `mitmproxy` is a powerful intercepting HTTP/HTTPS proxy tool used for debugging, testing, and security analysis. The `--allow-hosts` option is a security feature that restricts mitmproxy from establishing connections to hosts not explicitly listed. This helps prevent man-in-the-middle (MitM) attacks on unintended targets by limiting the proxy''s reach to specified hosts only. It adds an extra layer of safety when using mitmproxy for testing or debugging purposes in a controlled environment.'
+        anticache: |-
+            [AI] `mitmproxy` is a powerful intercepting HTTP proxy that can be used for various purposes, such as debugging, testing, and security analysis. The `--anticache` option is one of its features designed to prevent caching in the client and server sides during interception.
+
+            When `mitmproxy` intercepts an HTTP request, it modifies the response by adding specific headers to inhibit caching mechanisms. This way, when the client sends another request for the same resource, it won't use the cached response but will instead fetch the latest data from the server through `mitmproxy`. As a result, all interactions between the client and the server go through `mitmproxy`, allowing for thorough inspection and manipulation.
+        anticomp: '[AI] `mitmproxy` is a powerful intercepting proxy tool for inspecting, modifying, and replaying HTTP and HTTPS traffic. The `--anticomp` option is used to disable automatic content compression when mitmproxy intercepts requests and responses. This can be useful when analyzing compressed data as it allows the raw, uncompressed traffic to be inspected instead. By disabling compression, mitmproxy can more easily read and modify the data. However, note that this can result in larger payload sizes and potentially slower performance.'
+        cert-passphrase: '[AI] `mitmproxy` is a powerful intercepting HTTPS proxy tool used for debugging and security testing. The option `--cert-passphrase` is used to specify the passphrase for the certificate file provided to mitmproxy for man-in-the-middle (MITM) attacks against HTTPS traffic. This is important because, when MITM attacking HTTPS, mitmproxy needs to present a valid certificate to the client and server to establish encrypted connections. Providing an incorrect passphrase will prevent the tool from functioning properly.'
+        certs: '[AI] `mitmproxy` is a powerful tool for intercepting and inspecting HTTP(S) traffic. The `--certs` option is used to manage SSL certificates for man-in-the-middle (MITM) attacks. With this option, mitmproxy can present custom certificates to clients during the SSL handshake process, allowing you to intercept encrypted traffic. It''s important to note that using MITM with custom certificates requires careful handling of security and trust, as it can potentially introduce vulnerabilities if not done correctly.'
+        client-replay: |-
+            [AI] `mitmproxy` is a powerful intercepting HTTP/HTTPS proxy tool used for debugging, testing, and security analysis. The `--client-replay` option is one of its features.
+
+            With `--client-replay`, mitmproxy records and saves all client requests and responses to a file (`.mitm` extension), which can be later replayed back to the original server. This allows for testing an application or service with predefined, saved traffic without affecting the live system or modifying any requests/responses in real-time. It is useful when performing automated tests, regression checks, and analyzing client-server interactions offline.
+        commands: '[AI] `mitmproxy` is a powerful tool for intercepting, inspecting, and modifying HTTP(S) traffic. The `--commands` option extends its functionality by allowing users to define custom Python scripts that get executed at specific events during the proxy''s operation. These scripts can perform various tasks such as filtering requests or responses based on certain conditions, modifying data, logging, or even injecting custom HTTP headers. Essentially, it enables advanced traffic manipulation for penetration testing, debugging, and other use cases.'
+        console-layout: '[AI] `mitmproxy --console-layout` is a command-line option used with the mitmproxy tool, which is an intercepting HTTP/HTTPS proxy for debugging and testing purposes. The `--console-layout` option changes the output format of mitmproxy''s console, making it more compact and suitable for display in terminal multiplexers like tmux or screen. It modifies how data is displayed, such as hiding unnecessary headers and shortening responses, providing a more efficient use of screen space.'
+        console-layout-headers: |-
+            [AI] `mitmproxy` is a powerful intercepting proxy tool for inspecting and modifying HTTP(S) traffic. The command `mitmproxy --console-layout-headers` sets up mitmproxy in console mode with enhanced header display.
+
+            When this option is used, mitmproxy displays more detailed headers information for each request and response. This includes additional headers not typically shown by default, such as server timestamps or transfer encoding flags. The improved header format makes it easier to debug and analyze network traffic.
+        help: |-
+            [AI] `mitmproxy` is a versatile HTTP/HTTPS proxy tool for intercepting, inspecting, and modifying network traffic. The `--help` option provides an overview of its main features and usage:
+
+            1. Intercepting: Allows you to intercept and modify traffic between clients (browsers, mobile apps) and servers in real-time by acting as a man-in-the-middle proxy.
+            2. Inspecting: Gives you the ability to closely examine raw HTTP/HTTPS packets and their contents (headers, bodies, cookies), including encrypted traffic with SSL/TLS certificates.
+            3. Modifying: Enables you to modify and manipulate the intercepted traffic by writing custom scripts using Python or Lua.
+            4. Recording: Provides an easy-to-use recording mode to save all intercepted traffic in a file for later analysis.
+            5. SSL/TLS Proxy: Supports both client-side (intercepting SSL/TLS connections initiated from the client) and server-side (proxying SSL/TLS connections from the server) certificates for secure communication.
+            6. Multithreaded: Can handle multiple connections simultaneously, allowing you to intercept traffic from several clients at once.
+            7. Extensible: Offers a wide range of plugins, customization options, and integrations with other tools like Burp Suite, Wireshark, and Telerik Fiddler, making it adaptable for various use cases.
+        http2: '[AI] `mitmproxy` is a powerful intercepting HTTP/HTTPS proxy tool used for debugging, testing, and security analysis. The `--http2` flag enables mitmproxy to support and intercept HTTP/2 traffic. HTTP/2 is the latest version of the Hypertext Transfer Protocol (HTTP), which offers significant improvements in terms of performance and security compared to its predecessor, HTTP/1.1. With the `--http2` flag, mitmproxy can inspect and manipulate HTTP/2 traffic just like it does with HTTP/1.1, providing a comprehensive analysis and testing solution for modern web applications that use HTTP/2.'
+        ignore-hosts: '[AI] `mitmproxy` is a popular tool for intercepting, inspecting, and modifying HTTP and HTTPS traffic between devices and servers. The `--ignore-hosts` option is used to specify a list of hosts or domains that should not be intercepted by mitmproxy. This can be useful in situations where you want to exclude certain sites from being proxied, such as sensitive financial or email services. By default, mitmproxy intercepts all HTTPS traffic and presents the user with a certificate for verification before allowing access. However, with `--ignore-hosts`, you can bypass this intervention for specified hosts. It''s important to note that ignoring specific hosts may pose a security risk if those sites contain malicious content or are phishing attempts.'
+        intercept: '[AI] `mitmproxy` is a powerful intercepting HTTP/HTTPS proxy tool for monitoring and modifying traffic. The `--intercept` option is used to configure mitmproxy in active man-in-the-middle (MITM) mode, allowing it to intercept, inspect, modify or filter traffic between the client and server. It does this by installing its own root CA certificate on the client device, enabling it to present a valid SSL certificate for each intercepted connection. This feature is particularly useful for security testing and debugging applications that send sensitive data over encrypted connections. Note that `--intercept` should be used with caution, as it can potentially break secure communication channels if not handled correctly.'
+        key-size: '[AI] `mitmproxy` is a popular tool for intercepting, inspecting, and modifying HTTP(S) traffic. The option `--key-size` sets the size of SSL certificates that mitmproxy will generate when impersonating a certificate authority (CA). It takes an argument specifying the key size in bits: 1024, 2048 or 4096 bits. Higher key sizes provide better security but also require more computational resources.'
+        listen-host: '[AI] `mitmproxy` is a powerful intercepting HTTP/HTTPS proxy tool for debugging and testing. The `--listen-host` option specifies the IP address or hostname that mitmproxy should listen on for incoming connections. When you run mitmproxy with this option, it sets up a man-in-the-middle (MITM) position between clients and servers, allowing you to inspect and modify the traffic in real time. The default value is `0.0.0.0`, which means mitmproxy listens on all available interfaces. By specifying a particular IP or hostname with `--listen-host`, you can restrict mitmproxy''s listening to that interface only.'
+        listen-port: '[AI] `mitmproxy` is a powerful intercepting proxy tool for inspecting, modifying, and testing HTTP and HTTPS traffic. The command `mitmproxy --listen-port <PORT>` tells mitmproxy to start an intercepting proxy server listening on the specified port number (<PORT>) for incoming client connections. Clients are then configured to connect to this proxy server instead of the real destination, allowing mitmproxy to intercept, inspect, and modify the traffic as needed before forwarding it on to its true destination.'
+        map-local: |-
+            [AI] `mitmproxy` is a versatile intercepting proxy tool used for inspecting, modifying, and testing HTTP(S) traffic. The `--map-local` option is a feature in mitmproxy that allows mapping local files or directories to specific URLs during proxying.
+
+            When using this option, mitmproxy acts as a man-in-the-middle (MITM) proxy and intercepts all HTTP(S) traffic between the client and server. At the same time, it can serve local content from files or directories as if they were originally coming from the internet, providing an effective way to test responses or even simulate various server behaviors without affecting the actual server.
+
+            For example, when using `mitmproxy` with `--map-local /path/to/file:example.com`, it will intercept all HTTP(S) requests destined for "example.com" and serve the contents of "/path/to/file" instead. This can be useful in testing local development environments, troubleshooting, or even creating redirects to local resources.
+        map-remote: |-
+            [AI] `mitmproxy` is a popular interactive HTTP/S proxy tool used for intercepting, inspecting, and modifying traffic between clients and servers. The `--map-remote` option is one of its advanced features designed to simplify the handling of SSL certificates during Man-in-the-Middle (MitM) attacks.
+
+            When you use `mitmproxy` in MitM mode with self-signed certificates, the default behavior will present a warning message to the client each time they try to establish an encrypted connection. This can be a hassle when dealing with multiple clients or automated testing scenarios.
+
+            To bypass these warnings and automate the process of accepting those certificates, you can use the `--map-remote` option. This command tells mitmproxy to map remote SSL certificates to local ones based on specific criteria, like IP addresses or hostnames. As a result, the clients will not receive any warnings when connecting to the proxied server.
+
+            It's essential to note that using this feature with malicious intent is against ethical guidelines and can violate privacy and security policies. It should only be used for legitimate purposes, such as testing and debugging your own applications or troubleshooting network issues.
+        mode: |-
+            [AI] `mitmproxy` is a powerful tool for intercepting, inspecting, and modifying HTTP(S) traffic. The `--mode` option specifies how mitmproxy should behave during interception:
+
+            1. **Proxy:** Default mode where mitmproxy acts as a man-in-the-middle (MITM) proxy server. It intercepts and modifies traffic between clients and servers in real-time, allowing for detailed analysis and modification of requests and responses.
+            2. **Repeater:** A special mode for inspecting and modifying individual connections in real-time. The client connects to mitmproxy first, then the server connects to mitmproxy, enabling full control over both ends of the connection.
+            3. **Controller:** Mitmproxy can also act as a controller for other mitmproxy instances, allowing you to coordinate interception and analysis across multiple clients or networks.
+            4. **DNS:** In this mode, mitmproxy responds to DNS queries with IP addresses of your choice, effectively performing man-in-the-middle attacks on the DNS layer. This can be useful for testing or debugging purposes.
+        modify-body: '[AI] `mitmproxy` is a popular tool for intercepting and modifying HTTP(S) traffic in real time. The `--modify-body` option is one of its advanced features that allows users to modify the body of outgoing requests or responses. This can be useful for testing, debugging, or implementing certain types of proxying like content filtering or data transformation. When used with a Python script, it applies specified body modifications using regular expressions and string manipulation functions before forwarding the traffic.'
+        modify-headers: |-
+            [AI] `mitmproxy` is a popular tool for intercepting and modifying HTTP(S) traffic between devices and servers. The `--modify-headers` option is one of its features that allows users to manipulate headers in the requests or responses as they pass through the proxy.
+
+            When using this flag, mitmproxy provides an interface for defining custom header rules. Users can write regular expressions (regex) to match specific headers and then specify actions like replacing, adding, or deleting header values. This functionality is useful for testing web applications, simulating different client types or environments, or enforcing security policies. For instance, it can be employed to add custom authentication tokens, modify request content types, or intercept and sanitize potentially harmful headers.
+
+            The syntax for using `--modify-headers` is as follows:
+            ```css
+            [filter FILTER_NAME]
+              [header HEADER_TYPE] <REGEX> <ACTIONS>
+
+            # Example rule: Modify "X-Custom-Header" to "X-New-Custom-Header"
+            [filter my_filter]
+              [header X-Custom-Header] ^(.*)$ (replace X-New-Custom-Header \1)
+            ```
+            In the example above, `FILTER_NAME` is a custom name for the rule, and `HEADER_TYPE` represents the header field to be modified. The regex pattern matches headers containing "X-Custom-Header", which are then subjected to the specified actions (in this case, replacing with "X-New-Custom-Header" while preserving the original value).
+        no-anticache: '[AI] `mitmproxy` is a powerful intercepting HTTP proxy tool used for debugging, testing, and security analysis. The option `--no-anticache` disables MitmProxy''s caching mechanism. This means that MitmProxy will not store previously fetched responses in its cache and will always fetch new responses fresh from the server during the interception process. It is particularly useful when analyzing applications with dynamic or frequently changing content to ensure that all requests are handled by the proxy, without being served from a cached response.'
+        no-anticomp: '[AI] `mitmproxy` is a free and open-source HTTP/HTTPS intercepting proxy tool for inspecting, modifying, and testing web traffic. The option `--no-anticomp` disables MitMProxy''s automatic content compression handling. This means that the intercepted data will not be automatically decompressed before being sent to the user or application, allowing the user to handle content compression manually. This can be useful for advanced users who want more control over the decompression process.'
+        no-console-layout-headers: '[AI] `mitmproxy` is a powerful intercepting HTTP proxy tool for debugging and testing web applications. The command `mitmproxy --no-console-layout-headers` is used to start mitmproxy without displaying the headers of each request and response in the console, providing a more minimal output. This can be useful when automating tests or running mitmproxy in the background.'
+        no-http2: '[AI] `mitmproxy` is a free and open-source HTTP/HTTPS interception proxy tool for testing and debugging. The command `mitmproxy --no-http2` disables the support for HTTP/2 protocol in mitmproxy. HTTP/2 is a newer version of HTTP with features like binary framing, header compression, and multiplexing. Disabling HTTP/2 may be necessary when testing applications that do not yet support it or to avoid potential compatibility issues.'
+        no-rawtcp: '[AI] `mitmproxy` is a powerful intercepting HTTP/HTTPS proxy tool used for debugging, testing, and security analysis. The option `--no-rawtcp` disables the Raw TCP mode in mitmproxy. In Raw TCP mode, mitmproxy doesn''t interpret or modify the data being transmitted between the client and server but only relays it as is. Disabling this mode allows mitmproxy to handle only HTTP(S) traffic and intercept/modify messages at the application layer.'
+        no-server: |-
+            [AI] `mitmproxy` is a free and open-source intercepting HTTP/HTTPS proxy tool for debugging, testing, and interception of web traffic. The command `mitmproxy --no-server` is used to start mitmproxy in transparent mode without starting its own HTTPS certificate authority (CA).
+
+            In this mode, mitmproxy intercepts traffic between the client and server, but does not issue its own certificates for SSL/TLS encrypted connections. Instead, it relies on the presence of a valid CA certificate on the client side to allow secure communication with man-in-the-middle (MitM) proxied websites.
+
+            In summary, `mitmproxy --no-server` is a command line option that enables MitM proxy functionality without starting a local CA for SSL/TLS certificates.
+        no-server-replay-kill-extra: |-
+            [AI] `mitmproxy` is a powerful intercepting proxy tool that allows inspecting, modifying, and testing HTTP(S) traffic. The command `mitmproxy --no-server-replay-kill-extra` disables the server replay feature with an extra safety measure.
+
+            When mitmproxy intercepts a request, it can store the response for later use (server replay), which is useful for testing or analyzing traffic offline. However, by default, if a new request comes in for the same URL while there's a stored response, mitmproxy will automatically serve the old response instead of intercepting the new request and sending it to the server.
+
+            The `--no-server-replay` flag disables this behavior and always sends new requests directly to the server. But, with an added safety measure -- `kill-extra`, when a stored response is served inadvertently, mitmproxy will print a warning message and terminate the current connection to prevent unintended consequences from using outdated or incorrect data. This ensures that the user is aware of the situation and takes appropriate action.
+        no-server-replay-nopop: |-
+            [AI] `mitmproxy` is a powerful intercepting proxy tool used for inspecting and modifying HTTP(S) traffic. The command `mitmproxy --no-server-replay-nopop` is used to start mitmproxy in Man-In-The-Middle (MITM) mode without server replay or NoPOPo (No Persistent Observer Passive Offline) features.
+
+            Here's what each part of the command means:
+
+            1. `mitmproxy`: This is the name of the proxy tool being used.
+            2. `--no-server-replay-nopop`: This is a set of options being passed to mitmproxy, disabling two specific features:
+               - `--no-server-replay`: This option prevents mitmproxy from replaying previous responses that were saved during a previous interception session.
+               - `--no-pop` or `--no-persistent-observer`: This option stops mitmproxy from passively observing encrypted traffic without modifying it (Man-In-The-Middle) and only intercepting unencrypted traffic. With this option, mitmproxy acts as a passive observer, decrypting and logging the traffic without changing it.
+
+            Together, these options configure mitmproxy to start in MITM mode but not replay old responses or decrypt encrypted traffic passively.
+        no-server-replay-refresh: '[AI] `mitmproxy` is a popular tool for intercepting and inspecting HTTP(S) traffic. The command line option `--no-server-replay-refresh` disables the automatic refresh of server responses during replay. When mitmproxy intercepts a request, it can save the response and then later replay that saved response when the same request is made again. This feature is useful for seeing how a client handles identical requests and responses over time, but it may also cause issues in certain scenarios, such as when the server sends different responses based on the current state or time. The `--no-server-replay-refresh` option prevents mitmproxy from automatically refreshing saved responses during replay, allowing the latest response to be captured each time a request is made.'
+        no-showhost: |-
+            [AI] `mitmproxy` is a powerful tool used for intercepting, inspecting, and modifying HTTP(S) traffic between devices. The `--no-showhost` option is one of its command-line arguments.
+
+            When `mitmproxy` is run with this flag, it will not reveal the original hostname or IP address of the servers being interacted with in the response headers. Instead, it will show a randomly generated hostname under the `Server:` header. This behavior helps maintain anonymity and prevents leaking information about the true origin of the traffic.
+        no-ssl-insecure: '[AI] `mitmproxy` is a powerful intercepting HTTP/S proxy tool used for debugging, testing, and security analysis. The option `--no-ssl-insecure` disables MitMProxy from accepting self-signed or otherwise untrusted SSL certificates during man-in-the-middle (MitM) interception. This helps prevent connecting to potentially malicious servers by ensuring that only trusted certificates are accepted. By default, mitmproxy accepts all SSL certificates, making this option essential for secure and reliable usage.'
+        options: |-
+            [AI] `mitmproxy` is a powerful intercepting proxy tool used for debugging, testing, and securing HTTP and HTTPS traffic. The command `mitmproxy --options` is used to specify custom options when running the mitmproxy application.
+
+            The syntax is `mitmproxy <Options> [<Target>]`, where `<Options>` is a comma-separated list of key=value pairs defining various settings. For instance, you can set the listening interface and port, enable SSL interception, or log to a file with:
+
+            ```
+            mitmproxy --interface eth0 --port 8080 --ssl-insecure --logfile mitmproxy.log <Target>
+            ```
+
+            This command sets the interface to eth0, listens on port 8080, enables SSL interception for all certificates (--ssl-insecure), and logs the output to mitmproxy.log. Additional options include setting a custom CA certificate, filtering traffic based on URLs or HTTP headers, and more. You can find a comprehensive list of options in the mitmproxy documentation.
+        proxyauth: |-
+            [AI] `mitmproxy` is a popular tool used for intercepting, inspecting, and modifying HTTP and HTTPS traffic in real-time. The `--proxyauth` option is used when mitmproxy needs to authenticate itself with the target proxy server. This is typically required when using a proxy that implements access control or requires authentication for security reasons.
+
+            The `--proxyauth` flag takes two arguments: the authentication method and the credentials in the format "username:password". For example, `mitmproxy --proxyauth Basic myuser:mypassword` would be used to authenticate with a proxy using the BASIC authentication method and the given username and password.
+
+            This way, mitmproxy can establish a connection to the target proxy server and intercept traffic as intended, while ensuring that the correct credentials are provided for authorization.
+        quiet: '[AI] `mitmproxy` is a popular tool for proxy and intercepting HTTP(S) traffic in real-time. The `--quiet` option is used to suppress most of the output that mitmproxy generates when it''s running. This can be useful when you want to run mitmproxy in the background or automate tests where you don''t need to see the detailed output. With this flag, mitmproxy will still perform its interception and modification tasks, but it won''t print any messages to the console.'
+        rawtcp: '[AI] `mitmproxy` is a popular tool for proxy and intercepting HTTP(S) traffic. The `--rawtcp` option is used to configure mitmproxy in raw TCP mode, where it acts as a man-in-the-middle (MITM) proxy at the transport layer instead of the application layer. This means that all data, including non-HTTP traffic, is intercepted and modified before being sent to or received from the client or server. It''s important to note that using raw TCP mode may bypass some security mechanisms, such as TLS certificate validation, and can introduce additional risks, so it should be used with caution and only in controlled environments.'
+        rfile: |-
+            [AI] `mitmproxy` is a popular open-source intercepting proxy tool used for inspecting, modifying, and recording HTTP(S) traffic. The `--rfile` option is one of its command-line arguments. It stands for "response file." This feature allows you to load custom responses from a file instead of getting the actual responses from the server during interception.
+
+            When you use `mitmproxy --rfile <filename>`, it will read and serve the predefined responses from that file, overriding the original server's responses. This is particularly useful for testing, debugging, or simulating specific scenarios by providing controlled responses to your client applications. The responses are usually in JSON format, which includes the HTTP headers and the response body.
+        save-stream-file: '[AI] `mitmproxy` is a popular proxy tool used for intercepting, inspecting, and modifying HTTP(S) traffic. The option `--save-stream-file <filename>` instructs mitmproxy to save the contents of captured streams (HTTP body data) to a file instead of displaying them in real time. This can be useful for analyzing large or complex data offline, such as large files or encrypted traffic, without slowing down the proxy interface.'
+        scripts: '[AI] `mitmproxy` is a powerful tool for intercepting, inspecting, and modifying HTTP(S) traffic. The `--scripts` option enables the use of custom Python scripts during the proxy session. These scripts can hook into specific events such as request or response processing, allowing for advanced traffic manipulation like data modification, logging, or even automated responses. It''s a flexible feature that extends mitmproxy''s functionality to meet various testing, debugging, or security analysis needs.'
+        server: '[AI] `mitmproxy` is a free and open-source intercepting HTTP/S proxy tool that allows you to inspect, modify, and test web traffic in real time. The command `mitmproxy --server` starts mitmproxy in interactive mode as a proxy server. It listens on a specified interface (by default it''s localhost) and port for incoming connections. Clients can be configured to connect to this proxy server, which allows the user to intercept, modify, and analyze all requests and responses. This is commonly used for security testing, debugging, or testing API changes without affecting live traffic.'
+        server-replay: |-
+            [AI] `mitmproxy` is a popular tool used for intercepting, inspecting, and modifying HTTP and HTTPS traffic in real-time. The `--server-replay` flag is one of its features.
+
+            With `--server-replay`, mitmproxy can record traffic during an initial interception phase, save it to a file (a replay file), and then later use that saved data to replay the same traffic without the need for live interception. This allows testers to repeat specific network interactions for testing or debugging purposes.
+
+            When using `--server-replay`, mitmproxy acts as a proxy server, serving requests from the saved file instead of forwarding them to their original targets. The replayed traffic will have the same request and response data as during the initial interception, making it an excellent tool for consistent testing scenarios.
+        server-replay-kill-extra: |-
+            [AI] `mitmproxy` is a popular tool for intercepting and modifying HTTP(S) traffic in real time. The option `--server-replay-kill-extra` is related to its server replay feature.
+
+            When using mitmproxy as a man-in-the-middle (MITM), it can record all the HTTP(S) requests and responses for later analysis or modification. With the `--server-replay` option, mitmproxy can be configured to automatically replay these recorded requests when connecting to specific servers.
+
+            However, sometimes there might be multiple connections to the same server from the client during the recording phase, which will result in multiple entries with identical requests being added to the replay file. The `--server-replay-kill-extra` option is used to avoid this issue by only keeping the first occurrence of such requests and discarding the others when replaying the server responses. This helps ensure consistent behavior when replaying the recorded traffic and eliminating potential conflicts caused by duplicate requests.
+        server-replay-nopop: |-
+            [AI] `mitmproxy` is a popular tool for intercepting, inspecting, and modifying HTTP(S) traffic. The `--server-replay-nopop` option is used when performing man-in-the-middle (MITM) proxy attacks.
+
+            When you use this flag, mitmproxy will not populate the MITM response cache with any responses it intercepts from the server during the replay phase. This means that all responses will be served from the client's original local cache or fetched directly from the server.
+
+            This can be useful in certain scenarios such as:
+
+            1. Testing the behavior of applications that rely on stale or outdated cached content, or
+            2. Preventing unintended modifications of responses during the replay phase.
+
+            Keep in mind that using `mitmproxy` for MITM attacks requires proper setup and authorization from all affected parties to ensure security and privacy are not compromised.
+        server-replay-refresh: |-
+            [AI] `mitmproxy` is a popular tool used for intercepting, inspecting, and modifying HTTP(S) traffic between devices and servers in real time. The `--server-replay-refresh` option is used in combination with the server mode of mitmproxy.
+
+            When you use mitmproxy in server mode, it sets up a proxy server that intercepts all HTTP(S) traffic passing through it. By default, mitmproxy saves the intercepted requests and responses to a file called `server.con` for later replay. The `--server-replay-refresh` option is used to automatically refresh this file whenever there's a change in the network traffic.
+
+            This means that every time there's a new request or response, mitmproxy will update the `server.con` file accordingly and start serving the updated data from it. This can be useful when testing changes to web applications, as it allows you to quickly see the impact of those changes on the network traffic without having to restart the proxy server each time.
+
+            In summary, `mitmproxy --server-replay-refresh` is an option that enables automatic updating of the saved network traffic data in mitmproxy's server mode, allowing for quicker testing and iteration when making changes to web applications.
+        set: '[AI] `mitmproxy` is a powerful tool for intercepting, inspecting, and modifying HTTP(S) traffic. The `--set` option is used to configure mitmproxy with various settings. This can include things like setting the proxy server address to bind to, enabling SSL interception, or specifying custom certificate authorities. The syntax is `mitmproxy --set <option>=<value>`, where `<option>` is the name of the option to be configured and `<value>` is its value. For example: `mitmproxy --set listen-address=192.168.0.1:8080 --set ssl-insecure=true`. This sets mitmproxy to listen on IP address 192.168.0.1 and port 8080, and allows it to intercept unencrypted HTTP traffic as well as encrypted HTTPS traffic.'
+        showhost: '[AI] `mitmproxy` is a popular tool for intercepting, inspecting, and modifying HTTP(S) traffic in real-time. The command `mitmproxy --showhost` is used to display the original hostname or IP address of the server being connected to, along with its own certificate, when acting as an MITM (Man-in-the-Middle) proxy. This helps maintain transparency during interception and allows for easy identification of the genuine server among potentially many imposter ones.'
+        ssl-insecure: '[AI] `mitmproxy` is a popular tool for intercepting and analyzing HTTP(S) traffic in real time. The option `--ssl-insecure` disables SSL certificate validation during the man-in-the-middle (MitM) proxy process. This means that mitmproxy will not check if the SSL certificates presented by the servers match the expected domains, allowing interception and inspection of encrypted traffic even from sites with invalid or self-signed certificates. It''s important to note that using this option insecurely can lead to data breaches or man-in-the-middle attacks. It should only be used in controlled environments where the potential risks are understood and accepted, such as for testing or debugging purposes.'
+        stickyauth: '[AI] `mitmproxy` is a powerful tool for intercepting, inspecting, and modifying HTTP(S) traffic. The `--stickyauth` option is used to handle persistent authentication cookies in such traffic. When this flag is set, mitmproxy will remember the login credentials for each unique target site (identified by Host header) and automatically send them back during subsequent requests, creating a man-in-the-middle (MITM) session that doesn''t require users to enter their login information repeatedly. This feature is useful in scenarios like testing APIs or monitoring network traffic where multiple authenticated sessions are needed.'
+        stickycookie: |-
+            [AI] `mitmproxy` is a popular open-source tool used for intercepting, inspecting, and modifying HTTP(S) traffic between clients and servers. The `--stickycookie` option is one of its features that helps maintain session cookies across multiple requests.
+
+            When the `--stickycookie` flag is used, mitmproxy saves and automatically re-sent cookies from previous requests in subsequent requests for the same domain, keeping the user's session active. This way, you can inspect the cookies and their usage without disrupting the original client's experience. It makes analysis of long-lived sessions more convenient while maintaining session continuity.
+        tcp-hosts: |-
+            [AI] `mitmproxy` is a popular tool used for intercepting, inspecting, and modifying HTTP and HTTPS traffic. The `--tcp-hosts` option is a feature that extends the tool's capabilities beyond just proxying HTTP(S) traffic.
+
+            When using `mitmproxy` with the `--tcp-hosts` option, it acts as a man-in-the-middle (MITM) proxy not only for HTTP and HTTPS but also for other TCP connections. This allows intercepting and inspecting non-HTTP/HTTPS traffic like SSH, FTP, SMTP, etc.
+
+            The `--tcp-hosts` option takes a list of hosts or IP addresses as arguments. Traffic to those hosts is intercepted and proxied by mitmproxy. This can be useful for security testing, debugging, and analysis purposes. Keep in mind that using this feature may require additional configuration and certificates for secure connections (like SSL/TLS certs for HTTPS).
+        upstream-auth: '[AI] `mitmproxy` is a powerful intercepting proxy tool used for monitoring, debugging, and testing HTTP(S) traffic. The `--upstream-auth` option is a feature that enables mitmproxy to handle upstream authentication challenges. When this flag is set, mitmproxy will automatically send the necessary credentials back to the server, allowing uninterrupted communication between the client and the server even if the server requires basic authentication (like a username and password) before sending data. This way, mitmproxy can inspect the traffic without disrupting it.'
+        verbose: '[AI] `mitmproxy` is a powerful intercepting HTTP/HTTPS proxy tool that allows you to inspect, modify, and debug HTTP traffic. The `--verbose` option increases the amount of output displayed during proxy operation. It provides more detailed information about requests and responses, including timestamps, request/response headers, and payload data. This can be useful for advanced users or those conducting in-depth analysis and troubleshooting of network traffic.'
+        version: '[AI] `mitmproxy --version` is a command used to check the version information of mitmproxy, a popular MITM (Man-In-The-Middle) proxy tool for intercepting, inspecting, and modifying HTTP and HTTPS traffic. When executed, it prints out the specific version number, build date, and other relevant details such as the operating system it''s running on.'
+        view-filter: '[AI] `mitmproxy` is a powerful intercepting proxy tool used for debugging, testing, and security analysis of HTTP(S) traffic. The `--view-filter` option is a feature that allows real-time filtering and searching of the intercepted HTTP(S) requests and responses in the terminal. This can help quickly identify specific traffic by filtering based on request/response headers, content, or other parameters. It enhances the visibility and analysis capabilities of mitmproxy during testing or debugging activities.'

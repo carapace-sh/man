@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: od
+description: dump files in octal and other formats
+flags:
+    --endian=: swap input bytes according the specified order
+    --help: display this help and exit
+    --traditional: accept arguments in third form above
+    --version: output version information and exit
+    -A, --address-radix=: output format for file offsets; RADIX is one
+    -N, --read-bytes=: limit dump to BYTES input bytes
+    -j, --skip-bytes=: skip BYTES input bytes first
+    -t, --format=: select output format or formats
+    -v, --output-duplicates: do not use * to mark line suppression
+documentation:
+    command: '[AI] `od` is a versatile command-line utility in Unix-based systems used for converting and inspecting binary, decimal, hexadecimal, or octal files. It reads input data in various formats and outputs it to standard output (or another file), displaying each byte, word, or record separately along with their corresponding values. This is particularly useful for analyzing raw data or checking file formats for errors.'
+    flag:
+        address-radix: '[AI] The `od` command in Unix-based systems is used to convert and extract data from files. The option `--address-radix=dec` sets the radix for interpreting addresses in output format to decimal (base 10). For example, if you have a binary file and want to display its contents starting from a specific address in decimal format, you can use the command `od -A i -B binary -t o -n 16 -l 4 --address-radix=dec <filename> <starting_address>`. Here, `--address-radix=dec` ensures that the addresses are displayed as decimal numbers.'
+        endian: |-
+            [AI] The `od` (octal dump) command in Unix-based systems has an option `--endian` to specify the byte order of the data being processed. This option can take two values: `little-endian` or `big-endian`.
+
+            Little-endian means that the least significant byte (LSB) is stored at the lowest memory address, while Big-endian stores the most significant byte (MSB) first. These are the two most common byte orders used in computing systems. The default endianness of x86 architecture and many other systems is little-endian.
+
+            Using `od --endian=big-endian` or `--endian=little-endian` with a dump command will change how the data is displayed based on its byte order. For example, if you have a hexadecimal value `41 42 43 44`, its little-endian representation would be `41 42 43 44`, while big-endian would be `44 43 42 41`.
+        format: '[AI] `od --format` is a command-line utility in GNU coreutils used for converting and displaying binary data. The `--format` option specifies how the output should be formatted. It can take various formats such as `x` for hexadecimal, `c` for ASCII characters, or custom formats using %-style placeholders. For example, `od --hex-dump -F x file` will display the binary data in hexadecimal format.'
+        help: '[AI] `od` is a versatile hexadecimal dump utility available in Unix-like operating systems. The `--help` option is used to display detailed information about the various functions and features of the `od` command. This includes details on the various input and output formats, the ability to perform conversions between different data types, and other options that can be used to customize the output of the utility. By running `od --help`, users can quickly familiarize themselves with the capabilities of the tool and use it effectively for a wide range of data manipulation tasks.'
+        output-duplicates: '[AI] The `od` command with the option `--output-duplicates` writes duplicate output lines only once to the output stream. By default, `od` outputs each input line repeatedly based on the specified width and format. With this option, you can suppress duplicates and get unique output lines instead. This can be useful when processing large files or streams where multiple occurrences of identical data need to be handled efficiently.'
+        read-bytes: '[AI] The `od` command with the option `--read-bytes=N` in GNU CoreUtils reads input in chunks of size `N` bytes instead of the default which is 16 bytes, and then processes each chunk using the specified output format. This can be useful when dealing with large binary files where it''s necessary to inspect small portions of the data as byte sequences.'
+        skip-bytes: |-
+            [AI] The `od` command with the option `--skip-bytes=N` skips the first N bytes when reading input in hexadecimal, octal, or binary output format. For example, if you want to display the contents of a file starting from byte 5, you can use the command:
+
+            ```bash
+            od -A h -t x4 -b -N 32 --skip-bytes=4 filename
+            ```
+
+            This command will output the hexadecimal representation of the data in bytes 5 to 38 (byte 0 being the first byte) from `filename`.
+        traditional: '[AI] The `od` (Octal Dump) is a command-line utility in Unix and Unix-like operating systems for converting and filtering binary data. The option `--traditional` or simply `-t` modifies the output format of this tool to display hexadecimal values with leading zeros by default, instead of the more compact and common practice of not padding with zeros. This option can be useful when comparing binary files or looking for specific patterns in binary data.'
+        version: '[AI] The command `od --version` is used to display the version information of the `od` (octal dump) utility in Unix-like operating systems. When executed, it prints out the name of the software, its version number, and often some other details such as the compilation date or the operating system it was built for. It helps users check which version of `od` they have installed and if there are any available updates.'

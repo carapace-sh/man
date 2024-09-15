@@ -1,0 +1,77 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: edit
+description: open the Nix expression of a Nix package in $EDITOR
+group: infrequently used
+flags:
+    --arg*=: Pass the value expr as the argument name to Nix functions
+    --argstr*=: Pass the string string as the argument name to Nix functions
+    --commit-lock-file: Commit changes to the flake's lock file
+    --debug: Set the logging verbosity level to 'debug'
+    --debugger: Start an interactive environment if evaluation fail
+    --eval-store=: The Nix store to use for evaluations
+    --impure: Allow access to mutable paths and repositories
+    --inputs-from=: Use the inputs of the specified flake as registry entries
+    --log-format=: Set the format of log output
+    --no-registries: Don't allow lookups in the flake registries
+    --no-update-lock-file: Do not allow any updates to the flake's lock file
+    --no-write-lock-file: Do not write the flake's newly generated lock file
+    --override-flake=: Override the flake registries, redirecting original-ref to resolved-ref
+    --override-input=: Override a specific flake input (e.g. dwarffs/nixpkgs)
+    --quiet: Decrease the logging verbosity level
+    --recreate-lock-file: Recreate the flake's lock file from scratch
+    --update-input=: Update a specific flake input (ignoring its previous entry in the lock file
+    -I, --include: Add path to the list of locations used to look up <...> file names
+    -L, --print-build-logs: Print full build logs on standard error
+    -v, --verbose: Increase the logging verbosity level
+documentation:
+    command: '[AI] The `nix edit` command is not a standard Nix expression or utility. It seems to be incorrectly written, as Nix does not have an `edit` subcommand by default. If you meant to use a different Nix-related command such as `nix-env -iA nixpkgs.editor` to install a specific editor package, please provide the correct command instead.'
+    flag:
+        arg: '[AI] `nix-edit` is a command-line utility in Nix Package Manager for interactively editing configuration files or Nix expressions in place. The `--arg` option is used to pass an argument to the editor being used (like Vim, Emacs, etc.) when invoking it. For example, `nix-edit --arg ''+set nu''` opens a file with Vim and sets the ''show mode line'' option on.'
+        argstr: |-
+            [AI] `nix-edit` is a command-line tool provided by Nix package manager. The `--argstr` option is used to pass arguments as strings to the edited function or configuration file. With this option, you can provide specific arguments when invoking the editor interactively or in scripts.
+
+            Here's an example of how to use it:
+
+            ```bash
+            nix-edit --argstr "myArg=value" /path/to/your/file.conf
+            ```
+
+            In this example, the command opens `/path/to/your/file.conf` in your default editor with the argument `myArg=value`. This can be particularly useful when you want to configure a Nix expression or function with specific values before evaluating it.
+        commit-lock-file: '[AI] The `nix edit` command with the `--commit-lock-file` option is used in the Nix Package Manager to allow editing a file that is currently locked by a commit in a Nix expression or configuration file. When using this option, Nix creates a temporary file for editing and updates the commit lock file to indicate that the original file is being edited. This allows multiple users to work on the same file while ensuring that only one person can make changes at a time without conflicts. Once editing is completed, the user saves their changes in the temporary file, which then replaces the original locked file. Finally, Nix updates the commit lock file to reflect the new version of the file.'
+        debug: '[AI] `nix-edit` is a text editor provided by Nix, a package manager for Linux and other systems. The `--debug` flag is an option used to run `nix-edit` in debug mode. This mode enables more detailed output during the editing process, which can be helpful for troubleshooting issues or understanding how `nix-edit` works internally. However, it does not modify the file being edited directly; instead, it creates a new file with the proposed changes. To apply those changes, you need to save and commit the new file manually.'
+        debugger: '[AI] `nix-edit` is a text editor provided by Nix, a package manager for Linux and other systems. The `--debugger` flag enables the Nix expression debugger inside the editor. This allows users to inspect, step through, and modify expressions interactively while editing Nix configuration files, facilitating deeper understanding and troubleshooting of complex configurations.'
+        eval-store: '[AI] `nix-edit` is a Nix expression evaluation and editing tool. The `--eval-store` option tells it to evaluate an expression and store the result in the current or specified store file, updating it if necessary. This can be useful for managing and distributing Nix expressions as files, making it easier to share and apply custom configurations across systems.'
+        impure: '[AI] `nix-edit` is a text editor command provided by Nix, a package manager for Linux and other Unix systems. The `--impure` flag modifies the editing experience by not enforcing read-only mode on files that are managed by Nix. This allows users to make changes to these files directly within the editor without having to first modify the corresponding configuration in their Nix expressions. It''s useful when quick adjustments need to be made and the user is aware of the potential risks, such as unintentionally changing the managed file outside of the intended configuration.'
+        include: '[AI] `nix-edit` is a command provided by Nix, a package manager for Linux and other systems. The `--include` option tells `nix-edit` to modify not just the file specified but also any files that are included in it using the `#!line` or `include` directives. In other words, when you run `nix-edit --include <file>`, it will open and edit the main file as well as any files that are imported by it. This can be useful for making consistent changes across multiple files that form a cohesive unit in your Nix project.'
+        inputs-from: '[AI] `nix-edit` is a text editor provided by Nix, a package manager for Linux and other systems. The `--inputs-from` option specifies a Nix expression or a path to a Nix expression file that defines the inputs to the editing session. When editing a Nix configuration file using `nix-edit`, this option allows you to access variables, functions, and other values from the specified expression, enabling advanced customization and automation of the editing process.'
+        log-format: |-
+            [AI] `nix-edit` is a command-line utility in Nix, a package manager for Linux and other Unix systems. The `--log-format` option specifies the format of logs generated by `nix-edit`. By default, it does not generate any log files. But when you use this option, it writes logs to standard error (stderr) or a file, depending on the value of the format argument.
+
+            The format argument can be one of the following: "short", "json", or "plaintext". Here's what each format does:
+
+            1. Short: Generates a human-readable log with minimal information about each event. It includes timestamps, Nix expressions, and error messages.
+            2. JSON: Produces logs in JSON format which can be easily processed by parsing tools or scripts. Each event is an object containing a timestamp, Nix expression, and an error message if applicable.
+            3. Plaintext: Generates plaintext logs that include detailed information about each event. It's more verbose than the short format and can be useful for debugging complex issues.
+
+            For example, to generate logs in JSON format when using `nix-edit`, you would run:
+
+            ```bash
+            nix-edit --log-format json <your_command>
+            ```
+
+            Replace `<your_command>` with the Nix command you want to execute.
+        no-registries: '[AI] The `nix-edit` command with the `--no-registries` option is used in Nix, a package manager for Linux and other Unix systems. This option disables the use of remote repositories or registries when editing configurations. Instead, it allows users to edit files locally without being connected to the network. This can be useful for offline usage or for making changes that should not affect other machines using the same Nix configuration.'
+        no-update-lock-file: '[AI] The `nix-edit` command is a part of Nix Package Manager, which allows users to edit configuration files in a managed way. The `--no-update-lock-file` flag is an optional argument that instructs `nix-edit` not to create or update a lock file for the session. A lock file ensures that only one user can modify a file at a time, preventing conflicts and ensuring consistency. By using `--no-update-lock-file`, users may choose to edit files concurrently without this protection, potentially leading to conflicts.'
+        no-write-lock-file: '[AI] `nix-edit` is a command in Nix package manager to open and edit configuration files or source code with Vim or other text editors, while ensuring that no concurrent modifications are made. The `--no-write-lock-file` option disables the creation of a write lock file when using `nix-edit`. This means that multiple users can modify the same file simultaneously without the need for exclusive locks. However, it increases the risk of conflicts and data loss if changes are not properly synchronized or merged.'
+        override-flake: '[AI] `nix-edit` is a Nix package manager command for interactive editing of configuration files, such as Flakefiles, that define dependencies and build environments for Nix projects. The `--override-flake` flag is used to merge changes made in the editor with any existing overrides in the file. It allows users to modify the current Flakefile without losing previously applied overrides, making it easier to maintain complex configurations.'
+        override-input: '[AI] `nix-edit` is a Nix package manager command for interactively editing configuration files. The `--override-input` flag modifies the behavior of this command. Instead of opening an existing file, it allows users to provide new input from the command line or from standard input streams. In other words, it enables in-place modification without affecting the original file unless saved.'
+        print-build-logs: '[AI] `nix edit` is a command provided by Nix, a package manager for Linux and other systems. It''s used to interactively modify the configuration of a Nix expression, such as a package or system configuration. The `--print-build-logs` option instructs `nix edit` to display the build logs of the selected expression instead of opening an editor for modification. In essence, it allows you to view the output of the build process without having to modify anything.'
+        quiet: '[AI] `nix-edit` is a text editor provided by Nix, a package manager for Linux and other Unix systems. The `--quiet` flag is an option used with `nix-edit`. When this flag is passed, `nix-edit` will run in quiet mode, which means it suppresses all output and messages during the editing session. In other words, it runs the text editor without displaying any notifications or progress indicators, making the editing process more focused and less disturbed by external messages.'
+        recreate-lock-file: |-
+            [AI] `nix-edit` is a command-line utility in Nix package manager. The `--recreate-lock-file` option is used when editing a configuration file that affects the build or installation of a Nix package.
+
+            When you edit a file under Nix management, it's good practice to take into account that Nix uses lock files to record exact versions and hashes of packages required by your configuration. If you edit a file without letting Nix know, the lockfile will not be updated, causing potential version conflicts or other inconsistencies in your environment.
+
+            The `--recreate-lock-file` option solves this problem. When using it with the `nix-edit` command, any changes made to the configuration file will cause Nix to automatically recreate a new lock file, updating it with the exact versions and hashes of all packages that match your edited file. This ensures consistency between your file and the environment created by Nix.
+        update-input: '[AI] `nix-edit` is a command-line utility in Nix package manager. The `--update-input` option is used to edit an existing configuration file interactively, while keeping the current file on disk unchanged. This means that any changes made during the editing session are temporarily stored and will not affect the original file until you explicitly commit those changes by running `nix-edit --commit`. This way, you can experiment with different configurations without fearing accidental data loss.'
+        verbose: '[AI] `nix-edit` is a command-line utility provided by Nix package manager. The `--verbose` option increases the amount of output produced during the use of this command. When you run `nix-edit --verbose`, it will display more detailed information about which file is being edited, the current content of the file, and the changes being made in real time. This can be helpful for debugging or understanding the modifications being applied to your configuration files.'

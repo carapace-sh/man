@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: status (TYPE NAME | TYPE/NAME) [flags]
+description: Show the status of the rollout
+flags:
+    --revision=: Pin to a specific revision for showing its status. Defaults to 0 (last revision).
+    --timeout=: The length of time to wait before ending watch, zero means never. Any other values should contain a corresponding time unit (e.g. 1s, 2m, 3h).
+    -R, --recursive: Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.
+    -f, --filename*=: Filename, directory, or URL to files identifying the resource to get from a server.
+    -k, --kustomize=: Process the kustomization directory. This flag can't be used together with -f or -R.
+    -l, --selector=: Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2). Matching objects must satisfy all of the specified label constraints.
+    -w, --watch: Watch the status of the rollout until it's done.
+documentation:
+    command: '[AI] `kubectl rollout status` is a command used with Kubernetes to check the current rollout status for a specific deployment or replica set. It returns information about the number of available replicas, desired replicas, and updated vs. old replicas in the deployment. This command helps users monitor the progress of their deployments and ensures that the desired number of replicas are running and ready.'
+    flag:
+        filename: '[AI] `kubectl rollout status` is a command used with Kubernetes to check the current state of a rolling update or a deployment. The `--filename` flag is optional and it specifies the YAML file containing the definition of the resource being updated, which can help provide more context when checking the status. If not provided, the most recent deployment or rollout for that resource will be used to determine the current state.'
+        kustomize: |-
+            [AI] `kubectl rollout status --kustomize` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`. This command provides the current state of a rolling update or rollback process managed by Kustomize.
+
+            Kustomize is a customization framework for Kubernetes configuration files. It allows managing multiple versions of the same configuration and applying differences between them. In this context, `--kustomize` flag with `kubectl rollout status` indicates that the update or rollback being queried was performed using Kustomize.
+
+            The command returns information about the number of replicas updated, the number of successful updates, and the number of failed updates for each deployment or stateful set in the current namespace. If there are any failed updates, it also shows the error message.
+        recursive: '[AI] `kubectl rollout status --recursive` is a command used with Kubernetes'' `kubectl` tool to check the rollout status of multiple levels of deployments or replica sets in a recursive manner, meaning it will traverse and report on nested rolling updates. It returns information about each deployment or replica set, including its current status (e.g., rolling update, succeeded, failed), the number of total and updated replicas, and any errors encountered during the update process.'
+        revision: '[AI] `kubectl rollout status` is a command used to check the current rollout status of a Kubernetes application or deployment. The `--revision` flag, when provided, specifies the exact revision number of the rollout you want to query for its status. This command helps in tracking the progress and ensuring successful application updates in a managed Kubernetes environment.'
+        selector: '[AI] `kubectl rollout status` is a command used with Kubernetes to check the current state of a rolling update for a deployment or a StatefulSet. The `--selector` option filters the result to only show the specific resources that match the provided selector label key-value pair. For instance, if you have multiple replicas in a deployment and want to check the status of one particular replica with a specific label, you can use `kubectl rollout status <deployment-name> --selector=<label-key>=<label-value>`. The output will show the progress of the update for each replica pod along with their current availability and readiness state.'
+        timeout: |-
+            [AI] `kubectl rollout status` is a command used to check the current state of a Kubernetes rollout, which is a process for updating the replicas of a deployment or daemonset. When you use this command without any flags, it will display the progress of the latest rollout for the given resource.
+
+            The `--timeout` flag is an optional argument that specifies the maximum duration (in seconds) to wait for the rollout to complete before considering it failed. If you don't provide a timeout value, Kubernetes uses a default value of 300 seconds (5 minutes). By using this flag, you can set a custom timeout to better fit your use case and avoid long-running processes that might not be necessary.
+        watch: '[AI] `kubectl rollout status --watch` is a command used with Kubernetes'' `kubectl` tool to check the rollout status of a deployment or a ReplicaSet in a Kubernetes cluster. The `--watch` flag enables real-time updates, displaying the current status and any subsequent changes as they occur. This can be useful for monitoring the progress of deployments, such as observing when new replicas are being created, updated, or deleted during a rolling update.'

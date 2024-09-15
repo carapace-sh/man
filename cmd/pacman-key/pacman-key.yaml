@@ -1,0 +1,67 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: pacman-key
+description: Manage pacman's list of trusted keys
+flags:
+    --config=: Use an alternate config file
+    --edit-key: Present a menu for key management task on keyids
+    --gpgdir=: Set an alternate directory for GnuPG
+    --import: Imports pubring.gpg from dir(s)
+    --import-trustdb: Imports ownertrust values from trustdb.gpg in dir(s)
+    --init: Ensure the keyring is properly initialized
+    --keyserver=: Specify a keyserver to use if necessary
+    --list-sigs: List keys and their signatures
+    --lsign-key: Locally sign the specified keyid
+    --populate: Reload the default keys from the (given) keyrings in '/usr/share/pacman/keyrings'
+    --refresh-keys: Update specified or all keys from a keyserver
+    --verbose: Show extra information
+    -V, --version: Show program version
+    -a, --add: Add the specified keys (empty for stdin)
+    -d, --delete: Remove the specified keyids
+    -e, --export: Export the specified or all keyids
+    -f, --finger: List fingerprint for specified or all keyids
+    -h, --help: Show this help message and exit
+    -l, --list-keys: List the specified or all keys
+    -r, --recv-keys: Fetch the specified keyids
+    -u, --updatedb: Update the trustdb of pacman
+    -v, --verify: Verify the file(s) specified by the signature(s)
+documentation:
+    command: '[AI] `pacman-key` is a command-line utility for managing GPG keys used by Pacman, Arch Linux''s package manager. It allows users to add, remove, and manage keys signed by developers or repositories. These keys are essential to ensure package authenticity when using Pacman to install software from remote repositories.'
+    flag:
+        add: '[AI] `pacman-key` is a command-line utility for managing GPG keys used by the Pacman package manager in Arch Linux and its derivatives. The command `pacman-key --add` is used to add a new GPG key to the list of trusted keys that Pacman will use to verify packages'' signatures. This helps ensure the authenticity and integrity of packages installed through the system''s package repositories.'
+        config: '[AI] `pacman-key` is a command-line utility for managing GPG keys used by Pacman, the package manager for Arch Linux and its derivatives. The `--config` option is used to edit or view the configuration file of `pacman-key`. This file contains information about the trusted GPG keys that are allowed to sign packages in the repositories added to your system. Editing this file can be necessary when adding new repositories, or if existing keys need to be updated or revoked.'
+        delete: '[AI] `pacman-key` is a command-line utility for managing GPG keys used by Pacman, the package manager for Arch Linux and its derivatives. The command `pacman-key --delete` is used to delete a specific key from the local GPG keyring. When you provide the key ID or the fingerprint of the key as an argument, this command deletes that particular key from your system''s keyring, effectively revoking its trust and preventing it from being used to sign or verify packages during the installation process.'
+        edit-key: '[AI] The `pacman-key` command with the option `--edit-key` is used in Arch Linux and its derivatives to edit the keyring, which is a GPG keyring that stores the public keys of repositories and signing keys for package verification. With this command, you can add, remove, or modify existing keys, allowing you to manage your trusted keys for the Pacman package manager securely.'
+        export: '[AI] `pacman-key` is a command-line utility used with Arch Linux and other Arch-based distributions for managing GPG keys. The command `pacman-key --export` exports the public key of a specific GPG key ID or its metadata file to a specified file. This can be useful when you want to import the key into another system or share it with someone else.'
+        finger: '[AI] The `pacman-key` command with the `--finger` option is used in the Pacman package manager for Arch Linux to display the GPG keys'' fingerprints associated with repositories or remote signing keys. A GPG key''s fingerprint is a unique digital signature used to verify the authenticity of packages or repositories. When you run `pacman-key --finger <keyID>`, it will output the key''s fingerprint in hexadecimal format, which can then be compared with the official fingerprints to ensure package security.'
+        gpgdir: '[AI] The `pacman-key` command is a part of Pacman, a package manager for Arch Linux and its derivatives. The specific option `--gpgdir` specifies the path to a directory containing OpenPGP keys that Pacman will use for verification of signed packages during installation. By default, Pacman looks for these keys in `~/.gnupg/`, but using `--gpgdir <path>` allows the user to specify an alternative location if needed.'
+        help: |-
+            [AI] The `pacman-key` is a command-line utility used in Arch Linux and its derivatives for managing keys used to authenticate packages signed with GPG. The `--help` option displays detailed help information about the available commands and their usage. Here's a brief overview of the flag:
+
+            `pacman-key --help`
+
+            Displays comprehensive help text for `pacman-key`, including the following sections:
+
+            1. Usage: A general description of how to use the utility, along with examples of common commands.
+            2. Available commands: A list and brief explanation of each command (e.g., `addkey`, `listkeys`, `removekey`, etc.).
+            3. Options: Information about any optional arguments that can be passed with commands for fine-tuning their behavior.
+
+            The help text also includes examples and explanations for various scenarios, making it an invaluable resource when working with `pacman-key`.
+        import: '[AI] `pacman-key` is a command-line tool for managing GPG keys used by the Pacman package manager in Arch Linux and its derivatives. The command `pacman-key --import` imports a new GPG key into the keyring managed by Pacman. This can be useful for adding repositories signed with new or updated keys, or for adding personal keys for use with `signify` or other tools that support GPG signing. The import process requires the private key file, which is typically provided as a raw ASCII-armored data block in a text file. After importing, the key can be verified with `pacman-key --list`, and used to sign packages or repositories as needed.'
+        import-trustdb: '[AI] The `pacman-key` command with the argument `--import-trustdb` is used in Arch Linux to import a GPG key from a trusted keyring file into the local trust database. This helps in verifying the authenticity of packages or repositories signed with that key during package installation or update processes using Pacman. The trustdb holds information about keys that are considered trusted and allows only those keys to sign packages for your system.'
+        init: '[AI] `pacman-key --init` is a command used in Arch Linux and its derivatives to initialize the keyring for use with GPG signed packages and repositories. When executed, it generates a new GPG key pair (private and public keys) which can be used to sign and verify packages and repositories. This command also adds the necessary keyserver entries to /etc/pacman.d/gnupg/gpg.conf file for automatic key retrieval. The generated key ID is then added to the system''s trusted keys list in /etc/pacman.d/gnupg/wlg.key file, allowing pacman to verify signed packages and repositories during installation.'
+        keyserver: |-
+            [AI] The `pacman-key` command is a part of the Pacman package manager used in Arch Linux and its derivatives. The specific usage you mentioned, `pacman-key --keyserver`, is used to communicate with a GPG keyserver to retrieve or verify the signing keys of repositories.
+
+            The `--keyserver` option specifies the address of a Keyserver from which to fetch the necessary GPG keys. For example, `pacman-key --keyserver hkp://pool.sks-keyservers.net:80 keyid`, where `keyid` is the identifier of the specific key you want to retrieve or verify.
+
+            In summary, `pacman-key --keyserver` command helps in managing and ensuring the authenticity of repositories by interacting with a GPG keyserver to fetch or check the keys associated with them.
+        list-keys: '[AI] `pacman-key` is a command-line utility for managing GPG keys used by Pacman, Arch Linux''s package manager. The command `pacman-key --list-keys` lists all the currently available GPG keys, along with their key IDs and fingerprints, that can be used to sign Arch Linux repositories. This information is essential for users who want to verify the authenticity of packages before installing them.'
+        list-sigs: '[AI] `pacman-key` is a command-line utility for managing GPG keys used by the Pacman package manager in Arch Linux and its derivatives. The `--list-sigs` option is used to display information about the signed packages and their corresponding signatures. It shows the package name, version, signature key ID, and expiration date. This command helps ensure the authenticity of downloaded packages before installation.'
+        lsign-key: '[AI] The `pacman-key` command is a tool used in Arch Linux and its derivatives for managing GPG keys used to sign packages and repositories. The specific command `--lsign-key` lists the keys that are currently used for signing packages local to your system. It displays information such as key ID, user ID, and the fingerprint of each signed key. This command helps in verifying the authenticity of locally installed packages by ensuring that they are indeed signed with trusted keys.'
+        populate: '[AI] `pacman-key --populate` is a command used in Arch Linux and other Arch-based systems to download and import GPG keys from the ArchLinux keyserver into the system''s GnuPG keyring. This command enhances the security of package repositories by verifying package authenticity, ensuring data integrity, and preventing potential man-in-the-middle attacks when installing or updating packages using Pacman.'
+        recv-keys: '[AI] `pacman-key --recv-keys` is a command used in Arch Linux and other Arch-based distributions to receive and add GPG keys to the system keyring for signing packages and repositories. The command fetches the specified GPG key from a keyserver and imports it into the Pacman package manager''s trust database, allowing secure verification of package authenticity during installation.'
+        refresh-keys: '[AI] `pacman-key --refresh-keys` is a command used in Arch Linux and its derivatives to update the local GPG keyring. This keyring is used by Pacman, the package manager, for verifying the authenticity of packages before installation. By running this command, you ensure that your system has the latest GPG keys from the repositories, which helps maintain the security of your system.'
+        updatedb: '[AI] The `pacman-key` command with the `--updatedb` option is used to update the local GPG keyring database in Pacman, a popular package manager for Arch Linux and its derivatives. This action ensures that your system has the latest available keys from the repositories, which are required for authenticating and verifying the integrity of the packages and their sources before installation. By keeping the keyring up-to-date, you maintain a secure environment for managing software on your system.'
+        verbose: '[AI] The `pacman-key` command is a part of Pacman, a popular package manager for Arch Linux and its derivatives. The specific command `pacman-key --verbose` is used to display detailed information about key signing and verification operations. When run with the `--verbose` flag, it will provide more extensive output, showing each step of the process along with relevant hashes and other data, allowing for greater transparency and debugging capabilities.'
+        verify: '[AI] `pacman-key --verify` is a command used in Arch Linux and other Arch-based systems to check the validity of GPG keys used by the Pacman package manager for signing its packages'' repositories. This command retrieves the keys from their respective servers, verifies their authenticity against public keyrings, and displays relevant information such as key IDs, fingerprints, and expiration dates. It helps ensure the integrity of the packages installed through the Pacman package manager by confirming that they are indeed signed with the correct and trusted keys.'
+        version: '[AI] `pacman-key` is a command-line utility for managing GPG keys used by the Pacman package manager in Arch Linux and its derivatives. The command `pacman-key --version` is used to display the version information of the installed `pacman-key` package, including its version number and build date.'

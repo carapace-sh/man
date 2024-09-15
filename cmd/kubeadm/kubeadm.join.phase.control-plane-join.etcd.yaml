@@ -1,0 +1,38 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: etcd
+description: Add a new local etcd member
+flags:
+    --apiserver-advertise-address=: If the node should host a new control plane instance, the IP address the API Server will advertise it's listening on. If not set the default network interface will be used.
+    --config=: Path to kubeadm config file.
+    --control-plane: Create a new control plane instance on this node
+    --node-name=: Specify the node name.
+    --patches=: Path to a directory that contains files named "target[suffix][+patchtype].extension".
+documentation:
+    command: '[AI] `kubeadm join` is a command used to join worker nodes to an existing Kubernetes cluster managed by `kubeadm`. The argument `control-plane-join` specifies that the node will be joined as a control plane node, which means it will host and manage the Kubernetes master components such as etcd. The `etcd` in this context refers to the Etcd key-value store used by Kubernetes for storing configuration data. The `phase` argument `control-plane-join etcd` indicates that the join process has entered the "etcd" phase, meaning that `kubeadm` is configuring and setting up the etcd cluster on the node to sync with the existing etcd cluster in the cluster.'
+    flag:
+        apiserver-advertise-address: |-
+            [AI] The `kubeadm join` command is used to add a node to a Kubernetes cluster managed by `kubeadm`. The `phase control-plane-join etcd --apiserver-advertise-address` argument specifies that the joining node will assume the role of a control plane node, specifically joining the Etcd cluster and setting the APIServer's advertised address.
+
+            In simpler terms, this flag instructs `kubeadm join` to:
+
+            1. Install etcd on the joining node and make it part of the existing etcd cluster.
+            2. Configure the joining node as an API Server that other nodes in the cluster can communicate with by providing an advertised address.
+        config: |-
+            [AI] The `kubeadm join` command is used to add a worker node to a Kubernetes cluster managed by `kubeadm`. The `phase control-plane-join etcd --config` argument is specifying the control plane joining process and configuring it to join the etcd cluster.
+
+            When you run `kubeadm join`, it can be configured to perform various roles within the Kubernetes cluster, including a control plane node (master). In this case, using the `control-plane-join` phase indicates that you want to add a new control plane node to the existing cluster. The `etcd` argument is configuring this node to join the etcd cluster as a member, ensuring data consistency and cluster alignment across all nodes.
+
+            The `--config` flag is used to specify an optional configuration file that can override various settings during the node joining process. For example, you might want to change the listening IP address or certificate authority for your new control plane node. By including this flag in your join command, you are providing a customized configuration file to `kubeadm` during the join process.
+        control-plane: '[AI] The `kubeadm join` command is used to add a new node to a Kubernetes cluster managed by Kubeadm. The specific flag `--control-plane --etcd` indicates that the joining node will be part of the control plane, which is responsible for managing and storing the overall state of the cluster through Etcd key-value store. This means that this node will be part of the cluster''s leadership election process, maintaining the required quorum for making decisions, and handling critical cluster functions like API serving and certificate management.'
+        node-name: |-
+            [AI] The `kubeadm join` command is used to join a worker node to a Kubernetes cluster managed by `kubeadm` on a control plane node. The specific flag `--control-plane-join etcd --node-name <nodename>` instructs `kubeadm` to perform the control plane role joining process, which is typically reserved for master nodes.
+
+            By using this flag, you're telling `kubeadm` that the joining node will take on additional responsibilities such as hosting etcd (Kubernetes' distributed key-value store), becoming part of the Kubernetes control plane, and performing leader election among other control plane nodes if necessary. This is useful in scenarios where a new control plane node needs to be added to an existing cluster while maintaining high availability or scalability.
+
+            Keep in mind that using this flag on a worker node instead of a master node could potentially lead to unexpected behavior and unintended consequences. It's essential to understand the implications before proceeding with the command.
+        patches: |-
+            [AI] `kubeadm join` is a command used to add a worker node to a Kubernetes cluster managed by `kubeadm`. The option `--control-plane-join` tells `kubeadm` that the joining node will be part of the control plane, which includes etcd.
+
+            The option `--etcd-patches` provides a way to apply custom patches to the etcd configuration or binary files before they are installed. This can be useful for making modifications to etcd's security settings or other configurations without modifying the original upstream etcd files in the Kubernetes distribution.
+
+            So, `kubeadm join phase control-plane-join etcd --patches` is used to add a node to the control plane of a Kubernetes cluster managed by `kubeadm`, and apply custom patches to the etcd configuration or binary files before they are installed.

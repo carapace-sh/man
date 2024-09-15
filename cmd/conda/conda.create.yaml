@@ -1,0 +1,88 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: create
+description: Create a new conda environment from a list of specified packages
+flags:
+    --clone=: Path to (or name of) existing local environment.
+    --copy: Install all packages using copies instead of hard- or soft-linking.
+    --dev: Use `sys.executable -m conda` in wrapper scripts instead of CONDA_EXE.
+    --download-only: Solve an environment and ensure package caches are populated
+    --file*=: Read package versions from the given file.
+    --json: Report all output as json.
+    --no-channel-priority: Package version takes precedence over channel priority.
+    --no-default-packages: Ignore create_default_packages in the .condarc file.
+    --no-deps: Do not install, update, remove, or change dependencies.
+    --no-pin: Ignore pinned file.
+    --offline: Offline mode.
+    --only-deps: Only install dependencies.
+    --override-channels: Do not search default or .condarc channels.
+    --repodata-fn=: Specify name of repodata on remote server.
+    --show-channel-urls: Show channel urls.
+    --strict-channel-priority: Packages in lower priority channels are not considered if a package with the same name appears in a higher priority channel.
+    --use-local: Use locally built packages. Identical to '-c local'.
+    -C, --use-index-cache: Use cache of channel index files, even if it has expired.
+    -c, --channel=: Additional channel to search for packages.
+    -d, --dry-run: Only display what would have been done.
+    -h, --help: Show this help message and exit.
+    -k, --insecure: Allow conda to perform "insecure" SSL connections and transfers.
+    -n, --name=: Name of environment.
+    -p, --prefix=: Full path to environment location (i.e. prefix).
+    -q, --quiet: Do not display progress bar.
+    -v, --verbose: Once for INFO, twice for DEBUG, three times for TRACE.
+    -y, --yes: Do not ask for confirmation.
+documentation:
+    command: |-
+        [AI] `conda create` is a command used in Anaconda or Miniconda distribution of Python for creating and managing isolated environments. These environments allow installing specific versions of packages without interfering with other projects' dependencies. The basic syntax is:
+
+        ```bash
+        conda create [env_name] [package1] [package2] ...
+        ```
+
+        Replace `[env_name]` with the desired name for the new environment and `[packageX]` with the package names and versions you want to install in that environment. The packages can be local, condaked (downloaded from Anaconda), or specified by a channel (e.g., `conda-forge`, `bioconda`, etc.).
+
+        For example:
+
+        ```bash
+        conda create myenv python=3.8 numpy pandas
+        ```
+
+        This command creates a new environment named "myenv" with Python 3.8 and installs the packages `numpy` and `pandas`.
+    flag:
+        channel: |-
+            [AI] The `conda create` command with the `--channel` option is used to create a new Conda environment in Anaconda or Miniconda distribution. It specifies the installation of packages from one or more channels (remote repositories) defined by the given URLs, rather than using only the default channels. For example:
+
+            ```bash
+            conda create --name myenv --channel conda-forge <package_name>
+            ```
+
+            This command creates a new environment named "myenv" and installs the specified package (<package_name>) from the "conda-forge" channel. Multiple channels can be added by separating their URLs with colons (:).
+        clone: '[AI] The `conda create --clone` command is a function in Anaconda''s Conda packaging system. It creates a new Conda environment by cloning the specifications of an existing one, including packages, dependencies, and environment configurations. This can save time and effort compared to manually creating a similar environment from scratch.'
+        copy: '[AI] `conda create --copy` is a command used in Anaconda or Miniconda distribution of Python for creating a new conda environment with specifications from an existing one, while also copying files and directories into the new environment. This can be useful when you want to share custom installations, configurations, or user-installed packages among different environments. The original environment remains unchanged after the creation process.'
+        dev: '[AI] `conda create --dev` is a command used in Anaconda and Miniconda distribution of the Conda package manager. It creates and installs a new Conda environment with specified development dependencies (--dev flag) that are not part of the base packages but required for developing packages or projects using specific tools or libraries. These dev dependencies are typically compiled packages, hence, the --dev flag informs Conda to include them in the creation of the new environment.'
+        download-only: '[AI] The `conda create --download-only` command is a function in Anaconda''s Conda package manager. It is used to download packages and their dependencies from the Anaconda or Conda Forge channels without creating a new environment. This can be useful when preparing to set up an environment offline, or when wanting to save on bandwidth by downloading packages once and then sharing them with others. The command takes one or more package names as arguments, and it will automatically download all dependencies required for those packages as well.'
+        dry-run: '[AI] `conda create --dry-run` is a command used in Anaconda or Miniconda distribution of Python and other data sciences tools. It mimics the creation of a new conda environment with the specified packages, but it does not actually install anything. Instead, it shows a detailed list of packages that would be installed if the command were run without `--dry-run`. This is useful for planning and reviewing the dependencies of a new project or environment before creating it.'
+        file: '[AI] `conda create --file` is a command in Anaconda or Miniconda used to create and install new Conda environments from a list of package specifications stored in a file. The file should be a text file with the .yml or .txt extension, listing the required packages and their versions for each environment to be created. For example: `conda create --file myenv.yml`. This command creates an isolated Conda environment named "myenv" with all the specified packages installed.'
+        help: |-
+            [AI] `conda create --help` is a command used in Anaconda and Miniconda distributions of the Conda package manager. This command displays detailed help information about creating new Conda environments.
+
+            Usage: `conda create [options] [env_name] [package1] [package2] ...`
+
+            The `--help` option is used to display comprehensive help information about this specific `conda create` command, including available options and their usage. This can be useful for understanding how to create new environments with specific packages or configurations.
+        insecure: '[AI] The `conda create --insecure` command is used in Anaconda or Miniconda distribution of the Conda package manager to create a new Conda environment with external channels that have untrusted packages. By default, Conda uses verified channels for installing packages, ensuring their provenance and security. However, `--insecure` flag disables this verification process, allowing installation from any source, including those that may contain malicious or outdated software. It is generally discouraged to use this option without careful consideration as it increases the risk of potential security vulnerabilities in the created environment.'
+        json: '[AI] `conda create --json` is a command used in Anaconda and Miniconda distributions of the Conda package manager. This command creates a new Conda environment with an empty `environment.yml` file instead of installing specific packages. The `--json` option ensures that the output of this command is a JSON formatted `environment.yml` file, which can be used to recreate the same environment in other systems or save it for future use. This command does not install any packages but only sets up an empty environment structure with the specified name and version.'
+        name: '[AI] `conda create --name` is a command used in Anaconda or Miniconda distribution of Python for creating new conda environments. The `--name` argument specifies the name of the environment to be created. After running this command, a new isolated environment with that name is generated and can be activated later for installing specific packages without affecting other environments.'
+        no-channel-priority: '[AI] The `conda create` command with the `--no-channel-priority` option tells Anaconda''s Conda packaging and dependency management system to give equal priority to all channels specified in the creation of a new environment, instead of favoring channels mentioned earlier in the command or in the default configuration. This can be useful when creating environments from multiple sources, ensuring that all dependencies are met without bias towards any particular channel.'
+        no-default-packages: '[AI] The `conda create` command with the `--no-default-packages` option is used when creating a new Conda environment in Anaconda or Miniconda. This flag prevents Conda from installing default packages that are not explicitly listed in the package specification file. This results in a minimal environment, which can help reduce file size and potential conflicts with other packages.'
+        no-deps: '[AI] The `conda create --no-deps` command is used in Anaconda or Miniconda environments to create a new conda environment without installing any dependencies listed in the given package''s metadata file. This means that only the specified package will be installed, and no additional packages will be added as dependencies by default. If you want to create an environment with specific dependencies, use `conda create --name <env_name> <package1> <package2> ...` instead.'
+        no-pin: '[AI] The `conda create` command with the `--no-pin` option is used to create a new Anaconda or Miniconda environment without pinning specific package versions. This means that Conda will use the latest compatible versions of each specified package when creating the environment, instead of using exact versions that are currently installed. It''s often used when you want to ensure you have the most recent packages in your environment.'
+        offline: '[AI] `conda create --offline` is a command used in Anaconda or Miniconda distribution of Python for creating new Conda environments with specified packages, without connecting to any external Conda servers. This allows users to build environments using only the local package cache, which can be helpful when working offline or having connectivity issues. It downloads and saves the required packages locally during the first use of the command, and afterwards the environment can be built from the local cache.'
+        only-deps: '[AI] `conda create --only-deps` is a command used in Anaconda or Miniconda environments for creating a new conda environment with only the specified dependencies, but without installing the primary package itself. This command is useful when you want to have a clean environment with only required dependencies without any other packages installed. It creates a new environment and installs only the listed dependencies as packages in that environment.'
+        override-channels: '[AI] The `conda create --override-channels` command is a function in Anaconda''s Conda package manager. It allows users to specify custom channels or versions of packages that override the default ones when creating a new environment. This can be useful when working with specific packages not available in the main channels or requiring older versions for compatibility reasons. By using `--override-channels`, Conda will prioritize the specified channels and versions over the default ones during package installation, ensuring consistent and reproducible results across different environments.'
+        prefix: '[AI] The `conda create` command is used to create and build new Conda environments in Anaconda or Miniconda distribution. The `--prefix` option specifies the root directory for the environment''s files. This flag tells Conda to install packages within a newly created isolated environment with the given prefix path. The default prefix path is the active environment, but using `--prefix` allows creating multiple isolated environments on the same system without interfering with each other.'
+        quiet: '[AI] `conda create --quiet` is a command used in Anaconda or Miniconda distribution of Python for creating and managing isolated environments. The `--quiet` option reduces the output of the command to just the names of created packages, keeping the terminal window free from excessive text. This can be useful when automating installation processes or running multiple commands at once.'
+        repodata-fn: '[AI] The `conda create` command with the `--repodata-fn` option is used to create a new Conda environment in Anaconda or Miniconda distribution from a given repository metadata file instead of using default channels. The `--repodata-fn` argument specifies the path to the .json or .tar.bz2 metadata file, which contains information about the packages and their versions available in the specified Conda repository. This option is particularly useful when working with isolated Conda environments or private Conda repositories.'
+        show-channel-urls: '[AI] The `conda create --show-channel-urls` command is used to display the URLs of all the Conda channels currently configured in your environment. Conda is a package management system and environment management system for data science, and these channels are repositories from which packages can be installed or updated. This command allows you to see where Conda is looking for new packages to install when creating a new environment, making it helpful for troubleshooting and understanding your current configuration.'
+        strict-channel-priority: '[AI] `conda create --strict-channel-priority` is a command used in Anaconda or Miniconda distribution of Python and R data sciences environments. This option ensures that conda installs packages from channels listed first in the conda configuration file, before looking at other channels, preventing potential version conflicts between packages from different sources. The priority is set based on the order specified in `conda config --show channels`.'
+        use-index-cache: '[AI] `conda create --use-index-cache` is a command in Anaconda''s Conda package manager. This option instructs Conda to reuse index cache files instead of downloading packages'' metadata anew from the conda-forge or other channels during environment creation. Using the index cache can speed up the creation process if you have previously created similar environments, as the metadata has already been downloaded and cached. However, if package versions or dependencies have changed since the last use of the cache, the new environment may not function properly.'
+        use-local: '[AI] The `conda create --use-local` command is a function in Anaconda''s Conda packaging and dependency management system. It creates a new Conda environment using only the packages that are currently installed locally, rather than downloading them from the default conda-forge or other channels. This can be useful for creating isolated environments with specific packages without an internet connection or to avoid re-downloading large packages. The flag `--use-local` ensures that Conda looks for packages in the local cache and does not attempt to fetch them from external sources.'
+        verbose: '[AI] `conda create --verbose` is a command used in Anaconda or Miniconda distribution of Python and its packages management system, Conda. This command creates a new conda environment with the specified name and installs the given packages in that environment. The `--verbose` flag increases the output of information during the creation process to provide more detailed feedback for the user.'
+        "yes": '[AI] The `conda create` command with the `--yes` flag is used to confirm the creation of a new Conda environment without prompting for confirmation. When you run `conda create --yes <env_name>`, it will immediately create the specified environment with the given name without asking for any input or confirmation from the user. This can be useful if you want to automate the creation of environments in scripts or batch processes.'

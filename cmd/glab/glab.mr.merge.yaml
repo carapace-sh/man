@@ -1,0 +1,56 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: merge {<id> | <branch>}
+aliases:
+    - accept
+description: Merge/Accept merge requests
+flags:
+    --auto-merge: Set auto-merge
+    --sha=: Merge Commit sha
+    --squash-message=: Custom Squash commit message
+    --when-pipeline-succeeds&: Merge only when pipeline succeeds
+    -d, --remove-source-branch: Remove source branch on merge
+    -m, --message=: Custom merge commit message
+    -r, --rebase: Rebase the commits onto the base branch
+    -s, --squash: Squash commits on merge
+    -y, --yes: Skip submission confirmation prompt
+documentation:
+    command: '[AI] `glab mr merge` is a GitLab CLI (Command Line Interface) command used to merge a branch or merge request locally before pushing changes back to a GitLab repository. This command fetches the latest version of the target branch, applies your local changes on top of it using the specified merge strategy (fast-forward by default), and creates a new commit representing the merge. If there are any conflicts during the merge process, they need to be resolved manually before pushing the changes back to GitLab.'
+    flag:
+        auto-merge: '[AI] The `git flags` `glab mr merge --auto-merge` is used to perform an automatic merging of a Git merge request when there are no conflicts between the branches being merged. This flag can be passed when using the Glab (GitLab CLI) tool for interacting with GitLab repositories. When used, it will automatically merge the branches without requiring user intervention if the merge can be completed cleanly. If conflicts arise during the merge process, they will need to be resolved manually before the merge can be completed.'
+        message: |-
+            [AI] `git mergetool` is a command-line tool provided by Git for resolving merge conflicts. The given command, `git mergetool --merge <commit>`, can be used to open a graphical merge tool window to help resolve conflicts between the current branch and the specified commit. The `--message` option is not a part of this command; it's usually followed by the message you want to use for the commit once the conflicts are resolved. So, in summary:
+
+            1. Fetch the conflicting commits using `git merge <branch>`.
+            2. Use `git mergetool --merge <commit>` to open a graphical tool for resolving conflicts.
+            3. Manually modify and merge the files as needed in the tool window.
+            4. Save and close the tool window when finished.
+            5. Commit with a message using `git commit -m "Your commit message"`.
+        rebase: |-
+            [AI] The command `git rebase --interactive --mergy <commit>^` followed by `pick`, `glab mr <branch_name>`, and finally `squash` or `fixup` is a common workflow in Git for rebasing and merging multiple branches. Here's what each part does:
+
+            1. `git rebase --interactive --mergy <commit>^`: This command opens an interactive rebase session, allowing you to manipulate commits. The `--mergy` option tells Git to perform a three-way merge when necessary during the rebasing process. In this case, it's used with a commit hash preceded by "^" which refers to the parent of that commit.
+            2. `pick`: This is an instruction telling Git to apply the given commit as-is during the rebase session.
+            3. `glab mr <branch_name>`: `glab mr` is a command from the "GitLab Review Files" tool, which fetches and applies the changes introduced by a pull request with the given branch name. When you've finished rebasing your local branch and want to incorporate changes from a remote branch before merging it into the target branch, use this command.
+            4. `squash` or `fixup`: These instructions are used for committing multiple commits into one during the rebase process. You can choose either `squash` (preserve commit messages) or `fixup` (discard commit messages). When you've made changes to several commits in a row and want them combined into a single commit, use these instructions instead of 'pick'.
+        remove-source-branch: '[AI] The `git flag` `glab mr merge --remove-source-branch` is used to perform a merge request in GitLab, but with an added option to remove the source branch once the merge is successful. In other words, it merges the changes from the source branch into the current branch and then deletes the source branch automatically. This can be useful for keeping the number of branches in a repository low and maintaining a clean branch structure.'
+        sha: |-
+            [AI] The `git flag` `glab mr merge --sha <SHA1>` is used with the Git laboratory (Glab) tool for managing and interacting with Git mergence requests (MRs) in a more convenient way.
+
+            This command merges the specified MR with a given SHA1 commit as its base. The `--sha` option provides the hash of the commit to which you want to rebase or merge your MR. It helps maintain a clean and up-to-date branch while resolving potential merge conflicts.
+        squash: |-
+            [AI] `git mergetool --tool=glab mr --squash` is a Git command that uses the Glab tool for interactive conflict resolution during a merge commit with the squash option.
+
+            The "squash" option flattens multiple commit messages into one in the final merge commit, creating a clean and linear history. This command opens a text editor allowing you to edit the combined commit message before committing the merged changes.
+
+            When using this command, Glab launches the merge tool to show the differences between the branches' files with conflicts, and enables you to resolve these conflicts in place. Once resolved, the squash option combines all the changes into a single commit.
+        squash-message: '[AI] The `git merge` command with the `--squash` option and the `--message` or `-m` flag is used to create a single commit when merging multiple branches or commits. With this command, all the commits being merged are first applied as if with a regular merge, but then they are squashed into a single new commit. The `--squash-message` option allows you to edit and provide a single commit message for all the combined commits before creating the final squashed commit.'
+        when-pipeline-succeeds: |-
+            [AI] `git merge` is a command in Git for combining changes from two different branches or commits. The `--when-pipeline-succeeds` option is a continuation of the `merge.conflictstyle` and `rebase.conflictstyle` options, which control how Git resolves conflicts during merging or rebasing.
+
+            This option specifies that Git should wait for the results of a specified pipeline (a sequence of external commands) before completing the merge or rebase operation. Once the pipeline completes successfully, Git will continue with the merge or rebase process. This can be useful when integrating changes that require external validation or testing, such as automated builds or code analysis checks.
+
+            The `glab` tool is a Git GUI and automation tool for GitHub actions. The command `glab mr merge --when-pipeline-succeeds` uses this option to trigger the merge request in GitHub ( MR) only when the pipeline associated with that merge request has completed successfully. This helps ensure that only tested, validated changes are merged into your repository.
+        "yes": |-
+            [AI] `git merge` is a Git command used to combine the changes from two branches or commits. The `--merge` option tells Git to perform a merge commit, meaning it will create a new commit that includes the changes from both branches.
+
+            The `glab mr merge --yes` command is an alias for this Git operation using Glab (GitLab CLI), which automates Git operations with additional features and convenience. The `--yes` option here is equivalent to providing the `--accept` flag during a Git merge conflict resolution, meaning it accepts all changes introduced by the merge. Therefore, the command performs an automatic merge commit without any user intervention in case of conflicts.

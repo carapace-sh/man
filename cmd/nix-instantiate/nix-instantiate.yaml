@@ -1,0 +1,98 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: nix-instantiate
+description: instantiate store derivations from Nix expression
+flags:
+    --add-root=: Create a symlink to the output path
+    --arg*=: Pass [name] [expr] to Nix functions.
+    --argstr*=: Pass [name] [string] to Nix functions
+    --dry-run: Show what store paths would be built or downloaded
+    --eval: Evaluate the input files, and print the resulting values on standard output
+    --find-file: Lookup files in the nix search path
+    --help: Show usage information
+    --json: Print the result of --eval as JSON
+    --parse: Just parse the input files, and print their abstract syntax trees on standard output in ATerm format.
+    --read-write-mode: Perform evaluation in read/write mode
+    --strict: Recursively evaluate list elements and attributes.
+    --xml: Print the result of --eval as XML
+    -A, --attr=: Attribute to build
+    -E, --expr=: The expression to evaluate
+    -I, --include=: Include paths
+documentation:
+    command: '[AI] `nix-instantiate` is a command from the Nix Package Manager used to instantiate or generate configurations for Nix expressions. It takes an expression as its argument and applies any provided configuration overrides, generating outputs in the form of files or other data structures. The result can be used to create derived configurations, build software packages, or perform various system customizations based on the given expression.'
+    flag:
+        add-root: '[AI] `nix-instantiate` is a command-line utility from Nix, a package manager for Linux and other Unix systems. The `--add-root` option modifies the output of `nix-instantiate`. By default, it outputs a set of files that instantiates a Nix expression into a new directory. With `--add-root`, it instead adds those files directly to the current system''s file tree as symlinks under a newly created directory with the given name. This can be useful for integrating configuration files or binaries from a Nix environment into your system without having to manage separate directories for them.'
+        arg: |-
+            [AI] `nix-instantiate` is a command in Nix, a package manager for Linux and other Unix systems. The `--arg` option is used to pass arguments to a Nix expression or configuration file when invoking `nix-instantiate`. The argument values are provided after the `--arg` option in key-value pairs. For example:
+
+            ```sh
+            nix-instantiate myconfig.conf --arg myArg=myValue
+            ```
+
+            This command instantiates the configuration file `myconfig.conf` and passes an argument named "myArg" with the value "myValue". The configuration file can then use this argument in its expressions or definitions.
+        argstr: |-
+            [AI] `nix-instantiate` is a command-line utility provided by Nix, a package manager for Linux and other systems. The `--argstr` option is used to pass arguments in a format suitable for further processing by other Nix commands or scripts.
+
+            With `--argstr`, you can provide key-value pairs as strings in the following format: `--argstr name value`. Multiple arguments can be passed by repeating the command with each new argument: `--argstr name1 value1 --argstr name2 value2 ...`
+
+            These arguments are then accessible to other Nix expressions or functions as environment variables with the prefix `NIX_ARG_`. For example, if you pass `--argstr myArg hello`, in another Nix command, you can access it as the environment variable `$NIX_ARG_myArg` which contains the value "hello".
+        attr: '[AI] `nix-instantiate` is a command-line tool in Nix package manager for instantiating configurations. The `--attr` option is used to print attribute values of a configuration or a built-in function. When you invoke `nix-instantiate` with this option, it outputs the specified attribute''s value in JSON format or, if multiple attributes are provided, an associative array with all the requested attributes. This can be helpful for retrieving specific information about configurations, functions or the system itself without actually building anything.'
+        dry-run: '[AI] `nix-instantiate` is a command in Nix, a package manager for Linux and other Unix systems. The `--dry-run` option is used to test the effects of running `nix-instantiate` without actually executing any changes. It simulates the creation and configuration of new Nix expressions by printing out what would be generated without making any modifications to files or system state. This can help users understand the impact of their actions before applying them in a production environment.'
+        eval: '[AI] `nix-instantiate --eval` is a command from the Nix Package Manager used to evaluate expressions and invoke functions defined in Nix expressions (like `Nixexpr`, `flake.lock` or `build.nix`) without building an entire system. It takes the path to an expression file as its argument, reads it, and applies any given substitutions using the `--substitutions` flag before evaluating the given Nix expression or function call. The result is printed to the standard output.'
+        expr: |-
+            [AI] `nix-instantiate` is a command-line utility in Nix, a package manager for Linux and other systems. The `--expr` option is used to evaluate an expression written in Nix expression language directly in the terminal, without creating a configuration file or building a derivative. The output of this command is the result of evaluating the given expression. For example:
+
+            ```bash
+            $ nix-instantiate --expr 'pkgs.greet "Hello, World!"'
+            {
+              result = {
+                type = "string";
+                value = "Hello, World!";
+              };
+            }
+            ```
+
+            In this example, `nix-instantiate` evaluates the expression `pkgs.greet "Hello, World!"`, which is defined in the Nix package collection (`pkgs`) and returns the string "Hello, World!".
+        find-file: '[AI] `nix-instantiate` is a command-line utility in Nix Package Manager used to instantiate configurations defined in Nix expressions or Nix flakes. The `--find-file` option is used to search for a file within the build outputs of a configuration. It takes one argument, which is the path to the file relative to the root of the build output. If the file exists, its full path will be printed out. Otherwise, an error message will be displayed. The `--find-file` option helps in automating tasks that depend on specific files generated during the build process without having to hardcode their paths.'
+        help: |-
+            [AI] `nix-instantiate` is a command-line utility in Nix, a package manager for Linux and other systems. Its primary function is to instantiate a configuration or a set of configurations specified in a Nix expression or a Nix file (with .nix extension). The command `nix-instantiate --help` displays the usage information for this utility. Here's what you can expect from the help output:
+
+            1. Synopsis: It shows an example of how to call the command with mandatory and optional arguments.
+            2. Description: A brief explanation of what the command does.
+            3. Options: A list of options that can be passed to the command, along with their descriptions and examples if applicable.
+            4. Examples: Real-life usage scenarios demonstrating the command's application in various situations.
+
+            For instance, the help output might look something like this:
+
+            ```bash
+            $ nix-instantiate --help
+            NIX_INSTANTIATE(1)                             User Commands
+
+            NAME
+                   nix-instantiate - Instantiate a configuration or set of configurations
+
+            SYNOPSIS
+                   nix-instantiate [OPTIONS] PATH...
+
+            DESCRIPTION
+                   Nix Instantiate reads the given Nix expressions, and instantiates them.
+                   This may result in creating new store paths for the generated outputs.
+
+            OPTIONS
+                   --no-overwrite   Do not overwrite existing outputs with the same name
+                                   but different output types (e.g., build vs. runtime)
+                   --debug          Print debug information about the instantiation process
+                   --eval           Evaluate Nix expressions given on the command line
+                   --dry-run        Print what would be done without actually performing any actions
+                   ...
+            ```
+
+            This help output demonstrates how to call `nix-instantiate` with various options, its description, and a list of available options.
+        include: '[AI] `nix-instantiate` is a command-line utility in NixOS, a Linux distribution and configuration management system. The `--include` option is used to specify Nix expressions or modules that should be sourced before evaluating the given expression. This allows you to import and use functions, configurations or definitions from external sources within your current instantiation context. For instance, if you have an external module defining some custom configuration, you can use `--include` flag while instantiating a configuration file to incorporate that module and make its content available for the instantiation process.'
+        json: '[AI] `nix-instantiate` is a command from Nix, a package manager for Linux and other Unix systems. The `--json` flag is used to output the result of an instantiation in JSON format. Instantiation is the process of creating a new configuration or environment based on existing Nix expressions, and `nix-instantiate` is the tool that performs this action. With the `--json` flag, the output of the command is returned as a JSON object, making it easier for scripts to parse and use the information.'
+        parse: '[AI] `nix-instantiate` is a command-line tool from NixOS, a Linux distribution and package manager, used to evaluate Nix expressions and instantiate configurations. The `--parse` flag is an option for this command that parses the given expression or configuration file without actually running it. Instead, it prints only the resulting Nix expression tree in JSON format. This can be useful for inspecting complex configurations, checking validity of expressions, or extracting specific parts of a larger configuration.'
+        read-write-mode: '[AI] `nix-instantiate` is a utility in Nix, a package manager for Linux and other operating systems. The `--read-write-mode` option is used to mount the generated output as a read-write filesystem instead of a read-only one. This means that any modifications made to the files inside the mounted filesystem will persist after the `nix-instantiate` command finishes executing. This can be useful for testing or development purposes, allowing users to modify the generated configuration or data without affecting the original Nix expression or package.'
+        strict: '[AI] `nix-instantiate` is a command in Nix, a configuration management system. The `--strict` option is used to enforce strict evaluation of expressions. It means that all inputs and properties must be fully defined before the expression can be evaluated. If an input or property is undefined, the evaluation will fail instead of using a default value or falling back to another input or property. This ensures that the expression is evaluated exactly as written in the Nix expression language.'
+        xml: |-
+            [AI] `nix-instantiate` is a command in Nix, a package manager for Linux and other systems. The `--xml` option instructs `nix-instantiate` to output its results as XML instead of the default JSON format. This can be useful when working with tools or systems that prefer or require XML input.
+
+            When you run `nix-instantiate --xml <profile>`, it generates an XML representation of the given Nix profile, which includes information about the profile's configuration, its components and their dependencies. This XML output can then be processed by other tools for further manipulation or analysis.

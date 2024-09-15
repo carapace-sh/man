@@ -1,0 +1,79 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: clone <repo> [flags] [<dir>] [-- [<gitflags>...]]
+description: Clone a GitLab repository/project
+flags:
+    --page=: Page number
+    --paginate: Make additional HTTP requests to fetch all pages of projects before cloning. Respects --per-page
+    --per-page=: Number of items to list per page
+    -G, --include-subgroups: Include projects in subgroups of this group. Default is true. Used with --group flag
+    -I, --with-issues-enabled: Limit by projects with issues feature enabled. Default is false. Used with --group flag
+    -M, --with-mr-enabled: Limit by projects with merge requests feature enabled. Default is false. Used with --group flag
+    -S, --with-shared: Include projects shared to this group. Default is false. Used with --group flag
+    -a, --archived: Limit by archived status. Used with --group flag
+    -g, --group=: Specify group to clone repositories from
+    -m, --mine: Limit by projects in the group owned by the current authenticated user. Used with --group flag
+    -p, --preserve-namespace: Clone the repo in a subdirectory based on namespace
+    -v, --visibility=: Limit by visibility {public, internal, or private}. Used with --group flag
+documentation:
+    command: |-
+        [AI] `glab repo clone` is a GitLab CLI (Command Line Interface) command used to clone a repository from GitLab. It downloads an entire GitLab project, including all branches, tags, and commits, into your local system. The basic syntax is:
+
+        ```bash
+        glab clone <project_url> [<local_directory>]
+        ```
+
+        Here:
+
+        - `<project_url>` is the URL of the GitLab repository you want to clone.
+        - `[<local_directory>]` is an optional argument specifying the local directory where you want to save the cloned repository. If not provided, the repository will be cloned into the current working directory.
+    flag:
+        archived: '[AI] `git clone` is a Git command used to create a local copy of a remote repository. The `--archive` or `--mirror` option makes the cloned repository an archival repository, which means it will be in a bare format (without a working directory) and will only contain the history, branches, and other metadata. The `glab` tool is a Git alias and wrapper for various Git commands, including `repo clone`, which allows users to interact with Google Cloud Source Repositories more easily. So, `glab repo clone --archived` command will create an archival local copy of a remote repository hosted on Google Cloud Source Repositories.'
+        group: |-
+            [AI] `glab` is a Git client for the GitLab API, and the command `repo clone --group` is used to clone a GitLab repository with a specific group appended to the personal access token or SSH key. This allows cloning repositories from multiple groups in one Git environment. For instance, if you have access to two different groups (e.g., `group1` and `group2`) in your GitLab account, you can clone their repositories using a single command by setting up the token or key with both group IDs:
+
+            ```bash
+            glab config user.token <your_access_token_or_key> --group group1,group2
+            ```
+
+            Now when you clone a repository from `group1` or `group2`, the command will be:
+
+            ```bash
+            glab repo clone <repository_url>
+            ```
+
+            By default, without the `--group` flag, `glab` would only allow cloning repositories from the default group associated with your access token or key.
+        include-subgroups: '[AI] `glab repo clone --include-subgroups` is a GitLab CLI command used to clone a repository along with its subgroups and nested sub-repositories. The `--include-subgroups` option ensures that the cloned local copy retains the repository''s entire subgroup hierarchy, making it equivalent to the remote one. This can be useful when working with multiple repositories belonging to specific subgroups within a larger GitLab project.'
+        mine: '[AI] `glab` is a GitLab CLI tool that provides a unified interface for interacting with GitLab repositories. The command `glab repo clone --mine` is used to clone a GitLab repository into a local directory, with the `--mine` option indicating that Git large files storage (LFS) objects should be checked out as part of the local repository instead of being pulled as separate files. This ensures that large files are managed within Git and can be easily tracked and versioned alongside code changes.'
+        page: |-
+            [AI] `glab` is a Git client provided by GitLab for easier interaction with GitLab repositories. The command `glab repo clone --page <PAGE_TOKEN>` is used to clone a repository from GitLab using a given page token instead of the default method which requires authentication using SSH keys or HTTPS URLs.
+
+            The `--page` option specifies that the clone operation should be performed using a page token, which is an access token that grants specific read permissions on a particular project for a defined period of time. The `<PAGE_TOKEN>` is the value of the token to be used. This command line can be useful when you want to perform a read-only clone of a GitLab repository without setting up authentication methods, or when you need to grant temporary access to someone else.
+        paginate: '[AI] The `git clone` command with the `--paginate` option, when used with the `glab` (Git Lab) tool, allows for streaming large repository clones over a slower or limited-bandwidth connection. Instead of downloading the entire repository at once, it clones the repository in smaller chunks or "pages," which are processed one at a time, reducing memory usage and allowing the clone process to continue even if the connection is lost momentarily. This approach can help save time and resources when cloning large repositories, especially over less-than-ideal network connections.'
+        per-page: |-
+            [AI] The `glab` command is a GitLab CLI tool for interacting with GitLab repositories. The specific command you've mentioned, `glab repo clone --per-page <pages>`, is used to clone a GitLab repository with customized pagination settings during the cloning process.
+
+            The `--per-page` option sets the maximum number of objects (files or commits) that are transferred in one request between Git and the server. By default, Git fetches up to 50 objects per page. However, you can increase this number by specifying a higher value with `--per-page`. This can be useful when cloning large repositories over slow networks to reduce the number of requests and improve the overall cloning speed.
+        preserve-namespace: |-
+            [AI] `glab` is a Git client for working with GitLab repositories, and `repo clone` is one of its commands used to clone a GitLab repository into your local system. The `--preserve-namespace` flag is an option that comes with this command.
+
+            When you clone a GitLab repository without the `--preserve-namespace` flag, Git will map the remote branch heads to local branches with the same names by default. However, if the original repository uses Namespace projects (i.e., has a group or organization prefix in its URL), this may lead to conflicts when cloning multiple repositories from different groups into one local directory because Git assumes each branch is unique across all your local repositories.
+
+            The `--preserve-namespace` flag, on the other hand, tells Git to include the full namespace (i.e., group or organization prefix) in the local branch names when cloning a Namespace project repository, ensuring that there are no conflicts when working with multiple such repositories locally. For instance, if you clone a repository from the 'group-name/project-name' namespace using this flag, your local branches will be named as 'group-name/project-name/branch-name'.
+        visibility: '[AI] The `glab repo clone --visibility` command is a GitLab CLI (Command Line Interface) command used to clone a repository while setting its visibility level. The `--visibility` option allows you to specify the desired visibility for the cloned repository, which can be either `public`, `internal`, or `private`. When you run this command, it will clone the specified GitLab repository along with its configured visibility settings. This is particularly useful when working with team projects or when wanting to maintain the same visibility level across multiple instances of a project.'
+        with-issues-enabled: |-
+            [AI] The `glab` command you provided is a shorthand for using GitLab's CLI (Command Line Interface) tool to clone a repository from GitLab with issues enabled. Here's what each part means:
+
+            * `glab`: This is the name of the GitLab CLI tool. It allows you to interact with GitLab using the command line.
+            * `repo`: This specifies that the command is related to repositories.
+            * `clone`: This is the command itself, which creates a local copy of a remote repository on your computer.
+            * `--with-issues-enabled`: This flag enables issues tracking for the cloned repository. It means that when you clone the repository, Git will also download all open and closed issues associated with it. This can be useful if you want to work on an issue locally or need to access issue information while developing.
+        with-mr-enabled: |-
+            [AI] `glab repo clone --with-mr-enabled` is a command used in GitLab CI/CD workflows to clone a GitLab repository with Merge Request (MR) pipeline enabled.
+
+            The `glab` tool is a command-line interface for interacting with GitLab repositories, which allows users to execute GitLab API commands from the terminal. The `repo clone` subcommand is used to clone a GitLab repository locally.
+
+            The `--with-mr-enabled` flag tells `glab` to initialize a new Git branch for each Merge Request (MR) associated with the cloned repository, allowing users to build and test MRs locally before merging them back into the main branch. This is useful in continuous integration and delivery workflows where developers want to review changes in context before merging them into production.
+        with-shared: |-
+            [AI] `glab` is a Git client from GitLab that provides some additional functionality over regular Git commands. The command `repo clone --with-shared` is used to clone a repository with shared branches enabled.
+
+            With this option, when you push or pull changes, not only your branches will be affected but also the branches that are shared with you. This means that changes you make will propagate to others who have access to those branches, promoting collaboration and keeping your repositories in sync.

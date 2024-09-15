@@ -1,0 +1,79 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: ls-files
+description: Show information about files in the index and the working tree
+group: low-level interrogator
+flags:
+    --abbrev=: use <n> digits to display object names
+    --debug: show debugging data
+    --deduplicate: suppress duplicate entries
+    --directory: show 'other' directories' names only
+    --empty-directory: don't show empty directories
+    --eol: show line endings of files
+    --error-unmatch: if any <file> is not in the index, treat this as an error
+    --exclude-per-directory=: read additional per-directory exclude patterns in <file>
+    --exclude-standard: add the standard git exclusions
+    --format=: format to use for the output
+    --full-name: make the output relative to the project top directory
+    --recurse-submodules: recurse through submodules
+    --resolve-undo: show resolve-undo information
+    --sparse: show sparse directories in the presence of a sparse index
+    --with-tree=: pretend that paths removed since <tree-ish> are still present
+    -X, --exclude-from=: read exclude patterns from <file>
+    -c, --cached: show cached files in the output (default)
+    -d, --deleted: show deleted files in the output
+    -f: use lowercase letters for 'fsmonitor clean' files
+    -i, --ignored: show ignored files in the output
+    -k, --killed: show files on the filesystem that need to be removed
+    -m, --modified: show modified files in the output
+    -o, --others: show other files in the output
+    -s, --stage: show staged contents' object name in the output
+    -t: identify the file status with tags
+    -u, --unmerged: show unmerged files in the output
+    -v: use lowercase letters for 'assume unchanged' files
+    -x, --exclude=: skip files matching pattern
+    -z: separate paths with the NUL character
+documentation:
+    command: '[AI] `git ls-files` is a Git command used to list the names of all files in the current repository that are tracked by Git. It does not include untracked files or directories. The output can be modified with various options such as `--stage-name` to show files in different states like staging area, or `--hidden` to display hidden files. By default, it simply lists the filenames on standard output.'
+    flag:
+        abbrev: '[AI] `git ls-files --abbrev` is a Git command used to list files in the current repository with abbreviated file modes and names. The option `--abbrev` abbreviates the file mode permissisons into a single character for each permission group (e.g., ''-'' for regular file, ''d'' for directory, etc.). This command is often used to generate a list of files for scripting purposes or to quickly check which files have been modified in the working directory.'
+        cached: '[AI] `git ls-files --cached` is a Git command used to list all files in the index (staging area) before committing changes. The "--cached" option filters the result to only show files that are currently being tracked and have been added to the staging area but not yet committed. This command provides a snapshot of the file state prior to creating a new commit.'
+        debug: '[AI] `git ls-files --debug` is a Git command used for debugging purposes. It lists files under version control in a Git repository, but it provides more detailed and verbose output than the regular `git ls-files` command. The `--debug` flag enables extra diagnostic information to be displayed, such as the file status (e.g., modified, added, deleted) and the Git internals used to determine the file status. This level of detail can help diagnose issues with tracking files in a Git repository.'
+        deduplicate: '[AI] `git ls-files --deduplicate` is a Git command used to list files in the current repository, with the advantage of deduplicating the output based on their content and file mode. This means that if multiple files have the same content and permission bits, they will be represented by a single entry in the output, making it easier to identify and manage identical files within a project.'
+        deleted: '[AI] The `git ls-files --deleted` command is used to list files that have been deleted in the latest Git commit. The `--deleted` option filters the output to show only files that were present in the previous commit but have since been removed from the working directory or the staging area. This can be useful for tracking and reverting changes that involve deletion of files.'
+        directory: '[AI] `git ls-files --directory` is a Git command that lists files and directories present in the current repository, but only shows the paths of directories. The `--directory` option filters the output to show only the names of directories. This command can be useful when you want to see a list of directories in your Git repository without cluttering the output with individual files.'
+        empty-directory: '[AI] The `git ls-files` command with the `--empty-directory` option is used to list files and empty directories that are tracked by Git. An empty directory is a directory that doesn''t contain any files but is still being tracked by Git. The output of this command lists the names of these empty directories, one per line.'
+        eol: '[AI] `git ls-files --eol` is a Git command used to list files under version control with a special focus on the end-of-line character (EOL) used in each file. The `--eol` option makes Git show the EOL marker for each file, indicating whether it uses LF (Unix), CRLF (Windows), or other line ending formats. This command outputs a list of files with their corresponding line ending format information, helping to identify potential line ending inconsistencies between different operating systems during collaboration.'
+        error-unmatch: '[AI] `git ls-files --error-unmatch` is a Git command used to show files that were not found in the current repository but mentioned in the Git index or staging area. The command searches for untracked files and displays an error message for each file that does not exist in the repository, helping users identify potential issues with file paths or names.'
+        exclude: '[AI] `git ls-files --exclude` is a Git command used to list the files in the current repository that match a given pattern, excluding files with specified names or extensions. The `--exclude` option followed by a pattern lets Git exclude files that match that pattern from the listing. This command is particularly useful when working with large repositories or when looking for specific types of files.'
+        exclude-from: |-
+            [AI] `git ls-files --exclude-from <file>` is a Git command that lists the files in the current repository, but excludes specific files or directories mentioned in the given file.<br>
+            The `<file>` argument is a path to a text file containing one path per line to be excluded from the listing. The paths can use globbing patterns as well. This command is useful for filtering out large or unnecessary files when generating reports, making backups or performing other tasks where only a subset of files is needed.
+        exclude-per-directory: '[AI] `git ls-files --exclude-per-directory` is a Git command used to list the files in the current repository that are tracked and excluded from certain directories at the same time. The `--exclude-per-directory` option allows specifying a file pattern for each directory, which will be excluded only in that directory and its subdirectories. This can be useful when there are common exclude patterns across different directories but with some exceptions. For example, `git ls-files --exclude-per-directory="*.log" -- /path/to/folder/` would list all tracked files excluding any file named `*.log` inside the specified folder and its subdirectories.'
+        exclude-standard: '[AI] The `git ls-files --exclude-standard` command is used to list the files in the current repository that are tracked by Git, but excluding certain standard files and directories such as `.git`, `.gitignore`, and `vendor/` by default. The `--exclude-standard` option tells Git to exclude these default filtering directories and only exclude those specified with the `--exclude` or `--exclude-file` options. This command is helpful when you want to check which files are tracked in your repository while excluding some specific standard files or directories.'
+        f: '[AI] `git ls-files -f` is a Git command used to show the files in the current repository and their corresponding blob objects in the Git index. The `-f` option causes Git to output each file name followed by its raw blob SHA-1 hash instead of just the filename. This can be useful for scripts or other automated processes that need to compare the file contents with their stored Git representations.'
+        format: |-
+            [AI] `git ls-files --format` is a Git command used to list files in the current repository, displaying each file's name and its Git status (e.g., modified or unmodified). The `--format` option allows you to customize the output format by specifying a string template for how the output should be displayed. This command outputs the files one per line, with an optional prefix indicating their Git status. For example:
+
+            ```
+            modified:   file1.txt
+            unmodified: file2.txt
+            ```
+        full-name: '[AI] `git ls-files --full-name` is a Git command that lists all files in the current repository, displaying their full paths in the file system. The "--full-name" option is used to show the complete path instead of just the file names. This can be helpful for various use cases such as scripting or checking for specific file locations within a large project.'
+        ignored: '[AI] The `git ls-files --ignored` command is used to list files and directories in the current repository that are currently being ignored by Git via the .gitignore files or other ignore patterns. This command does not show files that are tracked or unmodified but simply lists the names of files and directories that have been excluded based on the defined ignore rules in .gitignore files or custom ignore patterns. It provides a quick way to check which files are being ignored without having to manually inspect each file or directory.'
+        killed: |-
+            [AI] `git ls-files --deleted` and `git ls-files --dangling-files --quit` are two separate Git commands with different functionalities.
+
+            The `git ls-files --deleted` command lists the files that have been deleted in the last commit, but still exist in the working directory or the staging area. These files will be removed permanently when you run `git commit`.
+
+            On the other hand, there is no direct Git command equivalent to `git ls-files --killed`. If you mean to ask about the usage of the term "killed" in a Git context, it generally refers to files or commits that have been removed from the Git history with force. To find and list such files or commits, you would use different commands like `git fs-prune` or `git reflog expire --expire=now --all`.
+        modified: '[AI] `git ls-files --modified` is a Git command used to list files in the current repository that have been modified but not yet committed. The `--modified` option filters the output to only show files with unstaged changes, meaning the files have been modified locally but have not been added to the staging area yet.'
+        others: '[AI] The `git ls-files --others` command is used to list files in the current repository that are not tracked by Git. The option `--others` includes untracked files and ignored files in the output. This can be useful for identifying and managing files that are not under version control with Git.'
+        recurse-submodules: '[AI] `git ls-files --recurse-submodules` is a Git command used to list all files and submodules in the current repository and its subdirectories. The `--recurse-submodules` option tells Git to include files in submodules and their own submodules when recursively traversing directories. This can be useful for tracking down specific files or ensuring that all files, including those within submodules, are under version control.'
+        resolve-undo: '[AI] `git ls-files --resolve-undo` is a Git command used to list files in the working directory or the index with uncommitted changes and their corresponding committed state. It resolves the file names based on their Git history, showing both the current path and the version from the last commit that was reverted or reset. This can be useful for understanding the impact of a Git operation like a reset or revert and for resolving merge conflicts.'
+        sparse: '[AI] `git ls-files --sparse` is a Git command used to generate a list of files in the current repository, indicating whether each file is marked as sparsely initialized or not. Sparse checking is a feature that allows Git to track changes only for specific paths or directories within a project instead of tracking every single file. By using this command, you can identify which files or directories have been marked as sparse in your Git repository.'
+        stage: '[AI] `git ls-files --stage` is a Git command that lists the files in the index (staging area) for an upcoming commit. It doesn''t actually stage any files, it just shows which files are currently being prepared to be committed based on their state in the index.'
+        t: '[AI] `git ls-files -t` is a Git command that lists files with their last modification time. The `ls-files` subcommand lists files in the current repository, and the `-t` option sorts the output by the files'' last modification times, with the most recently modified files appearing first. This can be useful for various Git workflows, such as identifying which files have been changed since a particular commit or tag.'
+        unmerged: '[AI] `git ls-files --unmerged` is a Git command used during a merge conflict resolution. It lists the files in the working directory that have unmerged changes, meaning both their Git index (HEAD) and the working directory contain different versions of the file. The output includes the path to each file and the mode it was last committed. This command helps identify which files need manual intervention during the merge process.'
+        v: '[AI] `git ls-files -v` is a Git command that lists all files in the current repository along with their commit SHA-1 hashes and file modification statuses (either "100644" for regular files or "100755" for directories and executable files). The "-v" option increases the output verbosity, displaying each file''s information on a single line.'
+        with-tree: '[AI] `git ls-files --with-tree` is a Git command used to list files present in the current repository, along with their tree object hashes and file status information (e.g., modified, deleted, or unchanged). The `--with-tree` option adds the tree object hash to the output for each file. This command can be useful when working with scripts or other automated Git processes.'
+        z: '[AI] `git ls-files --size-limit=0 -- z` is a Git command that lists all files in the current repository, with each file name preceded by a null character (the `--zerochecksum` or `-z` option). This can be useful for passing the output directly to other commands as arguments, without needing to parse the Git output format. The `--size-limit=0` option includes files of zero length.'

@@ -1,0 +1,545 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: rsync
+description: a fast, versatile, remote (and local) file-copying tool
+flags:
+    --address=: bind address for outgoing socket to daemon
+    --append: append data onto shorter files
+    --append-verify: --append w/old data in file checksum
+    --backup-dir=: make backups into hierarchy based in DIR
+    --blocking-io: use blocking I/O for the remote shell
+    --bwlimit=: limit socket I/O bandwidth
+    --checksum-choice=: choose the checksum algorithm (aka --cc)
+    --checksum-seed=: set block/file checksum seed (advanced)
+    --chmod=: affect file and/or directory permissions
+    --chown=: simple username/groupname mapping
+    --compare-dest=: also compare destination files relative to DIR
+    --compress-choice=: choose the compression algorithm (aka --zc)
+    --compress-level=: explicitly set compression level (aka --zl)
+    --contimeout=: set daemon connection timeout in seconds
+    --copy-as=: specify user & optional group for the copy
+    --copy-dest=: '... and include copies of unchanged files'
+    --copy-unsafe-links: only "unsafe" symlinks are transformed
+    --debug=: fine-grained debug verbosity
+    --del: an alias for --delete-during
+    --delay-updates: put all updated files into place at end
+    --delete: delete extraneous files from dest dirs
+    --delete-after: receiver deletes after transfer, not during
+    --delete-before: receiver deletes before xfer, not during
+    --delete-delay: find deletions during, delete after
+    --delete-during: receiver deletes during the transfer
+    --delete-excluded: also delete excluded files from dest dirs
+    --delete-missing-args: delete missing source args from destination
+    --devices: preserve device files (super-user only)
+    --early-input=: use FILE for daemon's early exec input
+    --exclude-from=: read exclude patterns from FILE
+    --exclude=: exclude files matching PATTERN
+    --existing: skip creating new files on receiver
+    --fake-super: store/recover privileged attrs using xattrs
+    --files-from=: read list of source-file names from FILE
+    --force: force deletion of dirs even if not empty
+    --groupmap=: custom groupname mapping
+    --human-readable: output numbers in a human-readable format
+    --iconv=: request charset conversion of filenames
+    --ignore-errors: delete even if there are I/O errors
+    --ignore-existing: skip updating files that exist on receiver
+    --ignore-missing-args: ignore missing source args without error
+    --include-from=: read include patterns from FILE
+    --include=: don't exclude files matching PATTERN
+    --info=: fine-grained informational verbosity
+    --inplace: update destination files in-place
+    --link-dest=: hardlink to files in DIR when unchanged
+    --list-only: list the files instead of copying them
+    --log-file-format=: log updates using the specified FMT
+    --log-file=: log what we're doing to the specified FILE
+    --max-alloc=: change a limit relating to memory alloc
+    --max-delete=: don't delete more than NUM files
+    --max-size=: don't transfer any file larger than SIZE
+    --min-size=: don't transfer any file smaller than SIZE
+    --mkpath: create the destination's path component
+    --munge-links: munge symlinks to make them safe & unusable
+    --no-OPTION: turn off an implied OPTION (e.g. --no-D)
+    --no-implied-dirs: don't send implied dirs with --relative
+    --no-motd: suppress daemon-mode MOTD
+    --numeric-ids: don't map uid/gid values by user/group name
+    --only-write-batch=: like --write-batch but w/o updating dest
+    --open-noatime: avoid changing the atime on opened files
+    --out-format=: output updates using the specified FORMAT
+    --outbuf=: set out buffering to None, Line, or Block
+    --partial: keep partially transferred files
+    --partial-dir=: put a partially transferred file into DIR
+    --password-file=: read daemon-access password from FILE
+    --port=: specify double-colon alternate port number
+    --preallocate: allocate dest files before writing them
+    --progress: show progress during transfer
+    --protocol=: force an older protocol version to be used
+    --read-batch=: read a batched update from FILE
+    --remove-source-files: sender removes synchronized files (non-dir)
+    --rsync-path=: specify the rsync to run on remote machine
+    --safe-links: ignore symlinks that point outside the tree
+    --size-only: skip files that match in size
+    --skip-compress=: skip compressing files with suffix in LIST
+    --sockopts=: specify custom TCP options
+    --specials: preserve special files
+    --stats: give some file-transfer stats
+    --stderr=: 'change stderr output mode (default: errors)'
+    --stop-after=: Stop rsync after MINS minutes have elapsed
+    --stop-at=: Stop rsync at the specified point in time
+    --suffix=: backup suffix (default ~ w/o --backup-dir)
+    --super: receiver attempts super-user activities
+    --timeout=: set I/O timeout in seconds
+    --usermap=: custom username mapping
+    --write-batch=: write a batched update to FILE
+    --write-devices: write to devices as files (implies --inplace)
+    -@, --modify-window=: set the accuracy for mod-time comparisons
+    -0, --from0: all *-from/filter files are delimited by 0s
+    -4, --ipv4: prefer IPv4
+    -6, --ipv6: prefer IPv6
+    -8, --8-bit-output: leave high-bit chars unescaped in output
+    -A, --acls: preserve ACLs (implies --perms)
+    -B, --block-size=: force a fixed checksum block-size
+    -C, --cvs-exclude: auto-ignore files in the same way CVS does
+    -D: same as --devices --specials
+    -E, --executability: preserve executability
+    -F: same as --filter='dir-merge /.rsync-filter'
+    -H, --hard-links: preserve hard links
+    -I, --ignore-times: don't skip files that match size and time
+    -J, --omit-link-times: omit symlinks from --times
+    -K, --keep-dirlinks: treat symlinked dir on receiver as dir
+    -L, --copy-links: transform symlink into referent file/dir
+    -M, --remote-option=: send OPTION to the remote side only
+    -N, --crtimes: preserve create times (newness)
+    -O, --omit-dir-times: omit directories from --times
+    -P: same as --partial --progress
+    -R, --relative: use relative path names
+    -S, --sparse: turn sequences of nulls into sparse blocks
+    -T, --temp-dir=: create temporary files in directory DIR
+    -U, --atimes: preserve access (use) times
+    -V, --version: print the version + other info and exit
+    -W, --whole-file: copy files whole (w/o delta-xfer algorithm)
+    -X, --xattrs: preserve extended attributes
+    -a, --archive: archive mode; equals -rlptgoD (no -H,-A,-X)
+    -b, --backup: make backups (see --suffix & --backup-dir)
+    -c, --checksum: skip based on checksum, not mod-time & size
+    -d, --dirs: transfer directories without recursing
+    -e, --rsh=: specify the remote shell to use
+    -f, --filter=: add a file-filtering RULE
+    -g, --group: preserve group
+    -h, --help: show this help (* -h is help only on its own)
+    -i, --itemize-changes: output a change-summary for all updates
+    -k, --copy-dirlinks: transform symlink to dir into referent dir
+    -l, --links: copy symlinks as symlinks
+    -m, --prune-empty-dirs: prune empty directory chains from file-list
+    -n, --dry-run: perform a trial run with no changes made
+    -o, --owner: preserve owner (super-user only)
+    -p, --perms: preserve permissions
+    -q, --quiet: suppress non-error messages
+    -r, --recursive: recurse into directories
+    -s, --protect-args: no space-splitting; wildcard chars only
+    -t, --times: preserve modification times
+    -u, --update: skip files that are newer on the receiver
+    -v, --verbose: increase verbosity
+    -x, --one-file-system: don't cross filesystem boundaries
+    -y, --fuzzy: find similar file for basis if no dest file
+    -z, --compress: compress file data during the transfer
+documentation:
+    command: '[AI] Rsync is a powerful and versatile command-line program for copying and synchronizing files between two locations, either locally or over a network. It''s designed to transfer only the differences between the source and destination, minimizing the amount of data transferred and saving time and bandwidth. Rsync supports various options for handling symbolic links, permissions, ownerships, timestamps, and other file attributes. It''s widely used for backup and synchronization tasks due to its efficiency and flexibility.'
+    flag:
+        8-bit-output: '[AI] The `--8-bit-output` option in the `rsync` command is used to transfer binary files preserving their original byte order, which is especially important when dealing with files containing binary data across different systems with different byte orders (like endianness). This ensures that the transferred binary file retains its original format and functionality after being moved or synced between systems.'
+        D: '[AI] The `rsync` command with the `-D` option is used for transferring files between a local and a remote system while preserving symbols links, permissions, and timestamps. It does a recursive sync (`-r`) and also creates empty directories on the destination as needed (implied by `-D`). In summary, `rsync -D` is used to keep the source and destination directory trees identical while maintaining symbolic links, file permissions, and timestamps.'
+        F: '[AI] The `rsync` command with the `-F` option is used in file synchronization between local and remote systems or between different local directories. The `-F` flag tells `rsync` to preserve various file attributes during transfer, such as file permissions, timestamps, and symbolic links. It ensures that files are transferred with their original metadata, maintaining the consistency of file metadata between source and destination.'
+        P: '[AI] The `rsync` command with the option `-P` enables the display of progress during transfer. This includes showing the percentage completed, the number of bytes transferred, and the estimated time left for the transfer to finish.'
+        acls: |-
+            [AI] `rsync` is a popular command-line data synchronization and file transfer tool in Unix-based systems. The option `--acls` (short for "Access Control Lists") instructs `rsync` to preserve the file's ACLs (access control lists) during the file transfer or synchronization process.
+
+            ACLs are additional permissions that can be set on a file or directory, beyond the standard Unix user, group, and others permissions. These permissions define who can read, write, modify, execute, etc., not just for the owner and specific groups but also for other users and even other groups.
+
+            Using `rsync --acls` helps maintain these more granular access control settings when transferring files between systems or synchronizing file changes. This is essential in scenarios where it's necessary to preserve the original ACLs, such as when managing file permissions across multiple servers or backup processes.
+        address: '[AI] The `--address` option in rsync is used to specify the SSH server''s address or host key for rsync to use when connecting to a remote server. It overrides the default behavior of using the SSH client''s known hosts file. This can be useful in cases where the remote server has a different IP address or SSH key than what is stored in the client''s known hosts file, or if the connection is coming from a different machine with a different known hosts file. The format for this option is `--address <remote_host>:<port>` or `--rsh="ssh -o ''Host=<remote_host>:<port>'' user@local_host"`, where `<remote_host>` is the address or hostname of the remote server, and `<port>` (optional) specifies the SSH port number.'
+        append: |-
+            [AI] `rsync` is a popular data synchronization tool that allows transferring and updating files between a local and a remote system. The `--append` option is used with `rsync` to append new or updated files to an existing directory on the destination, leaving existing files unchanged.
+
+            When you use `rsync --append`, it ensures that only new or changed files are transferred from the source to the destination and appended to the respective directories in the destination. This can be useful when dealing with large data sets where you want to minimize network traffic by only transferring the differences between the two systems.
+
+            For example, let's say you have a local directory `/src` containing several files, and you want to append new or updated files to a remote directory `/dest`. You can use the following command:
+
+            ```
+            rsync -avz --append /src/ user@remote_host:/dest/
+            ```
+
+            In this example, the `-a` (archive) option preserves file attributes and permissions, `-v` (verbose) option displays progress information, and `-z` (compress) option compresses data during transfer. The `--append` flag appends any new or updated files to the destination directory without affecting existing files.
+        append-verify: |-
+            [AI] `rsync` is a popular data synchronization tool used to transfer and synchronize files between different locations. The `--append-verify` option is one of its features that helps ensure data integrity during transfers.
+
+            When using `rsync`, the default transfer mode is `adam`, which means that if source files are newer than destination files, they will be replaced. With `--append-verify`, instead of overwriting existing files, rsync appends a suffix to the destination file name, creating a new file with the same name and the suffix "_rsync_appended" by default. After the transfer is complete, rsync uses the `sha1sum` or `md5sum` checksums to verify the integrity of both the source and the appended destination files. If they match, the user is informed that the append operation was successful. This option helps prevent accidental overwriting of important files while maintaining data integrity.
+        archive: '[AI] `rsync` is a powerful command-line tool for synchronizing files and directories between a local system and a remote server or between two remote systems. The `--archive` option is used with `rsync` to create an archive mode transfer, which preserves symbolic links, permissions, timestamps, and other file attributes. It''s often referred to as "R" (Recursive) and "A" (Archive) transfer mode in `rsync` documentation. In summary, using `rsync --archive` ensures a safe and complete transfer of directories, preserving their structure and metadata.'
+        atimes: '[AI] `rsync` is a popular data synchronization tool used to copy and transfer files between local and remote systems. The option `--atimes` (or `-A`) is used with `rsync` to preserve the access, modification, and change times of files being synchronized. These timestamps indicate when a file was last accessed, modified, or changed respectively. By using `--atimes`, `rsync` ensures that these timestamps are preserved during the transfer process, maintaining the consistency of the file metadata across source and destination locations.'
+        backup: |-
+            [AI] `rsync` is a popular data synchronization and file transfer tool in Unix-like operating systems. The `--backup` option is used with `rsync` to perform incremental or differential backups of files and directories.
+
+            When using `rsync --backup`, the source files are synchronized with the destination, and any changed files at the source are backed up to the destination with a suffix added to their names. For example, if a file named "file.txt" is changed at the source during the synchronization process, it will be copied to the destination as "file.txt~20YYMMDDHHMMSS", where "20YYMMDDHHMMSS" represents the timestamp of the backup.
+
+            Additionally, `rsync --backup` preserves file metadata such as ownership, permissions, and timestamps during the backup process. This option also enables the use of hard links for files that have not been modified at the destination, which can save disk space when backing up identical files.
+        backup-dir: |-
+            [AI] `rsync` is a popular data synchronization tool used for copying and updating files between different locations. The `--backup-dir` option is a feature in `rsync` that helps maintain backups of files during the transfer process.
+
+            When you use `rsync` with the `--backup-dir` flag, it creates a backup directory (specified by the `--backup-dir` argument) on the destination side for storing the previous versions of files being updated or deleted. The backed-up files are usually named with a suffix `.<number>`, where `<number>` is a version number indicating how many times the file has been backed up.
+
+            For instance, if you run `rsync --backup-dir=/path/to/backups source_directory destination:`, any files that have changed or been deleted during the synchronization process will be backed up in the specified directory (`/path/to/backups`) with appropriate suffixes. This allows you to easily restore previous versions of files if necessary.
+        block-size: |-
+            [AI] The `--block-size` option in `rsync` is used to specify the size of data transferred as a single unit. By default, `rsync` transfers data in small chunks which can result in increased network traffic and slower transfer speeds, especially over long distances or slow networks.
+
+            By using the `--block-size` option followed by the desired value (in bytes), you can increase the size of each transferred block to reduce the number of individual transfers and improve performance. It is a tradeoff between transfer speed and network bandwidth utilization. Larger block sizes lead to faster transfer speeds but may cause increased network usage, while smaller block sizes result in slower transfer times but minimize network traffic.
+        blocking-io: '[AI] The `rsync` command with the option `--blocking-io` instructs it to read and write data in blocking mode. This means that rsync will wait for I/O operations to complete before moving on to the next task, ensuring data transfer is done sequentially and reducing potential issues during the transfer of large files or over slow connections. The aim is to improve performance and data integrity by minimizing interruptions during the file transfer process.'
+        bwlimit: '[AI] `rsync` is a popular data synchronization tool used to transfer and sync files between local and remote systems. The option `--bwlimit` sets a maximum data transfer rate limit in bytes per second (BPS or KBPS) during the data transfer process. This can be useful when you want to minimize the impact of the data transfer on your network or when you have limited bandwidth available. By setting a limit, rsync will regulate its transfer speed to avoid overwhelming the network or other processes. The flag follows the syntax `--bwlimit=<limit in KB/s>` or `--bwlimit=<limit in B/s>`. For instance, `rsync --bwlimit=50K` sets a limit of 50 kilobytes per second (approximately 400 Mbit/s).'
+        checksum: |-
+            [AI] `rsync` is a popular data synchronization tool used to transfer and sync files between local and remote systems. The `--checksum` option is one of its features that enhances data integrity during file transfers.
+
+            When you use `rsync` with `--checksum`, it calculates the checksum (MD5 or SHA1) for both source and destination files before and after transfer, respectively. If the checksum values match, then the transfer is successful and the files are identical. This helps ensure data integrity during the file transfer process. The `--checksum` option can be particularly useful when transferring large files or sensitive data to verify their authenticity upon arrival.
+        checksum-choice: |-
+            [AI] The `rsync` command's `--checksum-choice` option is used to specify how rsync should calculate checksums for data transfer. It has three possible values:
+
+            1. `--checksum=none` (default): No checksum verification is performed during the transfer.
+            2. `--checksum=sha1` (or other checksum types like md5, etc.): rsync calculates and checks the specified checksum type for both source and destination files. This provides data integrity checking during the transfer.
+            3. `--checksum=auto`: rsync automatically chooses the best available checksum method based on the file size. For larger files, it usually uses a slower but more secure hash like SHA1 or SHA256. For smaller files, it may use a faster hash like MD5. This is typically the recommended choice for most users.
+        checksum-seed: |-
+            [AI] `rsync` is a popular data synchronization tool used to transfer and sync files between local and remote systems. The option `--checksum-seed` is used to specify a seed value for the checksum calculation in rsync.
+
+            The checksum is a mathematical representation of a file's content, which can be used to verify its integrity during data transfer. By default, rsync uses the system entropy to generate seeds for checksum calculations. However, using `--checksum-seed` allows specifying a specific seed value to ensure consistent checksum calculations across different runs or systems with different entropies.
+
+            Using the same seed value ensures that identical files produce the same checksums, making it useful in scenarios where verifying file integrity over unreliable networks or dealing with inconsistent system entropy is essential.
+        chmod: |-
+            [AI] `rsync` is a popular data synchronization and file transfer tool in Unix-like systems. The option `--chmod` is used to preserve or modify file permissions during the transfer or sync process.
+
+            When used with no arguments, `--chmod` maintains the original file permission flags (read, write, execute) for regular files and directories between the source and destination. If followed by a numeric mode value, such as `755`, it sets the new permissions for all files transferred to that specified mode.
+
+            For example:
+
+            ```bash
+            rsync --archive --chmod=rwxr-x * user@remote:destination/
+            ```
+
+            In this example, the `--archive` option archives symbolic links and preserves file attributes (including permissions), while the `--chmod=rwxr-x` sets the new permissions for all transferred files as readable by owner (r), executable by owner (x), and readable by group and others (r-x).
+        chown: |-
+            [AI] The `rsync` command is a popular data synchronization tool used to copy files and directories between two locations while preserving permissions, timestamps, and other metadata. The option `--chown` (short for "change owner") is one of the many flags available in `rsync`.
+
+            When using this flag, any files or directories transferred during the synchronization process will have their ownership (the user and group) changed on the receiving end to match those of the source. This can be particularly useful when synchronizing files between systems with different users or groups. Additionally, it helps maintain consistent file permissions across multiple systems in a networked environment.
+        compare-dest: '[AI] The `rsync` command with the option `--compare-dest` is used for a three-way merge during file transfers. In this mode, `rsync` compares the original destination file with an updated source file and then applies the differences to a temporary file. If the merge succeeds, the temporary file is renamed to replace the original destination file. This option can be useful when dealing with conflicts during updates or synchronizations between multiple repositories.'
+        compress: '[AI] The `rsync` command with the `--compress` option enables data compression during the transfer of files between two locations. This can reduce the amount of data transmitted over the network, leading to faster and more efficient transfers, especially for large files or when dealing with slow connections. When using this option, rsync compresses the data on the fly before sending it and decompresses it as soon as it arrives at the destination.'
+        compress-choice: '[AI] `rsync` is a popular data synchronization tool that allows transferring and syncing files between local and remote systems. The option `--compress-level=choice` enables or disables compression during the data transfer. There are three choices: "auto" (automatically compresses if the sender supports it), "on" (forces compression), or "off" (disables compression). By using this option, users can optimize their data transfer based on network conditions and processing power.'
+        compress-level: |-
+            [AI] The `--compress-level` option in the `rsync` command is used to set the compression level for data being transferred over the network. Compression can help reduce the amount of data that needs to be sent, which can save bandwidth and make transfers faster over slow or limited connections.
+
+            The compression level can be specified as a number ranging from 0 (no compression) to 9 (maximum compression). A higher compression level will result in slower transfer speeds due to the additional processing required for more aggressive compression, but will use less bandwidth overall. It is recommended to use a default or moderate compression level (level 5 or 6) for most situations as it provides a good balance between speed and bandwidth savings.
+        contimeout: '[AI] `rsync` is a popular data synchronization tool used to copy and transfer files between local and remote systems. The `--contimeout` option is a feature in `rsync` that specifies the time limit for a single file or directory transfer before considering it as failed due to network interruptions. If no response is received from the server during this time, `rsync` will terminate the transfer and report an error. This can be useful in scenarios where network connectivity may be intermittent, allowing for automatic retries of transfers without requiring manual intervention. The value following `--contimeout` specifies the timeout duration in seconds.'
+        copy-as: |-
+            [AI] `rsync` is a powerful command-line tool for synchronizing files and directories between two locations, either locally or remotely. The option `--copy-as` is used with `rsync` to preserve the file attribute information (such as ownership, permissions, and timestamps) during the transfer. This means that not only are the data in the files copied over, but also their attributes.
+
+            In summary, `rsync --copy-as` preserves file attributes when copying files with `rsync`.
+        copy-dest: '[AI] `rsync` is a popular command-line data synchronization tool in Unix-like operating systems. The option `--copy-dest` is used with `rsync` to copy files from a source to a destination, while replacing any existing files at the destination with the new ones. In other words, it preserves the metadata (permissions, timestamps, etc.) of the original files and copies them to the destination as if they were being overwritten. This is useful when synchronizing files between systems while ensuring that the destination files maintain their original properties.'
+        copy-dirlinks: |-
+            [AI] `rsync` is a versatile data synchronization tool that can be used to copy files and directories between two locations while preserving symbolic links, hard links, permissions, timestamps, and other metadata.
+
+            The option `--copy-dirlinks` is used in conjunction with the `rsync` command to maintain the symlink behavior for directories during a transfer. With this option enabled, when copying a directory that contains symlinks pointing to other directories, those symlinks will be preserved as symlinks instead of being copied as directories with their contents.
+
+            For example, if there is a source directory `src` containing a symlink `link_to_dir` pointing to a target directory `target_dir`, and you want to copy this structure to a destination using `rsync`, you can use:
+
+            ```bash
+            rsync --archive --copy-dirlinks src/ user@destination:/dest
+            ```
+
+            This command will preserve the symlink relationship between `link_to_dir` and `target_dir`. As a result, at the destination location, you'll have `link_to_dir` pointing to `target_dir`, rather than having an exact copy of `target_dir` with its contents under the copied source directory.
+        copy-links: '[AI] `rsync` is a powerful and versatile data synchronization tool used for copying files and directories between two locations, either locally or over a network. The option `--copy-links` instructs `rsync` to preserve symbolic links (symlinks) during the transfer process. When this option is used, any symlinks in the source directory are copied as symlinks to the destination location, maintaining the original link relationship and functionality. This can be essential when synchronizing directories with a large number of symlinks or when ensuring the consistent state of a system across multiple machines.'
+        copy-unsafe-links: '[AI] `rsync` is a powerful command-line utility for synchronizing files and directories between different locations. The option `--copy-unsafe-links` is used with `rsync` to preserve symbolic links (symlinks) during file transfers, even if the linked files do not exist in the target location and the symlink points to a file with a different name or in a different location. This can potentially result in unsafe or unexpected behavior due to the creation of dangling symlinks, so it should be used with caution.'
+        crtimes: '[AI] The `rsync` command with the option `--crtimes` preserves the creation, modification, and inode change times of source files during the transfer to the destination. This means that the timestamp information (birth and modification times) is synchronized between the source and destination files or directories.'
+        cvs-exclude: '[AI] `rsync` is a powerful command-line tool for synchronizing files and directories between local and remote systems. The option `--cvs-exclude` is used to exclude specific file patterns from the version control system (CVS) repository when using `rsync` to transfer files. This can be useful to prevent certain files or directories, such as build artifacts or temporary files, from being transferred and committed to the CVS repository unintentionally. The argument for this option is a list of file patterns separated by commas or whitespace. For example: `--cvs-exclude=''*.o, *.class''` would exclude all ''.o'' and ''.class'' files when using `rsync` with CVS.'
+        debug: '[AI] `rsync` is a popular data synchronization and file transfer utility in Unix-like operating systems. The option `--debug` is used to enable detailed debugging output when using `rsync`. This means that during the transfer or synchronization process, `rsyncl` will print out additional information about what it''s doing at each step, including low-level details about the file transfers and network communications. It''s useful for troubleshooting complex synchronization tasks or when dealing with error messages. However, be aware that enabling debug mode can generate a significant amount of output and may slow down the synchronization process.'
+        del: '[AI] `rsync` is a powerful command-line utility for syncing and transferring files between two locations, often over a network. The option `--del` (short for `--delete`) is used to preserve deletion flags on symlinks and to delete files on the destination that no longer exist in the source. This means that when `rsync` transfers a file from source to destination and the file is deleted on the source, it will also be deleted on the destination. Additionally, if a symlink on the source is deleted, its corresponding symlink on the destination will also be deleted. Using this option helps keep the files on both sides in sync, maintaining consistency between them.'
+        delay-updates: |-
+            [AI] `rsync` is a popular data synchronization tool used to transfer and sync files between local and remote systems. The `--delay-updates` option is a transfer mode in `rsync`.
+
+            When using `rsync` with the default behavior (`--transfer`) for file transfers, it sends and receives all file metadata and data blocks during each transfer. In contrast, using `--delay-updates` mode, `rsync` defers sending file size or modification time updates until after a file's data has been fully transferred.
+
+            This can lead to performance benefits when dealing with large files or slow networks, as the data is sent first and metadata updates follow afterward. Additionally, it can help reduce the risk of potential data corruption issues during the transfer process by ensuring complete data transfer before updating file metadata.
+        delete: '[AI] The `rsync` command with the `--delete` option is used to synchronize file deletions between two directories or locations. When this option is specified, `rsync` will delete files and empty directories on the destination that do not exist in the source. This helps keep the destination directory consistent with the source, ensuring only required files are present. It''s important to note that using `--delete` may permanently delete files on the destination, so use it with caution.'
+        delete-after: '[AI] The `rsync` command with the option `--delete-after` instructs it to delete files and empty directories from the destination directory after the transfer is complete, in addition to the default behavior of preserving deleted files on the source side. This option ensures that the source and destination directories have identical file and directory structures.'
+        delete-before: '[AI] The `rsync` command with the option `--delete-before` is used for syncing file transfers between two locations where the source files may be deleted after they have been transferred and successfully copied to the destination. This option ensures that the deleted files are removed from the source directory before the transfer, preventing unnecessary data transfer and ensuring that the destination matches the source''s file state more accurately.'
+        delete-delay: |-
+            [AI] `rsync` is a popular data synchronization tool used to transfer and sync files between local and remote systems. The `--delete-delay` option is a feature available in `rsync` that helps prevent accidental deletion of files on the destination side during a sync operation.
+
+            When `rsync` is run with the `--delete` flag, it deletes files on the destination that do not exist on the source. However, this can lead to unintended deletions if there are files on the destination that were created or modified after the last sync.
+
+            The `--delete-delay` option introduces a delay before deleting files on the destination that do not exist on the source. This gives users a chance to review and confirm any intended deletions before they are permanently removed. The default delay is 1 hour, but it can be adjusted using the `--delete-delay=<SECONDS>` option.
+
+            In summary, `rsync --delete-delay` helps prevent accidental deletion of files on the destination during a sync operation by introducing a delay before deleting files that do not exist on the source.
+        delete-during: '[AI] `rsync` is a popular data synchronization tool used to transfer and sync files between two locations, typically local and remote. The `--delete-during` option is a sync mode that enables the deletion of files on the destination directory during the transfer process. When this flag is specified, `rsync` will delete files from the destination directory if they do not exist in the source directory or if they have been deleted there since the last synchronization. This can help keep the destination directory in sync with the source by removing unnecessary files.'
+        delete-excluded: '[AI] The `rsync` command with the option `--delete-excluded` tells the tool to delete empty directories and files in the destination directory that do not exist in the source, but are specified in the exclude pattern list. This is useful when synchronizing directories where you want to keep only certain files or directories, and ensure that any unwanted ones are removed during the sync process.'
+        delete-missing-args: '[AI] The `rsync` command with the option `--delete-missing-args` is used in file synchronization between two locations. This option tells `rsync` to delete files or directories from the destination that do not exist in the source, based on the specified arguments. In other words, it ensures that the destination directory matches the source directory''s structure and content exactly. This can be useful when keeping a backup or synchronizing files between systems with differing file systems.'
+        devices: '[AI] The `--devices` option in the `rsync` command is used to transfer named pipes and FIFOs as device files between systems. This is particularly useful when syncing data with remote systems that use different file types for these special files. By using `--devices`, rsync preserves the original file type during the transfer, ensuring proper functionality on the receiving end.'
+        dirs: '[AI] The `rsync` command with the option `--dirs` is used for transferring empty directories when synchronizing files between two locations. When this option is specified, rsync will preserve the empty source directory structure at the destination, even if no files are transferred inside them. This can be useful for keeping symmetrically-named directories in sync across systems.'
+        dry-run: |-
+            [AI] `rsync` is a popular data synchronization tool used to copy and transfer files between two locations, either locally or over a network. The `--dry-run` option is a feature of `rsync` that allows users to test the intended operation without actually performing it.
+
+            When you run `rsynch --dry-run <source> <destination>`, `rsync` will simulate the file transfer or update process by displaying what files would be transferred, deleted, or updated based on the current state of both source and destination directories. This can help users avoid unintended changes to their data or systems by allowing them to review the intended actions before executing the actual transfer.
+        early-input: '[AI] `rsync` is a popular data synchronization tool for Unix-like operating systems. The `--early-input` option is a transfer flag used with `rsync`. It modifies the transfer algorithm to allow the source files to be read in parallel as soon as they are available, rather than waiting for the current file to finish transferring first. This can improve performance when dealing with large numbers of small files or when using multiple CPU cores, as it allows I/O operations to be more efficiently utilized.'
+        exclude: '[AI] `rsync` is a powerful command-line tool for synchronizing files and directories between two locations, often over a network. The `--exclude` option is used to exclude specific files or directories from being synchronized. You can specify one or more patterns separated by commas, and the wildcard characters are supported. For example, `--exclude=''*.log''` will exclude all files with the `.log` extension. Similarly, you can use `--exclude=''/path/to/directory/''` to exclude an entire directory. The exclusion rules take effect after the inclusion rules (specified using the `--include-from` option). This provides a flexible way to sync only desired files or directories while excluding unwanted ones, thus saving bandwidth and storage space.'
+        exclude-from: '[AI] `rsync` is a popular command-line data synchronization and file transfer utility. The option `--exclude-from` allows specifying a file containing exclude patterns to be applied during a `rsync` transfer or sync operation. Each line in the file should contain an exclude pattern, such as `/path/to/exclude/pattern`, or `+*/path/to/include/pattern`. The `--exclude-from` option can help save time by excluding large sets of files and directories from being transferred or synchronized.'
+        executability: '[AI] The `--executability` option in rsync is used to preserve the executable bit on files being synchronized. This means that if a file being transferred has the execute permission set, rsync will ensure that the same permission is maintained on the destination file. This is particularly useful when synchronizing executable files or directories between systems.'
+        existing: '[AI] The `rsync` command with the option `--existing` is used to preserve existing files with the same name on the destination and only transfer new or modified files from the source to the destination. If a file on the destination has a different size or modification time than the corresponding file on the source, it will not be overwritten unless the `-F` or `--force` option is also used. This can be useful for synchronizing files between two directories where some files may not need to be updated but new or modified files should be transferred.'
+        fake-super: '[AI] `rsync` is a popular command-line data synchronization tool in Unix-like operating systems. The option `--fake-super` is used when transferring files between two different file systems with incompatible superblock versions, preventing the normal data transfer process. With this flag, rsync simulates the superblock behavior on the receiving end and allows the transfer to continue despite the superblock incompatibility. In essence, it enables rsync to bypass the superblock check, enabling the data transfer to complete, even if the file systems are not identical.'
+        files-from: '[AI] `rsync` is a popular command-line data synchronization and file transfer tool. The `--files-from` option is used to read a list of files or file patterns to be transferred from a given file instead of the default behavior, which is to transfer files specified on the command line. This option is particularly useful when dealing with large sets of files or dynamic inventories. The input file should be in the format `<source> <destination>`, and each line specifies one file to be transferred.'
+        filter: |-
+            [AI] `rsync` is a powerful command-line tool for synchronizing files and directories between two locations, either locally or over a network. The `--filter` option in `rsync` allows you to specify filters to include, exclude, or modify the data transferred based on file attributes or patterns.
+
+            Filters are expressed using various wildcard patterns and rules, allowing fine-grained control over which files are synced. For instance, you can use the `+` sign to include specific files or directories (e.g., `+ *.txt`) or exclude files/directories with the `-` sign (e.g., `- *.log`). You can also define more complex filters using rules, which might include conditions like size, modification time, or file type.
+
+            Filters in `rsync` are typically defined within the source specification and are applied to the files before they are transferred. For example:
+            ```bash
+            rsync --filter='+ *.txt' user@remote_host:/path/to/source /local/destination
+            ```
+            This command will only transfer `.txt` files from the source to the destination. Filtering can significantly reduce the amount of data transferred, improving performance and efficiency.
+        force: '[AI] `rsync` is a popular data synchronization tool used to copy and transfer files between two locations, either locally or over a network. The `--force` option is a flag utilized within an `rsync` command to instruct it to overwrite existing files on the destination side without asking for confirmation. This can be useful when you''re certain that you want to update the files regardless of their current state on the destination location. By using `--force`, you allow `rsync` to perform actions such as replacing newer source files with older destination ones or creating new files if they don''t exist on the destination side yet. It is important to use this flag with caution, ensuring that you have the correct data before overwriting any critical files.'
+        from0: |-
+            [AI] `rsync` is a popular data synchronization and file transfer utility for Unix-like systems. The option `--from0` (or just `-0`) is used in conjunction with the `rsync --delete` flag, and it affects how `rsync` handles file renaming during the transfer process.
+
+            With `--from0`, `rsync` will preserve the original filename of deleted files when syncing directories between two locations. This means that if a file is deleted from the destination directory during the synchronization process, `rsync` will mark it for deletion with the original name in the source directory's file metadata (prefixed with a zero), so that it can be recreated or manually restored at the destination if necessary.
+
+            This option is particularly useful when you want to maintain version control of your files and ensure that all changes, including deleted files, are tracked during the synchronization process.
+        fuzzy: '[AI] `rsync` is a popular command-line file transfer and synchronization tool in Unix-like systems. The option `--fuzzy` is used when performing an incremental or differential backup, allowing rsync to handle renames by attempting to recreate the renamed files with a ".rX" suffix, where X is the number of the rename step. For example, if a file was originally named "oldfile" and was then renamed to "newfile", rsync would transfer both "oldfile" and "newfile.r0". This helps preserve historical versions of files during backups.'
+        group: '[AI] The `rsync` command with the option `--group` is used to preserve the group ownership of files and directories during a transfer. This means that the receiving end will receive the files with the same group ownership as on the sending end, ensuring consistency in file permissions across systems. This can be particularly useful when synchronizing files between multiple servers with different groups.'
+        groupmap: |-
+            [AI] `rsync` is a popular data synchronization tool that allows transferring and syncing files between local and remote systems. The `--groupmap` option is a feature of `rsync` designed to preserve group ownership during file transfers.
+
+            When using the `rsync` command, by default, only user ownerships are preserved across file transfers. However, with `--groupmap`, rsync preserves both user and group ownerships by mapping the group ID (GID) of one system to that of another system.
+
+            The option takes a comma-separated list of source GID:target GID mappings as an argument. For example, `--groupmap='123:456'` maps the source GID 123 to the target GID 456. This ensures that when files are transferred from a source system with these group IDs to the target system, their corresponding groups will have the specified target GIDs on the destination system.
+
+            This option can be particularly useful in environments where multiple users or systems need to collaborate and maintain consistent file ownerships across different systems.
+        hard-links: '[AI] The `rsync` command with the `--hard-links` option is used for synchronizing files between two locations while preserving hard links. Hard links are a type of file link in Unix-based systems that allow multiple files to have the same underlying data. When a file is updated using a hard link, the modification is reflected across all linked files, making them indistinguishable from the original file. By using `--hard-links`, rsync maintains these links during the transfer process instead of copying the linked files as separate entities, conserving storage and keeping the file relationships intact.'
+        help: |-
+            [AI] `rsync` is a versatile data synchronization tool, designed to transfer and synchronize files between a local and a remote site reliably. The `--help` option, when used with `rsync`, provides a comprehensive list of its features and usage. Here's a brief explanation:
+
+            1. Syntax: The basic syntax is `rsync [OPTION] SRC [SRC2] ... destination:`
+               - OPTION: An optional argument that modifies the behavior of rsync, such as compression (`--compress`), verbosity (`--verbose`), recursion (`--recursive`), etc.
+               - SRC: Source files or directories to be synchronized.
+               - destination: The target location where the files will be transferred, either local or remote.
+
+            2. Options: `rsync --help` displays a detailed list of available options, which include but are not limited to:
+               - `--compress`: Compress data during transfer using gzip.
+               - `--archive`: Archive mode (same as `--r`, `-R`, `--recursive`, and `--links`).
+               - `--verbose`: Show progress and detailed information about the transfer process.
+               - `--interactive`: Interactively confirm file transfers before executing them.
+               - `--exclude`: Exclude specified files or directories from being transferred.
+
+            3. Remote Transfers: For remote transfers, you'll need to specify the target location using SSH (Secure Shell) or another supported transfer method like rsync over SCP (Secure Copy). The syntax for that would look something like `rsync [OPTION] ... user@remote_host:src destination`.
+
+            4. Advanced Usage: `rsync` offers advanced functionality such as hard links, file ownerships and permissions preservation, and more. To learn about these features, refer to the help text or man page using `man rsync` or `info rsync`, respectively.
+        human-readable: '[AI] The `rsync` command with the option `--human-readable` (often abbreviated as `-h`) is used to display file sizes, timestamps, and other output in a human-friendly format. This means that instead of showing byte counts for file sizes or numerical values for timestamps, it presents them as easily readable units like "10M" (10 megabytes) or "2 hours ago". This can make the output from `rsync` more clear and convenient to interpret when dealing with large files or time differences.'
+        iconv: |-
+            [AI] `rsync` is a powerful command-line tool for synchronizing files and directories between two locations, either locally or over a network. The option `--iconv` is used to enable character encoding conversion during the data transfer.
+
+            When using `rsync` with files that contain non-ASCII characters, you may encounter transfer issues due to different character encodings between the source and destination systems. The `--iconv` option ensures that the data is transferred using the specified character encoding. This helps maintain the integrity of text files during the synchronization process.
+
+            For example:
+
+            ```bash
+            rsync --iconv -avz <source>:<destination>
+            ```
+
+            Here, replace `<source>` and `<destination>` with the appropriate paths or addresses. This command will transfer the files preserving their character encodings between the source and destination systems.
+        ignore-errors: |-
+            [AI] `rsync` is a popular command-line utility for syncing and transferring files between two locations, often over a network. The option `--ignore-errors` modifies the behavior of `rsync` when it encounters errors during file transfer or comparison.
+
+            With `--ignore-errors`, `rsync` continues with the remaining files instead of exiting upon encountering an error. This can be useful in cases where there are many files being transferred and only a few have issues, allowing the majority to still be synced successfully. The errors can be later investigated separately without halting the entire transfer process.
+        ignore-existing: '[AI] The `rsync` command with the option `--ignore-existing` instructs it to skip over files that already exist in the destination directory and are identical to the ones being synced from the source, avoiding unnecessary copying or updating of unchanged files. This can save time and resources during data transfer or synchronization processes.'
+        ignore-missing-args: '[AI] The `rsync` command with the option `--ignore-missing-args` instructs it to continue syncing even if some specified source file arguments are missing or not accessible, instead of exiting with an error. This can be useful in scripts or automated transfers where dealing with missing files is expected and not necessarily indicative of a transfer failure.'
+        ignore-times: '[AI] The `rsync` command with the option `--ignore-times` instructs it to ignore modification times during the file transfer process. This can be useful when syncing files between systems with significant time differences, or when you want to ensure that the transferred files adopt the destination system''s timestamps instead of keeping their original ones.'
+        include: '[AI] `rsync` is a powerful command-line utility for synchronizing files and directories between two locations. The option `--include <pattern>` is used to include specific files or directories in the file transfer based on a pattern. For instance, `--include=''*.txt''` would only transfer files with .txt extension while `--include=''/path/*''` would include all files within the specified path. Multiple patterns can be separated by commas. The default behavior is to exclude all and only the included items will be synced.'
+        include-from: '[AI] `rsync` is a powerful command-line tool for synchronizing files and directories between two locations. The option `--include-from` allows you to specify a file containing patterns to include in the transfer, rather than explicitly listing them with each `--include` or `--exclude` command. This can be particularly useful when dealing with complex file inclusion rules, as it makes the rsync command more readable and maintainable. The included file should contain one pattern per line.'
+        info: '[AI] `rsync` is a popular data synchronization and file transfer utility for Unix-like systems. The option `--info` is used to display detailed information about the transfer process. It provides real-time updates on the files being transferred, including the size, percentage, and estimated time remaining. This can be helpful for monitoring long or complex transfers, or for troubleshooting issues with the data synchronization.'
+        inplace: |-
+            [AI] `rsync` is a popular data synchronization tool that allows transferring and syncing files between different locations. The `--inplace` option is one of its features.
+
+            When using `rsync` with the `--inplace` flag, any file updates are done directly in place on the destination, without creating intermediate backup files. This can save disk space and simplify the process for small to medium-sized files or text-based data where there's no need to keep backups.
+
+            To illustrate, when you use `rsync` with `--inplace`, it will update the target file directly without creating any temporary files:
+
+            ```sh
+            $ rsync --inplace source_file user@destination:target_directory/
+            ```
+
+            In summary, using `rsync --inplace` flag results in updating destination files directly instead of creating backup files during the synchronization process.
+        ipv4: '[AI] `rsync` is a popular data synchronization tool used to transfer and sync files between two locations, typically over a network. The option `--ipv4` specifies that `rsync` should use IPv4 addresses when establishing the connection between the source and destination hosts. This is useful when working with legacy systems or networks that only support IPv4 addresses. By default, `rsync` supports both IPv4 and IPv6 addresses.'
+        ipv6: '[AI] `rsync` is a popular data synchronization and file transfer utility. The option `--ipv6` enables IPv6 support in the `rsync` command. This means that `rsync` can establish connections and transfer data using IPv6 addresses instead of IPv4 when communicating between two systems. IPv6 is the latest version of the Internet Protocol, offering larger address space and new features compared to IPv4. By including `--ipv6`, you ensure that `rsync` utilizes IPv6 connectivity if it''s available, helping future-proof your data transfer needs.'
+        itemize-changes: |-
+            [AI] `rsync` is a popular data synchronization tool used to transfer and sync files between local and remote systems. The option `--itemize-changes` is one of its features that provides a detailed, human-readable summary of the file changes during the synchronization process.
+
+            When this flag is used, `rsync` displays each changed file with a brief description of the change type (created, deleted, or modified) and the size difference (if applicable). This output can be redirected to a file for later reference or used in scripts for automated processing. The default output without this option only shows the names of files that have been transferred or changed.
+        keep-dirlinks: |-
+            [AI] `rsync` is a popular data synchronization tool that allows transferring and replicating files and directories from one location to another while preserving permissions, timestamps, and symbolic links.
+
+            The option `--keep-dirlinks` is used with `rsync` when syncing between two locations. With this flag:
+
+            1. Symbolic links in the source directory are preserved in the destination directory as symbolic links instead of being copied as files.
+            2. Directories on the destination side with the same name as directories in the source, which don't exist yet, will be created and treated as empty directories. If these directories already exist but are empty, they will remain unchanged.
+            3. This flag allows keeping the directory structure intact when dealing with symbolic links. It is particularly useful when synchronizing between two similar but not identical directories, where maintaining the correct symbolic link relationships is essential.
+        link-dest: |-
+            [AI] `rsync` is a popular data synchronization tool used to copy and transfer files between local and remote systems. The option `--link-dest` is used with `rsync` for managing symbolic links during file transfers.
+
+            When you use `rsync --link-dest=<link_target> source destination`, it tells `rsync` to create or update existing symbolic links in the destination directory based on the corresponding links in the source directory, instead of copying the files they point to. The link target is a reference to an existing directory or file path on the destination side.
+
+            For example, if you have two directories `src/` and `dest/`, and both contain symbolic links `link1 -> file1` and `link2 -> file2`, using the command `rsync --link-dest=dest src dest` will update the symbolic links in the destination directory based on those in the source directory. This ensures that both directories have the same link structure, saving time and bandwidth during the transfer.
+        links: '[AI] The `rsync` command with the `--links` option is used to preserve symbolic links (also called soft links) during file transfer between two locations. This means that if there''s a symbolic link at the source location, rsync will create an identical symbolic link at the destination, instead of copying the file being linked to. If `--links` is followed by `-A`, it also preserves the attributes and target files of the symbolic links. In summary, `rsync --links [ -A ]` is used to maintain the symbolic link relationships during synchronization.'
+        list-only: '[AI] `rsync` is a popular data synchronization tool used to copy and transfer files between two locations. The `--list-only` option is one of its many flags, and it''s specifically designed to display the files that would be transferred without actually moving or modifying any data. This can be useful for listing the differences between two directories or checking what files would be affected by a sync operation before executing it. When used with `rsync`, the `--list-only` flag results in an output containing the source file names, destination file names, file sizes, and permissions for each file that would be synchronized if the `-a` (archive) option were used instead.'
+        log-file: '[AI] The `rsync` command with the option `--log-file` appends a detailed sync progress report to the specified file instead of printing it on the terminal in real time. This can be useful when running `rsync` in background or automated scripts, as the log provides valuable information about the transfer process without cluttering the console output.'
+        log-file-format: |-
+            [AI] `rsync` is a popular data synchronization tool used to copy and transfer files between local and remote systems. The `--log-file-format` option is related to the logging feature of rsync.
+
+            This option allows you to customize the format of messages written to the log file when rsync is run with the `--logfile` or `--verbose` options. You can choose from three predefined formats: "standard", "nonempty" or "none".
+
+            1. 'standard': This is the default logging format, producing human-readable messages describing each transferred file and any errors encountered during the transfer.
+            2. 'nonempty': Similar to the standard format but only logs non-empty transfers (i.e., when data is actually transferred).
+            3. 'none': Disables logging entirely (no messages are written to the log file).
+
+            In summary, `rsync --log-file-format` lets you control the detail and volume of log messages produced by rsync during data transfer operations.
+        max-alloc: |-
+            [AI] `rsync` is a popular data synchronization tool used to transfer and synchronize files between two locations, either locally or remotely. The `--max-alloc` option is a performance tuning parameter that affects the amount of memory `rsync` uses during its transfer process.
+
+            With the default setting, `rsync` allocates the minimum amount of memory necessary to perform file transfers. However, in some environments with large files or limited system resources, this can lead to suboptimal performance due to excessive disk I/O and network traffic.
+
+            The `--max-alloc` option lets you specify a maximum amount of memory (in bytes) for `rsync` to use during the data transfer process. By increasing this value, `rsync` will read and transfer more data in larger chunks, reducing the overall number of reads/writes and improving performance. Conversely, decreasing it will result in smaller chunk sizes, potentially increasing I/O and network traffic.
+
+            Therefore, the `--max-alloc` flag in `rsync` is a way to control memory usage and fine-tune transfer performance by adjusting the size of data chunks read during the transfer process.
+        max-delete: |-
+            [AI] `rsync` is a popular data synchronization tool used to transfer and sync files between two locations, typically over a network. The `--max-delete` option is one of its features that affects how deleted files are handled during the synchronization process.
+
+            When `rsync` detects a file on the destination side that does not exist in the source side, it normally deletes the file from the destination side. However, with `--max-delete`, rsync will only delete files that have been deleted on the source side and are not present in the destination side. This option helps prevent accidental deletion of important files that may exist only on the destination side but were not intended to be deleted during synchronization. Instead, such files are marked for preservation and will not be affected by `rsync`.
+        max-size: |-
+            [AI] The `--max-size` option in the `rsync` command is used to limit the size of files or directories being transferred. This can be helpful when dealing with large files or networks with limited bandwidth.
+
+            By default, there is no size limitation. However, you can set a limit using bytes, followed by the `--max-size` option. For example, `rsync --max-size=10M fileA user@remote:/path`. This will only transfer files smaller than 10MB in size from `fileA` to the remote server at the specified path. If a larger file is encountered during the transfer, it will be skipped.
+        min-size: '[AI] The `--min-size` option in `rsync` is used to exclude files or directories with a size smaller than a specified threshold during a sync operation. It helps to reduce the amount of data transferred and save bandwidth by skipping small, likely unchanged files. The option takes an argument representing the minimum file size in bytes. For example, `--min-size=1K` skips files under 1 kilobyte.'
+        mkpath: '[AI] `rsync` is a versatile data transfer and synchronization tool. The option `--mkpath` is used when syncing directories that don''t exist at the destination. With this option, rsync will create any missing directories with the correct permissions along the path to the destination directory. This ensures that the destination directory structure exactly matches the source one, even if some parts of it don''t yet exist on the destination.'
+        modify-window: '[AI] The `rsync` command with the option `--modify-window` is used to improve transfer efficiency when syncing files with similar modification times. Instead of transferring the entire file, it only transfers the differences between files with similar modification times within a specified window. This window can be set using the `--modify-window` option followed by a value in seconds. For example, `rsync --modify-window=60` sets the window to 60 seconds. Using this option can significantly reduce the amount of data transferred and improve syncing performance between systems with similar file modification activity.'
+        munge-links: '[AI] The `rsync` command with the `--munge-links` option is used to modify the link targets during a transfer. When this option is enabled, symbolic links (symlinks) are transformed into special files with a unique suffix appended to their names. The suffix is generated based on the link target''s file size and modification time. This behavior ensures that the symlinks are preserved during a transfer even if the original link targets have different names or paths in the source and destination directories. It also prevents potential conflicts due to files with the same name but different types (symlink vs regular file) existing at both ends.'
+        no-OPTION: '[AI] The `rsync` command is a popular data synchronization tool used to copy files and directories between two locations, either locally or remotely. The `--no-OPTION` argument is not a standard option for `rsync`. It is used to negate or disable an optional feature or behavior specified by the OPTION argument that follows it. For instance, `rsync --no-perms` will exclude setting file permissions during the transfer. Without specifying any OPTION, using `--no-` would result in an error.'
+        no-implied-dirs: '[AI] The `rsync` command with the option `--no-implied-dirs` disables the creation of empty directories on the destination during a transfer when the source path ends with a trailing slash (`/`) and does not exist on the destination yet. This can be useful when you want to synchronize only the contents of existing directories without creating new ones, preventing potential errors due to incorrect directory paths or names.'
+        no-motd: '[AI] The `rsync` command with the option `--no-motd` is used to synchronize files between two locations without displaying the remote server''s message of the day (MOTD). This option is particularly useful when running `rsync` in scripts or automated backups where MOTD can create unwanted output, potentially causing errors. In summary, `rsync --no-motd` synchronizes files while suppressing the display of remote server''s message of the day.'
+        numeric-ids: '[AI] The `rsync` command with the option `--numeric-ids` is used to preserve numeric UIDs (User IDs) and GIDs (Group IDs) during file transfer between systems. This means that the ownership information of files being synchronized will be maintained, ensuring that files have the same IDs on both the source and destination systems. This option is particularly useful when synchronizing files between different systems with potentially different user and group IDs.'
+        omit-dir-times: '[AI] The `rsync` command is a popular data synchronization tool. The option `--omit-dir-times` is used to exclude modifying the modification times of empty directories during file transfers. By using this option, only file data is synchronized while directory timestamps remain unchanged. This can be useful when dealing with large data sets or when preserving specific timestamp information on remote directories is not required.'
+        omit-link-times: '[AI] The `rsync` command with the option `--omit-link-times` instructs it to exclude transferring the modification times of symbolic links during a synchronization process. By using this option, only the target symbolic links themselves are transferred, while their metadata timestamps are not touched or updated during the data transfer. This can be useful when dealing with large numbers of symbolic links in a file transfer scenario, to save time and reduce network traffic.'
+        one-file-system: '[AI] The `rsync` command with the option `--one-file-system` is used to transfer files between two locations while ensuring that only files within a single file system are synced. This can prevent unnecessary or erroneous data transfers when dealing with complex directory structures that span multiple file systems. By using this flag, `rsync` will not follow symbolic links that cross mount points or file systems boundaries. It''s particularly helpful in situations where you want to maintain the consistency of a specific filesystem while avoiding potential issues arising from differences between other mounted filesystems.'
+        only-write-batch: '[AI] The `rsync` command with the option `--only-write-batch` is used to transfer files between systems while only sending data for changed files and directories, without overwriting existing data on the destination side. This can be useful to minimize the amount of data transferred or to avoid unintended overwrites during synchronization. The `--only-write-batch` option implies the use of the `--delay-updates` option, which defers sending update messages until a batch of changes is complete, further improving performance in some cases.'
+        open-noatime: |-
+            [AI] `rsync` is a popular data synchronization tool used to copy and transfer files between different locations. The option `--open-noatime` is a combination of two separate options: `--open` and `--no-o`.
+
+            The `--open` option tells `rsync` to keep the source files open during the transfer process. This is useful when dealing with large or growing files, such as databases or log files, that are being written to while the synchronization is in progress. By keeping the files open, the data can be continuously updated without having to interrupt the transfer.
+
+            The `--no-o` option, also known as `--no-perms`, disables the preservation of file permissions during the transfer. This means that the destination files will not inherit the same file permission bits as the source files. However, the ownership (user and group) information is still preserved.
+
+            In summary, the `rsync --open-noatime` option keeps open and unchanged the source files during synchronization while not preserving their file permissions at the destination.
+        out-format: '[AI] `rsync` is a popular data synchronization tool used to transfer and sync files between local and remote systems. The `--out-format` option modifies the format of the output produced during the synchronization process. It allows users to customize the output message displayed for each file being transferred, providing more detailed information if needed. For example, `rsync --out-format=''%F %h -> %f''` will display the source file name, source path, and destination file name during transfer.'
+        outbuf: '[AI] `rsync` is a popular data synchronization tool used for transferring and syncing files between local and remote systems. The option `--outbuf=SIZE` specifies the size of the output buffer in bytes, which affects the performance and throughput of the data transfer. Larger buffers can improve I/O efficiency but may increase memory usage and latency if the system is unable to keep up with the data rate. By default, `rsync` sets an adaptive buffer size based on available system resources and network conditions. Setting a specific buffer size using `--outbuf` overrides this default behavior.'
+        owner: '[AI] The `--owner` option in the `rsync` command is used to preserve the owner and group information of source files during the transfer or synchronization process. This ensures that the file permissions on the destination match those of the original files. When using this option, rsync attempts to maintain the same user and group ownership as the source files by applying the appropriate chown commands during the transfer.'
+        partial: '[AI] The `rsync` command with the `--partial` option is used for resuming interrupted or failed file transfers. When this option is set, `rsync` saves transferred data to a partial file during the transfer process and restores it if the transfer is interrupted or fails. This allows resuming the transfer from where it left off without starting over from the beginning. It''s particularly useful for large files or slow connections, reducing time and bandwidth usage.'
+        partial-dir: '[AI] The `--partial-dir` option in `rsync`, a popular data synchronization tool, specifies a directory where partial downloads or transfers can be stored. This is particularly useful when resuming interrupted or failed transfers. With this option set, rsync will create the specified directory and move any partially transferred files into it instead of deleting them upon failure. When a transfer is resumed, rsync checks for the presence of these partial files and continues the transfer from where it left off. This can significantly reduce the time required to complete large file transfers that are frequently interrupted or fail midway.'
+        password-file: '[AI] `rsync` is a popular command-line file transfer utility for Unix and Linux systems. The option `--password-file` allows you to provide a file containing passwords instead of entering them interactively during the transfer process. This can be useful in automated or scripted environments where you want to avoid human intervention for entering passwords multiple times. With this option, you specify the path to the file as an argument, and `rsync` reads the passwords from it one by one as needed during the transfer.'
+        perms: '[AI] `rsync` is a popular command-line data synchronization and file transfer utility for Unix-like systems. The option `--perms` or `-p`, when used with `rsync`, preserves the permissional bits (i.e., read, write, execute) of files and directories during the transfer process. This helps maintain the original file permissions at the destination, ensuring consistency across the source and target systems.'
+        port: |-
+            [AI] The `--port` option in the `rsync` command is used to specify an alternate port number for the remote file transfer to be performed over SSH. By default, `rsync` uses port 22 for SSH connections. If the remote server has a non-standard SSH port or if there are network restrictions that require using a different port, this option allows you to specify it while running the command. For example:
+
+            ```bash
+            rsync --port=<custom_port> <source>:<destination> <user>@<remote_host>:<destination>
+            ```
+        preallocate: '[AI] `rsync` is a popular data synchronization tool used to transfer and sync files between local and remote systems. The option `--preallocate` (or `-O`) instructs `rsync` to pre-allocate disk space for large file transfers. This means that during the transfer, `rsync` will allocate the entire file size upfront instead of just writing data to it incrementally. This can improve performance when dealing with large files on systems where the file system supports sparse files or extended inodes, as it reduces the number of write calls and allows the file system to optimize space allocation. Overall, using `--preallocate` can help speed up the transfer of large files.'
+        progress: '[AI] The `rsync` command with the `--progress` option enables real-time transfer progress reporting. This means that during file transfer using rsync, you will see a detailed progress update on the terminal showing the percentage of data transferred, as well as the estimated time remaining and the speed in bytes or bits per second. It helps keep users informed about the status of long or large transfers.'
+        protect-args: '[AI] `rsync` is a popular data synchronization tool that allows transferring and updating files between local and remote systems. The option `--protect-args` is used to preserve certain command-line arguments when using recursion with `rsync`. In other words, it ensures that any options or arguments applied to the source directory (or file) will also be applied to its subdirectories during the synchronization process. This can be useful for preserving specific settings like permissions, timestamps, and other metadata.'
+        protocol: '[AI] `rsync` is a versatile data synchronization tool that can transfer and sync files between local and remote systems. The `--protocol` option in `rsync` specifies the version of the protocol to use for communication between the sender and receiver, with higher numbers indicating newer features and improvements. For example, using `--protocol=3` enables support for features like compression during data transfer, incremental transfers based on file sizes and modification times, and larger file chunk sizes, among others. Using a lower version or an unspecified protocol will default to the most compatible version supported by both systems.'
+        prune-empty-dirs: '[AI] The `rsync` command with the option `--prune-empty-dirs` is used for transferring file and directory data between two locations. This option instructs `rsync` to remove empty directories that are present only in the source but not in the destination during the synchronization process. Empty directories are those which do not contain any files or subdirectories. The goal is to keep the directory structure consistent by eliminating unnecessary, empty directories at the destination location.'
+        quiet: '[AI] `rsync` is a popular data synchronization tool that allows transferring and syncing files between local and remote systems. The `--quiet` option is used to suppress most of `rsync`''s output during the transfer process, making it run with minimal interference and noise. This can be useful when automating tasks or running scripts where a clutter-free console is desired.'
+        read-batch: |-
+            [AI] `rsync` is a powerful and versatile command-line file transfer and synchronization tool. The option `--read-batch` is used in conjunction with `rsync`'s bidirectional transfer mode, where both source and destination directories are transferred and synchronized.
+
+            With `--read-batch`, instead of reading its list of files to be synced from a file (specified by the `-e` or `--files-from` option), `rsync` reads its list from standard input in batch format. This is particularly useful when automating file transfers, for instance, in scripts and continuous integration/continuous delivery pipelines.
+
+            Each line of the batch file contains three columns: source file path (relative to the source directory), destination file path (relative to the destination directory), and a flag indicating whether it's an update (`U`) or a new file transfer (`C`). The batch format can also include other options, such as file permissions, symbolic links, and timestamps.
+
+            Once all lines have been read from standard input, `rsync` performs the transfers according to the instructions in the batch file. This allows for efficient and fine-grained control over which files are synced and how they are transferred between source and destination directories.
+        recursive: '[AI] `rsync` is a powerful and versatile command-line tool for synchronizing files and directories between different locations. The option `--recursive`, also denoted as `-r`, tells `rsync` to copy not only the specified file or directory itself, but also all of its contents recursively, including subdirectories and their contents, preserving symlinks, permissions, timestamps, and other attributes. This makes it an essential tool for maintaining consistent backups or mirroring entire directories across different systems.'
+        relative: |-
+            [AI] `rsync` is a versatile data synchronization tool that allows transferring and syncing files between local and remote systems. The option `--relative` (or `-R`) modifies the file transfer behavior in rsync.
+
+            With the `--relative` flag, rsync copies files relative to their source location instead of using absolute paths. This is particularly useful when synchronizing data within a single file system, as it preserves the file hierarchy and avoids potential path inconsistencies between the source and destination directories.
+        remote-option: |-
+            [AI] The `rsync` command with the `--remote-option` flag is used in the context of the `rsync` data transfer and synchronization tool. This option modifies the behavior of `rsync` when connecting to a remote server over SSH or other supported transport methods.
+
+            Instead of specifying remote source and destination file paths directly within the `rsynced` command, the `--remote-option` flag allows passing additional options to the `rsync` daemon running on the remote machine. These options are appended as arguments to the `rsyncd` `--exec` option in the `/etc/rsyncd.conf` file.
+
+            This can be useful when you want to apply specific rsync options or settings on the remote side, without modifying your local `rsync` command. For example, you might use this feature to enable compression or set access control options on the remote machine.
+        remove-source-files: '[AI] The `rsync` command with the option `--remove-source-files` instructs it to delete files from the source directory after they have been successfully transferred and synchronized with the destination directory. This is useful when you want to keep the source and destination directories in sync, but do not need to keep multiple copies of the same file.'
+        rsh: '[AI] `rsync` is a popular command-line file transfer and synchronization tool in Unix-based systems. The option `--rsh` (or `-e`) allows specifying an external ssh (Secure Shell) client to use when connecting to the remote host for data transfer. This can be useful when using an SSH client with specific configurations, such as public key authentication or customized connection settings. By default, rsync uses its own built-in ssh functionality, but this option enables users to override it and employ an alternative one.'
+        rsync-path: '[AI] `rsync` is a popular data synchronization and file transfer utility in Unix-like systems. The option `--rsync-path` is used to specify an alternate path for the `rsync` executable itself when invoking it with a recursive `rsync` command. This can be useful when `rsync` is not installed or located in the default location system-wide, or when using a custom-built version of `rsync`. By specifying the full path to the `rsync` binary with this option, the desired version will be used for the synchronization process. For example, `rsync --rsync-path=/custom/path/to/rsync user@remote:source /destination`.'
+        safe-links: '[AI] The `rsync` command with the `--safe-links` option is used to preserve symbolic links during file transfers, even if those links point to files located outside of the transfer source and destination directories. This option ensures that the link''s target is synchronized instead of the link itself. This can be essential when dealing with complex directory structures containing symbolic links.'
+        size-only: '[AI] The `rsync` command with the option `--size-only` is used to transfer file size information between two systems or directories. It does not transfer the actual data, but only the file size. This can be useful for checking if files have been deleted or modified on the destination system without affecting their content. The `--dries-run` option can also be used in conjunction with `--size-only` to display what would have been transferred or changed without actually doing it.'
+        skip-compress: '[AI] The `rsync` command with the option `--skip-compress` instructs it to skip using compression during data transfer. This can be useful when dealing with files that are already compressed or when the network connection is slow and compressing data adds extra processing time. By omitting compression, the data transfer process may complete faster, but at the cost of potentially using more bandwidth.'
+        sockopts: '[AI] `rsync` is a popular data synchronization and file transfer tool in Unix-like systems. The `--sockopts` option is a less commonly used flag for `rsync`. It enables the use of UNIX domain sockets for communication between the sender and receiver during the transfer process, instead of using standard TCP/IP protocol over network connections. This can provide some performance benefits, such as reducing overheads from establishing and terminating network connections. However, it''s important to note that the usage of `--sockopts` requires both source and destination systems to have rsync set up with the ability to communicate via UNIX domain sockets.'
+        sparse: |-
+            [AI] `rsync` is a popular data synchronization tool used to copy and transfer files between different locations. The `--sparse` option is a feature available in `rsync` that allows for efficient transfer of sparse files, which are large files with empty blocks.
+
+            When used with the `--sparse` flag, `rsync` will only transfer the metadata changes instead of the entire file, significantly reducing the amount of data transferred. This is particularly useful when dealing with large sparse files or remote synchronization over slow connections. It's important to note that for the receiving end, the system must support sparse files and have enough available space for the unallocated blocks to properly work with this option.
+        specials: |-
+            [AI] `rsync` is a powerful command-line tool for synchronizing files and directories between two locations. The option `--specials` is used to preserve special file attributes during the transfer. These attributes include:
+
+            1. Symbolic links: By default, rsync copies symbolic links as files. With `--specials`, rsync preserves the link's original form.
+            2. Ownership and permissions: Preserves Unix file permissions and ownership information (user and group).
+            3. Timestamps: Preserves last modification, access, and change timestamps.
+            4. Sparse files: If the source and destination are both sparse files, rsync uses the copy-sparsed method to preserve the sparseness of the file.
+            5. Hard links: Preserves hard links across directories, instead of creating copies.
+            6. ACLs (Access Control Lists) and Xattrs (extended attributes): On systems that support these features, `--specials` preserves ACLs and extended attributes during the transfer.
+        stats: |-
+            [AI] `rsync` is a popular data synchronization tool used to copy and transfer files between two locations, typically over a network. The option `--stats` is used to display detailed statistics during the transfer process.
+
+            With `--stats`, rsync will print out additional information for each file being transferred, such as:
+
+            1. Transfer size: The number of bytes transferred.
+            2. Name (source path): The name and path of the source file.
+            3. Flags: Any special flags used during the transfer (e.g., `--compress`, `--archive`).
+            4. File type and mode: The file type (regular file, directory, symbolic link, etc.) and its permissions.
+            5. Hard links: For files that have hard links, rsync will display the number of hard links.
+            6. Timestamps: The source and destination modification times and checksums.
+            7. Transfer speed: The average transfer rate during the file transfer.
+            8. Compression percentage: If `--compress` is used, the compression ratio for the file.
+            9. Suffix: An indication of whether the file was newly created (`+`), modified (`M`), or unchanged (`U`) on the destination.
+
+            These statistics help users monitor the progress and efficiency of their rsync transfers.
+        stderr: '[AI] The `rsync` command with the option `--stderr` directs error messages to the standard error stream instead of the standard output stream during file transfer. This is useful when you want to see regular transfer progress on the terminal and only errors as separate output, making it easier to distinguish between the two types of information.'
+        stop-after: '[AI] The `rsync` command with the `--stop-after` option is used to stop the transfer of files after a specified number of errors have occurred during the data synchronization process. This can be useful in preventing further data corruption or loss if it''s determined that there are an unacceptable number of errors. The syntax is as follows: `rsync [options] source target/destination --stop-after=N`, where N is the number of errors allowed before transfer is stopped.'
+        stop-at: '[AI] The `rsync` command with the option `--stop-at` causes the transfer to be aborted as soon as a file fails to sync or an error occurs during the transfer process. This can be useful in automating scripts where it''s important to halt the process upon encountering any issues, rather than continuing with the remaining files and potentially introducing more errors.'
+        suffix: '[AI] The `rsync` command is a popular data synchronization tool used to transfer and update files between local and remote systems. The option `--suffix=SUFFIX` is one of its less commonly used flags. This flag instructs rsync to include files with the specified suffix (a string added to the base name of a file) in the file transfer or synchronization process. For example, using `rsync --suffix=.bak` will copy files ending with `.bak` in addition to the default file matching pattern. This flag can be useful when dealing with backup files or multiple versions of files with consistent naming conventions.'
+        super: '[AI] `rsync` is a popular command-line data synchronization and file transfer tool. The option `--super`, or `--super-size`, when used with `rsync`, enables the transfer of files larger than 4GB in size, which is the default limit for regular `rsync` transfers due to historical limitations in some older operating systems and file systems. This flag overcomes such limitations by using larger block sizes during data transfer and checksum calculations.'
+        temp-dir: '[AI] `rsync` is a popular data synchronization tool for Unix-like systems. The `--temp-dir` option in `rsync` specifies a custom directory where temporary files should be created during the transfer process. By default, `rsync` uses the current working directory to store these temp files. However, using a separate temp dir can help prevent filling up the working directory with temporary files, especially when transferring large amounts of data or performing multiple transfers concurrently. Additionally, specifying a temp-dir on a remote server can help ensure that local temporary files do not interfere with ongoing processes on that machine.'
+        timeout: '[AI] The `rsync` command is a popular data synchronization tool used to transfer and synchronize files between different locations. The option `--timeout` sets a timeout value for an individual file or a group of files being transferred during an `rsync` operation. If the transfer takes longer than the specified time, it will be terminated. This can help prevent long-running transfers that might cause network congestion or other issues. The syntax is `--timeout=SECONDS`.'
+        times: '[AI] The `rsync` command with the option `--times` preserves file modification times, access times, and creation times during a transfer between two locations. This is useful for maintaining the same timestamps on files after synchronization, which can be important for certain applications or system configurations.'
+        update: |-
+            [AI] `rsync` is a popular data synchronization tool used to transfer and update files between a local and remote system or between two remote systems. The `--update` option, also known as the `-u` flag, is used with `rsync` to perform an incremental update.
+
+            When using `rsync` with the `--update` flag:
+
+            1. Only new and modified files on the source side will be transferred to the destination.
+            2. Existing files on the destination that are identical to their counterparts on the source side will not be updated or transferred.
+            3. Deleted files on the source side will be removed from the destination.
+            4. Permissions, ownerships, and symbolic links are preserved during the transfer.
+        usermap: '[AI] `rsync` is a versatile data synchronization tool for Unix-like systems. The `--usermap` option is used to specify a custom user mapping file, allowing you to map one user on the source system to another user on the destination system during the transfer. This can be useful when dealing with different usernames or permissions between the source and destination systems. The file containing the mappings should be in the ChrootPrivSepPath format (usually `/etc/rsyncd.conf`). Using this option, you ensure that file ownership and permissions are maintained during transfer while keeping different users on both ends.'
+        verbose: '[AI] `rsync` is a popular data synchronization and file transfer tool in Unix-like systems. The option `--verbose` (or just `-v`) is used to increase the amount of output that rsync displays during the transfer process. This can be helpful for debugging or understanding what files are being synchronized between two locations. With `--verbose`, rsync provides more detailed information about each file being transferred, including the percentage of the file that has been sent and received.'
+        version: '[AI] The command `rsync --version` is used to display the version information of the rsync (Remote Synchronization) utility. Rsync is a popular open-source data transfer software that is designed for efficiently transferring and synchronizing files between a local and a remote host or between two remote hosts. When you run the command `rsync --version`, it prints out the version number, compilation options, and other relevant information about the installed rsync program, such as the build date and operating system. This can be helpful for troubleshooting, ensuring compatibility with other systems, or simply to know which version of rsync is being used.'
+        whole-file: '[AI] The `rsync` command with the `--whole-file` option is used for transferring files between systems while preserving their entire metadata, including timestamps and permissions. This is particularly useful when syncing files with identical content but different metadata, ensuring that both copies retain their original attributes after the transfer.'
+        write-batch: |-
+            [AI] `rsync` is a popular data synchronization tool that transfers files between a local and a remote system or between two remote systems. The `--write-batch` option is used in conjunction with `rsync`'s delta transfer algorithm, which reduces the amount of data to be transferred by sending only the differences between files.
+
+            With `--write-batch`, `rsync` creates a file containing the list of changes to be applied to the destination files instead of applying them directly. This is particularly useful when dealing with multiple files that need to be updated simultaneously, as it minimizes the risk of file corruption or inconsistencies in case of network interruptions. The batch file can later be applied using the `--apply-pending` option.
+
+            In summary, the `rsync --write-batch` option generates a batch file containing the list of changes to be applied to the destination files instead of applying them directly during the synchronization process. This helps ensure data consistency and reliability when transferring multiple files that need to be updated at once.
+        write-devices: '[AI] The `rsync` command with the option `--write-devices` instructs it to open and keep open certain devices (like /dev/sdX) during the data transfer, even if they are not necessary for the transfer itself. This can be useful in specific situations where those devices are needed by other processes running on the destination system, and closing them would cause interruption or errors. However, it''s important to note that using `--write-devices` might introduce potential security risks since it allows remote access to certain device files. Always use this option with caution and ensure proper security measures are in place.'
+        xattrs: |-
+            [AI] `rsync` is a popular data synchronization tool used to transfer and sync files between different locations. The `--xattrs` option is a flag used with `rsync` to preserve extended file attributes during file transfers.
+
+            Extended file attributes (XAttrs) are metadata that can be added to a file beyond its standard attributes, such as ownership, permissions, and timestamps. XAttrs include user-defined data and ACL access control lists (ACLs). By using `rsync --xattrs`, you ensure that these extended attributes and ACLs are copied along with the file data during the synchronization process. This helps maintain the consistency of file metadata across different locations.

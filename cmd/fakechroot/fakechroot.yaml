@@ -1,0 +1,41 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: fakechroot
+description: gives a fake chroot environment
+flags:
+    -b, --bindir=: Specify a directory which contains the replacement executables shipped with fakechroot.
+    -c, --config-dir=: Specify a directory which contains additional configuration for fakechroot.
+    -d, --elfloader=: Specify an alternative dynamic linker.
+    -e, --environment=: Load additional configuration with environment.
+    -h, --help: Display help.
+    -l, --lib=: Specify an alternative wrapper library.
+    -s, --use-system-libs: Use system libraries before chroot's libraries.
+    -v, --version: Display version.
+documentation:
+    command: '[AI] `fakechroot` is a utility in Linux that creates a simulated chroot (change root) environment without actually changing the root directory of the system. It''s useful for running untrusted software or scripts in an isolated environment, preventing potential damage to the host system. By mounting only necessary filesystems and directories into the simulated root, it limits the access of the software while still allowing it to see a complete file hierarchy. This way, `fakechroot` provides improved security and isolation without requiring a full system reboot or containerization.'
+    flag:
+        bindir: |-
+            [AI] The `fakechroot` is a lightweight utility that provides a chroot-like environment without actually changing the root directory of the system. It is often used in containers or when running scripts in an isolated environment.
+
+            The option `--bindir=<path>` specifies the path to the directory containing executables that will be available inside the fakechroot environment. This allows you to run specific command-line tools within the isolated environment, while keeping the rest of the system's files untouched outside it.
+        config-dir: '[AI] `fakechroot` is a utility in Linux systems used to simulate a chroot environment without actually changing the root directory. The `--config-dir` option specifies a different directory for configuration files instead of using the one in the real root directory. This allows the application inside the simulated environment to access its original configuration files while still isolating it from the rest of the system.'
+        elfloader: |-
+            [AI] `fakechroot --elfloader` is a command-line tool used primarily in the context of containerization and rootfile system emulation. It does not create or manage a chroot environment like the standard `chroot` utility does, but rather it acts as an ELF (Executable and Linkable Format) loader within such an environment.
+
+            In simpler terms, when a containerized application needs to execute a command that requires root privileges, but the container itself doesn't need to be fully-fledged rootfilesystem, `fakechroot --elfloader` can be used. It allows running a specified ELF executable with root privileges inside the container, without giving the entire container the root access.
+
+            This command helps maintain the security and isolation of the container environment by preventing potential privilege escalation.
+        environment: '[AI] `fakechroot` is a utility in Linux and other Unix-like systems used to create a simulated chroot environment without actually changing the root directory of the system. The `--environment` option is used to set or modify environment variables within the fakechroot environment. When you run a command inside a fakechroot with the `--environment` flag, any specified environment variables will be set for that command execution only and won''t affect the parent process or the host system. This can be useful when testing software in an isolated environment to ensure proper functionality without modifying global settings on the host system.'
+        help: |-
+            [AI] `fakechroot` is a lightweight utility used to mimic a chrooted environment in Linux systems without actually changing the process's working directory. It does this by modifying the environment variables and file system mount points seen by the process.
+
+            The `--help` option when invoked with `fakechroot` displays detailed information about how to use the tool effectively. Here are some of the key features and options:
+
+            - `--source <path>`: This specifies the root directory for the chroot environment.
+            - `--target <path>`: This sets the new root directory (/ in the chrooted environment).
+            - `--preserve-paths`: Preserves the original paths for executing commands, which is useful when invoking multiple utilities that require access to the host's file system.
+            - `--bind <source>:<target>`: Allows you to bind a source path to a target within the chrooted environment, making it accessible from there.
+            - `--help`: Displays this help text and exits.
+            - `--version`: Shows the version number of fakechroot and exits.
+        lib: '[AI] `fakechroot --lib` is a utility in the Alpine Linux distribution that helps create a chroot-like environment without actually changing the root directory of the system. The `--lib` option specifies that only the necessary libraries from a specified chroot jail should be used, instead of the entire file hierarchy. This allows for better isolation and security as only the required libraries are accessed, reducing the attack surface. The flag is particularly useful in containerized environments where minimal resource usage and enhanced security are desired.'
+        use-system-libs: '[AI] `fakechroot` is a lightweight utility used to create a chroot environment without using the system call `chroot()`. The option `--use-system-libs` tells `fakechroot` to use the host system libraries instead of bundling its own. This can save disk space and reduce the image size when creating containers or virtual machines, as it avoids duplicating libraries that are already present on the host system.'
+        version: '[AI] `fakechroot` is a lightweight Linux utility that provides a chroot-like environment without using a separate filesystem hierarchy. The command `fakechroot --version` is used to display the version information of the installed `fakechroot` package. It prints out the version number, compilation timestamp, and other build-related details. This can help in ensuring that you are running the latest or required version of `fakechroot`, or for troubleshooting and compatibility checks.'

@@ -1,0 +1,84 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: archive
+description: copy a flake and all its inputs to a store
+flags:
+    --arg*=: Pass the value expr as the argument name to Nix functions
+    --argstr*=: Pass the string string as the argument name to Nix functions
+    --commit-lock-file: Commit changes to the flake's lock file
+    --debug: Set the logging verbosity level to 'debug'
+    --debugger: Start an interactive environment if evaluation fail
+    --dry-run: Show what this command would do without doing it.
+    --eval-store=: The Nix store to use for evaluations
+    --impure: Allow access to mutable paths and repositories
+    --inputs-from=: Use the inputs of the specified flake as registry entries
+    --json: Produce output in JSON format
+    --log-format=: Set the format of log output
+    --no-registries: Don't allow lookups in the flake registries
+    --no-update-lock-file: Do not allow any updates to the flake's lock file
+    --no-write-lock-file: Do not write the flake's newly generated lock file
+    --override-flake=: Override the flake registries, redirecting original-ref to resolved-ref
+    --override-input=: Override a specific flake input (e.g. dwarffs/nixpkgs)
+    --quiet: Decrease the logging verbosity level
+    --recreate-lock-file: Recreate the flake's lock file from scratch
+    --to=: URI of the destination Nix store
+    --update-input=: Update a specific flake input (ignoring its previous entry in the lock file
+    -I, --include: Add path to the list of locations used to look up <...> file names
+    -L, --print-build-logs: Print full build logs on standard error
+    -v, --verbose: Increase the logging verbosity level
+documentation:
+    command: '[AI] The `nix flake archive` command is used to create an archived version of a Nix Flake project. This command generates a self-contained tarball or zipfile that includes the current version of your project and all its direct dependencies. By default, it saves this archive under the name `<project-name>.tar.xz` (or `.zip`) in the `.cache/archives/` directory. Using archived projects can be helpful for sharing or distributing your projects with others, as they come with all necessary dependencies included.'
+    flag:
+        arg: |-
+            [AI] `nix flake` is a tool for managing Nix packages and their dependencies, using the Nix expression language. The command `nix flake archive --arg` creates an archived output of a Nix expression with given arguments.
+
+            The `--arg` option allows passing arguments to the expression being archived. This can be useful for creating reproducible builds or distributing configurations and settings across different systems.
+
+            Here's a brief explanation of each part:
+
+            - `nix`: The Nix package manager, which includes various tools like `nix flake`.
+            - `flake`: A subcommand of Nix that focuses on managing projects built with the Nix expression language.
+            - `archive`: An operation within `nix flake` that creates an archived output (a .tar.gz or .zip file) of a given Nix expression.
+            - `--arg`: A flag used to pass arguments to the Nix expression being archived. These arguments can be environment variables, files, or other values.
+        argstr: |-
+            [AI] The `nix flake archive --argstr` command is a Nix expression that builds and archives a Nix Flake derivation with the given arguments.
+
+            Here's a brief explanation of each part:
+
+            * `nix flake`: It refers to the Nix Flakes management system for building and managing complex projects using Nix.
+            * `archive`: This is an operation that packages or archives a Nix derivation (a build result) into a file. This is useful for distributing, versioning, or transferring the derivation as a whole.
+            * `--argstr`: This option takes one or more arguments in the form of key-value pairs, passed to the build process using the `--arg` flag. For example, you could set specific configuration options or input files for the build. The `--argstr` option is used instead of separate `--arg` flags when there are multiple arguments to pass.
+        commit-lock-file: '[AI] The `nix flake archive --commit-lock-file` command is used in Nix Flake, a tool for managing and building reproducible software projects with Nix. This command creates an archived copy of the current Nix Flake project lock file, which includes hashes of all the inputs to the build process. The `--commit-lock-file` option specifies that only the lock file should be included in the archive, rather than the entire working directory. This can be useful for creating reproducible builds or for sharing the project''s dependencies with others.'
+        debug: '[AI] `nix flake archive --debug` is a Nix Flakes command used to generate and save a debugging information archive for a specific project or set of projects in the Nix expression language. This command creates a detailed record containing build logs, source code, and other metadata that can be helpful for diagnosing build issues or analyzing dependencies within the Nix ecosystem. The generated archive is saved as a compressed file with the extension `.tar.xz` and can be later loaded using `nix-prefabs` or other tools for further inspection.'
+        debugger: '[AI] `nix flake` is a tool for managing Nix packages and their dependencies in a project, using the Nix expression language. The command `nix flake archive --debugger` creates an archived Nix expression tree from the current Nix Flake project and outputs it in a format that can be loaded into the Nix debugger for further inspection. This can be useful for debugging complex dependencies, build issues, or other problems within your Nix Flake-managed project.'
+        dry-run: '[AI] `nix flake` is a Nix expression language tool for managing and building Nix packages. The command `nix flake archive --dry-run` is used to simulate an archiving operation without actually creating the output files. Archiving in Nix Flakes creates a self-contained Nix expression that includes the dependencies of the current project. This command does not modify any files, but shows what would be done if it were run for real.'
+        eval-store: '[AI] `nix flake archive --eval-store` is a command in Nix, a package manager for Linux and other systems. This command creates an archived copy of the current Nix expression tree with the `--eval-store` option enabling the inclusion of the current evaluation results in the archive. The result is a .tar.xz file that contains both the source code and the computed values of the expressions, allowing for easier sharing and reproducibility of the computation results across different environments.'
+        impure: '[AI] The `nix flake` command with the `archive --impure` subcommand creates an impure Nix expression build artifact. An impure artifact allows dependencies to be built in-tree instead of being fetched from external sources, which can be useful for developing and testing local modifications. The `--impure` option ensures that the dependency sources are not locked during the archive creation process. The resulting output is a .tar file containing the build artifacts and their Nix expressions.'
+        include: '[AI] `nix flake` is a tool in Nix OS for managing and building projects using Nix expressions. The command `nix flake archive --include <expression>` generates an archived Nix store tree for the given expression, including all its dependencies. This can be useful for sharing or distributing the project with its dependencies, as the archive can be easily imported into another Nix environment and built there.'
+        inputs-from: '[AI] The `nix flake archive --inputs-from` command is used in Nix, a package manager for Linux and other systems, to create a self-contained and reproducible snapshot of a project''s dependencies. This command generates an archived Nix expression tree that includes only the specified inputs (external packages or sources) as direct dependencies. The `--inputs-from` option takes a list of paths or expressions to specify the desired input artifacts, allowing fine-grained control over which dependencies are included in the archive.'
+        json: '[AI] `nix flake archive --json` is a command in Nix, a package manager for Linux and other systems. This command generates a JSON representation of a Nix Flake lock file, which summarizes the dependencies and their versions of a project. The option `--json` tells the command to output the result in JSON format for easier processing by other applications.'
+        log-format: |-
+            [AI] `nix flake archive` is a command in Nix, a package manager for Linux and other systems. It creates an archived copy of a Nix expression tree (a collection of Nix expressions) and its dependencies.
+
+            The `--log-format` option specifies the format of the log output when running the command. By default, it's verbose, but you can change it to be more succinct or customized using various formats such as JSON, YAML, or plain text.
+
+            For example:
+
+            * `--log-format=plain` will display a simple text log
+            * `--log-format=json` will output the log in JSON format
+            * `--log-format='"%{item}:%{severity} - %{message}\n"'` allows custom logging with placeholders.
+        no-registries: '[AI] `nix flake archive` is a Nix command used to create an archive of a Nix expression tree, which can be later imported and built using `nix build`. The `--no-registries` option instructs the command not to fetch any dependencies from remote registries during the archiving process. This means that only the given local packages will be included in the archive. It''s useful when you want to create a self-contained artifact for sharing or backup purposes without depending on external repositories.'
+        no-update-lock-file: '[AI] `nix flake` is a Nix package manager tool used to build and manage Nix expressions called "flakes." The command `nix flake archive --no-update-lock-file` creates an archived copy of the current flake configuration (including the `nix.conf`, `configuration.nix`, and `inputs` directory) without generating or updating the lock file. This can be useful for sharing or backing up a specific version of your flake configuration without the lock file''s potential changes.'
+        no-write-lock-file: '[AI] `nix flake archive` is a Nix command used to create a self-contained, reproducible and portable snapshot of a Nix expression tree, called a Flake (Flake is short for "Flavoredake", a portmanteau of Flakes and Nix). The `--no-write-lock-file` option tells Nix not to write or update the lock file (derived-data.nix-lock) during the archive creation process. By omitting this file, the resulting archive can be easily shared with others without requiring them to have write access to your local project or configuration.'
+        override-flake: '[AI] The `nix flake` command with the `archive` subcommand and the `--override-flake` option is used to create a Nix expression build package (an archive file) for a specific Flake output. This means that it builds and archives a Flake output, overriding any existing dependencies defined in the Flake lockfile with those specified in the given command. This can be useful when building custom versions of packages or when dealing with dependency conflicts. The resulting archive file can then be easily installed using Nix''s package manager.'
+        override-input: '[AI] `nix flake` is a tool for managing Nix packages and their dependencies in a project. The command `nix flake archives --override-input` generates an archive of a specific Flake output, allowing the user to share or distribute it as a self-contained package. The `--override-input` option allows replacing input paths with other files or outputs during archive creation. This can be useful when dealing with custom inputs that need to be included in the shared package.'
+        print-build-logs: '[AI] `nix flake archive` is a Nix expression that creates an archived copy of a Nix flake, which is a way to manage multiple related Nix projects as a single unit. The `--print-build-logs` option instructs Nix to print the build logs for each component in the archive during the creation process. In other words, it outputs the standard error and output streams of each build command. This can be useful for debugging or analyzing the build process of a complex flake configuration.'
+        quiet: '[AI] `nix flake archive` is a Nix command used to create an archived copy of a Nix Flake file, which is a configuration file used in Nix to manage project dependencies and builds. The `--quiet` flag is an optional argument that instructs the command to run with minimal output or noise. It means that the command will not print any progress messages or status updates to the console during the archiving process. This can be useful when running automated scripts or for users who prefer a quieter terminal session.'
+        recreate-lock-file: '[AI] `nix flake` is a Nix expression language tool for managing and building Nix projects with multiple dependencies. The command `nix flake archive --recreate-lock-file` creates or updates the project lock file (named `flake.lock`) in a given Nix flake-enabled project directory. This command also generates an archive of the project and its lock file, which can be used to share or recreate the exact project environment on other systems.'
+        to: '[AI] `nix flake archive --to` is a Nix expression that creates an archived output of a Flake (Nix''s source-oriented configuration management system) build result and saves it to a file or a remote location. This command compresses the build outputs, along with their dependencies and metadata, into a single tarball or other archive format for easy distribution or transfer.'
+        update-input: '[AI] `nix flake archive --update-input` is a command in Nix, a package manager for Linux and other systems. This command creates an archived output of a specific Nix expression or project, updating the inputs first to ensure that all dependencies are up-to-date before creating the archive. By doing so, it ensures that the resulting archive will include only the latest versions of all dependencies.'
+        verbose: |-
+            [AI] `nix flake archive` is a command provided by Nix Flakes, a subsystem of the Nix package manager for managing project-level dependencies in a declarative and reproducible way. The `--verbose` flag increases the level of output produced during the execution of this command.
+
+            When using `nix flake archive --verbose`, the command will display detailed information about each step it takes when creating an archived lock file (named `.cache-available`) for your project's dependencies. This includes the input and output directories, intermediate files generated during the process, and any errors that may occur.
+
+            In summary, this command generates a reproducible lock file archive of your project's dependencies with detailed progress information to help diagnose issues.

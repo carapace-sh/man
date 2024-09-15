@@ -1,0 +1,63 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: removePeer
+description: Remove a Consul server from the Raft configuration
+flags:
+    --address=: The address to remove from the Raft configuration
+    --ca-file=: Path to a CA file to use for TLS when communicating with Consul.
+    --ca-path=: Path to a directory of CA certificates to use for TLS when communicating with Consul.
+    --client-cert=: Path to a client cert file to use for TLS when 'verify_incoming' is enabled.
+    --client-key=: Path to a client key file to use for TLS when 'verify_incoming' is enabled.
+    --datacenter=: Name of the datacenter to query.
+    --http-addr=: The `address` and port of the Consul HTTP agent.
+    --id=: The ID to remove from the Raft configuration
+    --stale: Permit any Consul server (non-leader) to respond to this request.
+    --tls-server-name=: The server name to use as the SNI host when connecting via TLS.
+    --token-file=: File containing the ACL token to use in the request.
+    --token=: ACL token to use in the request.
+documentation:
+    command: '[AI] The `consul operator raft removePeers` command is used to remove one or more peer nodes from a Consul Raft cluster, managed by the Consul Operator. This command is typically invoked when a peer node leaves the cluster intentionally or unintentionally, and it''s essential to update the cluster configuration accordingly to maintain a healthy Raft consensus. By running `consul operator raft removePeers`, you can provide the IDs of the peer nodes that need to be removed from the cluster, allowing the Consul Operator to update the cluster''s state and reconfigure the remaining peers accordingly.'
+    flag:
+        address: '[AI] The `consul operator raft removePeer` command is used to remove a peer node from a Consul Raft cluster. The `--address` option specifies the IP address or hostname of the peer node to be removed. When executed, this command sends a request to the Consul server to remove the specified peer node from the cluster configuration. After the removal, the Raft consensus algorithm ensures that the state of the cluster is updated and maintained among the remaining peers.'
+        ca-file: |-
+            [AI] The `consul operator raft removePeers --ca-file` command is used to remove one or more peer nodes from a Consul Raft cluster. Consul is a distributed, highly available, and data center aware toolkit for service discovery, configuration, and orchestration.
+
+            The `raft` part of the command refers to Consul's Raft consensus algorithm which ensures strong consistency across multiple servers in a cluster. The `removePeers` subcommand specifies the action: removing peer nodes from the cluster.
+
+            The `--ca-file` option is for providing a file with the Certificate Authority (CA) certificates used to sign the certificates of the nodes in the Consul cluster. This option is necessary when revoking or removing a node that still holds active certificates, ensuring security and preventing unauthorized access.
+        ca-path: '[AI] The `consul operator raft removePeers --ca-path` command is used to remove one or more Raft peers from a Consul cluster, which is a distributed key-value store and service discovery platform. The `--ca-path` option specifies the location of the certificate authority (CA) files for the Consul server and its members. These CA files are necessary for secure communication between Consul servers and peers in the cluster. By using this command, you can revoke the membership of specified peers from the cluster while ensuring secure removal by providing their CA-signed certificates.'
+        client-cert: '[AI] The `consul operator raft removePeer --client-cert <PATH>` command is used to remove a peer node from a Consul Raft cluster using the Consul Operator. The `--client-cert` flag specifies the path to the client certificate file that will be used for authentication when interacting with the Consul API. This command is run to exclude a node from participating in Consul''s consensus algorithm, potentially due to maintenance or failure reasons.'
+        client-key: |-
+            [AI] The `consul operator raft removePeer --client-key` command is used to remove a specific peer node from a Consul Raft cluster. Consul is a distributed, highly available, and data center aware toolkit for service discovery, configuration, and orchestration. In the context of Consul, Raft is its consensus algorithm that enables high availability and fault tolerance.
+
+            The `raft removePeer` subcommand removes a peer node from the cluster based on its client key. The `--client-key` option specifies the unique identifier associated with the node to be removed. When executed, this command will initiate the removal process, which includes informing other peers about the departure and updating the Raft log accordingly. Once completed, the specified peer node will no longer participate in the Consul cluster.
+        datacenter: |-
+            [AI] The `consul operator raft removePeer --datacenter` command is used to remove a peer node from a Consul Raft cluster's datacenter. This command is typically run by the Consul Operator, which is a tool for managing and deploying Consul clusters.
+
+            Consul is a distributed, highly available, and data center aware toolkit for configuring and managing applications and their interdependencies, as well as a service discovery solution. Raft is Consul's distributed consensus algorithm that ensures cluster members agree on the order of events.
+
+            By running `removePeer` command with the `--datacenter` flag, you specify the name or ID of the datacenter where the node to be removed belongs. This command sends a request to all nodes in the specified datacenter to remove the identified peer node from their Raft clusters' membership lists.
+
+            Once executed, the command results in the removal of the peer node from the datacenter's cluster configuration. This could be useful if you want to temporarily take down a node for maintenance or if it has left the cluster unintentionally. It is important to note that removing a peer node will disrupt the Raft consensus and may lead to temporary election of a new leader within the affected cluster.
+        http-addr: |-
+            [AI] The `consul operator raft removePeer --http-addr` command is used to remove a Raft peer node from a Consul cluster. Consul is a distributed, highly available, and data center aware toolkit for service discovery, configuration, and orchestration. Raft is the consensus algorithm Consul uses for its distributed coordination.
+
+            The `removePeer` subcommand is part of the Consul Operator, which simplifies deploying, configuring, and managing Consul services. The `--http-addr` option specifies the HTTP address of the peer node to be removed from the cluster. After executing this command, the specified peer node will no longer participate in the Raft consensus process and its data will not be part of the distributed consensus.
+        id: '[AI] The `consul operator raft removePeers --id <peerID>` command is used to remove a specific peer node from a Consul Raft cluster. Consul is a distributed, highly available, and data center aware toolkit for service discovery, configuration, and orchestration. In the context of Consul''s Raft data replication, the `removePeers` subcommand under the `operator` utility helps in managing peer nodes in a cluster. By providing the unique `<peerID>` for the node to be removed, this command will initiate the removal process. The change takes effect after new election cycles, ensuring cluster consistency.'
+        stale: |-
+            [AI] The `consul operator raft removePeer --stale` command is used to remove a stale peer node from a Consul Raft cluster. Consul is a distributed, highly-available, and data center aware toolkit for service discovery, configuration, and orchestration. In a Consul Raft cluster, each node is referred to as a peer. If a peer becomes unreachable but hasn't left the cluster intentionally, it can be considered stale.
+
+            The `raft removePeer --stale` command identifies such stale peers and removes them from the cluster, allowing Consul to continue operating effectively. This is an essential task for maintaining a healthy Consul Raft cluster.
+        tls-server-name: |-
+            [AI] The `consul operator raft removePeers --tls-server-name` command is used to remove a Raft peer node from a Consul cluster, which is a distributed, highly available key-value store and configuration management tool. This command is typically run by the Consul Operator, an open-source Kubernetes application that automates the deployment, upgrading, and configuration of Consul clusters.
+
+            The `--tls-server-name` option specifies the TLS server name or certificate to use for secure communication between nodes in the cluster. By providing this information, you ensure that only certified and authorized nodes can join or communicate with the cluster, enhancing security and data integrity. Once a peer node is removed using this command, it will no longer participate in consensus decisions and the cluster's configuration will be updated accordingly.
+        token: |-
+            [AI] The `consul operator raft removePeer --token` command is used to remove a Raft peer from a Consul cluster. Consul is a distributed, highly available, and data center aware toolkit for service discovery, configuration, and orchestration. In the context of Consul, Raft is the consensus algorithm used for its distributed coordination layer.
+
+            The `removePeer` sub-command under `raft` in Consul's operator CLI (Command Line Interface) is responsible for managing peers within a Raft cluster. This command takes an argument `--token`, which represents the token associated with the peer to be removed. The flag ensures that only a peer holding a valid token can initiate the removal process.
+
+            Using this command helps in managing Consul clusters by allowing administrators to remove and add members as needed, ensuring high availability, and maintaining a healthy and performing cluster.
+        token-file: |-
+            [AI] The `consul operator raft removePeer --token-file` command is used to remove a peer node from a Consul Raft cluster. Consul is a distributed, highly available, and data center aware toolkit for managing configurations and services. The Raft algorithm is the consensus protocol Consul uses to maintain cluster membership and ensure data replication.
+
+            The `removePeer` sub-command is invoked via the Consul Operator, which simplifies the management of Consul clusters. With this command, you provide the token file path as an argument, specifying the token associated with the node to be removed from the cluster. After executing the command, the specified peer node will no longer participate in the Raft consensus and its data will not be replicated by other nodes.

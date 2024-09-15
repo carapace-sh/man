@@ -1,0 +1,83 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: sftp
+description: OpenSSH secure file transfer
+flags:
+    "-4": Forces sftp to use IPv4 addresses only.
+    "-6": Forces sftp to use IPv6 addresses only.
+    -A: Allows forwarding of ssh-agent(1) to the remote system.
+    -B=: Specify the size of the buffer that sftp uses when transferring files.
+    -C: Enables compression (via ssh's -C flag).
+    -D=: Connect directly to a local sftp server (rather than via ssh(1)).
+    -F=: Specifies an alternative per-user configuration file for ssh(1).
+    -J=: Connect to the target host by first making an sftp connection to the jump host described by destination.
+    -N: Disables quiet mode, e.g. to override the implicit quiet mode set by the -b flag.
+    -P=: Specifies the port to connect to on the remote host.
+    -R=: Specify how many requests may be outstanding at any one time.
+    -S=: Name of the program to use for the encrypted connection.
+    -a: Attempt to continue interrupted transfers rather than overwriting existing partial or complete copies of files.
+    -b=: Batch mode reads a series of commands from an input batchfile instead of stdin.
+    -c=: Selects the cipher to use for encrypting the data transfers.
+    -f: Requests that files be flushed to disk immediately after transfer.
+    -i=: Selects the file from which the identity (private key) for public key authentication is read.
+    -l=: Limits the used bandwidth, specified in Kbit/s.
+    -o=: Can be used to pass options to ssh in the format used in ssh_config(5).
+    -p: Preserves modification times, access times, and modes from the original files transferred.
+    -q: 'Quiet mode: disables the progress meter as well as warning and diagnostic messages from ssh(1).'
+    -r: Recursively copy entire directories when uploading and downloading.
+    -s=: Specifies the SSH2 subsystem or the path for an sftp server on the remote host.
+    -v: Raise logging level.  This option is also passed to ssh.
+documentation:
+    command: '[AI] `sftp` (Secure File Transfer Protocol) is a command-line program used for secure file transfer between a local and a remote server. It establishes an encrypted connection using SSH (Secure Shell), allowing the transfer of files with integrity and confidentiality. The primary use cases include uploading, downloading, and managing files on a remote system from a local terminal.'
+    flag:
+        "4": '[AI] The command "sftp -4" is used in Secure File Transfer Protocol (SFTP) sessions to set the number of minimum ssh-compatibility mode authentication attempts to 4 before giving up. By default, SFTP uses SSH for authentication and if the username or password provided is incorrect, it will try a certain number of times before giving an error message. The "-4" option sets this number explicitly to 4.'
+        "6": '[AI] The command `sftp -6` is used in Secure File Transfer Protocol (SFTP) for setting the logging level to VERBOSE mode with debug level 6. In SFTP, verbose logging provides detailed information about each command executed during the file transfer session, while debug level 6 enables the most extensive debug output available. This level of logging can be helpful when troubleshooting complex issues related to SFTP transfers.'
+        A: '[AI] The `sftp` command with the option `-A` (uppercase A) is used to enable subsystem sftp in an SSH server (OpenSSH). This allows clients to use SFTP (Secure File Transfer Protocol) instead of regular SSH sessions for file transfers. With this setup, when an SSH connection is initiated, the SFTP subsystem takes over and provides a secure environment for transferring files using SFTP commands.'
+        B: '[AI] The `-B` option in the `sftp` (Secure File Transfer Protocol) command is used to specify a batch file or script containing SFTP commands to be executed upon connection. This can automate and streamline the process of transferring files and executing specific tasks between two systems. Note that this feature may require additional setup such as creating and transferring the batch file itself.'
+        C: '[AI] `sftp` is a secure file transfer protocol used to securely transfer files between a local and remote server. The option `-C`, or `--config`, allows users to specify an SSH config file. This file contains various settings for connecting to remote servers, including hostnames, usernames, ports, and default commands. Using this option with `sftp` can save time by allowing users to easily connect to frequently used servers without having to enter the connection details each time.'
+        D: '[AI] The `-D` option in the `sftp` (Secure File Transfer Protocol) command is used to specify a local file from which the sftp client will read its private key for authentication. This allows you to use an alternative key for SSH-based protocols like SFTP instead of the default one stored in your SSH agent or ~/.ssh/identityfile.'
+        F: '[AI] `sftp` is a secure file transfer protocol application used to securely transfer files between a local and remote server. The option `-F <filename>` specifies an ssh-style configuration file for sftp, allowing users to define custom host keys, identities, and connection settings for easier and more efficient transfers.'
+        J: |-
+            [AI] The `-J` option in the `sftp` command (Secure File Transfer Protocol) is used to specify a custom SSH (Secure Shell) port forwarding configuration file. This allows for advanced use cases, such as creating SOCKS proxies or forwarding multiple local and remote ports. The file specified must be in the format `[option "Key,Value"]`, where `Key` is the name of the port forwarding option and `Value` is its value. For example:
+
+            ```bash
+            -J my_config.conf
+            ...
+            [just:my_config]
+            Host *
+              LocalForward 8080 localhost:8080
+              RemoteForward 1234 remote_server:1234
+            ```
+
+            In this example, the custom configuration file `my_config.conf` sets up both local and remote port forwarding for all hosts using SSH with `sftp`.
+        "N": '[AI] The `-N` option in the `sftp` (Secure File Transfer Protocol) command is used to disable automatic handling of batch files or commands on the remote server during file transfers. In other words, it prevents the execution of scripts or commands along with the file transfer. This can be useful when you want to ensure that no unintended actions are taken on the remote server during your file transfers.'
+        P: '[AI] The `-P` option in the `sftp` (Secure File Transfer Protocol) command is used to specify a custom SSH (Secure Shell) port number for the connection instead of the default 22. This can be useful when the standard SSH port is blocked or to connect to an SFTP server running on a non-standard port. For example, `sftp -P 1234 user@server.com` would connect to the SFTP server at `server.com` using SSH port number 1234.'
+        R: '[AI] The `-R` option in the `sftp` (Secure File Transfer Protocol) command stands for "recursive". When used with `sftp`, it enables the transfer of directories and their contents recursively between two hosts over an SSH connection. In other words, `sftp -R` allows you to copy entire directories and their subdirectories, including files, preserving file permissions and ownerships.'
+        S: '[AI] `sftp` is a secure file transfer protocol command used to securely transfer files between a local and remote server. The option `-S` or `--server` specifies the path to an ssh-compatible config file for sftp. This file can contain custom commands, settings, or keys that modify the default behavior of sftp. It allows users to automate complex transfers or access restricted servers without having to enter passwords repeatedly.'
+        a: '[AI] The `sftp` command with the option `-a` stands for "auto" in Secure File Transfer Protocol (SFTP). This option enables the recursive transfer of files and directories between the local and remote systems. When used, SFTP will apply the `-r` (recursive) flag to every subcommand within a single session without needing to explicitly specify it for each individual file or directory transfer. In summary, using `sftp -a` simplifies the process of transferring entire directories and their contents between two systems in a single SFTP session.'
+        b: '[AI] The `-b` option in the `sftp` (Secure File Transfer Protocol) command is used to specify a batch file or script, containing a series of SFTP commands, that will be executed when the `sftp` session is initiated. This can automate repetitive tasks and streamline the transfer of files between systems. The specified file should be located on the local machine or accessible via a remote path if using SSH keys for authentication.'
+        c: '[AI] The `-c` option in the `sftp` (Secure File Transfer Protocol) command is used to specify a custom SSH (Secure Shell) configuration file. With this option, you can override the default settings for various aspects of the SFTP session, such as data compression, keypair identification, or window size. The specified file should contain valid SSH configuration directives.'
+        f: '[AI] The `sftp` command with the `-f` option is used to execute a specified script or file during the SFTP (Secure File Transfer Protocol) session. This allows automating tasks such as uploading, downloading, or modifying files remotely using SFTP. The script should be saved in a format like `.sftpcfg` or `.ssh/config` and contain commands to be executed when the connection is established.'
+        i: '[AI] `sftp` is a secure file transfer protocol command-line client used to securely transfer files between a local and remote server. The option `-i` is used to specify the identity file of an SSH key for authentication instead of using a password. This can be useful for automated scripts or for users who prefer not to enter their password each time they use `sftp`.'
+        l: '[AI] The command `sftp -l` in SFTP (Secure File Transfer Protocol) is used to list the contents of a remote directory. When you run this command, SFTP will connect to the remote server and display the files and directories present in the specified remote directory. It provides a quick way to check what files are available on the remote server without having to transfer them to your local machine. This can help you plan which files to download or manipulate remotely using SFTP.'
+        o: |-
+            [AI] The `-o` option in the `sftp` (Secure File Transfer Protocol) command is used to apply customized settings for an individual file transfer session or specific commands. Following the `-o`, you should specify one or more options and their values separated by a colon, for example:
+
+            ```bash
+            sftp user@remote_host -o "Port=2222,BatchMode=yes"
+            ```
+
+            In this example, we have used the `-o` option to connect to the remote host using a non-standard port number (2222) and enable BatchMode. This means that `sftp` will execute commands in batch mode, which is useful when automating large numbers of file transfers or tasks.
+
+            Additional common options include:
+
+            - `AutoMsmt`: Enable automatic upload/download of files based on modifications.
+            - `RemoteCommand`: Execute a command on the remote host as soon as the connection is established.
+            - `LocalBindAddress`: Bind `sftp` to a specific local IP address or interface.
+            - `KeepAlive`: Enable keepalive feature for maintaining an idle connection.
+
+            Use these options judiciously depending on your use case and requirements.
+        p: '[AI] The `-p` option in the `sftp` (Secure File Transfer Protocol) command is used to specify the SSH (Secure Shell) password instead of using an interactive terminal prompt for authentication. This can be useful when automating tasks or transferring files between systems where the public key authentication is not set up or preferred. The syntax is `sftp -P <password> user@host:`.'
+        q: '[AI] `sftp` is a secure file transfer protocol used to securely transfer files between a local and remote server. The option `-q` or `--quiet` is used to suppress all messages, making the transfer process run in the background with minimal output. This can be useful for automating tasks or running scripts where you don''t need to see the progress reports.'
+        r: '[AI] The `sftp` command is a secure file transfer protocol used to securely transfer files between a local and remote server. The option `-r` stands for "recursive" which means when used with the `sftp get` or `sftp put` commands, it will transfer an entire directory and its contents from/to the remote server instead of just individual files. For example, `sftp -r user@server:/path/to/local/directory /path/to/remote/directory`. This can be useful when dealing with multiple files in a directory structure.'
+        s: '[AI] The `sftp` command with the `-s` option is used in Unix-based systems for specifying a private key file for Secure File Transfer Protocol (SFTP) authentication. The full syntax is `sftp -i <key_file> user@host:`. When you use this option, sftp will utilize the specified private key file to authenticate and establish an encrypted SFTP session with the provided host and username.'
+        v: '[AI] `sftp` is a secure file transfer protocol used to securely transfer files between a local and remote server. The option `-v` stands for "verbose" in `sftp` commands. When used, it increases the amount of information displayed during the file transfer process. This can be useful for troubleshooting or for understanding what is happening during the transfer. It provides more detailed progress reports, including the names of files being transferred and any error messages that may occur.'

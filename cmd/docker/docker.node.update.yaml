@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: update [OPTIONS] NODE
+description: Update a node
+flags:
+    --availability=: Availability of the node ("active", "pause", "drain")
+    --label-add=: Add or update a node label ("key=value")
+    --label-rm=: Remove a node label if exists
+    --role=: Role of the node ("worker", "manager")
+documentation:
+    command: '[AI] The `docker node update` command is used to update the configuration of a worker node in a Swarm mode cluster managed by Docker. This command pushes the latest service updates and reconfigures the node, ensuring that it runs the most recent versions of the services. It also applies any new network or storage configurations. In essence, `docker node update` keeps your Swarm nodes in sync with the master node and ensures the services are running on the latest version.'
+    flag:
+        availability: |-
+            [AI] The `docker node update --availability` command is used to update the availability status of a worker node in a Swarm mode Docker cluster. The available states are:
+
+            1. `Reached:` The node is ready to receive and run tasks.
+            2. `Draining:` The node is being prepared for removal from the cluster, and new tasks will not be scheduled on it.
+            3. `Unreachable:` The node is not responding to the Swarm manager and will be removed from the cluster if its unavailability persists.
+
+            By using this command with the desired availability state, you can bring a node to that state, for example:
+
+            - To mark a node as ready: `docker node update --availability reached <node-id>`
+            - To mark a node as draining: `docker node update --availability drain <node-id>`
+            - To mark a node as unreachable: `docker node update --availability unreachable <node-id>`
+
+            This command does not affect the underlying system or infrastructure of the node itself, but only changes its Swarm mode availability status.
+        label-add: '[AI] `docker node update` is a command used in Docker Swarm mode to update the labels of a worker node. The `--label-add` option allows you to add new key-value pairs as labels to the node. For example, `docker node update --label-add mykey=myvalue node1`, will add the label "mykey=myvalue" to the node named "node1". This can be useful for adding or modifying metadata associated with a node.'
+        label-rm: '[AI] The `docker node update` command is used to update the status and labels of a worker node in a Swarm mode Docker cluster. The `--label-rm` option removes (rm) any existing labels on the node before applying new ones. This can be useful when you want to reset the labels on a node, perhaps for troubleshooting or rejoining the swarm with different configuration.'
+        role: '[AI] `docker node update --role` is a command used in Docker Swarm mode to update the role of a specified node in the swarm cluster. This command can be used to promote or demote a node based on its current role and availability, allowing for dynamic adjustments to your cluster''s infrastructure. The `--role` option specifies the desired new role for the node (e.g., `worker` or `manager`).'

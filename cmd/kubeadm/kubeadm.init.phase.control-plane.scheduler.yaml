@@ -1,0 +1,38 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: scheduler
+description: Generates the kube-scheduler static Pod manifest
+flags:
+    --cert-dir=: The path where to save and store the certificates.
+    --config=: Path to a kubeadm configuration file.
+    --dry-run: Don't apply any changes; just output what would be done.
+    --image-repository=: Choose a container registry to pull control plane images from
+    --kubernetes-version=: Choose a specific Kubernetes version for the control plane.
+    --patches=: Path to a directory that contains files named "target[suffix][+patchtype].extension".
+    --scheduler-extra-args=: A set of extra flags to pass to the Scheduler or override default ones in form of <flagname>=<value>
+documentation:
+    command: '[AI] `kubeadm init` is a command used to bootstrap a new Kubernetes cluster with `kubeadm`, which is a tool for deploying and managing Kubernetes clusters. The "phase control-plane scheduler" refers to the specific phase of the initialization process where the control plane components, including the etcd server, kube-apiserver, kube-controller-manager, and kube-scheduler, are configured and initialized. This is a critical step in setting up a Kubernetes cluster as these components manage the overall cluster functionality such as storing the cluster configuration data, processing API requests, and controlling the state of the cluster based on user defined policies.'
+    flag:
+        cert-dir: '[AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The option `--phase control-plane scheduler --cert-dir <path>` instructs `kubeadm init` to advance the control plane node to the scheduling phase, and specifies the directory containing the certificate authorities to be used for secure communication between nodes in the cluster. In this context, "control plane" refers to the management components of a Kubernetes cluster (e.g., etcd, API server, and the Kubernetes controller manager), which are responsible for maintaining the desired state of the cluster. The scheduler component is responsible for selecting nodes on which to run workloads based on their resource requirements. By advancing to the scheduling phase, you enable the Kubernetes control plane to schedule and manage worker nodes and workloads in your cluster.'
+        config: '[AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster using kubeadm, a component of the Kubernetes control plane. The option `--phase control-plane-scheduler` specifies which phase of the initialization process to run. This particular phase, `control-plane-scheduler`, is responsible for setting up the Kubernetes scheduler on the control plane nodes. The configuration file parameter, `--config`, specifies a custom config file that can be used to override default settings when initializing the cluster.'
+        dry-run: |-
+            [AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The option `--control-plane-scheduler --dry-run` is used in the context of initializing a control-plane node, which is a node in a Kubernetes cluster that runs the control plane components like etcd, kube-apiserver, kube-controller-manager, and kube-scheduler.
+
+            The `--dry-run` flag is used to display what actions `kubeadm init` would take without actually executing them. This is helpful for understanding the sequence of steps that will be run when initializing a control-plane node, and it allows you to preview any changes that will be made before committing to the actual initialization process.
+
+            The `--control-plane-scheduler` flag specifies which scheduler should be used by the Kubernetes cluster for scheduling workloads (pods) on the nodes in the cluster. By default, Kubernetes uses the kube-scheduler, but you can specify an alternative scheduler if needed.
+
+            So, when you run `kubeadm init phase control-plane scheduler --dry-run`, it will display the steps that would be taken to initialize a control-plane node with the specified scheduler, without actually executing those steps. This can help you understand the impact of choosing a specific scheduler for your Kubernetes cluster.
+        image-repository: '[AI] The `kubeadm init` command is used to bootstrap a Kubernetes cluster. The option `--control-plane-scheduler` specifies which image repository should be used for the Kubernetes control plane components, specifically the scheduler. This image repository contains the Docker images for the various Kubernetes components including the scheduler. By providing an image repository with this option, you ensure that the correct and desired version of the scheduler image is used during cluster setup.'
+        kubernetes-version: '[AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The option `--phase control-plane` specifies that only the control plane nodes should be initialized, while the rest of the cluster will be joined later. The option `--scheduler "kube-scheduler:<version>"` sets the version of the Kubernetes scheduler to use. This flag ensures that the specified version of the scheduler is installed and used during the control plane initialization process.'
+        patches: |-
+            [AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The `--phase control-plane scheduler --patches` option is related to the container scheduling phase of the initialization process.
+
+            When using this flag, the user provides patches (in JSON format) that modify the container scheduler configuration during the setup. These patches can be used to customize various aspects of the Kubernetes scheduler, such as adding or modifying scheduler plugins or adjusting resource priorities. The changes persist and are applied when the cluster is started.
+
+            This flag is useful in specific scenarios where users need to customize their Kubernetes environment at a deeper level than what's offered through other configuration methods. Keep in mind that applying patches manually can introduce potential risks, as misconfigurations could impact the overall functionality or security of your cluster. Always ensure you have a solid understanding of the changes and their implications before implementing them.
+        scheduler-extra-args: |-
+            [AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The `phase control-plane scheduler --scheduler-extra-args` argument is related to the Kubernetes scheduler, which is responsible for placing Pods (containers) on nodes in the cluster based on resource availability and other factors.
+
+            The `--scheduler-extra-args` option allows passing additional arguments specifically to the control plane scheduler component of Kubernetes. These extra arguments can be used to customize or override the default behavior of the scheduler, for example, to prioritize certain nodes or Pods based on specific labels or attributes.
+
+            By using `kubeadm init` with this argument, you can configure the control plane scheduler from the beginning of your cluster setup. This may be useful in various scenarios, such as optimizing resource usage, improving performance, or implementing custom scheduling policies. For more detailed information on the available options and use cases, refer to the Kubernetes documentation on scheduling.

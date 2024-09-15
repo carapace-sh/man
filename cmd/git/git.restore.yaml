@@ -1,0 +1,54 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: restore
+description: Restore working tree files
+group: main
+flags:
+    --conflict=: conflict style (merge or diff3)
+    --ignore-skip-worktree-bits: do not limit pathspecs to sparse entries only
+    --ignore-unmerged: ignore unmerged entries
+    --overlay: use overlay mode
+    --pathspec-file-nul: pathspec elements are separated with NUL character
+    --pathspec-from-file=: read pathspec from file
+    --progress: force progress reporting
+    --recurse-submodules=: control recursive updating of submodules
+    -2, --ours: checkout our version for unmerged files
+    -3, --theirs: checkout their version for unmerged files
+    -S, --staged: restore the index
+    -W, --worktree: restore the working tree (default)
+    -m, --merge: perform a 3-way merge with the new branch
+    -p, --patch: select hunks interactively
+    -q, --quiet: suppress progress reporting
+    -s, --source=: which tree-ish to checkout from
+documentation:
+    command: '[AI] `git restore` is a Git command used to discard changes in the working directory and restore previously committed files to their last committed state. It can also be used to selectively restore specific files from a commit, or to restore the entire working directory to a specific commit. The default behavior is to discard all changes made since the last commit, making it an effective way to undo local changes without affecting the Git history.'
+    flag:
+        conflict: '[AI] The `git restore --conflict` command is used to resolve merge conflicts when working with Git. When Git detects a conflict during a commit, it prevents the commit from being made and leaves the conflicting files in a modified state. With this command, you can manually inspect the differences between the conflicting versions of the file and make the necessary edits to resolve the conflict. The changes are then staged for the next commit. This command does not automatically resolve conflicts but rather allows you to manually do so.'
+        ignore-skip-worktree-bits: '[AI] `git restore` is a Git command used to discard changes in the working directory and restore previously committed files to their state in the last commit. The option `--ignore-skip-worktree-bits` is used to override the skip worktree bit of an indexed file, allowing you to discard changes made both in the working directory and the index (staging area). By default, when a file has the skip worktree bit set, Git will not allow restoring it to a previous commit state if that state conflicts with the current state in the index. However, using `--ignore-skip-worktree-bits` allows you to bypass this restriction and force the restoration of the file to the committed version, regardless of its state in the index.'
+        ignore-unmerged: '[AI] `git restore --ignore-unmerged` is a Git command used to discard changes in the working directory and return to the last committed version of a file or multiple files, without attempting to merge any unmerged changes first. This can be useful when you want to abandon local modifications that cannot be cleanly merged with the current branch and reset to the last commit''s state. Note that this command does not modify the staging area; it only affects the working directory.'
+        merge: '[AI] `git restore --merge` is a Git command used to discard changes in the working directory and reset the file to its state in the latest commit, while keeping your changes in the staging area. This allows you to compare and choose which changes to keep or discard between the file in the commit history and your local modifications before completing the restore. If no path is provided, it restores all files in the current directory.'
+        ours: '[AI] `git restore --ours` is a Git command used to discard local changes and keep the current state of the working directory as the same as the last commit in the current branch, merging any conflicts that might exist with the changes from the branch being restored. This can be useful when attempting to resolve merge conflicts and wanting to keep the version of the file in the branch over local changes.'
+        overlay: '[AI] `git restore --overlay` is a Git command used to apply changes from one commit to another, while keeping the local modifications. It creates an overlay hunk that can be applied or rejected in the conflicted file using a three-way merge tool like `m Mercure` or `vimdiff`. This command allows selective application of changes without completely replacing the working directory with the contents of the commit. It''s useful when you want to keep local modifications but also apply specific changes from another commit.'
+        patch: '[AI] `git restore --patch` is a Git command used to apply or discard specific hunks (pieces of code) during a conflict resolution when using `git restore`. The command opens an interactive text editor, allowing you to review the differences between your working directory and the changes in the repository, and make decisions to keep or reject individual hunks. This can be useful when dealing with complex merge conflicts where only certain parts need to be discarded or modified.'
+        pathspec-file-nul: |-
+            [AI] `git restore` is a Git command used to discard changes in the working directory or the staging area. The `--pathspec-file` option allows specifying a file containing path specifications, which are patterns for selecting files or directories in Git.
+
+            The `--pathspec-file-nul` option extends this functionality by telling Git to treat an empty file as a list of unmatched paths instead of an empty list. This means that if the specified file contains no matching paths, Git will restore all untracked files to their previous state, effectively discarding any new or modified files in the working directory.
+
+            In summary, `git restore --pathspec-file-nul <file>` restores the working directory to its previous committed state based on a list of paths specified in the given file, and if the file is empty, all untracked files will be discarded.
+        pathspec-from-file: |-
+            [AI] `git restore` is a Git command used to discard changes in the working directory and restore file contents from the repository. The option `--pathspec-from-file <file>` reads a list of paths to restore from the given file instead of specifying them directly on the command line.
+
+            Here's a brief explanation:
+
+            1. `git restore`: This is the base Git command used for discarding changes and restoring files.
+            2. `--pathspec-from-file <file>`: This option tells Git to read a list of paths from the specified file instead of directly specifying the paths on the command line.
+            3. The given file should contain one path per line, or paths separated by whitespace for files that require less syntax complexity.
+            4. When you run `git restore --pathspec-from-file <file>`, Git reads the paths from the file and restores the contents of those files in your working directory to their last committed state.
+            5. This can be particularly useful when dealing with large projects, as it allows you to easily restore specific files or directories without having to remember all of them individually.
+        progress: '[AI] `git restore --progress` is a Git command used to restore files from the staging area or the working directory to their previous commit state with an interactive and incremental workflow. It shows a progress bar and allows users to review and selectively choose which changes they want to keep before committing. This command provides a more fine-grained control over file restorations compared to other Git commands like `git checkout` or `git reset`.'
+        quiet: '[AI] `git restore --quiet` is a Git command used to restore files from the last commit or a specific branch without any output in the terminal. It''s useful when running automated scripts, as it avoids interfering with the script''s normal output. When this command is run, Git will silently restore the file(s) to their previous state.'
+        recurse-submodules: '[AI] `git restore --recurse-submodules` is a Git command used to restore specific files or subdirectories in your working directory, as well as their nested submodules, to their last committed state. It''s an extension of the regular `git restore` command that allows managing submodule changes within the parent repository. The `--recurse-submodules` option ensures that all submodules are recursively updated to their matching commits in their respective repositories. This can be useful when you want to reset your project and its subprojects to a previous state while keeping the submodules linked to their committed versions.'
+        source: '[AI] `git restore --source` is a Git command used to restore previous version of file(s) or directory in your working directory from the staging area or the commit history. The `--source` option specifies the commit or the tree-ish object, which defines the state you want to recover. When used with a commit, it restores the files to their state at that commit, and when used with a tree-ish object (such as a branch name), it restores the files to the state of that tree. In contrast to `git checkout`, which switches to a different branch or commits, `git restore` does not affect the HEAD or the index table. It only modifies the working directory.'
+        staged: '[AI] `git restore --staged` is a Git command used to unstage changes that have been added to the index but not yet committed. When you modify files in your working directory, and then use `git add` to include those changes in the next commit, they get staged. However, if you decide against committing those changes, you can use `git restore --staged <file>` or `git reset` to unstage them. This command removes the changes from the index without modifying your working directory.'
+        theirs: '[AI] `git restore --theirs` is a Git command used to discard local changes and restore file contents from the remote tracking branch in a merge conflict. In other words, it chooses the version of the file that is different between your local and the remote repository, overwriting your local changes. This can be useful when you prefer the changes made by the other party during a merge conflict resolution.'
+        worktree: '[AI] `git restore --worktree` is a Git command used to reset the working directory to match the most recent commit, discarding any changes made in the working directory without affecting the staging area or local branches. Essentially, it resets the files in the working directory to their state when the latest commit was made. This can be useful when you want to discard local modifications and start fresh from the repository.'

@@ -1,0 +1,141 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: pull
+description: Fetch from and integrate with another repository or a local branch
+group: main
+flags:
+    --all: fetch from all remotes
+    --allow-unrelated-histories: allow merging unrelated histories
+    --autostash: automatically stash/stash pop before and after
+    --cleanup=: 'how to strip spaces and #comments from message'
+    --commit: perform a commit if the merge succeeds (default)
+    --deepen=: deepen history of shallow clone
+    --depth=: deepen history of shallow clone
+    --dry-run: dry run
+    --edit: edit message before committing
+    --ff: allow fast-forward
+    --ff-only: abort if fast-forward is not possible
+    --log=: add (at most <n>) entries from shortlog to merge commit message
+    --negotiation-tip=: report that we have only objects reachable from this object
+    --progress: force progress reporting
+    --recurse-submodules=: control for recursive fetching of submodules
+    --refmap=: specify fetch refmap
+    --set-upstream: set upstream for git pull/fetch
+    --shallow-exclude=: deepen history of shallow clone, excluding rev
+    --shallow-since=: deepen history of shallow repository based on time
+    --show-forced-updates: check for forced-updates on all updated branches
+    --signoff=: 'add Signed-off-by:'
+    --squash: create a single commit instead of doing a merge
+    --stat: show a diffstat at the end of the merge
+    --unshallow: convert to a complete repository
+    --update-shallow: accept refs that update .git/shallow
+    --upload-pack=: path to upload pack on remote end
+    --verify-signatures: verify that the named commit has a valid GPG signature
+    -4, --ipv4: use IPv4 addresses only
+    -6, --ipv6: use IPv6 addresses only
+    -S, --gpg-sign=: GPG sign commit
+    -X, --strategy-option=: option for selected merge strategy
+    -a, --append: append to .git/FETCH_HEAD instead of overwriting
+    -f, --force: force overwrite of local branch
+    -j, --jobs=: number of submodules pulled in parallel
+    -k, --keep: keep downloaded pack
+    -n: do not show a diffstat at the end of the merge
+    -o, --server-option=: option to transmit
+    -p, --prune: prune remote-tracking branches no longer on remote
+    -q, --quiet: be more quiet
+    -r, --rebase=: incorporate changes by rebasing rather than merging
+    -s, --strategy=: merge strategy to use
+    -t, --tags: fetch all tags and associated objects
+    -v, --verbose: be more verbose
+documentation:
+    command: '[AI] `git pull` is a command used in Git version control system to fetch and merge changes from a remote repository into your local working directory. It automatically merges any new commits from the remote branch into your current local branch, resolving any conflicts that might occur during the merge process. This command helps keep your local repository up-to-date with the latest changes in the remote repository.'
+    flag:
+        all: '[AI] `git pull --all` is a Git command used to fetch and merge changes from a remote repository into your local one. The "--all" option specifies that all branches in your local repository should be updated with the latest changes, not just the current branch. This command will attempt to perform a fast-forward merge if possible. If there are any conflicts during the merge process, they will need to be resolved manually.'
+        allow-unrelated-histories: '[AI] `git pull --allow-unrelated-histories` is a Git command used to fetch and merge changes from a remote repository into your local one, even if the project histories are not directly connected (i.e., have diverged significantly). By default, Git refuses such merges due to potential conflicts or loss of information. However, this option explicitly allows for such merges, assuming that the developer is aware of the potential risks and ready to resolve any conflicts that might arise.'
+        append: '[AI] `git pull --append` is a Git command used to fetch and merge changes from a remote repository into your local one. The `--append` option, also known as `--no-commit`, means that the changes are merged into the current branch''s local changes but not committed automatically. Instead, you have to manually commit the merge using `git commit -m "your_commit_message"` before pushing the changes back to the remote repository. This way, you can review and modify the merged changes before committing them.'
+        autostash: '[AI] `git pull --autostash` is a Git command used to fetch and merge changes from a remote repository into your local one. The `--autostash` option automatically stashes any local changes that aren''t yet committed before performing the pull and merge operations, and then applies those stashed changes back after merging the remote branches. This can help prevent conflicts between local and remote changes.'
+        cleanup: '[AI] `git pull --cleanup` is a Git command used to fetch and merge changes from a remote repository into your local one. The `--cleanup` option is used to automatically remove any local branches or tracks branches that have been marked for deletion on the remote repository. This helps keep your local repository in sync with the remote and maintain a clean working environment.'
+        commit: '[AI] `git pull --commit` is a Git command that fetches and merges changes from a remote repository into your local branch, and then automatically creates a new commit with the merge result in your local repository. This command combines the functions of `git fetch` (to get the latest changes from the remote) and `git merge` (to integrate those changes into your current branch), making it convenient to update and sync your local repository with the remote one, all in a single command.'
+        deepen: '[AI] `git pull --deepen` is a Git command used to fetch and merge changes from a remote repository, while also updating the local tree to match the commit history of the remote repository more closely. This can be useful when dealing with shallow clones or when trying to recover lost commits. The "--deepen" option instructs Git to perform an extra "fetch" to get all the missing commits and their entire history from the remote, resulting in a deeper local clone.'
+        depth: |-
+            [AI] `git pull --depth <depth>` is a Git command used to fetch and merge changes from a remote repository into your local repository. The `--depth` option sets the number of commits to fetch from each ref. By default, Git fetches the entire history of the branch.
+
+            Using this option allows you to save disk space by keeping only a shallow clone of the repository, which is useful for large repositories or when working offline. The value `<depth>` can be a number representing the number of commits to fetch from each ref's tip, or `shallow` (the default) meaning only enough commits to build the tree that contains all the files in the current commit.
+
+            It is essential to note that when using a shallow clone, you cannot perform certain Git operations like creating new branches or cherry-picking commits. To work with those features, you need to first convert the shallow clone into a full one by running `git config receive.shallow false`.
+        dry-run: '[AI] The `git pull --dry-run` command is a Git operation that performs a simulated or "dry run" of a `git pull` operation without actually merging any changes into the current branch. It checks and shows what would be done if you ran the regular `git pull`, such as fetching new branches, merging or rebase conflicts, and updating local tracks, but does not make any permanent modifications to your repository. This can help you understand the effects of a `git pull` before actually committing to the changes.'
+        edit: |-
+            [AI] `git pull --edit` is a Git command used to fetch and merge changes from a remote repository into your local branch, while also opening the file with conflict markers for manual editing before completing the merge. It consists of two parts:
+
+            1. `git pull`: This fetches the latest commit from the remote repository and merges it with your current local branch.
+            2. `--edit` option: This instructs Git to use a text editor to open merged files containing conflict markers for manual resolution before the merge is fully completed.
+        ff: '[AI] `git pull --ff` is a Git command used to fetch and merge changes from a remote repository into your local one. The `--ff` option, short for "fast-forward," tells Git to perform the merge operation if the local branch is ahead of the remote by only a few commits, meaning the changes can be merged automatically without creating a new commit or entering an interactive rebase session. This command assumes that there are no conflicts between the local and remote branches. If there are conflicts, you will need to resolve them manually before merging.'
+        ff-only: '[AI] `git pull --ff-only` is a Git command used to fetch and merge changes from a remote repository into your local one. The `--ff-only` option ensures that only fast-forward merges are performed. In other words, it prevents the creation of new commit messages when there are no merge conflicts between the local and remote branches. This option is useful for keeping your local branch up-to-date with minimal interference or manual intervention during the merge process.'
+        force: '[AI] `git pull --force` is a Git command used to retrieve and merge changes from a remote repository into your local repository, overwriting any local changes. The `--force` option is used when you want to discard any local commits that might conflict with the remote commits and replace them with the remote versions. This command should be used with caution as it can lead to data loss if used inappropriately. It''s typically used when you need to update your local repository to match a remote branch, even if it means losing your current work.'
+        gpg-sign: '[AI] `git pull --gpg-sign` is a Git command used to fetch and merge changes from a remote repository, while also signing the commit messages with GPG (Gnu Privacy Guard) keys for added security. The `--gpg-sign` option ensures that any local commits being sent to the remote repository are digitally signed before they''re transmitted, preserving the authenticity and integrity of the code changes.'
+        ipv4: '[AI] `git pull --ipv4` is a Git command used to fetch and merge changes from a remote repository into your local one. The `--ipv4` option specifically sets Git to use IPv4 addresses when communicating with the remote server, instead of the default which is to use IPv6 if available. This can be useful in certain network environments where IPv4 is required or preferred for communication.'
+        ipv6: '[AI] `git pull --ipv6` is a Git command used to fetch and merge changes from a remote repository into your local one. The `--ipv6` option specifically tells Git to use Internet Protocol version 6 (IPv6) addresses when connecting to the remote server instead of IPv4. This can be useful in environments where IPv6 is preferred or required, such as certain networks or organizations.'
+        jobs: '[AI] `git pull --jobs` is a Git command used to fetch and merge changes from a remote repository into your local one. The `--jobs` option enables Git to run multiple background processes, allowing it to perform multiple sub-tasks of the pull operation concurrently. This can help speed up the process if you have a large number of commits or branches to update. It does this by running as many merge conflicts resolution processes in parallel as possible based on your system''s capabilities.'
+        keep: '[AI] `git pull --keep` is a Git command used to fetch and merge changes from a remote repository into your local one. The `--keep` option tells Git to keep any local commits that aren''t in the remote repository but still apply the incoming changes. This can be useful when working on branches with multiple collaborators, as it prevents local commits from being lost during the pull process.'
+        log: '[AI] `git pull --log` is a Git command that fetches and merges changes from a remote repository into your local repository, while also displaying the commit log messages for each committed change. The `--log` option adds the output of `git log` to the standard output, allowing you to see the history of commits made on both the remote and local repositories during the pull operation.'
+        "n": '[AI] `git pull --dry-run` or `git pull -n` is a Git command used to simulate a pull operation without actually merging any changes into the local repository. This can help users preview the effects of a pull before applying the actual changes. The `--dry-run` (short form `-n`) option triggers Git to print what would be done if an actual pull was executed.'
+        negotiation-tip: '[AI] `git pull --negotiation-tip` is a Git command used to perform a pull operation with advanced fetching capabilities. This command combines the functions of both `git fetch` and `git merge`, allowing for more control during the merging process. The `--negotiation-tip` option enables the use of protocol version 2, which allows for efficient handling of large or complex repositories by reducing network traffic and minimizing conflicts. It''s useful when working on collaborative projects with other developers.'
+        progress: '[AI] `git pull --progress` is a Git command used to fetch and merge changes from a remote repository into your local one. The `--progress` option displays the transfer progress bar during the fetching process, providing feedback on the download or upload speed. This can be helpful when working with large repositories or slow network connections. It also performs the pull as a fast-forward merge if possible, and otherwise it performs a merge commit.'
+        prune: '[AI] `git pull --prune` is a Git command used to fetch and merge changes from a remote repository into your local one, while at the same time removing any stale branches or remote tracking branches that no longer exist on the remote. This helps keep your local Git configuration clean and up-to-date with the remote repository.'
+        quiet: '[AI] `git pull --quiet` is a Git command used to fetch and merge changes from a remote repository into your local repository. The `--quiet` option suppresses all informational messages during the process, meaning only error messages will be displayed if an issue occurs. This can be useful for automated scripts or continuous integration environments where you want Git to run silently.'
+        rebase: |-
+            [AI] `git pull --rebase` is a Git command used to fetch and merge changes from a remote repository into your local one. The key distinction of this command compared to the regular `git pull` is that it uses "fast-forward rebasing" instead of a standard merge.
+
+            When you run `git pull --rebase`, Git fetches the changes from the remote branch, then applies them on top of your current local branch one by one, creating new temporary commits for each pull. This allows you to:
+
+            1. Squash multiple commits into a single commit if desired.
+            2. Resolve conflicts interactively and more efficiently as they arise during the rebasing process.
+            3. Keep the commit history cleaner as it results in a linear branch.
+
+            So, `git pull --rebase` is an effective way to update your local repository with the latest changes while maintaining a well-organized commit history.
+        recurse-submodules: '[AI] `git pull --recurse-submodules` is a Git command used to fetch and update both the main project repository and its embedded submodule depositories with a single operation. The `--recurse-submodules` option ensures that Git recursively initializes, clones, or updates all submodules specified in your .gitmodules file. This command simplifies the process of managing submodules, keeping your local copies synchronized with their respective remotes.'
+        refmap: '[AI] `git pull --refmap` is a Git command used to perform a fetch and merge in one operation, keeping track of the refs involved in the process using refmaps. This allows for better control and transparency when pulling changes from a remote repository. By default, Git merges the fetched branches into your current branch without recording the fetched branches'' names or commits in refmap entries. However, using `--refmap` option records the mapping between local and remote branch names for future use, making it easier to track the history of branches and resolving potential merge conflicts.'
+        server-option: '[AI] `git pull --server-option` is a Git command used to fetch and merge changes from a remote repository into your local one. The `--server-option` flag allows you to pass an optional argument directly to the underlying HTTP or SSL transport layer (usually OpenSSL or Libcurl) when communicating with the remote server, providing additional flexibility and control over specific transfer protocols or security settings. This can be useful in certain situations such as dealing with self-signed certificates or configuring custom authentication methods.'
+        set-upstream: '[AI] `git pull --set-upstream` is a Git command used to fetch and merge changes from a remote repository into your local one. The `--set-upstream` option automatically sets the upstream branch of your current local branch to the branch you are pulling from, allowing for easier tracking of remote changes in the future. It is equivalent to running both `git fetch` and `git merge` commands with additional settings.'
+        shallow-exclude: '[AI] `git pull --shallow-exclude` is a Git command used to fetch and update branches with shallow clones while excluding specific large or deep-history files or directories from being downloaded. Shallow clones are local repositories that do not contain the entire history of the repository but only the necessary information for the current branch being worked on. The `--shallow-exclude` option allows specifying a file containing a list of paths to exclude, so that they will not be fetched during a shallow pull. This can save bandwidth and storage space while still allowing developers to collaborate effectively on projects with large or complex histories.'
+        shallow-since: '[AI] `git pull --shallow-since` is a Git command used to fetch and merge changes from a remote repository into a local one, while creating a shallow clone. A shallow clone only downloads the necessary commits and branches up to the specified point in history, identified by a commit hash or a branch name, keeping the local repository size smaller than a full clone. This can be useful when working with large repositories over slow networks or when primarily interested in recent changes.'
+        show-forced-updates: '[AI] `git pull --show-forced-updates` is a Git command used to fetch and merge changes from a remote repository into your local repository. The `--show-forced-updates` option is added to display a message whenever an update is forced, meaning that the local history will be overwritten by the remote one. This can happen when the remote branch has been rebased or if there are fast-forward conflicts that cannot be automatically resolved. It''s used to ensure data integrity and maintain control over your local repository while updating it with changes from a remote source.'
+        signoff: '[AI] `git pull --signoff` is a Git command that fetches and merges changes from a remote repository into your local repository, while also updating your commit history to acknowledge the upstream author for their work. The `--signoff` option adds a "Signed-off-by" line to the commit message, certifying that you have reviewed and approved the changes being merged. This is often required by projects using the Developer Certificate of Origin (DCO) or similar contribution agreements.'
+        squash: '[AI] `git pull --squash` is a Git command used to fetch and merge changes from a remote repository into your local one, but instead of creating separate commit messages for each pulled change, it merges them into the last local commit with a single commit message. This is useful when you want to keep a clean commit history or prefer having fewer commits in your branch.'
+        stat: |-
+            [AI] `git pull --stat` is a Git command that fetches and merges changes from a remote repository into your local repository, while also displaying a statistics output for each file with the following information:
+
+            1. The name of the file.
+            2. The type of change (A for new files, M for modified files, or D for deleted files).
+            3. The number of added and deleted lines in the case of modified files.
+
+            This command is useful to understand what changes are being applied during a pull request, providing a brief comparison between the local and remote repositories.
+        strategy: |-
+            [AI] `git pull --strategy` is a Git command used to perform a fetched merge or a specific fetch and rebase strategy during a git pull operation. The `--strategy` option allows you to specify the merge or rebase strategy to use when merging remote branches into your local branch.
+
+            Here are some common strategies:
+
+            1. `--rebase`: Instead of creating a new commit for each fetch, reapply the commits on top of your current branch as if you had done them locally, resulting in a cleaner commit history.
+            2. `--no-rebase` (default): Create a new commit for each fetch to keep your local and remote branches separate. This may result in more frequent merges but preserves the branching structure.
+            3. `--ff-only`: Only merge if a fast-forward can be performed, i.e., no conflicting changes between local and remote branches.
+            4. Custom strategies: Define your own strategies using Git hooks or custom scripts, allowing you to implement complex merging or rebasing processes.
+        strategy-option: |-
+            [AI] `git pull` is a command used to fetch and merge changes from a remote repository into your local one. The `--strategy-option` is an optional argument that allows you to specify different strategies for resolving merge conflicts when pulling.
+
+            For instance, if you want to use the "rebase" merging strategy instead of the default "merge," you can use the following command:
+
+            ```bash
+            git pull --strategy-option theirs=ours <remote> <branch>
+            ```
+
+            Replace `<remote>` and `<branch>` with the actual names or URLs of your remote repository and target branch. The "theirs" argument specifies the commit history that Git should use when resolving merge conflicts. In this case, it would be equivalent to manually merging using the "ours" strategy before pushing changes to the remote.
+
+            There are other strategies like "rebase," "rebase-merge," "subtree," and "mine-resolve." Each strategy has its own advantages and use cases depending on your team's workflow and preferred conflict resolution style.
+        tags: '[AI] `git pull --tags` is a command used in Git version control system to fetch and merge changes from a remote repository into your local repository, while also pulling all the tags (annotated and lightweight) that exist on the remote. This can be useful when you want to keep your local tags updated with the latest tagged versions in the remote repository.'
+        unshallow: |-
+            [AI] `git pull --unshallow` is a Git command used to fetch and merge changes from a remote repository into a local repository that was previously initialized with a bare or shallow clone. A shallow clone only contains the history up to the point of the last fetch, meaning some commits and branches may not be accessible.
+
+            The `--unshallow` flag tells Git to perform a deep fetch to fully update the local repository by downloading all the missing branches and commits needed to make the repository functional and equivalent to a full clone. After running this command, you will have the complete history and can access all the branches and tags from the remote repository as if it were a full clone.
+        update-shallow: '[AI] `git pull --update-shallow` is a Git command used to perform a shallow clone or fetch, which means it retrieves only the current branch and its history up to the most recent commit instead of the entire repository history. This can result in faster download times and less disk space usage, especially for large repositories. The `--update-shallow` flag tells Git to try to make the local shallow clone track the remote branches as if it were a normal full clone, allowing you to fetch new commits on the same branch later with `git pull`.'
+        upload-pack: '[AI] `git pull --upload-pack` is a Git command used for performing a manual fetch and push operation over an insecure HTTP connection. Instead of using the default fetch-then-merge workflow, this command initiates an upload packing session from the remote server, which packs and sends the commits and pack files to be pulled by the local repository. The local repository then unpacks and merges the received data. This approach is useful in restricted networks where only HTTP(S) access is available, or when using custom transfer protocols.'
+        verbose: '[AI] `git pull --verbose` is a Git command used to fetch and merge changes from a remote repository into your local one. The `--verbose` option increases the amount of output during the process, providing more detailed information about each step of the fetching, merging, and resolving of any conflicts that might occur. This can be helpful for debugging or understanding what Git is doing behind the scenes during a pull operation.'
+        verify-signatures: '[AI] `git pull --verify-signatures` is a Git command used to fetch and merge changes from a remote repository, while also verifying the authenticity of the signed commits using GPG keys. It fetches the commit history, merges it with the local branch, and checks the signatures on each commit against the trusted keys stored in your `~/.gnupg/pubkey.gpg` file or other keyrings. This helps ensure that the changes came from a trusted source and have not been tampered with during transit.'

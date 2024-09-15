@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: cordon NODE
+description: Mark node as unschedulable
+group: cluster management
+flags:
+    --dry-run?: Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
+    -l, --selector=: Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2). Matching objects must satisfy all of the specified label constraints.
+documentation:
+    command: '[AI] `kubectl cordon` is a command used in Kubernetes to mark a node as unschedulable. This means that the Kubernetes scheduler will not schedule new pods on that node. The node may be undergoing maintenance or has resource constraints, and marking it as unschedulable helps prevent accidentally scheduling workloads onto it which could negatively impact their performance or availability. Once cordoned, a node can still run existing pods but will not accept new ones until uncordoned.'
+    flag:
+        dry-run: |-
+            [AI] `kubectl cordon --dry-run` is a command used in Kubernetes to simulate the effect of marking a node as unschedulable without actually doing it. The `--dry-run` option outputs what would be done if the command were run without `--dry-run`, showing you the changes that would be made without making them in the real cluster.
+
+            When used with the `cordon` subcommand, this command simulates marking a node as unschedulable by setting its condition to `Forbidden`, which prevents new Pods from being scheduled on it. This is often used for maintenance or troubleshooting purposes when you want to prevent new workloads from being deployed on a specific node without actually taking it offline.
+        selector: '[AI] `kubectl cordon` is a command used in Kubernetes to mark nodes as unschedulable. The `--selector` flag allows specifying a label selector for the nodes to be cordoned. When you run `kubectl cordon --selector <label-selector>`, it sets the condition of selected nodes to "For Sale: false, Drain: true, ready: false" and updates their taints accordingly. This makes the nodes unschedulable, preventing new workloads from being scheduled on them while existing ones are not affected, allowing you to perform maintenance or investigate issues without disrupting your applications.'

@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: hash-object
+description: Compute object ID and optionally creates a blob from a file
+group: low-level manipulator
+flags:
+    --literally: just hash any random garbage to create corrupt objects for debugging Git
+    --no-filters: store file as is without filters
+    --path=: process file as it were from this path
+    --stdin: read the object from stdin
+    --stdin-paths: read file names from stdin
+    -t=: object type
+    -w: write the object into the object database
+documentation:
+    command: '[AI] `git hash-object` is a Git command used to compute and display the SHA-1 checksum of a given file or standard input. The command takes one or more filenames or data as arguments, and outputs the corresponding hash value in hexadecimal format. This can be useful for generating or comparing hashes, and for checking if files have been modified since being added to the Git repository.'
+    flag:
+        literally: '[AI] `git hash-object --literally` is a Git command used to compute and output the raw binary representation of a given object''s SHA-1 hash. The `--literally` option tells Git to output the raw bytes of the object without decoding or interpreting them as a file or data. This can be useful when comparing or working with object hashes directly, for instance, in scripting or automation tasks.'
+        no-filters: '[AI] The `git hash-object` command with the `--no-filters` option is used to compute and write the object hash of a given file or data directly to the standard output stream, without applying any filters or content-type deductions. This means that the command will not attempt to determine the type of the input based on its contents, nor apply any filtering or compression algorithms before calculating the hash. It''s often used when dealing with binary files or data that may not have a clear content-type, and you want to ensure that Git calculates the hash using only the raw data.'
+        path: '[AI] The `git hash-object` command is used to compute the SHA-1 object checksum for a given file or data. The `--path` option specifies the path to the file whose SHA-1 checksum is to be computed. For example, `git hash-object --path=/path/to/file` will compute the SHA-1 checksum for the contents of the specified file and print it out. This can be useful for generating or comparing file checksums in Git.'
+        stdin: '[AI] `git hash-object --stdin` is a Git command that computes and writes to standard output (stdout) the object SHA-1 checksum of the data provided as input, typically obtained from standard input (stdin), without creating a new file in the repository. This is often used when dealing with binary files or large data sets that are piped into Git, ensuring efficient handling of data.'
+        stdin-paths: '[AI] `git hash-object --stdin-paths` is a Git command used to compute and write the object SHA-1 checksums of given files or data read from standard input to the current repository''s database without writing them as new files. This can be useful when dealing with large files, such as binary files, where it is inefficient or impractical to save them to disk before computing their hash values. Instead, you can pipe the file data directly into this command using Unix tools like `tar`, `gzip`, or `xxd`. The --stdin-paths option tells Git that multiple files are being provided via standard input and each one has a unique path specified in the standard input lines preceding its data.'
+        t: |-
+            [AI] `git hash-object` is a Git command used to compute and write the object's SHA-1 checksum to a file. The `-t` option is an argument that specifies the type of the object being hashed. There are five main types:
+
+            1. Blob (binary large object): stores files or data.
+            2. Tree: represents a directory or a collection of blobs and trees.
+            3. Commit: records changes to the repository, including a tree of all added or modified files.
+            4. Tag: marks a specific commit with a label for easy identification.
+            5. Annotated tag: similar to a regular tag but includes additional metadata such as author name, email, and message.
+
+            Using `git hash-object -t <type> <file/data>` will compute the corresponding SHA-1 checksum of the given data or file and save it in the default object store (unless another file is specified using `-w`). By specifying the type with `-t`, you ensure that Git applies the appropriate processing rules for creating the new object.
+        w: '[AI] `git hash-object -w` is a Git command that writes a new or updates an existing object in the Git database with the given file as its content. The `-w` (or `--widget`) option tells Git to write the object directly to the database without checking if it already exists, which skips the hash calculation step and allows overwriting existing objects. This command is often used to forcefully update an object''s hash in the repository when necessary.'

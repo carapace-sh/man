@@ -1,0 +1,42 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: bake [OPTIONS] [TARGET...]
+aliases:
+    - f
+description: Build from a file
+flags:
+    --load: Shorthand for "--set=*.output=type=docker"
+    --metadata-file=: Write build result metadata to the file
+    --no-cache: Do not use cache when building the image
+    --print: Print the options without building
+    --progress=: Set type of progress output ("auto", "plain", "tty"). Use plain to show container output
+    --pull: Always attempt to pull all referenced images
+    --push: Shorthand for "--set=*.output=type=registry"
+    --set*=: Override target value (e.g., "targetpattern.key=value")
+    -f, --file*=: Build definition file
+documentation:
+    command: '[AI] `docker buildx bake` is a command used with Docker Buildx, an extension of Docker that adds support for building multi-stage and complex builds using multiple contexts. The `bake` subcommand creates a production-ready Docker image by applying a series of build recipes or `Dockerfiles`, which can be defined in `pipeline.yml` files. It manages the build process across multiple contexts, caching intermediate images, and produces a single output image for easier deployment.'
+    flag:
+        file: '[AI] `docker buildx bake` is a command used with Docker Buildx, an extension of Docker that enables building multi-stage and production-ready images using multiple contexts and caches. The `--file` flag specifies the name of a Buildx baking file which defines the build recipe, including the stages, contexts, and dependencies for the image build. This command executes the defined build process using the specified file to produce the final Docker image.'
+        load: '[AI] `docker buildx bake --load` is a command used in Docker Buildx, an extension of Docker that enables building multi-stage builds using multiple buildx contexts and build nodes. The `bake` subcommand creates a production-ready Docker image from a set of recipes or build packages. The `--load` flag loads an existing buildx context or build node into the current session, enabling you to use its configurations and build artifacts for further baking processes.'
+        metadata-file: '[AI] `docker buildx bake` is a command used with Docker Buildx, which is an extension of Docker that enables building multi-stage images using multiple buildx contexts. The `--metadata-file` flag is used to specify the path to a JSON file containing metadata for the image build. This metadata can include various information such as labels, buildargs, and other custom data. The file allows for easier management and reuse of build configurations across different builds.'
+        no-cache: |-
+            [AI] `docker buildx bake --no-cache` is a command used with Docker Buildx, an extension of Docker that adds support for builds with multiple contexts and caches.
+
+            The `bake` subcommand creates an artifact from one or more Dockerfiles in different build contexts. The `--no-cache` flag instructs Docker not to use previously cached stages when building the image, which can lead to longer build times but ensures that all dependencies are rebuilt from scratch.
+
+            In summary, `docker buildx bake --no-cache` builds an artifact using multiple Dockerfiles in different contexts without using any previous cache for the build process.
+        print: '[AI] `docker buildx bake --print` is a command used with Docker Buildx, an extension of Docker that enables builds to be run in multiple contexts (clusters, nodes, or swarms) concurrently. The `bake` subcommand creates a build tree based on a `Dockerfile` and the given contexts, while `--print` option is used to output the details of the build tree as JSON format. It provides information about each step in the build process, the Dockerfiles involved, the build contexts, and the resulting images.'
+        progress: '[AI] `docker buildx bake --progress` is a command used with Docker Buildx, an extension of Docker that enables building containers from multiple sources using multiple buildx contexts. The `bake` subcommand is used to compose multiple builds into a single build. The `--progress` flag enables displaying the progress of the build and bake process in real-time.'
+        pull: |-
+            [AI] `docker buildx bake --pull` is a command used with Docker Buildx, an extension of Docker that enables builds to be run in multiple contexts and on multiple nodes.
+
+            The `bake` subcommand is used to create a production-ready Docker image by running a series of `build`, `test`, and `pack` stages in parallel across multiple contexts or nodes.
+
+            The `--pull` flag tells Docker Buildx to pull the base images required for building the Dockerfile before starting the build process. This ensures that the latest versions of the base images are used during the build, avoiding potential issues caused by using outdated base images.
+        push: |-
+            [AI] `docker buildx bake --push` is a command used with Docker Buildx, an extension of Docker that enables building containers from multiple sources using multiple buildx workers.
+
+            The `bake` subcommand creates a build plan, combining multiple stages and buildcontexts into a single artifact. The `--push` flag pushes the resulting build artifacts to a registry after building.
+
+            In summary, this command builds an image or a set of images (using multiple contexts), creates a build artifact, and then pushes it to a container registry.
+        set: '[AI] `docker buildx bake --set` is a command used in Docker Buildx, an extension of Docker that enables building container images using multiple buildx contexts and build nodes. This command sets the value of a specific key in the `bake` configuration file for a given buildx context. The `--set` flag followed by the key-value pair argument updates the value associated with the provided key within the context''s bakefile.'

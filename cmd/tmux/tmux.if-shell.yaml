@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: if-shell
+flags:
+    -F: TODO description
+    -b: TODO description
+    -t=: target-pane
+documentation:
+    command: '[AI] `tmux if-shell` is a TMUX (Terminal Multiplexer) command used to run conditional actions based on the exit status of a shell command. The basic syntax is: `if -s <condition> <command>; then <actions>; fi`, where `<condition>` is the shell command with its output connected to the TMUX condition-status named socket `<socket>`, and `<actions>` are the commands to be executed if the condition evaluates to true. This can be useful in managing terminal sessions, for instance, detaching a session only if a long-running background process completes successfully.'
+    flag:
+        F: |-
+            [AI] The `tmux` command `if-shell -F` is used to conditionally execute a series of commands based on the exit status of a shell command. The `-F` option allows using a custom format string for the output of the shell command, which can be used in the conditional tests.
+
+            Here's a breakdown of the components:
+
+            * `tmux`: A terminal multiplexer that enables splitting, resizing, and managing terminal windows.
+            * `if-shell`: A built-in `tmux` command to run a shell command and perform an action based on its exit status.
+            * `-F`: An option to specify a custom format string for the output of the shell command.
+
+            The general syntax is: `tmux if-shell -F "format_string" "command"`
+
+            For example, `tmux if-shell -F "%{#S[${TCPPORT%:*}]}" -t target_window "ssh user@remote_host"` will execute the `ssh` command in a new window (target_window) only if the port number specified in the variable TCPPORT contains a colon character. The exit status of the shell command (whether it found a colon or not) determines which set of commands gets executed.
+        b: |-
+            [AI] The `tmux` command `if-shell -b` is used to conditionally attach to a new or existing `tmux` session based on an external command's exit status. The `-b` flag means that `tmux` will run the command in the background and only print the output if the exit status is not zero.
+
+            The syntax of the command is:
+            ```
+            tmux if-shell -R "command" session "[cmd]"
+            ```
+            Replace `command` with the command to be run, `session` with the name or number of the desired `tmux` session, and `[cmd]` with any optional commands you want `tmux` to execute inside the session upon attachment.
+
+            For example, to conditionally attach to a session named `my-session` if a script named `check_script.sh` exits with a status of zero:
+            ```bash
+            tmux if-shell -R "sh check_script.sh" my-session
+            ```
+        t: '[AI] `tmux if-shell -t` is a command in Tmux, a terminal multiplexer. It conditionaly sends a shell command to a named window or pane based on certain conditions. The `if-shell` part indicates that the condition will be evaluated as a shell command using the shell specified in the Tmux session. The `-t` option followed by a target window or pane name or number specifies which window or pane the command will be applied to if the condition is met.'

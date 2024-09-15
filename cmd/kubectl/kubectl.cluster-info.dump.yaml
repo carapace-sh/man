@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: dump
+description: Dump relevant information for debugging and diagnosis
+flags:
+    --allow-missing-template-keys: If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
+    --namespaces*=: A comma separated list of namespaces to dump.
+    --output-directory=: Where to output the files.  If empty or '-' uses stdout, otherwise creates a directory hierarchy in that directory
+    --pod-running-timeout=: The length of time (like 5s, 2m, or 3h, higher than zero) to wait until at least one pod is running
+    --show-managed-fields: If true, keep the managedFields when printing objects in JSON or YAML format.
+    --template=: Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates [http://golang.org/pkg/text/template/#pkg-overview].
+    -A, --all-namespaces: If true, dump all namespaces.  If true, --namespaces is ignored.
+    -o, --output=: 'Output format. One of: (json, yaml, name, go-template, go-template-file, template, templatefile, jsonpath, jsonpath-as-json, jsonpath-file).'
+documentation:
+    command: '[AI] `kubectl cluster-info dump` is a Kubernetes command used to retrieve and print out the configuration for all the components in a Kubernetes cluster, including the API server, etcd cluster, and control plane components like the kubelet, kube-apiserver, and etcd. This information is outputted in a YAML format, making it easier to save and use for various purposes such as creating a new cluster or updating an existing configuration file. It''s an useful command for gaining insights into a Kubernetes cluster setup, troubleshooting, or managing multiple clusters.'
+    flag:
+        all-namespaces: '[AI] `kubectl cluster-info dump --all-namespaces` is a command used with Kubernetes'' `kubectl` tool to retrieve and print theCluster Information (CLI representation of a Kubernetes cluster) in YAML format for all namespaces. This includes data for all clusters, users, and certificate authorities in the current context. It helps in understanding the overall Kubernetes cluster configuration.'
+        allow-missing-template-keys: |-
+            [AI] `kubectl cluster-info dump --allow-missing-template-keys` is a command used in Kubernetes to retrieve and print out the configuration information for all clusters known to the current kubeconfig, including their API servers, clusters' certificates, and other details.
+
+            The `--allow-missing-template-keys` flag allows the output of this command to include keys that are missing from the templates if they exist in the kubeconfig file. This flag is especially useful when working with an incomplete or evolving kubeconfig file, as it ensures that all available information about the clusters is printed out even if some template keys are not present yet.
+        namespaces: '[AI] `kubectl cluster-info dump --namespaces` is a command used with the Kubernetes `kubectl` tool to retrieve and display cluster-level information, specifically for all namespaces. The output includes data about the API server, etcd cluster members, and control plane components like the kubelet, kube-apiserver, and etcd. By including the `--namespaces` flag, the command expands the output to include information on all existing namespaces within the cluster as well.'
+        output: '[AI] `kubectl cluster-info dump --output` is a command used with Kubernetes'' `kubectl` tool to retrieve and print information about the clusters in your Kubernetes configuration. The `--output` flag specifies the output format, which can be set to `yaml`, `json`, or other formats for easier processing by scripts or tools. This command provides details such as the API server address, client certificate data, and other cluster parameters, enabling users to quickly understand their cluster setup.'
+        output-directory: '[AI] `kubectl cluster-info dump` is a command used with Kubernetes'' `kubectl` tool to retrieve and save the configuration data for all clusters known to the current `kubeconfig`. The `--output-directory` option specifies the local directory where the output files should be saved. Each file in the output directory represents information about a specific cluster, including its API server address, client certificate, client key, and CA certificate. This command provides a way to easily obtain and manage the configuration data for multiple clusters.'
+        pod-running-timeout: |-
+            [AI] `kubectl cluster-info dump --pod-running-timeout` is a command used with Kubernetes' `kubectl` tool to retrieve information about the clusters in your Kubernetes configuration, specifically about the running pods and their respective `pod-running-timeout` values.
+
+            The `cluster-info dump` subcommand generates output in the form of YAML or JSON data, providing detailed information about all clusters defined in your Kubernetes configuration.
+
+            By adding the `--pod-running-timeout` flag, you request only the pod running timeout details for each cluster's namespaces. This value represents the time limit after which a container is considered to be in a failed state if it does not send a heartbeat message back to Kubernetes. The default value is usually 3 minutes (180 seconds).
+
+            The output will contain a list of clusters and, for each cluster, information about its `api-server` address, `kubernetes-version`, and a map with namespaces as keys and the respective `pod-running-timeout` values as values.
+        show-managed-fields: '[AI] `kubectl cluster-info dump --show-managed-fields` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`. This command generates and outputs the cluster information in both the raw format (YAML or JSON) and with managed fields included. Managed fields are annotations that record the history of resource modifications. The "--show-managed-fields" option makes `kubectl` include these annotations, allowing users to track changes made to resources over time within their cluster.'
+        template: |-
+            [AI] `kubectl cluster-info dump --template` is a command used with the Kubernetes command-line tool (kubectl) to retrieve and output cluster information in a customized format defined by the specified template.
+
+            The `cluster-info dump` subcommand returns an aggregated view of all configurable items across the entire Kubernetes cluster, including clusters, users, and certificates. The `--template` flag allows defining custom Go templates to extract specific data from this output and format it according to desired requirements, enabling automation and integration with other tools or scripts.

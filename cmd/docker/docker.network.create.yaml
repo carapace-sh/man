@@ -1,0 +1,67 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: create [OPTIONS] NETWORK
+description: Create a network
+flags:
+    --attachable: Enable manual container attachment
+    --aux-address=: Auxiliary IPv4 or IPv6 addresses used by Network driver
+    --config-from=: The network from which to copy the configuration
+    --config-only: Create a configuration only network
+    --gateway*=: IPv4 or IPv6 Gateway for the master subnet
+    --ingress: Create swarm routing-mesh network
+    --internal: Restrict external access to the network
+    --ip-range*=: Allocate container ip from a sub-range
+    --ipam-driver=: IP Address Management Driver
+    --ipam-opt=: Set IPAM driver specific options
+    --ipv6: Enable IPv6 networking
+    --label=: Set metadata on a network
+    --scope=: Control the network's scope
+    --subnet*=: Subnet in CIDR format that represents a network segment
+    -d, --driver=: Driver to manage the Network
+    -o, --opt=: Set driver specific options
+documentation:
+    command: '[AI] `docker network create` is a Docker command used to create a new network mode for connecting containers. The command creates a new network using the given name and sets it up as a swarm overlay network by default, although other networking modes like bridge or macvlan can also be specified. Containers joined to this network can then communicate with each other using container names or IP addresses assigned within the network.'
+    flag:
+        attachable: '[AI] `docker network create --attachable` is a command used to create a new Docker network with an attachable driver. An attachable network allows containers on other hosts in the same Docker swarm to join the network automatically when they are launched, without requiring explicit network connectivity between the hosts. This is useful for creating overlay networks that span multiple Docker hosts and enable communication between containers across them. The `--attachable` flag ensures that newly created networks can be joined by containers running on other nodes in the swarm.'
+        aux-address: '[AI] The `docker network create` command is used to create a new network in Docker. The `--aux-address` option is an advanced feature that allows you to assign an auxiliary (additional) IP address to the network interface when creating a network. This option is useful for specific use cases like setting up a load balancer or a multi-host networking scenario where IP addresses need to be manually configured. The format of the command is: `docker network create [NETWORK] --subnet [SUBNET] --aux-address [IP_ADDRESS:PORT]` Where [NETWORK] is the name of the new network, [SUBNET] is the subnet and netmask in CIDR notation, and [IP_ADDRESS:PORT] is the auxiliary IP address and port number.'
+        config-from: '[AI] `docker network create --config-from` is a command used to create a new Docker network using the configuration settings of an existing network. This option allows you to reuse certain attributes, such as the network driver or security options, from an existing network when creating a new one. By specifying `--config-from <network>`, you can avoid having to manually configure these settings again and ensure consistency between networks.'
+        config-only: '[AI] The `docker network create --config-only` command is used to create a new Docker network without actually connecting any containers to it at that moment. It only creates the network configuration, such as its name, driver, and other settings. This can be useful when you want to define a network before creating or attaching containers to it. The flags `--driver` and `--subnet` can be used with this command to specify the network driver and subnet, respectively.'
+        driver: '[AI] The `docker network create` command is used to create a new network in Docker. The `--driver` option specifies which network driver to use for the network. Docker supports multiple network drivers, such as bridge, overlay, macvlan, and more. Each driver provides different networking capabilities. For example, bridge networks connect containers on the same host, while overlay networks enable communication between containers across multiple hosts. When using the `create` command with the `--driver` option, you are specifying which network driver to use when creating the new network.'
+        gateway: '[AI] `docker network create` is a command used to create a new Docker network in a Docker Swarm or Docker Compose environment. The `--gateway` option sets the IP address of the network''s gateway, which acts as a router between the network and other networks. When containers join this network, they can communicate with each other using container names or IP addresses, and they can also access services running on other networks through the gateway. The default gateway IP address is `172.17.0.1`, but you can specify a different IP address with the `--gateway` option.'
+        ingress: '[AI] The `docker network create --ingress` command creates a Docker network with an additional feature called an ingress network. An ingress network enables incoming connections to services in the network from other networks, both internal and external. This is typically used for exposing applications to the internet with external traffic routing through a load balancer or reverse proxy server. Ingress networks are often combined with tools like Nginx, Traefik or Calico to handle SSL termination, access control, and service discovery.'
+        internal: |-
+            [AI] The `docker network create --internal` command is used to create a new Docker network with the following characteristics:
+
+            1. It's an internal network, which means it's not connected to any external networks or the internet by default.
+            2. Containers on this network can communicate with each other using container names and without the need for explicit IP addresses.
+            3. By default, this network does not have a bridge interface and does not publish ports to the host machine.
+            4. It's ideal for creating isolated networks for microservices or applications that don't require external access.
+        ip-range: '[AI] The `docker network create` command is used to create a new Docker network. The option `--ip-range` allows you to specify an IP address range for the network. For example, `docker network create mynetwork --subnet 192.168.0.0/16`, creates a network named "mynetwork" with a subnet of 192.168.0.0/16. This means that containers connected to this network will be assigned IP addresses within the range of 192.168.x.x, where x is any valid number between 0 and 255. The default network created by Docker does not allow customization of the IP address range, making `--ip-range` a useful option when creating custom networks.'
+        ipam-driver: |-
+            [AI] The `docker network create` command is used to create a new network in Docker. The option `--ipam-driver` specifies which IP address management (IPAM) driver to use for the network.
+
+            Docker comes with several built-in IPAM drivers, including:
+
+            * `bridge`: This is the default driver and creates a new bridge network interface on the Docker daemon host and configures it to act as a DHCP server for the containers in the network.
+            * `calico`: This is a more advanced network plugin that provides features such as label-based selectors, policy-based routing, and IPv6 support. Calico uses its own custom resource definitions (CRDs) in Kubernetes and requires a separate installation.
+            * `macvlan`: This driver assigns each container a unique MAC address on the Docker daemon host's virtual Ethernet interface, effectively giving each container a unique IP address in the same subnet. This can be useful when running multiple networks with overlapping IP ranges or when connecting to external networks that require static IP addresses for containers.
+            * `none`: This driver does not provide any IPAM services and is typically used when manually configuring the network settings of containers.
+
+            The choice of IPAM driver depends on your specific use case and networking requirements. For most simple use cases, the default bridge driver will suffice. However, for more complex scenarios involving multiple networks or external connectivity, other IPAM drivers such as macvlan or calico may be necessary.
+        ipam-opt: |-
+            [AI] The `docker network create` command is used to create a new Docker network. The `--ipam-opt` flag is an option for customizing the IP address management (IPAM) settings of the network.
+
+            When using `--ipam-opt`, you can specify various options such as `address-ranges`, `subnet`, or `gateway`. These options allow you to define the IP address allocation scheme for the network, including the range of addresses that will be assigned to containers and any additional DNS servers or gateways.
+
+            For example, `docker network create --ipam-opt 'address-ranges=172.18.0.0/16' mynetwork` would create a new network named "mynetwork" with an IP address range of 172.18.0.0 to 172.18.255.255 for container assignments.
+
+            Overall, `--ipam-opt` provides advanced IPAM configuration capabilities when creating a Docker network.
+        ipv6: '[AI] `docker network create --ipv6` is a command used to create a new Docker network with IPv6 address mode enabled. This means that containers connected to this network can communicate using IPv6 addresses instead of the default IPv4. Enabling IPv6 provides more addresses for larger networks and allows interoperability with other IPv6-enabled systems.'
+        label: '[AI] `docker network create` is a command used to create a new network in Docker. The `--label` option allows you to assign metadata keys and values to the network. This can be useful for adding descriptive labels or identifying networks with specific applications or environments. For example, `docker network create --subnet=192.168.0.0/16 --label app=myapp mynetwork`. Here, a new network named "mynetwork" is created with the subnet 192.168.0.0/16 and the label "app=myapp".'
+        opt: '[AI] `docker network create` is a command used to create a new network in Docker. The `--opt` option allows passing custom options to the network driver being used. These options can influence various aspects of the network''s behavior, such as its name, driver, and other configurations. For example, you could use it to create an overlay network or set up network security groups. The specific options depend on the chosen network driver.'
+        scope: |-
+            [AI] `docker network create` is a command used to create a new Docker network in a swarm mode cluster. The `--scope` option defines the network's scope, which can be either `local` or `global`.
+
+            When you set `--scope local`, the network is only available to services running on the same node where the network was created. This is useful when you want to create a network for communication between microservices that are co-located.
+
+            Setting `--scope global` creates a network accessible to all nodes in the Docker Swarm cluster, allowing services running on any node to communicate with each other.
+        subnet: '[AI] The `docker network create` command with the `--subnet` option is used to create a custom Docker network with a specific IP address subnet. The syntax is as follows: `docker network create <network-name> --subnet <subnet>`. For example, `docker network create mynet --subnet 192.168.0.0/16` creates a new network named "mynet" with the subnet address range of 192.168.0.0 to 192.168.255.0 and a subnet mask of /16 (which allows for 65534 hosts on this network). This option is useful when you need to create custom networks with specific IP ranges, such as in a multi-host environment or when using overlays to connect swarm services.'

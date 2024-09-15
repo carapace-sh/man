@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: exec [OPTIONS] CONTAINER COMMAND [ARG...]
+description: Execute a command in a running container
+group: common
+flags:
+    --detach-keys=: Override the key sequence for detaching a container
+    --env-file=: Read in a file of environment variables
+    --privileged: Give extended privileges to the command
+    -d, --detach: 'Detached mode: run command in the background'
+    -e, --env=: Set environment variables
+    -i, --interactive: Keep STDIN open even if not attached
+    -t, --tty: Allocate a pseudo-TTY
+    -u, --user=: 'Username or UID (format: "<name|uid>[:<group|gid>]")'
+    -w, --workdir=: Working directory inside the container
+documentation:
+    command: '[AI] `docker exec` is a command used to run a command or start a process in a running Docker container. The syntax is `docker exec <container-id> <command>`. For example, `docker exec my-container bash` will open a bash shell in the container with ID "my-container". If no command is specified, the container''s current CMD will be run. This command allows interacting with and managing containers at a more granular level.'
+    flag:
+        detach: '[AI] `docker exec --detach` is a command used in Docker to run a new container based on an existing container''s process. The `--detach` option runs the new container in detached mode, also known as background mode. This means that the container will run in the background and won''t open a new terminal window. Instead, it will be attached to the Docker daemon, allowing you to manage it using other Docker commands. This is particularly useful when running long-running processes or services within a container.'
+        detach-keys: '[AI] `docker exec --detach-keys` is a command used in Docker to run a new container process in detached mode (also known as background mode) for an existing container. The `--detach-keys` option specifies which key sequence should be used to send SIGTERM and SIGKILL signals to the container process. By default, these signals are sent using the keyboard combinations Ctrl+C and Ctrl+, respectively. However, in certain environments or configurations, these keys may not work as expected. In such cases, you can use `--detach-keys` to specify an alternative key sequence for sending these signals. For example, `docker exec --detach-keys "0x1,0x2" <container_id> <command>` would send SIGTERM and SIGKILL using the keys represented by their hexadecimal values (i.e., Ctrl+A and Meta+C).'
+        env: '[AI] `docker exec` is a command used to run a command in a running Docker container. The `--env` option allows you to set environment variables for the command being executed. For example, `docker exec -it mycontainer bash --env VAR=VALUE sh` will open an interactive shell (`bash`) in the `mycontainer` container with an environment variable named `VAR` set to the value `VALUE`.'
+        env-file: '[AI] `docker exec` is a command used to run a command in a running Docker container. The `--env-file` flag is used to set environment variables for the command being executed from a file, instead of setting them directly on the command line. This can be useful when dealing with a large number or complex environment variables. For example, `docker exec --env-file=myfile.env mycontainer sh`. In this case, the `myfile.env` contains key-value pairs defining the environment variables.'
+        interactive: '[AI] `docker exec` is a command used to run a command in a running Docker container. The `--interactive` flag enables an interactive terminal session for the command, allowing you to interactively input commands and see their output in real-time. This is useful when you need to troubleshoot or manage your application within the container in real time.'
+        privileged: |-
+            [AI] The `--privileged` flag in a Docker `exec` command grants the highest level of permissions to the running container. It provides the container with complete access to the host's hardware, including but not limited to:
+
+            1. PID namespace: Allows the container to manage and control processes on the host.
+            2. Capabilities: Gives the container all available Linux capabilities (around 3000).
+            3. Device access: Allows the container to access all devices on the host.
+            4. Networking: Allows the container to bind to any port on the host, and also interact with the host's network stack.
+            5. Resource limits: Bypasses resource limitations set for containers by the Docker daemon or the kernel.
+
+            Using `--privileged` flag should be used carefully as it can pose significant security risks if not properly managed. It is recommended to use it only when necessary and with caution, since it can potentially allow a container to perform actions that might harm the host system.
+        tty: '[AI] `docker exec` is a command used to run a command in a running Docker container. The `--tty` flag allocates a pseudo-TTY (terminal) for the container, providing it with a virtual terminal and making input/output interactive instead of streaming. This allows you to attach a keyboard and mouse to the container and have a textual console session with it.'
+        user: '[AI] `docker exec` is a command used to run a command or start a process in a running Docker container. The `--user` option allows you to specify the user name or UID (Universal ID) that the command inside the container should be run as. This can be useful when you need to ensure that the command has specific permissions or runs under a specific user account within the container. For example, `docker exec --user myusername mycontainer id`, will run the ''id'' command in ''mycontainer'' with the user ''myusername''. Note that the user specified must exist in both the host system and the container image/configuration.'
+        workdir: '[AI] The `--workdir` flag in the `docker exec` command sets the working directory for the command that will be run inside a Docker container. When you execute a command within a running container, by default, it starts with an empty working directory (/). Using the `--workdir` option allows you to specify a different directory as the initial working directory of the command. This can help keep your commands organized and make it easier to navigate within the container. For example, `docker exec -it <container> --workdir /app bash` would start a new bash session with a working directory set to /app inside the container.'

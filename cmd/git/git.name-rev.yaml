@@ -1,0 +1,34 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: name-rev
+description: Find symbolic names for given revs
+group: low-level interrogator
+flags:
+    --all: list all commits reachable from all refs
+    --always: show abbreviated commit object as fallback
+    --exclude=: ignore refs matching <pattern>
+    --name-only: print only names (no SHA-1)
+    --refs=: only use refs matching <pattern>
+    --stdin: read from stdin
+    --tags: only use tags to name the commits
+    --undefined: allow to print `undefined` names (default)
+documentation:
+    command: '[AI] `git name-rev` is a Git command that returns the name and abbreviated commit hash of the specified commit, given its full commit hash. This can be useful for scripting or automation tasks where you have access to a commit''s hash and need to reference it by name (such as a branch name) instead. For example, `git name-rev --name-only master` would output `master` followed by the last 7 characters of the commit hash that the ''master'' branch points to.'
+    flag:
+        all: '[AI] `git name-rev --all` is a Git command that returns the complete ref history for all branches and tags in a repository, displaying their names and the corresponding commit hashes. It shows the full commit history, including the branch or tag names and their corresponding commit points (tip commits) in reverse order, with the most recent commits listed first. This can be useful for understanding the evolution of branches and tags over time, or for generating scripts or reports based on this information.'
+        always: '[AI] `git name-rev --always` is a Git command used to retrieve the parsed version information of a given commit, including its short and long branch names, tag names, and ref names. The `--always` option ensures that empty annotations (like "(no tag)") are still printed as part of the output. This command can be useful for scripts or automation tasks where you need to extract specific information about a commit''s history.'
+        exclude: '[AI] `git name-rev --exclude` is a Git command used to obtain the name of the current branch or commit, but exclude merges and other special commits from the output. The `--exclude` option filters out commits that have merged branches or are part of a merge commit. This can be useful when dealing with complex branching histories and wanting to refer specifically to the tip of a given branch without merge commits included in the reference.'
+        name-only: '[AI] `git name-rev --name-only` is a Git command used to retrieve only the names of the last N parents of the current commit, where N can be specified with an optional argument. This command is useful for obtaining the branch names that led to the creation of the current commit, helping in tracking down merge history or understanding the commit graph.'
+        refs: |-
+            [AI] The `git name-rev` command is used to retrieve the ref names and their corresponding commit messages or short hashes based on a given commit or branch name, up to a specified number of revisions. The `--refs` option tells Git to only output the ref names, rather than the full commit information. So, running `git name-rev --refs <commit-or-branch>` will return the ref names for the given commit or branch and its ancestors up to the specified number of revisions (by default, it shows the current branch, and one or more ancestors). For example:
+
+            ```bash
+            $ git name-rev --refs HEAD~3
+            master~3  HEAD@ {commit hash}
+            master~2  HEAD~1
+            master   HEAD
+            ```
+
+            This command outputs the ref names for the given commit, and its three most recent ancestors.
+        stdin: '[AI] `git name-rev --stdin` is a Git command used to resolve a named ref or a commit hash read from standard input. The standard input can be provided using a pipe or redirected from a file. The command outputs the names of the branch or tags that point to the given commit, if any. If the given commit is not reachable from the current repository, an error message will be returned instead. This command is particularly useful when working with scripts or complex workflows where you need to retrieve information about commits based on their hashes in a programmatic way.'
+        tags: '[AI] `git name-rev --tags` is a Git command used to obtain the tag name that refers to a given commit, or the commit hash if it''s not reachable from any tag. In other words, this command allows you to find the tag associated with a specific commit, or the commit hash of a specific tag. The output is in the format `<tag|commit> <message>`, where `<tag|commit>` refers to either the tag name or the commit hash and `<message>` represents the commit message or tag message, respectively.'
+        undefined: '[AI] The `git name-rev --undefined` command is used to retrieve the name of the branch or commit that is currently marked as the "upstream" or remote tracking branch in Git. If there is no upstream set for the current branch or commit, the command will return the string "unknown" or "none". The `--undefined` option tells Git to return an empty string instead of raising an error when an undefined reference is encountered.'

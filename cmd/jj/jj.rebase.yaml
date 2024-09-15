@@ -1,0 +1,50 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: rebase [OPTIONS] --destination <DESTINATION>
+description: Move revisions to different parent(s)
+flags:
+    -b, --branch*=: Rebase the whole branch relative to destination's ancestors (can be repeated)
+    -d, --destination!*=: The revision(s) to rebase onto (can be repeated to create a merge commit)
+    -h, --help: Print help (see more with '--help')
+    -r, --revision=: Rebase only this revision, rebasing descendants onto this revision's parent(s)
+    -s, --source*=: Rebase specified revision(s) together their tree of descendants (can be repeated)
+documentation:
+    command: '[AI] `jj rebase` is a command provided by the JJ (JOE''s Janus) Git GUI tool for handling Git rebasing interactively. It initiates an interactive rebase session where you can inspect and edit each commit message or make more complex changes, such as squashing or splitting commits, before continuing the rebase process. This command allows fine-grained control over a rebase operation.'
+    flag:
+        branch: |-
+            [AI] `git rebase --branch <new-branch-name>` is a Git command used for creating and switching to a new branch based on the current one, while rebasing the commits on top of it. This command performs the following actions:
+
+            1. Creates a new branch with the given name `<new-branch-name>`.
+            2. Switches the active branch to the newly created branch.
+            3. Starts an interactive rebase of the current branch onto the new one, applying each commit one by one and squashing or editing commits as necessary.
+            4. Resolves any conflicts that may arise during the rebasing process.
+            5. Once the rebase is completed successfully, the new branch will contain all the commits from both the original and the new branch, but with a cleaner history if desired.
+        destination: '[AI] `git rebase --destination <new-branch>` is a Git command used for continuing a rebase that was previously initiated but interrupted or abandoned. The `--destination <new-branch>` option specifies the new branch that will be used as the upstream branch for the ongoing rebase. This allows you to resume the rebasing process with a different upstream branch than the one originally used. It''s important to note that force-pushing might be required to update the remote repository with your changes after the rebasing is completed.'
+        help: |-
+            [AI] `git jj rebase` is a command in Git using the "jobserver" (jj) tool to manage and process multiple rebases concurrently. The `--help` option provides information on how to use this command. Here's a brief summary:
+
+            ```
+            git jj rebase [<branch1> <branch2> ...] --help
+
+            Manages multiple rebases concurrently using Git jobserver (jj).
+
+            USAGE:
+              git jj rebase [<opts>] [<branch1>] [<branch2> ...]
+
+             options:
+                --continue, -c       Continue a previously suspended rebase.
+                --abort, -a           Abort current rebase and restore working directory.
+                --interactive, -i     Interactively pick which commit to apply during rebase.
+                                      Use "git rebase --interactive <commit>" or "git rebase --interactive --root" to start an interactive rebase session.
+                --skip, -s            Skip the current commit and continue rebasing.
+                --rebase-merges       Perform merge commits instead of fast-forward merges during rebase.
+                --no-commit           Don't create new commits when applying or picking commits. Useful for testing your configuration or preparing a series of commits before rebasing.
+                --quit, -q            Quit the process once all tasks have been started.
+                --help               Show this help message and exit.
+
+            The `git jj rebase` command will create and manage jobs for each branch specified, allowing you to perform multiple concurrent rebases within a single Git workflow.
+            ```
+        revision: '[AI] `git rebase --rebase-interactive <commit>` is a Git command used to rewrite a specific commit''s history interactively. The `--rebase-interactive` option opens an editor with a list of commits between the current HEAD and the specified commit. You can then edit this list by removing, squashing or reordering commits before saving and continuing the rebasing process. This command does not create a new branch but instead modifies the current one in place.'
+        source: |-
+            [AI] `git jj rebase --source` is a command used in the GitJupitzer tool, an extension of Git for JetBrains IDEs (IntelliJ IDEA, PyCharm, etc.). This command initiates a rebase process where the current branch will be updated to match the latest changes from another branch specified as the source. The `--source` option indicates which branch is the base or upstream branch for the rebasing process.
+
+            It allows developers to perform interactive rebases, which enables them to modify commits during the rebase process, squash commits, or even reword messages. By default, GitJupitzer will attempt an automatic rebase. If conflicts occur, they will be presented in your IDE for resolution.

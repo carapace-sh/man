@@ -1,0 +1,42 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: delete
+description: Removes data from the KV store
+flags:
+    --ca-file=: Path to a CA file to use for TLS when communicating with Consul.
+    --ca-path=: Path to a directory of CA certificates to use for TLS when communicating with Consul.
+    --cas: Perform a Check-And-Set operation.
+    --client-cert=: Path to a client cert file to use for TLS when 'verify_incoming' is enabled.
+    --client-key=: Path to a client key file to use for TLS when 'verify_incoming' is enabled.
+    --datacenter=: Name of the datacenter to query.
+    --http-addr=: The `address` and port of the Consul HTTP agent.
+    --modify-index=: Unsigned integer representing the ModifyIndex of the key.
+    --namespace=: Specifies the namespace to query.
+    --recurse: Recursively delete all keys with the path.
+    --stale: Permit any Consul server (non-leader) to respond to this request.
+    --tls-server-name=: The server name to use as the SNI host when connecting via TLS.
+    --token-file=: File containing the ACL token to use in the request.
+    --token=: ACL token to use in the request.
+documentation:
+    command: '[AI] `consul kv delete` is a command used in Hashicorp''s Consul service to remove key-value pairs from its KV (Key Value) store. The syntax is typically `consul kv delete <key>`, where `<key>` represents the unique identifier for the key you want to delete. This command sends a request to the Consul server to delete the specified key and its associated value, permanently removing them from the KV store.'
+    flag:
+        ca-file: '[AI] The `consul kv delete` command is used to delete a key-value pair from Consul''s key-value store, also known as Key Value (KV) store. The option `--ca-file` is used to specify the path to a file containing the root Certificate Authority (CA) bundle for securing the communication between the client and the Consul server over TLS. This ensures that the data being deleted is sent securely and only from trusted sources.'
+        ca-path: '[AI] The `consul kv delete` command is used to delete a key-value pair from Consul''s Key-Value store. The option `--ca-path` specifies the location of the Certificate Authority (CA) files for secure communication with Consul''s HTTP API. These CA files are required when using TLS encryption for API requests. Without this option, the HTTP request would not be secured and sensitive data could be exposed during transmission.'
+        cas: '[AI] The `consul kv delete --cas` command is used to delete a key-value pair in Hashicorp Consul''s Key Value (KV) store. The `--cas` option specifies the Comparand And Sequence number of the version of the key you want to delete. This ensures that only the exact version specified is deleted and not an older or newer version, preventing unintended data loss.'
+        client-cert: '[AI] The `consul kv delete` command is used to delete a key-value pair from Consul''s Key Value store. The option `--client-cert` specifies the path to a client SSL certificate file when communicating with the Consul HTTP API over TLS. By using this flag, you can securely authenticate the client making the request to delete a specific key-value pair in the Consul KV store. This adds an additional layer of security and access control for sensitive data.'
+        client-key: '[AI] The `consul kv delete` command is used to delete a key-value pair in Consul''s Key Value store. The `--client-key` option is for specifying an ACL token or client certificate key for authentication purposes when running the command from an unauthenticated client. It ensures that only authorized clients can perform delete operations on specific keys.'
+        datacenter: '[AI] The `consul kv delete` command is used to delete a specific key-value pair in Hashicorp Consul''s Key-Value store. The `--datacenter` option specifies the name of the datacenter where the key exists. This flag helps in managing multiple datacenters in a Consul cluster, allowing you to target and perform operations on specific datacenters only. Deletion of the key from the specified datacenter results in the key being removed from that datacenter''s Key-Value store.'
+        http-addr: '[AI] The `consul kv delete` command is used to delete a key-value pair in Consul''s Key Value store using the Consul CLI (Command Line Interface). The option `--http-addr` specifies the HTTP address of the Consul server to connect to. It''s a required argument for this command, indicating where to send the request for deletion. For example, `consul kv delete mykey myvalue --http-addr localhost:8500`.'
+        modify-index: '[AI] The `consul kv delete --modify-index` command is used in Hashicorp Consul''s Key Value (KV) store to delete a specific key and its associated value while also updating the modify index. The modify index is a counter that helps ensure consistent replication between nodes in a distributed Consul setup, ensuring that no two concurrent write operations attempt to overwrite each other''s data. By specifying `--modify-index`, the command ensures that the node with the highest modify index is responsible for deleting the key, ensuring data consistency and preventing potential data loss or corruption.'
+        namespace: '[AI] The `consul kv delete` command is used to delete a key-value pair in Consul''s Key Value store. The `--namespace` flag specifies the namespace for the key. So, `consul kv delete <key> --namespace <namespace>` deletes the specified key in the given namespace.'
+        recurse: '[AI] `consul kv delete --recurse` is a command used in Hashicorp Consul, a tool for service discovery, configuration, and orchestration. This specific command deletes keys and their sub-keys (recursively) under a given namespace in the Consul Key Value (KV) store. It is useful when you need to delete an entire hierarchy of keys instead of just a single key. The `--recurse` flag ensures that all dependent keys are deleted as well.'
+        stale: '[AI] The `consul kv delete --stale` command is used in the Consul Key-Value (KV) store to delete stale data. When data is deleted using Consul''s KV API, by default, only the most recent version of the data will be removed. The `--stale` flag extends this operation to also remove all previous versions of the data that have been replicated but not yet acknowledged by their writers. This ensures that all inconsistent or outdated copies of the data are purged from the system, ensuring data consistency across the cluster.'
+        tls-server-name: '[AI] The `consul kv delete --tls-server-name` command is used in Hashicorp Consul, a distributed, highly available key-value store and configuration management solution. This command deletes a specific key-value pair from the Consul Key Value (KV) store using TLS (Transport Layer Security) for secure communication between the client and server. The `--tls-server-name` option specifies the TLS server certificate name or address to connect to, ensuring secure and encrypted communication with the Consul KV server.'
+        token: |-
+            [AI] The `consul kv delete` command is used to delete a key-value pair in Consul's Key Value store, which is a part of the Consul service discovery and configuration management tool. The `--token` flag is used to provide an authentication token for secure access to the Consul API. This token needs to have sufficient permissions to perform the `delete` operation on the specified key-value pair. For example:
+
+            ```bash
+            consul kv delete --token <your_token> <key>
+            ```
+
+            This command will delete the value associated with the given `<key>` from the Consul Key Value store using the provided authentication token for access control.
+        token-file: '[AI] The `consul kv delete` command is used to delete a key-value pair in Consul''s Key Value store. The `--token-file` flag specifies the path to a file containing an admin token, which is required for performing administrative tasks, including deleting keys. When this option is provided, Consul will authenticate using the token before executing the delete command.'

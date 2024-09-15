@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: command-prompt
+flags:
+    -I=: inputs
+    -p=: prompts
+    -t=: target-client
+documentation:
+    command: '[AI] `tmux command-prompt` is a TMUX (Terminal Multiplexer) keybinding that brings up the TMUX prompt where you can enter commands related to managing TMUX sessions, such as creating new sessions, attaching to existing ones, or list sessions. It''s typically accessed by pressing `prefix` + `C` keys in most default configurations (prefix is usually `Ctrl-B`). The command prompt provides a context-aware interface for interacting with TMUX, allowing you to modify and control your sessions efficiently.'
+    flag:
+        I: |-
+            [AI] The `tmux command-prompt -I` is a Tmux (Terminal Multiplexer) option for customizing the appearance of the command prompt in a new or existing Tmux session.
+
+            The `-I` flag stands for "raw-input" mode, which allows the interpretation of special characters directly from the keyboard input without Tmux interpreting them as commands. This can be useful when using complex terminal applications that require sending raw sequences of keys.
+
+            For example, in a Vi or Vim editor session within Tmux, you may want to use certain key combinations that are interpreted by Vi instead of Tmux. With `tmux new -s mysession -I` (for creating a new session) or `set -g default-shell-command "tmux enter-command 'sleep 5' -I"`, this option is set for the whole session, and all subsequent sessions created from it. This way, Vi/Vim will receive those key combinations directly without interference from Tmux.
+        p: '[AI] `tmux` is a terminal multiplexer that allows splitting terminal windows into multiple panes. The option `-p` or `--prefix P` sets the prefix key for sending Tmux commands, typically set as `Ctrl+B` by default. The command `tmux command-prompt` creates a new session and attaches a new pane with an interactive prompt where you can enter Tmux commands, making it easier to manage your Tmux sessions.'
+        t: |-
+            [AI] `tmux` is a terminal multiplexer that allows splitting terminals into multiple panes or sessions. The `command-prompt -t` flag is used when creating or attaching to a new session or pane in tmux.
+
+            It sets the default command prompt for that session or pane. For example, if you want your prompt to display the current working directory and the username, you can use:
+
+            ```bash
+            tmux new -s mysession -d '$VIRTUAL_EDITOR' "command-prompt -t mysession: '[$USER@$HOST]: $PWD'"
+            ```
+
+            Here, `mysession` is the name of your session, `$VIRTUAL_EDITOR` is the editor you want to use when creating a new window in that session, and `command-prompt -t mysession:` sets the command prompt for that session. The `'$USER@$HOST': $PWD'` part defines the content of your custom prompt, which includes the current username, hostname, and working directory.

@@ -1,0 +1,94 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: debug (POD | TYPE[[.VERSION].GROUP]/NAME) [ -- COMMAND [args...] ]
+description: Create debugging sessions for troubleshooting workloads and nodes
+group: troubleshooting
+flags:
+    --arguments-only: If specified, everything after -- will be passed to the new container as Args instead of Command.
+    --attach: If true, wait for the container to start running, and then attach as if 'kubectl attach ...' were called.  Default false, unless '-i/--stdin' is set, in which case the default is true.
+    --copy-to=: Create a copy of the target Pod with this name.
+    --env=: Environment variables to set in the container.
+    --image-pull-policy=: The image pull policy for the container. If left empty, this value will not be specified by the client and defaulted by the server.
+    --image=: Container image to use for debug container.
+    --profile=: Debugging profile. Options are "legacy", "general", "baseline", "netadmin", or "restricted".
+    --replace: When used with '--copy-to', delete the original Pod.
+    --same-node: When used with '--copy-to', schedule the copy of target Pod on the same node.
+    --set-image=: When used with '--copy-to', a list of name=image pairs for changing container images, similar to how 'kubectl set image' works.
+    --share-processes: When used with '--copy-to', enable process namespace sharing in the copy.
+    --target=: When using an ephemeral container, target processes in this container name.
+    -c, --container=: Container name to use for debug container.
+    -f, --filename*=: identifying the resource to debug
+    -i, --stdin: Keep stdin open on the container(s) in the pod, even if nothing is attached.
+    -q, --quiet: If true, suppress informational messages.
+    -t, --tty: Allocate a TTY for the debugging container.
+documentation:
+    command: |-
+        [AI] `kubectl debug` is a command used with the Kubernetes command-line interface (CLI) tool to attach a terminal or a text editor to the container's process in a running Kubernetes pod. This allows users to inspect and modify the container's files, or run ad-hoc commands within the container's environment. The basic syntax is:
+
+        ```bash
+        kubectl debug [POD_NAME] -- [COMMAND]
+        ```
+
+        Replace `[POD_NAME]` with the name of the pod and `[COMMAND]` (optional) with the command you want to run inside the container. For instance, to open a terminal session in a container:
+
+        ```bash
+        kubectl debug my-pod -- sh
+        ```
+
+        Or, to edit a file within a container using Vim editor:
+
+        ```bash
+        kubectl debug my-pod -- edit /path/to/file
+        ```
+    flag:
+        arguments-only: |-
+            [AI] `kubectl debug` is a command in the Kubernetes toolkit used to attach a terminal to a running container for debugging purposes. The `--arguments-only` flag modifies the command's behavior to print out only the arguments required to replicate the debugging action, without executing it.
+
+            For example, if you want to check the environment variables of a specific container in a pod, instead of running the interactive debug session, you can use:
+
+            ```bash
+            kubectl debug <pod-name> --container=<container-name> -- printenv
+            ```
+
+            With `--arguments-only`, you get the same output as an argument list for a script that would achieve this:
+
+            ```bash
+            kubectl debug <pod-name> --container=<container-name> -- arguments '-- printenv'
+            ```
+        attach: '[AI] `kubectl debug --attach` is a command used in Kubernetes to attach a terminal to a running container for debugging purposes. When you run this command, it connects to the container''s standard input, output, and error streams, allowing you to interact with the container''s process(es) directly. This is particularly useful when debugging applications that require real-time interaction or when investigating issues that cannot be easily resolved through configuration changes. Note that this command requires the container to have a TTY (Text Teletype) allocated for it, and it also assumes that you have `kubectl` installed and configured to access your Kubernetes cluster.'
+        container: '[AI] `kubectl debug` is a command-line utility used for troubleshooting containers running in a Kubernetes cluster. The specific subcommand `kubectl debug --container` allows you to open an interactive terminal session directly into the container''s namespaced pod. This provides a way to inspect and modify the files within the container, as well as execute commands within the container''s environment. This can be useful for resolving issues or performing ad-hoc tasks without having to build and deploy new images.'
+        copy-to: '[AI] `kubectl debug --copy-to` is a command used in Kubernetes for interactively debugging containers running in a cluster. The `--copy-to` flag allows you to copy files or directories from the container''s file system to your local machine. This can be useful when you want to inspect or modify specific files within the container without having to build and push new images. It establishes an SSH connection to the container and then copies the specified files over. The syntax is `kubectl debug <pod-name> --container=<container-name> --copy-to=<local-path>:<remote-path>`.'
+        env: '[AI] `kubectl debug` is a command used to attach a terminal session to a running container in a Kubernetes cluster for debugging purposes. The `--env` flag allows you to set or modify environment variables inside the container before starting the session. This can be helpful when troubleshooting issues related to application configurations or dependencies. Using this command, you can inspect and manipulate the container''s environment, making it easier to identify and resolve potential issues within your application.'
+        filename: '[AI] `kubectl debug` is a command used in Kubernetes to open an interactive terminal session inside a running container. The `--filename` flag specifies the path to a file that will be opened in the editor when the session starts. This allows you to edit and inspect files within the container environment directly from your local machine, making it convenient for troubleshooting and making on-the-fly modifications.'
+        image: |-
+            [AI] `kubectl debug` is a command-line utility for interacting with Kubernetes clusters. The `--image` argument is used with this command to attach a debugging container to a specific running Pod in the cluster.
+
+            When you run `kubectl debug <pod-name> --image=<debugger-image>`, it starts a new container based on the specified image (`<debugger-image>`) in the same Pod as the one you want to debug (`<pod-name>`). The debugging container gets access to the same volume and network namespace as the original container, allowing you to inspect logs, files, and environment variables of the target container.
+
+            This functionality is often used when you need to troubleshoot issues that cannot be resolved through traditional logging or when you want to make real-time changes to a running container's code.
+        image-pull-policy: |-
+            [AI] `kubectl debug` is a command-line utility for interacting with Kubernetes clusters. The `--image-pull-policy` flag is used to specify how `kubectl` should handle image pulling when deploying or manipulating resources.
+
+            There are three possible values for this flag: "Always", "IfNotPresent", and "Never".
+
+            1. "Always": This policy means that Kubernetes will attempt to pull the required images for all containers in a pod, even if they are already available locally.
+            2. "IfNotPresent": With this policy, Kubernetes will only attempt to pull an image if it is not already present on the node where the pod is scheduled to run. If the image is already there, Kubernetes will use that image instead of downloading a new one.
+            3. "Never": This policy instructs Kubernetes not to pull images at all. Instead, it assumes that the images are already available on each node.
+
+            By default, `kubectl create` and `kubectl apply` use the "Always" image-pull policy for new deployments. To change this behavior, you can add the appropriate image-pull policy to your YAML manifest file or use the `--image-pull-policy` flag when running your `kubectl` command.
+        profile: |-
+            [AI] `kubectl debug` is a command-line utility used for troubleshooting and inspecting resources within Kubernetes clusters. The `--profile` flag is an optional argument that enables or disables the usage of a specific Kubernetes configuration profile.
+
+            When you use `kubectl debug --profile <profile_name>`, you're specifying which Kubernetes configuration to utilize for connecting to your cluster. The `<profile_name>` should correspond to a valid name defined in your `kubeconfig` file. This can be helpful when working with multiple clusters or contexts, allowing you to switch between them easily while debugging.
+        quiet: '[AI] `kubectl debug --quiet` is a command in Kubernetes using the `kubectl` tool for interacting with clusters. This specific command starts an interactive TTY (Teletype) session on a container within a running pod, but runs the session in quiet mode, which means that it suppresses all output except for errors and prompts. This can be useful when you want to perform debugging tasks without being flooded by unnecessary information from the containers.'
+        replace: '[AI] `kubectl debug --replace` is a command used in Kubernetes to attach a container''s terminal, modify its files or environment variables in-place, and save the changes back to the container. The `--replace` flag indicates that any changes made should be persisted by creating a new pod with the updated configuration, replacing the existing one. This is useful when making temporary modifications that need to be applied each time a container is restarted, or for deploying updates incrementally before switching traffic over completely.'
+        same-node: '[AI] `kubectl debug --same-node` is a command in the Kubernetes command-line interface (CLI) tool, `kubectl`. It allows users to attach to a running container on a node without the need to specify the node name explicitly. The `--same-node` flag ensures that the pod and the worker node are in the same control plane cluster. This command opens an interactive terminal session inside the container for debugging purposes, enabling users to run commands directly within the container environment.'
+        set-image: '[AI] `kubectl debug` is a command used with the Kubernetes command-line interface (CLI) tool to attach a terminal session to a running container within a Kubernetes cluster for debugging purposes. The `--set-image` flag is an option that can be passed along with this command to update the image tag or name of the container''s Pod without having to recreate or delete it. This can be particularly useful when you need to quickly test out a new version of an application or a dependency in the running environment without affecting the entire cluster. The updated image will only apply to new containers instantiated from the given Pod specification.'
+        share-processes: |-
+            [AI] `kubectl debug --share-processes` is a command in Kubernetes using the `kubectl` tool to debug a running container in a pod with shared process namespaces. This means that when multiple containers run in the same namespace with this flag, they can all use the same process names within their respective containers.
+
+            When you run `kubectl debug <pod-name> --share-processes`, it opens an interactive TTY and PTY connection to a new container in the pod that is running the same image as the container being debugged. This new container shares the same process namespaces with the original container, allowing the debugger to interact with the processes in the original container as if they were in the debugging container.
+
+            This can be useful when you want to inspect or modify the processes within a pod without having to restart the containers or recreate the pod entirely. It's important to note that the `--share-processes` flag should only be used with caution, as changes made to the processes in the debugging container will also affect the original container.
+        stdin: '[AI] `kubectl debug --stdin` is a command in Kubernetes using the `kubectl` tool to establish an interactive terminal session with a running container within a pod in a Kubernetes cluster. The `--stdin` flag enables input from the local terminal and outputs the container''s standard output, error, and input streams to the console. This allows users to run ad-hoc diagnostic commands inside the container and inspect real-time results, making it an essential tool for troubleshooting and debugging applications in Kubernetes environments.'
+        target: '[AI] `kubectl debug` is a command-line utility used in Kubernetes for interacting with and debugging containers within a cluster. The `--target` option specifies the name or pod/container label selector of the target container in which you want to run an interactive terminal or execute commands. Once connected, you can inspect variables, examine files, and run ad-hoc commands directly inside that container''s environment for effective debugging.'
+        tty: '[AI] `kubectl debug --tty` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`. The `debug` subcommand allows attaching to the container''s terminal inside a running pod for live debugging. The `--tty` flag requests a TTY (teletype) allocation for the attachment, providing an interactive shell session with the container. This command can be useful when requiring real-time access to the container''s environment and debugging tools.'

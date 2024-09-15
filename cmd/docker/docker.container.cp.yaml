@@ -1,0 +1,24 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-
+description: Copy files/folders between a container and the local filesystem
+flags:
+    -L, --follow-link: Always follow symbol link in SRC_PATH
+    -a, --archive: Archive mode (copy all uid/gid information)
+    -q, --quiet: Suppress progress output during copy. Progress output is automatically suppressed if no terminal is attached
+documentation:
+    command: '[AI] `docker container cp` is a command used to copy files or directories from a running Docker container to the host system or vice versa. The syntax is: `docker container cp <source_container>:<src_path> <host_destination> | docker container cp <host_source> <container_destination:container_name>`. For example, `docker container cp my_container:/app/file.txt .` would copy the file located at `/app/file.txt` inside the container named ''my_container'' to the current directory on the host machine.'
+    flag:
+        archive: |-
+            [AI] `docker container cp --archive` is a command used in Docker to copy files and directories between a container and the host system or between containers with archived format. The `--archive` option creates an archive of the files and directories, preserving symlinks, timestamps, and other file attributes. This option ensures that the copied files retain their original structure and metadata as closely as possible. The syntax is:
+
+            ```bash
+            docker container cp <source_container>:<src_path> [<host_path|target_container:<dest_path>]:[<destination_path>]
+            ```
+
+            For example, to copy a directory from the source container to the host system with archived format:
+
+            ```bash
+            docker container cp <source_container>:/src /local/path --archive
+            ```
+        follow-link: '[AI] The `docker container cp` command is used to copy files or directories between the host machine and a running Docker container. The `--follow-link` option is an advanced feature that allows copying a symlink (a special type of file that acts as a shortcut) from the container to the host, preserving the symlink relationship. This can be useful in scenarios where you want to develop or test code on the host while keeping your container''s filesystem structure intact. Keep in mind that this option should be used carefully, as modifying a symlinked file on the host will not change the linked file within the container.'
+        quiet: '[AI] `docker container cp` is a command used to copy files or directories between the host machine and a running Docker container. The `--quiet` flag is an option that suppresses all output except for error messages. This means that the command will not print any progress messages or confirmation messages during the file transfer process, making it suitable for use in scripts where only errors need to be reported.'

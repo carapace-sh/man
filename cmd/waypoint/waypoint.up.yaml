@@ -1,0 +1,59 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: up
+description: Perform the build, deploy, and release steps
+flags:
+    --label=: Labels to set for this operation.
+    --plain: Plain output
+    --prune: Prune old unreleased deployments.
+    --prune-retain=: The number of unreleased deployments to keep.
+    --remote: True to use a remote runner to execute.
+    --remote-source=: Override configurations for how remote runners source data.
+    --var-file=: HCL or JSON file containing variable values to set for this operation.
+    --var=: Variable value to set for this operation.
+    -a, --app=: App to target.
+    -p, --project=: Project to target.
+    -w, --workspace=: Workspace to operate in.
+documentation:
+    command: '[AI] The `waypoint up` command in navigation systems is used to move the current waypoint to the next waypoint in a sequence. It advances the vehicle''s navigation to the next location stored in the route or mission plan. This command is typically used in autonomous vehicles, drones, or other navigation systems that follow a predefined path.'
+    flag:
+        app: |-
+            [AI] The `waypoint up --app` command is used in Docker and Kubernetes environments to deploy and start an application using Waypoint, a deployment tool by Hashicorp. This command does the following:
+
+            1. Builds the application image based on the defined `Dockerfile` or `Wayfile`.
+            2. Creates or updates the running container with the new image.
+            3. Forwards ports for accessing the app from the host machine.
+            4. Sets up and configures ingress rules, environment variables, and other settings as required by the application.
+            5. Provides a URL to access the deployed app in the output.
+
+            This command aims to simplify deployment processes, handle rolling updates, and make it easier to manage applications across different environments.
+        label: '[AI] The `waypoint up --label` command is used in Kubernetes to create and start a new container instance based on an existing Docker image with a specific label. Waypoint is a tool for managing and deploying multi-container applications, and this command is specifically used to bring up a single container from a multi-container application definition. The `--label` flag is used to set or update the key-value pair labels of the new container instance.'
+        plain: '[AI] `waypoint up --plain` is a command used in Kubernetes to update the configuration of a single Kubernetes Pod or Deployment, without rolling out new containers or applying complex labels and selectors. The `--plain` flag indicates that the output from `kubectl` should be plain text rather than YAML format. This can be useful when making small configuration changes without requiring a full rollout.'
+        project: '[AI] The `waypoint up --project` command is used in Google Cloud Platform''s Waypoint tool to start and deploy infrastructure definitions defined in a given project. Waypoint is an open-source multi-cloud infrastructure management tool. This command will start the deployment process for all the stacks defined in the specified project, which are typically described in `hcl` (Hashicorp Configuration Language) files. It ensures that prerequisites are met and dependencies are satisfied before starting the actual deployment. The deployed resources are managed and updated using Waypoint''s continuous deployment capabilities.'
+        prune: '[AI] The `waypoint up --prune` command is used in Kubernetes to update and recreate containers within a defined multi-container Docker image. It also prunes or removes unused containers, images, and networks from the local Docker daemon to keep the system lightweight. This command is typically used as part of a continuous integration/continuous deployment (CI/CD) pipeline in Kubernetes environments.'
+        prune-retain: |-
+            [AI] The `waypoint up --prune-retain` command is used in Kubernetes to update and manage Waypoint applications, which are built using the Hashicorp's Waypoint application delivery platform. This command performs the following actions:
+
+            1. Updates the Waypoint applications by pulling any new configuration changes or Docker images from the configured repository.
+            2. Restarts the corresponding Kubernetes pods to apply the updated configurations.
+            3. Prunes old and unused container images based on the configured retention policy, specified with the `--prune-retain` flag. The default value is 5, meaning that only the last 5 image versions will be kept for each container. This helps in managing the storage usage and reducing clutter in the registry.
+        remote: '[AI] The `waypoint up --remote` command is used in Docker Swarm to create and start services on a remote node in the swarm. The `--remote` option specifies that the command should be executed on a node other than the one where it was issued. This command brings up a service definition, which includes creating any necessary networks and configuring the specified containers. It also sets up communication between the containers as defined in the service. In summary, `waypoint up --remote` is used to deploy services remotely in a Docker Swarm cluster.'
+        remote-source: '[AI] The `waypoint up --remote-source` command is used in Kubernetes to deploy and manage applications using Google Cloud''s Stackdriver deployment manager, called Waypoint. This command starts a new deployment or updates an existing one from a remote source, such as a GitHub repository or Cloud Storage bucket. It pulls the latest configuration files, applies them to the cluster, and monitors the deployment until it''s ready.'
+        var: |-
+            [AI] The `waypoint up --var` command in Kubernetes is used to deploy and set environment variables for a specific container or microservice within a multi-container application defined by a Kubernetes Helm chart.
+
+            The `up` flag indicates that the chart's release (or application) should be updated, if it exists, and then deployed. The `--var` option allows you to pass key-value pairs as variables to the templates in the chart, which can be used to customize configurations or settings for your application. For example:
+
+            ```bash
+            $ helm repo update
+            $ helm install my-app my-chart-repo/my-chart --version 1.0.0 --set var1=value1 --set var2=value2
+
+            # Later, if you need to update the values:
+            $ helm upgrade my-app my-chart-repo/my-chart --set var1=new_value1 --set var2=new_value2
+
+            # Or, if you prefer the `waypoint` command, you can use:
+            $ waypoint up --file values.yaml --set var1=new_value1 --set var2=new_value2 my-app
+            ```
+
+            In this example, we update the application by running `helm upgrade` or `waypoint up`, while passing new variable values using the `--set` flag. These variables are then used in the chart's templates to customize the configuration.
+        var-file: '[AI] The `waypoint up` command in Kubernetes is used to create and start containers defined in a Waypoint YAML file or HCL configuration file. The `--var-file` option is used to provide a file containing variable overrides for the configuration. This allows you to pass dynamic values to the container at runtime without modifying the original configuration file. For example, you can use this flag to set environment variables, secrets, or other configurable values that may differ between environments.'
+        workspace: '[AI] The `waypoint up --workspace` command is used in Hashicorp''s Waypoint, an open-source tool for managing infrastructure as code. This command starts (or updates) one or more services defined in a Waypoint workspace, which is a collection of YAML configuration files defining the desired state of infrastructure components. The `--workspace` flag specifies the name of the particular workspace to target with this command.'

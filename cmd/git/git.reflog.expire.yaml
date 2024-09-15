@@ -1,0 +1,46 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: expire
+description: Prune older reflog entries
+flags:
+    --all: Process the reflogs of all references
+    --expire-unreachable=: Prune entries older than <time> that are not reachable from the current tip of the branch
+    --expire=: Prune entries older than the specified time
+    --rewrite: Adjust a reflogs "old" SHA-1 to be equal to the "new" SHA-1 field of the entry that now precedes it
+    --single-worktree: Limit the processing to reflogs from the current working tree only
+    --stale-fix: Prune any reflog entries that point to "broken commits"
+    --updateref: Update the reference to the value of the top reflog entry
+    --verbose: Print extra information on screen.
+    -n, --dry-run: Do not actually prune any entries
+documentation:
+    command: |-
+        [AI] The `git reflog expire` command is used to configure or modify the default retention period for ref logs in Git. Reflogs are used by Git to record the history of branch tips and other movable references.
+
+        By default, Git keeps ref logs for approximately 900 days (about 30 months). The `git reflog expire` command allows you to change this retention period. For example, `git config --global reflog.expire 180` sets the reflog expiration time to 6 months (180 days). If no argument is provided, it shows the current expiration setting for your Git configuration.
+
+        Keep in mind that modifying the default retention period does not delete old logs yet. To remove older logs and free up storage space, use `git prune`.
+    flag:
+        all: |-
+            [AI] `git reflog expire --all` is a Git command used to prune the local reflog history. Reflog is a Git feature that records every change in a branch's tip, allowing for easy recovery of lost commits or branches.
+
+            The command `git reflog expire --all` sets the maximum age for all reflogs, causing Git to delete old entries. This can help save disk space and clean up unnecessary data. The '--all' option applies this operation on all local refs.
+        dry-run: '[AI] `git reflog expire --dry-run` is a Git command that checks the current repository for refs (branches or other pointers to commits) with log entries older than the default `--expire-unreachable` period, which is typically 90 days. The `--dry-run` option only displays what would be done without actually expiring any refs. This command can be used as a safety measure before running `git reflog expire` permanently to remove refs pointing to obsolete commits that are no longer reachable in the repository''s history.'
+        expire: |-
+            [AI] `git reflog expire --expire` is a Git command used to configure the expiration time for ref logs. Reflogs are a Git feature that record the history of a branch, including deleted branches and commits that were not pushed yet.
+
+            When this command is run with no arguments, it shows the current expiration time for ref logs in days. If an argument in the form of `<number-of-days>` is provided, it sets the new expiration time for ref logs to the specified number of days. If the argument is set to `--expire-never`, it disables the automatic pruning of ref logs.
+
+            By using this command, you can control how long Git keeps track of deleted branches and commits before they get cleaned up, allowing you to recover lost commits if needed or save disk space by deleting old log entries that are no longer required.
+        expire-unreachable: '[AI] `git reflog expire --expiry-unreachable` is a Git command used to configure the Garbage Collection (GC) setting for the reflog, which is a Git internal data structure that records the history of branch tips and their associated commits. The `--expire-unreachable` option sets the policy for expiring refs that haven''t been reached by any branch or tag for the given number of days. Once these refs are expired, they will be pruned by the garbage collector during the next GC run. This helps keep the reflog and local repository clean and efficient by removing old and unnecessary data. The default expiry period is 30 days.'
+        rewrite: |-
+            [AI] `git reflog expire --rewrite` is a Git command used to configure the retention policy for the reflog, which is a Git data structure that records the history of branch tips and other refs.
+
+            The `--expire` option sets the maximum age for reflog entries, after which they will be pruned. The `--rewrite` option enables the ability to rewrite Git history, meaning that when expired reflog entries are pruned, their corresponding commits can potentially be lost if they have been deleted from the main branch history.
+
+            So, this command configures the reflog to automatically delete old entries and allows for history rewriting, potentially leading to data loss if not used carefully.
+        single-worktree: '[AI] `git reflog expire --single-worktree` is a Git command that configures the reflog expiration settings to only keep one worktree per branch. This means that only one checkout of each branch will be kept in the reflog history. All other checked-out branches or commits will be removed from the reflog once they are deleted locally. By default, Git keeps multiple worktrees and their associated reflogs for each branch to allow for easy branch switching and recovery of lost commits. However, setting this option can help reduce the amount of disk space used by Git''s internal storage mechanisms.'
+        stale-fix: '[AI] `git reflog expire --stale-fix` is a Git command used to clean up local refs with branches that have not been updated for more than the configured number of days (default is 45). The `--stale-fix` option automatically updates such branches to point to their latest common ancestor with the current branch, effectively resetting them to prevent dangling branches and maintain a clean Git history.'
+        updateref: '[AI] `git reflog expire --update-ref` is a Git command used to prune local reflog entries that are older than a specified time, freeing up disk space. The `--expire` option sets the maximum age for reflog entries, and the `--update-ref` option updates the branch tip to the most recent common ancestor with the heads referenced by the reflogs being pruned. This command does not affect remote refs, only local ones.'
+        verbose: |-
+            [AI] `git reflog expire --verbose` is a Git command used to configure or display the behavior and settings of Git's reflog expiry mechanism. The verbose option adds more detailed output, helping users understand when and why specific reflog entries are being pruned based on the configured expiration settings (e.g., `expire` = `30 days`, `expire unreachable = now`).
+
+            This command does not directly delete or remove any reflogs; instead, it sets or displays the expiration policy for Git's automatic pruning of reflog entries. By default, Git keeps reflogs for deleted branches that are reachable from other branches or commits, and for heads for which there are no other references for 30 days. This command can help you understand how long Git will keep your reflogs under the current settings or change the expiration policy to suit your needs.

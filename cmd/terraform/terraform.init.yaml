@@ -1,0 +1,54 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: init [options]
+description: Prepare your working directory for other commands
+group: main
+flags:
+    -backend: Configure the backend for this configuration
+    -backend-config*?: Backend configuration
+    -force-copy: Suppress prompts about copying state data
+    -from-module?: Copy the contents of the given module into the target directory before initialization
+    -get: Download any modules for this configuration
+    -ignore-remote-version: A rare option used for the remote backend only
+    -input: Ask for input if necessary
+    -lock: Don't hold a state lock during backend migration
+    -lockfile?: Set a dependency lockfile mode
+    -migrate-state: Reconfigure the backend, and attempt to migrate any existing state
+    -no-color: If specified, output won't contain any color
+    -plugin-dir: Directory containing plugin binaries
+    -reconfigure: Reconfigure the backend, ignoring any saved configuration
+    -upgrade: ignore previously-downloaded objects and install the latest version allowed
+documentation:
+    command: '[AI] `terraform init` is a Terraform command used to initialize a working directory containing Terraform configuration files. It sets up a backend store for managing the state file, downloads required provider plugins and their dependencies, and installs Terraform itself if not already present. This ensures that your Terraform project is ready to be executed with the correct configurations and dependencies.'
+    flag:
+        backend: '[AI] `terraform init -backend` is a command used in Hashicorp''s Terraform configuration management tool. This command initializes Terraform for working with infrastructure, setting up the backend configuration. A backend is a persistent data store where Terraform stores state files that keep track of resource configurations and their current status. The `-backend` argument specifies the type of backend to be used, such as "azurerm", "s3", or "consul". After running this command, Terraform will automatically use the configured backend for managing your infrastructure.'
+        backend-config: |-
+            [AI] `terraform init -backend-config` is a command used with Hashicorp's Terraform configuration management tool. This command initializes various backend configurations for storing and managing Terraform state files.
+
+            The `-backend-config` flag specifies the path to a file containing backend configuration information. This file can include details such as the backend type (S3, Consul, etc.), access credentials, region, and other relevant settings.
+
+            For example:
+            ```bash
+            $ terraform init -backend-config=./backends.tfvars
+            ```
+            In this case, `backends.tfvars` is a file containing the backend configuration data. Using this command sets up the specified backend and initializes it for use with Terraform.
+        force-copy: '[AI] The `terraform init -force-copy` command is used in Terraform, an open-source infrastructure as code software tool, to initialize a new working directory with an existing backend configuration. This means that instead of creating a new backend configuration from scratch, Terraform will use the provided configuration to connect to an existing remote state file. The `-force-copy` option ensures that any existing files in the local Terraform working directory are replaced with their corresponding versions from the backend configuration, ensuring that the working directory is in sync with the latest state.'
+        from-module: '[AI] `terraform init -from-module` is a command used in Terraform, an open-source infrastructure as code software tool. This command initializes a new working directory of Terraform with a configuration that is based on an existing Terraform module instead of a standalone configuration file. When using this command, Terraform will download and install any required dependencies, create the necessary input files for the module, apply the module configuration to the current working directory, and update the Terraform workspaces if needed. This approach is useful when building complex infrastructure deployments by reusing pre-built and well-tested modules from the Terraform Registry or other sources.'
+        get: '[AI] `terraform init -get` is a command used in Terraform, an open-source infrastructure as code software tool. This command initializes a new working directory or updates an existing one by downloading and installing the necessary provider plugins and backend configuration for the defined configuration files. In other words, it ensures that your Terraform setup has all the required components to execute `apply` commands against your cloud provider or infrastructure platform.'
+        ignore-remote-version: '[AI] The `terraform init -ignore-remote-state` command is used in Terraform, an open-source infrastructure as code software tool, to initialize a working directory while ignoring any previously stored remote state file. This means that Terraform will not download the latest version of the remote state file from the configured backend but will use the local copy instead. It can be useful when you want to work offline or if there are issues with the remote state file and need to revert to a previous version. However, it''s important to note that using this command may result in data loss if the local state file is out of date or incorrect.'
+        input: '[AI] The `terraform init -input` command is used to initialize a new Terraform working directory or update an existing one with the latest modules and configurations, while allowing the user to review and confirm each non-idempotent configuration change before applying it. The `-input` flag enables the interactive mode where Terraform prompts for confirmation before executing any destructive actions during plan application. This is particularly useful when managing infrastructure changes in a production environment or when uncertain about the impact of certain operations, as it adds an extra layer of safety and control.'
+        lock: '[AI] `terraform init -lock` is a Terraform command used to initialize and obtain the necessary backend configuration for managing infrastructure deployment and state files. The `-lock` option creates or updates a Terraform lock file, ensuring consistent and reproducible executions of Terraform actions across multiple workers or team members by preventing concurrent modifications to the Terraform configuration files. This helps maintain the desired state of your infrastructure more effectively.'
+        lockfile: '[AI] `terraform init -lockfile` is a command used in Terraform, an open-source infrastructure as code software tool. This command initializes a new working directory or updates an existing one by downloading the required provider plugins, setting up backend configuration, and creating a lockfile named "terraform.lock.hcl". The lockfile records the exact version of every Terraform-managed dependency in use at the time of creation or last update to ensure consistent replicable builds among team members.'
+        migrate-state: |-
+            [AI] `terraform init -migrate-state` is a command used with Hashicorp's Terraform infrastructure provisioning tool. This command performs several actions:
+
+            1. Initializes a new or existing Terraform working directory, downloading and installing any required provider plugins.
+            2. Syncs the backend configuration to ensure it's up-to-date.
+            3. Migrates the state file, if needed, from the local file to the configured backend storage (like AWS S3 or consul). This ensures that the latest state data is saved in the centralized location.
+            4. Validates the Terraform configuration against the provider plugins and any other dependencies.
+            5. Sets up a secure environment variable storing the backend configuration access token, if required by the chosen backend.
+            6. Saves the new remote state file to the configured backend storage.
+            7. Updates the local state file with the latest data from the backend.
+        no-color: '[AI] The `terraform init -no-color` command is used to initialize a Terraform working directory with required backend configuration and download necessary provider plugins, without displaying colored output. This means that the initialization process will run in text mode, making it useful for scripts or CI/CD environments where color output might not be supported or desired.'
+        plugin-dir: '[AI] `terraform init -plugin-dir` is a command used to configure the location of custom Terraform plugins during initialization. The `-plugin-dir` option sets the path to a directory containing the plugins, allowing their use in your Terraform configuration. This can be useful when working with custom or third-party plugins that are not available in the public registry.'
+        reconfigure: '[AI] `terraform init -reconfigure` is a command used in Terraform, an open-source infrastructure as code software tool. This command re-initializes the working directory of a Terraform project by performing tasks such as downloading required provider plugins, checking for updates to Terraform itself and its providers, and creating backends configuration based on the current setup. It is typically used when configurations in the `terraform.conf` or `terrform.hcl` files have changed or when setting up a new Terraform project with different backend configurations.'
+        upgrade: '[AI] `terraform init -upgrade` is a command used in Terraform, an open-source infrastructure as code software tool. This command is utilized to check for and apply available updates to your Terraform configuration, including the Terraform CLI itself, providers, and backend plugins. It ensures that you have the most recent features, bug fixes, and security enhancements applied to your Terraform projects. Running this command periodically helps maintain a healthy infrastructure setup.'

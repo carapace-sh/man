@@ -1,0 +1,34 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: run
+description: Run script in stacks
+flags:
+    --disable-check-gen-code: Disable outdated generated code check
+    --disable-check-git-remote: Disable checking if local default branch is updated with remote
+    --disable-safeguards=: 'Disable safeguards: {all,none,git,git-untracked,git-uncommitted,outdated-code,git-out-of-sync}'
+    --dry-run: Plan the execution but do not execute it
+    --no-recursive: Do not recurse into child stacks
+    -X: Disable all safeguards
+documentation:
+    command: '[AI] `terramate script run` is a command used in the Terraform infrastructure-as-code tool to execute a Terraform script written in the HCL (Hashicorp Configuration Language). The "script" argument specifies that the command should read the Terraform configuration from a file instead of interactively. After reading the configuration, Terraform plans the changes, then applies them if the plan looks good. This is a common workflow for applying infrastructure changes in a consistent and automatable way.'
+    flag:
+        X: '[AI] The command `terraform init -X` is used in Terraform, an open-source infrastructure as code software tool. This specific command is used to initialize a new or existing Terraform working directory with the necessary files and backend configuration. The `-X` flag, also known as the `--no-color` option, disables colored output from Terraform. When run without this flag, Terraform provides color-coded information to help users understand the progress and success/failure of their commands. However, if you prefer a plain text output or are working in an environment where colors cannot be displayed properly, you can use this flag to suppress color output.'
+        disable-check-gen-code: '[AI] `terraform init` is a command in Hashicorp''s Terraform infrastructure as code tool to initialize a working directory containing Terraform configuration files. The `--disable-check-gen-code` flag disables the generation of provider generated code during the initialization process. This can be useful when working with custom or older providers where the auto-generated code might not be compatible or necessary. By skipping this step, the initialization process will only download and install the required provider binaries.'
+        disable-check-git-remote: |-
+            [AI] The `terramate script run --disable-check-git-remote` command is a Terraform script execution command with an added flag `--disable-check-git-remote`. Terraform is an open-source infrastructure as code software tool that provides a consistent CLI workflow to manage hundreds of cloud and traditional resources. The flag `--disable-check-git-remote` disables the automatic Git remote check before applying the configuration changes during script execution.
+
+            With this flag, Terraform skips the step where it checks if there exists any upstream Git repository for the working directory or the configuration files, and does not fetch or merge any potential updates from the remote repository before executing the script. This behavior can be useful in specific scenarios such as when you want to apply local changes without updating your codebase or when you are working offline and don't have access to a remote Git repository.
+
+            However, it is important to note that disabling this check comes with potential risks including missing updates from the upstream repository and conflicting configuration changes. Therefore, it should be used cautiously and only when necessary.
+        disable-safeguards: |-
+            [AI] The `terrmate script run --disable-safeguards` command is used in Terraform, an open-source infrastructure as code software tool. This command disables all safeguards during the execution of a specified script in Terraform.
+
+            Safeguards are built-in features that prevent destructive actions from being performed unintentionally. They include actions like creating resources that already exist or applying changes that result in no net change to the infrastructure.
+
+            By running the command with the `--disable-safeguards` flag, you bypass these checks and allow Terraform to apply any changes, even if they do not result in a net change to your infrastructure. This can be useful for testing, debugging or when you are certain of the intended outcome but want to skip the safeguard checks to save time.
+
+            However, it's important to note that disabling safeguards comes with an increased risk of unintended changes and potential damage to your infrastructure. It should only be used with caution and in controlled environments where you understand the implications.
+        dry-run: |-
+            [AI] The `terraform init` command is used to initialize a Terraform working directory, which sets up the backend configuration and downloads necessary provider plugins. The `terraform plan` command is used to show what Terraform would do if you apply the changes.
+
+            The command `terriform script run --dry-run` is similar to `terraform plan`, but it's intended for use with Terraform scripts (`.tf` files). It reads the Terraform configuration from a script file instead of the current working directory and performs a dry run, meaning it will show what would be executed without making any actual changes. This can be useful for testing and debugging Terraform scripts.
+        no-recursive: '[AI] `terraform init` is a command used to initialize Terraform working directory with necessary files and plugins. The `--no-recursive` flag passed to this command disables the recursive initialization of subdirectories in a multi-module Terraform project. In other words, it initializes only the current module, leaving other modules uninitialized. This can be useful when you want to avoid potential conflicts or inconsistencies among different modules during development or testing.'

@@ -1,0 +1,54 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: quota NAME [--hard=key1=value1,key2=value2] [--scopes=Scope1,Scope2] [--dry-run=server|client|none]
+aliases:
+    - resourcequota
+description: Create a quota with the specified name
+flags:
+    --allow-missing-template-keys: If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
+    --dry-run?: Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
+    --field-manager=: Name of the manager used to track field ownership.
+    --hard=: A comma-delimited set of resource=quantity pairs that define a hard limit.
+    --save-config: If true, the configuration of current object will be saved in its annotation. Otherwise, the annotation will be unchanged. This flag is useful when you want to perform kubectl apply on this object in the future.
+    --scopes=: A comma-delimited set of quota scopes that must all match each object tracked by the quota.
+    --show-managed-fields: If true, keep the managedFields when printing objects in JSON or YAML format.
+    --template=: Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates [http://golang.org/pkg/text/template/#pkg-overview].
+    --validate?: Validation mode.
+    -o, --output=: 'Output format. One of: (json, yaml, name, go-template, go-template-file, template, templatefile, jsonpath, jsonpath-as-json, jsonpath-file).'
+documentation:
+    command: '[AI] The `kubectl create quota` command is used to create a new ResourceQuota object in Kubernetes. A ResourceQuota defines the total amount or quantity of the specified resources that can be consumed in a namespace. This command allows you to set resource usage limits for specific namespaces, helping manage and prevent over-usage of cluster resources.'
+    flag:
+        allow-missing-template-keys: |-
+            [AI] `kubectl create quota --allow-missing-template-keys` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`. This command creates a new Quota object in a Kubernetes cluster.
+
+            The `--allow-missing-template-keys` flag is an optional argument that allows creating a Quota resource even if it contains YAML template keys that are not yet defined in the cluster. In other words, this flag enables the creation of a Quota with placeholder keys that will be populated later. This can be useful when deploying new resources incrementally and some required keys may not be present in the cluster yet.
+
+            The flag does not affect the enforcement or usage of the created Quota; it only allows its creation with missing template keys. Once all required keys are present, they should be added to the YAML configuration file for the Quota object and reapplied using `kubectl apply`.
+        dry-run: '[AI] `kubectl create quota --dry-run` is a command used in Kubernetes to create a Quota object definition without actually applying it to the cluster. The `--dry-run` flag is used to simulate the changes that would be made by the command, and outputs these changes as YAML or JSON data which can then be reviewed before executing the actual creation. This can help prevent unintended consequences when creating new Quota objects in a cluster.'
+        field-manager: '[AI] `kubectl create quota` is a command used to create a Kubernetes Quota object in a cluster using the `kubectl` tool. A Quota is a resource management tool that limits the usage of resources, such as CPU and memory, for specific namespaces or users within those namespaces. The `--field-manager` flag specifies that the newly created Quota should be managed by the built-in Kubernetes API controller called "FieldManager." This means that any changes to the Quota''s fields will be automatically propagated to the underlying resources in the cluster, ensuring consistency between the Quota and the actual resource usage.'
+        hard: '[AI] `kubectl create quota` is a command used in Kubernetes to create a Quota object, which sets resource usage limits for namespaces. The `--hard` flag specifies that the limits are hard, meaning they are strictly enforced and cannot be exceeded without manually adjusting the Quota. This can help prevent namespace resource usage from exceeding defined limits, maintaining cluster stability and efficiency.'
+        output: |-
+            [AI] `kubectl create quota` is a command used to create a new ResourceQuota object in a Kubernetes cluster. The `--output` flag specifies the desired output format for the operation, which can be `json`, `yaml`, or `go-template`. For example:
+
+            ```bash
+            kubectl create quota myquota --output yaml --resource-version="1" --total-cpu=2 --total-memory=5Gi --container-names=nginx,mysql
+            ```
+
+            This command creates a ResourceQuota named "myquota", sets its resource version to "1", and specifies that the total CPU usage should not exceed 2 and the total memory usage should not exceed 5 GiB for containers with names "nginx" or "mysql". The output is formatted in YAML.
+        save-config: |-
+            [AI] `kubectl create quota --save-config` is a command used in Kubernetes to create or update a Quota object. A Quota defines limits on the number of objects (such as pods, services, etc.) that can be created in a namespace based on certain resource types and their corresponding usage.
+
+            The `--save-config` flag saves the Kubernetes configuration after executing the command. This means that the current context and the newly created or updated Quota will be stored in the `~/.kube/config` file for future use, allowing easy access to manage the quota resource without having to specify its YAML definition each time.
+        scopes: |-
+            [AI] `kubectl create quota` is a command used in Kubernetes to create or manage resource quotas. The `--scopes` flag specifies the scope of the resource quota, which can be set to one of three values:
+
+            1. Cluster-level scopes: Quotas created with this scope apply to all namespaces in a cluster.
+            2. Namespace scopes: Quotas created with this scope apply only to the namespace where they are created.
+            3. Resource-names scopes: Quotas created with this scope apply only to specific resource types and names within a namespace.
+
+            For example, `kubectl create quota myquota --scopes Namespace=mynamespace` would create a quota for the "mynamespace" namespace, while `kubectl create quota myquota --scopes Resource=cpu --scopes Selector="app=my-app"` would create a quota for the CPU resource with the label selector `app=my-app` within all namespaces.
+        show-managed-fields: '[AI] The `kubectl create quota` command is used to create a new resource quota in a Kubernetes cluster. The `--show-managed-fields` flag is an optional argument that, when used, will display the fields managed by the Kubernetes API server for the created resource quota object. These fields represent the set of mutable fields that can be updated through the Kubernetes API. By default, only the fields that are directly set in the `create` command are applied to the resource quota, while fields managed by the API server are read-only and cannot be modified directly.'
+        template: |-
+            [AI] `kubectl create quota` is a command used with the Kubernetes CLI (kubectl) to create a new resource quota in a Kubernetes cluster. The `--template` flag is an optional argument provided to the command for creating a quota object based on a template file, instead of providing the quota details directly.
+
+            This flag allows you to define a YAML or JSON template file that contains the desired quota specifications such as resource types, limits, requests, and other properties. The `kubectl create` command then uses this template to create the actual quota resource in your Kubernetes cluster. This way, you can easily create multiple quotas with consistent configurations by simply updating the template file instead of having to manually specify the details for each individual quota.
+        validate: '[AI] `kubectl create quota` is a command used in Kubernetes to create a new ResourceQuota object. The `--validate` flag is an optional argument for this command. When used, it validates the YAML file or configuration against the Kubernetes API schema before creating the ResourceQuita object. This helps prevent errors and ensures that the created quota conforms to the desired specifications.'

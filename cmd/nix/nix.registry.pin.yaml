@@ -1,0 +1,84 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: pin
+description: pin a flake to its current version or to the current version of a flake URL
+flags:
+    --arg*=: Pass the value expr as the argument name to Nix functions
+    --argstr*=: Pass the string string as the argument name to Nix functions
+    --debug: Set the logging verbosity level to 'debug'
+    --debugger: Start an interactive environment if evaluation fail
+    --eval-store=: The Nix store to use for evaluations
+    --impure: Allow access to mutable paths and repositories
+    --log-format=: Set the format of log output
+    --override-flake=: Override the flake registries, redirecting original-ref to resolved-ref
+    --quiet: Decrease the logging verbosity level
+    --registry=: The registry to operate on
+    -I, --include: Add path to the list of locations used to look up <...> file names
+    -L, --print-build-logs: Print full build logs on standard error
+    -v, --verbose: Increase the logging verbosity level
+documentation:
+    command: '[AI] The `nix registry pin` command is used in Nix, a package manager for Linux and other systems, to lock the version of a specific package to a particular commit or tag in a Git repository. This command helps ensure that a consistent set of packages are used across different system configurations and prevents unintended updates to the pinned packages. By pinning packages, you can maintain reproducible builds and reduce potential compatibility issues.'
+    flag:
+        arg: |-
+            [AI] `nix registry pin` is a Nix package manager command used to pin a specific version of a package in the Nix ExpresswayRegistry or Nixpkgs store. The `--arg` option is used to pass arguments to the pinned package. For example, if you have a configuration file for a service managed by Nix, you can pin that specific version of the package with its dependencies using:
+
+            ```bash
+            nix registry pin --add <package-name> <version> --arg <configuration-file-path>
+            ```
+
+            Replace `<package-name>`, `<version>`, and `<configuration-file-path>` with the appropriate values. This command will install and lock the specified package version along with its dependencies, applying the provided configuration file during the build process.
+        argstr: |-
+            [AI] The `nix registry pin --argstr` command is a Nix package manager command used to pin (fix the version of) a specific Nix expression or package to a particular revision in the Nixpkgs registry. The `--argstr` option is provided to pass arguments to the pinned expression or package, if any are required. For example:
+
+            ```bash
+            nix registry pin <expression> --argstr arg1=value1 arg2=value2 ...
+            ```
+
+            Replace `<expression>` with the Nix expression or package name, and provide the desired arguments enclosed in quotes as separate `--argstr` options with their respective argument names and values.
+        debug: |-
+            [AI] The `nix registry pin --debug` command is used in Nix, a package manager for Linux and other Unix systems. This command is used to pin or lock a specific version of a package in the Nix Package Manager registry.
+
+            The `--debug` flag enables verbose output, providing more detailed information about the pinning process. It allows users to see the internal workings and debug any potential issues with the pinning operation.
+
+            Here's a brief overview of what happens when you run this command:
+
+            1. The Nix Package Manager looks up the package in the registry.
+            2. It checks if the package is already pinned locally.
+            3. If not, it downloads and installs the specified version of the package.
+            4. Once installed, it creates a lock file to ensure that the pinned version is used when calling the package in the future.
+            5. The `--debug` flag displays detailed information about these steps, including any error messages or warnings.
+        debugger: |-
+            [AI] `nix registry pin` is a command used in Nix, a package manager for Linux and other Unix systems. The `pin` subcommand is used to manage lock files that fix the versions of packages being used by a Nix configuration.
+
+            The `--debugger` flag is an optional argument passed with this command. It activates the Nix expression evaluation debugger, which allows users to inspect and modify the execution of Nix expressions in real time. With this flag, the output will include additional debugging information that can be used for troubleshooting complex configuration issues.
+        eval-store: |-
+            [AI] The `nix registry pin --eval-store` command is used in Nix, a package manager for Linux and other Unix systems. This command is used to pin a specific version of a package in the Nix expression language and store the result in an Nix expression file or the standard output.
+
+            By using `--pin`, you can specify the exact version of the package that you want to use, ensuring consistency across different system configurations. The `--eval-store` flag evaluates the given expression and stores the resulting expression tree in a file or standard output as Nix expression syntax. This is useful when you want to save or share the expression for later use.
+        impure: '[AI] The `nix registry pin --impure` command is used in Nix packaging system to create or update an impure pin file for a specific package. An impure pin is a type of pin that allows dependencies between packages to be updated, even if their versions are pinned. This can be useful when managing complex dependencies where some packages may depend on others with unpredictable version requirements. The `--impure` flag tells Nix to create or update an impure pin file, allowing for more flexible dependency management.'
+        include: '[AI] The `nix-registry pin --include` command in Nix packaging system is used to pin specific versions of packages or dependencies mentioned in a Nix expression to avoid automatic updates. The `--include` option allows including multiple expressions, each specifying a package and its desired version. This way, you can manage the dependency tree of your project and keep certain packages at fixed versions while allowing others to update automatically.'
+        log-format: |-
+            [AI] `nix registry pin` is a command provided by Nix, a package manager for Linux and other systems. This command is used to pin (fix) the version of a specific package to a particular revision in the Nixpkgs repository.
+
+            The `--log-format` option specifies the format of the log output produced when using this command. By default, it displays a human-readable message with information about the operation. With `--log-format`, you can choose between plain text (`plain`) or JSON (`json`) formats for more detailed or automated processing.
+
+            Example usage:
+            ```
+            nix registry pin --recruit <your_username> myproject pinned_revision --log-format json
+            ```
+            This command pins the package "myproject" to the revision "pinned\_revision" for your Nix registry account, and outputs the log in JSON format.
+        override-flake: |-
+            [AI] The `nix registry pin --override-flake` command is used in the Nix Package Manager to override the version of a specific Flake output (a Nix expression that builds and caches outputs) in the Nixpkgs registry.
+
+            When you use this command, you specify the name or hash of the Flake output along with the desired version or URL of the replacement package or expression. This allows you to lock down a specific version of a dependency even if its upstream source changes.
+
+            The `--override-flake` flag is used in combination with the `pin-update` command, which updates the local Nix expression cache (the Nix profile) based on the changes made by the pinning command. This ensures that your system uses the pinned version of the dependency when you install or build packages.
+        print-build-logs: '[AI] The `nix registry pin --print-build-logs` command is used in Nix, a package manager for Linux and other Unix systems. This command pins (fixes) the version of a specific package to its current build, and then prints out the build logs associated with that build. This can be helpful for debugging or understanding the build history of a particular package.'
+        quiet: |-
+            [AI] The `nix registry pin --quiet` command is used in Nix package manager to permanently lock or pin a specific version of a package to your local configuration. This means that when you upgrade or update your system, the pinned package will not be changed.
+
+            The `--quiet` option is used to suppress informational messages during the execution of the command, making the output focus only on error messages, if any.
+        registry: |-
+            [AI] The `nix registry pin --registry` command is a Nix package manager operation used to lock or pin a specific version of a Nix registry (or channel) for a project. This means that when installing or upgrading packages, the packages will be fetched from the pinned registry instead of the latest one.
+
+            The `--registry` option is used to specify the name of the registry to be pinned. It's important to note that this command does not affect the global Nix configuration but only the current project or environment. This can be useful when working on projects where consistent package versions are required across different machines or builds.
+        verbose: '[AI] The `nix registry pin --verbose` command is used in Nix Package Manager to manually pin or lock specific versions of packages and their dependencies in the Nix expression language configuration. This command allows you to see detailed information about the packages being pinned, including their current version and the new version being pinned. It helps ensure consistency and reproducibility across different system configurations by fixing the package versions at a desired state.'

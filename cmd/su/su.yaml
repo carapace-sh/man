@@ -1,0 +1,70 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: su
+description: run a command with substitute user and group ID
+flags:
+    --session-command=: pass a single command and do not create a new session
+    -G, --supp-group=: specify a supplemental group
+    -P, --pty: create a new pseudo-terminal
+    -V, --version: display version
+    -c, --command=: pass a single command
+    -f, --fast: pass -f to the shell
+    -g, --group=: specify the primary group
+    -h, --help: display this help
+    -l, --login: make the shell a login shell
+    -m: do not reset environment variables
+    -p, --preserve-environment: do not reset environment variables
+    -s, --shell=: run given shell
+    -w, --whitelist-environment=: don't reset specified variables
+documentation:
+    command: '[AI] The `su` (substitute user) command in Unix and Linux systems is used to open a new shell with elevated privileges, typically that of the root user. When invoked without any arguments, it assumes you''re intending to become the superuser. Once logged in as root, you can perform administrative tasks. Remember, using `su` requires knowledge of the system and should be done with caution due to the potential security risks associated with granting elevated privileges.'
+    flag:
+        command: |-
+            [AI] The `su` (Substitute User) command with the `--command` option allows running a single command with the specified user privileges without opening an interactive shell session for that user. In other words, it executes a given command as a different user and then exits, providing no login shell access. For instance:
+
+            ```bash
+            su -c 'command' username [password]
+            ```
+
+            The command will be executed with the specified user's permissions, while the original terminal session remains unchanged. The `username` argument represents the user under which the command is to be run, and the optional `[password]` argument is required when the specified user does not have an encrypted password in the system's shadow file or if two-factor authentication is in use.
+        fast: '[AI] The `su` (Substitute User) command with the `--fast` option is used in Unix-like operating systems for quickly switching to a shell as another user, bypassing the login process. The `--fast` flag allows this without asking for the target user''s password, assuming that the current user already has sudo privileges for the target user. This can be useful when automating tasks or scripts that require running commands with elevated privileges from a specific user. However, it is essential to use this command responsibly and securely, as bypassing the login process can introduce security vulnerabilities.'
+        group: '[AI] The `su` (substitute user) command with the `--group` option allows a user to run a shell with the permissions of another group instead of another user. In other words, it changes the primary group ID for the new shell session, rather than changing the user identity. This can be useful in certain administrative tasks where you want to maintain your original user identity but need the group privileges for specific commands or actions. For example, `su --group wheel` would give you a root shell with the wheel group permissions.'
+        help: |-
+            [AI] The `su` command in Unix-based systems is used to change the user identity and gain root (superuser) privileges. The option `--help` is used to display detailed help information about the `su` command, including a list of available options and their descriptions. For example:
+
+            ```bash
+            $ su --help
+            Usage: su [OPTION]... [COMMAND]
+              or: su [ROOT_USER] [ARGUMENT..."]
+            Change the identity to SHORT_USER or become super-user root.
+
+            Options:
+              -c, --command=COMMAND   run COMMAND with privileges of SHORT_USER
+              -l, --login             login as user SHORT_USER (the default is to run a shell)
+              -p, --preserve-environment=VARIABLE Preserve VARIABLE's value
+              -m, --multiuser          force multi-user mode on openvt
+              -c, --no-new-session      don't create a new session
+              -l, --loginname=NAME     login as NAME (default is to become root)
+              -p, --prompt=PROMPT       use PROMPT as the privileged shell prompt
+              -s, --shell=SHELL        use SHELL as the shell for the new session
+              -v, --verbose            print a lot of information about what is happening
+            ```
+
+            This help message outlines different options that can be used with the `su` command and their respective functions. For example, the `-c` option allows running a specific command with elevated privileges without opening a new shell session. The `--login` option logs in as a specific user instead of becoming root directly.
+        login: '[AI] The `su --login` command is a way to open a root shell session in Unix-based systems. It allows users with suitable permissions to temporarily elevate their privileges and perform administrative tasks. When used, it initiates the login process for the root user as if someone was physically sitting at the terminal and typing `root` followed by their password. The session ends when the user logs out or is disconnected from the terminal.'
+        m: '[AI] The `su` (Substitute User) command with the `-m` option in Unix or Linux allows a user to run a shell with the privileges of another user. When used with the `-m` flag, `su` automatically switches to the root user''s shell after authentication. For instance, if you type `su -m`, you will be prompted for the root password and then a root shell will be started. This is commonly used to perform administrative tasks that require elevated permissions.'
+        preserve-environment: '[AI] The `su` (Substitute User) command with the `--preserve-environment` option is used in Unix and Unix-like operating systems to elevate the privileges of a current shell session, while preserving the existing environment variables. This means that any customized settings or configurations present in the original environment will be carried over to the new root (superuser) shell session. This can be useful for maintaining consistency across different user environments and minimizing potential issues caused by conflicting configurations when working as a superuser.'
+        pty: '[AI] The `--pty` option in the `su` (substitute user) command is used to create a pseudo-terminal (PTS) when running a shell with elevated privileges. A PTS allows a session to be run in terminal mode over a network or other connection, providing the illusion of a local terminal. This can be useful for remote administration tasks where a graphical interface is not required. When `su` is called with `--pty`, it starts a new shell session in a new terminal window while preserving the environment and settings of the original user.'
+        session-command: '[AI] The `su` (substitute user) command with the `--session-command` option allows users to start a new shell session with the privileges of another user without logging out and then logging back in as that user. The specified `session-command` argument is the command that will be run when the new shell is started for the target user. For example, `su - root --session-command="bash /home/script.sh"` would start a new root shell and immediately execute the script located at "/home/script.sh".'
+        shell: '[AI] The `su --shell` command in Unix-like operating systems is used to change the user identity and open a new shell with the privileges of that user. The `--shell` option specifies which shell to use for the new session. For instance, `su - username --shell /usr/bin/bash` would change to the specified user account while launching the Bash shell as that user. This command is often used for performing administrative tasks requiring higher privileges.'
+        supp-group: '[AI] The `su` (Substitute User) command with the `--login` or `-l` option in Unix and Unix-like systems allows a user to become the root user or another user with their shell environment, including their group memberships. The `--supp-group` (short for "supply supplementary group") flag is an optional argument that can be used with the `--login` option to specify a list of supplementary groups that will be added to the user''s session when they log in as another user. These additional groups grant additional permissions and access to certain resources based on their group memberships.'
+        version: '[AI] The `su --version` command is used to display the version information of the `su` (Substitute User) utility in Unix-like operating systems. When executed, it prints out the version number and other relevant details such as the compiler and the operating system on which it is installed. It helps in checking the compatibility and updates for the `su` tool.'
+        whitelist-environment: |-
+            [AI] The `su` (Substitute User) command with the `--whitelist-environment` option is used in Unix-based systems for changing to a root or another user with a restricted environment.
+
+            The `--whitelist-environment` flag limits the set of environment variables that will be available to the new user, allowing only those explicitly listed in the command or defined in the system's configuration files. This is an additional security measure to prevent unauthorized access or potential vulnerabilities from malicious environment variables.
+
+            To use this option:
+            ```sh
+            su --user <username> --login --shell /bin/bash --whitelist-environment=VAR1=value VAR2=value ...
+            ```
+            Replace `<username>` with the target user's username, `/bin/bash` with the desired shell, and `VAR1=value` and `VAR2=value` with the specific environment variables you want to allow for that user.

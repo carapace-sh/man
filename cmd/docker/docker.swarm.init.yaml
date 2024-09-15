@@ -1,0 +1,71 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: init [OPTIONS]
+description: Initialize a swarm
+flags:
+    --advertise-addr=: 'Advertised address (format: "<ip|interface>[:port]")'
+    --autolock: Enable manager autolocking (requiring an unlock key to start a stopped manager)
+    --availability=: Availability of the node ("active", "pause", "drain")
+    --cert-expiry=: Validity period for node certificates (ns|us|ms|s|m|h)
+    --data-path-addr=: 'Address or interface to use for data path traffic (format: "<ip|interface>")'
+    --data-path-port=: Port number to use for data path traffic (1024 - 49151). If no value is set or is set to 0, the default port (4789) is used.
+    --default-addr-pool*=: default address pool in CIDR format
+    --default-addr-pool-mask-length=: default address pool subnet mask length
+    --dispatcher-heartbeat=: Dispatcher heartbeat period (ns|us|ms|s|m|h)
+    --external-ca=: Specifications of one or more certificate signing endpoints
+    --force-new-cluster: Force create a new cluster from current state
+    --listen-addr=: 'Listen address (format: "<ip|interface>[:port]")'
+    --max-snapshots=: Number of additional Raft snapshots to retain
+    --snapshot-interval=: Number of log entries between Raft snapshots
+    --task-history-limit=: Task history retention limit
+documentation:
+    command: '[AI] `docker swarm init` is a command used to initialize a Swarm mode cluster in Docker. This means it sets up a Docker Swarm as a manager node, creating an overlay network and making the node ready to manage and deploy services using Swarm mode for Docker container orchestration. Once this command is run, other worker nodes can be added to the Swarm using `docker swarm join` command to form a cluster.'
+    flag:
+        advertise-addr: |-
+            [AI] `docker swarm init --advertise-addr` is a command used to initialize a Docker Swarm mode cluster. Swarm Mode is a native orchestration solution in Docker for managing and scaling containers.
+
+            The `init` subcommand initializes the swarm manager node, which is the first node in the cluster. The `--advertise-addr` option sets the IP address that other nodes will use to join the swarm. This is important because when additional worker nodes join the swarm, they need to know where to connect to find the master node for registration and coordination. Providing a specific IP address with this flag ensures that the master node can be easily discovered by new nodes.
+        autolock: |-
+            [AI] `docker swarm init --autolock` is a command used to initialize a Docker Swarm mode cluster. Swarm mode is a Docker orchestration feature that allows managing a fleet of Docker hosts as a single entity.
+
+            The `--autolock` flag enables automatic re-election of the current node as the Swarm manager if it goes down and comes back up. This helps ensure that there's always a Swarm manager running in the cluster to manage the services and nodes. Without this flag, if the manager node fails, there would be no one left to manage the cluster, potentially leading to service disruptions.
+        availability: |-
+            [AI] The `docker swarm init --availability` command is used to initialize a Docker Swarm mode cluster with the specified node availability. When you run this command, Docker sets up the Swarm mode on the current node and creates a new Swarm manager. The `--availability` option determines how the manager node should be scheduled:
+
+            * If set to `global`, the manager will not be eligible to run containers and will only manage the cluster.
+            * If set to `reachability-zones` or an empty string, the manager can also run user containers alongside managing the cluster.
+
+            For example, `docker swarm init --availability global` sets up a Swarm manager that won't run any containers itself, while `docker swarm init` sets up a manager that can manage the cluster and also run containers.
+        cert-expiry: '[AI] `docker swarm init --cert-expiry` is a command used to initialize a Docker Swarm mode cluster with self-signed certificates. The `--cert-expiry` option sets the validity period for these certificates in number of hours. By default, this value is 24 hours. After running this command on a node, it becomes a manager node in the Swarm cluster. Other worker nodes can then join this cluster using `docker swarm join` command with the cluster''s IP address and token.'
+        data-path-addr: '[AI] `docker swarm init --data-path-addr` is a command used to initialize a Docker Swarm mode cluster. Swarm mode allows Docker to manage a cluster of Docker worker nodes from a single manager node. The `--data-path-addr` option specifies the address where the Swarm data will be stored, typically on a shared storage or network location accessible to all nodes in the cluster. This ensures that the Swarm data, such as service configurations and replicas, are persisted and can be accessed by all nodes.'
+        data-path-port: |-
+            [AI] The `docker swarm init --data-path-port` command is used to initialize a Docker Swarm mode cluster. Docker Swarm is a native orchestrator for Docker, enabling the management of a fleet of Docker hosts as a single entity.
+
+            The `--data-path-port` option in this command sets the port number (default is 3372) on which Docker Swarm data will be stored and served. This is important when running multiple Swarm manager nodes, where each node should have unique data path ports to avoid conflicts.
+
+            In summary, `docker swarm init --data-path-port` sets up a new Docker Swarm cluster with a specified data path port.
+        default-addr-pool: |-
+            [AI] The `docker swarm init --default-addr-pool` command is used to initialize a Docker Swarm mode cluster. Swarm Mode is a native Docker orchestration tool that enables the creation of a swarm, which is a cluster of Docker nodes that can be managed as a single entity.
+
+            The `--default-addr-pool` option specifies the default address pool to assign IP addresses from when adding nodes to the Swarm. This allows you to define a custom IP range for your Swarm nodes instead of using the default one. The format is `<start>:<end>`, such as `10.0.0.0:128`. Once initialized, other Docker nodes can join this Swarm by running the `docker swarm join` command with the Swarm's token and the IP address of a node in the cluster.
+        default-addr-pool-mask-length: '[AI] The `docker swarm init` command is used to initialize a Docker Swarm cluster, which is a native orchestration tool for Docker. The `--default-addr-pool-mask-length` option sets the length of the default address pool mask in CIDR notation for new services and tasks in the Swarm mode. In simpler terms, it defines the size of the subnet that will be used to assign IP addresses to containers joining the swarm. For example, `--default-addr-pool-mask-length 10` sets a pool size of 1024 addresses (a /24 subnet).'
+        dispatcher-heartbeat: '[AI] `docker swarm init --dispatcher-heartbeat` is a command used to initialize a Docker Swarm cluster as a manager node. The `--dispatcher-heartbeat` flag sets the heartbeat interval for the Raft election algorithm used in the Swarm mode for leader election among manager nodes, ensuring high availability and fault tolerance of the Swarm cluster. Once this command is executed on a manager node, it creates the necessary structures for managing and deploying services across the Swarm using Docker Compose files or other tools.'
+        external-ca: |-
+            [AI] `docker swarm init --external-ca` is a command used to initialize a Docker Swarm mode cluster with an external Certificate Authority (CA) for secure communication between nodes.
+
+            When this command is run on the manager node, it sets up a new Swarm cluster and creates the necessary key-value pairs in the `/etc/docker/swarm.yml` file. The `--external-ca` flag indicates that a CA certificate file, typically in PEM format, should be used for securing communication between nodes.
+
+            This command does not automatically join worker nodes to the cluster but provides the configuration required for joining them using the `docker swarm join` command with the same CA file and the manager node's IP address or token. This setup is essential when deploying Docker Swarm clusters in production environments, as it helps secure communication between nodes by encrypting all traffic.
+        force-new-cluster: '[AI] The `docker swarm init --force-new-cluster` command is used to initialize a new Docker Swarm cluster. When run on a node, it converts that node into the manager node of the cluster and creates an empty Swarm. The `--force-new-cluster` flag is used when you want to create a new Swarm even if there is already an existing Swarm in the cluster. This command sets up the Swarm mode network interface, and generates the join token for worker nodes to join the Swarm.'
+        listen-addr: '[AI] The `docker swarm init --listen-addr` command is used to initialize a Docker Swarm mode cluster. This command sets up the Swarm manager node, creating a new Swarm cluster and making it available for worker nodes to join. The `--listen-addr` option specifies the address and port number that the Swarm manager should listen on for other nodes to connect to the Swarm cluster. By default, this option is set to `0.0.0.0:2377`, but it can be changed if needed to a specific IP address and port. Once initialized, other worker nodes can join the Swarm cluster using the `docker swarm join` command with the manager node''s IP address and token.'
+        max-snapshots: |-
+            [AI] The `docker swarm init --max-snapshots` command is used to initialize a Docker Swarm mode cluster with an specified maximum number of snapshot revisions for each service.
+
+            When you run `docker swarm init`, it initializes a Swarm manager node, creating a new Swarm cluster. By default, this command sets the maximum number of snapshot revisions per service to 10. However, you can override this value by using the `--max-snapshots` flag and specifying any number as an argument.
+
+            For example, if you want to set the maximum number of snapshot revisions for each service to 5, you would use:
+            ```bash
+            docker swarm init --advertise-addr <manager-ip> --listen-addr <manager-ip>:2377 --max-snapshots=5
+            ```
+            Keep in mind that increasing the number of snapshot revisions may consume more storage resources.
+        snapshot-interval: '[AI] `docker swarm init --snapshot-interval` is a command used to initialize a Docker Swarm mode cluster. The `--snapshot-interval` option sets the interval (in seconds) for taking and saving Swarm snapshots. These snapshots capture the current state of the Swarm cluster, including the nodes, services, and other Swarm configurations. Taking regular snapshots can help ensure that you have a recoverable state of your cluster in case of failures or other issues.'
+        task-history-limit: '[AI] `docker swarm init --task-history-limit` is a command used to initialize a Docker Swarm cluster with the additional flag to set the limit for the number of kept task history records per service replica. The default value is 10, meaning that the last 10 task histories will be kept for each service replica. By using this command with a specific number, for instance `--task-history-limit 5`, only the last 5 task histories will be stored. This can help manage disk space usage and keep only the necessary information for troubleshooting or auditing purposes.'

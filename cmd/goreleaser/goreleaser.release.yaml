@@ -1,0 +1,93 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: release
+aliases:
+    - r
+description: Releases the current project
+flags:
+    --auto-snapshot: Automatically sets --snapshot if the repository is dirty
+    --clean: Removes the dist folder
+    --deprecated&: Force print the deprecation message - tests only
+    --fail-fast: Whether to abort the release publishing on the first error
+    --release-footer-tmpl=: Load custom release notes footer from a templated markdown file (overrides --release-footer)
+    --release-footer=: Load custom release notes footer from a markdown file
+    --release-header-tmpl=: Load custom release notes header from a templated markdown file (overrides --release-header)
+    --release-header=: Load custom release notes header from a markdown file
+    --release-notes-tmpl=: Load custom release notes from a templated markdown file (overrides --release-notes)
+    --release-notes=: Load custom release notes from a markdown file (will skip GoReleaser changelog generation)
+    --rm-dist&: Removes the dist folder
+    --skip*=: Skip the given options (valid options are announce, aur, before, docker, homebrew, ko, nix, publish, sbom, scoop, sign, snapcraft, validate, winget)
+    --skip-announce&: Skips announcing releases (implies --skip=validate)
+    --skip-before&: Skips global before hooks
+    --skip-docker&: Skips Docker Images/Manifests builds
+    --skip-ko&: Skips Ko builds
+    --skip-publish&: Skips publishing artifacts (implies --skip=announce)
+    --skip-sbom&: Skips cataloging artifacts
+    --skip-sign&: Skips signing artifacts
+    --skip-validate&: Skips git checks
+    --snapshot: Generate an unversioned snapshot release, skipping all validations and without publishing any artifacts (implies --skip=announce,publish,validate)
+    --timeout=: Timeout to the entire release process
+    -f, --config=: Load configuration from file
+    -p, --parallelism=: 'Amount tasks to run concurrently (default: number of CPUs)'
+documentation:
+    command: '[AI] `goreleaser release` is a command used with the Go Releaser (goreleaser) tool, which simplifies the process of building and releasing Go projects as standalone executables for various platforms. This specific command triggers the creation and publication of new releases on configured platforms and repositories (such as GitHub or GitLab). It automatically builds the project using the latest code from the repository, generates artifacts, tags the release version, and pushes it to the specified platform along with creating a corresponding entry in the release notes.'
+    flag:
+        auto-snapshot: '[AI] `goreleaser release --auto-snapshot` is a command used in Go development for managing and releasing software. This specific command creates a new Git tag and a new Git branch for a snapshot release, automatically building the artifacts, and publishing them to the configured remote storage or registry. The `--auto-snapshot` option means that this process will be done automatically without any user interaction required. It''s useful for setting up continuous integration/continuous deployment workflows, allowing for easy creation of pre-release snapshots.'
+        clean: '[AI] `goreleaser release --clean` is a command from the GoReleaser tool used for managing the builds and releases of Go projects. This specific command triggers a new release by creating a Git tag, building an artifact, and pushing the release to remote repositories such as GitHub or GitLab. The `--clean` flag adds the additional step of removing unused objects and untracked files from the Git repository before starting the release process.'
+        config: '[AI] `goreleaser release` is a command from the Goreleaser tool used for managing the release process of Go projects. The `--config` option is used to specify a custom configuration file for the release. This file contains various settings such as the repository URL, tag versioning strategy, build commands, and publishing options for different platforms. By providing a custom config file, users can fine-tune the release process according to their project''s specific requirements.'
+        deprecated: |-
+            [AI] `goreleaser` is a popular tool used for managing the release process of Go projects. The command `goreleaser release --deprecated` is used to create a new release with an older version tag.
+
+            The option `--deprecated` instructs `goreleaser` to use the last successful release as the basis for the new release, instead of using the latest git tag. This can be useful in certain scenarios where you want to maintain multiple versions of your project and need to create a new release with an older version tag.
+
+            Overall, this command helps in creating a new release with a specific old version number, which might be necessary when supporting legacy versions or maintaining compatibility with older systems.
+        fail-fast: '[AI] `goreleaser` is a popular continuous delivery tool for Go projects. The `release --fail-fast` command is an option used during the release process to fail the build and stop further processing as soon as any error or failure occurs. This helps to quickly identify and address issues early in the release pipeline, reducing the risk of propagating errors through subsequent stages and potentially minimizing downtime or other negative consequences. Essentially, this flag ensures that a failed build does not progress further, allowing developers to focus on resolving the root cause of the failure before continuing with the release process.'
+        parallelism: '[AI] `goreleaser` is a popular tool for releasing Go projects. The `release` command with the `--parallelism` option specifies the maximum number of parallel releases that can be run in the background. This flag helps to speed up the release process by allowing multiple releases to be executed simultaneously, reducing the overall time taken to create new versions or hotfixes for your project. Note that using a higher parallelism value may require more system resources and could potentially lead to conflicts or errors if not managed carefully.'
+        release-footer: '[AI] `goreleaser` is a tool for managing the releases of Go projects. The command `goreleaser release --release-footer` generates and applies release notes as a commit message to the Git repository, creating a new release tag and updating the `CHANGELOG.md` file with the new entry based on the Git commits since the last release. This results in an organized and informative release history.'
+        release-footer-tmpl: '[AI] `goreleaser` is a popular tool used in the Go programming language ecosystem for managing the build, testing, and releasing processes. The `release` command with the `--release-footer-tmpl` option sets the template for the footer text that will be included in the release notes or changelog for each published package version. This template can contain placeholders for variables like the Git commit message or the current date, allowing for automated and consistent formatting of release information.'
+        release-header: |-
+            [AI] `goreleaser` is a popular tool used in the Go programming language ecosystem for managing the release process of projects. The command `goreleaser release --release-header` is responsible for creating and publishing new releases, setting the header or tag message for each release.
+
+            The flag `--release-header` allows users to specify a custom release message or tag for the new version. This message can include information about the changes made in the new release, such as bug fixes or new features. The format for the message is typically "Version X.Y.Z - Description of Changes".
+
+            In summary, `goreleaser release --release-header` creates and publishes a new release with the specified custom header or tag message.
+        release-header-tmpl: '[AI] `goreleaser` is a popular tool for managing the build, testing, and releasing of Go projects. The command `goreleaser release --release-header-tmpl` generates a new release with the specified template for the release header comment in the Git commit message. This allows for consistent formatting and messaging across project releases. For instance, you could define a custom template to include information such as the Go version, Git commit hash, and date.'
+        release-notes: |-
+            [AI] `goreleaser` is a popular tool used in the Go programming language community for managing the release process of software projects. The command `goreleaser release --release-notes` is specifically used to create a new release with associated release notes.
+
+            Here's a brief explanation:
+
+            1. `goreleaser`: A tool for managing the release process, including building binaries, creating Git tags, and publishing releases on various platforms (like GitHub, GitLab, etc.)
+            2. `release`: The command to create a new release with a specified version tag. It builds your software, generates artifacts, and performs other necessary actions for releasing the software.
+            3. `--release-notes`: A flag passed to the `release` command that allows you to supply or update the release notes. Release notes are important documentation that outlines what has changed in a new release, including bug fixes, enhancements, and any other relevant information.
+            4. When you run the command `goreleaser release --release-notes`, it will create a new release with the specified version tag and update or set the release notes based on the content provided either via a file or as an argument. The updated release notes are then included in the published release.
+            5. This command is typically used when preparing a new release, allowing you to have accurate documentation of what changes were made in each version for your users.
+        release-notes-tmpl: |-
+            [AI] `goreleaser` is a popular tool used for managing the release process of Go projects. The `release` command is its primary function, which automates building, testing, and publishing artifacts to various platforms.
+
+            The `--release-notes-tmpl` option is a feature that allows defining custom templates for generating release notes during the release process. It takes a string argument containing Go text templates, which can be used to extract and format commit messages or other metadata into human-readable release notes. This helps maintain clear documentation of changes between different versions of your project.
+        rm-dist: |-
+            [AI] `goreleaser` is a simple and effective tool for managing the release process of Go projects. The command `goreleaser release --rm-dist` performs the following tasks:
+
+            1. Builds the project using the specified build command, if not provided it will attempt to find one in the `go.mod` file.
+            2. Creates a new Git tag for the release.
+            3. Builds artifacts (e.g., binaries) for all supported platforms.
+            4. Removes any existing distributions (built artifacts) from the `$GOPATH/github.com/{username}/{project}/releases` directory to keep it clean.
+            5. Pushes the release to the remote repository.
+            6. Optionally, it can also publish the release to various platforms like GitHub Pages, Docker Hub, or other package repositories depending on the configuration.
+        skip: '[AI] `goreleaser release --skip` is a command used with the Goreleaser tool in Go programming language for creating continuous delivery pipelines. This specific command skips the actual release process (i.e., building, testing, and publishing) but still performs other tasks like updating version numbers or generating release notes. It''s useful when you want to manually inspect a release before it gets deployed or when you need to debug an issue in the pipeline.'
+        skip-announce: '[AI] `goreleaser` is a tool for managing the release process of Go projects. The command `goreleaser release --skip-announce` creates and manages a new release, but skips the step where it pushes the Git tag and announces the release on various platforms such as GitHub or other package registries. This can be useful when you want to manually handle these steps yourself, perhaps for internal releases or for releasing to a platform that requires manual intervention.'
+        skip-before: '[AI] `goreleaser` is a popular tool used for managing the release process of Go projects. The `release` command with the `--skip-before` option is used to skip certain build or test steps that are usually run automatically before creating a new release. This can be useful when you want to manually perform some tasks before releasing, such as updating documentation or handling non-code aspects of the release. By skipping these steps with `--skip-before`, you can ensure that only the necessary steps are automated and others are handled manually.'
+        skip-docker: '[AI] `goreleaser` is a popular continuous delivery tool for Go projects. The command `goreleaser release --skip-docker` initiates a new release process without building and pushing Docker images. Instead, it creates Git tags and archives for the specified branches or commits and uploads them to the configured artifact storage. This can be useful when you want to release a new version quickly without going through the Docker image build and push process.'
+        skip-ko: '[AI] `goreleaser` is a tool used for managing the release process of Go projects. The command `goreleaser release --skip-ko` instructs `goreleaser` to create a new release without building and publishing Docker containers (short for Container Images in this context). The `--skip-ko` flag stands for "skip container optimization," meaning that container optimizations like size reduction and caching will not be applied during the release process. This command is used when you want to create a release quickly without applying container optimizations.'
+        skip-publish: '[AI] `goreleaser` is a popular tool used for managing the release process of Go projects. The command `goreleaser release --skip-publish` is used to create a new release with all the usual build, test, and tagging steps, but it does not publish the release to any repository or platform. In other words, this command prepares a release candidate, allowing for manual inspection and approval before publishing it to the public.'
+        skip-sbom: '[AI] `goreleaser` is a popular tool used for managing the release process of Go projects. The command `goreleaser release --skip-sbom` instructs `goreleaser` to create and publish a new release, but it skips the generation and inclusion of Software Bill of Materials (SBOM) files in the release artifacts. SBOM files list all the third-party dependencies used by the project along with their versions. By skipping the creation and inclusion of these files, the command can expedite the release process without having to wait for the `goreleaser` tool to gather and include this extra information.'
+        skip-sign: |-
+            [AI] `goreleaser` is a popular tool used for managing the release process of Go projects. The `release` command in `goreleaser` creates a new release by building, testing, and packaging your project.
+
+            The `--skip-sign` option is used to skip the signing of the binary files during the release process. When this flag is passed, `goreleaser` will not create GPG keys or sign the built binaries. This can be useful if you don't want to use GPG signing for your project or if you encounter issues with signing. However, it's generally recommended to sign your releases for security and authenticity reasons.
+        skip-validate: |-
+            [AI] `goreleaser` is a popular tool for releasing Go projects, simplifying the process of building, testing, and publishing binaries or containers to various platforms. The command `goreleaser release --skip-validate` instructs `goreleaser` to bypass its built-in validation step during the release process.
+
+            By default, `goreleaser` runs several checks before creating a new Git tag and pushing it to the remote repository, as well as before publishing binaries or container images. These checks include linting source code, running tests, and verifying the build artifacts' integrity using checksums. In some cases, you may want to skip these validations, for instance, when working with unstable or in-progress changes. The `--skip-validate` flag allows you to do that and proceed with the release process despite potential issues. However, be cautious as releasing without validation may lead to bugs, security vulnerabilities, or other issues in your software.
+        snapshot: '[AI] `goreleaser` is a tool used for managing the releases of Go projects. The command `goreleaser release --snapshot` triggers the creation and publication of a snapshot release, also known as pre-release or beta version. This process builds the executable binaries, creates a Git tag, pushes the tag to the remote repository, and builds and pubishes a new container image if configured. The snapshot release gets a label such as `vX.Y.Z-0` or `X.Y.Za`, depending on the versioning strategy defined in the `goreleaser.yml` configuration file. This command is useful for testing new features, getting feedback from users, and preparing an upcoming stable release.'
+        timeout: '[AI] `goreleaser` is a popular tool for releasing Go projects. The command `goreleaser release --timeout` triggers a new release with default settings, but sets a timeout for the release process. The timeout specifies the maximum duration for individual release tasks to complete before they are terminated and an error is reported. This can help prevent long-running releases that may be causing issues or taking excessive time.'

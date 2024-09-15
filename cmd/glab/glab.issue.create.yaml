@@ -1,0 +1,68 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: create [flags]
+aliases:
+    - new
+description: Create an issue
+flags:
+    --link-type=: Type for the issue link
+    --linked-issues*=: The IIDs of issues that this issue links to
+    --linked-mr=: The IID of a merge request in which to resolve all issues
+    --no-editor: Don't open editor to enter description. If set to true, uses prompt. (default false)
+    --recover: Save the options to a file if the issue fails to be created. If the file exists, the options will be loaded from the recovery file (EXPERIMENTAL)
+    --web: continue issue creation with web interface
+    -a, --assignee*=: Assign issue to people by their `usernames`
+    -c, --confidential: Set an issue to be confidential. (default false)
+    -d, --description=: Supply a description for issue
+    -e, --time-estimate=: Set time estimate for the issue
+    -l, --label*=: Add label by name. Multiple labels should be comma separated
+    -m, --milestone=: The global ID or title of a milestone to assign
+    -s, --time-spent=: Set time spent for the issue
+    -t, --title=: Supply a title for issue
+    -w, --weight=: The weight of the issue. Valid values are greater than or equal to 0.
+    -y, --yes: Don't prompt for confirmation to submit the issue
+documentation:
+    command: |-
+        [AI] `glab` is a Git interface tool that allows users to interact with multiple Git repositories easily. The `issue create` command is used to create a new issue in the specified Git repository without leaving the terminal. This command takes the following format:
+
+        ```bash
+        glab repo remote_repo create issue title body --label label1 --label label2 --assignee username
+        ```
+
+        Here's a brief explanation of the options:
+
+        - `create`: Creates a new issue in the specified repository.
+        - `repo` or `remote_repo`: Specifies the name or URL of the remote Git repository.
+        - `title`: Sets the title for the new issue.
+        - `body`: Writes the description or body text for the new issue.
+        - `--label label1 --label label2`: Assigns labels to the new issue for better organization and filtering.
+        - `--assignee username`: Assigns the issue to a specific GitHub username.
+
+        In summary, the `glab issue create` command allows you to quickly create a new GitHub issue from the terminal without having to open a web browser or use the GitHub website directly.
+    flag:
+        assignee: '[AI] `glab` is a Git interface tool for GitLab, and the command `issue create --assignee <username>` creates a new issue in GitLab using `glab`. The `--assignee` option assigns the specified GitLab username as the initial assignee of the new issue.'
+        confidential: '[AI] The `glab issue create --confidential` command is used with GitLab''s CLI tool (Glab) to create a new confidential issue in GitLab. Confidential issues are issues that contain sensitive information, which should not be publicly accessible. This command allows users to securely create such issues by encrypting the issue description or title using SSH key-based encryption. When creating the issue, users are prompted to enter a passphrase for their SSH key and then provide the details of the confidential issue. Once created, only project members with the proper access level can view the contents of the confidential issue.'
+        description: '[AI] `glab issue create` is a GitLab CLI command used to create a new issue in GitLab. The `--description` option sets the body text or description for the issue. In other words, it allows you to provide details about the issue when creating it.'
+        label: '[AI] The `glab issue create` command is a GitLab CLI tool used to create a new issue in GitLab. The `--label` option is used to assign one or more labels to the issue at the time of creation. Labels help categorize and prioritize issues based on their nature, making it easier for teams to manage and track them. For example, `glab issue create --title "Bug: Login page issue" --label bug --label ux` would create a new issue titled "Bug: Login page issue" with labels "bug" and "ux".'
+        link-type: '[AI] The `glab issue create --link-type` command is used in GitLab''s CLI (Command Line Interface) tool, Glab, to create a new issue with a specific link type when opening it. Link types define how the linked resource (commits, merge requests, etc.) should be displayed in the issue. Commonly used link types include "issue", "epic", or "commit". By specifying `--link-type <type>` during issue creation, the resulting issue will automatically display the linked resource under that specific type when viewed in GitLab.'
+        linked-issues: '[AI] `glab` is a Git interface tool for GitHub and GitLab, developed as an alternative to `git-hub` or `git-lfs-github`. The command `glab issue create --linked-issues <issue_nums>` creates a new issue in the current repository connected to your GitHub or GitLab account, while linking it to one or more existing issues with the specified numbers. This can be useful for reporting a new issue that is related to an already reported issue, keeping the discussion and progress organized in a single thread.'
+        linked-mr: '[AI] `glab issue create --linked-mr` is a command used in GitLab''s CLI (Command Line Interface) tool, called Glab. This command creates a new issue in a GitLab project with a linked Merge Request (MR). In simpler terms, it allows you to open an issue and automatically associate it with a MR in the same or a different branch. This can be useful when reporting bugs or suggesting improvements where a fix is already under development. The MR link provides context for the issue and helps users understand its relation to ongoing work.'
+        milestone: '[AI] `glab issue create --milestone` is a GitLab CLI command used to create a new issue in GitLab with a specified milestone. The `--milestone` option allows you to set the target milestone for the issue. This can be helpful for keeping track of issues that belong to specific development cycles or releases within a project.'
+        no-editor: '[AI] `glab` is a Git interface for `git lab`, a Git hosting service provided by GitLab. The command `glab issue create --no-editor` creates a new issue in your selected GitLab repository without opening an editor to enter the issue details. Instead, you provide the issue title and description as arguments directly to the command. This option is useful when you want to quickly create an issue without having to switch between applications or when you have a predefined template for the issue content.'
+        recover: |-
+            [AI] `glab issue create --recover` is a GitLab CLI command used to create a new issue from an uncommitted file, with its content recovered from the staging area or the latest commit. If you have made changes in your working directory but haven't committed them yet and want to create a new issue with those modifications, this command comes in handy.
+
+            The `--recover` flag tells `glab` to retrieve the file's content from the Git history instead of using the one currently in your working directory, which may not be added or staged yet. The newly created issue will include a reference to the recovered content as an attachment.
+        time-estimate: |-
+            [AI] The `glab issue create --time-estimate` command is used to create a new GitLab issue with an estimated time for completion. This command is part of Glab, a CLI tool for interacting with GitLab. To use this command, you'll need to have your GitLab access token set up in your environment variables or in the `glab` configuration file. Here's how it works:
+
+            1. Navigate to the repository containing the issue you want to create in your terminal.
+            2. Run the following command: `glab issue create <issue-title> --time-estimate <duration>`. Replace `<issue-title>` with a descriptive title for your issue, and replace `<duration>` with an estimate of how long you expect the issue to take to complete in minutes or hours (e.g., 30m for 30 minutes or 1h for 1 hour).
+            3. Once you've entered these details, Glab will create a new GitLab issue with your title and time estimate. You can add additional information, such as a description or assignees, using the `--description` and `--assignee` flags, respectively.
+        time-spent: |-
+            [AI] The `glab issue create --time-spent` command is used with Glab, a GitHub client for the terminal. This specific command creates a new issue in a GitHub repository and allows you to specify the amount of time spent on an related task or project.
+
+            The `--time-spelt` option takes a duration argument in the format of hours:minutes:seconds or just minutes:seconds. For example, `30m 15s` represents thirty minutes and fifteen seconds. This information will be included as a comment in the new issue, providing context about the time invested when creating it.
+        title: '[AI] `glab issue create` is a command used in GitLab''s CLI tool (glab) to create a new issue in a GitLab project. The `--title` option sets the title for the new issue. In other words, it allows you to quickly create a new issue with a specified title without having to visit the GitLab web interface.'
+        web: '[AI] `glab` is a Git interface tool for GitHub written in Ruby. The command `glab issue create --web` creates a new issue on GitHub using a web browser instead of the terminal. When you run this command, it opens a new tab or window in your default web browser with the New Issue form on GitHub. You can then fill out the form with your issue details and submit it directly from the browser. This command is useful when you prefer working with the graphical interface of a web browser for creating issues.'
+        weight: '[AI] The `glab issue create --weight` command is a GitLab CLI (Command Line Interface) command used to create a new issue in GitLab with a specific weight or priority level. The `--weight` option sets the priority of the issue, where a higher number indicates a higher priority. For example, `glab issue create --weight 5 my_issue_title` would create a new issue titled "my\_issue\_title" with a priority level of 5.'
+        "yes": '[AI] `glab issue create --yes` is a command used in GitLab to create a new issue with the specified arguments and automatically confirm the creation without further interaction. The `--yes` option or flag is used to provide an affirmative answer to any confirmation prompts that would otherwise be displayed during the issue creation process. This can be useful for automating the creation of issues through scripts or other tools.'

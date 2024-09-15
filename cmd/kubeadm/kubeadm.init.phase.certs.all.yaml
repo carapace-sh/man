@@ -1,0 +1,62 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: all
+description: Generate all certificates
+flags:
+    --apiserver-advertise-address=: The IP address the API Server will advertise it's listening on. If not set the default network interface will be used.
+    --apiserver-cert-extra-sans*=: Optional extra Subject Alternative Names (SANs) to use for the API Server serving certificate. Can be both IP addresses and DNS names.
+    --cert-dir=: The path where to save and store the certificates.
+    --config=: Path to a kubeadm configuration file.
+    --control-plane-endpoint=: Specify a stable IP address or DNS name for the control plane.
+    --kubernetes-version=: Choose a specific Kubernetes version for the control plane.
+    --service-cidr=: Use alternative range of IP address for service VIPs.
+    --service-dns-domain=: Use alternative domain for services, e.g. "myorg.internal".
+documentation:
+    command: '[AI] The `kubeadm init phase certs all` command is used to generate and configure TLS certificates for all components in a Kubernetes cluster using Kubeadm. This includes creating certificates for the etcd server, the API server, and the kubelet and client certificates. These certificates are essential for securing the communication between various components within the cluster. After running this command, you can use the generated certificates to join worker nodes to the cluster using `kubeadm join`.'
+    flag:
+        apiserver-advertise-address: |-
+            [AI] `kubeadm init` is a command-line utility used to bootstrap a Kubernetes cluster. The `phase certs all --apiserver-advertise-address` subcommand is used during the initialization process to generate and configure various TLS (Transport Layer Security) certificates for the Kubernetes API server.
+
+            The `--apiserver-advertise-address` flag specifies the IP address that the Kubernetes API server will advertise to other nodes in the cluster. This is necessary so that worker nodes can join the cluster and communicate with the API server.
+
+            During this phase, `kubeadm` generates several certificates and keys:
+
+            1. The `apiserver.crt` and `apiserver.key` files for the TLS certificate and key of the API server. These are saved in the Kubernetes configuration directory (usually `/etc/kubernetes/pki/`).
+            2. The `client-key.pem` and `client-certificate.pem` files for the client certificate and key that can be used to communicate with the API server securely. These are also saved in the Kubernetes configuration directory.
+            3. The `ca.crt` file, which is the root CA (Certificate Authority) certificate used to sign all other certificates in the cluster. This is saved in the Kubernetes configuration directory and can be imported into trust stores for secure communication with the API server using tools like `kubectl`.
+
+            By specifying the `--apiserver-advertise-address` flag, `kubeadm` ensures that all generated certificates are signed with this IP address in mind. This is important to prevent certificate mismatches and ensure secure communication between nodes in the cluster.
+        apiserver-cert-extra-sans: |-
+            [AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The option `phase certs all --apiserver-cert-extra-subject-alternative-names` is used during this process to configure additional Subject Alternative Names (SANs) for the API server's TLS certificates.
+
+            SANs are used to specify additional domain names or IP addresses that the certificate can be used for. By default, Kubernetes sets the SANs for the API server certificates based on the node's hostname and FQDN. However, this might not cover all use cases, especially in multi-node clusters where nodes may have dynamic or ephemeral IP addresses.
+
+            Adding additional SANs using the `--apiserver-cert-extra-sans` option allows you to specify additional IP addresses, FQDNs, or other identifiers that should be included in the certificate. This can help ensure that the API server's certificates are trusted by all nodes in the cluster, regardless of their changing IP addresses or hostnames.
+        cert-dir: |-
+            [AI] `kubeadm init phase certs all --cert-dir` is a command used during the initial setup of a Kubernetes cluster using Kubeadm. The `phase certs` specifies that this command is related to certificate management in the cluster creation process.
+
+            The option `all` indicates that certificates for all components will be generated and saved in the specified directory `--cert-dir`. These components include etcd, kube-apiserver, kube-controller-manager, and kube-scheduler. The generated certificates are essential for secure communication between the different cluster components.
+
+            In summary, `kubeadm init phase certs all --cert-dir` generates and saves all required certificates for a Kubernetes cluster in the specified directory during the initial setup process.
+        config: '[AI] `kubeadm init` is a command-line tool for bootstrapping a Kubernetes cluster. The option `phase certs all` under `init` is used to generate and configure all Certificate Authority (CA), node-client, and client certificates in one go during the initialization process. These certificates are essential for secure communication between various components within the Kubernetes cluster such as nodes, etcd, and the API server. In summary, this command generates all necessary certificates to ensure a secure cluster setup.'
+        control-plane-endpoint: '[AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The `phase certs all --control-plane-endpoint` subcommand generates and configures TLS certificates for all control plane components in the cluster. These certificates are essential for secure communication between different control plane components and between the control plane and worker nodes. By running this command, you ensure that your Kubernetes cluster is secured with up-to-date and unique certificates.'
+        kubernetes-version: |-
+            [AI] `kubeadm init` is a command-line tool used to bootstrap a Kubernetes cluster. The `phase certs all --kubernetes-version` argument specifies that the `certs` phase should be run for all components in the specified Kubernetes version.
+
+            In more detail, during the initialization process, `kubeadm` generates various certificates and keys for secure communication between different components (etcd, apiserver, kubelet, etc.) of the Kubernetes cluster. The `certs all` argument instructs `kubeadm` to generate these certificates and keys for all components in the specified Kubernetes version.
+
+            For example, if you run `kubeadm init --kubernetes-version v1.23.0 phase certs all`, then `kubeadm` will create the necessary certificates and keys for all components in version 1.23.0 of Kubernetes. These certificates and keys are stored in the `$HOME/.kube/config/authdata` file, which is later used by `kubectl`, the Kubernetes command-line tool, to communicate with the cluster securely.
+        service-cidr: '[AI] `kubeadm init` is a command-line tool for bootstrapping a Kubernetes cluster using kubeadm, the open-source Kubernetes administration tool. The `phase certs all --service-cidr` argument specifies that `kubeadm init` should generate and output all required certificates and configure the Kubernetes API server to use the specified IP address range (`--service-cidr`) for its cluster-internal services. This phase ensures secure communication between different components within the cluster, such as the API server, etcd, and node components.'
+        service-dns-domain: |-
+            [AI] The `kubeadm init` command with the `phase certs all --service-dns-domain` option is used to generate and manage SSL certificates for various components in a Kubernetes cluster managed by `kubeadm`. Here's what it does:
+
+            1. It generates and configures SSL certificates for:
+               - The Kubernetes API server
+               - The etcd key-value store
+               - The Kubernetes control plane components (etcd member, kubelet, kube-apiserver, etc.)
+               - The cluster's service DNS.
+
+            2. It sets the `service-dns-domain` argument to specify the Fully Qualified Domain Name (FQDN) for the Kubernetes Service DNS. This value is used by the Kubernetes DNS addon like CoreDNS or kube-dns to resolve service names within the cluster.
+
+            3. The generated certificates are stored in the `/etc/kubernetes/pki` directory, which is mounted as a volume on the master node and all worker nodes.
+
+            4. If you are managing your own Certificate Authority (CA), you can use this command to request and install new certificates for any of these components when they need to be renewed. This helps maintain secure communication between components in your Kubernetes cluster.

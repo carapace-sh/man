@@ -1,0 +1,557 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: dnsmasq
+description: A lightweight DHCP and caching DNS server
+flags:
+    --add-cpe-id=: Add client identification to forwarded DNS queries.
+    --add-mac=: Add requestor's MAC address to forwarded DNS queries.
+    --all-servers: Always perform DNS queries to all servers.
+    --auth-peer=: Peers which are allowed to do zone transfer
+    --auth-sec-servers=: Secondary authoritative nameservers for forward domains
+    --auth-server=: Export local names to global DNS
+    --auth-soa=: Set authoritative zone information
+    --auth-ttl=: Set TTL for authoritative replies
+    --auth-zone=: Domain to export to global DNS
+    --bind-dynamic: Bind to interfaces in use - check for new interfaces
+    --bridge-interface=: Treat DHCP requests on aliases as arriving from interface.
+    --caa-record=: Specify certification authority authorization record
+    --clear-on-reload: Clear DNS cache when reloading /etc/resolv.conf.
+    --cname=: Specify alias name for LOCAL DNS name.
+    --conntrack: Copy connection-track mark from queries to upstream connections.
+    --dhcp-alternate-port=: Use alternative ports for DHCP.
+    --dhcp-broadcast=: Force broadcast replies for hosts with tag set.
+    --dhcp-circuitid=: Map RFC3046 circuit-id to tag.
+    --dhcp-client-update: Allow DHCP clients to do their own DDNS updates.
+    --dhcp-duid=: Specify DUID_EN-type DHCPv6 server DUID
+    --dhcp-fqdn: Use only fully qualified domain names for DHCP clients.
+    --dhcp-generate-names=: Generate hostnames based on MAC address for nameless clients.
+    --dhcp-hostsdir=: Read DHCP host specs from a directory.
+    --dhcp-hostsfile=: Read DHCP host specs from file.
+    --dhcp-ignore-clid: Ignore client identifier option sent by DHCP clients.
+    --dhcp-ignore-names=: Ignore hostnames provided by DHCP clients.
+    --dhcp-luascript=: Lua script to run on DHCP lease creation and destruction.
+    --dhcp-match=: Set tag if client includes matching option in request.
+    --dhcp-name-match=: Set tag if client provides given name.
+    --dhcp-no-override: Do NOT reuse filename and server fields for extra DHCP options.
+    --dhcp-option-force=: DHCP option sent even if the client does not request it.
+    --dhcp-optsdir=: Read DHCP options from a directory.
+    --dhcp-optsfile=: Read DHCP option specs from file.
+    --dhcp-proxy=: Use these DHCP relays as full proxies.
+    --dhcp-pxe-vendor=: Specify vendor class to match for PXE requests.
+    --dhcp-rapid-commit: Enables DHCPv4 Rapid Commit option.
+    --dhcp-relay=: Relay DHCP requests to a remote server
+    --dhcp-remoteid=: Map RFC3046 remote-id to tag.
+    --dhcp-reply-delay=: Delay DHCP replies for at least number of seconds.
+    --dhcp-scriptuser=: Run lease-change scripts as this user.
+    --dhcp-sequential-ip: Attempt to allocate sequential IP addresses to DHCP clients.
+    --dhcp-subscrid=: Map RFC3993 subscriber-id to tag.
+    --dhcp-ttl=: Set TTL in DNS responses with DHCP-derived addresses.
+    --dns-loop-detect: Detect and remove DNS forwarding loops.
+    --dns-rr=: Specify arbitrary DNS resource record
+    --dnssec: Activate DNSSEC validation
+    --dnssec-check-unsigned: Ensure answers without DNSSEC are in unsigned zones.
+    --dnssec-debug: Disable upstream checking for DNSSEC debugging.
+    --dnssec-no-timecheck: Don't check DNSSEC signature timestamps until first cache-reload
+    --dnssec-timestamp=: Timestamp file to verify system clock for DNSSEC
+    --dumpfile=: Path to debug packet dump file
+    --dumpmask=: Mask which packets to dump
+    --enable-ra: Send router-advertisements for interfaces doing DHCPv6
+    --enable-tftp=: Enable integrated read-only TFTP server.
+    --enable-ubus=: Enable the UBus interface.
+    --host-record=: Specify host (A/AAAA and PTR) records
+    --hostsdir=: Read hosts files from a directory.
+    --ignore-address=: Ignore DNS responses containing ipaddr.
+    --interface-name=: Give DNS name to IPv4 address of interface.
+    --ipset=: Specify ipsets to which matching domains should be added
+    --local-service: Accept queries only from directly-connected networks.
+    --local=: Never forward queries to specified domains.
+    --log-async=: Enable async. logging; optionally set queue length.
+    --log-debug: Log debugging information.
+    --log-dhcp: Extra logging for DHCP.
+    --max-cache-ttl=: Specify time-to-live ceiling for cache.
+    --max-port=: Specify highest port available for DNS query transmission.
+    --max-ttl=: Specify time-to-live in seconds for maximum TTL to send to clients.
+    --min-cache-ttl=: Specify time-to-live floor for cache.
+    --min-port=: Specify lowest port available for DNS query transmission.
+    --naptr-record=: Specify NAPTR DNS record.
+    --neg-ttl=: Specify time-to-live in seconds for negative caching.
+    --proxy-dnssec: Proxy DNSSEC validation results from upstream nameservers.
+    --ptr-record=: Specify PTR DNS record.
+    --pxe-prompt=: Prompt to send to PXE clients.
+    --pxe-service=: Boot service for PXE menu.
+    --quiet-dhcp: Do not log routine DHCP.
+    --quiet-dhcp6: Do not log routine DHCPv6.
+    --quiet-ra: Do not log RA.
+    --rebind-domain-ok=: Inhibit DNS-rebind protection on this domain.
+    --rebind-localhost-ok: Allow rebinding of 127.0.0.0/8, for RBL servers.
+    --rev-server=: Specify address of upstream servers for reverse address queries
+    --script-arp: Call dhcp-script with changes to local ARP table.
+    --script-on-renewal: Call dhcp-script when lease expiry changes.
+    --servers-file=: Specify path to file with server= options
+    --shared-network=: Specify extra networks sharing a broadcast domain for DHCP
+    --stop-dns-rebind: Stop DNS rebinding. Filter private IP ranges when resolving.
+    --synth-domain=: Specify a domain and address range for synthesised names
+    --tag-if=: Evaluate conditional tag expression.
+    --test: Check configuration syntax.
+    --tftp-lowercase: Convert TFTP filenames to lowercase
+    --tftp-max=: Maximum number of concurrent TFTP transfers (defaults to 50).
+    --tftp-mtu=: Maximum MTU to use for TFTP transfers.
+    --tftp-no-blocksize: Disable the TFTP blocksize extension.
+    --tftp-no-fail: Do not terminate the service if TFTP directories are inaccessible.
+    --tftp-port-range=: Ephemeral port range for use by TFTP transfers.
+    --tftp-root=: Export files by TFTP only from the specified subtree.
+    --tftp-secure: Allow access only to files owned by the user running dnsmasq.
+    --tftp-single-port: Use only one port for TFTP server.
+    --tftp-unique-root=: Add client IP or hardware address to tftp-root.
+    --trust-anchor=: Specify trust anchor key digest.
+    -0, --dns-forward-max=: Maximum number of concurrent DNS queries. (defaults to 150)
+    -1, --enable-dbus=: Enable the DBus interface for setting upstream servers, etc.
+    -2, --no-dhcp-interface=: Do not provide DHCP on this interface, only provide DNS.
+    -3, --bootp-dynamic=: Enable dynamic address allocation for bootp.
+    -5, --no-ping: Disable ICMP echo address checking in the DHCP server.
+    -6, --dhcp-script=: Shell script to run on DHCP lease creation and destruction.
+    -7, --conf-dir=: Read configuration from all the files in this directory.
+    -8, --log-facility=: Log to this syslog facility or file. (defaults to DAEMON)
+    -9, --leasefile-ro: Do not use leasefile.
+    -A, --address=: Return ipaddr for all hosts in specified domains.
+    -B, --bogus-nxdomain=: Treat ipaddr as NXDOMAIN (defeats Verisign wildcard).
+    -C, --conf-file=: Specify configuration file (defaults to /etc/dnsmasq.conf).
+    -D, --domain-needed: Do NOT forward queries with no domain part.
+    -E, --expand-hosts: Expand simple names in /etc/hosts with domain-suffix.
+    -F, --dhcp-range=: Enable DHCP in the range given with lease duration.
+    -G, --dhcp-host=: Set address or hostname for a specified machine.
+    -H, --addn-hosts=: Specify a hosts file to be read in addition to /etc/hosts.
+    -I, --except-interface=: Specify interface(s) NOT to listen on.
+    -J, --dhcp-ignore=: Don't do DHCP for hosts with tag set.
+    -K, --dhcp-authoritative: Assume we are the only DHCP server on the local network.
+    -L, --localmx: Return MX records for local hosts.
+    -N, --no-negcache: Do NOT cache failed search results.
+    -O, --dhcp-option=: Specify options to be sent to DHCP clients.
+    -P, --edns-packet-max=: Maximum supported UDP packet size for EDNS.0 (defaults to 4096).
+    -Q, --query-port=: Force the originating port for upstream DNS queries.
+    -R, --no-resolv: Do NOT read resolv.conf.
+    -S, --server=: Specify address(es) of upstream servers with optional domains.
+    -T, --local-ttl=: Specify time-to-live in seconds for replies from /etc/hosts.
+    -U, --dhcp-vendorclass=: Map DHCP vendor class to tag.
+    -V, --alias=: Translate IPv4 addresses from upstream servers.
+    -W, --srv-host=: Specify a SRV record.
+    -X, --dhcp-lease-max=: Specify maximum number of DHCP leases (defaults to 1000).
+    -Y, --txt-record=: Specify TXT DNS record.
+    -Z, --read-ethers: Read DHCP static host information from /etc/ethers.
+    -a, --listen-address=: Specify local address(es) to listen on.
+    -b, --bogus-priv: Fake reverse lookups for RFC1918 private address ranges.
+    -c, --cache-size=: Specify the size of the cache in entries (defaults to 150).
+    -d, --no-daemon: 'Do NOT fork into the background: run in debug mode.'
+    -e, --selfmx: Return self-pointing MX records for local hosts.
+    -f, --filterwin2k: Don't forward spurious DNS requests from Windows hosts.
+    -g, --group=: Change to this group after startup (defaults to dip).
+    -h, --no-hosts: Do NOT load /etc/hosts file.
+    -i, --interface=: Specify interface(s) to listen on.
+    -j, --dhcp-userclass=: Map DHCP user class to tag.
+    -k, --keep-in-foreground: Do NOT fork into the background, do NOT run in debug mode.
+    -l, --dhcp-leasefile=: Specify where to store DHCP leases (defaults to /var/lib/misc/dnsmasq.leases).
+    -m, --mx-host=: Specify an MX record.
+    -n, --no-poll: Do NOT poll /etc/resolv.conf file, reload only on SIGHUP.
+    -o, --strict-order: Use nameservers strictly in the order given in /etc/resolv.conf.
+    -p, --port=: Specify port to listen for DNS requests on (defaults to 53).
+    -q, --log-queries: Log DNS queries.
+    -r, --resolv-file=: Specify path to resolv.conf (defaults to /etc/resolv.conf).
+    -s, --domain=: Specify the domain to be assigned in DHCP leases.
+    -t, --mx-target=: Specify default target in an MX record.
+    -u, --user=: Change to this user after startup. (defaults to nobody).
+    -v, --version: Display dnsmasq version and copyright information.
+    -w, --help: Display this message. Use --help dhcp or --help dhcp6 for known DHCP options.
+    -x, --pid-file=: Specify path of PID file (defaults to /var/run/dnsmasq.pid).
+    -y, --localise-queries: Answer DNS queries based on the interface a query was sent to.
+    -z, --bind-interfaces: Bind only to interfaces in use.
+documentation:
+    command: '[AI] Dnsmasq is a lightweight, open-source DNS (Domain Name System) server and DHCP (Dynamic Host Configuration Protocol) client designed to provide DNS resolution and networking services for small networks. It can also act as a TFTP (Trivial File Transfer Protocol) server and an integrated Router Advertisement/Address Dynamics (RADV/DHCPv6) for IPv6 networks. Its primary goal is to simplify network administration by combining these services into one application, reducing the need for multiple servers. It''s often used as a replacement for large, complex DNS and DHCP solutions in home and small office environments.'
+    flag:
+        add-cpe-id: '[AI] The `--add-cpe-id` option is a command-line argument for the Dnsmasq DNS server software. It allows administrators to assign Common Platform Enumeration (CPE) identifiers to DNS records. CPE identifiers are standardized names and codes used in the information technology industry to describe specific configurations of hardware or software. By using `--add-cpe-id`, an administrator can add a CPE identifier to a DNS record, making it easier for intrusion detection systems and vulnerability scanners to identify and classify devices on the network based on their CPE descriptions.'
+        add-mac: '[AI] `dnsmasq` is a popular DHCP and DNS server for Linux systems. The `--add-mac` option is used to statically assign a specific MAC address to a particular IP address when using DHCP. This can be useful in situations where you want to ensure that a specific device always receives the same IP address, even if it changes its MAC address. By specifying both the IP address and the MAC address with `--add-mac`, you can create a fixed mapping in the DHCP lease database. For example, `dnsmasq --add-mac=192.168.0.5:XX:XX:XX:XX:XX` would assign IP address 192.168.0.5 to the device with the given MAC address.'
+        addn-hosts: |-
+            [AI] `dnsmasq` is a lightweight DNS forwarder and DHCP server. The `--add-hosts` option is used to add static mappings of hostnames to IP addresses within `dnsmasq`. This can be useful in cases where you want specific hosts on your network to always resolve to the same IP address, regardless of their actual IP address. The hosts are configured by specifying a list of `<host> <IP-address>` pairs, where `<host>` is the desired hostname and `<IP-address>` is the corresponding IP address. For example:
+
+            ```bash
+            dnsmasq --add-hosts="example.local 192.168.0.5"
+            ```
+
+            This command would tell dnsmasq to map the hostname "example.local" to the IP address "192.168.0.5".
+        address: '[AI] The `--address` option in Dnsmasq is used to assign a specific IP address to the Dnsmasq DNS server. This can be useful in various network configurations, such as setting up a local DNS server on a router or a dedicated server. By specifying an IP address with `--address`, Dnsmasq will listen on that address for DNS queries instead of its default address. It''s important to note that if you have other services running on the same IP address, there might be conflicts and proper configuration is required to avoid potential issues.'
+        alias: '[AI] The `--alias` option in `dnsmasq`, a DHCP and DNS server, allows you to map hostnames to IP addresses in the DNS resolver. This is useful for creating aliases or CNAME records for specific domains without modifying your DNS server configuration files directly. With this feature, you can provide custom names for devices on your local network, making it easier to remember their IP addresses when querying for DNS records.'
+        all-servers: '[AI] `dnsmasq` is a lightweight DNS forwarder and DHCP server. The command `dnsmasq --all-servers` is used to display a list of all DNS servers that `dnsmasq` is currently using or has been configured to use. This can be useful for debugging DNS issues, as it allows you to see which servers are being queried for DNS lookups and potentially identify any misconfigured or rogue servers on the network.'
+        auth-peer: '[AI] `dnsmasq` is a popular open-source DHCP and DNS server. The `--auth-peer` option is a security feature that enables authentication of clients before they are allowed to use the DNS or DHCP services. It uses the Lightweight Access Point Protocol (LWAPP) or IETF RADIUS protocol for authentication. Clients must provide valid credentials before being granted access, helping prevent unauthorized devices from using the network and potentially causing security vulnerabilities.'
+        auth-sec-servers: |-
+            [AI] `dnsmasq` is a popular open-source DNS (Domain Name System) server and combining it with DHCP (Dynamic Host Configuration Protocol) is common in small networks. The `--auth-sec-servers` option is related to its DHCP functionality.
+
+            This option enables the use of TSIG (Transaction Signature) keys for securing dynamic updates from DHCP clients. In simple terms, it adds an extra layer of security by digitally signing DHCP messages exchanged between `dnsmasq` and authorized DHCP servers. This helps prevent unauthorized changes to DHCP records in your network.
+        auth-server: '[AI] The `dnsmasq` command with the `--auth-server` option is used to configure Dnsmasq as a DHCP and DNS server that requires authentication for dynamic registration. This means that only clients that have provided valid credentials will be able to register with Dnsmasq and receive IP addresses or DNS service. The authentication can be configured using various methods such as DHCP-option or RADIUS. It''s commonly used in secure networks where controlling access to the DHCP and DNS services is essential.'
+        auth-soa: '[AI] `dnsmasq` is a lightweight DNS forwarder and caching name server. The `--auth-soa` option is related to DNS Security Extensions (DNSSEC). It enables `dnsmasq` to perform SOA record Authenticated Denial of Existence (ADnx) checks on recursive queries, adding an extra layer of security by verifying the authenticity of negative responses. This means that if a queried domain does not exist and has DNSSEC signed SOA records, `dnsmasq` will check their signatures to ensure their validity before returning a "NXDOMAIN" response.'
+        auth-ttl: '[AI] `dnsmasq` is a popular open-source DHCP and DNS server. The option `--auth-ttl` sets the Time To Live (TTL) for DNS records transmitted with Dynamic DNS Security Update messages. The default value is 1 hour, but this option allows you to specify a different TTL value, providing an additional layer of security by controlling the duration that updates remain valid.'
+        auth-zone: '[AI] `dnsmasq` is a lightweight DNS forwarder and DHCP server. The `--auth-zone` option is used to configure DNSSEC (DNS Security Extensions) in `dnsmasq`. With this option, you can define a zone file for DNSSEC keys. The zone file specifies the public keys that are trusted for DNSSEC validation. This helps ensure the authenticity and integrity of DNS data. By using `--auth-zone` with `dnsmasq`, you can add an extra layer of security to your DNS setup.'
+        bind-dynamic: '[AI] `dnsmasq` is a lightweight DHCP and DNS server for Linux and Unix systems. The `--bind-dynamic` option enables the server to respond to DNS queries for dynamically assigned IP addresses (obtained via DHCP). In other words, it allows the DNS server to resolve the hostnames of machines that are assigned IP addresses through DHCP, making it easier for users to access those machines by name instead of IP address.'
+        bind-interfaces: '[AI] `dnsmasq` is a lightweight DHCP and DNS forwarder. The `--bind-interfaces` option tells the dnsmasq daemon to listen for DNS queries on specific interfaces, in addition to the default one (usually lo0 or localhost). This means that dnsmasq can act as a recursive DNS server for multiple networks and forward queries between them. It''s often used in routed environments where multiple subnets need access to external DNS servers.'
+        bogus-nxdomain: '[AI] The `--bogus-nxdomain` option in Dnsmasq is a feature that helps prevent certain types of DNS amplification attacks. When this option is enabled, Dnsmasq returns random responses instead of "NXDOMAIN" (non-existent domain) error messages for unknown query domains. This makes it more difficult for attackers to use large response size differences between valid and NXDOMAIN queries to amplify their traffic attacks. The random responses also help confuse potential attackers, as they do not provide consistent information about which queries result in larger responses.'
+        bogus-priv: '[AI] The `--bogus-priv` flag is a configuration option for the DNS caching resolver, dnsmasq. When enabled, it instructs dnsmasq to respond with bogus (randomly generated) private IP addresses instead of querying upstream servers for non-existent domains or missing subdomains. This is done to prevent information leakage and improve privacy by avoiding unnecessary external queries. However, it may also result in incorrect DNS responses and could potentially introduce issues with network applications that rely on accurate DNS data.'
+        bootp-dynamic: |-
+            [AI] The `dnsmasq` command with the `--bootp-dynamic` option is used to configure Dnsmasq as a Bootstrap Protocol (BOOTP) server. BOOTP is a network protocol that provides dynamic addressing and other configuration parameters to devices on a network during the boot process.
+
+            The `--bootp-dynamic` flag enables Dnsmasq to dynamically learn BOOTP information from other BOOTP servers on the network, allowing it to act as a relay for BOOTP requests and provide clients with IP addresses and other configuration parameters as needed. This can be useful in large networks where multiple BOOTP servers are used, as it allows for centralized management of BOOTP configurations while still providing flexibility and scalability.
+        bridge-interface: '[AI] `dnsmasq` is a lightweight DNS forwarder and DHCP server for both IPv4 and IPv6. The `--bridge-interface` option is used to configure `dnsmasq` to operate as a DHCP and DNS server on a bridge network interface. This means that `dnsmasq` will provide DHCP addresses and DNS services to devices connected in the same bridge network, allowing them to communicate with each other using their private IP addresses. The option takes the name of the network interface as its argument, for example, `--bridge-interface=eth0`.'
+        caa-record: '[AI] `dnsmasq` is a popular DHCP and DNS server for Linux and other systems. The option `--caa-record` is used to configure `dnsmasq` to add Certificate Authority (CA) records into the DNS responses it provides. CA records contain the information of trusted Certificate Authorities, enabling secure communications over HTTPS by allowing clients to verify the authenticity of certificates presented by websites. This feature helps improve security by ensuring that clients only trust certified CAs, preventing man-in-the-middle attacks and other potential threats.'
+        cache-size: '[AI] `dnsmasq` is a lightweight DNS forwarder and caching nameserver. The `--cache-size` option sets the size of the DNS cache in `dnsmasq`. It specifies the maximum amount of memory to be used for storing cached DNS records. A larger cache size can improve resolution performance for recurring queries, while a smaller cache size reduces memory usage. The value is typically given in bytes or megabytes (e.g., --cache-size=12M).'
+        clear-on-reload: '[AI] `dnsmasq` is a lightweight DHCP and DNS server for Linux and Unix systems. The option `--clear-on-reload` is used to clear the caches (DNS resolver and DHCP leases) when `dnsmasq` is reloaded or restarted. This can be useful in certain network configurations where you want to ensure that old stale information is not retained, such as when making changes to DHCP leases or DNS records. By using this option, any existing caches are discarded and new data will need to be fetched from the sources upon the next request.'
+        cname: '[AI] The `--cname` option in Dnsmasq is used to configure the DNS server to respond with CNAME records instead of answering directly to NS queries for specific domain names. This can be useful in situations where the authoritative DNS servers are not reachable or when using a local DNS cache to improve performance by resolving common subdomains from the local cache rather than querying external servers repeatedly. By responding with CNAME records, Dnsmasq will delegate the resolution of the actual hostname to the authoritative nameserver for that domain.'
+        conf-dir: '[AI] `dnsmasq` is a lightweight DHCP and DNS forwarder designed for use as a network interface between a LAN and the Internet. The `--conf-dir` option specifies the directory where `dnsmasq` should look for its configuration files. Instead of having all settings in one large file, `dnsmasq` allows users to separate different parts of the configuration into multiple files located in this directory. This makes it easier to manage and maintain complex configurations.'
+        conf-file: '[AI] The `dnsmasq` command-line tool is a popular DHCP and DNS forwarder. The `--conf-file` option is used to specify the path to a configuration file for `dnsmasq`. This file contains various settings for how `dnsmasq` should operate, such as IP address ranges for DHCP leases, custom DNS records, and more. By using `--conf-file`, you can centralize your `dnsmasq` configurations in a file instead of having to provide all the options on the command line every time `dnsmasq` is started.'
+        conntrack: |-
+            [AI] `dnsmasq` is a popular open-source DHCP and DNS server for Small Office/Home Office (SOHO) networks. The `--conntrack` option is used to enable the Netfilter Connection Tracking system in `dnsmasq`.
+
+            Connection Tracking is a feature of the Netfilter firewall in Linux that keeps state information about connections between two endpoints, allowing for more efficient handling of network traffic and improving security by making it easier to create rules based on established connections.
+
+            By enabling this option, `dnsmasq` will cooperate with the connection tracking system, allowing better handling and filtering of DNS queries and responses based on connection state information. This can help improve security in a network by blocking malicious traffic or enforcing policies based on known connections.
+        dhcp-alternate-port: '[AI] The `--dhcp-alternate-port` option in Dnsmasq is used to specify an alternative port number for DHCP (Dynamic Host Configuration Protocol) messages instead of the default port 67 or 68. This can be useful when there''s a conflict with other DHCP servers on the network, allowing Dnsmasq to operate on a different port and avoid interference. The option accepts an integer value for the desired port number. For example, `--dhcp-alternate-port 10123` would configure Dnsmasq to use port 10123 for DHCP communication.'
+        dhcp-authoritative: '[AI] The `--dhcp-authoritative` option in dnsmasq is used to specify that it should be the only DHCP server on the network. When this option is set, dnsmasq will not forward DHCP requests to other servers and will handle all DHCP lease management itself. This can help prevent IP address conflicts and simplify network management in small networks where multiple DHCP servers may not be desired.'
+        dhcp-broadcast: '[AI] The `--dhcp-broadcast` option is a command-line argument for the DNSMasq DHCP (Dynamic Host Configuration Protocol) server. When this option is enabled, DNSMasq will send DHCP broadcast messages even when there is only one DHCP client on the network segment. Normally, DHCP servers only send responses to specific DHCP requests, and do not broadcast DHCP offers or acknowledgements. However, some older clients may require broadcast DHCP messages for discovery. By using `--dhcp-broadcast`, DNSMasq can support these older clients while still providing the usual functionality of a DHCP server for other clients on the network.'
+        dhcp-circuitid: '[AI] `dnsmasq` is a popular open-source DHCP and DNS server. The `--dhcp-circuitid` option is used to assign a specific Circuit ID (also known as VLAN ID or Port ID) to DHCP leases. This can be useful in VLAN environments where multiple subnets are connected to the same physical interface. By specifying a Circuit ID, `dnsmasq` will ensure that DHCP clients in that VLAN receive the correct ID with their lease, enabling proper communication between devices on the same VLAN.'
+        dhcp-client-update: |-
+            [AI] `dnsmasq` is a popular DHCP (Dynamic Host Configuration Protocol) and DNS (Domain Name System) server software. The option `--dhcp-client-update` is used to enable the automatic updating of DHCP client leases.
+
+            When this option is set, `dnsmasq` will periodically check DHCP servers for new or updated lease information and update its own internal records accordingly. This ensures that `dnsmasq` maintains up-to-date IP address assignments for DHCP clients on the network.
+
+            By default, this feature is disabled, and you must explicitly enable it to take effect. This option helps ensure reliable IP address assignment and reduces the likelihood of IP address conflicts on the network.
+        dhcp-duid: '[AI] The `--dhcp-duid` option in the DNSMasq DHCP server is used to set or override the Dynamic Update Identifier (DUID) value in DHCP lease offers and acknowledgments. The DUID is a unique identifier assigned to a network interface that can be used for persistent binding of IP addresses, especially useful for devices with ephemeral or frequently changing IP addresses, such as some mobile devices. By setting this option, administrators can ensure that specific devices are always given the same IP address when they connect to the network. This can help maintain consistent configurations and simplify network management.'
+        dhcp-fqdn: '[AI] The `--dhcp-fqdn` option in dnsmasq is used to set the fully qualified domain name (FQDN) for DHCP (Dynamic Host Configuration Protocol) clients. When this option is enabled, each DHCP lease is given a unique hostname based on the client''s MAC address and the configured domain suffix. This can be useful in networks where hosts are required to have static FQDNs for various reasons such as email or server applications. The format of the hostname is `<client-mac-address>.<domain-suffix>`. For instance, if the client''s MAC address is `00:11:22:33:44:55` and the domain suffix is `example.com`, the FQDN for that client will be `00-11-22-33-44-55.example.com`.'
+        dhcp-generate-names: '[AI] `dnsmasq` is a lightweight DHCP and DNS server for Local Area Networks (LAN). The option `--dhcp-generate-names` is used to automatically assign hostnames based on the first part of the client''s MAC address when it obtains an IP address via DHCP. This feature helps simplify network administration by providing a consistent naming scheme for devices on the LAN. When this option is enabled, `dnsmasq` appends a suffix to the MAC address to create a hostname. For example, if a device with MAC address "01:23:45:67:89:AB" obtains an IP address, its hostname might be generated as "ab-67-89-cd-ef-gh".'
+        dhcp-host: |-
+            [AI] The `dnsmasq` command with the option `--dhcp-host` is used to manually configure static DHCP host entries in `dnsmasq`, a lightweight DNS and DHCP server.
+
+            When you use this option, you provide a list of IP address:hostname or IP address::mac-address pairs, which are added as fixed mappings to the DHCP lease database. This means that the specified hostnames or MAC addresses will always be assigned the same IP address when they request it via DHCP.
+
+            For example, `dnsmasq --dhcp-host=192.168.1.10:mycomputer --dhcp-host=192.168.1.11:printer` would set the IP address 192.168.1.10 for the hostname "mycomputer" and IP address 192.168.1.11 for the hostname "printer", regardless of which device actually requests those addresses via DHCP.
+
+            This can be useful in cases where you want to ensure that specific devices always have the same IP addresses, such as servers or devices with static IP addresses that need to be accessed regularly.
+        dhcp-hostsdir: '[AI] The `--dhcp-hostsfile` option in Dnsmasq is used to specify a directory where Dnsmasq will store and read its DHCP hosting files. A DHCP hosting file is a text file containing static mappings of IP addresses to hostnames or MAC addresses, allowing you to assign fixed IP addresses to specific devices on your network. With the `--dhcp-hostsdir` option, you can configure Dnsmasq to automatically read and apply these files at startup.'
+        dhcp-hostsfile: '[AI] The `dnsmasq` command with the option `--dhcp-hostsfile` configures the DNS server, dnsmasq, to store dynamic DHCP (Dynamic Host Configuration Protocol) lease information in a file instead of its default memory-only operation. This can be useful for persistent DHCP records or for integration with external systems like databases or inventory management tools. The file specified is where dnsmasq will write the DHCP host information, allowing easy access and management.'
+        dhcp-ignore: '[AI] `dnsmasq` is a popular open-source DHCP and DNS server. The `--dhcp-ignore` option is used to tell `dnsmasq` to not lease IP addresses or provide DHCP services to specific clients based on their MAC addresses. This can be useful when you want to exclude certain devices from receiving IP addresses via DHCP, for instance if they have static IP addresses or if they are causing conflicts in your network. The option takes a list of MAC addresses or ranges as arguments, and each entry in the list must consist of six hexadecimal digits representing each pair of bytes in the address. For example, `--dhcp-ignore=00:11:22:33:44:55`.'
+        dhcp-ignore-clid: |-
+            [AI] The `dnsmasq` command with the option `--dhcp-ignore-clid` is used to configure DHCP (Dynamic Host Configuration Protocol) server behavior in the Dnsmasq DHCP and DNS server.
+
+            With this option enabled, Dnsmasq ignores DHCP client identifier (CLID) values that do not match exactly with the hostname or IP address of the requesting client when processing DHCP requests. This helps prevent potential DHCP lease conflicts or other issues caused by incorrect or duplicate CLIDs.
+
+            In simpler terms, the `--dhcp-ignore-clid` option enhances security and reliability in the DHCP environment by ensuring that clients are assigned unique IP addresses based on their correct identity.
+        dhcp-ignore-names: |-
+            [AI] `dnsmasq` is a popular open-source DHCP and DNS server for Linux systems. The `--dhcp-ignore-names` option is used to configure it to ignore DHCP client hostname overrides.
+
+            When a DHCP client sends a request for an IP address, it can also send a proposed hostname. If the `dnsmasq` server encounters a conflict with another existing hostname, it will by default attempt to resolve this by proposing a new name based on the MAC address or other information from the DHCP packet.
+
+            However, sometimes you may want `dnsmasq` to ignore these client-proposed names and use the existing ones instead. This is where the `--dhcp-ignore-names` option comes in. By setting this flag, you tell `dnsmasq` to discard the client-proposed hostnames and keep using the current ones for those clients.
+
+            This can be useful in scenarios where you have a large number of DHCP clients with consistent hostnames that should not change, such as IoT devices or infrastructure equipment. It also helps maintain consistency and makes it easier to manage the network when DHCP client names don't change frequently.
+        dhcp-lease-max: '[AI] The `--dhcp-lease-max` option in dnsmasq is used to set the maximum number of DHCP leases that can be given out by the DHCP server in dnsmasq. It helps in preventing IP address exhaustion and uncontrolled growth of DHCP clients on a network. By default, dnsmasq does not limit the number of leases. Setting this option with an appropriate value restricts the number of leases that can be distributed to avoid potential IP address conflicts and improve network management.'
+        dhcp-leasefile: '[AI] `dnsmasq` is a popular open-source DHCP (Dynamic Host Configuration Protocol) and DNS (Domain Name System) server. The `--dhcp-leasefile` option in `dnsmasq` configures it to read the DHCP lease information from a specified file instead of managing leases internally. This can be useful in scenarios where you want to coordinate DHCP lease management with another DHCP server or keep track of DHCP leases centrally using an external file. The format and location of this file is typically determined by the specific operating system or network configuration being used.'
+        dhcp-luascript: '[AI] `dnsmasq` is a lightweight DHCP and DNS server for small networks. The `--dhcp-script` option is used to specify a script that will be run on the server when certain DHCP events occur, such as lease renewal or new lease request. The script can be written in any language that can interact with the DHCP protocol and produces output that `dnsmasq` can understand. For instance, you could use it to assign dynamic IP addresses based on specific criteria or set additional options for clients. The `--dhcp-luascript` variant is similar but uses Lua scripting language for the scripts. This provides more advanced functionality and flexibility compared to traditional scripts.'
+        dhcp-match: |-
+            [AI] `dnsmasq` is a popular open-source DHCP and DNS server. The `--dhcp-match` option is used to configure dynamic DHCP lease assignments based on specific criteria.
+
+            When this flag is set, `dnsmasq` looks for DHCP client requests with specific identifiers in their DHCP DISCOVER or REQUEST messages, and assigns those clients a specific IP address or other configuration options. This can be useful for manually configuring certain devices on a network. The criteria used to match DHCP clients include their hardware ethernet MAC addresses, hostnames, or client-identified strings.
+
+            For example, to assign the IP address `192.168.0.5` to a device with the MAC address `00:11:22:33:44:55`, you could use the following command in your `dnsmasq.conf` file:
+
+            ```
+            dhcp-match ether eth00:11:22:33:44:55,ip-address=192.168.0.5
+            ```
+        dhcp-name-match: |-
+            [AI] `dnsmasq` is a lightweight DHCP and DNS server for Linux and Unix systems. The option `--dhcp-name-match` is used to configure DHCP leases based on the hostname of the client requesting the lease.
+
+            With this option, `dnsmasq` allows you to assign specific IP addresses or other options (e.g., DNS servers) to clients with matching hostnames. The syntax for using this option is as follows:
+
+            `--dhcp-name-match=<pattern>,<ip-address|options>`
+
+            The `<pattern>` specifies the regular expression pattern in the client's hostname that will match the condition, and the `<ip-address|options>` specifies what to do when a client matching the pattern is detected. For example:
+
+            `--dhcp-name-match=myhost.,192.168.1.10`
+
+            This would assign the IP address `192.168.1.10` to any client whose hostname starts with "myhost."
+
+            You can also use options instead of an IP address, for example:
+
+            `--dhcp-name-match=myhost.,{ option dhcp-option-length=long; option dhcp-option-name="dns-server"; option dhcp-option-value="8.8.8.8, 8.8.4.4" }`
+
+            This would set the DNS servers for a client whose hostname starts with "myhost." to `8.8.8.8` and `8.8.4.4`.
+        dhcp-no-override: '[AI] `dnsmasq` is a popular DHCP and DNS server for Linux networks. The option `--dhcp-no-override` is used to prevent `dnsmasq` from overriding other DHCP servers on the network. In other words, it makes `dnsmasq` act as a secondary DHCP server that only hands out addresses when no other DHCP server is present on the network. This can be useful in situations where multiple DHCP servers are required to cover different subnets or IP ranges within the same network.'
+        dhcp-option: |-
+            [AI] `dnsmasq` is a popular open-source DHCP and DNS server software. The `--dhcp-option` flag is used to configure custom options for DHCP (Dynamic Host Configuration Protocol) packets sent by `dnsmasq`.
+
+            This flag allows administrators to set specific option values in the DHCP lease offers or renewals. For example, `--dhcp-option=option:code:value` can be used to set a custom option with code `option`, value `value`, and send it to all clients (`:all`) or a specific client (specified by its IP address or hostname).
+
+            By configuring DHCP options, administrators can add additional functionality to their networks, such as:
+
+            - Setting static IP addresses for certain devices.
+            - Configure network printers and other services.
+            - Implement security policies like VLANs, firewalls, or proxy servers.
+
+            In summary, `dnsmasq --dhcp-option` is a powerful tool to customize DHCP packets and control various aspects of your network infrastructure.
+        dhcp-option-force: |-
+            [AI] `dnsmasq` is a popular DHCP and DNS server for Linux networks. The `--dhcp-option-force` argument is an option used to set specific DHCP options forcefully for all DHCP clients.
+
+            When using DHCP, options are parameters that can be passed from the DHCP server to DHCP clients. These options may include information such as DNS servers, NTP servers, or other configuration settings. By default, `dnsmasq` sets certain options based on client information, but with `--dhcp-option-force`, you can override these defaults and set specific options for all clients.
+
+            For instance, to forcefully assign the option 68 (Hostname) to a value "workstation" for all DHCP clients, you would use:
+            ```
+            dnsmasq --dhcp-option=option:68:value:workstation --dhcp-option-force
+            ```
+            This way, regardless of the client's original hostname request, all clients will be assigned the hostname "workstation".
+        dhcp-optsdir: '[AI] The `--dhcp-optsdir` option in Dnsmasq is used to specify a directory containing files with dynamic DHCP options. These options are extra configuration parameters that can be assigned to DHCP clients based on various conditions, such as client hardware type or subnet location. By using this flag to point to a directory containing these files, Dnsmasq can dynamically assign custom options to clients during the DHCP lease process.'
+        dhcp-optsfile: '[AI] The `--dhcp-optsfile` option in dnsmasq is used to specify a file containing DHCP options to be passed to DHCP clients. This can be useful for configuring optional DHCP parameters such as NTP servers, proxy settings, or custom DNS search domains, among others. The file format is simple with each option being defined on a new line in the format `option-name: value`. For instance, adding an NTP server can be done by creating a file named `dhcp-options.conf` containing `option ntp-servers 192.168.0.1;`. When dnsmasq is started with this option, it will read the specified file and apply the options to the DHCP packets it generates.'
+        dhcp-proxy: |-
+            [AI] `dnsmasq` is a popular open-source DHCP (Dynamic Host Configuration Protocol) and DNS (Domain Name System) server. The `--dhcp-proxy` option is used to enable the DHCP proxy feature in `dnsmasq`.
+
+            When this flag is set, `dnsmasq` acts as a DHCP relay agent, forwarding DHCP requests from DHCP clients to an upstream DHCP server. This allows the use of a centralized DHCP server while still allowing `dnsmasq` to provide DNS services and handle local DHCP leases.
+
+            The main benefit of using this feature is that it simplifies network configuration, as both DHCP and DNS services can be provided by a single application, rather than requiring separate servers or configurations for each service. Additionally, it provides greater security, as the DHCP relaying is done through `dnsmasq`'s secure interface, preventing unauthorized access to the upstream DHCP server.
+        dhcp-pxe-vendor: '[AI] The `--dhcp-pxe` option in dnsmasq is used to enable DHCP and PXE (Preboot Execution Environment) boot services. The `--dhcp-pxe-vendor` option specifically sets the vendor class identification string for PXE clients. This information is used by the DHCP server to determine which boot file to provide to the client, enabling targeted bootloader images or configuration files based on the client hardware.'
+        dhcp-range: |-
+            [AI] `dnsmasq` is a popular open-source DHCP (Dynamic Host Configuration Protocol) and DNS (Domain Name System) server. The option `--dhcp-range` is used to define a range of IP addresses that `dnsmasq` will dynamically assign to DHCP clients.
+
+            For instance, if you set `--dhcp-range=192.168.0.50,192.168.0.100,255.255.255.0`, `dnsmasq` will hand out IP addresses between 192.168.0.50 and 192.168.0.100 to clients that request one via DHCP. The last argument (in this case, `255.255.255.0`) is the netmask for the subnet.
+        dhcp-rapid-commit: '[AI] `dnsmasq` is a lightweight DHCP and DNS server. The `--dhcp-rapid-commit` option is used to expedite the DHCP lease assignment process. When this option is enabled, dnsmasq commits a new lease as soon as it has determined that no other lease conflicts with it, rather than waiting for the full lease negotiation and commit process to complete. This can improve network performance by reducing the time required for clients to obtain IP addresses.'
+        dhcp-relay: |-
+            [AI] `dnsmasq` is a popular open-source DHCP (Dynamic Host Configuration Protocol) and DNS (Domain Name System) server. The `--dhcp-relay` option is used to configure `dnsmasq` as a DHCP relay agent.
+
+            When the DHCP relay agent feature is enabled, `dnsmasq` listens for DHCP DISCOVER and OFFERS messages on a specified interface, then forwards them to the upstream DHCP server. In turn, it relays back the DHCP ACK message from the upstream DHCP server to the client that initiated the request. This way, clients on a subnet other than the one where the DHCP server is located can still obtain IP addresses and other configuration information from the DHCP server.
+        dhcp-remoteid: '[AI] `dnsmasq` is a popular DHCP and DNS server for Linux networks. The `--dhcp-remoteid` option is used to enable the transmission of the Client ID from DHCP clients to DHCP servers via Dynamic DNS updates. This feature allows DHCP leases to be assigned based on the Client ID instead of the DHCP client''s hardware MAC address, making it easier for network administrators to manage and track DHCP clients. It also enables better support for dynamic IP addresses in DHCP environments.'
+        dhcp-reply-delay: '[AI] The `--dhcp-reply-delay` option in Dnsmasq is used to set a delay before replying with DHCP (Dynamic Host Configuration Protocol) offers or acknowledgements. This can be helpful in preventing DHCP starvation attacks, where an attacker floods the network with DHCP request packets to prevent legitimate clients from obtaining IP addresses. By introducing a delay, Dnsmasq can more fairly distribute IP addresses among clients. The delay is specified in microseconds.'
+        dhcp-script: '[AI] `dnsmasq` is a popular DHCP and DNS server application. The `--dhcp-script` option is used to specify a custom script that will be executed on the DHCP lease event. This script can contain dynamic IP address allocation logic, security policies, or other custom configurations based on the client''s information (e.g., MAC address, hostname, etc.). The output of the script will be treated as part of the lease record in the DHCP database and can influence subsequent lease renewals or revocations. This feature adds flexibility to the DHCP server configuration by allowing for more complex policies.'
+        dhcp-scriptuser: '[AI] The `--dhcp-scriptuser` option in Dnsmasq is used to specify a user account under which Dnsmasq will run its DHCP and DNS scripts. This provides an additional level of security by running these potentially sensitive tasks under a restricted user account instead of as the root user. The specified user must have appropriate permissions to interact with network interfaces, file systems, and other resources used by the scripts.'
+        dhcp-sequential-ip: |-
+            [AI] The `--dhcp-sequential-ip` option in Dnsmasq is used to configure the DHCP server to assign IP addresses in a sequential order. This means that each DHCP lease will be assigned an IP address that is consecutively numbered, starting from a specified base IP address.
+
+            For instance, if you set `--dhcp-start=10.0.0.50` and `--dhcp-end=10.0.0.100`, with the `--dhcp-sequential-ip` option enabled, Dnsmasq will assign IP addresses from 10.0.0.50 to 10.0.0.99 in a sequential order. This can be useful for creating consistent and predictable network configurations in lab environments or other scenarios where you want to ensure that each device is assigned a specific IP address.
+        dhcp-subscrid: '[AI] The `--dhcp-script` option in `dnsmasq`, a DHCP and DNS server, allows specifying a script to be run for each DHCP lease. The script, usually written in a language like Bash or Python, can perform custom configuration tasks on the leased devices. The `--dhcp-script` takes the path to the script as an argument. The option `--dhcp-subscript` is a variation of this, where instead of a static script, a file containing scripts is provided and dnsmasq selects one based on the DHCP client''s identity (e.g., MAC address or hostname). This is done by using the `%h`, `%m` or other variables in the script file names to include unique information from each lease.'
+        dhcp-ttl: '[AI] `dnsmasq` is a lightweight DHCP and DNS server for Local Area Networks (LAN). The `--dhcp-ttl` option sets the Time to Live (TTL) value for Dynamic Host Configuration Protocol (DHCP) leased addresses. TTL is a measure of data validity in the Internet Protocol packet header, indicating how long the information can be considered accurate. A smaller TTL value increases security by reducing the time an IP address can be used by an unauthorized user after a network interface is compromised or lost. However, a shorter TTL may also increase DHCP traffic and reduce performance due to more frequent renewals. The default value for `dnsmasq` is typically 3 days (108 hours).'
+        dhcp-userclass: |-
+            [AI] `dnsmasq` is a popular open-source DHCP and DNS server software. The option `--dhcp-userclass` allows administrators to assign specific configurations or policies to clients based on user classes defined in the DHCP lease file.
+
+            When using this option, dnsmasq looks for the `User-Class` tag in DHCP requests from clients. The value of this tag specifies the class name assigned to that client. The administrator can then define custom options or settings for each user class in the dnsmasq configuration file.
+
+            For example, an administrator might set up different network policies or assign static IP addresses for different groups of clients by defining multiple user classes and associating them with specific configurations using `--dhcp-userclass`. This provides a flexible way to manage and customize network settings for various devices on the network.
+        dhcp-vendorclass: '[AI] `dnsmasq` is a popular open-source DHCP and DNS server. The `--dhcp-vendorclass` option is used to configure vendor classes in `dnsmasq`. Vendor classes allow assigning specific DHCP options or lease configurations based on the MAC address of the client. With this option, you can define rules that match against a MAC address and apply custom DHCP settings. This can be useful for assigning static IP addresses or applying network policies to devices based on their hardware identifier.'
+        dns-forward-max: '[AI] The `--dns-forward-max` option in dnsmasq is used to set a limit on the number of concurrent DNS forwarding requests. When this limit is reached, dnsmasq will start returning errors for new requests, effectively denying further queries. This can be useful in preventing excessive DNS traffic or limiting the load on upstream DNS servers. The option takes an integer value representing the maximum number of concurrent requests.'
+        dns-loop-detect: '[AI] The `--dns-loop-detect` option in Dnsmasq is a feature designed to prevent DNS recursion attacks and potential DNS response amplification attacks. It enables the DHCP and DNS server, Dnsmasq, to detect and drop any DNS queries that contain recursively resolved domains in their source or destination addresses, potentially preventing them from causing loops or excessive traffic on a network. This is particularly important for smaller networks or routers where resources are limited and potential attack vectors are higher.'
+        dns-rr: '[AI] `dnsmasq` is a lightweight DNS forwarder and DHCP server. The option `--dns-rr` tells it to include the response''s additional DNS records (RRs) in its answers. These RRs can provide extra information like Time To Live (TTL), other record types, or CNAMEs that can help improve DNS resolution performance and accuracy. This is especially useful when querying multiple subdomains from a single domain name.'
+        dnssec: '[AI] `dnsmasq` is a lightweight DHCP and DNS server for Linux and Unix systems. The `--dnssec` option enables DNSSEC validation in `dnsmasq`. DNSSEC (DNS Security Extensions) is a protocol extension that provides authentication and integrity to the DNS data. With this option, `dnsmasq` checks DNS responses for DNSSEC signatures and verifies their authenticity before forwarding the results to clients, enhancing security against DNS cache poisoning attacks.'
+        dnssec-check-unsigned: |-
+            [AI] `dnsmasq` is a lightweight DNS forwarder and DHCP server. The option `--dnssec-check-unsigned` is related to DNSSEC, which is a protocol designed to authenticate and secure certain kinds of information provided by the Domain Name System (DNS).
+
+            With `--dnssec-check-unsigned`, dnsmasq will validate DNS responses signed with DNSSEC. However, it does not verify the response's chain of trust back to the root Key Signing Key (KSK) or Trust Anchors. This means that only the authenticity of the response itself is verified, but not the entire DNSSEC chain leading up to it.
+
+            In summary, `--dnssec-check-unsigned` in dnsmasq enables DNSSEC response validation without checking the entire chain of trust.
+        dnssec-debug: '[AI] `dnsmasq` is a lightweight DNS (Domain Name System) server and resolver for Small Offices/Home Offices (SOHOs) and larger networks. The option `--dnssec-debug` is used to enable detailed debugging of DNSSEC (DNS Security Extensions) related operations in `dnsmasq`. With this flag, more information about DNSSEC validation and signing processes is displayed in the server logs, helping administrators troubleshoot DNSSEC issues or gain a better understanding of the DNSSEC functionality within their network.'
+        dnssec-no-timecheck: '[AI] The `dnsmasq` command with the option `--dnssec-no-timecheck` disables the time checking feature of DNSSEC validation in `dnsmasq`. With this option, `dnsmasq` will not check the time in the DNSSEC signatures against its own clock before validating the signature. This can be useful in environments where the system clock may be incorrect but DNSSEC validation is still required. However, it''s important to note that disabling time checks may increase the risk of accepting invalid DNSSEC responses.'
+        dnssec-timestamp: '[AI] The `--dnssec-timestamp` option in the DNS caching resolver `dnsmasq` enables the inclusion of DNSSEC timestamps in the response messages. DNSSEC (DNS Security Extensions) is a set of extensions to DNS that provide authentication and integrity to the DNS data. The timestamps indicate when the DNSSEC-related keys were last used to sign or validate the data, providing an additional layer of security by allowing clients to check if the responses are still valid.'
+        domain: '[AI] The `--domain` option in Dnsmasq is used to set a default domain name for DHCP clients. When a client receives IP address via DHCP, it also gets this default domain name appended to its DNS queries unless overridden by other means. This can be useful in network environments where all clients share the same default domain name, simplifying the resolution of Fully Qualified Domain Names (FQDNs).'
+        domain-needed: '[AI] The `dnsmasq` command with the `--domain-needed` option is a DHCP and DNS server that only appends a domain suffix when a query lacks one. In other words, it returns IP addresses for fully qualified domain names (FQDNs) if present in the query, but adds the necessary domain suffix if only a partial domain name is provided. This helps ensure that DNS queries are properly formed and increases the likelihood of successful resolution.'
+        dumpfile: '[AI] The `dnsmasq` command-line tool is a popular DHCP and DNS server for Linux systems. The `--dumpfile` option is used to save the contents of the DNS resolver''s cache to a file for later analysis or debugging purposes. The flag takes an argument specifying the output file name. For example, `dnsmasq --dumpfile /var/log/dnsmasq.cache` will save the DNS resolver cache to the specified file. The saved data includes the query name, type, ID, answer and source IP address. This feature can be helpful in troubleshooting DNS-related issues or for analyzing DNS traffic on a network.'
+        dumpmask: '[AI] `dnsmasq` is a popular DHCP and DNS server for Linux systems. The `--dumpmask` option is used with the `dnsmasq` command to display a mask or template that shows which fields are logged or monitored by `dnsmasq`. The output of this command can be saved to a file, allowing administrators to customize the logging settings for their specific use case. By understanding the mask, they can specify which data points should be recorded, such as client addresses, query names, or response codes.'
+        edns-packet-max: '[AI] The `--edns-packet-max` option in Dnsmasq is used to set a limit on the size of EDNS (Extension Mechanisms for DNS) packets that can be sent and received. EDNS allows for larger queries or responses, which can be useful in certain situations such as multicast DNS or large subdomains. By setting this option, an administrator can prevent potentially large EDNS packets from overwhelming their network or DNS resolver. The value specified is the maximum size of an EDNS packet in bytes.'
+        enable-dbus: '[AI] `dnsmasq` is a lightweight DHCP and DNS server for Linux and Unix systems. The option `--enable-dbus` enables the Dnsmasq service to interact with the System Message Bus (DBUS). This allows other applications to communicate with and control Dnsmasq through DBUS signals and methods, enhancing the overall system integration and flexibility.'
+        enable-ra: '[AI] `dnsmasq` is a popular DHCP and DNS server for Linux systems. The option `--enable-ra` enables the Dynamic Host Configuration Protocol (DHCP) option for Stateless Address Autoconfiguration (RApid Address Configuration, RA). This option allows DHCP clients to automatically configure their IP addresses using the IPv6 information provided by the DHCP server. When `--enable-ra` is set, `dnsmasq` will respond to DHCP requests with IPv6 address and prefix length information.'
+        enable-tftp: '[AI] `dnsmasq` is a popular open-source DHCP and DNS server for Small Office/Home Office (SOHO) networks. The option `--enable-tftp` enables the TFTP (Trivial File Transfer Protocol) server functionality in dnsmasq. With this feature, dnsmasq can act as a TFTP server and provide bootstrap files to clients over the network during the BOOTP or DHCP request. This setup simplifies network configurations where both DHCP/DNS services and TFTP are required, as you only need to run a single application instead of two separate servers.'
+        enable-ubus: |-
+            [AI] `dnsmasq` is a lightweight DHCP and DNS server for Small Offices / Home Offices (SOHOs). The option `--enable-ubus` enables the uBus interface in dnsmasq.
+
+            uBus is a generic bus system used by various network services like dnsmasq, OpenWRT, etc., to communicate with other applications and services. With `--enable-ubus`, dnsmasq becomes an uBus consumer and producer, allowing it to interact with other uBus applications on the same system.
+
+            Using uBus in dnsmasq can expand its functionality by enabling automation and integration with other network services. For instance, you might use it to trigger scripts or actions when certain DNS events occur (e.g., a client connects or disconnects).
+        except-interface: '[AI] `dnsmasq` is a lightweight DHCP and DNS server for Linux and Unix systems. The option `--except-interface` is used to exclude an interface from DHCP and DNS service. With this option, you can specify one or more interfaces that should not provide DHCP or DNS services. This can be useful in multi-homed or virtualized environments where you want to isolate certain network interfaces from providing these services to prevent conflicts or security concerns.'
+        expand-hosts: '[AI] `dnsmasq` is a lightweight DNS forwarder and DHCP server. The `--expand-hosts` option is used to expand hostnames defined in the `/etc/hosts` file or other static files during DNS lookups. This means that if an entry exists in the hosts file with a hostname that matches a query, dnsmasq will return the IP address associated with that hostname instead of making a recursive query to a upstream nameserver. This can improve performance and reduce network traffic for frequently accessed hosts or internal services.'
+        filterwin2k: '[AI] `dnsmasq` is a popular open-source DHCP and DNS server. The option `--filterwin2k` is a security feature that provides protection against certain DNS attacks, specifically those targeting Windows operating systems (like WinNt and XP) with the implementation of LMHOSTS files. With this flag enabled, dnsmasq will block responses to DNS queries for non-existent names that contain common Windows netbios names, thus preventing attackers from using these queries to enumerate potential targets on a network.'
+        group: |-
+            [AI] `dnsmasq` is a popular DHCP and DNS server for Small Office/Home Office (SOHO) networks. The `--group` option is used to configure `dnsmasq` into operating in a master-slave mode with other instances of itself.
+
+            In this setup, the first `dnsmasq` instance acts as the master server, handling both DHCP and DNS requests. Other instances run with the `--group` option, set to the IP address or hostname of the master server, become slave servers. They only handle DNS queries, forwarding them to the master server for resolution.
+
+            By using this setup, you can distribute the workload between multiple instances and also provide a level of redundancy since the slaves continue serving DNS requests if the master goes down.
+        help: '[AI] `dnsmasq --help` displays a detailed help message about the DHCP and DNS server named `dnsmasq`. The help message includes usage information, a list of command line options with descriptions, and examples of how to use the software for various purposes such as acting as a DHCP or DNS server, caching, and more. It also explains advanced features like supporting various file types for configuring options, handling of multicast DNS (mDNS) and dynamic updates of DNS records.'
+        host-record: |-
+            [AI] `dnsmasq` is a popular open-source DHCP and DNS server for Linux and other platforms. The `--host-record` option is used to define static host records within the `dnsmasq` configuration file.
+
+            When this option is set, `dnsmasq` will map specific hostnames to IP addresses without requiring a DHCP lease or DNS query. This can be useful for devices with fixed IP addresses that don't obtain their address dynamically. The syntax for using the option is:
+
+            ```bash
+            --host-record=<hostname>=<IP_address>
+            ```
+
+            For example, to define a static record for the hostname "myserver" with IP address 192.168.0.5, add the following line to the `dnsmasq.conf` file:
+
+            ```bash
+            --host-record=myserver=192.168.0.5
+            ```
+
+            After saving and reloading the configuration, queries for "myserver" will be resolved to 192.168.0.5 by `dnsmasq`.
+        hostsdir: '[AI] The `--hostsfile` or shorthand `--hostsdir` option in `dnsmasq`, a lightweight DHCP and DNS server, specifies a directory containing custom host files. Each file in the directory maps hostnames to IP addresses, allowing for customized mappings beyond what can be configured through `/etc/hosts` or DHCP leases. This feature can be useful for testing, development, or redirection of traffic for specific hosts.'
+        ignore-address: '[AI] The `dnsmasq` command-line option `--ignore-address` is used to prevent `dnsmasq` from using a specific IP address for DHCP or DNS services. By default, `dnsmasq` assigns its own IP address as the DHCP and DNS server address to clients on a local network. With `--ignore-address`, you can exclude a specific IP address from being used for these services. This is useful when you have another DHCP or DNS server on the same network that should be preferred, or when you want to run multiple instances of `dnsmasq` with different IP addresses.'
+        interface: '[AI] `dnsmasq` is a popular open-source DHCP and DNS server for Small Office/Home Office (SOHO) networks. The `--interface` option in `dnsmasq` is used to specify the network interface on which the DHCP and DNS services should be provided. This could be an Ethernet interface, Wi-Fi interface or any other available network interface. When you start `dnsmasq`, it listens for DHCP and DNS requests on the specified interface, providing IP addresses via DHCP to devices on that network and handling DNS queries for the domain names they request.'
+        interface-name: '[AI] `dnsmasq` is a lightweight DNS forwarder and DHCP server. The `--interface-name` option specifies the network interface to use for both DNS and DHCP services. It ensures that traffic related to these services is sent and received only through the specified interface, which helps improve security and isolate network segments. For instance, if you have multiple interfaces, you can assign different IP addresses or subnets to each one, and then configure `dnsmasq` with the appropriate `--interface-name` for each setup.'
+        ipset: |-
+            [AI] `dnsmasq` is a lightweight DHCP and DNS server for Linux and Unix systems. The `--ipset` option is used to integrate `dnsmasq` with iptables or ipfilter firewalls using IP sets.
+
+            IP sets are a way to group related IP addresses for easier handling by the firewall rules. With the `--ipset` option, `dnsmasq` will periodically update an IP set based on the addresses of known clients and servers. This allows for dynamic filtering rules in the firewall based on DNS queries and responses. For example, you can block all DNS queries or responses from a specific network by adding it to an IP set and denying traffic from that set in your firewall rules.
+        keep-in-foreground: '[AI] `dnsmasq` is a lightweight DHCP and DNS server for Linux and Unix systems. The option `--keep-in-foreground` is used to prevent `dnsmasq` from detaching from the terminal and running in the background as a daemon. This means that the process will remain attached to the terminal, allowing users to monitor its logs and receive notifications if needed. It''s useful when debugging or for manual management of DHCP leases and DNS queries.'
+        leasefile-ro: '[AI] `dnsmasq` is a popular open-source DHCP and DNS server for small networks. The option `--leasefile-ro` specifies that the lease file should be read-only. When using this flag, `dnsmasq` will not modify the contents of the specified lease file during its operation. This can be useful in situations where you want to ensure that no changes are made to the file, such as when using an externally managed DHCP server or when debugging network issues. The lease file stores dynamic IP address assignments and associated information for DHCP clients.'
+        listen-address: |-
+            [AI] The `--listen-address` option in Dnsmasq is used to specify the IP address and port number on which Dnsmasq should listen for DNS queries. By default, it listens on both the local interface (127.0.0.1) and the wildcard address (0.0.0.0), meaning it accepts queries from any interface.
+
+            Setting `--listen-address` to a specific IP address restricts Dnsmasq to only listen for queries coming from that address, while setting it to an IP address and port number will make Dnsmasq act as a DNS server on that particular address and port.
+        local: |-
+            [AI] The `dnsmasq` command with the `--local` option is used to configure `dnsmasq` as a DHCP and DNS server for a local network, while also allowing it to forward queries for external domains to a specified upstream DNS server.
+
+            With the `--local` flag, `dnsmasq` will listen on the local interface (typically `127.0.0.1`) for DHCP and DNS requests from local clients, and respond with IP addresses of locally available resources and domain name resolutions based on its own configured cache or forwarded queries to the upstream server as needed.
+
+            This setup can be useful for small networks where you want to provide local DNS resolution and IP addressing, while still allowing access to external resources through an external DNS server.
+        local-service: '[AI] `dnsmasq` is a popular DNS forwarder and DHCP server for Linux systems. The `--local-service` option is used to enable the DNS resolver functionality of dnsmasq, which allows it to answer DNS queries from local clients directly without forwarding them to upstream servers. This can improve performance and privacy by reducing the amount of data transmitted over the network. When using this option, dnsmasq acts as a caching DNS server that responds to queries from devices on the same local network.'
+        local-ttl: '[AI] The `--local-ttl` option in Dnsmasq is used to set the Time To Live (TTL) value for responses returned by the Dnsmasq DNS server. TTL indicates the amount of time (in seconds) that a DNS record is valid before a new query is required. By default, Dnsmasq sets this value based on the information it receives in queries or from configured records. However, setting `--local-ttl` allows administrators to override this value with a specific TTL value for all responses, potentially improving performance or security by reducing repeated queries.'
+        localise-queries: '[AI] The `dnsmasq` command-line option `--localise-queries` is used to resolve DNS queries locally for responding clients, without forwarding them upstream. This means that if a client sends a query for a name that is in the local `dnsmasq` configuration (e.g., in the `/etc/hosts` file or added through `dnsmasq`''s own `/etc/dnsmasq.d/` directory), then `dnsmasq` will return the corresponding IP address directly, without querying any external DNS servers. This can improve both query response time and privacy by reducing the amount of traffic sent outside the local network.'
+        localmx: |-
+            [AI] `dnsmasq` is a popular DHCP and DNS server for Linux systems. The option `--localmx` is used to configure it as a local Mail Transfer Agent (MTA) for delivering mail via the `mailto:` URL scheme. With this setting, `dnsmasq` can act as an alternative to a full-featured MTA like Postfix or Sendmail for small setups where only internal mail delivery is required.
+
+            When you use `--localmx`, dnsmasq will accept and deliver mail addressed to local users. It also allows sending emails via the `mailto:` URL scheme using a syntax like `mailto:user@localhost`. The body of the email can be provided as a query parameter in the URL.
+
+            In summary, the `--localmx` option for dnsmasq makes it act as an MTA for local mail delivery and accept emails via the `mailto:` URL scheme.
+        log-async: '[AI] `dnsmasq` is a lightweight DHCP and DNS server for Linux and Unix systems. The `--log-async` option configures it to log messages asynchronously, meaning that logs are written to the specified file in real time instead of being buffered internally before writing. This can improve performance by reducing memory usage and potential delays caused by excessive logging.'
+        log-debug: '[AI] `dnsmasq` is a lightweight DHCP and DNS server. The `--log-debug` option is used to enable extensive debug logging for `dnsmasq`. This means that `dnsmasq` will log detailed information about its operations, including but not limited to: DHCP and DNS request/response messages, client connections, and configuration file parsing. The logs are output to the console or a specified file depending on how it is configured. Using `--log-debug` can be helpful for troubleshooting network issues related to DHCP and DNS services, as well as for gaining deeper understanding of how `dnsmasq` functions.'
+        log-dhcp: '[AI] `dnsmasq` is a popular DHCP (Dynamic Host Configuration Protocol) and DNS (Domain Name System) server for small networks. The option `--log-dhcp` is used to enable detailed DHCP logging. With this flag enabled, `dnsmasq` will record various DHCP events in its logs, including lease grants, renewals, and releases, as well as client requests and responses. This information can be useful for troubleshooting network configuration issues or analyzing network traffic. The logs are typically written to a file specified with the `--logfile` option (by default, they are printed to the console).'
+        log-facility: |-
+            [AI] `dnsmasq` is a popular open-source DNS forwarder and DHCP server. The `--log-facility` option specifies where `dnsmasq` logs should be sent. Logs can be written to syslog (the default), stderr, or stdout. For example:
+
+            * To log to syslog: `--log-facility=syslog`
+            * To log to stderr: `--log-facility=stderr`
+            * To log to stdout: `--log-facility=stdout`
+
+            This option lets the administrator control where logs are stored and how they are handled. It can be useful for managing log files and monitoring system activity.
+        log-queries: '[AI] `dnsmasq` is a popular DNS (Domain Name System) server and forwarder software. The `--log-queries` option enables query logging in `dnsmasq`. When enabled, `dnsmasq` logs each DNS query it receives along with the response. The log entries include the query timestamp, query ID, query type, queried domain name or IP address, and the response data. This feature is useful for troubleshooting, monitoring network traffic, and security analysis.'
+        max-cache-ttl: '[AI] The `--max-cache-ttl` option in Dnsmasq is used to set the maximum Time To Live (TTL) for DNS cache entries. TTL is the time period in seconds for which a resolved DNS record should be cached before making another query. Setting a higher value can reduce DNS query traffic and improve performance, but it may also lead to using stale data if the DNS records have changed. The default value is typically 1 hour (3600 seconds). Setting `--max-cache-ttl` to a specific value sets the maximum TTL for all cache entries to that value.'
+        max-port: '[AI] The `--max-port` option in the Dnsmasq DNS server software sets the maximum random port number that Dnsmasq can use for dynamic DNS updates. By default, it is set to 61000. This option helps prevent potential conflicts with other services using the same or nearby ports, and ensures that Dnsmasq adheres to best security practices by not utilizing ports that could be in use by critical systems or applications.'
+        max-ttl: '[AI] The `--max-ttl` option in `dnsmasq`, a lightweight DNS forwarder and caching name server, sets the maximum Time To Live (TTL) value for DNS records that it responds to clients. TTL is the amount of time, usually measured in seconds or minutes, that a DNS record is valid. Setting a higher `--max-ttl` value may improve performance by reducing the number of DNS queries but could also lead to stale data if upstream servers have changed the records since the last query. Conversely, setting a lower value ensures more frequent updates at the cost of increased network traffic.'
+        min-cache-ttl: '[AI] The `--min-cache-ttl` option in Dnsmasq is used to set the minimum Time To Live (TTL) for DNS cache entries. TTL represents the time period for which a DNS record should be cached by a resolver before making another request to the server. Lowering the minimum cache TTL can help ensure that clients fetch the latest DNS data, but it may also increase network traffic as more queries are made to update the DNS cache. Conversely, a higher minimum cache TTL reduces the network load and improves performance by reducing the number of queries made to update the DNS cache. The default value for `--min-cache-ttl` in Dnsmasq is 1 hour (3600 seconds).'
+        min-port: '[AI] `dnsmasq` is a popular open-source DHCP and DNS server. The `--min-port` option is a security feature used to specify the minimum source port number for DNS queries originating from clients. By setting a minimum port number, you can help prevent amplification attacks that use spoofed source IP addresses and rely on UDP ports below the specified value. For example, using `--min-port 3000` would block queries coming from ports below 3000. It''s essential to consider that closing off certain ports might also limit functionality for legitimate clients.'
+        mx-host: |-
+            [AI] `dnsmasq` is a lightweight DHCP and DNS server for small networks. The `--mx-host` option is used to configure `dnsmasq` to answer MX records with a specific IP address for a given domain name. This can be useful in scenarios where you want to prioritize email traffic for a particular domain, by directing the mail traffic to a specific email server. For example, if you have an email server with IP address `192.168.1.10` and want it to handle all email traffic for the domain `example.com`, you can configure `dnsmasq` as follows:
+
+            ```
+            dnsmasq --mx-host=example.com,10
+            ```
+
+            This will make `dnsmasq` return an MX record with priority 0 and value `mail.example.com. 0 example.com. IN MX 0 192.168.1.10.` when queried for the domain `example.com`. This effectively directs all email traffic to the IP address `192.168.1.10`, ensuring that it is prioritized in the network traffic.
+        mx-target: |-
+            [AI] `dnsmasq` is a popular open-source DNS server and DHCP client that can be used to provide DNS resolving and DHCP services in local networks. The `--mx-target` option is a feature specifically designed for handling MX records in `dnsmasq`.
+
+            When a user queries a mail server's address using an MX record, the response usually includes multiple mail servers with different priorities. By default, `dnsmasq` randomly selects one of these options to return as the answer. However, the `--mx-target` option allows you to specify a particular mail server from the list as the preferred target for all queries. This can be useful in situations where you want to ensure that specific mail servers are always used, such as in a business environment with strict email policies or when troubleshooting email issues.
+
+            Using this option, you can set `dnsmasq` to always return a specific MX record (e.g., "example.com_mx") instead of randomly selecting one from the list, improving consistency and reducing potential issues with email delivery.
+        naptr-record: |-
+            [AI] `dnsmasq` is a popular open-source DNS (Domain Name System) server and DHCP (Dynamic Host Configuration Protocol) client that can be used for handling various DNS-related tasks, including the management of NAPTR (Name Authority Pointer) records. The `--naptr-record` flag is an option provided with this tool to facilitate the addition or modification of NAPTR records directly in the DNS configuration.
+
+            NAPTR records are a type of DNS record that provide information about various service and protocols used within the domain, allowing for the implementation of ENUM (Electronic Numbering) services, among other applications. With `dnsmasq --naptr-record`, you can define or update NAPTR records in its configuration file or via command-line arguments, enabling the redirection and management of specific protocols within your DNS domain setup.
+        neg-ttl: '[AI] The `--neg-ttl` option in Dnsmasq is used to set the Time To Live (TTL) value in negative responses to zero. Negative responses are messages sent by a DNS resolver when it fails to find an answer to a query, and setting the TTL to zero indicates that caching of the negative response should not be performed. This can help prevent unnecessary queries for non-existent records and improve overall DNS performance.'
+        no-daemon: '[AI] `dnsmasq` is a lightweight DHCP and DNS server for local networks. The option `--no-daemon` tells the dnsmasq daemon not to run in the background as a separate process, but instead to run in the foreground and exit when the main process terminates. This can be useful for debugging or testing purposes where you want to keep an eye on the server''s behavior. Without `--no-daemon`, dnsmasq would continue running as a background service after you start it.'
+        no-dhcp-interface: '[AI] The `dnsmasq` command with the option `--no-dhcp-interface` instructs the DHCP (Dynamic Host Configuration Protocol) server, dnsmasq, not to listen on any of its interfaces for DHCP requests. This can be useful when you want dnsmasq to only function as a DNS (Domain Name System) server and not manage DHCP assignments on the same network interface. This configuration ensures that IP address management is separated from DNS resolution, enhancing security and network management.'
+        no-hosts: '[AI] The `dnsmasq` command with the option `--no-hosts` instructs the DNS server not to load any host files (like /etc/hosts or /etc/dnsmasq.d/) during initialization. This can be useful in security-sensitive environments where it''s important to minimize the DNS server''s configuration from external sources, or when you want to prevent specific hosts from being resolved through DHCP or DNS forwarding.'
+        no-negcache: '[AI] The `dnsmasq` command with the `--no-negcache` option disables Negative Cache Query responses. A negative cache query is a type of DNS query where a resolver requests information about nonexistent domains or records from a DNS server. By default, `dnsmasq` stores negative cache queries to reduce the number of queries made to upstream servers. However, using `--no-negcache` disables this feature, causing all negative cache queries to be forwarded to upstream servers instead.'
+        no-ping: '[AI] `dnsmasq` is a popular DHCP and DNS server for small networks. The option `--no-ping` is used to disable the feature that sends ICMP Echo requests (also known as "ping") when performing DNS resolution or DHCP lease queries. This can be useful in environments where ICMP traffic is restricted or monitored, such as enterprise networks and some internet service providers. By disabling ping, dnsmasq will not send any ICMP packets during its operations.'
+        no-poll: '[AI] `dnsmasq` is a popular DHCP and DNS server for Linux systems. The option `--no-poll` disables the use of polling in DHCP client leases. Polling is a method used by DHCP clients to check with the DHCP server if there are any updates or changes to their lease information. With the `--no-poll` option, dnsmasq will only renew its leases when they expire instead of continuously polling for updates. This can help reduce network traffic and improve stability, but may result in longer lease times if DHCP servers are not reliable or responsive.'
+        no-resolv: '[AI] The `dnsmasq` command with the `--no-resolv` option is used to disable the use of upstream DNS servers that are configured in `dnsmasq`. This means that `dnsmasq` will only resolve DNS queries using its built-in cache and statically configured records. The main purpose for using this option is to increase security and privacy by reducing reliance on external DNS servers, which can be subject to various attacks or data leaks. However, it may also result in slower resolution times or incorrect responses if the local configuration is not complete or up-to-date.'
+        pid-file: '[AI] `dnsmasq` is a lightweight DNS forwarder and DHCP server. The option `--pid-file` instructs `dnsmasq` to write the process ID of the running instance to the specified file upon start-up and termination. This feature enables monitoring and managing the `dnsmasq` process by tracking its PID and reaping it if needed, which can be useful for system administrators in controlling and troubleshooting network services.'
+        port: '[AI] The `--port` option in the `dnsmasq` command-line tool is used to specify the UDP port number on which the DNS server will listen for incoming queries. By default, `dnsmasq` listens on port 53 for DNS requests. However, you can use this option to change the port number if needed for specific network configurations or security reasons. For instance, `dnsmasq --port 5300` will configure the server to listen on port 5300 instead of the standard 53.'
+        proxy-dnssec: '[AI] `dnsmasq` is a lightweight DNS forwarder and DHCP server. The `--proxy-dnssec` option is used to enable DNSSEC query response caching and signing in `dnsmasq`. When this option is enabled, `dnsmasq` acts as a DNSSEC-aware resolver and can validate and sign responses for recursive queries. This feature improves security by verifying the authenticity and integrity of DNS data, helping prevent DNS cache poisoning attacks.'
+        ptr-record: |-
+            [AI] `dnsmasq` is a popular DHCP and DNS server software. The option `--ptr-record` enables the generation of PTR records in the DNS answers provided by `dnsmasq`.
+
+            PTR records, or Pointer records, are a type of DNS record that map an IP address to a hostname. With this option enabled, when a client queries for the name associated with a given IP address (a reverse lookup), `dnsmasq` will return the corresponding FQDN if it has been configured in its database. This can be useful for resolving hostnames in logs or for other applications that need to perform reverse lookups.
+        pxe-prompt: '[AI] `dnsmasq` is a lightweight DHCP and DNS server for Linux and Unix systems. The `--pxe-prompt` option is used to configure the PXE (Preboot Execution Environment) boot menu prompt displayed to network booting clients. It allows you to customize the text that appears before the list of available network boot images, enabling you to provide instructions or information for users during the network boot process.'
+        pxe-service: |-
+            [AI] `dnsmasq` is a popular open-source DHCP and DNS server for Linux systems. The `--pxe-service` option is used to enable PXE (Preboot Execution Environment) boot services in `dnsmasq`.
+
+            When this flag is set, `dnsmasq` acts as a TFTP (Trivial File Transfer Protocol) and DHCP server for PXE boot environments. It provides the required network configuration information to PXE clients, such as IP addresses, subnet masks, and gateway addresses. Additionally, it can also serve the necessary boot files from a TFTP server using integrated TFTP support.
+
+            This setup is commonly used in PXE boot environments like bare-metal servers or network installations for operating systems, where clients do not have local storage and need to be booted over the network.
+        query-port: '[AI] `dnsmasq` is a lightweight DNS forwarder and DHCP server. The option `--query-port` specifies the port number on which `dnsmasq` listens for DNS queries from clients. By default, it uses UDP port 53, but you can change this by using `--query-port <PORT>`. This allows customization in certain network environments where specific ports are required for DNS traffic.'
+        quiet-dhcp: '[AI] `dnsmasq` is a lightweight DHCP and DNS server for small networks. The option `--quiet-dhcp` is used to suppress DHCP messages from being logged or displayed in the `dnsmasq` output. This can be useful when running `dnsmasq` in the background or in automated scripts where you only need the DHCP server functionality without the verbose output.'
+        quiet-dhcp6: |-
+            [AI] The `dnsmasq` command with the `--quiet-dhcp6` option is used to configure it to run in a more quiet or minimal logging mode specifically for DHCPv6 messages.
+
+            When this flag is set, `dnsmasq` will suppress most of the output related to DHCPv6 leases, messages, and transactions that would normally be displayed on the terminal. This can be helpful when running `dnsmasq` in automated or headless environments where excessive logging might interfere with other processes or make it harder to observe the desired information.
+
+            In summary, using the `--quiet-dhcp6` flag with `dnsmasq` results in reduced logging for DHCPv6 messages, allowing for a more streamlined and quiet operation of the DHCP server.
+        quiet-ra: '[AI] `dnsmasq` is a popular open-source DHCP and DNS server. The option `--quiet-ra` is used to suppress the transmission of Reverse Address (RA) messages in DHCP lease offers and renewals. These messages are used to provide clients with their IP addresses, but they can potentially reveal sensitive information about the network layout or topology if intercepted by unauthorized parties. By using `--quiet-ra`, network administrators can improve security by preventing these messages from being broadcasted.'
+        read-ethers: '[AI] The command `dnsmasq --read-ethers` is used with the Dnsmasq DNS server software. It''s an option to import a list of MAC addresses into Dnsmasq for use in its DHCP (Dynamic Host Configuration Protocol) functionality. This can be useful when you want to manually assign specific MAC addresses to particular IP addresses or hostnames. The imported file should contain one address per line, with the first part being the MAC address in colon-separated format and the second part being the IP address or hostname.'
+        rebind-domain-ok: |-
+            [AI] `dnsmasq` is a popular open-source DHCP and DNS server. The `--rebind-domain-ok` option is related to its DNS functionality.
+
+            When `dnsmasq` encounters a query for a nonexistent domain name, it can respond with an error message or it can attempt to "rebind" the query to another domain name by appending a suffix. This behavior is controlled by the `--rebind-domain-ok` option.
+
+            With `--rebind-domain-ok`, `dnsmasq` will respond to queries for nonexistent domains with the rebinding behavior, allowing traffic to be intercepted and redirected to specific destinations based on the appended suffix. This can be useful in certain network configurations, such as setting up a local proxy or caching DNS resolution for a specific domain.
+
+            Without `--rebind-domain-ok`, `dnsmasq` will return a standard "Name Error: Non-existent Domain" response, which allows the query to fail and not be intercepted or redirected.
+        rebind-localhost-ok: |-
+            [AI] `dnsmasq` is a popular DHCP and DNS server for Linux systems. The option `--rebind-localhost` enables local DNS rebinding, which allows DNS queries for the localhost address (127.0.0.1 or ::1) to be answered with other IP addresses. This can be useful in specific network configurations. However, it may also pose a security risk if an attacker could manipulate local DNS queries.
+
+            The option `--rebind-localhost-ok` is used to explicitly allow this potentially risky behavior. With this flag set, dnsmasq will answer local DNS queries with IP addresses other than 127.0.0.1 or ::1, as configured. Use this option with caution and only in trusted networks.
+        resolv-file: '[AI] The `dnsmasq` command is a lightweight DHCP and DNS forwarder. The option `--resolv-file` allows you to specify a file containing custom resolver configurations. In other words, it enables `dnsmasq` to use the listed DNS servers in that file instead of using the default system resolvers or those provided by upstream DHCP servers. This can be useful when you want to override or supplement the DNS servers for specific networks or clients.'
+        rev-server: '[AI] `dnsmasq` is a lightweight DNS forwarder and DHCP server. The `--rev-reverse` option is used to configure `dnsmasq` to also act as a reverse DNS resolver, enabling it to respond with pointer records (PTR records) when queried with an IP address. This can be useful in certain network environments where reverse DNS lookups are required or preferred.'
+        script-arp: |-
+            [AI] The `dnsmasq` is a lightweight DHCP and DNS server for Linux and Unix systems. The `--script-arp` option is not a built-in feature of `dnsmasq`, but rather an extension provided by adding a custom script to its behavior.
+
+            This script is used to implement Address Resolution Protocol (ARP) spoofing or ARP cache poisoning, which allows manipulating the mapping of IP addresses to their corresponding MAC addresses in the network. This can be useful for various purposes, such as packet sniffing or network attacks.
+
+            However, it's important to note that using ARP spoofing scripts like `--script-arp` may violate your organization's policies and local, state, federal, and international laws. Misusing this technique could result in legal consequences. It is recommended to only use such advanced network manipulation techniques in controlled environments with proper authorization and ethical intentions.
+        script-on-renewal: '[AI] `dnsmasq` is a popular open-source DHCP and DNS server. The `--script-on-renewal` option is used to specify a script that will be run on the DHCP client device whenever its IP address renewal occurs. This feature allows for automation of tasks such as updating client information, configuring firewalls, or deploying custom software. When a lease renews, `dnsmasq` executes the script using `system()` or `!command()`, depending on the operating system. The script should be located in a directory specified by the `dhcp-script-folder` option and should have executable permissions. This functionality is particularly useful for managing dynamic IP address environments, such as those found in large networks with DHCP servers.'
+        selfmx: '[AI] The `--self-mx` option in `dnsmasq`, a lightweight DNS forwarder and caching name server, enables automatic management of Mail Exchange (MX) records for configured domains. When this flag is set, `dnsmasq` will create or update MX records with the highest priority (lowest MX value) pointing to the mail servers specified in the corresponding `/etc/mxrecords` file or via DHCP option 81. This setup allows easier management of email services associated with the domains being managed by `dnsmasq`.'
+        server: '[AI] `dnsmasq` is a lightweight DNS forwarder and DHCP server for Small Office/Home Office (SOHO) environments. The command `dnsmasq --server` sets up `dnsmasq` to act as a recursive DNS resolver, meaning it will attempt to answer DNS queries directly from clients without forwarding them to other servers. In this mode, `dnsmasq` caches DNS responses and can provide faster response times for commonly requested domains. The flag configures `dnsmasq` to listen on the local interface for incoming DNS requests and respond with answers from its cache or by querying upstream servers as needed.'
+        servers-file: '[AI] `dnsmasq` is a lightweight DHCP and DNS server for Linux and Unix systems. The `--servers-file` option is used to configure `dnsmasq` to use a specified file as a list of upstream DNS servers. When this option is set, `dnsmasq` will query these servers for resolving queries that it cannot handle itself. This can be useful in situations where you want to provide multiple DNS servers to `dnsmasq` or when the default DNS servers are unavailable or unreliable. The file should contain a list of IP addresses, one per line, representing the upstream DNS servers.'
+        shared-network: |-
+            [AI] `dnsmasq` is a popular DHCP and DNS server for Linux and other systems. The `--shared-network` option is used to create a shared network connection between different interfaces or subnets.
+
+            With this option, `dnsmasq` acts as a relay agent, forwarding DHCP requests from one subnet to another where DHCP servers are located. This allows devices on different subnets to obtain IP addresses and other network information via DHCP, making it easier to manage complex networking scenarios such as virtual machines, containers, or multi-subnet environments.
+
+            The `--shared-network` option is typically used in conjunction with the `--dhcp-option` or `--dhcp-file` directives for specifying additional DHCP options or customizing DHCP lease information. This can be helpful when configuring static IP addresses, setting up subnet-specific firewalls rules, and implementing other advanced networking features.
+        srv-host: '[AI] The `--srv-host` option in Dnsmasq is used to configure the DNS server to answer SRV records with a specific hostname instead of its default behavior of using the service name as the hostname. SRV (Service Records) are a type of DNS record that specifies the priority and weight of a particular service instance for a given domain name, allowing load balancing or failover of services. By setting `--srv-host`, the administrator can ensure that the correct hostname is used in the response to queries for SRV records, which can be useful in complex DNS environments.'
+        stop-dns-rebind: |-
+            [AI] `dnsmasq` is a popular open-source DHCP and DNS server for Linux and other systems. The `--stop-dns-rebind` option is used to prevent `dnsmasq` from performing DNS rebinding.
+
+            DNS rebinding is a technique used by attackers to manipulate the DNS resolution process, allowing them to evade security measures like firewalls or intrusion detection systems (IDS). In this attack, an attacker registers malicious domains and then associates their IP address with those domain names through DNS responses. When the victim attempts to access a legitimate website using that domain name, they are instead directed to the attacker's server.
+
+            By enabling `--stop-dns-rebind`, you're configuring `dnsmasq` not to respond to queries with IP addresses that differ from those originally registered for the domain name. This prevents DNS rebinding attacks and helps improve security in your network environment.
+        strict-order: '[AI] `dnsmasq` is a popular DNS forwarder and DHCP server. The option `--strict-order` is used to enforce a strict order of processing DNS queries and responses. It means that `dnsmasq` will only use the first response it receives for a query, discarding any subsequent ones. This behavior helps prevent potential issues caused by conflicting or ambiguous responses from different sources.'
+        synth-domain: |-
+            [AI] `dnsmasq` is a lightweight DHCP and DNS server for Small Office/Home Office (SOHO) networks. The `--synth-domain` option is a feature of `dnsmasq` that allows it to generate synthetic DNS records for non-existent domains.
+
+            When this option is enabled, `dnsmasq` will respond with an authoritative answer if it receives a query for a nonexistent domain in the specified domain, instead of returning a "NXDOMAIN" (nonexistent domain) response. This synthetic response can be configured to return IP addresses of various types, such as `A`, `CNAME`, or `MX` records, allowing for customization of the responses for specific domains.
+
+            For example, you could configure `dnsmasq` to respond with an IP address for a fake email server when queries are made for non-existent email domains in your network. This can be useful in certain situations where you want to prevent external traffic to certain services or hide the presence of specific systems on your network from external parties.
+        tag-if: '[AI] `dnsmasq` is a lightweight DHCP and DNS server for Linux and Unix systems. The `--tag-if` option is used to assign a specific interface name or IP address to DNS queries based on the client''s MAC or other identifiers. This feature enables advanced routing and firewall rules by allowing administrators to distinguish between traffic coming from different interfaces or clients. For example, `dnsmasq --interface eth0 --tag-if eth1,0x1:5:5:1:1:2:3:4:5:6:7:8,eth1` sets up two interfaces (eth0 and eth1) and associates a specific MAC address pattern with traffic coming from eth1. This can be useful for network segmentation, traffic filtering, or traffic shaping.'
+        test: '[AI] `dnsmasq --test` is a command-line option for the DNS server software, dnsmasq. It performs a self-test to check the configuration and functionality of the dnsmasq daemon. The test results are printed on the console, reporting any issues or errors detected during the test process. The test checks various aspects such as file permissions, network interfaces, and DNS caching functionality. If the test completes successfully, it indicates that the dnsmasq installation is ready to serve DNS requests effectively.'
+        tftp-lowercase: '[AI] The `dnsmasq` command with the option `--tftp-lowercase` is used to configure the TFTP (Trivial File Transfer Protocol) service provided by Dnsmasq. This option sets Dnsmasq to convert filenames received from TFTP clients to lower case before attempting to serve them from the TFTP server, ensuring that files with different casing but identical names are treated as the same file.'
+        tftp-max: '[AI] The `--tftp-max` option in `dnsmasq`, a popular DHCP and DNS server, sets a limit on the number of concurrent TFTP (Trivial File Transfer Protocol) requests that can be handled by dnsmasq. This is useful to prevent potential denial-of-service attacks against the TFTP service provided by dnsmasq. The value following `--tftp-max` specifies the maximum number of concurrent TFTP requests, which defaults to an unlimited number if not set.'
+        tftp-mtu: '[AI] The `dnsmasq` command with the option `--tftp-mtu` sets the maximum transmission unit (MTU) for TFTP (Trivial File Transfer Protocol) packets sent by `dnsmasq`. This option is used to adjust the size of TFTP data packets according to the network link''s MTU, preventing fragmentation and ensuring efficient data transfer.'
+        tftp-no-blocksize: '[AI] The `--tftp-no-blocksize` option in `dnsmasq` is used to disable the sending of TFTP (Trivial File Transfer Protocol) block sizes during a TFTP request. In some environments, TFTP servers may not support the receipt of block size information from clients. By disabling this feature in `dnsmasq`, it can still function as a TFTP server for such systems. This option is particularly useful when dealing with older or non-standard TFTP implementations.'
+        tftp-no-fail: '[AI] The `--tftp-no-fail` flag is a configuration option for the Dnsmasq DHCP and DNS server software. It disables the automatic fallback behavior of Dnsmasq when acting as a TFTP (Trivial File Transfer Protocol) server. With this option, if Dnsmasq encounters an error while serving TFTP requests, it will not attempt to switch to another interface or IP address to continue serving those requests. This can be useful in certain network environments where it is important to maintain the isolation of TFTP traffic on specific interfaces.'
+        tftp-port-range: '[AI] The `--tftp-port-range` option in Dnsmasq is used to configure the Trivial File Transfer Protocol (TFTP) port range for DHCP and BOOTP services. By default, Dnsmasq listens on ports 69 and 68 for TFTP and DHCP respectively, but you can use this option to specify a custom range if needed for your network environment. The format is `--tftp-port-range=start_port:end_port`. For instance, `--tftp-port-range=67:70` will configure Dnsmasq to listen on ports 67 through 70 for TFTP requests.'
+        tftp-root: '[AI] `dnsmasq` is a lightweight DHCP and DNS server that can also act as a TFTP (Trivial File Transfer Protocol) server. The `--tftp-root` option specifies the directory that `dnsmasq` will use as the root for serving TFTP requests. When a client sends a TFTP request to the IP address and port number of the `dnsmasq` server, `dnsmasq` will serve files from this specified directory. This is useful when providing bootfiles or configuration files to clients during the boot process over the network (PXE booting).'
+        tftp-secure: |-
+            [AI] The `dnsmasq` command is a popular DHCP and DNS server for Linux systems. The option `--tftp-secure` enables Secure TFTP (Trivial File Transfer Protocol) support in dnsmasq.
+
+            Secure TFTP provides an encrypted channel between the TFTP client and server, ensuring data transfers are secure. This is particularly important when using TFTP to distribute configuration files or boot images to network devices, as it prevents eavesdropping or tampering of data during transfer.
+
+            When you use `dnsmasq --tftp-secure`, the TFTP service will only accept TFTP requests that are encrypted using TLS (Transport Layer Security) or SSL (Secure Sockets Layer). This adds an extra layer of security to your network infrastructure.
+        tftp-single-port: '[AI] `dnsmasq` is a popular open-source DHCP and DNS server software. The `--tftp-single-port` option is used to configure it as a TFTP (Trivial File Transfer Protocol) server, binding it to a single UDP port (usually 69) instead of the default TFTP behavior which listens on both ports 69 and 137. This can be useful in network environments where security policies require TFTP to only listen on a specific port.'
+        tftp-unique-root: '[AI] The `--tftp-unique-root` option in Dnsmasq is used to set a unique TFTP (Trivial File Transfer Protocol) root directory for each client. With this option enabled, Dnsmasq assigns a random subdirectory under the default TFTP root directory when handling TFTP requests from clients. The goal is to prevent TFTP bootstraping attacks where an attacker attempts to overwrite files in another client''s TFTP root directory. This enhances security and isolation for each client on the network.'
+        trust-anchor: '[AI] The `--trust-anchor` option in Dnsmasq is used to configure trust anchors for DNSSEC validation. A trust anchor is a digital certificate that represents the root Key Signing Key (KSK) or Zone Signing Key (ZSK) of a DNSSEC-signed zone. By providing the `--trust-anchor` option with the public key content of a valid trust anchor, Dnsmasq will perform DNSSEC validation using this key when resolving queries for DNSSEC-signed domains. This helps ensure the authenticity and integrity of DNS data received from authoritative nameservers.'
+        txt-record: |-
+            [AI] `dnsmasq` is a lightweight DNS forwarder and DHCP server. The `--txt-record` option is used to enable the handling of Text Records (TXT records) in the DNS responses served by `dnsmasq`.
+
+            TXT records are a type of resource record in the Domain Name System (DNS) that can hold any text data. They're commonly used for providing additional information about domain names, such as SPF records or Google Site Verification tokens.
+
+            When you enable the `--txt-record` option in `dnsmasq`, it allows your DNS clients to query and receive TXT records along with other standard DNS data like A and MX records. This can be useful if you want to provide specific TXT record data to your clients or applications without having to rely on third-party services.
+        user: '[AI] `dnsmasq` is a lightweight DNS forwarder and DHCP server that can also act as a local DNS resolver. The `--user` option is used to specify the system user under which `dnsmasq` should run. By default, it runs with root privileges. Running `dnsmasq` as a non-root user helps improve security by reducing the attack surface and minimizing potential damage if an attacker manages to exploit a vulnerability in `dnsmasq`. Using `--user <username>` allows you to specify a different system user account for `dnsmasq` to run under.'
+        version: '[AI] `dnsmasq --version` is a command used in Unix-based systems to display version information about the Dnsmasq DNS forwarder and DHCP server software. When executed, it prints out detailed information including the version number, compilation options, and other relevant details such as operating system, architecture, and build date.'

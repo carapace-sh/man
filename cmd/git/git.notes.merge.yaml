@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: merge
+description: Merge the given notes ref into the current notes ref
+flags:
+    --abort: Abort/reset an in-progress git notes merge
+    --commit: Finalize an in-progress git notes merge
+    -q, --quiet: When merging notes, operate quietly
+    -s, --strategy=: Resolve notes conflicts using the given strategy
+    -v, --verbose: When merging notes, be more verbose
+documentation:
+    command: |-
+        [AI] The `git notes merge` command is not a standard Git command. It appears to be a typo or misunderstanding of two separate Git commands:
+
+        1. `git note add`: This command allows you to create and update Git notes, which are lightweight annotated tags that can be used to store arbitrary metadata or messages associated with a commit.
+        2. `git merge`: This command is used for combining changes from one branch into another.
+
+        So there's no such thing as `git notes merge`. If you intended to create a note, use `git note add`, and if you meant to perform a merge, use the standard `git merge` command instead.
+    flag:
+        abort: '[AI] The `git notes merge --abort` command is used to cancel a ongoing note merge operation in Git. When you attempt to merge notes with `git notes merge`, Git starts a new merge process that keeps your working directory and the source branch in a detached HEAD state. If you decide against completing the merge, you can use the `--abort` option to return to the previous state of both branches, discarding any changes made during the merge process. This command is particularly useful when you realize that merging notes was not the desired action after all.'
+        commit: |-
+            [AI] The `git notes merge --commit` command is used to apply a note from one commit to another in Git. It merges the note, not the commits themselves. This command can be useful when you have two related commits with the same or similar notes, and you want to combine those notes into a single commit.
+
+            The basic syntax of this command is: `git notes merge <note-ref> --commit <new-commit>`, where `<note-ref>` is the reference to the commit containing the note you want to apply, and `<new-commit>` is the new commit where you want to attach the note. This command will create a new commit with the merged note and the message from the original commits, unless you provide a custom commit message using the `-m` or `--message` option.
+        quiet: '[AI] The `git notes merge --quiet` command is used to merge two note branches in Git, just like how `git checkout --merge` or `git pull` merges branches in Git. However, the `--quiet` flag modifies the output behavior of the command. It suppresses informational messages during the merge process, providing a quieter execution. This can be useful when running automated scripts or when working with multiple merged notes and preferring a less cluttered console output.'
+        strategy: |-
+            [AI] The `git notes merge --strategy` command is used to control how Git merges annotated tags or note trees during a merge operation. It specifies a custom merge strategy to be used when resolving merge conflicts between two branches that have different notes attached.
+
+            By default, Git does not provide any specific strategy for handling merge conflicts related to annotated tags or note trees. This command allows you to specify a custom merge strategy using a script. The script is expected to be located in the `.git/hooks/` directory under the name `post-merge-notes`.
+
+            The custom merge strategy script can define various behaviors for resolving conflicts between notes attached to branches being merged. It can perform actions such as:
+
+            1. Merging note contents using a three-way merge algorithm or another method.
+            2. Automatically resolving the merge conflict based on specific rules or heuristics.
+            3. Interactively asking for user input to resolve the merge conflicts.
+
+            By using `git notes merge --strategy` with a custom merge strategy, you can implement more advanced workflows that take into account the contents of annotated tags or note trees during a merge operation.
+        verbose: '[AI] The `git notes merge --verbose` command is used to merge two branches with associated Git Notes, which are user-defined annotations attached to commits in Git. This command merges the specified branches and displays detailed information about each step of the process including the commits being merged, any conflicts that arise, and the application of Git Notes from both branches. The `--verbose` flag increases the amount and detail of output produced during the merge process.'

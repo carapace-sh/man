@@ -1,0 +1,44 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: restore
+description: Restores snapshot of Consul server state
+flags:
+    --ca-file=: Path to a CA file to use for TLS when communicating with Consul.
+    --ca-path=: Path to a directory of CA certificates to use for TLS when communicating with Consul.
+    --client-cert=: Path to a client cert file to use for TLS when 'verify_incoming' is enabled.
+    --client-key=: Path to a client key file to use for TLS when 'verify_incoming' is enabled.
+    --datacenter=: Name of the datacenter to query.
+    --http-addr=: The `address` and port of the Consul HTTP agent.
+    --stale: Permit any Consul server (non-leader) to respond to this request.
+    --tls-server-name=: The server name to use as the SNI host when connecting via TLS.
+    --token-file=: File containing the ACL token to use in the request.
+    --token=: ACL token to use in the request.
+documentation:
+    command: '[AI] `consul snapshot restore` is a command used in Hashicorp''s Consul service discovery and configuration management tool. This command restores the state of a Consul cluster from a previously saved snapshot file. The snapshot file contains the data of all key-value pairs stored in the Consul server or datacenter, allowing for easy disaster recovery or data transfer between clusters. Running `consul snapshot restore` followed by the path to the snapshot file will bring the Consul cluster back to the state that was saved at the time the snapshot was taken.'
+    flag:
+        ca-file: '[AI] `consul snapshot restore --ca-file` is a command in Consul, an open-source distributed computing platform, used for restoring a previous backup of the Consul data. The `--ca-file` option is used to specify the file path to a valid CA (Certificate Authority) certificate. This certificate is required for secure communication between Consul nodes during the restore process. The command will load the backup data and apply it to the current Consul cluster, effectively restoring the state of the cluster to that saved in the snapshot.'
+        ca-path: '[AI] `consul snapshot restore --ca-path` is a command in Hashicorp Consul, an open-source tool for service discovery, configuration, and orchestration. This command restores a previously taken Consul snapshot, which saves the state of the cluster including its data, keys, and certificates (CAs). The `--ca-path` option specifies the path to the directory containing the CA certificates that will be used during restoration. The certificates ensure secure communication between Consul nodes when rebuilding a cluster from a backup.'
+        client-cert: '[AI] The `consul snapshot restore --client-cert` command is used to restore a Consul snapshot (a backup of Consul''s data) using TLS client certificates for authentication. Consul is a distributed, highly available, and data center aware toolkit for service discovery, configuration management, and orchestration. The `consul` CLI tool can be used to take snapshots of its data for disaster recovery or backup purposes. This command allows the user to restore that snapshot while providing an additional layer of security by requiring a valid client certificate for authentication during the restoration process.'
+        client-key: |-
+            [AI] The `consul snapshot restore --client-key` command is used in Consul, a connectivity and configuration management tool, to restore the state of an agent or a cluster from a saved snapshot using a client key for authentication.
+
+            The `snapshot restore` action loads the specified snapshot file back into the Consul data store. The `--client-key` option is provided to authenticate the client making the request with the corresponding ACL policy's client ID or token, allowing secure access to sensitive operations like state restoration.
+        datacenter: |-
+            [AI] The `consul snapshot restore` command in Consul is used to restore the state of a Consul datacenter from a previously saved snapshot file. The `--datacenter` option specifies which datacenter to restore, allowing for multiple datacenters to be managed within a single Consul installation.
+
+            When you take a snapshot of a Consul datacenter using the `consul snapshot save` command, it saves the state of all servers, clients, and key-value data in that datacenter at that point in time. Restoring from a snapshot returns the datacenter to the saved state, effectively rolling back any changes made since the snapshot was taken.
+
+            The restore process involves specifying the path to the snapshot file using the `--file` option and the datacenter name or ID using the `--datacenter` option:
+
+            ```bash
+            consul snapshot restore --file /path/to/snapshot.json --datacenter <datacenter_name_or_id>
+            ```
+        http-addr: |-
+            [AI] The `consul snapshot restore --http-addr` command is used in Consul, a Connect and configure service discovery tool. This command restores a previously taken snapshot of Consul's data using the provided HTTP address to connect to the Consul RPC interface.
+
+            The `--http-addr` flag specifies the Consul server's HTTP interface endpoint (e.g., `localhost:8501`) from which the snapshot will be restored. This command is typically used when you need to recover Consul data after a catastrophic failure, such as a system crash or accidental data loss.
+
+            By providing this flag, you ensure that Consul restores the snapshot from the correct server and allows you to resume normal operation with minimal downtime and data loss.
+        stale: '[AI] `consul snapshot restore --stale` is a command used in Hashicorp Consul, a distributed, highly available key-value store and service registry. This command is used to restore Consul data from a saved snapshot file despite potential inconsistencies or staleness in the Raft log or data. The `--stale` flag tells Consul to proceed with the restoration process even if it detects conflicts or inconsistencies, which could lead to data loss or other issues. It''s essential to use this command carefully and only when necessary, as restoring from a stale snapshot may result in data corruption or other unexpected behavior.'
+        tls-server-name: '[AI] The `consul snapshot restore --tls-server-name` command is used to restore a Consul snapshot file in a secure manner using Transport Layer Security (TLS). The `--tls-server-name` flag specifies the TLS server name or certificate to authenticate with when connecting to the Consul cluster for restoration. This ensures that the communication between the client and the Consul server is encrypted, providing an added layer of security during the snapshot restore process.'
+        token: '[AI] The `consul snapshot restore --token` command is used in Hashicorp Consul, a distributed, highly available, and data center aware solution connecting and coordinating applications across any infrastructure, to restore a previously saved state of the Consul cluster using a backup file. The `--token` flag is for providing an ACL token that has the necessary permissions to perform the restore operation. This command restores the entire Consul data including configuration, key-value stores, and service registration information from the backup file into the running Consul cluster.'
+        token-file: '[AI] The `consul snapshot restore --token-file` command is used to restore Consul configuration data from a saved snapshot using a token file for authentication. Consul is a tool for service discovery, configuration, and orchestration. The `snapshot restore` command restores the state of a Consul cluster or server to a previously saved state. The `--token-file` option specifies a file containing a valid ACL token which grants permission to perform snapshot restoration.'

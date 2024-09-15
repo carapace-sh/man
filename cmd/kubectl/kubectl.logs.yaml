@@ -1,0 +1,50 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: logs [-f] [-p] (POD | TYPE/NAME) [-c CONTAINER]
+description: Print the logs for a container in a pod
+flags:
+    --all-containers: Get all containers' logs in the pod(s).
+    --ignore-errors: If watching / following pod logs, allow for any errors that occur to be non-fatal
+    --insecure-skip-tls-verify-backend: Skip verifying the identity of the kubelet that logs are requested from.  In theory, an attacker could provide invalid log content back. You might want to use this if your kubelet serving certificates have expired.
+    --limit-bytes=: Maximum bytes of logs to return. Defaults to no limit.
+    --max-log-requests=: Specify maximum number of concurrent logs to follow when using by a selector. Defaults to 5.
+    --pod-running-timeout=: The length of time (like 5s, 2m, or 3h, higher than zero) to wait until at least one pod is running
+    --prefix: Prefix each log line with the log source (pod name and container name)
+    --since-time=: Only return logs after a specific date (RFC3339). Defaults to all logs. Only one of since-time / since may be used.
+    --since=: Only return logs newer than a relative duration like 5s, 2m, or 3h. Defaults to all logs. Only one of since-time / since may be used.
+    --tail=: Lines of recent log file to display. Defaults to -1 with no selector, showing all log lines otherwise 10, if a selector is provided.
+    --timestamps: Include timestamps on each line in the log output
+    -c, --container=: Print the logs of this container
+    -f, --follow: Specify if the logs should be streamed.
+    -l, --selector=: Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2). Matching objects must satisfy all of the specified label constraints.
+    -p, --previous: If true, print the logs for the previous instance of the container in a pod if it exists.
+documentation:
+    command: |-
+        [AI] `kubectl logs` is a command used to retrieve the logs of containers running in a Kubernetes cluster. The basic usage is:
+
+        ```bash
+        kubectl logs <pod-name> [-c <container-name>]
+        ```
+
+        This command returns the most recent logs for all containers within the specified pod, or for the named container if `<container-name>` is provided. It can also be used with various flags to filter and tail logs in real time, stream logs continuously, or save logs to a file. For example:
+
+        ```bash
+        kubectl logs -f <pod-name>  # Follow logs in real-time
+        kubectl logs my-pod --since=2m  # Show logs since 2 minutes ago
+        kubectl logs my-pod > log.txt  # Save logs to a file named 'log.txt'
+        ```
+    flag:
+        all-containers: '[AI] `kubectl logs --all-containers` is a command used with Kubernetes and the `kubectl` tool to retrieve the logs of all containers in a specific pod. The option `--all-containers` indicates that logs from all containers within the selected pod should be displayed. These logs can provide valuable insights into application issues, debugging information, and system health.'
+        container: '[AI] `kubectl logs --container` is a command used with Kubernetes'' `kubectl` tool to retrieve the logs of a specific container running in a pod. The `--container` option allows you to specify the name or ID of the container whose logs you want to view. This command fetches and displays the container logs directly from the Kubernetes cluster, providing real-time insights into the container''s execution.'
+        follow: '[AI] `kubectl logs --follow` is a command used with Kubernetes to fetch the logs of a specific container in a pod, with the `--follow` option enabling real-time streaming of new log entries as they are written. This allows you to monitor and observe the logs in real time, which can be useful for troubleshooting and monitoring the health and status of your applications running in Kubernetes.'
+        ignore-errors: '[AI] `kubectl logs --ignore-errors` is a command used with Kubernetes to retrieve container logs from one or more pods. The `--ignore-errors` flag instructs the tool to continue executing even if it encounters errors when trying to access a container''s logs, such as when the container is not running or its logging driver is not configured properly. This allows you to avoid being blocked by such issues and can still view logs from other containers that are running correctly.'
+        insecure-skip-tls-verify-backend: '[AI] The `kubectl logs` command with the `--insecure-skip-tls-verify-backend` flag is used to retrieve container logs from a Kubernetes cluster without verifying the SSL certificate of the API server. This can be useful in certain situations, such as when connecting to a local development cluster or working with untrusted clusters, where the certificate may not be trusted by default. However, it''s important to note that using this flag increases the security risk, as it disables SSL certificate validation. Therefore, it should only be used when necessary and with caution.'
+        limit-bytes: '[AI] `kubectl logs` is a command used to fetch the logs of containers running in a Kubernetes cluster. The `--limit-bytes` option sets a limit on the maximum number of bytes of logs returned. By default, `kubectl logs` returns all available logs, which can be excessive and cause performance issues or overflow issues in the terminal. Setting a limit with `--limit-bytes` helps manage the amount of data fetched and displayed.'
+        max-log-requests: '[AI] `kubectl logs --max-log-requests` is a command used with Kubernetes'' `kubectl` tool to retrieve the logs of one or more containers running in a Kubernetes cluster. The `--max-log-requests` flag sets the maximum number of most recent log streams to return. By default, this value is 10. This means that when you run `kubectl logs <pod-name>`, you will get the last 10 logs for each container in the specified pod. If you want to see more or all logs, you can increase the number by using a higher value with `--max-log-requests`. For instance, `kubectl logs --max-log-requests=50 <pod-name>` will return the last 50 logs for each container.'
+        pod-running-timeout: '[AI] The command `kubectl logs` is used to retrieve the logs of containers running in a Kubernetes cluster. The option `--pod-running-timeout` sets a timeout for displaying the logs. If no container in the selected pod is writing logs within this timeout period, the command will exit without displaying any logs. By default, there is no timeout. Setting a timeout can help avoid waiting indefinitely for logs that may not be available yet or may never become available. The format of using this option is `kubectl logs <pod-name> --pod-running-timeout=<duration>`. For example, `kubectl logs my-pod --pod-running-timeout=30s` will display the logs for containers in "my-pod" up to a maximum of 30 seconds.'
+        prefix: '[AI] `kubectl logs` is a command used to fetch the logs of containers running in a Kubernetes cluster. The `--prefix` flag is an optional argument that helps filter and display only the logs with a specific prefix string. For instance, if you run `kubectl logs pod-name --prefix=INFO`, it will return only the logs that have the word "INFO" at the beginning of each line. This can be useful when dealing with large log files or when trying to focus on specific messages within them.'
+        previous: '[AI] `kubectl logs --previous` is a command used with Kubernetes'' `kubectl` tool to display the logs of a container or pod, but with the addition of showing the logs from the previous instance of that container or pod. This can be useful for debugging issues where you want to compare the logs between two different runs, such as before and after a deployment update.'
+        selector: '[AI] `kubectl logs` is a command used to retrieve the logs of containers running in a Kubernetes cluster. The `--selector` option filters the containers based on labels and returns the logs of the selected container(s). For example, `kubectl logs --selector app=my-app` will return the logs of all containers with the label "app=my-app". This is useful when dealing with multiple containers in a pod and wanting to view the logs for only one specific application.'
+        since: '[AI] `kubectl logs` is a command used in Kubernetes to retrieve the logs of containers running in a cluster. The option `--since` allows filtering logs based on a specific time range. When using this flag, only the logs generated after the specified time are displayed. For example, `kubectl logs my-pod --since=30m` will show logs from the last 30 minutes for the container in the pod named "my-pod".'
+        since-time: '[AI] `kubectl logs` is a command used to retrieve the logs of containers running in a Kubernetes cluster. The option `--since-time` filters the logs to display only those generated after a specific time. For example, `kubectl logs my-pod --since-time=1h` would show logs generated in the last hour. This can be useful for troubleshooting issues that occurred recently or monitoring the output of running containers.'
+        tail: '[AI] `kubectl logs --tail` is a command used with Kubernetes to retrieve the most recent log entries from the containers in a pod. The `--tail` flag specifies the number of log lines to display, starting from the most recent ones. For example, `kubectl logs --tail=10 my-pod-name` will return the last 10 log lines from the container logs of `my-pod-name`. It''s commonly used for real-time monitoring and troubleshooting of running applications within a Kubernetes cluster.'
+        timestamps: '[AI] `kubectl logs --timestamps` is a command used in Kubernetes to retrieve the logs of a running container with timestamps added. The `--timestamps` option causes each log line to be prefixed with the time it was generated, helping users to understand the sequence and age of events as they read through the logs.'

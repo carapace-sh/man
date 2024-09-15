@@ -1,0 +1,94 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: copy-sigs
+description: copy store path signatures from substituters
+flags:
+    --arg*=: Pass the value expr as the argument name to Nix functions
+    --argstr*=: Pass the string string as the argument name to Nix functions
+    --commit-lock-file: Commit changes to the flake's lock file
+    --debug: Set the logging verbosity level to 'debug'
+    --debugger: Start an interactive environment if evaluation fail
+    --eval-store=: The Nix store to use for evaluations
+    --impure: Allow access to mutable paths and repositories
+    --inputs-from=: Use the inputs of the specified flake as registry entries
+    --log-format=: Set the format of log output
+    --no-registries: Don't allow lookups in the flake registries
+    --no-update-lock-file: Do not allow any updates to the flake's lock file
+    --no-write-lock-file: Do not write the flake's newly generated lock file
+    --override-flake=: Override the flake registries, redirecting original-ref to resolved-ref
+    --override-input=: Override a specific flake input (e.g. dwarffs/nixpkgs)
+    --quiet: Decrease the logging verbosity level
+    --recreate-lock-file: Recreate the flake's lock file from scratch
+    --update-input=: Update a specific flake input (ignoring its previous entry in the lock file
+    -I, --include: Add path to the list of locations used to look up <...> file names
+    -L, --print-build-logs: Print full build logs on standard error
+    -s, --substituter=: Copy signatures from the specified store
+    -v, --verbose: Increase the logging verbosity level
+documentation:
+    command: '[AI] The `nix store copy-sigs` command is used in the Nix Package Manager to transfer GPG signature files from one Nix store to another. It ensures the integrity and authenticity of packages by copying the signature files along with their corresponding package when the package is synchronized between different Nix stores. This command is essential for maintaining consistency and trust in the Nix Pakage Manager''s build-and-deploy system.'
+    flag:
+        arg: |-
+            [AI] The `nix store copy-signs --arg` command is a Nix expression used to copy and sign artifacts stored in the Nix store. The `copy-signs` function is a built-in Nix command that performs these tasks.
+
+            The `--arg` option is used to pass arguments to this function. These arguments can include things like the path to the source and destination stores, as well as any additional flags or options desired for the signing process. The specific meaning of each argument depends on the context in which it's used. For example:
+
+            ```bash
+            nix store --drop-in /path/to/source store --copy-signs --arg '--from <source-store> --to <destination-store> --keys <your-signing-key>' <path-to-artifact>
+            ```
+
+            This command drops a file into the source Nix store, then copies it to the destination store while signing it with the provided key. The `--arg` option is used to pass the required arguments for specifying the source and destination stores, as well as the signing key.
+        argstr: '[AI] `nix store copy-signs --argstr` is a command used in Nix packaging system. It copies the signatures of build inputs and outputs from the Nix store to another location, specified by an argument passed via `--argstr`. The command retrieves the signatures from the Nix store using their unique identifiers, encodes them with a given key (if specified), and then writes the signed data to the specified output file or directory. This operation ensures the authenticity and integrity of the software packages in Nix distributions.'
+        commit-lock-file: '[AI] The `nix store copy-sigs --commit-lock-file` command is a utility from the Nix Package Manager. It is used to copy signatures of committed builds in the Nix store to a specified file, creating or updating it if it already exists. This is helpful for creating reproducible builds and ensuring the integrity of packages by verifying their digital signatures.'
+        debug: |-
+            [AI] The `nix store copy-sigs --debug` command is a Nix expression used to manually verify and print debug information about the authenticity of copies of signed Nix expressions or packages stored in the Nix Store, which is a component of the Nix Package Manager.
+
+            When you run this command, it fetches the signed copy from the store, verifies its signature using your trusted public keys, and then prints extensive debug information about the verification process. This information includes details such as the signer's public key fingerprint, the timestamp of signing, and the exact data that was verified.
+
+            This command is useful for debugging issues related to Nix package authentication and trust management.
+        debugger: |-
+            [AI] The `nix store copy-sigs --debugger` command is a Nix expression used for debugging the integrity of copied signatures in the Nix Package Manager.
+
+            When you build or install packages using Nix, it generates and stores cryptographic signatures for the resulting files. This command copies these signatures from their original location (in the Nix store) to a new destination while maintaining their integrity by verifying the signatures during the copy process. The `--debugger` flag enables detailed debugging output, providing information about the copied signatures, their source paths, and the verification results. This can be helpful in troubleshooting issues related to signature verification or package installation.
+        eval-store: |-
+            [AI] `nix store copy-sigs --eval-store` is a command in Nix package manager used to verify and transfer the signature files of packages between Nix stores.
+
+            When you clone or update a Nix store, this command can be used to ensure data integrity by comparing the stored signatures with the new ones. It retrieves the signatures from the source store, evaluates them, and if they match, copies them to the target store. This helps maintain trust in the authenticity and integrity of the packages you use.
+        impure: |-
+            [AI] `nix store copy-sig --impure` is a command in Nix, a package manager for Linux and other Unix systems. This command is used to copy signature files from one location to another while bypassing the purity checks enforced by Nix's store.
+
+            In Nix, each file or directory in the store has an associated signature to ensure its integrity and authenticity. The `copy-sig` command is used to copy these signatures along with the data when moving files between stores or installing packages. By default, Nix only copies signatures that have not been tampered with (i.e., are pure).
+
+            The `--impure` flag allows you to copy impure signatures as well. Impure signatures might have been manually edited or obtained from an untrusted source. Copying impure signatures may pose a security risk, so it is recommended to use this command only with extreme caution and when necessary for specific use cases, such as debugging or managing legacy systems.
+        include: '[AI] The `nix store copy-signs --include` command is used in the Nix Package Manager to copy and manage the signing keys for specified package builds. The `--include` option allows you to specify a list of build paths as arguments, which will have their associated signing keys copied to the Nix store''s `/nix/store/<hash>/signing-keys` directory. This helps ensure that the correct keys are used for verifying the authenticity and integrity of the fetched packages.'
+        inputs-from: |-
+            [AI] The `nix store copy-sig` command is a utility in Nix, a package manager for Linux and other systems. It is used to copy signatures from source files to the Nix store, which is where Nix stores built packages.
+
+            The option `--inputs-from` specifies the Nix expressions or paths of the input files whose signatures are to be copied. This ensures that the signatures correspond to the exact versions and builds of the input files being used in the Nix expression or project. The command then adds these copied signatures to the store, allowing Nix to verify the integrity of the resulting built packages.
+        log-format: '[AI] `nix store copy-sig` is a command in Nix, a package manager for Linux and other Unix systems. It is used to sign and copy Nix store items, which are the actual files that make up Nix packages. The `--log-format` option specifies the format of the log output produced during the signing process. By default, it is verbose, but you can change it to a more compact or customized format using this option. For example, `--log-format="%T %h: %M"` will produce logs with timestamps, hash and message.'
+        no-registries: |-
+            [AI] `nix store copy-signs --no-registries` is a command in Nix, a package manager for Linux and other Unix systems. This command is used to copy the signatures of existing packages from the Nix store to a new location without registering those packages to any Nix registry.
+
+            In simpler terms, it allows you to copy the digital signatures of already installed packages in your Nix store, bypassing the need to re-download and rebuild them. The `--no-registries` flag ensures that no interaction with any Nix registries occurs during this operation.
+        no-update-lock-file: |-
+            [AI] `nix store` is a command-line utility from the Nix Package Manager used to interact with the Nix expression language and the Nix store, which is a central part of Nix's file distribution system.
+
+            The command `nix store copy-sigs --no-update-lock-file` copies signatures from one or more source files or directories to a target store path. The `--no-update-lock-file` flag prevents Nix from updating the lock file, which keeps track of which file has been signed with which signature. This flag can be useful when manually managing signatures or in automated scripts where updates are not desired.
+        no-write-lock-file: '[AI] `nix store copy-sig` is a command in Nix, a package manager for Linux and other Unix systems. The `--no-write-lock-file` option is used to disable the creation of a write lock file when performing the signature copying operation. This flag can be useful in situations where multiple processes need to modify the same data concurrently without causing conflicts. By disabling the write lock file, the command allows for parallel execution, improving efficiency and reducing potential bottlenecks.'
+        override-flake: '[AI] `nix store copy-sig` is a command in Nix, a package manager for Linux and other Unix systems. It''s used to sign artifacts (files or directories) stored in the Nix store. The `--override-flake` option tells `copy-sig` to override existing flakes (a Nix expression representing a set of inputs and outputs) with new ones, even if their cryptographic signatures match. This can be useful when updating dependencies or making changes to your project configuration without affecting the signature of your previously built artifacts.'
+        override-input: '[AI] The `nix store copy-signs --override-input` command is a Nix packaging tool command used to transfer signature files from one Nix store to another while overriding the input file being signed. This command ensures the authenticity and integrity of software packages by verifying the signatures during the transfer process. By using `--override-input`, the user can force the copying of new inputs even if they have the same hash in both stores, which is useful when dealing with updated or different versions of software.'
+        print-build-logs: |-
+            [AI] `nix store copy-sig` is a command in Nix, a package manager for Linux and other Unix systems. This command is used to transfer the signatures of packages from one Nix store to another. The `--print-build-logs` option is used to print the build logs associated with each transferred signature.
+
+            In simpler terms, this command copies the digital signatures of packages in one Nix store and transfers them to another store while displaying the build logs related to those signatures. This can be useful for verifying the authenticity and integrity of the transferred packages.
+        quiet: |-
+            [AI] The `nix store copy-sig` command with the `--quiet` option is used in the Nix Package Manager to sign and copy file checksums from a build output to the Nix store.
+
+            When run with `--quiet`, it suppresses informational messages during execution, providing a quieter output. The effect is that only error messages will be displayed, if any occur. This can be useful when running automated scripts or continuous integration builds where excessive logging might obscure relevant information.
+        recreate-lock-file: |-
+            [AI] The `nix store copy-sigs --recreate-lock-file` command is a part of Nix Package Manager, which is used to manage and build software packages in the Nix expression language environment. This command performs the following actions:
+
+            1. It copies the signatures (detached GPG keys) from one or more source files and stores them in the Nix store under their respective hash-based file paths.
+            2. The `--recreate-lock-file` option generates a new lock file, which records the current state of the stored data, including its hashes and signatures. This is important for reproducibility and security.
+            3. By default, this command does not change existing files or their signatures in the store if they already exist. To replace existing files with updated ones while preserving their signatures, use the `--overwrite-existing` option.
+        substituter: '[AI] `nix store copy-sig` is a command in Nix, a package manager for Linux and other Unix systems. This command is used to sign or verify the integrity of files stored in the Nix store, which is a central repository of packaged software and configuration data managed by Nix. The `--substituter` flag modifies how `nix store copy-sig` handles symlinks and other substitutions. With this flag, each file or directory is replaced with its computed value before signing or verification takes place, allowing for more complex substitution rules to be applied. This ensures that the signed data corresponds to the actual content of the files or directories in the store, ensuring their authenticity and integrity.'
+        update-input: '[AI] `nix-store copy-signs --update-input` is a command in Nix, a package manager for Linux and other Unix systems. This command updates the signatures of existing files in the Nix store with their corresponding new signatures from the Nix expression or configuration that produced them. The `--update-input` option tells it to update the signatures of input files referenced in a build or configuration recipe, ensuring the data being built or configured has not been tampered with since it was originally fetched.'
+        verbose: '[AI] `nix store copy-signs --verbose` is a command used in Nix, a package manager for Linux and other Unix systems. This command copies GPG signing keys from one Nix store to another and displays detailed information about the signature copying process in real time. The `--verbose` option increases the amount of output provided during execution for better visibility and understanding of the ongoing operations.'

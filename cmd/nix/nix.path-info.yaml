@@ -1,0 +1,106 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: path-info
+description: query information about store paths
+group: infrequently used
+flags:
+    --arg*=: Pass the value expr as the argument name to Nix functions
+    --argstr*=: Pass the string string as the argument name to Nix functions
+    --commit-lock-file: Commit changes to the flake's lock file
+    --debug: Set the logging verbosity level to 'debug'
+    --debugger: Start an interactive environment if evaluation fail
+    --eval-store=: The Nix store to use for evaluations
+    --impure: Allow access to mutable paths and repositories
+    --inputs-from=: Use the inputs of the specified flake as registry entries
+    --json: Produce output in JSON format, suitable for consumption by another program
+    --log-format=: Set the format of log output
+    --no-registries: Don't allow lookups in the flake registries
+    --no-update-lock-file: Do not allow any updates to the flake's lock file
+    --no-write-lock-file: Do not write the flake's newly generated lock file
+    --override-flake=: Override the flake registries, redirecting original-ref to resolved-ref
+    --override-input=: Override a specific flake input (e.g. dwarffs/nixpkgs)
+    --quiet: Decrease the logging verbosity level
+    --recreate-lock-file: Recreate the flake's lock file from scratch
+    --sigs: Show signatures
+    --update-input=: Update a specific flake input (ignoring its previous entry in the lock file
+    -I, --include: Add path to the list of locations used to look up <...> file names
+    -L, --print-build-logs: Print full build logs on standard error
+    -S, --closure-size: Print the sum of the sizes of the NAR serialisations of the closure of each path
+    -h, --human-readable: With -s and -S, print sizes in a human-friendly format such as 5.67G
+    -s, --size: Print the size of the NAR serialisation of each path
+    -v, --verbose: Increase the logging verbosity level
+documentation:
+    command: '[AI] The `nix-prefabs` command `path-info` is used to determine the component parts of a Nix expression, specifically the file or package name and its revision or build output, if any. Given a Nix expression such as `/nix/store/sha1-build-output/package-name-version`, `path-info` will return the base name (`package-name`) and the hash (`sha1`). The output is a list with two elements. This information can be useful for downstream builds or scripts that depend on Nix packages.'
+    flag:
+        arg: |-
+            [AI] `nix-path-info` is a utility in Nix packaging system, used to extract file or symlink information from paths. The command `nix path-info --arg <path>` retrieves an argument from the output of a Nix expression when executing it. Here's a breakdown:
+
+            1. `nix path-info`: This is the Nix command used to display file or symlink information about a given path.
+            2. `--arg`: This option is used to extract a specific argument from the standard output of the command.
+            3. `<path>`: This is the argument, providing the path for which you want to get the file or symlink information.
+        argstr: |-
+            [AI] The `nix path-info` command is a utility in Nix, a package manager for Linux and other operating systems. It's used to display detailed file and directory path information. The `--argstr` option is an argument passed to the command that allows specifying an argument string as if it were positional arguments. This option is useful when dealing with complex commands and helps keep the command line cleaner by avoiding repeating the same arguments multiple times. For example, instead of:
+
+            ```sh
+            nix-build --arg1 arg1value --arg2 arg2value my_project.nix
+            ```
+
+            You can use `--argstr` as:
+
+            ```sh
+            nix path-info --argstr "my_project.nix --arg1 arg1value --arg2 arg2value"
+            ```
+        closure-size: '[AI] `nix-path-info` is a utility from Nix, a package manager for Linux and other operating systems. The `--closure-size` option is used to calculate and display the size of a Nix expression tree or a derived file''s closure. In simpler terms, it shows the total disk space required to build and run the given Nix expression, including all its dependencies.'
+        commit-lock-file: |-
+            [AI] `nix path-info` is a command from the Nix package manager used to get information about a file or a path in the Nix store, which is where Nix manages and stores all installed software. The `--commit-lock-file` option is used to display information about a commit lock file.
+
+            A commit lock file is created when a user builds or installs a package using Nix, to prevent other users from modifying the same package at the same time. It contains metadata about the build or installation process and the commit hash of the Nix expression that was used. The `path-info` command with the `--commit-lock-file` option will display information such as the path to the lock file, the user who created it, the creation time, and the associated expression hash.
+        debug: '[AI] `nix-path-info` is a command-line utility in Nix, a package manager for Linux and other Unix systems. The `--debug` flag is an option used to print detailed debugging information during the execution of `nix-path-info`. This can be helpful for troubleshooting issues or gaining a deeper understanding of how Nix processes path information. When run with this flag, `nix-path-info` will output extensive details about the input paths and the resulting outputs, including intermediate steps and error messages if any.'
+        debugger: '[AI] `nix-path-info` is a command-line utility provided by Nix, a package manager for Linux and other systems. The `--debugger` option is used to print debugging information about the file or path being queried, making it useful for troubleshooting issues with Nix paths. This includes detailed information on the file''s type, location in the Nix store, and its associated attributes.'
+        eval-store: |-
+            [AI] `nix-path-info` is a command from Nix, a package manager for Linux and other systems. The `--eval-store` option is used to evaluate an expression against the current file or directory in the Nix store, which is a central part of Nix's unique build system.
+
+            The Nix store is a large, read-only filesystem tree where all Nix packages and their dependencies are installed. Each package is built once and then its output files are stored with a predictable file name based on the package's attributes like version, build inputs, etc. The `nix-path-info` command allows querying information about files in the store based on their unique identifiers.
+
+            With the `--eval-store` option, you can pass an expression to be evaluated against the file or directory metadata available through the Nix store. This enables various use cases like checking if a specific file is present in the store, extracting build outputs for further processing, and more. The result of the evaluation is printed out to the console.
+        human-readable: '[AI] The `nix-info` command with the option `--human-readable` is used in Nix Pakages Manager to display file paths and other package information in a human-readable format. This means that instead of showing raw, technical paths, it converts them into easily understandable formats, making it more convenient for users to navigate and understand the file structures of their packages.'
+        impure: |-
+            [AI] The `nix-path-info --impure` command is a utility from Nix, a package manager for Linux and other Unix systems. This command returns information about a given Nix expression or file path, specifically focusing on impure parts of the path.
+
+            An impure part in Nix context refers to a variable or directory whose content may depend on the system configuration or user environment rather than being strictly determined by the package definition. In other words, it's something that is not guaranteed to be the same across different systems or builds.
+
+            When you run `nix-path-info --impure <path>`, Nix will analyze the given path and return information about any impure parts it finds. This can be helpful for understanding how a package or configuration might vary between different environments, and can aid in troubleshooting and debugging issues related to Nix expressions or paths.
+        include: |-
+            [AI] `nix-prefetch-url` is a utility in Nix packaging system used to download and extract sources of a specified package. The `--include` option with `path-info` subcommand is used to include additional paths or files during the source extraction process. For instance, if you have a Git repository with multiple branches or additional configuration files located outside the main directory, you can use this command to fetch and extract these files along with the primary sources. The general syntax for using `nix-prefetch-url` with `--include` option is:
+
+            ```sh
+            nix-prefetch-url <URL> --out-dir <OUTPUT_DIRECTORY> --include <ADDITIONAL_PATHS/*|PATTERN>...
+            ```
+
+            Replace `<URL>` with the URL of the source package, `<OUTPUT_DIRECTORY>` with the directory where you want to store the extracted sources, and `<ADDITIONAL_PATHS>` with the absolute paths or patterns of the files or directories you'd like to include.
+        inputs-from: '[AI] `nix-path-info` is a command-line utility in Nix, a package manager for Linux and other systems. The `--inputs-from` option is used to print the Nix expressions or files that produce the given output path. Essentially, it helps you trace the origin of a file or a value in your Nix configuration. For instance, if you have a complex build system using Nix, you can use this command to understand which inputs are required to generate a particular output.'
+        json: '[AI] `nix-path-info` is a command from Nix, a powerful configuration management system. The `--json` option tells it to output its results in JSON format. The `nix-path-info` command itself is used to determine the build and derivation information of a Nix package or file. With the JSON output, this information can be easily consumed by other programs or scripts that parse JSON data.'
+        log-format: |-
+            [AI] The `nix path-info` command is a utility in Nix, a configuration management system. It is used to display information about a given file path or a Nix expression. The `--log-format` option specifies the format of the output logged to standard error.
+
+            With `--log-format`, you can choose how errors and other diagnostic messages are displayed. For example, `--log-format=json` will print diagnostics in JSON format for easier parsing by other programs. Other available formats include plain text, verbose, and terse.
+
+            In summary, the `nix path-info --log-format` command is used to control the logging format when displaying information or encountering errors while working with Nix file paths or expressions.
+        no-registries: '[AI] The `nix-path-info` command is a utility in Nix packaging system. The `--no-registries` option is one of its arguments. When this option is used, the command will not consult any registry (e.g., Nix expressed channels) and only consider locally available packages when generating path information. The output is a list of files or directories that represent the build-time and runtime dependencies of a given package path.'
+        no-update-lock-file: '[AI] `nix-path-info` is a command from the Nix package manager. The `--no-update-lock-file` option is used to prevent the creation or update of the Nix store lock file when querying path information. The lock file ensures that multiple processes don''t modify the Nix store at once, enhancing system stability, but it may hinder quicker access to information in some scenarios. By using `--no-update-lock-file`, you can bypass this safety mechanism and obtain the requested path information more swiftly.'
+        no-write-lock-file: '[AI] `nix-path-info` is a command-line utility in NixOS, a Linux distribution and configuration management system. The `--no-write-lock-file` flag is used to prevent the creation of a write lock file when performing file or path-related operations with `nix-path-info`. Write lock files ensure data consistency during concurrent access to Nix expressions or configurations. By using this flag, you can bypass the need for write locks and potentially speed up your operations if you are confident that no other processes will be modifying the same files at the same time.'
+        override-flake: '[AI] The `nix path-info --override-flake` command is a Nix expression used to compute the build and output paths for a specific package or project defined in a Nix flake configuration file. The `--override-flake` flag instructs Nix to use an existing flake lock file instead of fetching the latest version of the source code. This can be useful when you want to build a specific revision or version of the software that is not the latest, or if you are working offline and don''t have access to the latest sources. The output of this command includes the build input paths (source code), build outputs (intermediate files), and the final output paths (binary files) for the given package.'
+        override-input: |-
+            [AI] `nix-path-info` is a command in Nix, a functional package manager. The `--override-input` option changes the input file or directory for a Nix expression without modifying the original expression. When used with `nix-path-info`, it returns information about the new input instead of the original one. For example:
+
+            ```bash
+            $ nix-path-info --override-input <new_file> <expression_path>
+            ```
+
+            This command will return the file type, size, and other metadata of `<new_file>` as if it were the input for the Nix expression located at `<expression_path>`. It's useful when testing or working with different inputs for expressions without changing the actual expression.
+        print-build-logs: '[AI] The `nix-build` or `nix-store` command with the option `--print-build-logs` generates output showing the build logs of a specific Nix expression or package. The flag is used to inspect the details of the build process, including any errors or warnings that occurred during compilation. It provides transparency into the build history and can be helpful for debugging issues related to Nix package builds.'
+        quiet: '[AI] `nix-path-info` is a command-line utility in Nix, a package manager for Linux and other Unix systems. The `--quiet` option, when used with this command, instructs it to only print the output in error cases and be silent otherwise. When given a file path as an argument, `nix-path-info` displays various information about that file, such as its type, size, or Nix expression if it''s managed by Nix. By using the `--quiet` flag, you can suppress this default behavior and only receive error messages when dealing with files that don''t exist or have other issues.'
+        recreate-lock-file: '[AI] `nix-path-info` is a command-line utility in Nix package manager. The `--recreate-lock-file` option is used when working with Nix expressions or configurations that have a `build.nix` file. This option instructs Nix to create or update the lock file (usually named `lockfile`) during the build process, ensuring consistency and reproducibility of builds by pinning the exact versions of dependencies mentioned in the expression or configuration file.'
+        sigs: '[AI] The `nix-info --sigs` command is a utility from Nix, a package manager for Linux and other Unix systems. This command displays the digital signatures of installed Nix packages. The output includes the name, version, signature keys, and their respective fingerprints. It helps ensure the authenticity and integrity of the installed software by allowing users to verify that the packages have not been tampered with after being downloaded from the trusted Nix repositories.'
+        size: '[AI] The `nix-info --size` command is a utility from Nix package manager used to display the size information of a specific Nix expression or installation. When you run this command followed by a Nix expression, it returns the total size of that expression and all its dependencies in bytes. If you provide an installed Nix profile or binary as an argument, it will show the size of that particular installation instead.'
+        update-input: '[AI] The `nix-build` or `nix-prepare-build-tree` command with the option `--update-input` and the subcommand `path-info` is used to query the build or preparation tree in Nix, a package manager for Linux and other systems. Specifically, `nix path-info --update-input <path>` returns information about the input files for a given build or preparation input path. This can be helpful when debugging builds or preparing inputs for caching. The `--update-input` option ensures that the input files are up to date with the latest checksums in the Nix expression before building.'
+        verbose: '[AI] The `nix-path-info` command is a utility in Nix, a package manager for Linux and other Unix systems. The `--verbose` option is used to increase the amount of output provided by the command. When used with `nix-path-info`, it displays detailed information about a given path or file, including its type (file or symbolic link), size, modification time, and Nix expression or build outputs associated with it if applicable.'

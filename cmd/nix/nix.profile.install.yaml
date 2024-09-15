@@ -1,0 +1,101 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: install
+description: install a package into a profile
+flags:
+    --arg*=: Pass the value expr as the argument name to Nix functions
+    --argstr*=: Pass the string string as the argument name to Nix functions
+    --commit-lock-file: Commit changes to the flake's lock file
+    --debug: Set the logging verbosity level to 'debug'
+    --debugger: Start an interactive environment if evaluation fail
+    --eval-store=: The Nix store to use for evaluations
+    --impure: Allow access to mutable paths and repositories
+    --inputs-from=: Use the inputs of the specified flake as registry entries
+    --log-format=: Set the format of log output
+    --no-registries: Don't allow lookups in the flake registries
+    --no-update-lock-file: Do not allow any updates to the flake's lock file
+    --no-write-lock-file: Do not write the flake's newly generated lock file
+    --override-flake=: Override the flake registries, redirecting original-ref to resolved-ref
+    --override-input=: Override a specific flake input (e.g. dwarffs/nixpkgs)
+    --priority=: The priority of the package to install
+    --profile=: The profile to operate on
+    --quiet: Decrease the logging verbosity level
+    --recreate-lock-file: Recreate the flake's lock file from scratch
+    --update-input=: Update a specific flake input (ignoring its previous entry in the lock file
+    -I, --include: Add path to the list of locations used to look up <...> file names
+    -L, --print-build-logs: Print full build logs on standard error
+    -v, --verbose: Increase the logging verbosity level
+documentation:
+    command: |-
+        [AI] The `nix-profile` is a Nix Package Manager feature that allows users to easily manage and apply configuration and profile modifications. The `nix-profile install` command is used to download and apply a specific Nix profile, which can contain new packages, environment variables, configurations, or other modifications.
+
+        When you run `nix-profile install <profile>`, the Nix daemon downloads the desired profile from the Nix expressway and merges its contents into your existing Nix configuration. The installed profile can then provide access to new packages or modify system settings without affecting your global installation, making it easier to manage and maintain different configurations on a single machine.
+    flag:
+        arg: |-
+            [AI] The `nix-profile` is a utility provided by Nix Package Manager for managing user-level configurations. The `install` command is used to install or remove a specific configuration from a Nix profile.
+
+            The option `--arg` is used to pass arguments to the command being installed. For example, if you have a configuration file managed by Nix and you want to pass an argument to it during installation, you would use the following command:
+
+            ```bash
+            nix-profile --install <profile_name> <config_command> --arg arg1="value1" arg2="value2" ...
+            ```
+
+            Replace `<profile_name>` with the name of your Nix profile, `<config_command>` with the name or path to the command that manages the configuration you want to install, and `arg1`, `arg2`, etc., with the values you want to pass as arguments. This will install the configuration with the specified arguments.
+        argstr: |-
+            [AI] `nix-profile` is a Nix package manager command used to install and manage Nix profiles, which are collections of packages and their configurations. The `install` subcommand is used to install a new profile or update an existing one. The `--argstr` option allows passing arguments to the installed profile's configuration scripts using a JSON-like syntax.
+
+            For example: `nix-profile install myprofile --argstr '{ myarg="myvalue" }'`. This command installs or updates the 'myprofile' Nix profile and passes an argument 'myarg' with value 'myvalue' to its configuration scripts. The scripts can then use this information during package installation, configuration, or other tasks.
+        commit-lock-file: '[AI] `nix-profile` is a utility provided by Nix, a package manager for Linux and other Unix systems. The command `nix-profile install <package> --commit-lock-file` installs the specified package from the Nix repositories, creates or updates the system''s Nix profile, and commits the changes to a lock file. This ensures consistent and reproducible builds by preventing unintended changes in the Nix profile configuration while managing dependencies.'
+        debug: '[AI] The `nix-profile` is a component of Nix, a package manager for Linux and other Unix systems. The command `nix-profile install --debug` instructs Nix to install new packages or updates with debugging information enabled. This means that more detailed output will be displayed during the installation process, which can help in diagnosing potential issues. The `--debug` flag is optional, and regular installation without it will proceed without displaying additional debugging information.'
+        debugger: '[AI] `nix-profile` is a utility in Nix Package Manager used to manage user configurations and environments. The command `nix-profile install --debugger` installs Nix''s built-in GDB debugger as part of the Nix profile installation. It does not start or configure the debugger but adds it to your system PATH for usage in other development setups or tools that may require it. If you intend to use this debugger, you might need additional configuration steps depending on your development environment.'
+        eval-store: '[AI] `nix-profile` is a Nix package manager command used to install and manage system configurations. The `install` subcommand installs new packages or configurations from a Nix expression. The `--eval-store` option evaluates the given Nix expression in the current user''s Nix profile store, which means that the expression is executed within the context of the profile, allowing you to modify the profile settings or add custom configurations without modifying the global Nix configuration. The result of the evaluation is then applied to your system, updating the Nix profile accordingly.'
+        impure: '[AI] `nix-profile` is a utility provided by Nix, a package manager for Linux and other operating systems. The command `nix-profile install --impure` installs new packages without replacing existing ones that have the same name but different versions. In other words, it adds new packages to the system without modifying or updating the currently installed versions of conflicting packages. This can be useful when you want to experiment with multiple versions of a package simultaneously, while preserving your current system configuration.'
+        include: '[AI] `nix-profile` is a utility provided by Nix, a package manager for Linux and other systems. The command `nix-profile install --include <package>` is used to install a specific Nix package from the default channels. The `--include` option indicates that only the requested package should be installed, without pulling in any additional dependencies or configurations. This results in a minimal installation of just the specified package.'
+        inputs-from: |-
+            [AI] `nix-profile` is a Nix package manager command used to install and manage user-level packages in the Nix expression language environment. The `install` subcommand installs new packages from a channel or local path.
+
+            The option `--inputs-from <file>` specifies a file with a list of input files, each line containing a hashed input expression. This allows you to install multiple packages at once whose build dependencies are defined in those input files.
+
+            For example, if you have a file called `my-packages.nix` that lists the expressions for packages A and B, you can use:
+
+            ```sh
+            nix-profile install --inputs-from my-packages.nix
+            ```
+
+            This will install packages A and B along with their dependencies.
+        log-format: '[AI] `nix-profile` is a utility provided by Nix, an open-source configuration management system. It''s used to manage and install Nix expressions as user profiles. The command `nix-profile install <expression> --log-format=<format>` instructs the tool to install the given expression and specifies the desired log format for the installation output. Commonly used formats include "json" or "plaintext". For instance, `--log-format=json` will output the log in a JSON format that can be easily parsed by scripts.'
+        no-registries: |-
+            [AI] The `nix-profile` is a Nix package manager command that allows you to manage and apply configurations, called "profiles," to your system. The `install` subcommand is used to install a specific profile or profiles.
+
+            The option `--no-registries` disables the use of remote package repositories (registries) during the installation process. In other words, it instructs `nix-profile` to only use locally available packages and configurations when applying the specified profile(s). This can be useful in offline environments or for security reasons where you may not want to fetch packages from external sources.
+        no-update-lock-file: '[AI] `nix-profile` is a Nix package manager command used to install or manage software packages in a Nix environment. The `--no-update-lock-file` option disables the creation of a lock file during the installation process. A lock file ensures that specific versions of packages are installed and prevents updates or changes to those versions until the lock file is removed. By using this option, users can install packages without the lock file constraint, allowing for more flexibility in managing their Nix environments.'
+        no-write-lock-file: |-
+            [AI] The `nix-profile install` command is a utility provided by Nix, a package manager for Linux and other systems. It's used to install software or configurations managed by Nix expression language. The `--no-write-lock-file` flag is an option that can be passed when using this command.
+
+            This flag disables the creation of a write lock file while performing the installation process. Write locks ensure that only one instance of the installation command can run at a time to prevent conflicts and data corruption. By setting `--no-write-lock-file`, multiple installations can occur concurrently, potentially improving performance in environments where many similar configurations need to be deployed quickly. However, it may increase the risk of conflicts or inconsistencies if proper synchronization measures aren't taken.
+        override-flake: '[AI] `nix-profile` is a tool in Nix packaging system used to manage user configurations. The command `nix-profile install --override-flake <path-to-flake-lock>` installs or upgrades specified packages from a given Flake lock file, overriding any existing configurations. In other words, it forces the installation of specific versions of packages defined in the Flake lock file, disregarding any existing Nix profiles or system configurations. This can be useful when you need to ensure consistent package versions across different machines.'
+        override-input: '[AI] The `nix-profile` is a component of Nix, a package manager for Linux and other Unix systems. The command `nix-profile install --override-input <package>` allows users to install a specific Nix package and replace an existing configuration file or input file with the new version provided by the installed package. This can be useful when you want to customize the behavior of a software without affecting its core functionality. The `--override-input` option tells Nix to replace the specified input file instead of merging configurations as it would do by default.'
+        print-build-logs: '[AI] `nix-profile` is a utility provided by Nix, a package manager for Linux and other operating systems. The command `nix-profile install --print-build-logs` instructs Nix to install specified packages or configurations from the Nix expression language, while also printing the build logs to the terminal. Build logs are important as they provide information about the construction process of a software package, including any errors or warnings that might have occurred during the build. This command allows users to monitor and troubleshoot the installation process in real-time.'
+        priority: '[AI] The `nix-profile` is a part of Nix, a package manager for Linux and other Unix systems. The command `nix-profile install --priority <package>` installs a specific package from the Nix expression language, with a higher priority over existing packages in the system. This means that if there''s already an installed version of the same package with a lower priority, it will be replaced by the new one. The `--priority` option specifies that the installation should have a higher priority, ensuring that the newly installed package takes precedence over any conflicting packages.'
+        profile: |-
+            [AI] `nix-profile` is a utility provided by Nix, a package manager for Linux and other Unix systems. The command `nix-profile install --profile <profile>` is used to install a specific Nix user profile.
+
+            A Nix profile is a collection of packages, configurations, and settings that can be applied to a Nix system. Profiles allow users to manage their software installations in a modular way, making it easier to maintain consistency across systems or to experiment with different configurations.
+
+            When you run `nix-profile install --profile <profile>`, the command downloads and applies the specified profile to your system. The installed packages will be available for use by the current user, and any new configuration settings will take effect immediately.
+
+            Note that this command only installs the profile; it does not automatically install or manage dependencies between different packages within the profile. To manage dependencies, you would typically use other Nix commands such as `nix-env` or `nix-build`.
+        quiet: '[AI] `nix-profile` is a utility provided by Nix, a package manager for Linux and other Unix systems. The command `nix-profile install --quiet` installs Nix expressions from the default channel or a specified channel in the background without displaying progress messages. This means that the installation process runs quietly without any interruption from the terminal output.'
+        recreate-lock-file: |-
+            [AI] `nix-profile` is a command-line utility provided by Nix Package Manager, which is used to manage local configuration and installation of software packages. The `install` subcommand is used to download and install specific packages from the Nix repositories.
+
+            The option `--recreate-lock-file` instructs the command to recreate or update the existing system lock file. A lock file is a mechanism used by Nix Package Manager to ensure that multiple processes don't try to manage the same configuration at the same time, preventing potential conflicts and errors. Updating the lock file with this option ensures that all processes use the latest information regarding package versions and dependencies before making any changes.
+        update-input: '[AI] `nix-profile` is a utility in Nix, a package manager for Linux and other Unix systems. The command `nix-profile install --update-input <package>` installs the specified Nix package and its dependencies, making them available system-wide. The option `--update-input` tells `nix-profile` to also update the existing configuration files of the installed packages if there''s a new version available. In summary, this command updates the given package and its configuration files to their latest versions.'
+        verbose: |-
+            [AI] The `nix-profile` is a Nix package manager command that allows you to manage and configure system-wide software installations. The command `nix-profile install --verbose` performs an installation of specified packages from the Nix expression language using the Nix profile.
+
+            In more detail, it does the following:
+
+            1. It searches for available Nix expressions (usually located in the `/nix/var/nix/profiles` directory) that match the given package names or expressions.
+            2. It checks if the packages have any dependencies and if they are compatible with the existing system environment.
+            3. It installs the packages, along with their dependencies, from the specified Nix expression into the system profile (by default, `/nix/profile`).
+            4. It displays detailed information about each step of the installation process in real-time using the --verbose flag for transparency and troubleshooting purposes.

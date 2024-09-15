@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: mv [options] SOURCE DESTINATION
+description: Move an item in the state
+flags:
+    -dry-run: only print out what would've been moved
+    -ignore-remote-version: A rare option used for the remote backend only
+    -lock: Don't hold a state lock during the operation
+    -lock-timeout?: Duration to retry a state lock
+documentation:
+    command: '[AI] The `terraform state mv` (move) command is used in Terraform to modify the current state file by moving a resource or data source from one location to another within the same workspace and address space. This command maintains the dependency relationships between resources and ensures consistent state management. It''s important to note that `terraform state mv` does not change the actual infrastructure, it only updates the Terraform state file.'
+    flag:
+        dry-run: '[AI] `terraform state mv -dry-run` is a command in Terraform, an open-source infrastructure as code software tool, to perform a preview or dry run of moving resources between Terraform workspaces without making any actual changes to the underlying infrastructure. The `state mv` subcommand is used to move Terraform-managed resources between workspaces and the `-dry-run` flag enables the preview mode, which shows what would be done if the command were run without actually executing it. This helps users understand the potential impact of their actions before making any changes to their infrastructure.'
+        ignore-remote-version: '[AI] `terraform state mv` is a command in Terraform, an open-source infrastructure as code software tool, used to move resources between different Terraform workspaces or modify the resource order within a single workspace. The `-ignore-remote-version` flag is an optional argument that allows you to perform these actions without checking if the remote state and your local state are in sync. This can be useful when your local and remote states have diverged due to accidental modifications, but you''re certain of the desired changes. It''s important to note that using this flag may result in data loss or configuration drift if used carelessly.'
+        lock: '[AI] `terraform state mv -lock` is a command in Hashicorp''s Terraform infrastructure configuration tool. It moves the lock file associated with a specific Terraform configuration to a new location. The `-lock` option ensures that Terraform acquires and releases the lock during the move operation, preventing conflicts between multiple users modifying the same resources at once.'
+        lock-timeout: |-
+            [AI] The `terraform state mv` command with the `-lock-timeout` option is used to move Terraform state files between different Terraform workspaces or backends while managing locking and ensuring consistent state management.
+
+            When you run `terraform init` in a directory, Terraform creates or downloads a backend configuration file based on your chosen backend type (such as S3, Consul, etc.). The state files are then stored in the specified location by the backend.
+
+            If you want to move the state file to another workspace or backend while ensuring that no other Terraform instances have modified the state during the transition, you can use the `terraform state mv` command with the `-lock-timeout` option. This flag sets a timeout for Terraform to wait before attempting to acquire a lock on the source and destination state files. If the timeout expires before acquiring both locks, the operation fails.
+
+            For example, if you are moving state from workspace A to workspace B:
+
+            1. Run `terraform state pull` in workspace A to fetch the current state.
+            2. Run `terraform state mv [source-state-file] [destination-workspace-directory]/[destination-state-file] -lock-timeout=<duration>`. This command moves the state file while attempting to acquire locks on both the source and destination files within the specified timeout duration.
+            3. If successful, Terraform updates the backend with the new state in workspace B.
+            4. Run `terraform plan` in workspace B to apply the changes described in the new state.
+            5. Update your Terraform configuration files in the new workspace to start using this workspace.
+
+            Using the `-lock-timeout` flag helps ensure that you have the most up-to-date and consistent state across your Terraform workspaces and backends while minimizing the risk of concurrent changes causing issues.

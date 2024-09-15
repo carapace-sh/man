@@ -1,0 +1,96 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: dbt
+description: An ELT tool for managing your SQL transformations and data models
+flags:
+    --cache-selected-only: Pre cache database objects relevant to selected resource only
+    --log-format=: Specify the log format
+    --no-anonymous-usage-stats: Do not send anonymous usage stat to dbt Labs
+    --no-cache-selected-only: Pre cache all database objects related to the project
+    --no-partial-parse: Disallow partial parsing
+    --no-print: Suppress all {{ print() }} macro calls
+    --no-static-parser: Disables the static parser
+    --no-use-colors: Do not colorize the output DBT prints to the terminal
+    --no-version-check: Skip ensuring dbt's version matches the one specified in the dbt_project.yml
+    --no-write-json: Skip writing the manifest and run_results.json files to disk
+    --partial-parse: Allow for partial parsing by looking for and writing to a pickle file
+    --printer-width=: Sets the width of terminal output
+    --use-colors: Colorize the output DBT prints to the terminal
+    --use-experimental-parser: Enables experimental parsing features
+    --version: Show version information
+    --warn-error: If dbt would normally warn, instead raise an exception
+    --warn-error-options=: If dbt would normally warn, instead raise an exception based on include/exclude configuration
+    -d, --debug: Display debug logging during dbt execution
+    -q, --quiet: Suppress all non-error logging to stdout
+    -r, --record-timing-info=: Output low-level timing stats to the specified file
+    -x, --fail-fast: Stop execution upon a first failure
+persistentflags:
+    --profiles-dir=: Which directory to look in for the profiles.yml file
+    -h, --help: show this help message and exit
+documentation:
+    command: '[AI] `dbt` is a popular open-source data transformation tool for building and executing data models using SQL, created by Fishtown Analytics. It allows you to define data transformations as reusable building blocks called models, tests them, and manages dependencies between them. The command line interface (CLI) provides features such as data model versioning, testing, documentation, and scheduling data pipelines to keep your data in sync with various sources.'
+    flag:
+        cache-selected-only: '[AI] The `--cache-selected-only` flag in dbt (data build tool) is used to instruct dbt to only clear the cache for the selected models or artifacts during a run. This can help improve the performance and reduce the time taken for subsequent runs if specific models have changed since the last run. It does not affect the execution of the models themselves, just the caching behavior.'
+        debug: '[AI] `dbt --debug` is a command used in dbt (Data Build Tool), an open-source data transformation and orchestration tool. This command runs your dbt project in debug mode, which provides more detailed output and error messages for troubleshooting. It enables logging of various events during the execution process, including SQL queries, model and artifact builds, and configuration options. This can be helpful when encountering issues with data transformations or setup within a dbt project.'
+        fail-fast: '[AI] `dbt --fail-fast` is a command-line option for dbt (Data Build Tool), an open-source data transformation and testing toolkit. It instructs dbt to exit with a non-zero exit code as soon as it encounters the first failure during execution. This flag is useful when you want to quickly identify and address errors in your data models or tests, rather than having dbt continue running and potentially masking other failures.'
+        log-format: |-
+            [AI] `dbt` is an open-source data transformation and orchestration tool for data analysts and engineers. The `--log-format` flag is used to specify the format of the logs generated when running `dbt` commands.
+
+            There are three available log formats:
+
+            1. `plain`: Displays logs as plain text with minimal formatting.
+            2. `json`: Outputs logs in JSON format for easier programmatic access and processing.
+            3. `table`: Formats logs in a tabular structure, making it easier to read and parse visually.
+
+            By default, `dbt` uses the `plain` log format. To use other log formats, include the corresponding flag when executing `dbt` commands:
+            ```bash
+            # Plain text logs
+            dbt run
+
+            # JSON format logs
+            dbt run --log-format json
+
+            # Table format logs
+            dbt run --log-format table
+            ```
+        no-anonymous-usage-stats: '[AI] The `--no-anonymous-usage-stats` flag for dbt is used to disable the collection and reporting of anonymous usage statistics to dbt Labs. This means that your dbt projects will not send any data about your usage, such as which features are being used or the version of dbt being employed, to dbt Labs. By using this flag, you maintain complete control over your data and ensure that it remains private.'
+        no-cache-selected-only: |-
+            [AI] `dbt` is a popular open-source data transformation tool for building and executing data pipelines using SQL and other technologies. The command `dbt --no-cache-selected-only` is used to skip the use of the dbt project cache for only the selected models or artifacts.
+
+            When you run `dbt build`, it caches the results of executing each model or artifact to speed up subsequent runs. However, with this flag, you can bypass the cache for specific models during the build process, which may be useful in certain situations such as:
+
+            1. Debugging: If you want to force re-execution of a particular model to see the latest changes without affecting other models or artifacts, use `--no-cache-selected-only`.
+            2. Testing: When developing new models or features, testing and debugging might require running specific models multiple times with different input data to observe their behavior in various scenarios. By disabling the cache, you can ensure that you're not relying on previously cached results, which could potentially introduce unintended side effects.
+            3. Dependency resolution: In cases where there are conflicting dependencies between models or artifacts, using `--no-cache-selected-only` helps in ensuring that each model is built independently without the influence of any previous builds. This can help isolate and resolve dependency issues more effectively.
+
+            In summary, the flag `dbt --no-cache-selected-only` allows you to bypass the cache for selected models during the build process, which can be useful when debugging, testing, or dealing with complex dependencies.
+        no-partial-parse: |-
+            [AI] `dbt` is an open-source data transformation toolkit that allows users to define and execute data transformations using SQL or other programming languages. The command `dbt --no-partial-parse` is used when running the data transformation process in a headless mode, meaning without a user interface.
+
+            This flag disables the partial parsing feature of `dbt`. Partial parsing is a caching mechanism that `dbt` uses to speed up the build process by storing parsed SQL and model files in the cache. By disabling this feature with `--no-partial-parse`, every SQL and model file will be parsed from scratch during each run, which may increase the overall build time but ensures that the most up-to-date versions of these files are used for transformations.
+        no-print: '[AI] The `dbt` command with the flag `--no-print` is used to run data build tasks without printing the progress output or final results to the console. In other words, it runs `dbt` in quiet mode. This can be useful when automating scripts or running tests where you want to suppress the output for better readability of error messages or for the sake of keeping a clean log.'
+        no-static-parser: '[AI] `dbt` is a data transformation tool that utilizes the SQL ALchemy and Pandas libraries for data manipulation. The command `dbt --no-static-parser` is used to disable the static parsing feature of dbt during the execution of database scripts. Static parsing checks the syntax of the SQL statements in the dbt scripts against the specified database schema before running them. By disabling this feature with `--no-static-parser`, dbt will bypass this check, allowing potentially invalid or inconsistent queries to run directly against the database. This option can be useful when working on a development environment or making quick changes but should be used with caution as it may introduce errors or inconsistencies in your data transformations.'
+        no-use-colors: '[AI] The `--no-use-colors` flag in dbt (data build tool) is used to disable color output in the command-line interface. This means that instead of displaying results with colored formatting, dbt will use plain text for status messages and error reporting. This option can be helpful for users who prefer a monochrome terminal or have accessibility needs that are better met by plain text.'
+        no-version-check: '[AI] `dbt` is a popular open-source data transformation toolkit in the data engineering field. The command `dbt --no-version-check` is used to disable version checking when running `dbt` commands. This means that `dbt` will not check if the project''s dependencies have updated versions and will instead use the currently installed ones. Using this option can save time during development, but it may also lead to using outdated or incompatible packages, increasing the risk of potential issues.'
+        no-write-json: '[AI] The `dbt` command with the `--no-write-json` flag is used in data transformation using dbt (Data Build Tool). This flag prevents dbt from writing output in JSON format to the `_output` folder after running an operation like `run`, `test`, or `seed`. It''s often used for debugging purposes, as it allows keeping the intermediate data in a human-readable format.'
+        partial-parse: |-
+            [AI] `dbt` is an open-source data transformation toolkit that enables data analysts and engineers to transform data in their warehouses more effectively. The `--partial-parse` flag is a command-line option used with `dbt run`.
+
+            When you run `dbt run --partial-parse`, it performs a partial parsing of your dbt project, which means that it only checks for syntax errors and type errors in your SQL and model files without actually running the tests or building the artifacts. This command is useful when you want to quickly identify issues in your codebase before making larger changes or committing new features. The output will indicate any errors found during the parse process, helping you address them before continuing with further development or testing.
+        printer-width: '[AI] The `--printer-width` flag in dbt (Data Build Tool) is used to set the maximum column width for output when running data transformations or models. This can be helpful when working with wide columns or complex queries, as it prevents the output from being truncated and allows for better readability. For example, `dbt run --printer-width 200` would set the maximum column width to 200 characters.'
+        quiet: '[AI] `dbt --quiet` is a command used in dbt (Data Build Tool), an open-source data transformation and orchestration tool. This command runs dbt projects with minimal output, meaning it suppresses most progress messages and error details during execution. It''s useful when running automated data pipelines where extensive logging might not be necessary.'
+        record-timing-info: '[AI] The `--record-timing-info` flag in dbt (Data Build Tool) is used to enable recording of timing information during the execution of dbt models. This includes tracking the time taken for each model, seed data, and materialization. The output of this flag is written to a file named `dbt_timestamps.csv`, which can be used for further analysis, such as performance monitoring and trend analysis. It helps in understanding the execution time distribution across models and identifying potential bottlenecks.'
+        use-colors: '[AI] `dbt use-colors` is a command-line flag used with dbt (Data Build Tool), an open-source data transformation and orchestration tool. This flag enables colored output in the terminal when running dbt projects, making it easier to distinguish between different types of messages such as errors, warnings, and informational messages. By default, dbt has monochrome output. Enabling colors improves the user experience by providing clearer feedback during execution.'
+        use-experimental-parser: |-
+            [AI] `dbt` is an open-source data transformation toolkit used for building and executing data models and transformations. The `--use-experimental-parser` flag is a command line argument that can be passed to the `dbt run` or `dbt build` commands.
+
+            This flag enables the use of an experimental parser in `dbt`. By default, `dbt` uses a stable parser for processing `dbt` files (`.yml`, `.sql`, and `.mssql`). However, the experimental parser may include new features or improvements that are not yet part of the stable parser.
+
+            By using `--use-experimental-parser`, users can test these new features before they become officially supported in the stable parser. Note that when using this flag, there's a higher risk of encountering compatibility issues or bugs compared to using the stable parser. It's essential to carefully evaluate any changes and ensure they don't negatively impact existing models or transformations.
+
+            It is important to remember that using the experimental parser doesn't automatically update your `dbt` project to use these new features. You should manually modify your `dbt_project.yml` file to take advantage of any changes introduced by the experimental parser.
+        version: '[AI] `dbt --version` is a command used in dbt (Data Build Tool), an open-source data transformation and orchestration tool. This command is run in the terminal or command prompt to check and display the currently installed version of dbt in the local environment. It helps users ensure they have the latest version, troubleshoot issues, and maintain a record of their setup for future reference.'
+        warn-error: '[AI] The `--warn-error` flag in dbt (Data Build Tool) is used to treat all database warnings as errors during execution. This means that any SQL statements that produce warnings will cause the entire run to fail, rather than just printing the warning message and continuing with the next statement. This can be useful for catching and addressing potential issues in your data modeling process.'
+        warn-error-options: |-
+            [AI] `dbt` is a data transformation and orchestration tool for data analysts and engineers. The command `dbt run --warn-error-options` is used to execute database tasks defined in dbt models.
+
+            The option `--warn-error-options` instructs dbt to treat warnings as errors, causing the build process to fail if any warnings are encountered during execution. This is useful when developing or maintaining data pipelines where it's crucial to ensure that no unexpected data transformations occur. By default, dbt only logs warnings and continues executing remaining tasks.

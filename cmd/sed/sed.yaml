@@ -1,0 +1,63 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: sed
+description: stream editor for filtering and transforming text
+flags:
+    --debug: annotate program execution
+    --follow-symlinks: follow symlinks when processing in place
+    --help: display this help and exit
+    --posix: disable all GNU extensions
+    --sandbox: operate in sandbox mode (disable e/r/w commands)
+    --silent=: suppress automatic printing of pattern space
+    --version: output version information and exit
+    -E: use extended regular expressions in the script
+    -e, --expression=: add the script to the commands to be executed
+    -f, --file=: add the contents of script-file to the commands to be executed
+    -i, --in-place=: edit files in place (makes backup if SUFFIX supplied)
+    -l, --line-length=: specify the desired line-wrap length for the l command
+    -n, --quiet=: suppress automatic printing of pattern space
+    -r, --regexp-extended: use extended regular expressions in the script
+    -s, --seperate: consider files as separate rather than as a single, continuous long stream.
+    -u, --unbuffered: load minimal amounts of data from the input files and flush the output buffers more often
+    -z, --null-data: separate lines by NUL characters
+documentation:
+    command: '[AI] `sed` is a powerful text editor in Unix-like operating systems, which stands for Stream Editor. It reads the input one line at a time and performs transformations according to a script or a series of simple editing commands. These commands can include actions like substitution (s/pattern/replacement/), deletion (/pattern/d), insertion (i/pattern/text), and more. The script is typically supplied in-line, in a file, or via standard input. `sed` is widely used for text processing tasks such as file filtering, data extraction, and string manipulation.'
+    flag:
+        E: '[AI] `sed` is a stream editor for Linux and other Unix-like operating systems. The `-E` option enables Extended Regular Expressions (ERE) syntax in sed commands, which provides more complex pattern matching capabilities than the Basic Regular Expressions (BRE) used by default. ERE allows using various advanced features like lookaheads, lookbehinds, and groups with backreferences, making it a powerful tool for text manipulation and processing.'
+        debug: |-
+            [AI] The `sed` command is a stream editor for filtering and transforming text in Unix-like operating systems. The `--debug` option is not a standard flag for `sed`. However, there exists an extended version of `sed`, called `sed` with the GNU Core Utilities (GNU `sed`), which includes the `--debug` flag.
+
+            When used, the `--debug` flag causes `sed` to print out each regular expression it matches and the corresponding text that is being replaced, as it processes each input file or stream. This option is useful for debugging complex `sed` scripts, allowing users to see exactly how the regex patterns are being applied to the input data.
+        expression: |-
+            [AI] `sed` is a stream editor for filtering and transforming text. The `--expression` option allows specifying a Sed expression, which is a regular expression with embedded editing commands, as a single argument to sed. This can make complex text manipulations more concise and efficient. For example:
+
+            ```bash
+            sed --expression='s/pattern/replacement/g' input_file
+            ```
+
+            In this command, `s/pattern/replacement/g` is the Sed expression that performs a global search-and-replace for every occurrence of 'pattern' with 'replacement' in the input file.
+        file: '[AI] `sed --file` is a command-line option for the `sed` text editor in Unix-like operating systems. It allows users to read input from a file instead of the standard input stream. When used with the `-f` flag, followed by the name of the file containing sed commands, it executes those commands on the contents of the specified file. In other words, it processes each line in the input file with the given sed commands, producing the output to the standard output or a file specified by an additional output redirection option.'
+        follow-symlinks: '[AI] The `--follow-symlinks` option in `sed` (Stream Editor) is used to resolve and process files that are represented as symbolic links. When this flag is specified, `sed` will not only process the file pointed to by the link but also the actual target file if it exists. This ensures consistent processing of both the symbolic link and its target. It''s important to note that `sed` itself doesn''t support symbolic links natively; you need to have GNU sed or other similar implementations for this functionality.'
+        help: '[AI] `sed` is a stream editor for filtering and transforming text. The `--help` option when used with `sed`, displays detailed help information about the utility, including supported commands, options, and syntax. This can be useful for understanding how to use `sed` effectively for various text processing tasks.'
+        in-place: '[AI] The `sed` command in Unix or Linux is a stream editor for performing text transformations on an input stream (a file or input from a pipeline). The `--in-place` option tells `sed` to edit files in place, meaning the modifications will be saved directly to the original file instead of printing them to the standard output. This can be useful for making global searches and replacements in multiple files with a single command.'
+        line-length: '[AI] `sed --line-length` is a command-line option for the `sed` (Stream Editor) tool in Unix and Linux systems. This option sets the maximum length of lines that `sed` will work on at once, allowing for more efficient handling of large files with long lines. When used with commands like `s/pattern/replacement/g`, it ensures that the pattern search and replacement are applied to individual lines within the specified line length limit. This can help improve performance when dealing with extremely large files or complex text processing tasks.'
+        null-data: '[AI] The `sed` command with the `--null-data` option is a text manipulation tool in Unix-like operating systems. With this option, `sed` processes input data as null-terminated strings instead of the default line-oriented behavior. It means that each record separator (RS) is represented by a null character `\0`, rather than a newline character `\n`. This can be useful when dealing with binary files or other specific use cases where handling null-delimited data is necessary.'
+        posix: |-
+            [AI] `sed` is a stream editor for Linux and other Unix-like operating systems. The `--posix` option is not a flag but rather a behavior that can be enabled by setting the `LC_ALL` environment variable to "POSIX" or "C".
+
+            When using `sed` with this POSIX locale, it ensures the most portable and consistent behavior across different systems. It restricts `sed`'s regular expression syntax to the Posix Basic Regular Expressions (BRE) which is a subset of Extended Regular Expressions (ERE). This behavior is particularly important when writing scripts that need to be run on various Unix systems, as it helps avoid potential discrepancies arising from differences in ERE implementations.
+        quiet: '[AI] The `sed` command with the `--quiet` or `-q` option is used to suppress the default printing of a message or output when no changes are made during a search and replace operation. In other words, it only prints the result if there is a change in the input data. It''s often used when you want `sed` to perform an action silently, without displaying any messages.'
+        regexp-extended: |-
+            [AI] `sed` is a stream editor for Linux and other Unix-like operating systems. The `--regexp-extended` option is an argument that can be passed to the `sed` command to enable extended regular expressions. Extended regular expressions support more complex and powerful pattern matching than basic regular expressions, including features like:
+
+            * Multi-line patterns with the ^ or $ anchors
+            * Greedy and possessive quantifiers
+            * Lookahead and lookbehind assertions
+            * Subroutine calls and recursion
+            * Atom grouping with parentheses
+
+            Using extended regular expressions can make your `sed` scripts more expressive and powerful, but they also come with a steeper learning curve and potential for making the script more difficult to read and maintain.
+        sandbox: '[AI] The `--sandbox` option is a security feature in GNU `sed`. It creates a separate, chroot-like environment for each `sed` script to run in, isolating it from the host system and other scripts. This can help prevent potential security vulnerabilities or unintended side effects when running untrusted or potentially risky sed commands.'
+        seperate: '[AI] `sed --separate` is a command in the Sed family of stream editors. It processes one line at a time and separates each line into separate fields using a delimiter (by default, it uses NUL characters), applying commands to each field independently. This allows for more complex text transformations on large datasets where rows may have multiple tab- or space-delimited fields. For example, `sed -e ''s/\t/{field1}/g'' --separate file.txt` would replace all tab-delimited values in the first column of each line with "field1".'
+        silent: '[AI] `sed` is a stream editor for Linux and other Unix-like operating systems. The `--silent` or `-s` option is used to suppress the printing of the normal output. This means that only the changes made by the `sed` commands will be displayed, not the original input. It''s often used when you want to make changes to a file without seeing the before and after comparisons in the console.'
+        unbuffered: '[AI] The `sed` command with the `--unbuffered` option is used to process input streams in an unbuffered mode, meaning that `sed` reads and processes each line as soon as it''s available from the input stream, without waiting for a full line buffer to fill up. This can be useful when dealing with large inputs or when working with streaming data, such as pipes or files with interspersed newline characters, to avoid memory consumption issues and improve overall performance.'
+        version: '[AI] `sed --version` is a command used in Unix-like operating systems to invoke the version information of the `sed` (Stream Editor) utility. When executed, it displays output showing the name of the `sed` implementation, its version number, and sometimes additional details such as compilation date or author information. This command helps users to check which version of `sed` is currently installed and being used in their system.'

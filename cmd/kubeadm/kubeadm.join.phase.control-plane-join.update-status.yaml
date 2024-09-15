@@ -1,0 +1,38 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: update-status
+description: Register the new control-plane node into the ClusterStatus maintained in the kubeadm-config ConfigMap (DEPRECATED)
+flags:
+    --apiserver-advertise-address=: If the node should host a new control plane instance, the IP address the API Server will advertise it's listening on. If not set the default network interface will be used.
+    --config=: Path to kubeadm config file.
+    --control-plane: Create a new control plane instance on this node
+    --node-name=: Specify the node name.
+documentation:
+    command: |-
+        [AI] `kubeadm join` is a command used to add a node to a Kubernetes cluster managed by `kubeadm`. The command `kubeadm join <cluster-name> <node-ip>:<port> --token <token> [--discovery-token-ca-cert-hash <sha256-hash>] [--control-plane] [flags]` is used to add a node as a control plane or worker node.
+
+        The command `kubeadm join phase control-plane-join update-status` is used to check the status of a node joining the cluster as a control plane node. This command does not cause any action to be taken, but rather reports the current state of the joining process. The output will indicate if the node has successfully joined the control plane or if there are any errors preventing it from doing so.
+    flag:
+        apiserver-advertise-address: |-
+            [AI] `kubeadm join` is a command used to join worker nodes to a Kubernetes cluster managed by `kubeadm`, a tool for bootstrapping Kubernetes clusters. The specific command `phase control-plane-join update-status --apiserver-advertise-address` is used to update the status of a control plane node during the joining process.
+
+            When a new control plane node joins the cluster, it goes through different phases: `init`, `bootstrapping`, `ready`, and `active`. With this command, you can force the node into the `control-plane-join` phase and update its status accordingly. The `--apiserver-advertise-address` flag is used to specify the IP address of the new control plane node that will advertise the Kubernetes API server to the cluster. This is important for other nodes in the cluster to communicate with the new control plane node. Once the status is updated, the new node becomes a part of the cluster's control plane.
+        config: |-
+            [AI] `kubeadm join` is a command-line tool for joining worker nodes to a Kubernetes cluster managed by `kubeadm`, which is an open-source tool for initializing and managing a Kubernetes cluster.
+
+            The `phase control-plane-join` argument specifies that the node being joined will become part of the control plane, rather than a worker node. Control plane nodes are responsible for maintaining the state of the cluster and providing services like the API server, etcd, and kubelet.
+
+            The `update-status` argument instructs `kubeadm join` to update the status of the join process after it has completed. The status can be checked using other Kubernetes tools, such as `kubectl`. If the join process is successful, the node will be added to the control plane and its status will be reflected in the cluster.
+
+            The `--config` argument specifies a configuration file containing information necessary for joining the node to the cluster, including the cluster's API server address and token for joining. This file is typically generated during the initial setup of the Kubernetes cluster using `kubeadm init`.
+        control-plane: |-
+            [AI] `kubeadm join` is a command-line tool used to join worker nodes to a Kubernetes cluster managed by `kubeadm` on a control plane node. The specific flag `--control-plane-join` indicates that the joining node will become part of the control plane, making it able to perform cluster management tasks.
+
+            The `phase control-plane-join` flag is used to set the join phase explicitly. When you run `kubeadm join ... --control-plane`, it automatically sets the phase to "control-plane" by default. However, if you want to manually check or update the join phase status of a control plane node, you can use this flag along with the `update-status` subcommand.
+
+            For instance, `kubeadm join phase control-plane-join update-status --control-plane <MASTER_NODE_IP>` checks and updates the current join phase status of the specified master node in your cluster.
+        node-name: |-
+            [AI] The `kubeadm join` command with the `phase control-plane-join update-status --node-name` argument is used to update the Kubernetes cluster status for a specific node named `<node-name>` that is joining the control plane of a Kubernetes cluster managed by Kubeadm.
+
+            When a new node joins a Kubernetes cluster using `kubeadm join`, its status is initially set as "notReady". This command updates the status to "joining" or "ready", depending on which phase of the join process the node has reached. The `--update-status` flag instructs Kubeadm to update the cluster's etcd database with this information, and the `--node-name` flag specifies the name of the node whose status is being updated.
+
+            Overall, this command provides visibility into the join process for new nodes in a Kubernetes cluster managed by Kubeadm.

@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: annotate [OPTIONS] MANIFEST_LIST MANIFEST
+description: Add additional information to a local image manifest
+flags:
+    --arch=: Set architecture
+    --os-features*=: Set operating system feature
+    --os-version=: Set operating system version
+    --os=: Set operating system
+    --variant=: Set architecture variant
+documentation:
+    command: |-
+        [AI] `docker manifest annotate` is a Docker CLI command used to update or add new annotations to the manifest file of a Docker image. Annotations provide metadata that can be used by registries, build tools, or other users consuming the image. The basic syntax is:
+
+        ```bash
+        docker manifest annotate <key> <value> <image>:<tag|digest>
+        ```
+
+        Replace `<key>`, `<value>`, `<image>`, and `<tag|digest>` with the actual values. For example, to add a new annotation "Description" with value "My custom image" to image "my-repo/my-image:v1", you would use:
+
+        ```bash
+        docker manifest annotate Description="My custom image" my-repo/my-image:v1
+        ```
+    flag:
+        arch: '[AI] The `docker manifest annotate --arch` command is used to update the architecture annotation in a Docker image manifest file. This command modifies the JSON-formatted manifest file, adding or changing the `arch` field to specify the target architecture for the image. The updated manifest can be saved to a new file or overwrite the existing one. This command is particularly useful when you want to build and tag multiple versions of an image for different architectures (like x86_64, armv7l, etc.) and ensure they have distinct manifest files.'
+        os: '[AI] The `docker manifest annotate --os` command is used to add or update the operating system (OS) annotation in a Docker image manifest. A Docker manifest is a JSON file that describes the image''s layers, configurations, and other metadata. Adding OS annotations can be useful for container orchestration systems like Kubernetes to schedule containers based on specific OS requirements. The command takes the image name, tag, and new OS as arguments, e.g., `docker manifest annotate <image> <tag> --os <os>`.'
+        os-features: '[AI] `docker manifest annotate --os-features` is a command used in Docker to update the OS features metadata in a Docker image manifest. The `--os-features` option allows you to specify a comma-separated list of feature keys and their corresponding values. These features describe specific operating system capabilities that can be utilized by the runtime when running containers based on the image. By updating this metadata, you provide more detailed information about the OS requirements of your image, enabling better compatibility and usage in various environments.'
+        os-version: '[AI] The `docker manifest annotate --os-version` command is used to add or update an operating system (OS) version tag in a Docker image manifest file. A Docker manifest is a JSON file that describes the multiple layers and configurations of a Docker image. By using this command, you can specify a new OS version for your image, allowing better management and organization within container orchestration systems that consider OS versions when scheduling tasks, such as Kubernetes.'
+        variant: |-
+            [AI] The `docker manifest annotate --variant` command is used in Docker to update an existing image manifest with a new variant. A manifest is a JSON file that describes one or more image layers and their associated configuration properties, such as the runtime, labels, and platform.
+
+            The `--variant` option allows you to specify a new set of configuration properties for a specific layer in the manifest. This can be useful when you want to create multiple variants of the same image with different configurations. For example, you might have an image that runs on both x86_64 and arm architectures, and you would create two variants for each architecture.
+
+            When you run `docker manifest annotate --variant <new-variant> <image>:<tag>`, Docker updates the existing manifest file with the new variant for the specified image tag. The updated manifest is saved to a new file with a new name by default, but you can use the `--output` option to save it to a specific file.
+
+            In summary, the `docker manifest annotate --variant` command allows you to update an existing Docker image manifest with a new variant that has different configuration properties for a specific layer.

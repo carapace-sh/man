@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: modify
+description: Modify one or more properties of the connection profile
+flags:
+    --temporary: only temporary
+documentation:
+    command: |-
+        [AI] `nmcli connection modify` is a command used in NetworkManager (a system service for managing and monitoring network connections) to modify the configuration of existing network connections. The syntax is as follows:
+
+        ```bash
+        nmcli connection modify <connection-name> set <key>=<value> ...
+        ```
+
+        Here, `<connection-name>` is the name or UUID of the connection you wish to modify, and `<key>=<value>` are the key-value pairs representing the specific network connection settings. For instance, you might use it to change the Wifi password:
+
+        ```bash
+        nmcli connection modify MyWifiConnection set wifi-password="mypassword"
+        ```
+
+        This command modifies the specified network connection and saves the changes without disconnecting or reconnecting. If no settings are provided, it displays the current configuration of the given connection.
+    flag:
+        temporary: |-
+            [AI] `nmcli` is a command-line tool for network management in Systemd-networkd and NetworkManager environments. The `connection modify` command is used to edit existing network connections. The `--temporary` option creates or modifies a temporary connection, meaning the changes will not be persisted across reboots. This can be useful for quickly testing or implementing networking configurations without making permanent changes to the system. For example:
+
+            ```bash
+            nmcli connection modify <connection-name> --type wifi -- ifname wlan0 -- ssid "MyNetwork" -- frequency 2.412GHz -- security open
+            ```
+
+            This command modifies a temporary WiFi connection named `<connection-name>`, sets its interface name to `wlan0`, and configures it with the specified SSID, frequency, and security settings. Once you're satisfied with the configuration, run `nmcli connection up <connection-name>` to bring up the connection. Remember, any changes made using this method will be lost after a reboot.

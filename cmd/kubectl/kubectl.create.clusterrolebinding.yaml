@@ -1,0 +1,61 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: clusterrolebinding NAME --clusterrole=NAME [--user=username] [--group=groupname] [--serviceaccount=namespace:serviceaccountname] [--dry-run=server|client|none]
+description: Create a cluster role binding for a particular cluster role
+flags:
+    --allow-missing-template-keys: If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
+    --clusterrole!=: ClusterRole this ClusterRoleBinding should reference
+    --dry-run?: Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
+    --field-manager=: Name of the manager used to track field ownership.
+    --group*=: Groups to bind to the clusterrole. The flag can be repeated to add multiple groups.
+    --save-config: If true, the configuration of current object will be saved in its annotation. Otherwise, the annotation will be unchanged. This flag is useful when you want to perform kubectl apply on this object in the future.
+    --serviceaccount*=: Service accounts to bind to the clusterrole, in the format <namespace>:<name>. The flag can be repeated to add multiple service accounts.
+    --show-managed-fields: If true, keep the managedFields when printing objects in JSON or YAML format.
+    --template=: Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates [http://golang.org/pkg/text/template/#pkg-overview].
+    --user*=: Usernames to bind to the clusterrole. The flag can be repeated to add multiple users.
+    --validate?: Validation mode.
+    -o, --output=: 'Output format. One of: (json, yaml, name, go-template, go-template-file, template, templatefile, jsonpath, jsonpath-as-json, jsonpath-file).'
+documentation:
+    command: |-
+        [AI] `kubectl create clusterrolebinding` is a command used in Kubernetes to create a ClusterRoleBinding resource. This resource is used to grant permissions to users or groups across multiple namespaces within a cluster, making it ideal for managing access to resources that span across multiple namespaces.
+
+        The basic syntax of the command is: `kubectl create clusterrolebinding <name>.<namespace>/<role-name> --clusterrole=<clusterrole-name>`. Here, `<name>.<namespace>` refers to the name and namespace of the user or group that will be granted access, `<role-name>` is the name of the role that defines the permissions, and `<clusterrole-name>` is the name of the ClusterRole that defines the actual permissions.
+
+        The command creates a binding between the specified role and the target user or group, effectively granting them the defined permissions within your Kubernetes cluster.
+    flag:
+        allow-missing-template-keys: |-
+            [AI] `kubectl create clusterrolebinding` is a command used in Kubernetes to create a ClusterRoleBinding resource. This resource binds a ClusterRole to one or more users or groups, allowing them the specified permissions across the entire cluster.
+
+            The option `--allow-missing-template-keys` is used when creating a YAML manifest file for the ClusterRoleBinding using the `kubectl create` command. It allows the creation of the resource even if some mandatory keys are missing from the template. In other words, it ignores the errors caused by missing required fields in the manifest and creates the resource based on the available keys.
+
+            Using this flag can be helpful when creating resources with an incomplete or work-in-progress YAML file, as it allows you to create the base resource without waiting for all required keys to be filled in. However, it's important to note that using this flag may result in a less secure or incomplete ClusterRoleBinding and should be used with caution.
+        clusterrole: '[AI] `kubectl create clusterrolebinding` is a command used in Kubernetes to create a ClusterRoleBinding object. A ClusterRoleBinding defines permissions for a user or group across the entire cluster by associating a ClusterRole with a User, Group, or ServiceAccount. It allows you to centrally manage access control policies in a cluster-wide scope. The command `kubectl create clusterrolebinding <name> --clusterrole=<ClusterRole name>` creates a new ClusterRoleBinding with the specified name and associates it with the given ClusterRole.'
+        dry-run: '[AI] `kubectl create clusterrolebinding` is a command used in Kubernetes to create a ClusterRoleBinding resource. A ClusterRoleBinding grants permissions defined by a ClusterRole to users or groups across the entire cluster. The `--dry-run` flag is an optional argument that provides you with a preview of what would be created without actually executing the command. In other words, it shows you the YAML manifest of the resource that would be created if you ran the command without `--dry-run`. This can help you understand the exact changes that would be made before making those changes in a production environment.'
+        field-manager: |-
+            [AI] `kubectl create clusterrolebinding` is a command used in Kubernetes to create a ClusterRoleBinding resource. A ClusterRoleBinding binds a ClusterRole to one or more users or groups, granting them permissions across the entire cluster.
+
+            The `--field-manager` flag is an optional argument for `kubectl create`. It sets the field manager mode for creating this resource. In this mode, Kubernetes tracks changes made to this resource and automatically merges them with any conflicts from other sources, ensuring that the final state of the resource reflects the desired configuration. This flag helps maintain a consistent state across multiple controllers or configurations while avoiding potential merge conflicts.
+        group: '[AI] `kubectl create clusterrolebinding` is a command used in Kubernetes for managing RoleBindings and ClusterRoleBindings at the cluster level. A ClusterRoleBinding associates a ClusterRole with one or more groups, users, or service accounts. The `--group` flag specifies the RBAC group to which the binding will be applied. For example, `kubectl create clusterrolebinding my-binding --group=mygroup@example.com`. This command creates a ClusterRoleBinding named "my-binding" and binds it to the specified Kubernetes RBAC group "mygroup@example.com".'
+        output: |-
+            [AI] `kubectl create clusterrolebinding` is a command used in Kubernetes to create a ClusterRoleBinding resource. This type of resource in Kubernetes is used to grant permissions to users or groups across multiple namespaces within a cluster. The `--output` flag is optional and if used, specifies the output format for the result of the command. Commonly used values are "json", "yaml" or "go-template". So, the complete command would look something like this:
+
+            ```bash
+            kubectl create clusterrolebinding my-binding --clusterrole=my-clusterrole --user=username@example.com --output yaml
+            ```
+
+            This command creates a new ClusterRoleBinding named "my-binding", associates it with the "my-clusterrole" ClusterRole and grants the specified user access to the cluster. The output of this command is displayed in YAML format.
+        save-config: '[AI] `kubectl create clusterrolebinding` is a command used in Kubernetes to create a ClusterRoleBinding resource. This resource is used to grant permissions to users or service accounts across multiple namespaces in a cluster. The `--save-config` flag saves the output of the command as a YAML file, which can be useful for applying the same configuration in other contexts. In summary, this command creates a ClusterRoleBinding and saves its configuration as a YAML file.'
+        serviceaccount: |-
+            [AI] `kubectl create clusterrolebinding` is a command used in Kubernetes to create a ClusterRoleBinding resource. This resource is used to grant permissions to a specific ServiceAccount across the entire cluster. In other words, it binds a ClusterRole to one or more ServiceAccounts. The binding allows the service accounts to perform certain actions defined by the Role, which can include creating and managing resources, accessing APIs, and so on. The command `kubectl create clusterrolebinding --serviceaccount` is used with specific flags to define the ClusterRole, the name of the ServiceAccount(s) to be bound, and any other relevant options. For example:
+
+            ```bash
+            kubectl create clusterrolebinding my-binding --clusterrole=my-clusterrole --serviceaccount=default:my-sa
+            ```
+
+            This command creates a ClusterRoleBinding named "my-binding", binds the ServiceAccount "my-sa" in the default namespace to the role "my-clusterrole", and applies it to the cluster.
+        show-managed-fields: |-
+            [AI] `kubectl create clusterrolebinding` is a command used in Kubernetes to create a ClusterRoleBinding resource. A ClusterRoleBinding grants permissions to a user or a group of users across the entire cluster, binding them to a specific ClusterRole.
+
+            The option `--show-managed-fields` is used with this command to display the managed fields of the resource after it has been created. Managed fields are the parts of the resource that were modified by Kubectl during creation. This can be helpful for understanding exactly what changes were made when creating or updating a resource using Kubectl.
+        template: '[AI] `kubectl create clusterrolebinding` is a command used in Kubernetes to create a ClusterRoleBinding object. The `--template` flag is an optional argument that allows you to use Kubernetes templates for generating the YAML manifest file from a customized template instead of providing the raw YAML file manually. This can be useful when you want to generate a YAML file with placeholders that get replaced by actual values during the creation process. The resulting YAML file defines permissions that bind one or more subjects to a specific ClusterRole, allowing them access to certain Kubernetes resources across the entire cluster.'
+        user: '[AI] `kubectl create clusterrolebinding` is a command used to create a ClusterRoleBinding resource in Kubernetes. A ClusterRoleBinding grants permissions to users or groups across multiple namespaces in a cluster. The `--user` flag is used to specify the RBAC user or group that will be granted the permissions defined in the ClusterRole. For example, `kubectl create clusterrolebinding my-binding --clusterrole=my-clusterrole --user=my-user@example.com`. This command creates a binding between the specified ClusterRole and the user or group, allowing them to perform the actions defined by the Role.'
+        validate: '[AI] `kubectl create clusterrolebinding` is a command used in Kubernetes to create a ClusterRoleBinding resource. This resource is used to grant permissions to users or groups across multiple clusters in a multi-cluster environment. The `--validate` flag is an optional argument that can be used with this command to validate the ClusterRoleBinding manifest against the Kubernetes schema without actually creating it. It helps in identifying any potential errors or inconsistencies before applying the changes, ensuring the desired state of the cluster.'

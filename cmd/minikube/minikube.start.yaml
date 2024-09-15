@@ -1,0 +1,82 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: start
+description: Starts a local Kubernetes cluster
+group: basic
+flags:
+    --addons*=: Enable addons. see `minikube addons list` for a list of valid addon names.
+    --apiserver-ips*=: A set of apiserver IP Addresses which are used in the generated certificate for kubernetes.  This can be used if you want to make the apiserver available from outside the machine
+    --apiserver-name=: The authoritative apiserver hostname for apiserver certificates and connectivity. This can be used if you want to make the apiserver available from outside the machine
+    --apiserver-names*=: A set of apiserver names which are used in the generated certificate for kubernetes.  This can be used if you want to make the apiserver available from outside the machine
+    --apiserver-port=: The apiserver listening port
+    --auto-update-drivers: If set, automatically updates drivers to the latest version. Defaults to true.
+    --base-image=: The base image to use for docker/podman drivers. Intended for local development.
+    --cache-images: If true, cache docker images for the current bootstrapper and load them into the machine. Always false with --driver=none.
+    --cni=: 'CNI plug-in to use. Valid options: auto, bridge, calico, cilium, flannel, kindnet, or path to a CNI manifest (default: auto)'
+    --container-runtime=: The container runtime to be used (docker, cri-o, containerd).
+    --cpus=: Number of CPUs allocated to Kubernetes. Use "max" to use the maximum number of CPUs.
+    --cri-socket=: The cri socket path to be used.
+    --delete-on-failure: If set, delete the current cluster if start fails and try again. Defaults to false.
+    --disable-driver-mounts: Disables the filesystem mounts provided by the hypervisors
+    --disk-size=: 'Disk size allocated to the minikube VM (format: <number>[<unit>], where unit = b, k, m or g).'
+    --dns-domain=: The cluster dns domain name used in the Kubernetes cluster
+    --dns-proxy: Enable proxy for NAT DNS requests (virtualbox driver only)
+    --docker-env*=: 'Environment variables to pass to the Docker daemon. (format: key=value)'
+    --docker-opt*=: 'Specify arbitrary flags to pass to the Docker daemon. (format: key=value)'
+    --download-only: If true, only download and cache files for later use - don't install or start anything.
+    --driver=: 'Driver is one of: virtualbox, vmwarefusion, kvm2, vmware, none, docker, podman, ssh (defaults to auto-detect)'
+    --dry-run: dry-run mode. Validates configuration, but does not mutate system state
+    --embed-certs: if true, will embed the certs in kubeconfig.
+    --enable-default-cni: 'DEPRECATED: Replaced by --cni=bridge'
+    --extra-config*=: A set of key=value pairs that describe configuration that may be passed to different components.
+    --feature-gates=: A set of key=value pairs that describe feature gates for alpha/experimental features.
+    --force: Force minikube to perform possibly dangerous operations
+    --force-systemd: If set, force the container runtime to use systemd as cgroup manager. Defaults to false.
+    --host-dns-resolver: Enable host resolver for NAT DNS requests (virtualbox driver only)
+    --host-only-cidr=: The CIDR to be used for the minikube VM (virtualbox driver only)
+    --host-only-nic-type=: NIC Type used for host only network. One of Am79C970A, Am79C973, 82540EM, 82543GC, 82545EM, or virtio (virtualbox driver only)
+    --hyperkit-vpnkit-sock=: Location of the VPNKit socket used for networking. If empty, disables Hyperkit VPNKitSock, if 'auto' uses Docker for Mac VPNKit connection, otherwise uses the specified VSock (hyperkit driver only)
+    --hyperkit-vsock-ports*=: List of guest VSock ports that should be exposed as sockets on the host (hyperkit driver only)
+    --hyperv-external-adapter=: External Adapter on which external switch will be created if no external switch is found. (hyperv driver only)
+    --hyperv-use-external-switch: Whether to use external switch over Default Switch if virtual switch not explicitly specified. (hyperv driver only)
+    --hyperv-virtual-switch=: The hyperv virtual switch name. Defaults to first found. (hyperv driver only)
+    --image-mirror-country=: Country code of the image mirror to be used. Leave empty to use the global one. For Chinese mainland users, set it to cn.
+    --image-repository=: Alternative image repository to pull docker images from. This can be used when you have limited access to gcr.io. Set it to "auto" to let minikube decide one for you. For Chinese mainland users, you may use local gcr.io mirrors such as registry.cn-hangzhou.aliyuncs.com/google_containers
+    --insecure-registry*=: Insecure Docker registries to pass to the Docker daemon.  The default service CIDR range will automatically be added.
+    --install-addons: If set, install addons. Defaults to true.
+    --interactive: Allow user prompts for more information
+    --iso-url*=: Locations to fetch the minikube ISO from.
+    --keep-context: This will keep the existing kubectl context and will create a minikube context.
+    --kubernetes-version=: 'The Kubernetes version that the minikube VM will use (ex: v1.2.3, ''stable'' for v1.20.7, ''latest'' for v1.22.0-alpha.2). Defaults to ''stable''.'
+    --kvm-gpu: Enable experimental NVIDIA GPU support in minikube
+    --kvm-hidden: Hide the hypervisor signature from the guest in minikube (kvm2 driver only)
+    --kvm-network=: The KVM default network name. (kvm2 driver only)
+    --kvm-numa-count=: Simulate numa node count in minikube, supported numa node count range is 1-8 (kvm2 driver only)
+    --kvm-qemu-uri=: The KVM QEMU connection URI. (kvm2 driver only)
+    --listen-address=: IP Address to use to expose ports (docker and podman driver only)
+    --memory=: 'Amount of RAM to allocate to Kubernetes (format: <number>[<unit>], where unit = b, k, m or g). Use "max" to use the maximum amount of memory.'
+    --mount: This will start the mount daemon and automatically mount files into minikube.
+    --mount-string=: The argument to pass the minikube mount command on start.
+    --namespace=: The named space to activate after start
+    --nat-nic-type=: NIC Type used for nat network. One of Am79C970A, Am79C973, 82540EM, 82543GC, 82545EM, or virtio (virtualbox driver only)
+    --native-ssh: Use native Golang SSH client (default true). Set to 'false' to use the command line 'ssh' command when accessing the docker machine. Useful for the machine drivers when they will not start with 'Waiting for SSH'.
+    --network-plugin=: 'Kubelet network plug-in to use (default: auto)'
+    --network=: network to run minikube with. Now it is used by docker/podman and KVM drivers. If left empty, minikube will create a new network.
+    --nfs-share*=: Local folders to share with Guest via NFS mounts (hyperkit driver only)
+    --nfs-shares-root=: Where to root the NFS Shares, defaults to /nfsshares (hyperkit driver only)
+    --no-vtx-check: Disable checking for the availability of hardware virtualization before the vm is started (virtualbox driver only)
+    --ports*=: List of ports that should be exposed (docker and podman driver only)
+    --preload: If set, download tarball of preloaded images if available to improve start time. Defaults to true.
+    --registry-mirror*=: Registry mirrors to pass to the Docker daemon
+    --service-cluster-ip-range=: The CIDR to be used for service cluster IPs.
+    --ssh-ip-address=: IP address (ssh driver only)
+    --ssh-key=: SSH key (ssh driver only)
+    --ssh-port=: SSH port (ssh driver only)
+    --ssh-user=: SSH user (ssh driver only)
+    --trace=: 'Send trace events. Options include: [gcp]'
+    --uuid=: Provide VM UUID to restore MAC address (hyperkit driver only)
+    --vm: Filter to use only VM Drivers
+    --vm-driver=: DEPRECATED, use `driver` instead.
+    --wait*=: 'comma separated list of Kubernetes components to verify and wait for after starting a cluster. defaults to "apiserver,system_pods", available options: "apiserver,system_pods,default_sa,apps_running,node_ready,kubelet" . other acceptable values are ''all'' or ''none'', ''true'' and ''false'''
+    --wait-timeout=: max time to wait per Kubernetes or host to be healthy.
+    -n, --nodes=: The number of nodes to spin up. Defaults to 1.
+    -o, --output=: 'Format to print stdout in. Options include: [text,json]'

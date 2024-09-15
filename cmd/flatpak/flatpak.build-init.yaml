@@ -1,0 +1,86 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: build-init [OPTION…] DIRECTORY APPNAME SDK RUNTIME [BRANCH]
+description: Initialize a directory for building
+group: build
+flags:
+    --arch=: Arch to use
+    --base-extension=: Include this base extension
+    --base-version=: Specify version for --base
+    --base=: Initialize apps from named app
+    --extension-tag=: Extension tag to use if building extension
+    --extension=: Add extension point info
+    --ostree-verbose: Show OSTree debug information
+    --sdk-dir=: Where to store sdk (defaults to 'usr')
+    --sdk-extension=: Include this sdk extension in /usr
+    --tag=: Add a tag
+    --type=: Specify the build type (app, runtime, extension)
+    --update: Re-initialize the sdk/var
+    --verbose: Show debug information, -vv for more detail
+    -h, --help: Show help options
+    -v, --var=: Initialize var from named runtime
+    -w, --writable-sdk: Initialize /usr with a writable copy of the sdk
+documentation:
+    command: '[AI] `flatpak build-init` is a command used in the Flatpak application packaging system to initialize a new build environment for creating a Flatpak package. It creates a hidden directory named `.flatpak-build-data` inside the project''s root directory, which contains necessary metadata files and a manifest file (`manifest.xml`) for defining the package''s dependencies, runtime components, and other essential information. This command prepares the environment for creating a Flatpak package using other commands like `flatpak-build`, `flatpak-devel-build`, or `flatpak-source-build`.'
+    flag:
+        arch: |-
+            [AI] `flatpak build-init` is a command-line utility provided by Flatpak, a software deployment and application packaging system. The `--arch` option specifies the target architecture for building a new Flatpak application package.
+
+            The full command `flatpak build-init --arch <ARCH>` initializes a new directory layout for creating a Flatpak package for the specified architecture (e.g., x86_64, armv7l, etc.). Inside this directory, Flatpak will manage and track all the necessary files, dependencies, and configurations required to build and package the application as a Flatpak bundle.
+        base: '[AI] `flatpak build-init` is a command used in the Flatpak package management system to initialize a new Flatpak application bundle. The `--base` option specifies the base image to use as a starting point for building the application. This base image provides the minimal set of libraries and dependencies required by the application to run. When you run `flatpak build-init --base <image>`, it creates a new directory with an initial file structure, including a `manifest.json` file and a `/var/lib/flatpak` subdirectory, and sets up the environment for building the application within that directory using the specified base image.'
+        base-extension: '[AI] The `flatpak build-init` command is a part of Flatpak, a software deployment and packaging system for Linux platforms. This specific command, `--base-extension`, initializes a new Flatpak build environment by creating a directory structure with essential files and configuring it to use a specific base extension as the foundation for your application''s development. The base extension is a pre-existing Flatpak runtime that provides common libraries, dependencies, and tools required for your application to run. This setup helps ensure that the application will be portable across different Linux distributions.'
+        base-version: '[AI] `flatpak build-init` is a command-line tool used in the Flatpak application packaging system to initialize a new Flatpak build directory. The `--base-version` option sets the base version number for the subsequent stages of the build process. It specifies the initial version of the package, which can be later incremented during the development and release cycles. For example, `flatpak build-init --base-version=1.0.0 myapp` creates a new directory called "myapp" with an initial version number of "1.0.0".'
+        extension: '[AI] `flatpak build-init` is a command used in the Flatpak application packaging system to initialize a new build environment for creating a Flatpak application bundle. The `--extension` flag is optional and specifies that the initialization should be done for an extension instead of a regular application. An extension is a type of Flatpak package that extends the functionality of another application. When using this flag, `build-init` sets up the necessary directories and files for building an extension, including a special `meta/extension.deskfile` file that defines the extension''s relationship to the host application.'
+        extension-tag: |-
+            [AI] `flatpak build-init` is a command-line utility used in the Flatpak application packaging system. The `--extension-tag` option is passed to create an extension bundle instead of a regular app bundle. An extension is a type of Flatpak package that extends the functionality of another application, rather than being a standalone application itself.
+
+            When you run `flatpak build-init --extension-tag <package-name>`, it creates a new directory with the specified name as the root of your Flatpak build tree. Inside this directory, it sets up the required structure for an extension bundle, including a `com.example.myextension.desktop` file and a `extensions` subdirectory where you can place the source code for your extension.
+
+            This command does not actually build or install the package. It simply initializes the structure of the extension bundle, leaving it to the developer to add the necessary content in the subsequent steps. After populating the contents, the extension can be built and installed using other Flatpak commands like `flatpak-builder` or `flatpak build`.
+        help: |-
+            [AI] `flatpak build-init` is a Flatpak command used to initialize a new Flatpak build environment. The `--help` option provides a brief description and usage instructions for this command. Here's the explanation in a concise manner:
+
+            ```bash
+            $ flatpak build-init --help
+            Usage: flatpk build-init [OPTIONS]... [INITIAL_DIR]...
+
+            Initialize a new Flatpak build environment for the given directories.
+
+            Options:
+              -h, --help                 Print help and exit.
+                  --branch BRANCH        The branch or tag in git repository to use as base
+                  --repo REPO            URL of the git repository to clone for building
+              -V, --version              Print version and exit
+            ```
+
+            The `flatpak build-init` command helps you initialize a new Flatpak project by setting up the required directories, files, and Git repositories if necessary. To use it, simply specify one or more directory paths as arguments. For example:
+
+            ```bash
+            $ flatpak build-init my_project/
+            ```
+
+            This command will create a new Flatpak project with the name 'my\_project' and set up the required files for you to start developing your application or library within that directory. If you want to use a specific Git branch or tag, or clone an existing Git repository, you can provide those options as well:
+
+            ```bash
+            $ flatpak build-init my_project/ --repo https://github.com/myuser/myrepo.git --branch my_feature_branch
+            ```
+
+            This command will initialize the project 'my\_project' and also clone the repository from the given URL with the specified branch as its base.
+        ostree-verbose: '[AI] `flatpak build-init` is a command used to initialize a new Flatpak building and packaging environment. The `--ostree-verbose` option is for interacting with the OSTree version control system that Flatpak uses under the hood for its builds and repositories. This flag increases the verbosity of the output from OSTree commands, providing more detailed information about each step during the build process.'
+        sdk-dir: '[AI] `flatpak build-init` is a command used in the Flatpak application packaging system to initialize a new build environment for creating a Flatpak package. The `--sdk-dir` option specifies the directory containing the system development kit (SDK) to be used during the build process. This ensures that the built package will include only the required dependencies and libraries, keeping the final package size minimal and up-to-date with the latest SDK versions.'
+        sdk-extension: '[AI] `flatpak build-init` is a command-line tool used in the Flatpak application packaging system. The `--sdk-extension` option is passed to this command when creating a new Flatpak build environment. It instructs Flatpak to include an extension to the Software Development Kit (SDK) that will be used during the build process. This extension allows developers to access additional libraries, tools, or other resources beyond what''s included in the base SDK for their project. The created build environment will then use this extended SDK when building a Flatpak application.'
+        tag: '[AI] `flatpak build-init` is a command from the Flatpak package manager for creating a new Flatpak application bundle. The `--tag` option sets a specific tag or label for the build. This tag can be used later to refer to this specific build in the Flatpak repository. Once `build-init` is executed, it initializes a new directory structure with required files and configurations for building the application as a Flatpak bundle.'
+        type: |-
+            [AI] `flatpak build-init` is a command-line tool used to create a new Flatpak application bundle. The `--type` option specifies the type of bundle being created. Flatpak supports multiple types, including `application`, `runtime`, and `system`.
+
+            When using the `--type application` option, the created bundle contains an executable or a set of executables, along with their dependencies. This is the most common use case for Flatpak, enabling developers to package and distribute applications with their dependencies.
+
+            With `--type runtime`, the bundle serves as a collection of libraries and runtimes that other applications can depend on. It does not include any specific application but provides a shared set of components.
+
+            Lastly, using `--type system` creates a system-wide bundle, which is installed for all users on a system rather than per-user. This type is typically used for installing essential packages or base runtimes.
+        update: '[AI] `flatpak build-init` is a command used in the Flatpak application packaging system to initialize a new build environment for creating or updating a Flatpak application bundle. The `--update` option instructs it to update the current project''s metadata and dependencies to their latest versions before initializing the build environment. This ensures that the building and packaging process will use the most recent information available in the Flatpak remote repositories.'
+        var: '[AI] `flatpak build-init` is a command-line tool used to create a new Flatpak application bundle. The `--var` option is used to set or override variables during the build process. These variables can include things like source code URL, build dependencies, and other customizations. By using this option, you can customize the behavior of the build process to better suit your specific use case.'
+        verbose: |-
+            [AI] `flatpak build-init` is a command from Flatpak, a software deployment platform. The `--verbose` option makes it provide more detailed output during execution.
+
+            With `--verbose`, `build-init` will print progress messages and additional debug information while initializing a new Flatpak build environment. This can help developers understand what is happening behind the scenes during the build process, such as creating a new branch in the version control system (if used), installing dependencies, and setting up the build environment for further development or packaging of an application.
+        writable-sdk: '[AI] `flatpak build-init` is a command-line utility in the Flatpak application packaging system. The `--writable-sdk` option creates a new directory with a snapshot of an existing Flatpak runtime''s packages and makes it writable, enabling you to modify or add packages during the build process. This directory serves as a sandboxed workspace for building your application bundles, ensuring that the modifications do not affect the system as a whole until the resulting flatpaks are installed.'

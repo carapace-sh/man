@@ -1,0 +1,40 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]
+description: Create a new image from a container's changes
+flags:
+    -a, --author=: Author (e.g., "John Hannibal Smith <hannibal@a-team.com>")
+    -c, --change=: Apply Dockerfile instruction to the created image
+    -m, --message=: Commit message
+    -p, --pause: Pause container during commit
+documentation:
+    command: '[AI] `docker container commit` is a command used to create a new Docker image based on the changes made in a running container. It takes the source container ID or name as an argument, followed by the desired tag and repository for the new image. For example: `docker container commit <container_id> <new_image_name>:<tag>`. This command saves the current file system layer and all subsequent changes in that container to a new Docker image.'
+    flag:
+        author: '[AI] `docker container commit` is a command used to create a new Docker image from an existing container''s filesystem. The `--author` option sets the author information for the newly created Docker image, including name and email. For example: `docker container commit <container_id> <new_image_name>:<tag> --author="Author Name <author_email@example.com>"` This helps keep track of who created a specific image and provides important metadata for version control and collaboration purposes within a Docker environment.'
+        change: |-
+            [AI] The `docker container commit` command is used to create a new Docker image based on the changes made in a running container. The `--change` flag, when used with this command, allows you to specify one or more files or directories that have been modified in the container, which will then be included in the new image.
+
+            Here's an example of how it can be used:
+
+            ```bash
+            $ docker run --it ubuntu bash
+            # Install some software inside the running container
+            $ docker commit <container-id> myimage:latest --change=/path/to/modified/file
+            ```
+
+            In this example, a new Docker image named `myimage` is created based on the changes made to the `ubuntu` container with ID `<container-id>`. The changes that have been made to the file located at `/path/to/modified/file` inside the container will be included in the new image.
+
+            It's important to note that using this command without specifying any change will create an image based on all the changes made to the container, including those not explicitly specified with the `--change` flag.
+        message: |-
+            [AI] The `docker container commit` command is used to create a new Docker image from an existing container. The `--message` option allows you to provide a message that will be associated with the new image when it's created. This message will be displayed when you list or inspect the new image. For example:
+
+            ```bash
+            docker container commit <container_name> <new_image_name>:<tag> --message="Created new image from container"
+            ```
+
+            This command creates a new Docker image with the name `<new_image_name>` and tag `<tag>`, using the contents of the container named `<container_name>`. The message "Created new image from container" will be saved in the image's history.
+        pause: |-
+            [AI] The `docker container commit` is a command used to create a new Docker image from an existing container. The `--pause` option is one of its flags, which modifies the behavior of the new image's `Dockerfile` when it's being built.
+
+            When you use `--pause`, the new image will include a `RUN` instruction at the very beginning of its Dockerfile that sets its container to be paused by default upon creation. This means that no processes will run in the container unless explicitly started using the `docker start` command or an entrypoint script defined in the Dockerfile.
+
+            By pausing the container, you can save system resources and reduce the chances of unintended side effects when creating new images from containers. Additionally, it allows you to interactively develop and test your application within a container without worrying about background processes that might interfere with your work.

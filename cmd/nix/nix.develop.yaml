@@ -1,0 +1,124 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: develop
+description: run a bash shell that provides the build environment of a derivation
+group: main
+flags:
+    --arg*=: Pass the value expr as the argument name to Nix functions
+    --argstr*=: Pass the string string as the argument name to Nix functions
+    --build: Run the build phase.
+    --check: Run the check phase.
+    --commit-lock-file: Commit changes to the flake's lock file
+    --configure: Run the configure phase.
+    --debug: Set the logging verbosity level to 'debug'
+    --debugger: Start an interactive environment if evaluation fail
+    --eval-store=: The Nix store to use for evaluations
+    --expr=: Interpret installables as attribute paths relative to the Nix expression expr
+    --impure: Allow access to mutable paths and repositories
+    --inputs-from=: Use the inputs of the specified flake as registry entries
+    --install: Run the install phase.
+    --installcheck: Run the installcheck phase.
+    --log-format=: Set the format of log output
+    --no-registries: Don't allow lookups in the flake registries
+    --no-update-lock-file: Do not allow any updates to the flake's lock file
+    --no-write-lock-file: Do not write the flake's newly generated lock file
+    --override-flake=: Override the flake registries, redirecting original-ref to resolved-ref
+    --override-input=: Override a specific flake input (e.g. dwarffs/nixpkgs)
+    --phase=: The stdenv phase to run.
+    --profile=: The profile to update.
+    --quiet: Decrease the logging verbosity level
+    --recreate-lock-file: Recreate the flake's lock file from scratch
+    --redirect=: Redirect a store path to a mutable location.
+    --unpack: Run the unpack phase.
+    --update-input=: Update a specific flake input (ignoring its previous entry in the lock file
+    -I, --include: Add path to the list of locations used to look up <...> file names
+    -L, --print-build-logs: Print full build logs on standard error
+    -c, --command=: Instead of starting an interactive shell, start the specified command and arguments.
+    -f, --file=: Interpret installables as attribute paths relative to the Nix expression stored in file
+    -i, --ignore-environment: 'Clear the entire environment (except those specified wi--keep).    '
+    -k, --keep=: Keep the environment variable name.
+    -u, --unset=: Unset the environment variable name.
+    -v, --verbose: Increase the logging verbosity level
+documentation:
+    command: '[AI] `nix develop` is a Nix expression that creates and manages a Nix-managed project environment. It sets up a new Nix Sandbox, clones the repository into it, builds the project in the sandbox, and installs the built packages for use outside of the sandbox. This command simplifies development workflows by automatically handling dependencies and isolation between projects.'
+    flag:
+        arg: '[AI] `nix develop` is a command from Nix, a package manager for Linux and other systems. It sets up a new development environment for a specific project by creating a new Nix sandbox and checking out the source code from a specified Git repository. The `--arg` option is used to pass additional arguments to the `develop` command. For example, you can use it to specify a branch name or a commit hash. The full syntax would be `nix develop <project-name> --arg=<argument>=<value>`.'
+        argstr: |-
+            [AI] `nix develop` is a command-line tool provided by Nix, a package manager for Linux and other systems. The `--argstr` option is used to pass arguments to a Nix expression or function being built or developed. When using this command, the argument string is expected after the `--argstr` flag, and will be passed on to the build process or function as an argument. For example:
+
+            ```sh
+            $ nix develop --argstr myArg="value"
+            ```
+
+            Inside the Nix expression or function being developed, you can access this argument using the `$myArg` variable. This flag is useful when customizing the build process for a specific project with different configurations or settings.
+        build: |-
+            [AI] `nix develop --build` is a command used in Nix, a packaging system and build tool. It's composed of two separate actions:
+
+            1. `nix develop`: This action initializes a new Nix project by creating or updating a `default.nix` file in the current directory based on your existing files. It also sets up the necessary environment variables for building and running your project.
+
+            2. `--build`: This option instructs Nix to build the project using its lockfile (usually named `nix.lock`) and any other required dependencies. It compiles the sources, installs packages if needed, and produces the final output in a separate `out/` directory.
+        check: '[AI] `nix develop --check` is a command used in Nix, a package manager for Linux and other Unix systems. This command performs a sanity check on the current Nix project configuration, ensuring that all necessary build inputs are present and correctly defined. It does not build or install anything, but reports any errors or issues that might prevent a successful build. This is a common practice during development to catch potential issues early and avoid unnecessary build failures.'
+        command: '[AI] `nix develop` is a command from Nix, a package manager for Linux and other Unix systems. The `--command` option specifies a command or script to run in the context of a Nix project. When using `nix develop`, this option allows you to build and run your project with a single command. The project''s dependencies are automatically installed, and the specified command is executed within the project environment. In summary, `nix develop --command` sets up the project environment and runs the provided command for you.'
+        commit-lock-file: |-
+            [AI] The `nix develop` command is a utility in Nix, a package manager for Linux and other operating systems. It's used to manage and develop Nix expressions, which define software packages and their dependencies.
+
+            The `--commit-lock-file` option creates or updates a commit-lock file in the current directory. This file records the exact commit hashes of all the dependencies of your project, ensuring that those specific versions are used whenever you build or run your project. This can help prevent unexpected changes to your project due to dependency upgrades and improve reproducibility.
+        configure: '[AI] `nix develop` is a command-line tool provided by Nix, a package manager for Linux and other systems. The `--configure` option is used to run the configure script of a specific project within the Nix expression or build environment. This script is typically executed during the build process to prepare the source code for compilation, and it may check for required dependencies, set up build directories, and apply various configuration options based on user input. Therefore, using `nix develop --configure` sets up the project''s build environment and readies it for further building or development work.'
+        debug: '[AI] `nix-develop --debug` is a command used in Nix, a package manager for Linux and other Unix systems. This command starts an interactive Nix expression evaluator with debugging support. It allows users to experiment with Nix expressions, such as writing custom build or configuration scripts, and provides a more detailed error reporting and debugging features when things go wrong, helping in the identification and resolution of issues.'
+        debugger: '[AI] `flag "nix develop --debugger"` is a command in Nix, a package manager for Linux and other Unix systems. This command starts the `develop` build process under Nix''s debugger (Nix expression evaluator), enabling advanced features like stepping through expressions and setting breakpoints during their evaluation. It provides a more interactive and fine-grained control over the build process, allowing for deeper investigation of potential issues and bugs in your Nix expressions.'
+        eval-store: '[AI] `nix develop` is a Nix expression development tool that allows users to interactively develop and test Nix expressions in a sandboxed environment. The `--eval-store` option tells `nix develop` to use a specific evaluation store instead of creating or using the default one. This can be useful when working with multiple projects that have different dependencies, as it avoids potential conflicts between evaluation stores. When you run `nix develop --eval-store <path>`, Nix uses the given evaluation store for developing and testing expressions.'
+        expr: '[AI] The `nix-express-parse` command with the option `--expr` is used to evaluate Nix expressions in the Nix expression language. This expression can be a simple value or a more complex function definition, and it is passed as an argument to the command. The result of evaluating this expression is then printed out. It is often used for ad-hoc tasks or exploratory work within the Nix ecosystem.'
+        file: '[AI] The `nix develop` command is a utility provided by Nix, a package manager for Linux and other systems. It creates a new checked-out branch or commit in a Nix-managed project, applying local modifications before creating the new environment. The `--file` option specifies a file path to check out changes from, allowing you to create a new development branch based on specific changes made in that file.'
+        ignore-environment: |-
+            [AI] The `nix develop` command is a utility provided by Nix, a package manager for Linux and other operating systems. It is used to checkout and build Nix projects, managing dependencies automatically.
+
+            The option `--ignore-environment` tells `nix develop` to ignore the current environment variables and use only those defined in the project's configuration file instead. This can be useful when working on a project with specific environment requirements that differ from your default development setup.
+        impure: '[AI] `nix-develop` is a Nix expression evaluation tool that allows interactive development of Nix expressions. The `--impure` flag disables Nix''s default pure evaluation mode. In pure mode, Nix expressions are evaluated in an isolated environment with no side effects. With the `--impure` flag, Nix evaluates expressions in a more impure environment, allowing you to modify variables and have their changes persist between expressions. This is useful for developing Nix packages or expressions where side effects are necessary.'
+        include: '[AI] `nix-develop` is a command provided by Nix, a package manager for Linux and other Unix systems. The `--include` option tells `nix-develop` to also build and install any packages mentioned in the current project''s `Nixexpr` file as dependencies. This helps ensure that all required packages are available when developing the project.'
+        inputs-from: |-
+            [AI] `nix develop` is a command in Nix, a package manager for Linux and other Unix systems. This command sets up a development environment for a Nix-packaged project by checking out the source code from a revision control system (VCS), building the project, and installing it.
+
+            The option `--inputs-from` specifies a file containing Nix expressions that define the input packages for the build process. This can be useful when dependencies are not part of the default Nix package collection or if you want to use specific versions of packages. The file is read by Nix and used to resolve dependencies before starting the development environment setup.
+        install: '[AI] `nix-develop --install` is a command used in Nix, a package manager for Linux and other Unix systems. It sets up a new development environment for a project managed by Nix, and installs all the necessary dependencies. This command creates a new Nix sandboxed environment, checks out the source code, applies any local modifications, builds the project, and installs it into the system''s Nix profile directory.'
+        installcheck: '[AI] `nix-develop --installcheck` is a command used in Nix, a package manager for Linux and other Unix systems. This command performs a sanity check to verify that all required packages and their dependencies are installable from the Nix expression language before actually building and installing them. If any issues are found during this check, an error message will be displayed to help diagnose and resolve the problem. The goal is to prevent potential build or installation failures.'
+        keep: |-
+            [AI] `nix develop --keep` is a command used in Nix, a package manager for Linux and other Unix systems. This command creates a new checkout of a Nix project with an additional feature: it keeps the current modifications in the working directory.
+
+            When you run `nix develop`, it does the following:
+
+            1. Clones or checks out the latest version of the source code from the remote repository.
+            2. Installs any required dependencies using Nix.
+            3. Sets up a number of environment variables, making sure that the project can be built and run correctly.
+
+            With the `--keep` flag, your current modifications in the working directory will not be discarded during this process. It allows you to continue working on your changes while ensuring that your dependencies are kept up-to-date.
+        log-format: '[AI] `nix develop` is a command in Nix, a package manager for Linux and other systems. The `--log-format` option specifies the format of the output logged during the build or execution process. By default, Nix logs to standard error (stderr) using plain text format. However, with `--log-format`, you can choose to have logs outputted in JSON format by providing `json`. This allows for easier parsing and processing of log data by external tools.'
+        no-registries: '[AI] The `nix develop --no-registries` command is used in Nix, a package manager for Linux and other systems. This command starts a development environment with a specific project, bypassing the use of any remote registries. It pulls the sources from the local checkout or Git repository instead of downloading precompiled packages from Nix''s built-in or external repositories. The `--no-registries` flag ensures a clean and isolated development environment, as it avoids fetching existing package versions and dependencies from remote registries.'
+        no-update-lock-file: |-
+            [AI] The `nix develop` command is a tool from the Nix package manager used to manage and develop projects within a Nix sandbox environment. The `--no-update-lock-file` flag disables the creation of a lock file when dependencies are installed.
+
+            A lock file records the exact version of each dependency that was used at the time of installation, ensuring consistency across different builds and preventing unintended version upgrades. By passing `--no-update-lock-file`, users can avoid creating this lock file and allow for more flexibility in managing dependencies manually or using other version control systems. However, this comes with the risk of potential dependency conflicts or inconsistencies between different build sessions.
+        no-write-lock-file: '[AI] `nix develop` is a Nix package manager command used to checkout and manage a Nix expression or project. The `--no-write-lock-file` flag prevents the creation of a write lock file when invoking this command. A write lock ensures that only one process can modify a given project at a time, preventing conflicts. With the `--no-write-lock-file` flag, multiple users can work on the same project concurrently. This is useful in collaborative environments or when quick iterations are required without worrying about locking issues.'
+        override-flake: '[AI] `nix develop` is a command provided by Nix, a packaging system for Linux and other operating systems. It is used to checkout and build a specific project managed under Nix, creating a local development environment. The `--override-flake` option allows overriding the Flake lockfile in case of issues with dependencies or to work on a new version of a package before it''s published. In simpler terms, it lets you bypass the Flake lockfile and use a newer version or local changes when building your project.'
+        override-input: '[AI] `nix develop` is a command provided by Nix, a package manager for Linux and other systems. The `--override-input` option is used to override the input files or build inputs of a specific Nix expression or project. In other words, it allows you to force the use of specific versions or configurations of input packages instead of using the ones automatically selected by Nix. This can be useful when testing changes in a Nix package or for building projects with dependencies that have known issues.'
+        phase: '[AI] `nix develop` is a command provided by Nix, a package manager for Linux and other systems. It creates a development environment for a Nix-packaged project. The `--phase` option specifies the build phase to run. Phases are part of Nix expressions that define how a package should be built or configured. By providing a specific phase name, you can run only that phase, which might be used for testing, generating documentation, or other tasks within the development workflow.'
+        print-build-logs: '[AI] `nix develop` is a command in Nix, a package manager for Linux and other Unix systems. The `--print-build-logs` option is used to display the build logs of the project being developed with `nix develop`. In simpler terms, it shows you the output of the commands that are run to build and install the software during the development process. This can be helpful for debugging issues or understanding what''s happening behind the scenes.'
+        profile: '[AI] `nix develop` is a command provided by Nix, a package manager for Linux and other systems. It creates a new development environment for a project by building and managing its dependencies within an isolated Nix sandbox. The `--profile` option is used to specify a Nix expression defining the development environment as a profile. This allows fine-grained customization of the environment, including specific versions of packages or additional package installations. For instance, `nix develop --profile my_project.profile` will use the contents of `my_project.profile` to configure the development environment.'
+        quiet: '[AI] `nix develop` is a command used in the Nix package manager to create a new project linked to an existing Nix expression or repository. The `--quiet` flag is used to suppress informational messages during the creation process, making the output only display errors and warnings if any occur. This can be useful for automated scripts or when working with large projects where verbose output may slow down the workflow.'
+        recreate-lock-file: |-
+            [AI] `nix develop` is a command in Nix, a package manager for Linux and other systems. The `--recreate-lock-file` option is used when working with Nix projects where there is a `nix.conf` file specifying a build environment.
+
+            This option instructs `nix develop` to create or update the `derived` and `python3.xi` files, as well as the lock file (`.nix-lockfile`) if it doesn't exist already. The lock file ensures that all dependencies in the project are pinned to specific versions when building or developing.
+
+            By using `--recreate-lock-file`, you can ensure that the project has consistent dependencies and avoid potential version conflicts within your development environment.
+        redirect: '[AI] `nix develop` is a command provided by Nix, a package manager for Linux and other systems. It creates a new development environment for a project managed by Nix. The `--redirect` option is used to redirect the current directory to the checked-out source code of the project in the Nix-managed sandbox. This means that any changes made in the current directory will be isolated from the system and can be easily recreated or shared with others using the same Nix configuration.'
+        unpack: '[AI] `nix develop --unpack` is a command in Nix, a package manager for Linux and other Unix systems. This command is used to extract the source code of a specific Nix package along with its build dependencies into a new directory. The extracted code can then be modified and rebuilt using the Nix expression language or traditional makefiles. After making changes, the updated code can be packaged back up using `nix-build` or `nix-pack` to create a new version of the Nix package.'
+        unset: '[AI] The `nix develop --unset` command is used in Nix, a package manager for Linux and other Unix systems. This command is used to unset (remove) environment variables that were previously set by the `nix-env -iA` or `nix develop` commands. These commands are used to install or manage Nix packages. By using `--unset`, you can remove specific environment variable configurations, allowing for fine-grained control over your system''s environment.'
+        update-input: |-
+            [AI] `nix develop` is a command provided by Nix, a package manager for Linux and other systems. The `--update-input` option instructs `nix develop` to update the input files of a Nix expression before building the project.
+
+            When you modify the source code of a Nix-managed project, you need to update the corresponding Nix expression to reflect those changes. With `nix develop --update-input`, you can automatically update the input files, allowing `nix build` or similar commands to pick up your latest changes when building the project.
+
+            It's important to note that this command modifies and updates the Nix expression file(s), not the source code itself. To apply your changes to the source code, you should edit the files directly as needed before using `nix develop --update-input`.
+        verbose: |-
+            [AI] `nix develop` is a command provided by Nix, a package manager for Linux and other systems. It creates a development environment for a specific project by checking out the source code from a version control system (VCS), installing dependencies, and setting up the build tools.
+
+            The `--verbose` flag increases the amount of output displayed during the execution of this command. It provides more detailed information about each step Nix is taking, helping to troubleshoot potential issues or understand the underlying processes better.

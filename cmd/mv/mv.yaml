@@ -1,0 +1,79 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: mv
+description: move (rename) files
+flags:
+    --backup=: make a backup of each existing destination file
+    --help: display this help and exit
+    --strip-trailing-slashes: remove any trailing slashes from each SOURCE argument
+    --version: output version information and exit
+    -S, --suffix=: override the usual backup suffix
+    -T, --no-target-directory: treat DEST as a normal file
+    -Z, --context: set SELinux security context of destination file to default type
+    -b: like --backup but does not accept an argument
+    -f, --force: do not prompt before overwriting
+    -i, --interactive: prompt before overwrite
+    -n, --no-clobber: do not overwrite an existing file
+    -t, --target-directory=: move all SOURCE arguments into DIRECTORY
+    -u, --update: move only when the SOURCE file is newer than the destination file or when the destination file is missing
+    -v, --verbose: explain what is being done
+documentation:
+    command: '[AI] The `mv` (move) command in Unix-based systems is used to rename, move or copy files and directories. Its basic syntax is `mv <source> <destination>`, where `<source>` specifies the file or directory to be moved, renamed or copied and `<destination>` is the new location or name. Additional options can be added to perform specific tasks like preserving file attributes, recursively moving directories, or appending extensions to filenames. For instance, `mv -r source_dir destination_dir` moves a directory and its contents recursively.'
+    flag:
+        b: '[AI] The `-b` option in the `mv` (Move or rename) command is used to create backup files when moving or renaming a file. When you use `mv` with the `-b` option, it will create a backup of the original file with a tilde `~` appended to its name before the new extension, if the new file already exists. This can be useful for making incremental backups or to prevent accidental overwriting of important files. For example, `mv oldfile newfile -b` will move `oldfile` to `newfile~` and rename `newfile` if it already exists.'
+        backup: '[AI] The `mv` command with the `--backup` option is a file manipulation command in Unix-like operating systems, including Linux and MacOS. This option creates backup files when moving or renaming files with the `mv` command. Specifically, it appends the tilde character (~) to the name of each backed-up file, creating a new file with the same name as the original but with a backup suffix. This can be useful in case of accidental overwriting or deletion of important files.'
+        context: |-
+            [AI] `mv` is a command-line utility in Unix-like operating systems used for moving or renaming files and directories. The `--context` option is a part of the `inplace` editing feature available in some versions of `mv`.
+
+            When used with this option, `mv` can perform text transformations in place on the original file without creating a backup, provided that the entire file fits into memory. This is useful when dealing with plain text files and you want to make consistent changes across multiple files. The context is defined using regular expressions or fixed strings. For example, `mv --context='s/old_text/new_text/g' filename` would replace all occurrences of "old\_text" with "new\_text" in the file named "filename."
+        force: |-
+            [AI] The `mv` command with the `--force` (or `-f`) option is used in Unix-based file systems to move or rename files and directories, overwriting existing destination files without asking for confirmation. It is particularly useful when automating tasks or performing bulk operations where the user wants to avoid interactive prompts. The `--force` flag can be applied both to the `mv` command itself and to individual file actions within the command. For example:
+
+            ```bash
+            mv --force source_file destination
+            mv --force source_dir destination_dir
+            ```
+
+            When using this option, if a destination file or directory already exists with the same name as that being moved/renamed, it will be replaced without asking for user confirmation. Keep in mind that using `--force` can result in data loss if not used carefully.
+        help: |-
+            [AI] `mv` is a command-line utility in Unix and Unix-like operating systems used for moving or renaming files and directories. Its help option, `--help`, displays detailed usage information when invoked with that argument:
+
+            ```sh
+            $ mv --help
+            Usage: mv [OPTION]... SOURCE... [FILE…]
+            Move SOURCE files to DESTINATION, or rename SOURCE files.
+
+            Mandatory arguments to long options are mandatory for short options too.
+              -n, --no-clobber          (with --interactive) don't overwrite existing DEST files
+                                       (same as --update).
+              -i, --interactive         prompt before creating, moving or removing files
+              -f, --force              force moving of --backups and overwriting of existing files
+              -u, --update             update files with the same name and same size; do not
+                                       override larger existing files or create empty files.
+              -t, --target-directory=DIR target directory (moves SOURCE(s) into DEST instead of
+                                       copying then deleting)
+              -v, --verbose            verbosely list the actions taken
+              -C, --no-clobber          don't create output files if they are identical to input files
+              -S, --preserve-symlinks   preserve existing symlinks instead of following them
+                 --no-dereference      prevent following of all symlinks
+              -T, --time=TIME           use TIME to determine time order (default is mtime)
+                                       Use '--help TIME' for a list of supported values.
+              -k, --keep-files         don't remove SOURCE files after moving
+              --strip-component=NUM    strip NUM component(s) from the target file name
+              --follow-symlinks        follow all symlinks (default: follow only if it's a
+                                       directory symbolic link)
+              --backup[={never,numbered,none}]
+                                       keep a BACKUP of each file that is moved.
+              --help                   display this help and exit
+              --version                output version information and exit
+            ```
+
+            This help text shows the various options available when using `mv`, such as `-i` for interactive mode, `--update` to only rename files if they have the same name and size, or `--verbose` to display detailed information about the actions taken.
+        interactive: '[AI] `mv --interactive` is a command in Unix-like operating systems, specifically the `mv` (move or rename) utility. The `--interactive` option makes file moving or renaming an interactive process. When used, before moving or renaming each file, mv will prompt for confirmation with a message like "rename ''source'' as ''destination''?". If you press Enter without modification, the action is performed; if you type ''n'', the action is aborted. This can be useful to prevent accidental moves or renames of important files.'
+        no-clobber: '[AI] The `mv` command with the `--no-clobber` option is used in Unix-based file systems to move or rename files while preventing the replacement of existing files with smaller ones having the same name in the destination directory. This helps avoid overwriting important files by accident. If a file to be moved or renamed already exists with the same name and larger size, the operation will still proceed.'
+        no-target-directory: '[AI] The `mv` command with the `--no-target-directory` option is used in Unix-based systems for moving or renaming files and directories. With this option, the source directory (if present) will not be moved or changed along with the file or directory being moved or renamed. In other words, it moves only the files or directories within their current directory. For example, `mv --no-target-directory source_file target_name` would rename the file `source_file` to `target_name`, but leave the directory where it is located unaffected.'
+        strip-trailing-slashes: '[AI] `mv --strip-trailing-slashes` is a command in GNU''s `findutils` package used to change the names of files or directories. The `--strip-trailing-slashes` option causes `mv` to remove any trailing slashes from the new file or directory path before performing the move or rename operation. This can be useful when dealing with paths that may contain unnecessary slashes, ensuring consistent file and directory names during file operations.'
+        suffix: '[AI] The `mv` command with the `--suffix` option in Unix-based systems is used for renaming files while preserving their original file extension. When you use this option along with the `mv` command, it appends a suffix to the existing filename before extending the new name with the desired extension. For instance, `mv source_file destination_name --suffix=.old` would result in two files: `destination_name.old` and `destination_name`.'
+        target-directory: '[AI] The `mv` command with the `--target-directory` option in Unix-based file systems is used for moving multiple files or directories into a specified target directory, preserving their original directory structure. This means that if you have a source directory containing files or subdirectories, and you provide a destination directory as the target, then `mv` will move the entire hierarchy into the destination directory. For instance, using `mv --target-directory source_dir destination_dir`, all contents of `source_dir` will be moved to `destination_dir`.'
+        update: '[AI] The `mv --update` command is a file renaming and moving utility in Unix-like operating systems, specifically the `mv` (move) command with the `--update` option. This option is used to copy and rename files only if the destination file does not already exist or is older than the source file. In other words, it performs a "safe" rename or move operation by preventing overwriting existing files that might have been accidentally modified elsewhere.'
+        verbose: '[AI] `mv --verbose` is a command in Unix-like operating systems used for moving or renaming files and directories. The `--verbose` option makes `mv` print out a message for each file operation it performs, providing more detail about the action taken. In other words, it increases the level of output from `mv` to help users better understand the changes being made to their file system.'
+        version: '[AI] The `mv --version` command is used to check the version information of the `mv` utility, which stands for "move" or "rename" in Unix-like operating systems. When executed, it displays the name of the software, its version number, and sometimes additional information such as the compilation date or the operating system it was built for. The output may vary depending on the specific implementation of `mv`.'

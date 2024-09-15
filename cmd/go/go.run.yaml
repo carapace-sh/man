@@ -1,0 +1,114 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: run
+description: compile and run Go program
+flags:
+    -C=: Change to dir before running the command
+    -a: force rebuilding of packages that are already up-to-date
+    -asan: enable interoperation with address sanitizer
+    -asmflags=: arguments to pass on each go tool asm invocation
+    -buildmode=: build mode to use
+    -buildvcs?: whether to stamp binaries with version control information
+    -compiler=: name of compiler to use
+    -cover: enable code coverage instrumentation
+    -coverpkg=: apply coverage analysis to each package matching the patterns
+    -exec=: invoke the binary using xprog
+    -gccgoflags=: arguments to pass on each gccgo compiler/linker invocation
+    -gcflags=: arguments to pass on each go tool compile invocation
+    -installsuffix=: a suffix to use in the name of the package installation directory
+    -ldflags=: arguments to pass on each go tool link invocation
+    -linkshared: build code that will be linked against shared libraries
+    -mod=: module download mode to use
+    -modcacherw: leave newly-created directories in the module cache read-write
+    -modfile=: read and possibly write an alternate go.mod file
+    -msan: enable interoperation with memory sanitizer
+    -n: print the commands but do not run them
+    -overlay=: read a JSON config file that provides an overlay for build operations
+    -p=: the number of programs to run in parallel
+    -pgo=: specify the file path of a profile for profile-guided optimization
+    -pkgdir=: install and load all packages from dir
+    -race: enable data race detection
+    -tags=: a comma-separated list of build tags to consider satisfied during the
+    -toolexec=: a program to use to invoke toolchain programs like vet and asm
+    -trimpath: remove all file system paths from the resulting executable
+    -v: print the names of packages as they are compiled
+    -work: print the name of the temporary work directory
+    -x: print the commands
+documentation:
+    command: '[AI] `go run` is a command used in the Go programming language to build and execute a Go source file in a single step. It skips the traditional build process (creating an executable or library) and instead directly compiles and runs the code in the specified file. For example, if you have a Go file named `main.go`, you would use the command `go run main.go` to compile and execute it in one go.'
+    flag:
+        C: '[AI] The `go run -C` command is used to build and run Go source code with optional compile flags set in a separate file named `GOCASESENSE_GO_CONFIG`, usually named `.govc` or `GoConfig`. This allows for keeping configuration options separate from the source files, making it easier to manage and share different build configurations. When using this command, Go processes the given source files and applies the specified flags before running the code.'
+        a: '[AI] The command `go run -a` is used in the Go programming language to build and run all files with the `.go` extension in the current directory as a single executable. The `-a` flag stands for "all," telling the Go toolchain to compile and link all source files in the specified directory into a single binary. When executed, this command will output the compiled binary''s name followed by running it directly from the terminal.'
+        asan: '[AI] `go run -asan` is a command used in Go programming language to build and run a Go program with Address Sanitizer (ASAN) enabled. ASAN is a memory error detector that helps find memory leaks, use-after-free errors, and other memory-related bugs during program execution. By using `go run -asan`, you are instructing the Go compiler to build your program with ASAN support and then directly run it with ASAN enabled. This can help improve the overall quality and reliability of your code.'
+        asmflags: '[AI] The `go run -asmflags` command is used in Go programming language to pass assembly flags directly to the Go assembler during compilation. This command allows fine-grained control over the assembly code generation process, enabling low-level optimizations and custom instructions. By providing specific assembly flags with this command, you can customize the generated assembly code to suit your performance requirements or target hardware platform.'
+        buildmode: |-
+            [AI] `go run -buildmode` is a command used in Go programming language to set the build mode for a Go source file when it's being directly executed using the `go run` command. The `-buildmode` flag can take one of two values: "c-shared" or "c-archive".
+
+            When set to "c-shared", the Go compiler generates C interface files and a wrapper function in C for exported Go functions, resulting in a shared library that can be used by other programs. The output of this build mode is typically a .so file on Unix systems or a .dll file on Windows.
+
+            On the other hand, when set to "c-archive", the compiler generates C interface files for all packages and combines them into a single static archive (.a file on Unix systems or a .lib file on Windows). This build mode is useful when you want to use Go code as a dependency in a C project that doesn't have linker support for shared libraries.
+        buildvcs: |-
+            [AI] The `go build -buildvcs` command is a Go programming language specific command used to build Go projects and include version control metadata in the built binary or archive file.
+
+            When you run this command in your project directory, it performs the following tasks:
+
+            1. First, it compiles all Go source files in the current directory and any dependencies into machine code using the Go toolchain.
+            2. After the compilation is done, `go build` adds the following metadata to the output binary or archive file:
+               - The Go version used for building the project.
+               - A unique build identifier (a timestamp with microsecond precision).
+               - The name and revision of the last commit in the current Git repository, if it exists.
+            3. This command does not start a Git repository or perform any other Git operations. It only adds the version control metadata to the output file. If you want to initialize or manage your Git repository, use separate Git commands like `git init` or `git pull`.
+
+            Overall, this command helps maintain the version history and reproducibility of built binaries during the development process.
+        compiler: '[AI] The `go run` command is a shorthand used in Go programming language for building and executing a Go source file in one step, without creating an independent executable file. The `-compile` or `-build` flag is optional with `go run`, but if included, it will build the source file as usual but then discard the generated binary file instead of running it. In other words, using `go run -compile` will only compile the source code and not execute it. This can be useful for testing or verifying that a change in your code is correct before integrating it into the main project.'
+        cover: '[AI] `go test` command with the `-cover` flag runs the Go tests in a test suite and generates a coverage report. The report shows which parts of the source code were executed during testing, providing insights into the effectiveness of the tests and helping identify under-tested areas. The output is typically in the form of an HTML file that can be opened in a web browser for easy viewing. `go run` is used instead of `go test` when running tests on source files directly, rather than in a test suite context.'
+        coverpkg: '[AI] `go run -coverpkg` is a command used in Go programming language to generate test coverage reports during the execution of tests. The `-coverpkg` flag is passed along with the `go test` command and specifies the package(s) for which coverage data should be collected. The generated report provides information about the percentage of code coverage achieved by the tests, helping developers identify untested lines or functions.'
+        exec: '[AI] The `go run` command in Go programming language is used to build and execute a Go source file in one step, without creating an executable file. The `-exec` flag following `run` is optional and specifies the command or script to be executed within the built Go program. It takes the form of `<command> ...`, where `<command>` can be any valid Go command or shell command enclosed in back quotes (`) or a string. For instance, `go run myfile.go -exec "echo ''Hello World''"` will execute `go run` on `myfile.go` and run the `echo ''Hello World''` command within it.'
+        gccgoflags: '[AI] The command "go run -gccgoflags" is used in Go programming language to pass custom flags to the GCC compiler when building Go code with the GCC backend (gccgo). The "-gccgoflags" flag allows you to specify additional flags, which can be used to configure various aspects of the compilation process such as optimization levels or debug information. This command is typically used for advanced users who need to fine-tune their builds and is often used in conjunction with other Go build flags like "-o" to name the output file.'
+        gcflags: '[AI] `go run -gcflags` is a command-line option used with the Go programming language''s `run` tool. It allows specifying custom flags for the Go compiler''s garbage collector (GC). The flag value can be set to one or more options, such as `-m`, which turns on mark-and-sweep GC or `-e -n_num`, which sets the number of GC threads. These options influence how the GC operates and can impact program performance or memory usage.'
+        installsuffix: '[AI] The `-installsuffix` flag is a command-line option used with Go''s `go run` and `go build` commands. It specifies a string to be appended as a suffix when installing or building packages that define custom executable filenames. By default, the Go toolchain uses the file name of the `.go` source file as the name for the generated binary file. However, you can use the `-installsuffix` flag to change this behavior if needed. For example, running `go run -installsuffix _myapp myfile.go` will create a binary named `myfile_myapp` when installing or building the package.'
+        ldflags: |-
+            [AI] The `-ldflags` flag in Go language is used when building or installing packages from the command line using the `go build` or `go install` commands. It allows passing custom linker flags to the linker during the build process, such as defining environment variables, specifying libraries to be linked against, or providing custom import paths. The flags are passed in a comma-separated list within quotes after `-ldflags`. For example:
+
+            ```bash
+            go build -o myapp main.go -ldflags="-L/path/to/library -lmylibrary"
+            ```
+
+            This command builds the 'main' package and sets custom linker flags, including linking against the library located at '/path/to/library' named 'mylibrary'.
+        linkshared: '[AI] `go run -linkshared` is a command used in Go programming language to build and link a Go project with shared libraries instead of statically linking them. This results in smaller binary size as shared libraries are loaded dynamically at runtime. The `-linkshared` flag instructs the Go linker to generate position independent code (PIC) that can be linked with shared libraries, enabling the dynamic linking.'
+        mod: '[AI] `go run -mod` is a command used in Go programming language to build and run a Go project with the new Go Mod module system enabled. This command downloads, builds, and runs the specified Go source files along with their dependencies as defined in the `go.mod` file. It also keeps the dependencies up-to-date using the standard Go modules repository. The main advantage of using this command is that it simplifies the build process by managing dependencies directly within the project.'
+        modcacherw: '[AI] The command `go run -modcache` is used in Go programming language to instruct the Go compiler to use the local Go Mod cache for resolving and downloading required dependencies instead of checking the remote repositories again. The `-modcache` flag enables or disables the usage of the Go Mod cache. When you run `go run -modcache`, it tells the Go toolchain to use the already cached dependencies, which can save time and network bandwidth during development.'
+        modfile: '[AI] The `go run -modfile` command is used to build and run Go code with Go Mod enabled. Go Mod is a tool for managing dependencies in Go projects. When you use `go run -modfile`, it reads the specified `go.mod` file, downloads and installs any required dependencies, builds the project, and then runs it. The flag `-modfile` specifies the path to the `go.mod` file that contains the list of required modules for the project.'
+        msan: '[AI] The command `go run -msan` is used in Go programming language to enable the Memory Safety Analyzer during the execution of a Go program. This tool is part of the Go standard library and helps detect data races, null pointer dereferences, and other memory-related issues at runtime. By using `go run`, this command is executing the program directly without building an executable first. The `-msan` flag enables the Memory Safety Analyzer to collect data for analysis during the execution of the program.'
+        "n": '[AI] The `go run -n` command is used to build and test a Go package without creating an executable file. Instead, it runs the tests defined in the package directly from the source code. This can be useful for quickly testing changes without leaving the terminal or setting up a separate build environment. It also provides immediate feedback on any compilation errors or test failures.'
+        overlay: '[AI] `go run` is a command used in Go programming language to build and execute Go source code in a single step. The `-overlay` flag is an optional argument for this command. It instructs Go to apply a set of modifications, called overlays, on the main Go file before compilation and execution. Overlays are defined using Go''s `//go:overlay` directive and can be used for various purposes like modifying import paths or redefining constants. When you use the `go run -overlay` command, Go applies the specified overlay(ies) to the main file before running it, allowing for dynamic modification of your code during development.'
+        p: |-
+            [AI] The `go run -p` command is used in Go programming language to build and run a Go source file with all required packages preinstalled or downloaded from the internet, without the need for an existing Go workspace or setting up GOPATH environment variable.
+
+            In simpler terms, it runs the given Go source file and installs any missing dependencies before executing the code. This is particularly useful when working in a standalone environment, such as on a remote server or in a Docker container, where setting up a full-fledged Go development environment might not be feasible or desired.
+        pgo: '[AI] The `go run -pgo` command is used in Go programming language to build and run a Go package with the `-pgo` flag enabled for profile-guided optimization during both the build and run phases. This means that the Go compiler will generate profiling data during the build process, and then use that data to optimize the code when it runs. The goal is to improve the performance of the program by identifying and addressing bottlenecks based on actual runtime usage.'
+        pkgdir: '[AI] The `go run` command is a build and execution tool in Go programming language. It compiles and runs Go source files in one step, without creating a separate package or executable file. When using the `-pkgdir` flag with `go run`, you specify a directory where the Go workspace for the main module is located. This allows the command to find dependencies from the specified workspace instead of the default $GOPATH. It''s useful when working on projects that depend on multiple packages within the same directory structure.'
+        race: '[AI] `go run -race` is a command used in Go programming language to run a Go source file with the integrated testing and race detection tool called "race detector". This command compiles and runs the program, and if any data races are detected during execution, it prints out the erroneous source code locations. Data races occur when two or more goroutines access shared variables in an unsynchronized way, leading to unpredictable behavior and potential bugs in concurrent programs. By using `go run -race`, developers can identify and fix these issues before deploying their code.'
+        tags: '[AI] The `go run -tags` command is used in Go programming language to build and run a Go source file with specific compile flags or tags specified. The "-tags" option allows you to specify one or more tags that will be applied during the build process. These tags can be used to selectively build parts of your project, such as for different environments or architectures. When running `go run` with tags, the specified source file is built and executed on the fly without creating an intermediate package or binary file.'
+        toolexec: '[AI] `go run -toolexec` is a command used in Go programming language to execute a Go script with the `-toolexec` flag. This flag enables running the script as if it were a Go tool, allowing it to access certain system paths and capabilities that are available only to Go tools. This can be useful for writing scripts that need to interact with other Go tools or libraries in a consistent way. When you run `go run -toolexec <script.go>`, the script is executed as if it were a standalone Go tool, making the usage and interaction with external dependencies more predictable and manageable within the Go ecosystem.'
+        trimpath: '[AI] `go run -trimpath` is a command used in Go programming language to compile and run a Go source file with the flag `-trimpath` enabled. This flag instructs the Go compiler to remove the leading directories from the imported package paths before linking the final executable or shared object. The result is a smaller binary size as unnecessary path information is eliminated.'
+        v: '[AI] The `go run -v` command is used in Go programming language to display the version information of the Go compiler and tools being used during execution. It runs the specified Go source code file with the given flags, which in this case includes the `-v` flag to enable verbose output. This will print out the Go version number along with other relevant version information before starting the compilation and execution process.'
+        work: '[AI] `go run` is a command used in the Go programming language to build and execute a single Go source file without creating a new binary or package. The `-work` argument is optional and it specifies the location of the Go work directory, which contains the `go.mod` file for managing dependencies. If not provided, `go run` assumes that the current directory is the work directory. In summary, `go run -work <path_to_work_dir> <file.go>` builds and runs the specified Go source file with the given work directory for dependency management.'
+        x: |-
+            [AI] `go run -x` is a command used in Go programming language to build and execute a Go source file in one step, without creating or using a separate Go workspace or project directory. The `-x` flag causes Go to print the commands it uses to build the source file, making it useful for understanding the build process or debugging build issues. For example:
+
+            ```bash
+            $ go run -x myfile.go
+            go: finding github.com/user/pkg v1.2.0
+            go: downloading github.com/user/pkg v1.2.0
+            ...
+            go: building main.o
+            go: linking /tmp/sandbox/myfile/main.o
+            ```
+
+            This command does the following:
+
+            1. Downloads any required external Go packages, if they are not already present in the local cache.
+            2. Compiles the source file.
+            3. Links the compiled object files to create an executable binary.
+            4. Runs the resulting binary.
+            5. Prints the details of each build step to the console (due to the `-x` flag).

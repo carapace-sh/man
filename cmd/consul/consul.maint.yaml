@@ -1,0 +1,56 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: maint
+description: Controls node or service maintenance mode
+flags:
+    --ca-file=: Path to a CA file to use for TLS when communicating with Consul.
+    --ca-path=: Path to a directory of CA certificates to use for TLS when communicating with Consul.
+    --client-cert=: Path to a client cert file to use for TLS when 'verify_incoming' is enabled.
+    --client-key=: Path to a client key file to use for TLS when 'verify_incoming' is enabled.
+    --disable: Disable maintenance mode.
+    --enable: Enable maintenance mode.
+    --http-addr=: The `address` and port of the Consul HTTP agent.
+    --reason=: Text describing the maintenance reason.
+    --service=: Control maintenance mode for a specific service ID.
+    --tls-server-name=: The server name to use as the SNI host when connecting via TLS.
+    --token-file=: File containing the ACL token to use in the request.
+    --token=: ACL token to use in the request.
+documentation:
+    command: |-
+        [AI] `consul maintain` is a command in the Consul toolkit, used for performing various maintenance tasks on a Consul cluster. These tasks include:
+
+        1. Upgrading Consul: Helps to upgrade Consul servers and clients to the latest version while minimizing downtime.
+        2. Recovering a failed leader: If a Consul server fails as a leader, `consul maintain recover` can be used to elect a new leader and ensure data consistency across the cluster.
+        3. Restoring from a backup: In case of data loss, `consul maintain restore` can be employed to restore the Consul data from a backup file.
+        4. Draining nodes: Allows for draining nodes before taking them offline or during upgrades, ensuring that there is no data loss and services are gracefully stopped.
+        5. Setting agent configuration: Helps in modifying the configuration settings of Consul agents, like changing their roles, enabling/disabling features, etc.
+
+        In summary, `consul maintain` is a versatile command designed to simplify various maintenance tasks on Consul clusters, ensuring high availability and efficient management.
+    flag:
+        ca-file: '[AI] `consul mant --ca-file` is a command used in Hashicorp Consul, an service discovery and configuration management tool. The `--ca-file` flag refers to a file containing X.509 Certificate Authority (CA) certificates that Consul will use for verifying the authenticity of SSL/TLS certificates presented by clients or services during secure communication with Consul''s HTTP API or gRPC interface. This helps ensure the security and integrity of data exchanged between Consul and clients or services.'
+        ca-path: '[AI] The `--ca-path` flag in Consul''s `maint` command is used to specify a directory containing CA (Certificate Authority) certificates. When Consul is started or updated, it will verify the certificates of any TLS-enabled services or communication channels against these CA certificates for security validation. This flag helps ensure secure communication within the Consul cluster and with other Consul-managed services.'
+        client-cert: '[AI] The `--client-cert` flag in Consul''s CLI (Command Line Interface) tools, specifically the `maint` command, is used to specify a client certificate file when performing various maintenance tasks in Consul. This certificate ensures secure communication between the Consul client and server by using Transport Layer Security (TLS). The client certificate file is required if you''re running scripts or other processes as a client that interacts with the Consul server. It helps maintain the security of your Consul cluster while performing important tasks.'
+        client-key: '[AI] The `--client-key` flag is used with the Consul CLI (Command Line Interface) tool when interacting with a Consul cluster as a client. This key is a TLS certificate or a JSON-encoded key file that authenticates the client to Consul. It''s an essential security measure for maintaining confidentiality and integrity in communication between the client and the Consul server. By using this flag, clients can securely access services, perform health checks, and interact with the Consul API.'
+        disable: '[AI] `consul mant --disable` is a command used in Hashicorp Consul, an service discovery, configuration, and orchestration tool. The `mant` subcommand is for managing applications and services registered with Consul. The `--disable` flag is used to disable the registration of an application or service. When run with this flag, Consul will remove the registration data for the specified application or service from its datacenter, making it no longer discoverable by other Consul clients.'
+        enable: '[AI] The `consul maintainers --enable` command is used in Consul, a Connect and Service Mesh platform by Hashicorp. This command enables maintainers mode, which allows certain advanced features not available in regular operation. In this mode, Consul can be configured to perform various maintenance tasks such as node draining, data migrations, or even rebuilding the indexes. It should be used with caution and only by experienced Consul administrators.'
+        http-addr: '[AI] The `--http-addr` flag in Consul, a connectivity and service discovery tool, sets the address on which the Consul HTTP server listens for incoming requests. By default, it binds to `localhost`, but you can use this flag to specify an IP address or hostname followed by a port number (e.g., `--http-addr 0.0.0.0:8500`) to make the Consul server accessible from other nodes on the network.'
+        reason: |-
+            [AI] The `consul mant --reason` command is used in Hashicorp Consul, a service discovery and configuration management tool. This command is employed to modify or create new manual actions (also known as "manifests") within Consul's configuration management (Catalog API).
+
+            When using the `mant` command with the `--reason` flag, you provide a reason string that explains why you are making this change. This reason will be recorded and displayed in the Consul UI and API, helping to maintain an accurate record of changes made to your infrastructure.
+
+            This feature is important for maintaining transparency and traceability within your organization. It allows you to easily understand what changes were made, when they were made, and why they were made, which can be crucial for troubleshooting issues and ensuring compliance with internal policies or external regulations.
+        service: |-
+            [AI] The `consul mant --service` command is used in Consul, a Connect and Service Discovery tool by Hashicorp. This command is part of the Consul CLI (Command Line Interface) and is responsible for registering a service with the Consul service registry.
+
+            The `mant` subcommand stands for "manage", which indicates that this command is used to manage or manipulate services in the registry. The `--service` flag specifies that we want to work specifically with services, rather than other types of resources like queries or health checks.
+
+            When you run the command, you'll typically provide additional flags or arguments to specify the name and other details about the service you wish to register. For example:
+
+            ```bash
+            consul mant --service register my-service name=my-service-name address=127.0.0.1:8000 port=80
+            ```
+
+            This command will register a new service called "my-service" with the name "my-service-name", IP address "127.0.0.1", and listening port "80". Once registered, Consul will make this information available to other services or applications for discovery and connection purposes.
+        tls-server-name: '[AI] The `--tls-server-name` flag in Consul''s CLI (Command Line Interface) tool, `maint`, is used to specify a custom TLS server name during the maintenance mode operations like enabling or disabling secure connect. By default, Consul uses its own FQDN for TLS server name. However, when running Consul in a multi-node environment or using self-signed certificates, specifying a custom `--tls-server-name` may be necessary to ensure successful communication between nodes or clients and the Consul agent or HTTP API server.'
+        token: '[AI] The `consul mant --token` command is used in Consul, a connectivity and orchestration tool from Hashicorp. This command is for managing Consul''s various resources using the Consul CLI (Command Line Interface). The `mant` subcommand stands for "manage." The `--token` option is required to authenticate with the Consul API server, providing a token with sufficient permissions for making modifications. Without this token, you cannot use the `mant` command effectively to manage your Consul resources.'
+        token-file: '[AI] The `--token-file` flag for Consul''s `maint` command is used to specify a file containing an authentication token for Consul operations. This flag allows users to authenticate with the Consul API without having to provide the token on the command line or in plain text. Instead, the token is read from the specified file, which helps maintain security by keeping sensitive information out of the command-line interface.'

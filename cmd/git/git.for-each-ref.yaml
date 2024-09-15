@@ -1,0 +1,49 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: for-each-ref
+description: Output information on each ref
+group: low-level interrogator
+flags:
+    --color=: respect any colors specified in the --format option
+    --contains=: only list refs which contain the specified commit
+    --count=: limit refs
+    --exclude*=: only list refs which do not match any excluded pattern(s)
+    --format=: a string that interpolates %(fieldname) from a ref being shown
+    --ignore-case: sorting and filtering refs are case insensitive
+    --merged=: only list refs whose tips are reachable from the specified commit
+    --no-contains=: only list refs which don’t contain the specified commit
+    --no-merged=: only list refs whose tips are not reachable from the specified commit
+    --omit-empty: do not print a newline after formatted refs
+    --perl: quote strings for perl
+    --points-at=: only list refs which points at the given object
+    --python: quote strings for python
+    --shell: 'quote strings for shell '
+    --sort*=: field name to sort on
+    --stdin: read patterns from standard input
+    --tcl: quote strings for tcl
+documentation:
+    command: '[AI] `git for-each-ref` is a Git command used to iterate through the local refs (branches and tags) in a repository and apply a given script or operation to each ref. The syntax is typically `git for-each-ref --format=[format] [<refspec>...] [--] [command] [args]`. The `--format` option specifies the output format of each ref, while `[refspec]...` represents zero or more references to search in (by default it searches locally). The `[command] [args]` part is the script or operation to be executed on each ref.'
+    flag:
+        color: '[AI] `git for-each-ref --color` is a Git command used to iterate over all local refs (branches and tags) in a Git repository, printing their names with colored outputs. The "--color" option enables colorized output for branch and tag names. It helps users quickly identify the current branch or the branches that have been updated since the last fetch or pull.'
+        contains: '[AI] `git for-each-ref --contains` is a Git command used to search for references (branches or tags) that contain a given commit hash or ref name. This command iterates through all local refs in the current repository and prints out those that have the specified commit or ref as an ancestor or part of their name. It is often used for finding which branches or tags have been updated with a particular commit, allowing you to easily cherry-pick or rebase changes between them.'
+        count: '[AI] `git for-each-ref --count` is a Git command used to list the number of references (branches or tags) under the current repository, each followed by the count of commits in their respective histories. The output is displayed as a list with the reference name, the number of commits in parentheses, and the total number of commits for that reference if it has multiple branches. This command can be useful when wanting to quickly check the number of branches or commits in a repository without having to manually count them individually.'
+        exclude: |-
+            [AI] `git for-each-ref --exclude` is a Git command used to list all local refs (branches and tags) under the current repository, but exclude refs with specified names or patterns in the output. The `--exclude` option takes one or more arguments which are regular expressions that match the names of the refs to be excluded from the output. For example:
+
+            ```bash
+            git for-each-ref --format='%(refname)' --exclude='refs/remotes/*' --exclude='refs/tags/v1.*'
+            ```
+
+            This command lists all local branches and tags, but excludes any branches whose names start with 'refs/remotes/' and any tags whose names begin with 'refs/tags/v1.'.
+        format: '[AI] `git for-each-ref --format` is a Git command used to iterate through the references (branches and tags) in a local Git repository, and print their names or other metadata in a customizable format specified by the `--format` option. The output can be redirected to a file or piped to another command for further processing. It''s often used for automating tasks like generating branch or tag lists, filtering references based on certain patterns or criteria, and performing bulk operations on multiple repositories.'
+        ignore-case: '[AI] `git for-each-ref --ignore-case` is a Git command used to iterate over all local refs (branches and tags) in a repository, ignoring case when matching the ref names against a given pattern. This can be useful when dealing with refs with similar but not identical names. For example, you might want to find and delete any branch named "feature" or "Feature", using a command like `git for-each-ref --format="%f %p" --ignore-case refs/ --delete ''feature''`.'
+        merged: '[AI] `git for-each-ref --merged` is a Git command that lists all local refs (branches or tags) in the current repository that currently point to committed and merged branches or tags. This means that any merge commits along the history of the referenced branch or tag have been integrated into the current branch. The output is typically displayed as a list with the ref name and its associated SHA-1 commit hash.'
+        no-contains: '[AI] `git for-each-ref --no-contains` is a Git command used to iterate through the refs (branches and tags) in a local repository, but it does not print the refs that have a matching value under the `--filter=<pattern>` option. The `--no-contains` option ensures only refs without the specified pattern are printed.'
+        no-merged: '[AI] `git for-each-ref --no-merged` is a Git command used to list all the refs (branches or tags) that do not have any merged commits with the current branch or commit. The command iterates through each reference in the local repository, checks if they are behind the current branch, and if so, prints their names. This can be useful for identifying and managing stale branches or branches that may need to be discarded or synced up with the main branch.'
+        omit-empty: '[AI] `git for-each-ref --omit-empty` is a Git command used to iterate through the references (branches and tags) in a Git repository, but only prints the ones with non-empty commit tips. The `--omit-empty` option filters out any references that don''t point to any commit. This can be useful when you want to perform an operation on branches or tags that exist, but not on those that are empty or don''t currently exist as a branch or tag in the repository.'
+        perl: '[AI] `git for-each-ref --perl` is a Git command used to iterate through the local repository''s references (branches and tags) and print their names in Perl data structures, specifically hashes and lists. The `--perl` option formats the output in such a way that it can be easily consumed by Perl scripts. This command is useful when writing Git-interacting Perl scripts, as it allows you to directly access Git references without having to parse the raw output of other Git commands.'
+        points-at: '[AI] `git for-each-ref --points-at` is a Git command used to retrieve the commit object at the tip of a given ref (branch or tag). The command iterates through all local refs in the repository and prints the SHA-1 hash of the commit that each ref currently points to, along with the ref name and the symbolic name of the branch or tag if it exists. It''s often used for scripting purposes, such as updating references based on specific criteria or performing batch operations on commits associated with certain branches.'
+        python: '[AI] `git for-each-ref --format=''{[ "{}" : {} ]}'' --shell=bash --Python` is a Git command used to iterate through all local refs (branches and tags) in a repository and print them as Python dictionaries. The output can be assigned directly to a Python variable for further processing. The `--format` option determines the output format, and `--shell=bash --Python` specifies the shell and programming language used to interpret it.'
+        shell: '[AI] `git for-each-ref --shell` is a Git command used to iterate through the list of references (branches and tags) in a Git repository and print their names, following the Bash shell format. The `--shell` option outputs each reference name with a prefix suitable for use in a shell script or loop expression. For example, it will output `refs/heads/branch1` or `refs/tags/tag1`.'
+        sort: '[AI] `git for-each-ref --sort` is a Git command used to list all local refs (branches and tags) in a repository, sorted alphabetically by their names. The command iterates through each reference, printing its name and the corresponding commit hash. By default, it only displays local refs, but options exist to include remote refs as well.'
+        stdin: '[AI] `git for-each-ref --stdin` is a Git command used to iterate through the refs (short for references, which are pointers to commit hashes in Git) stored in a given input stream, rather than the default local repository. This can be useful when dealing with large repositories or automation tasks, as it allows you to process refs from an external source. The input stream is typically provided through a pipe `|` or a file with one ref per line.'
+        tcl: '[AI] `git for-each-ref --format=''%(TCL) %(REFname)''` is a Git command used to iterate through all local refs (branches and tags), printing their names prefixed with the corresponding type ("tag" or "branch"). The `--format` option specifies the desired output format using the placeholders defined by Git. In this case, `%(TCL)` represents the reference type ("refs/tags/" for tags and "refs/heads/" for branches), and `%(REFname)` is the name of the ref itself.'

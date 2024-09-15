@@ -1,0 +1,50 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: kustomize DIR
+description: Build a kustomization target from a directory or URL.
+group: advanced
+flags:
+    --as-current-user: use the uid and gid of the command executor to run the function in the container
+    --enable-alpha-plugins: enable kustomize plugins
+    --enable-helm: Enable use of the Helm chart inflator generator.
+    --enable-managedby-label&: enable adding app.kubernetes.io/managed-by
+    --helm-command=: helm command (path to executable)
+    --load-restrictor=: if set to 'LoadRestrictionsNone', local kustomizations may load files from outside their root. This does, however, break the relocatability of the kustomization.
+    --mount*=: a list of storage options read from the filesystem
+    --network: enable network access for functions that declare it
+    --network-name=: the docker network to run the container in
+    --reorder&=: Reorder the resources just before output. Use 'legacy' to apply a legacy reordering (Namespaces first, Webhooks last, etc). Use 'none' to suppress a final reordering.
+    -e, --env*=: a list of environment variables to be used by functions
+    -o, --output=: If specified, write output to this path.
+documentation:
+    command: '[AI] `kubectl kustomize` is a subcommand of the Kubernetes command-line interface (CLI) tool `kubectl`. It''s used to generate the actual Kubernetes manifests from a collection of Kustomize files, which are YAML files containing patches or customizations for one or more Kubernetes resources. When you run `kubectl kustomize <directory>`, it applies all the Kustomize files in that directory and outputs the resulting complete Kubernetes manifests as YAML, ready to be applied using other `kubectl` commands like `apply`. This way, you can manage complex deployments with multiple customizations in a modular, declarative manner.'
+    flag:
+        as-current-user: '[AI] `kubectl kustomize --as-current-user` is a command used with Kustomize, a customization framework for Kubernetes configuration files. This command applies the current user''s context and authentication to the Kustomize resources, allowing those resources to reference and manage objects based on the user''s access levels in the cluster. In simpler terms, it ensures that the Kustomize resources are applied with the correct permissions when deployed to a Kubernetes cluster.'
+        enable-alpha-plugins: '[AI] `kubectl kustomize --enable-alpha-plugins` is a command used with Kustomize, a tool for managing declarative configurations of Kubernetes applications. The flag `--enable-alpha-plugins` enables the usage of alpha features and plugins in Kustomize. These alpha features and plugins may not be stable and could change or be removed in future releases. Using them implies accepting the risk that they might require updates to conform to new APIs or changes in functionality.'
+        enable-helm: '[AI] `kubectl kustomize --enable-helm` is a command used with Kustomize, a library for managing declarative extensions of Kubernetes YAML files. The `--enable-helm` flag enables the use of Helm values and charts within the Kustomize configuration. This allows users to apply Helm templates and values as part of their Kustomize customizations, making it easier to manage complex Kubernetes deployments that involve multiple Helm releases.'
+        enable-managedby-label: '[AI] `kubectl kustomize --enable-managedby-label` is a command used with Kustomize, a customization framework for Kubernetes configuration files. The `--enable-managedby-label` flag sets the `manager: iam-system:<manager-name>` label on generated Kubernetes resources. This label indicates that these resources are managed by another controller or operator in the cluster. It helps maintain an accurate understanding of the cluster''s state and facilitates automated reconciliation processes.'
+        env: '[AI] `kubectl kustomize --env` is a command used with Kustomize, a configuration management system for Kubernetes. The `--env` flag sets environment variables that will be applied when generating or managing customized Kubernetes manifests. These variables can include values like access tokens, API endpoints, and other configurable settings. The result is a `kustomization.yaml` file that includes the specified environments, which can then be used to apply these variables to your Kubernetes resources.'
+        helm-command: |-
+            [AI] `kubectl kustomize --helm-command` is a command used with Kustomize, a library for managing declarative configuration files for Kubernetes. This specific command integrates Helm, the Kubernetes Package Manager, into the Kustomize workflow. The `--helm-command` flag tells Kustomize to use Helm commands within Kustomize manifests.
+
+            With this command, you can write Kustomize patches that include Helm values or charts. It allows you to extend and customize Helm charts using standard Kubernetes configuration files, enabling more fine-grained control over your deployments. This can be useful for managing complex applications with multiple interdependent components.
+        load-restrictor: |-
+            [AI] `kubectl kustomize --load-reistrictor` is a command used with Kustomize, a customization framework for Kubernetes configuration. The `--load-restrictor` flag sets the load balancing strategy for loading multiple files or directories into a single Kubernetes resource.
+
+            With this flag, you can control how `kubectl kustomize` merges manifests:
+
+            1. `none` (default): No merge or validation is done. Each file is applied as-is.
+            2. `errorIfPresent`: Manifests with the same key will cause an error. Useful for ensuring that you don't have conflicting configurations.
+            3. `strict`: Merges manifests in a strict order, applying changes from later files only if they don't conflict with earlier ones. This is useful when merging changes made by different teams or branches.
+            4. `all`: Merges all manifests into one single resource, applying all the changes, even if they conflict.
+
+            Using this flag ensures that you have control over how your Kubernetes configurations are merged and validated during deployment.
+        mount: |-
+            [AI] `kubectl kustomize --mount` is a command used with Kustomize, a customization framework for Kubernetes configuration files. This command mounts the volume containing Kustomize patches into a running container's filesystem so that the patches can be applied to the container's configuration files in-place.
+
+            The `--mount` flag specifies the source and destination paths of the volume mount. The source is typically a local directory or a Git repository containing the Kustomize patches, while the destination is the path within the container where these patches will be applied.
+
+            After running `kubectl kustomize build <source-path> --output json | kubectl apply -f -`, the combined effect of both commands is to apply the Kustomize patches to the configuration files in the container, effectively customizing the container's Kubernetes configuration.
+        network: '[AI] `kubectl kustomize --network` is a command used with Kubernetes and `kustomize`, a library for configuring and managing Kubernetes applications. This command modifies or extends Kubernetes resource files using `kustomize` to include network-related resources, such as CustomResourceDefinitions (CRDs) for NetworkPolicies or DaemonSets for network plugins like Calico or Flannel. The resulting configuration is then applied to a Kubernetes cluster using `kubectl apply`. This command simplifies the process of managing complex networking configurations in Kubernetes environments.'
+        network-name: '[AI] `kubectl kustomize --network-name` is a command used with Kubernetes and its `kustomize` tool to apply customizations to Kubernetes resources while setting a specific network name for the created objects. The network-name flag sets the value of the `metadata.name` field under the network resource''s namespace, which ensures consistent naming across your infrastructure. This command helps maintain a clear and organized network configuration in complex Kubernetes environments.'
+        output: '[AI] `kubectl kustomize --output` is a command used with Kubernetes'' `kubectl` tool to apply customizations to Kubernetes resources using the Kustomize framework. The `--output` flag specifies the desired output format for the generated config files or applied patch files, such as "yaml" (for YAML files), "json", "stdin", or "template" (to generate templates). The result can then be further processed or applied to a Kubernetes cluster.'
+        reorder: '[AI] `kubectl kustomize --reorder` is a command used in Kubernetes to apply customizations to Kubernetes manifests while maintaining their original order and structure. It is part of the `kustomize` toolkit, which enables declarative management of Kubernetes applications. The `--reorder` flag allows users to rearrange the order of patches or customizations without affecting their content. This feature is useful when dealing with manifests that have complex dependencies between resources and ensures a consistent application state.'

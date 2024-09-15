@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: control-plane
+description: Generate the manifests for the new control plane components
+flags:
+    --apiserver-advertise-address=: If the node should host a new control plane instance, the IP address the API Server will advertise it's listening on. If not set the default network interface will be used.
+    --apiserver-bind-port=: If the node should host a new control plane instance, the port for the API Server to bind to.
+    --config=: Path to kubeadm config file.
+    --control-plane: Create a new control plane instance on this node
+    --patches=: Path to a directory that contains files named "target[suffix][+patchtype].extension".
+documentation:
+    command: |-
+        [AI] The `kubeadm join` command is used to join worker nodes to a Kubernetes cluster managed by `kubeadm` on a control-plane node. The `control-plane-prepare` argument refers to the specific phase of the process for joining a new control-plane node.
+
+        During this phase, `kubeadm` will perform several tasks: it will set up the required certificates and keys for secure communication between nodes; configure various system components such as Docker and Flannel network plugin (if used); and initialize the Kubernetes control-plane components including etcd, kube-apiserver, kube-controller-manager, and kube-scheduler.
+
+        In summary, `kubeadm join phase control-plane-prepare control-plane` prepares a new control-plane node to join an existing Kubernetes cluster by configuring the necessary components and certificates.
+    flag:
+        apiserver-advertise-address: |-
+            [AI] The `kubeadm join` command with the `control-plane-prepare` phase and the `--apiserver-advertise-address` flag is used to prepare a node to become part of a Kubernetes control plane cluster.
+
+            The `control-plane-prepare` phase configures the node as a control plane node, which includes installing necessary components like etcd, kube-apiserver, kube-controller-manager, and kube-scheduler. The `--apiserver-advertise-address` flag sets the IP address that this node will advertise to other nodes in the cluster as the API server's address. This is important because the control plane nodes need to know which node hosts the API server for communication between the control plane components and worker nodes.
+        apiserver-bind-port: '[AI] `kubeadm join` is a command-line tool for joining a worker node to a Kubernetes cluster managed by `kubeadm` on a control plane node. The option `--control-plane --apiserver-bind-port <PORT>` specifies that the joining node will be configured as a control plane node and sets the port (<PORT>) for the Kubernetes API server to bind to. In the "control-plane-prepare" phase, `kubeadm` performs necessary preparations for setting up a control plane node, such as installing required packages, configuring network settings, and starting the API server on the given port.'
+        config: |-
+            [AI] `kubeadm join` is a command-line tool used to join worker nodes to a Kubernetes cluster managed by `kubeadm`, a component of the Kubernetes initiative for bootstrapping and managing clusters.
+
+            The `phase control-plane-prepare` argument specifies the phase of the `join` process to run, which is responsible for preparing the node as a control plane node. This includes tasks such as installing necessary packages, configuring network settings, and generating certificates and keys for secure communication between nodes.
+
+            The `--config` flag instructs `kubeadm join` to use the provided configuration file instead of using the default values from the Kubernetes cluster. This configuration file typically includes information such as the control plane's API server endpoint and the certificates and keys required for joining the worker node to the cluster.
+        control-plane: '[AI] The `kubeadm join` command is used to add a worker node to a Kubernetes cluster managed by `kubeadm`. The option `--control-plane-prepare` is used during the control plane joining process which prepares the node to become a control plane member. This includes tasks like setting up certificates, configuring network plugins, and enabling required features. The `control-plane` flag specifies that the node will join as a control plane node, which is responsible for managing the cluster as opposed to a worker node which runs applications. In summary, this command prepares a node to become a control plane member in a Kubernetes cluster using `kubeadm`.'
+        patches: |-
+            [AI] The `kubeadm join` command with the `--control-plane-prepare` sub-command and the `--patches` option is used to prepare a node to become a control-plane (master) node in a Kubernetes cluster managed by Kubeadm.
+
+            The `--patches` flag allows you to apply custom patches or modifications to the Kubernetes control plane binaries before they are installed on the node. This can be useful for applying security fixes, experimental features, or other customizations that are not included in the upstream releases. The patches should be provided as a file or a directory containing YAML or JSON configuration files.
+
+            In summary, `kubeadm join phase control-plane-prepare control-plane --patches` installs and configures the Kubernetes control plane components with the specified patches on the given node to prepare it for joining the Kubernetes cluster as a master node.

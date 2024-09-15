@@ -1,0 +1,56 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: release
+description: Open a deployment to traffic
+flags:
+    --deployment=: Release the specified deployment.
+    --label=: Labels to set for this operation.
+    --plain: Plain output
+    --prune: Prune old unreleased deployments.
+    --prune-retain=: The number of unreleased deployments to keep.
+    --remote: True to use a remote runner to execute.
+    --remote-source=: Override configurations for how remote runners source data.
+    --repeat: Re-release if deploy is already released.
+    --var-file=: HCL or JSON file containing variable values to set for this operation.
+    --var=: Variable value to set for this operation.
+    -a, --app=: App to target.
+    -p, --project=: Project to target.
+    -w, --workspace=: Workspace to operate in.
+documentation:
+    command: '[AI] The "waypoint release" command is used in autonomous navigation systems, particularly in unmanned aerial vehicles (UAVs) or drones. This command instructs the vehicle to release an object or payload at the current waypoint location. Upon receiving this command, the vehicle will descend to a safe hovering altitude above the specified waypoint and then deploy the object using its integrated release mechanism, if available. After the release, the vehicle continues with its pre-programmed flight plan towards the next waypoint.'
+    flag:
+        app: '[AI] The `waypoint release --app` command is used in Kubernetes to deploy or update an application using Waypoint, a continuous delivery tool built by Google. This command releases an application definition, which could be a container image or other type of artifact, to the specified Kubernetes environment. It ensures that rolling updates are performed safely and efficiently, minimizing downtime and maintaining availability. The `--app` flag specifies the name or label of the application to be updated or deployed.'
+        deployment: '[AI] The `kubectl waypoint release --deployment` command is used to manage deployments in Kubernetes using the Flagger tool, which helps roll out and manage canary releases. This specific command triggers a new release with a given deployment name using the Flagger waypoint controller. Once issued, it updates the deployment''s progression and triggers various events such as rolling out new replicas and monitoring their health to ensure smooth transition to the updated version of your application.'
+        label: '[AI] `waypoint release --label` is a command used in Kubernetes and Waypoint, an open-source continuous deployment tool for Docker applications. This command releases a previously defined application or service in Waypoint with the specified label. The released version will be deployed to the target environment, replacing any existing instances with the new version if desired. Labels provide a way to selectively manage resources based on metadata associated with them.'
+        plain: '[AI] `waypoint release --plain` is a command used in Kubernetes and OpenShift to release an updated version of a stateless application defined using Red Hat''s Operator Framework (Waypoint). The `--plain` flag instructs Waypoint to output the Kubernetes YAML manifests directly, without applying them or interactively prompting for confirmation. This can be useful when you want to review and apply the changes manually or in scripts.'
+        project: '[AI] The `waypoint release --project` command is used in Waypoint, an open-source Kubernetes infrastructure automation tool. This command releases a specific project by updating and synchronizing all resources defined in that project to match their desired state in the configured environment. It applies any changes made to the YAML files, such as updates or new resource definitions, and ensures they conform to the latest version of the Kubernetes API. Overall, it ensures that your infrastructure aligns with the desired configuration for your application.'
+        prune: '[AI] `waypoint release --prune` is a command used in Google''s Waypoint configuration management tool. It triggers the deletion of old releases that are no longer needed, helping to keep the infrastructure clean and efficient. The `--prune` flag instructs Waypoint to automatically delete unused resources based on configured selectors. It ensures that only the latest release is active while older ones are safely removed from the infrastructure.'
+        prune-retain: |-
+            [AI] The `waypoint release --prune-retain` command is used in Kubernetes and Google Cloud's Stackdriver tool called "Waypoint." It instructs Waypoint to clean up old released versions of applications that are no longer being used, while retaining a specified number of previous releases for rollback or disaster recovery purposes.
+
+            In simpler terms, it helps manage application release versions by removing older ones and keeping a certain number as backups, which ensures efficient resource utilization and version control.
+        remote: '[AI] `waypoint release --remote` is a command used in Kubernetes and Waypoint, an open-source tool for deploying applications. This command triggers a rollout of changes to a remote Kubernetes cluster from the local Waypoint configuration. It updates the replicas of specified services or deployments without downtime by creating new pods with the updated configuration and waiting for them to be ready before draining old pods, ensuring continuous availability during deployment. This is particularly useful when making updates to production clusters or multiple environments in parallel.'
+        remote-source: '[AI] The `waypoint release --remote-source` command is used in Kubernetes to deploy or update a Kubernetes application using images stored in a remote registry, such as Docker Hub or Google Container Registry. The `--remote-source` flag specifies that Waypoint should fetch the images from the remote registry instead of local files or tarballs. This allows for easy and automated deployment of containerized applications with their dependencies managed in a version control system like Git.'
+        repeat: '[AI] `waypoint release --repeat` is a command used in Kubernetes to release an updated version of a container in a rolling update deployment. The `--repeat` flag indicates that this action should be repeated multiple times, releasing new versions one at a time across the fleet of pods, allowing for progressive delivery and canary deployments. This helps ensure that new releases are stable and do not cause widespread issues if something goes wrong. After each release, Kubernetes performs a rollout, which checks the health and readiness of the newly released version before moving on to the next one in the fleet. The process continues until all pods have been updated or a specified number of repeats have been reached.'
+        var: |-
+            [AI] The `waypoint release --var` command is used in Kubernetes to apply or update a Kubernetes application configuration managed by Waypoint, an open-source continuous delivery tool for multiple cloud platforms. This command allows you to pass variable values when releasing a new version of your application. The flags `--app`, `--namespace`, and `--name` are typically used along with `--var` to specify the name of the target application, Kubernetes namespace, and the name of the release or deployment respectively. For example:
+
+            ```bash
+            waypoint release app my-app --namespace my-namespace --name my-release --var "APP_KEY=secret123"
+            ```
+
+            This command updates the 'my-app' application in the 'my-namespace' namespace with the new version, passing the environment variable `APP_KEY` with value `secret123`.
+        var-file: |-
+            [AI] The `kubectl waypoint release --var-file` command is used in Kubernetes to deploy or update a Kubernetes application using Waypoint, an open-source GitOps tool for managing Kubernetes applications.
+
+            The `--var-file` flag is used to specify a file containing variable overrides that will be applied during the deployment or update process. This allows you to customize values in your Kubernetes configuration files without having to modify those files directly.
+
+            For example, you might have a YAML file with variables that are shared across multiple deployments, but each deployment needs different values for some of those variables. By using a separate `--var-file` for each deployment, you can easily apply the unique variable overrides while keeping your main configuration files consistent.
+
+            Here's an example usage:
+            ```css
+            kubectl waypoint release deploy my-app --namespace my-namespace \
+              --image my-registry/my-image:latest \
+              --var-file=path/to/my-vars.hcl
+            ```
+            In this example, the `--var-file` argument points to a HCL (Hierarchical Configuration Language) file named `my-vars.hcl`, which contains the variable overrides for this specific deployment of `my-app`.
+        workspace: '[AI] The `waypoint release --workspace` command in Kubernetes is used to install, upgrade, or delete Kubernetes applications defined in a Waypoint Workspace file. This command interacts with Waypoint, an open-source GitOps tool for managing Kubernetes applications, and it specifically targets the selected workspace within Waypoint for the desired action. The `--workspace` flag identifies the name or path of the workspace.'

@@ -1,0 +1,54 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: fetch
+description: Download a bottle (if available) or source packages for <formula>e and binaries for <cask>s
+group: main
+flags:
+    --HEAD: Fetch HEAD version instead of stable version.
+    --arch: Download for the given CPU architecture. (Pass `all` to download for all architectures.)
+    --bottle-tag: Download a bottle for given tag.
+    --build-bottle: Download source packages (for eventual bottling) rather than a bottle.
+    --build-from-source: Download source packages rather than a bottle.
+    --cask: Treat all named arguments as casks.
+    --debug: Display any debugging information.
+    --deps: Also download dependencies for any listed <formula>.
+    --force: Remove a previously cached version and re-fetch.
+    --force-bottle: Download a bottle if it exists for the current or newest version of macOS, even if it would not be used during installation.
+    --formula: Treat all named arguments as formulae.
+    --help: Show this message.
+    --no-quarantine: 'Disable/enable quarantining of downloads (default: enabled).'
+    --os: Download for the given operating system. (Pass `all` to download for all operating systems.)
+    --quarantine: 'Disable/enable quarantining of downloads (default: enabled).'
+    --quiet: Make some output more quiet.
+    --retry: Retry if downloading fails or re-download if the checksum of a previously cached version no longer matches. Tries at most 5 times with exponential backoff.
+    --verbose: Do a verbose VCS checkout, if the URL represents a VCS. This is useful for seeing if an existing VCS cache has been updated.
+documentation:
+    command: '[AI] `brew fetch` is a Homebrew command used to download formulae from the Homebrew repository but without installing them. This command updates your Local Tap list, ensuring you have the latest formulae available for installation with other Homebrew commands like `brew install`.'
+    flag:
+        HEAD: '[AI] `brew fetch --HEAD` is a command used in Homebrew, a popular package manager for macOS. This command fetches the latest changes from the Origin repository (usually GitHub) of a Homebrew formula without installing or updating it. The `--HEAD` option indicates that the latest commit should be pulled instead of a specific tag or branch. It''s often used when you want to check for available updates before deciding whether to install them.'
+        arch: '[AI] The `brew fetch --arch` command is used with Homebrew, a popular package manager for macOS. This specific command tells Homebrew to download and update the formulae (metadata) and casks (binary packages) for the specified architecture. By default, `--arch all` is used to update formulas and casks for all architectures, but you can use `--arch` followed by an architecture name (like `i386`, `x86_64`, or `arm64`) to update only that specific architecture. This command does not install the updated packages; it simply makes them available for installation with the `brew install` command.'
+        bottle-tag: '[AI] `brew fetch --bottle-tag` is a command used with Homebrew, a popular package manager for macOS. This command specifically fetches precompiled Homebrew bottle files from Apple''s servers that match the given bottle tags. A bottle is a self-contained Homebrew installation package with all dependencies included. The `--bottle-tag` option allows specifying one or more bottle tags to filter the downloaded bottles based on their versions, architescture, etc. Essentially, this command helps users obtain specific precompiled packages without needing to build them from source.'
+        build-bottle: |-
+            [AI] The `brew fetch --build-bottle` command is used with Homebrew, a popular package manager for macOS. This specific command is responsible for fetching the source code of a formula from its remote repository, and then building and bottling it.
+
+            In simpler terms, this command does the following:
+
+            1. Fetches the latest version of the specified formula's source code from the origin server.
+            2. Builds (compiles and installs) the software from the source code using Homebrew's tools and settings.
+            3. Bottles the software, meaning it packages the built software along with any dependencies in a single file, ready for installation.
+            4. Stores the bottled software in Homebrew's Cellar directory.
+
+            The end result is a readily installable package of the software that can be easily managed and updated using Homebrew.
+        build-from-source: '[AI] `brew fetch --build-from-source` is a command used with Homebrew, a popular package manager for macOS. This command initiates the process of fetching the source code of a formula from its origin (usually a GitHub repository), and then building that software from scratch, rather than installing it from a precompiled binary package. This can be useful when the user wants to ensure they have the latest version of a software or if the precompiled binaries aren''t available.'
+        cask: '[AI] `brew fetch --cask` is a command used with Homebrew, a popular package manager for macOS. This specific command fetches, or downloads, Cask packages from their remote repositories but does not install them. Cask is Homebrew''s method of managing binary and universal binaries, GUI applications, and frameworks. Running `brew fetch --cask` updates the local Caskroom, ensuring you have the latest package versions available for installation when needed.'
+        debug: '[AI] `brew fetch --debug` is a command used in Homebrew, a popular package manager for macOS. This command fetches the latest version of a formula or cask from its origin and saves it locally for installation. The `--debug` flag enables detailed debugging output to help diagnose any potential issues during the process.'
+        deps: '[AI] `brew fetch --deps` is a command used in Homebrew, a popular package manager for macOS. This specific command fetches and updates all formulas'' dependencies listed in their `Brewfile` or `Packagefile`, but does not install or build them. The dependencies are downloaded from the Homebrew repository, ensuring they are up-to-date for later use when installing or upgrading packages with Homebrew.'
+        force: '[AI] `brew fetch --force` is a command used in Homebrew, a popular package manager for macOS. This command is used to update and re-download the formulae (metadata) and their dependent files from the Homebrew repository. The `--force` flag forces Homebrew to redownload files even if they are already up-to-date or exist locally, ensuring that the local Homebrew installation remains in sync with the latest repository version.'
+        force-bottle: '[AI] The `brew fetch --force-bottle` command is used in Homebrew, a popular package manager for macOS, to manually download and install the precompiled bottles (i.e., ready-to-run packages) of installed or desired formulae (Homebrew''s recipe files). This command can be useful when updating Homebrew packages with new versions or installing specific bottles that might not be available through the normal update process. By using `--force-bottle`, Homebrew will download and reinstall the bottle even if it already exists locally, ensuring you have the most recent version of the software.'
+        formula: '[AI] `brew fetch --formula` is a command used with Homebrew, a popular package manager for macOS. This specific command is used to download the formulae (metadata files) for installable packages from the Homebrew repository, but it does not install the packages themselves. It simply prepares the system for subsequent `brew install` commands by fetching the latest formulae information.'
+        help: '[AI] `brew fetch --help` is a command used in Homebrew, a popular package manager for macOS. This command''s primary function is to initiate a fetch operation, which retrieves formulae (package recipes) and their dependencies from the Homebrew repository. The `--help` flag is included to display detailed information about this specific command, including its usage syntax and available options.'
+        no-quarantine: '[AI] `brew fetch --no-quarantine` is a command used in Homebrew, a popular package manager for macOS. This command retrieves formulae and their dependencies from the Homebrew repository, but skips the automatic check for Apple''s notarization and other system checks (known as "quarantine" in Homebrew). Using `--no-quarantine` might pose a security risk by installing untested or potentially malicious packages, so it should be used with caution. It is typically used when users trust the sources of the packages they''re installing and want to save time on the checks.'
+        os: '[AI] `brew fetch --os` is a command used in Homebrew, a package manager for macOS. This specific command instructs Homebrew to download and update the list of available operating system (OS) Xcode "tabs" or software collections from Apple. These tabs contain pre-compiled binaries and scripts for various software packages. The updated information is saved in the Homebrew `/Library/Homebrew/Caskroom` directory. After running this command, you can use `brew install` to download and install specific software packages that are available within these OS Xcode tabs.'
+        quarantine: '[AI] `brew fetch --quarantine` is a command used in Homebrew, a popular package manager for macOS. This command downloads the latest versions of Homebrew''s formulae from their origin servers but keeps them in a quarantine state by default. Quarantined formulae will not be installed until explicitly approved using `brew install <formula>`. This approach helps maintain security by preventing unapproved or potentially harmful software from being installed automatically.'
+        quiet: '[AI] `brew fetch --quiet` is a command used in Homebrew, a package manager for macOS. This command fetches updates for currently installed formulas and casks without displaying any progress messages or other output, making the process quiet. It''s useful when running automated scripts or if you prefer a silent update process.'
+        retry: '[AI] `brew fetch --retry` is a command used in Homebrew, a popular package manager for macOS. This command attempts to download and update the Homebrew formulae from the Homebrew repository. If an error occurred during a previous attempt to fetch or update, `--retry` option will automatically retry the failed downloads.'
+        verbose: '[AI] `brew fetch --verbose` is a command used in Homebrew, a popular package manager for macOS. This command initiates a fetching process to update Homebrew''s formulae and taps (external repositories). The `--verbose` flag increases the level of output, displaying detailed information about each download or update in progress.'

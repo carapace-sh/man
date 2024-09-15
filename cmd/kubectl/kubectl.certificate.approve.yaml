@@ -1,0 +1,50 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: approve (-f FILENAME | NAME)
+description: Approve a certificate signing request
+flags:
+    --allow-missing-template-keys: If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
+    --force: Update the CSR even if it is already approved.
+    --show-managed-fields: If true, keep the managedFields when printing objects in JSON or YAML format.
+    --template=: Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates [http://golang.org/pkg/text/template/#pkg-overview].
+    -R, --recursive: Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.
+    -f, --filename*=: Filename, directory, or URL to files identifying the resource to update
+    -k, --kustomize=: Process the kustomization directory. This flag can't be used together with -f or -R.
+    -o, --output=: 'Output format. One of: (json, yaml, name, go-template, go-template-file, template, templatefile, jsonpath, jsonpath-as-json, jsonpath-file).'
+documentation:
+    command: '[AI] `kubectl certificate approve` is a Kubernetes command used to approve a CertificateSigningRequest (CSR) object in the cluster. A CSR represents a request for creating or updating a TLS certificate. By running this command, you''re granting approval for the requested certificate based on the provided CSR details, such as its common name and organization. Once approved, Kubernetes will create or update the corresponding certificate.'
+    flag:
+        allow-missing-template-keys: '[AI] The `kubectl` command `certificate approve --allow-missing-template-keys` is used to approve the issuance of a certificate based on a signing request in Kubernetes. The `--allow-missing-template-keys` flag allows for the approval of certificate signing requests (CSRs) even if some required fields or keys are missing from the CSR template. This can be useful when managing certificates for complex applications where template keys may not always be available at the time of request creation. By using this flag, the certificate controller in Kubernetes will attempt to fill in missing keys based on default values and issue the certificate if successful.'
+        filename: |-
+            [AI] The `kubectl` command `certificate approve --filename` is used to approve a Certificate Signing Request (CSR) in Kubernetes. A CSR is a request for creating an SSL/TLS certificate from a Certificate Authority (CA).
+
+            When you create a new certificate in Kubernetes using `kubectl`, the system generates a CSR and saves it to a file. The `approve` subcommand reviews the CSR details, checks if it's safe to issue a certificate based on the provided criteria, and approves or denies the request.
+
+            The `--filename` option specifies the path to the file containing the CSR that will be approved. Once approved, the system can proceed with creating the actual SSL/TLS certificate using the CA's key and the approved CSR.
+        force: '[AI] `kubectl` is a command-line tool for managing Kubernetes clusters. The `certificate approve` subcommand is used to approve or reject the issuance of a client certificate signed by a Certificate Authority (CA) residing in the cluster. The `--force` flag is an optional argument that allows the approval of the certificate without requiring user confirmation, bypassing any potential safety checks. This can be risky as it skips the usual verification process and may lead to the deployment of potentially compromised or malicious certificates within the Kubernetes cluster. It''s essential to use this flag with caution and only when you trust the issuer and are confident in the security of your cluster.'
+        kustomize: |-
+            [AI] `kubectl certify approve --kustomize` is a command used with Kubernetes' `kubectl` tool to approve a certificate signing request (CSR) using Kustomize for managing and deploying declarative configuration files.
+
+            When you create or update a certificate resource in your Kubernetes cluster, the CSR is not automatically approved by default. Instead, it needs to be manually approved before the certificate can be issued. This command does exactly that: it approves a CSR with the specified name (implicitly or explicitly provided), using a `kustomize.yaml` file to apply additional configuration.
+
+            The `--kustomize` flag is used to specify the path to a Kustomize file, which contains customizations and extensions for your Kubernetes manifests. Using this file allows you to manage complex configurations, such as multiple certificates or additional annotations, in a more efficient way.
+
+            By approving the CSR, `kubectl` creates a signed certificate based on the approved CSR and issues it. This command is particularly useful when dealing with certificates in large Kubernetes clusters or in environments where automation is preferred for managing certificates.
+        output: |-
+            [AI] `kubectl` is a command-line tool used to deploy and manage applications on Kubernetes clusters. The specific command you've provided, `kubectl certificate approve --output`, is related to managing SSL/TLS certificates in a Kubernetes environment.
+
+            When you run `kubectl create --certificate key.pem ca.crt --duration 365d certificate my-cert`, this command generates and creates a new certificate named "my-cert" with a given private key (key.pem) and Certificate Authority (CA) certificate (ca.crt). The `--duration` flag sets the duration of the certificate's validity to 365 days.
+
+            The `kubectl certificate approve` command is used to approve issuing a certificate based on an approval request. An approval request occurs when you attempt to use a self-signed certificate in a Kubernetes cluster, or if your CA certificate isn't trusted by the cluster. By running `approve`, you confirm that you trust the certificate and its associated private key, allowing it to be used within the cluster.
+
+            The `--output` flag determines how the output of the command is displayed. In this case, it can produce different formats like json, yaml, or go-template, which can then be further processed by other tools in your workflow.
+        recursive: '[AI] `kubectl certify approve --recursive` is a command used with Kubernetes'' Certificate Signing Request (CSR) management. It approves all CSRs and their corresponding certificates in a recursive manner under the given directory in the certificate signing request (CSR) cluster resource. This means it will approve any pending CSRs, along with their children CSRs, in the specified directory and its subdirectories. The approved certificates are then issued by the Kubernetes API server.'
+        show-managed-fields: |-
+            [AI] `kubectl certify approve --show-managed-fields` is a command used with Kubernetes' `kubectl` tool for managing and configuring clusters or applications running on the platform. This specific command is part of the certificate approval workflow, where a certificate signed by an external Certificate Authority (CA) can be reviewed and approved for use in a cluster.
+
+            When you run `approve`, Kubernetes compares the requested fields in the new certificate with the current configuration to show any changes that will be made if the certificate is applied. The `--show-managed-fields` flag adds an additional level of detail, displaying only those fields managed by Kubernetes itself, excluding any fields managed by users or other external components. This can help you understand exactly what changes the approved certificate will bring to your cluster in terms of Kubernetes resources.
+        template: |-
+            [AI] `kubectl certify approve --template` is a command used in Kubernetes to approve the issuance of a client certificate based on a template. The `approve` sub-command of `certify` is responsible for this function.
+
+            The `--template` flag specifies the Certificate Signing Request (CSR) template file, which contains the configuration details for the desired certificate to be issued. This includes information like subject name, key size, and validity period.
+
+            When you run the command, it will display the CSR details based on the specified template. After reviewing these details, you can approve the issuance of the client certificate by providing confirmation with a simple 'yes' or 'y'. This action will then create the corresponding client certificate and sign it using the CA key in your Kubernetes cluster.

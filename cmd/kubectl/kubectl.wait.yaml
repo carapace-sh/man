@@ -1,0 +1,60 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: wait ([-f FILENAME] | resource.group/resource.name | resource.group [(-l label | --all)]) [--for=delete|--for condition=available|--for=jsonpath='{}'=value]
+description: 'Experimental: Wait for a specific condition on one or many resources'
+group: advanced
+flags:
+    --all: Select all resources in the namespace of the specified resource types
+    --allow-missing-template-keys: If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
+    --field-selector=: Selector (field query) to filter on, supports '=', '==', and '!='.(e.g. --field-selector key1=value1,key2=value2). The server only supports a limited number of field queries per type.
+    --for=: 'The condition to wait on: [delete|condition=condition-name[=condition-value]|jsonpath=''{JSONPath expression}''=[JSONPath value]]. The default condition-value is true.  Condition values are compared after Unicode simple case folding, which is a more general form of case-insensitivity.'
+    --local: If true, annotation will NOT contact api-server but run locally.
+    --show-managed-fields: If true, keep the managedFields when printing objects in JSON or YAML format.
+    --template=: Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates [http://golang.org/pkg/text/template/#pkg-overview].
+    --timeout=: The length of time to wait before giving up.  Zero means check once and don't wait, negative means wait for a week.
+    -A, --all-namespaces: If present, list the requested object(s) across all namespaces. Namespace in current context is ignored even if specified with --namespace.
+    -R, --recursive: Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.
+    -f, --filename*=: identifying the resource.
+    -l, --selector=: Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2)
+    -o, --output=: 'Output format. One of: (json, yaml, name, go-template, go-template-file, template, templatefile, jsonpath, jsonpath-as-json, jsonpath-file).'
+documentation:
+    command: '[AI] `kubectl wait` is a Kubernetes command-line utility used to monitor the status of specific resources until they reach a desired state. It continuously polls the Kubernetes API server for updates and reports the current status, allowing users to perform other tasks in the meantime. The syntax is `kubectl wait <resource> <condition>`, where `<resource>` is the type of resource (e.g., pod, deployment) and `<condition>` is a state or condition that must be met for the resource (e.g., Running, Available). This command helps ensure that users can efficiently manage applications and infrastructure in a declarative manner, while minimizing manual intervention.'
+    flag:
+        all: '[AI] `kubectl wait --all` is a command used with Kubernetes to poll for the completion of multiple resources until they are all ready. The `--all` option implies that the command will wait for all resources in the current context, rather than just a single resource. This can be useful when deploying multiple interconnected components and ensuring their readiness before proceeding with further operations.'
+        all-namespaces: '[AI] `kubectl wait --all-namespaces` is a command used with Kubernetes'' `kubectl` tool to poll for the condition of resources in all namespaces until they meet a certain condition. It allows users to check the status of multiple resources across different namespaces concurrently, reducing the need for separate commands for each resource or namespace. This command helps ensure that applications are deployed correctly and ready for use before moving on to other tasks.'
+        allow-missing-template-keys: '[AI] `kubectl wait` is a command-line utility used to monitor the creation or modification of Kubernetes resources. The option `--allow-missing-template-keys` allows the wait command to continue even if some keys are missing in the template being applied, instead of exiting with an error. This flag can be useful when dealing with dynamic or incomplete configurations where not all fields might be set initially, allowing for more flexibility in managing the deployment process.'
+        field-selector: '[AI] `kubectl wait` is a command-line tool used to monitor the creation or update of Kubernetes resources until they reach a desired state. The `--field-selector` option filters the output to only display the specified fields that match the given expression. This allows users to focus on specific aspects of the resource as it converges to the desired state. For instance, `kubectl wait --field-selector status.phase=Running pods/my-pod --for=condition=Ready` will wait for both the "status.phase" and "conditions.type==''Ready''" of the "pods/my-pod" resource to meet the specified conditions before exiting.'
+        filename: |-
+            [AI] `kubectl wait` is a command-line utility used with Kubernetes to monitor the creation or update of various resources, such as deployments or services. The `--filename` flag is an option for the `kubectl wait` command that allows you to specify a file containing the expected condition and status for the resource.
+
+            When you provide a file with this flag, `kubectl wait` reads the contents of the file and watches the specified Kubernetes resource based on the conditions and status defined within it. The file format is YAML or JSON, which includes the resource type, the condition and its expected status. This can be useful for complex deployments where you may want to wait for multiple conditions to be met before continuing with other tasks.
+        for: '[AI] `kubectl wait --for` is a command used with `kubectl`, the Kubernetes command-line interface tool, to poll for the condition of a specific Kubernetes resource until it meets a certain requirement. The `--for` flag specifies that the wait command should continue polling indefinitely, without requiring manual intervention. The syntax is `kubectl wait --for condition=ConditionStatus resource/name`. For example, `kubectl wait --for condition=Ready pod/my-pod-name`, will wait until the specified pod''s readiness condition is met before exiting.'
+        local: |-
+            [AI] `kubectl wait --local` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`, to wait for a specific condition on a Kubernetes resource to be met before returning control back to the user.
+
+            The `--local` flag instructs `kubectl` to perform the wait operation without connecting to the remote Kubernetes cluster. Instead, it checks the status of the local resource file and updates the resource in-place when the condition is met. This can be useful for testing or development scenarios where you want to simulate a Kubernetes cluster locally before deploying changes to a production environment.
+
+            The general syntax of the command is `kubectl wait <condition> --local`. For example, you could use it to wait for a deployment to roll out:
+
+            ```bash
+            $ kubectl apply -f my-deployment.yaml
+            $ kubectl wait rollout status my-app --local
+            ```
+
+            This command applies the `my-deployment.yaml` file using `kubectl apply`, then waits for all pods in the deployment to be available before returning control back to the user. The `--local` flag ensures that the waiting process is performed locally, without connecting to a remote Kubernetes cluster.
+        output: '[AI] `kubectl wait` is a command used with the Kubernetes CLI (kubectl) to monitor the status of resources in a Kubernetes cluster until they reach a desired state. The `--output` flag specifies how the output should be formatted when the resource reaches that state. The possible values for `--output` include json, yaml, or go-template. For example, `kubectl wait pod my-pod --for condition=Ready --output json-paths=''{.status.phase}''` will wait for the "my-pod" pod to be ready and then print the phase (Running or Succeeded) in JSON format.'
+        recursive: '[AI] `kubectl wait --recursive` is a command used with Kubernetes'' `kubectl` tool to wait for the completion of multiple resources and their contained objects in a recursive manner. The flag `--recursive` indicates that the wait command should be applied not just to the top-level resource, but also to all resources referenced by those resources. This is useful when managing complex Kubernetes applications with multiple related resources. The command will exit once all the specified resources have reached their desired state.'
+        selector: '[AI] `kubectl wait` is a command-line utility for working with clusters managed by Kubernetes. The `--selector` option filters the resources being waited on based on a label selector. When used with `kubectl wait`, this flag causes the command to pause and continue polling the specified resource until it matches the given label selector. This is useful when you need to ensure that a specific instance of a Kubernetes resource, such as a pod or deployment, has been created or updated before proceeding with further tasks.'
+        show-managed-fields: '[AI] `kubectl wait --show-managed-fields` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`. This command is utilized to track the status of a specific resource in a Kubernetes cluster until it reaches a desired state. The `--show-managed-fields` flag adds an extra functionality, which is to display the fields that have been managed by the controller during the reconciliation process. In simpler terms, this flag shows the changes made by the Kubernetes controller while bringing the resource to its desired state.'
+        template: |-
+            [AI] `kubectl wait --template` is a command in Kubernetes used to wait for a condition on a resource to be met and then apply a custom template to output the result. This can be useful for getting real-time updates or checking the status of complex resources with multiple conditions.
+
+            The `--template` flag allows you to use Kubernetes templates to define how the output should look once the wait condition is met. This can include displaying specific fields, formatting the output, or even performing additional actions based on the result.
+
+            For example, if you have a deployment with multiple replicas, and you want to wait until all of them are ready before printing out their IP addresses, you could use a command like:
+
+            ```bash
+            kubectl wait --for=all--condition=Ready deploy/my-deployment --template='{{range .items}}{{.metadata.name}}: {{range .status.pods}}{{.status.pods[0].status.podIP}}{"\n"}}{{end}}'
+            ```
+
+            This command waits for all replicas of `my-deployment` to be ready, and then prints out the name of each pod along with its IP address.
+        timeout: '[AI] `kubectl wait` is a command-line utility in Kubernetes used to monitor the creation or updating of Kubernetes resources and wait for them to reach a desired state. The `--timeout` flag sets a maximum time limit (in seconds) for the operation to complete before giving up and reporting an error. If the resource reaches the desired state before the timeout elapses, `kubectl wait` will exit successfully. If not, it will return an error.'

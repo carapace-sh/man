@@ -1,0 +1,99 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: build
+description: compile packages and dependencies
+flags:
+    -C=: Change to dir before running the command
+    -a: force rebuilding of packages that are already up-to-date
+    -asan: enable interoperation with address sanitizer
+    -asmflags=: arguments to pass on each go tool asm invocation
+    -buildmode=: build mode to use
+    -buildvcs?: whether to stamp binaries with version control information
+    -compiler=: name of compiler to use
+    -cover: enable code coverage instrumentation
+    -coverpkg=: apply coverage analysis to each package matching the patterns
+    -gccgoflags=: arguments to pass on each gccgo compiler/linker invocation
+    -gcflags=: arguments to pass on each go tool compile invocation
+    -installsuffix=: a suffix to use in the name of the package installation directory
+    -ldflags=: arguments to pass on each go tool link invocation
+    -linkshared: build code that will be linked against shared libraries
+    -mod=: module download mode to use
+    -modcacherw: leave newly-created directories in the module cache read-write
+    -modfile=: read and possibly write an alternate go.mod file
+    -msan: enable interoperation with memory sanitizer
+    -n: print the commands but do not run them
+    -o=: set output file or directory
+    -overlay=: read a JSON config file that provides an overlay for build operations
+    -p=: the number of programs to run in parallel
+    -pgo=: specify the file path of a profile for profile-guided optimization
+    -pkgdir=: install and load all packages from dir
+    -race: enable data race detection
+    -tags=: a comma-separated list of build tags to consider satisfied during the
+    -toolexec=: a program to use to invoke toolchain programs like vet and asm
+    -trimpath: remove all file system paths from the resulting executable
+    -v: print the names of packages as they are compiled
+    -work: print the name of the temporary work directory
+    -x: print the commands
+documentation:
+    command: '[AI] The `go build` command is used to compile Go source code into executable programs or shared libraries, depending on the context. It reads the Go source files in the current directory and builds them using the installed Go compiler. By default, it generates an executable binary with the same name as the last element of the source file''s import path. If there are multiple source files, a single archive containing all the object files will be created, named `<your-program>.a`. In other words, `go build` is the primary tool for building Go projects from their source code.'
+    flag:
+        C: '[AI] The `go build -C` command is a feature in the Go programming language''s build tool, `go`. It allows building and compiling a Go project using a specific configuration other than the default one. By specifying `-C`, followed by the name of a directory or a config file, it applies the build constraints defined in that directory or file. This enables fine-grained control over the build process for projects with multiple configurations, such as different target architectures or optimization levels.'
+        a: '[AI] The `go build -a` command in Go programming language is used to build all the projects that are defined as dependencies in the current project''s `go.mod` file. In other words, it builds the main project and its indirect dependencies in a single step, creating executable binaries for each of them. This can help ensure that all the required components are correctly built and linked together before running the final application.'
+        asan: '[AI] `go build -asan` is a command used in the Go programming language to build executables with Address Sanitizer (ASAN) enabled. ASAN is a memory safety tool that can help detect and locate memory errors such as buffer overflows and use-after-free issues at runtime. By using this flag during the build process, the resulting binary will include the necessary ASAN libraries and flags to run the application under this protective coverage. This can help developers find and fix memory bugs more effectively.'
+        asmflags: '[AI] `go build -asmflags` is a command used in Go programming language to pass custom assembler flags during compilation. The `-asmflags` option allows specifying extra flags that will be passed directly to the assembly step of the Go compiler. These flags can be used for optimizing assembly code, targeting specific architectures, or implementing low-level functionality not supported by the Go standard library.'
+        buildmode: '[AI] `go build -buildmode` is a command used in the Go programming language to specify the output type of a build operation. The `-buildmode` flag sets the output as an executable file (`c-exec`) if building a single file or as a shared library or static archive when building packages. It does not affect the compilation process itself but rather determines how the compiled binary is packaged and named.'
+        buildvcs: '[AI] `go build -buildvcs` is a command used in Go programming language to build and compile source files while embedding version information from the Go.mod file or VCS (Version Control System) commit messages into the output binary or executable files. It provides metadata about the built package, including the module name, version, and commit SHA1 hash, which can be useful for tracking and managing dependencies in larger projects.'
+        compiler: |-
+            [AI] The `go build` command is a tool in the Go programming language used to build and execute Go source code. The `-compiler` option is not a standard flag for this command, but it can be used with custom compilers or specific use cases.
+
+            When you run `go build -compiler=<compiler>`, it instructs the Go build system to use the specified compiler instead of the default one (usually the built-in `gc` compiler). This is useful when working with third-party compilers or dealing with special situations where the standard compiler doesn't meet your requirements.
+
+            The format for the custom compiler depends on the specific implementation, but it often includes writing a new Go frontend, called a "builder," that interacts with the given compiler to build and link your Go source code.
+        cover: '[AI] `go build -cover` is a command used in Go programming language to generate test coverage reports during the build process. It activates the coverage tracking during testing and produces a report showing which parts of your code are tested and to what extent, helping identify under-tested areas for improvement.'
+        coverpkg: '[AI] `go build -coverpkg` is a command used in Go programming language to generate test coverage data for packages during the build process. The `-coverpkg` option tells Go''s testing tool, `cover`, to produce coverage results for the specified packages only. The generated coverage data can be later analyzed using tools like `go test -coverprofilefile` or external profiling tools to evaluate the effectiveness of tests and identify areas requiring improvement in code coverage.'
+        gccgoflags: '[AI] `go build -gccgoflags` is a command used in Go programming language to set custom flags for the C compiler when building Go packages that include C or C++ code. The `-gccgoflags` option allows specifying additional flags as an argument, which will be passed on to the C compiler during the build process. This can be useful when dealing with complex projects that require specific compiler settings.'
+        gcflags: |-
+            [AI] The `go build` command with `-gcflags` option is used to set custom flags for the Go compiler's garbage collector (GC). These flags can influence the GC's behavior in terms of throughput, latency, and memory usage. Some common flags include:
+
+            - `-m` or `-mgo1.x`: Sets the GC to a specific version or mode, such as `-mgo1.8.gc`, which sets it to Go 1.8's GC.
+            - `-cgccflags "..."`: Allows passing custom flags to the underlying CGC (CGO Garbage Collector) library.
+            - `-gcflag "..."`: Sets various GC tuning options, such as `-gcflag "S0=1024m,S1=1024m,M=gomaxmem"` for setting the heap size or `-gcflag "G=1"` to enable tracing GC.
+
+            These flags help fine-tune the garbage collector for specific use cases and performance requirements.
+        installsuffix: '[AI] The `-installsuffix` flag in the Go programming language''s `build` command modifies the suffix appended to installed packages when they are being imported by other packages during the build process. By default, this suffix is empty, meaning packages are installed with their original filenames. However, using `-installsuffix` allows you to specify a custom suffix, which can be useful for organizing your project or dealing with naming conflicts. For example, `go build -o myprog main.go -installsuffix _myproject` will install packages with the suffix `_myproject`.'
+        ldflags: '[AI] `go build -ldflags` is a command used in Go programming language to set custom flags during the linking phase of building an executable or library. The `-ldflags` option takes a string argument, which can contain preprocessor definitions and import table entries in the form of `-X` or `-I` flags, respectively. These flags allow modifying constants, variables, or packages at link time, making it useful for setting environment-specific values or overriding imported package paths.'
+        linkshared: '[AI] The `go build -linkshared` command is a flag used in Go programming language to create shared libraries instead of statically linked executables or archives during the build process. A shared library is a type of dynamic link library that can be used by multiple programs at the same time, saving disk space and resources as only one copy of the code needs to be stored in memory when it''s being used. This flag is particularly useful for creating libraries to be imported and used by other Go projects.'
+        mod: |-
+            [AI] The `go build -mod` command is a feature in Go programming language that enables a more efficient and controlled way of managing dependencies for building and testing Go projects. It introduces the concept of module files (`go.mod` and `go.sum`) to define the exact versions of dependencies required for the project.
+
+            When you run `go build -mod`, Go will read the `go.mod` file, download the specified dependencies in a cache, and build your project with those dependencies. By using this command, you ensure that all dependent packages are version-controlled and reproducible across different environments. It also provides an easier way to manage multiple versions of the same dependency for testing or experimentation.
+        modcacherw: '[AI] `go build -modcache` is a command used in Go programming language to download and cache all the required modules mentioned in the go.mod file for a project before building the code. This can help ensure consistent builds by using specific versions of dependencies, and also speed up subsequent builds as the modules are already cached. The flag `-modcache` specifies the directory where the cached modules will be stored, which is usually located under `$GOPATH/pkg/mod`.'
+        modfile: '[AI] `go build -modfile` is a command used in Go programming language to build an application with a specific `go.mod` file as its module declaration. It tells the Go compiler to use the given `go.mod` file as the root module for building and resolving dependencies, instead of using the current directory as the root module by default. This can be useful when working on larger projects or managing multiple modules within the same workspace.'
+        msan: '[AI] `go build -msan` is a command used in Go programming language to enable Memory Safety Analyzer (MSAN) during compilation. MSAN is a static analysis tool that checks source code for potential memory safety issues, such as use-after-free or null pointer dereferencing. By using this command when building your Go application, you can help identify and eliminate memory-related bugs at compile time, enhancing the overall security and reliability of your code.'
+        "n": '[AI] `go build -n` is a command used in Go programming language for generating a build summary report without actually building or linking the program. It only performs the detection and recording of dependencies required to build the project, but doesn''t produce an executable output. This can be useful when you want to know which packages your code depends on, but don''t intend to create an executable at that moment.'
+        o: '[AI] The `go build` command is a tool in the Go programming language used to build and compile Go source code into executable programs or libraries. The `-o` option specifies an output file name for the resulting binary or library. So, when you run `go build -o outputfilename yourfile.go`, it compiles the source code file "yourfile.go" and saves the output as the specified filename "outputfilename".'
+        overlay: '[AI] The `go build` command with the `-overlay` flag is a feature in Go programming language''s build system that allows merging custom file modifications on top of a pre-existing binary or archive. It doesn''t create a new binary, but instead applies custom replacements or additions to existing files within the Go workspace or packages being built. This can be useful for making local modifications to libraries without altering their original source code.'
+        p: '[AI] The `go build -p` command is used in the Go programming language to display information about the current build, including the GOOS and GOARCH environment variables that determine the target operating system and architecture, the Go version being used, and the location of the output binary file(s). It does not actually build anything, but only provides this metadata.'
+        pgo: '[AI] `go build -pgo` is a command used in Go programming language to build and run a Go project with Profile-Guided Optimization (PGO) enabled. PGO is a compilation mode that improves the performance of Go programs by using profile data during the linking process to optimize the code based on actual usage patterns. The `go build` command is used for compiling and linking Go sources into executables, while adding `-pgo` flag enables PGO.'
+        pkgdir: |-
+            [AI] The `go build` command with the `-pkgdir` flag is used to build Go projects and place the compiled packages into a specific output directory instead of the default one.
+
+            When you run `go build -o outfile main.go`, it will create an executable named "outfile" in the current directory. However, if you want to build multiple packages within your project and collect them in a separate folder, you can use `-pkgdir`. For example:
+
+            ```
+            $ mkdir pkg
+            $ go build -pkgdir=pkg/...
+            ```
+
+            This command will place the compiled packages (.a or .so files for static archives, .o for object files) inside the "pkg" directory. This can be useful when working on a large Go project with multiple sub-packages that need to be built and managed separately.
+        race: '[AI] `go build -race` is a command used in Go programming language to perform race detection during compilation. Race conditions are bugs that can occur when two or more goroutines access shared memory concurrently in an unsynchronized way, leading to unexpected behavior or errors. The `-race` flag enables the Go compiler to run the program with additional instrumentation to detect such race conditions at compile time. If any race is detected, it will be reported with a message indicating the goroutines involved and the memory locations causing the conflict.'
+        tags: '[AI] The `go build` command is a tool in Go programming language used to compile and build Go source code into executable binaries or shared libraries. The `-tags` option is a build constraint that allows specifying alternative build configurations for specific platforms or conditions. With the `-tags` flag, you can selectively enable or disable certain features or optimizations during the build process by defining tags in your Go source code using the `// +build` directives. For instance, `// +build windows` would build only on Windows platforms, and `// +build !linux` would exclude Linux systems from being built. By combining multiple tags with logical operators (`&&`, `||`, or `!`), you can define more complex build configurations for your project.'
+        toolexec: |-
+            [AI] `go build -tooldirs` and `go build -toolexec` are Go command-line options used for building and installing Go tools.
+
+            `go build -tooldirs` creates a standard Go installation directory structure under $GOPATH/bin or $GOPATH/usr/local/bin, with separate directories for each tool version. This is the default behavior when you build a Go tool using the `go build` command.
+
+            On the other hand, `go build -toolexec` builds and installs the tool in an executable format without creating any separate directories. Instead, it places the compiled binary directly into $GOPATH/bin or $GOPATH/usr/local/bin. This option can be useful when you want to quickly test a new version of a tool without modifying your Go installation path or when you're working on multiple versions of the same tool at once.
+        trimpath: '[AI] `go build -trimpath` is a command used in Go programming language to build and produce an executable or a static binary from Go source files. The `-trimpath` flag is optional and its primary purpose is to remove the build and import paths from the generated binary''s debug information and symbols. This can be useful for distributing the binary, as it allows others to use it without needing to have your specific import and build paths. By using this flag, you are reducing the size of the binary and keeping the dependencies within the binary itself.'
+        v: '[AI] `go build -v` is a command in Go programming language used to compile and build Go source code files into executable programs. The `-v` flag, short for verbose, enables detailed output during the build process, displaying each step taken by the compiler and linker, as well as version information of the Go Compiler (go toolchain) being used.'
+        work: '[AI] `go build -work` is a command used in Go programming language to perform a work-based build of an application. It compiles and builds all the packages required by the main package into a single binary file or executable, rather than creating separate binaries for each package. This is useful when you want to distribute a single executable for your application, or when deploying to certain environments where multiple binaries are not allowed. The `-work` flag ensures that all necessary dependencies are included and built into the final output.'
+        x: '[AI] `go build -x` is a command used in Go programming language to build all the dependent packages required to build current project, but it will not build the current project itself. It generates a list of packages and their dependencies that need to be built, and prints out the commands necessary to build them. This can be useful for setting up a build environment on a new machine or for creating a script to build multiple projects with interdependent packages.'

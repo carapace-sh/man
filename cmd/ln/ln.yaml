@@ -1,0 +1,67 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: ln
+description: make links between files
+flags:
+    --backup?: make a backup of each existing destination file
+    --help: display this help and exit
+    --version: output version information and exit
+    -F: allow the superuser to attempt to hard link directories
+    -L, --logical: dereference TARGETs that are symbolic links
+    -P, --physical: make hard links directly to symbolic links
+    -S, --suffix=: override the usual backup suffix
+    -T, --no-target-directory: treat LINK_NAME as a normal file always
+    -b: like --backup but does not accept an argument
+    -d, --directory: allow the superuser to attempt to hard link directories
+    -f, --force: remove existing destination files
+    -i, --interactive: prompt whether to remove destinations
+    -n, --no-dereference: treat LINK_NAME as a normal file if it is a symbolic link to a directory
+    -r, --relative: create symbolic links relative to link location
+    -s, --symbolic: make symbolic links instead of hard links
+    -t, --target-directory=: specify the DIRECTORY in which to create the links
+    -v, --verbose: print name of each linked file
+documentation:
+    command: '[AI] `ln` is a command used in Unix-based operating systems for linking files or directories. It creates hard links by default, which are exact copies with identical permissions and contents, but with different file names and locations in the file system. If used with the `-s` flag, it creates symbolic links, also known as soft links, which are shortcuts to the original file or directory with a new name and location. The general syntax is: `ln [OPTION]... TARGET_FILE [LINK_NAME]`.'
+    flag:
+        F: '[AI] The `ln` command with the `-F` option is used in Unix and Linux file systems for creating hard links. A hard link is a reference to the original file, sharing the same inode number and all its attributes. The `-F` flag is called the "force" flag. When using this option, if the last argument is not a directory and is already a hard link target with the same name, `ln` will still create a new hard link instead of raising an error. In other words, it overwrites an existing hard link with the same name.'
+        b: |-
+            [AI] The `ln` command with the `-b` option is used to create a symbolic link (also known as a soft link) with a specified target file path and a given link name, along with specifying a new length for the link. This new length sets the size of the symbolic link file itself, creating a link of that exact size.
+
+            For example, `ln -b path/to/target 10M path/to/link` creates a symbolic link named 'path/to/link' that points to 'path/to/target' and is 10 megabytes in size. This can be useful for managing large files or directories by creating smaller links instead.
+
+            Keep in mind that the new file size is just an attribute of the symbolic link itself, and doesn't affect the target file or the data it contains.
+        backup: |-
+            [AI] The `ln --backup` command in Linux is used to create hard links or symbolic links with backup options. The `--backup` option tells the link command to make a backup of any existing file before creating a new link. There are two types of backups:
+
+            1. `--backup=number`: This option creates a backup with a number appended to the original filename (e.g., `backup1`, `backup2`, etc.).
+            2. `--backup=none`: This option doesn't create any backup files.
+
+            By default, `--backup=number` is used if no value is specified. If you don't want backups at all, use the `--backup=none` option instead.
+        directory: '[AI] The `ln --directory` option is used with the Linux `ln` (link) command to create a new empty directory that is a hard link or a symbolic link (depending on other options set) of an existing directory. For example, `ln --directory source_dir target_dir` creates an identical link named `target_dir` to the existing directory `source_dir`. Changes made to either directory will be reflected in both since they are linked. If you use a symbolic link (`--symbolic --directory`), the new directory will behave as a shortcut or alias to the original one, but keep its own separate permissions and contents.'
+        force: '[AI] The `ln --force` or `ln -f` command in Linux is used to create hard links or symbolic links (symlinks), overwriting existing files with the same name and destination path if they already exist. This can be useful when you want to ensure that a link is created or updated without prompting for confirmation. Be cautious as using this option may cause unintended file deletion if used incorrectly.'
+        help: '[AI] The `ln --help` command is used in Unix-based systems to display help information about the `ln` (link) utility. This command shows a detailed description of what `ln` does, its usage syntax, and a list of available options and their meanings. It assists users in understanding how to create and manage symbolic links or hard links between files or directories in the file system.'
+        interactive: '[AI] The `ln --interactive` command in Linux is a version of the link command with an interactive option. It allows you to create hard links or symbolic links between files, but before completing the linking process, it will prompt for confirmation before overwriting existing links or files with the same name in the destination directory. This can help prevent unintended file modifications and ensures a higher level of caution when linking files.'
+        logical: '[AI] The `ln --logical` or `ln -s` command in Linux is used to create a symbolic link (also called a soft link). This type of link points to the location of another file or directory, but does not copy its content. When you access the symbolic link, it acts as if you have accessed the original file or directory. The `--logical` or `-s` option is used specifically to create a symbolic link instead of a hard link with the same name in the target directory.'
+        no-dereference: '[AI] The `ln --no-dereference` command in Linux is used to create hard links, instead of symbolic links (default behavior of `ln`). A hard link is a separate file name that points directly to the same data as another file. This means that both files have the same inode number and accessing one file will modify the original data. In contrast, symbolic links are pointers to other files or directories, and they do not contain any data themselves. The `--no-dereference` option is used when dealing with symbolic links or other special files, to prevent `ln` from following these links while creating hard links.'
+        no-target-directory: |-
+            [AI] The `ln` command in Linux is used to create links between files and directories. The `--no-target-directory` option is used when creating a symbolic link (symlink) to a file, and you don't want the symlink to be placed inside a target directory.
+
+            With this option, if both the source file and the desired symlink are in different directories, you can create the symlink directly in the current directory without having to navigate to the parent directory of the target. For example:
+
+            ```bash
+            $ pwd
+            /home/user/project1
+            $ touch sourceFile.txt
+            $ ln --no-target-directory ../targetDirectory/sourceFile.txt .
+            $ ls -l
+            total 0
+            lrwxrwxrwx 1 user user  8 Nov 23 17:32 sourceFile.txt -> ../../targetDirectory/sourceFile.txt
+            ```
+
+            In the example above, a symlink named `sourceFile.txt` is created in the current directory `project1`, pointing to the original file located in `targetDirectory`. This option avoids having to navigate to the parent directory (`..`) of `targetDirectory` explicitly.
+        physical: '[AI] The `ln --physical` or `ln --hard` command in Linux is used to create a hard link between two files. A hard link is not a copy of the file, but rather a direct reference to the original file''s inode (data structure holding metadata about the file). This means that changes made to either file will be reflected in both since they point to the same underlying data. The `ln` command with no options creates a symbolic link (also called a soft link), which is different and behaves like a shortcut or alias instead of a direct reference.'
+        relative: '[AI] The `ln --relative` option is used with the Linux `ln` (link) command to create symbolic links (symlinks) with relative pathnames instead of absolute ones. When using this option, the symlink points to a location relative to the current working directory, rather than an absolute file or directory path. This can be useful for creating symlinks that are easier to move and manage within a project.'
+        suffix: '[AI] The `ln --suffix` option is used with the `ln` (link) command in Unix-based systems. It modifies the behavior of the `ln` command by appending a given suffix to the target file names when creating new symbolic links. For instance, if you use the command `ln --suffix=.bak myfile myfile.bak`, it will create a symbolic link named `myfile.bak` that refers to `myfile`.'
+        symbolic: '[AI] The `ln --symbolic` or `ln -s` command in Linux is used to create a symbolic link (also called a soft link). A symbolic link is a special type of file that points to another file or directory in the file system. When you access the symbolic link, the operating system automatically follows the link to the actual file or directory. Symbolic links are particularly useful when you want to create an alias for a file or directory that exists in a different location in the file system. For example, `ln -s /path/to/original /path/to/symbolic_link` will create a symbolic link named `symbolic_link` at the current location that points to the file or directory located at `/path/to/original`.'
+        target-directory: '[AI] The `ln --target-directory` option in Linux is used when creating a symbolic link (symlink) with the `ln` command, where the target of the link is a directory instead of a file. When this option is provided, the symlink will be created as a "directory symlink" or "soft link to a directory," allowing users to access the linked directory through the symlink in the current location. This can be useful for simplifying directory paths or creating aliases for frequently used directories.'
+        verbose: '[AI] The `ln --verbose` command in Linux is used to create symbolic links (also known as soft links) with the verbose mode option enabled will display detailed information about the link creation process. It prints out the names of both the original file and the new symbolic link being created, along with their corresponding paths. This can be helpful for understanding what files are being linked and where they are located in the file system.'
+        version: '[AI] The `ln --version` command is used to display the version information of the `ln` (link) utility in Linux or Unix-based systems. It is a part of the core utilities and is typically installed by default. When executed, it prints out detailed information about the linker, including its name, version number, and compilation information such as the date, operating system, and compiler used.'

@@ -1,0 +1,160 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: sort
+description: sort lines of text files
+flags:
+    --batch-size=: merge at most NMERGE inputs at once
+    --compress-program=: compress temporaries with PROG
+    --debug: annotate the part of the line used to sort, and warn about questionable usage to stderr
+    --files0-from=: read input from the files specified by NUL-terminated names in file F
+    --help: display this help and exit
+    --parallel=: change the number of sorts run concurrently to N
+    --random-source=: get random bytes from FILE
+    --sort=: sort according to WORD
+    --version: output version information and exit
+    -C=: --check=silent  like -c, but do not report first bad line
+    -M, --month-sort: compare (unknown) < 'JAN' < ... < 'DEC'
+    -R, --random-sort: shuffle, but group identical keys.  See shuf(1)
+    -S, --buffer-size=: use SIZE for main memory buffer
+    -T, --temporary-directory=: use DIR for temporaries, not $TMPDIR or /tmp;
+    -V, --version-sort: natural sort of (version) numbers within text
+    -b, --ignore-leading-blanks: ignore leading blanks
+    -c, --check=: check for sorted input; do not sort
+    -d, --dictionary-order: consider only blanks and alphanumeric characters
+    -f, --ignore-case: fold lower case to upper case characters
+    -g, --general-numeric-sort: compare according to general numerical value
+    -h, --human-numeric-sort: compare human readable numbers (e.g., 2K 1G)
+    -i, --ignore-nonprinting: consider only printable characters
+    -k, --key=: sort via a key; KEYDEF gives location and type
+    -m, --merge: merge already sorted files; do not sort
+    -n, --numeric-sort: compare according to string numerical value
+    -o, --output=: write result to FILE instead of standard output
+    -r, --reverse: reverse the result of comparisons
+    -s, --stable: stabilize sort by disabling last-resort comparison
+    -t, --field-separator=: use SEP instead of non-blank to blank transition
+    -u, --unique: with -c, check for strict ordering; without -c, output only the first of an equal run
+    -z, --zero-terminated: line delimiter is NUL, not newline
+documentation:
+    command: |-
+        [AI] `sort` is a common Unix utility used to read lines from input, sort them based on specified keys, and write the sorted output to standard output or a file. The basic syntax is:
+
+        ```sh
+        sort [OPTIONS] [FILE]...
+        ```
+
+        Here are some key options:
+
+        - `-k` (or `--key=KEY`) followed by the field number or expression, sorts lines based on that key.
+        - `-n` (or `--numeric-keys`), sorts keys numerically instead of as strings.
+        - `-r` (or `--reverse`), reverses the sort order.
+        - `-t` (or `--tabstop=TABS`), sets the tab stop size to TABS characters.
+
+        For example, if we have a file named 'numbers.txt' with unsorted numbers:
+
+        ```
+        3 5
+        1 2
+        4 6
+        2 4
+        ```
+
+        We can sort the numbers numerically using `sort -n` command:
+
+        ```sh
+        $ sort -n numbers.txt
+        1 2
+        3 5
+        4 6
+        ```
+
+        Or, if we have a file named 'names.txt' with unsorted lines containing names:
+
+        ```
+        Mary Apple
+        John Banana
+        Tom Orange
+        ```
+
+        We can sort the lines alphabetically using the default behavior of `sort`:
+
+        ```sh
+        $ sort names.txt
+        Apple Mary
+        Banana John
+        Orange Tom
+        ```
+
+        If we want to sort them alphabetically based on the second field (the name), we should use the `-k` option with the appropriate field number:
+
+        ```sh
+        $ sort -t ' ' -k2 names.txt
+        Apple Mary
+        Banana John
+        Orange Tom
+        ```
+    flag:
+        C: '[AI] The `sort -C` command in Unix or Linux is used to sort lines of text in lexicographical order, with a case sensitivity that respects the original case (case-insensitive by default). The `-C` option stands for "ignore leading whitespace and treat all lines as sorted if they begin with the same string". This can be useful when sorting files where each line starts with the same text but different data.'
+        batch-size: '[AI] The `sort` command with the option `--batch-size` is used to sort large files or data in smaller portions, improving the performance and reducing memory usage. Instead of loading the entire data into memory for sorting at once, the data is processed in smaller batches (defined by the batch size) which are then merged and sorted in memory. This approach can significantly reduce I/O overhead and make the sorting process more efficient on large data sets or systems with limited resources.'
+        buffer-size: '[AI] The `sort` command with the `--buffer-size` option is used to optimize I/O when sorting large files in Unix-like operating systems. This option specifies the size of the output buffer, i.e., the amount of data that will be written to the output file before it is flushed to disk. A larger buffer size can improve performance by reducing the number of disk writes, but may increase memory usage and latency due to larger cache misses. The default value for `--buffer-size` depends on the implementation; typically it''s 8 or 16 kilobytes, but it can be overridden with an explicit argument in bytes, e.g., `sort --buffer-size=64k`.'
+        check: '[AI] `sort --check` is a command in Unix-like operating systems used to check if two sorted files are identical or not. It reads two files, one after another, and outputs the lines that differ between them. This can be useful when merging or comparing the results of data processing or filtering commands. The `--check` option is used to suppress the output of the sorted files themselves and only display the differences found.'
+        compress-program: '[AI] The `sort --compress-program` is a command-line option for the `sort` utility in Unix-like operating systems. It''s used to specify an external program that can compress and decompress data, allowing `sort` to read and write data in a compressed format, reducing the overall disk I/O needed during sorting. By using this option with `gzip`, for instance, the sorted output is produced in a compressed format directly, which can be beneficial when dealing with large datasets.'
+        debug: '[AI] The `sort --debug` command is a utility in Unix-like operating systems for sorting text data. The `--debug` option is used to display detailed information about the sorting process, including the comparison of each pair of input lines and the application of any specified sorting rules. This information can be helpful for debugging complex sorting tasks or understanding how the `sort` command processes data.'
+        dictionary-order: '[AI] The `sort` command with the option `--dictionary-order` (or just `-d`) sorts lines in lexicographic order, which is equivalent to alphabetical order for text files. It treats each line as a single string and compares them based on their characters from left to right. This is often used when working with text data where you want to ensure that words or labels are sorted consistently.'
+        field-separator: '[AI] The `sort` command in Unix-based systems is used to sort lines of text files. The option `--field-separator` (`-t`) allows you to specify a different character as the field separator, instead of the default tab or space characters. For example, `sort --field-separator='','' file.csv` will sort the contents of `file.csv` using commas as field separators. This is particularly useful when working with CSV (Comma Separated Values) files.'
+        files0-from: '[AI] `sort --files=0-` is a command in Unix-like operating systems used to sort filenames, with the `--files` option specifying that input comes from filenames instead of standard input. The `0-` argument indicates that the files to be sorted should be taken from file descriptors 0 and onwards in order of appearance, with file descriptor 0 being the standard input. In summary, this command sorts the list of filenames provided as file descriptors starting from the first one (standard input).'
+        general-numeric-sort: '[AI] The `sort` command in Unix or Linux is used to sort lines of text. The option `--general-numeric-sort` (or just `-n`) tells `sort` to perform a numeric sort, treating all input as if it were numbers. This means that numbers will be sorted in ascending order, and any non-numeric characters will not affect the sorting order of adjacent numbers. If you want to sort text with both numbers and text while ensuring that numbers are sorted numerically, use this option.'
+        help: '[AI] `sort --help` is a command in Unix-like operating systems used to sort lines of text. The `--help` option displays detailed information about how to use the `sort` command, including available options, their meanings, and examples of usage. This can be useful for users who want to understand how to effectively apply this command to their specific data sorting needs.'
+        human-numeric-sort: |-
+            [AI] The `sort` command with the options `--human-numeric-sort` is used to sort lines of text in a file or input. It combines three sorting types:
+
+            1. `--human`: This option interprets numbers following an alphanumeric string as if they were part of a single record, preserving the original formatting. For example, "10 items" will be sorted as one record instead of being separated into individual records (i.e., "10" and "items").
+
+            2. `--numeric`: This option sorts numbers numerically in ascending order (by default).
+
+            3. `--sort`: This is the command to actually perform a sorting operation on the input.
+
+            So, using all three options together (`sort --human-numeric-sort`) ensures that your data retains its original formatting with numbers treated as part of the record while being sorted numerically.
+        ignore-case: '[AI] The `sort` command with the option `--ignore-case` in Unix or Linux environments is used for sorting text files while ignoring case differences. This means that uppercase and lowercase letters are treated as equivalent when comparing and sorting the lines of the file. For instance, ''Apple'' and ''apple'' will be considered the same item during sorting. By default, `sort` is case-sensitive.'
+        ignore-leading-blanks: '[AI] The `sort --ignore-leading-blanks` command is a utility in Unix and Unix-like operating systems for sorting lines of text. The `--ignore-leading-blanks` option tells the `sort` command to ignore leading blank spaces when comparing lines, allowing unblanked lines with indented text to be sorted as if they had no leading whitespace. This can be useful when dealing with configuration files or source code where indentation is significant but should not affect sorting order.'
+        ignore-nonprinting: '[AI] The `sort` command with the option `--ignore-nonprinting` tells the sorting algorithm to ignore bytes that are not considered printing characters during the sorting process. This can be useful when dealing with files containing binary data or special characters, ensuring correct sorting based on the intended logic and not just the ASCII value of each byte.'
+        key: |-
+            [AI] The `sort --key` option in Unix-like operating systems is used with the `sort` command to sort lines based on specified keys. This allows for sorting data where each record or line has multiple fields, but you only want to base the sort order on a specific field or key.
+
+            The syntax of using this option is `sort --key=FIELD_OR_EXPRESSION FILE`. For example, `sort --key=2 file.txt` will sort the contents of `file.txt` based on the second column or field. The `--numeric-key` or `-n` option can be added to perform numeric sorting on the key instead of text sorting.
+
+            This is particularly useful for sorting CSV, TSV or other tabular data files.
+        merge: '[AI] `sort --merge` is a command in Unix-like operating systems used for sorting and merging already sorted files. The `--merge` option tells `sort` to merge multiple sorted files into a single, sorted output stream. It assumes the input files are nearly sorted or have common keys, allowing efficient merging.'
+        month-sort: '[AI] The `sort` command with the option `--month-sort` is used in Unix-based systems to sort lines containing dates, especially those formatted as month-day-year. This option automatically interprets date strings in this format and sorts them accordingly based on the calendar order. This can be useful for organizing files or data with timestamped information by date.'
+        numeric-sort: '[AI] `sort --numeric-sort` is a command in Unix or Linux operating systems used for sorting text files. The `--numeric-sort` option tells the sort utility to interpret input fields as numbers during the sorting process. This is particularly useful when dealing with columns that contain numerical data, ensuring that the data is sorted numerically rather than lexicographically (as it would be by default).'
+        output: '[AI] The `sort --output` command is a utility in Unix and Unix-like operating systems for sorting lines of text data. The `--output` option specifies the file to which the sorted output should be written. For example, `sort input.txt --output output.txt` will read from `input.txt`, sort the lines, and write the result to `output.txt`. If no output file is specified, the sorted output will be printed to the standard output (terminal by default).'
+        parallel: |-
+            [AI] The `sort --parallel` command in Unix-like operating systems is a utility used to sort lines of text files. The `--parallel` option (or `-j`) enables parallel sorting, which means that multiple input files or input streams are read and sorted in parallel using multiple processing units. This can significantly reduce the time required for sorting large files compared to sequential sorting.
+
+            For instance, if you have several text files to sort, instead of sorting each file one at a time, `sort --parallel` will read data from multiple files concurrently and merge the sorted outputs as they become available, thus improving overall performance. The default number of input streams processed in parallel is determined by the system's number of processors or threads available. Users can also specify a custom number using the `--numthreads` option.
+        random-sort: '[AI] The `sort` command with the option `--random-seed` or `-R` in some implementations, sorts the input data randomly instead of alphabetically or numerically by default. When used without any input files, it reads from standard input and prints the output in a random order each time it is run, making the results unpredictable. It''s important to note that using this option does not ensure true randomness as the sequence is still deterministic based on the current system state.'
+        random-source: |-
+            [AI] The `sort --random-seed` command in Unix-based systems is used to sort lines of text in random order with a specified seed value for randomness. The option `--random-seed` followed by an integer argument sets the seed value. Without this option, the sorting order will be determined randomly each time without a fixed pattern.
+
+            The `--random-source` option, which is less common, specifies that the source of true randomness to use for shuffling should come from a file instead of the system's entropy pool. The given file should contain enough random data (ideally produced by an unpredictable source) to supply sufficient entropy for generating diverse random sequences when piped into `sort`.
+
+            In summary, `sort --random-seed N` sorts lines randomly with a fixed seed, while `sort --random-source FILE` sorts lines randomly using the content of the given file as the randomness source.
+        reverse: '[AI] `sort --reverse` is a command in Unix-based operating systems used to sort lines of text in ascending order by default. The `--reverse` option reverses the sorting order, meaning it sorts the lines in descending order instead. For example, if you have a file with numbers like `1 5 2 4 3`, running `sort` would output `1 2 3 4 5`. But by using `sort --reverse`, the output will be `5 4 3 2 1`.'
+        sort: '[AI] The `sort --sort` command in Unix-like operating systems is used to sort lines of text files. The `--sort` option specifies that the sorting should be based on a specific key or column. For example, `sort --key=1 file.txt` would sort the lines based on the first column or field of each line in the file. Without specifying a key, `sort` defaults to sorting the entire line as a single entity.'
+        stable: '[AI] `sort --stable` is a command in Unix-based operating systems used to sort lines of text in ascending order from a file or input stream. The `--stable` option ensures that equal lines remain equal, preserving the original order of equal lines based on all fields, not just the first one (which is the default behavior when no option is specified). This is useful for maintaining the integrity of data with multiple columns or fields.'
+        temporary-directory: |-
+            [AI] The `sort` command with the option `--temporary-directory` (often shortened as `--temp-dir`) is used when sorting large files or data sets to improve performance and reduce disk I/O.
+
+            Instead of writing sorted output directly to the standard output stream, the `sort` command creates a temporary file in the specified directory for storing intermediate results. This allows sorting to be performed in larger chunks, reducing the number of read/write operations required between the input data source and output destination.
+
+            Additionally, using a dedicated temporary directory can help avoid potential naming conflicts with other processes or files on the system. The `--temp-dir` option takes a path as its argument, and sort will use that directory for creating the temporary files.
+        unique: '[AI] The `sort --unique` command is a combination of two Unix utilities, `sort` and its option `--unique`. The `sort` command is used to read lines from an input source (like a file), sort them based on specified keys, and write the sorted output to the standard output or a file. The `--unique` option filters out any duplicate lines when sorting. In simpler terms, it sorts lines in ascending order and keeps only the first occurrence of each unique line.'
+        version: '[AI] `sort --version` is a command used in Unix-based operating systems to display the version information of the sort utility installed on the system. The sort utility is a common data processing tool for arranging text lines in different orders. When you run `sort --version`, it prints out the name of the sort program, its release version number, and sometimes additional details such as the compilation date or operating system it was built for.'
+        version-sort: |-
+            [AI] `sort --version-sort` is a command used in Unix-based systems for sorting lines of text. The `--version-sort` option specifically sorts output in lexicographical order based on version numbers. This means that when sorting software package names with version numbers, packages with lower version numbers will be listed before those with higher versions. For example:
+
+            ```bash
+            $ echo "package1-v1.2.3\npackage1-v1.4.5\npackage2-v0.9.8\npackage2-v1.0.1" | sort --version-sort
+            package2-v0.9.8
+            package1-v1.2.3
+            package1-v1.4.5
+            ```
+        zero-terminated: '[AI] The `sort` command with the `--zero-terminated` option is used in Unix-based systems for sorting files where each line contains zero-terminated strings instead of the default newline-terminated strings. In other words, it sorts strings that end with a null character (''\0'') rather than a newline character (''\n''). This option is particularly useful when working with binary data or certain file formats that use null characters as delimiters.'

@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: uncordon NODE
+description: Mark node as schedulable
+group: cluster management
+flags:
+    --dry-run?: Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
+    -l, --selector=: Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2). Matching objects must satisfy all of the specified label constraints.
+documentation:
+    command: '[AI] `kubectl uncordon` is a command used in Kubernetes to mark a node as unscheduled, allowing it to accept new pods for scheduling. When a node is uncordoned, the Kubernetes scheduler can assign new workloads to that node. The opposite of this command is `kubectl cordon`, which marks a node as unschedulable and prevents new pods from being scheduled on it.'
+    flag:
+        dry-run: '[AI] `kubectl uncordon --dry-run` is a command used with Kubernetes'' `kubectl` tool to simulate the effect of running `uncordon` against one or more nodes, without actually applying the changes. The `uncordon` action removes the taint `node-role.kubernetes.io/multi-tenant:NoSingleNode` from a node, allowing it to be scheduled for new pods by the Kubernetes scheduler. By using `--dry-run`, you can see what nodes would be affected without making any changes to the live cluster.'
+        selector: '[AI] The `kubectl uncordon` command is used in Kubernetes to mark nodes that were previously marked as unschedulable (tainted) back as schedulable, allowing pods to be scheduled on them again. The `--selector` option filters the selection of nodes to be cordoned or uncordoned based on a label selector. For example, `kubectl uncordon --selector=node-app=nginx` would uncordon all nodes with the label `node-app=nginx`. This can be useful for bringing back specific groups of nodes into the node pool for scheduling.'

@@ -1,0 +1,106 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: du
+description: estimate file space usage
+flags:
+    --apparent-size: print apparent sizes, rather than disk usage; although
+    --exclude=: exclude files that match PATTERN
+    --files0-from=: summarize disk usage of the
+    --help: display this help and exit
+    --inodes: list inode usage information instead of block usage
+    --si: like -h, but use powers of 1000 not 1024
+    --time-style=: 'show times using STYLE, which can be:'
+    --time=: 'show time as WORD instead of modification time:'
+    --version: output version information and exit
+    -0, --null: end each output line with NUL, not newline
+    -B, --block-size=: scale sizes by SIZE before printing them; e.g.,
+    -D, --dereference-args: dereference only symlinks that are listed on the
+    -H: equivalent to --dereference-args (-D)
+    -L, --dereference: dereference all symbolic links
+    -P, --no-dereference: don't follow any symbolic links (this is the default)
+    -S, --separate-dirs: for directories do not include size of subdirectories
+    -X, --exclude-from=: exclude files that match any pattern in FILE
+    -a, --all: write counts for all files, not just directories
+    -b, --bytes: equivalent to '--apparent-size --block-size=1'
+    -c, --total: produce a grand total
+    -d, --max-depth=: print the total for a directory (or file, with --all)
+    -h, --human-readable: print sizes in human readable format (e.g., 1K 234M 2G)
+    -k: like --block-size=1K
+    -l, --count-links: count sizes many times if hard linked
+    -m: like --block-size=1M
+    -s, --summarize: display only a total for each argument
+    -t, --threshold=: exclude entries smaller than SIZE if positive,
+    -x, --one-file-system: skip directories on different file systems
+documentation:
+    command: '[AI] The `du` command in Unix and Unix-like operating systems is used to estimate the disk usage of files, directories, or even the entire file system. It provides detailed reports on the size consumption by files or directories, including their individual sizes and broken down by file type (regular files, directories, symbolic links, etc.). By default, `du` shows the total disk space used along with the number of inodes occupied. The output can be customized using various options to display the information in different formats.'
+    flag:
+        H: |-
+            [AI] The `du -h` command is a common Unix utility used to estimate the disk usage of files, directories, or the current directory itself. The `-h` option produces output with human-readable sizes (i.e., in KB, MB, GB, etc.). Here's a brief explanation:
+
+            - `du`: The command name stands for "disk usage".
+            - `-h`: The `-h` option (short for 'human-readable') formats the output with sizes in an easy-to-understand human format (Kilobytes, Megabytes, or Gigabytes).
+
+            Example output:
+            ```bash
+            4.0K    ./file1.txt
+            8.5M    ./directory/
+            12G    ./large_directory/
+            ```
+            Here, `4.0K` represents 4 Kilobytes, `8.5M` represents 8.5 Megabytes, and `12G` represents 12 Gigabytes.
+        all: '[AI] The `du --all` command is a Unix utility used to estimate the disk usage of files and directories. The `--all` option instructs `du` to display the disk usage for each file and directory individually, including hidden files and empty directories. This option shows the detailed breakdown of the disk usage within a specified directory hierarchy.'
+        apparent-size: '[AI] The `du --apparent-size` command is a Unix utility used to estimate the disk usage of files and directories. The `--apparent-size` option displays the size of each file as it would be reported by the `ls` command, rather than the actual disk usage in blocks. This can make output easier to read and compare when dealing with large amounts of data. For example, instead of displaying the size as a number of bytes or blocks, it will show sizes in a human-readable format such as "10M" for 10 megabytes.'
+        block-size: '[AI] The `du` command with the `--block-size` option in Unix-like operating systems is used to estimate the disk usage of files and directories, displaying the results in blocks of a specified size instead of the default single bytes. This can help improve the readability and accuracy of the output when dealing with large file systems or large files, as it aggregates the file size information based on larger units.'
+        bytes: |-
+            [AI] The `du --bytes` command is a common Unix utility used to estimate the disk usage of files or directories. The `--bytes` option specifies that the output should be displayed in bytes.
+
+            When executed, `du` will traverse the specified directory hierarchy, calculating and displaying the disk usage for each file and subdirectory in human-readable format by default (with units of KB, MB, GB, etc.), but with `--bytes`, it shows the total size of files or directories in bytes. For example:
+
+            ```bash
+            du -h --summarize /path/to/directory | awk '{ print $1 "\t" $3 "\t" $2 }' | awk '{ printf("%s %s %s bytes\n", $1, $2, $3 * 1024) }'
+            ```
+
+            This command is equivalent to using `du --bytes`, but it converts the size values to bytes before displaying them. The output will look like this:
+
+            ```bash
+            ./file.txt            564832 bytes
+            ./directory/          1024064 bytes
+            ...
+            ```
+        count-links: '[AI] The `du --count-links` command in Unix is used to estimate the disk usage of files and directories, showing the total size and the number of hard links for each file or directory. The `--count-links` option specifically displays the number of hard links along with the disk usage information. This can be useful in identifying files that have multiple hard links but take up only a small amount of disk space, as well as assessing overall disk usage.'
+        dereference: '[AI] The `du --dereference` command is a utility in Unix-like operating systems used to estimate the disk usage of files and directories. The `--dereference` option follows symbolic links, meaning it will report the size of the linked-to file instead of the symbolic link itself. This allows for more accurate disk usage calculations when dealing with complex file structures containing symbolic links.'
+        dereference-args: '[AI] The `du --dereference-args` command is a utility in Unix and Linux operating systems used to estimate file space usage. The `--dereference-args` option tells `du` to follow the symbolic links and show the size of the files they point to, rather than the size of the symbolic links themselves. In other words, it provides the total disk usage of all the files and directories, including those that are linked to other files or directories.'
+        exclude: '[AI] `du --exclude` is a command in Unix-like operating systems used to estimate the disk usage of files and directories. The `--exclude` option allows excluding specific files or directories from the estimation based on a given pattern. For instance, `du -h --exclude=''*.log'' directory/` will display the disk usage for all files in the "directory/" except those with the ".log" extension.'
+        exclude-from: '[AI] `du` is a command-line utility in Unix and Unix-like operating systems for estimating file space usage. The option `--exclude-from=FILE` allows specifying a file with a list of patterns to exclude when calculating disk usage. For instance, if you have a file `exclusions.txt` containing the pattern `''/tmp/''`, running `du --exclude-from=exclusions.txt .` will exclude the `/tmp/` directory and its contents from the disk usage calculation.'
+        files0-from: '[AI] The `du --files0-from` command in Unix is used to display disk usage information, specifically the file or directory that each file size belongs to. The `--files0-from` option causes du to print the path of the file or directory for each size entry. This can be useful when analyzing disk usage and wanting to quickly identify which files are consuming the most space.'
+        help: '[AI] `du` is a command-line utility in Unix and Unix-like operating systems used to estimate file sizes and disk usage. The `--help` option is used to display detailed help information about the command''s usage and available options. When you run `du --help`, it will print out a message explaining what the `du` command does, providing examples of its usage, and listing all the available options with brief descriptions.'
+        human-readable: '[AI] The `du` command with the `--human-readable` option is used in Unix-like operating systems to estimate the disk usage of files, directories, and other types of storage objects. This option displays the output in a human-readable format, meaning that the sizes are presented in units of KB (kilobytes), MB (megabytes), GB (gigabytes), or even TB (terabytes), making it easier for users to understand and interpret the results.'
+        inodes: '[AI] The `du --inodes` command is used in Unix-based systems to display disk usage statistics, but with a focus on the number of inodes occupied rather than the total size of files and directories. Inodes are data structures that store metadata about files and directories, including ownership information, permissions, and file size. By using `--inodes`, the output shows the number of inodes used by each directory or file, making it useful for identifying which items are consuming a large number of inodes, which can help with managing file systems more efficiently.'
+        k: '[AI] The `du -k` command is a common Unix utility used to estimate the disk usage of files and directories. The `-k` option specifies that output sizes are displayed in kilobytes. The output is shown in two columns: the first column lists the file or directory name, while the second column shows the size of the entry in kilobytes.'
+        m: '[AI] The `du -m` command is a common Unix utility used to estimate the disk usage of files and directories. The `-m` option specifies that the output should be displayed in units of megabytes (MB) instead of the default blocks. For each item, it displays the total size used on disk.'
+        max-depth: |-
+            [AI] The `du --max-depth` command is a Unix utility used to estimate the disk usage of files and directories. The `--max-depth` option sets a limit on how deep the estimation goes in directories, which can help prevent infinite recursion and reduce output size.
+
+            For example, `du -h --max-depth=1 /path/to/directory` will display the disk usage for the specified directory and its immediate subdirectories, but not any deeper. This is useful when you want to get an approximate size of a directory without including the sizes of its grandchildren and beyond.
+        no-dereference: '[AI] The `du` command with the `--no-dereference` option in Linux is used to estimate the disk usage of files and directories. With the `--no-dereference` option, `du` does not follow symbolic links (also known as symlinks or soft links) when calculating the disk usage. This means that each directory entry will only report the size of the linked file itself, not the size of the file it points to. Without this option, `du` would sum up the sizes of all files that a given symbolic link points to, which might not accurately represent the actual disk space used by the symbolic link.'
+        "null": '[AI] The `du` command with the `--null` option in Unix-based systems is used to estimate the disk usage of files and directories. The `--null` option modifications the output format, replacing separators between fields with null characters, which makes it easier to parse the output in scripts or other programs that may have trouble handling standard separators like whitespace. This can be useful when dealing with large amounts of data or integrating with external tools.'
+        one-file-system: '[AI] The `du` command with the option `--one-file-system` is used in Unix-based systems for displaying disk usage statistics. With this option, `du` shows the disk usage of a single file system at a time, instead of recursively calculating the disk usage for all directories and subdirectories under the specified path. This can be useful when you want to analyze the disk usage of a specific partition or mount point without including the data from other file systems.'
+        separate-dirs: '[AI] The `du --separate-dirs` command in Unix/Linux is used to estimate the disk usage of files and directories. The `--separate-dirs` option causes du to produce output where each line is dedicated to a single directory, with the total being the sum of its subdirectories'' sizes. This can be helpful when analyzing disk usage at different levels of directory hierarchy.'
+        si: |-
+            [AI] `du --si` is a command in Unix-like operating systems used to estimate the disk usage of files and directories. The `--si` option displays the output in a human-readable format using suffixes like KB, MB, GB, etc., instead of raw bytes. The command `du` followed by a directory path is used to display the disk usage for that particular directory. For example:
+
+            ```bash
+            $ du -sh /path/to/directory
+            ```
+
+            Output:
+
+            ```text
+            10M   /path/to/directory
+            ```
+
+            This means that the directory occupies approximately 10 Megabytes of disk space.
+        summarize: '[AI] `du --summary` is a command in Unix-based operating systems used to estimate the disk usage of files and directories in a tree-like structure. The `--summary` option displays only the total disk usage for each directory, along with the number of file and subdirectory entries. It provides a quick overview of how much disk space is being used at each level of the directory hierarchy.'
+        threshold: '[AI] The `du` command with the `--threshold` option is used in Unix-like operating systems for estimating file usage size. It displays the disk usage of files and directories, but only shows those that exceed a specified size threshold. For example, `du -h --threshold=1G /path/to/directory` will display the disk usage information for files and directories under `/path/to/directory` that are larger than 1 gigabyte in size.'
+        time: '[AI] The `du --time` command is a Unix utility used to estimate the disk usage of files and directories. The `--time` option adds a time component to the output, displaying the last modification time along with the file size. This can help in understanding when a particular file or directory was last modified and how much storage space it uses.'
+        time-style: '[AI] The `du --time-style` option in Unix-based commands, specifically `du` (disk usage), modifies the output format of timestamps. It allows users to specify different styles for displaying timestamps, such as absolute (e.g., "Mon Jan 23 14:25:36 EST 2023"), relative (e.g., "+1 day" or "-3 hours"), or ISO-8601 formats. By default, `du` does not display any timestamp, but with this option you can customize the output to meet your specific requirements.'
+        total: '[AI] The `du --total` command is a common Unix utility used to estimate the disk usage of files and directories. The `--total` option displays only the total disk space usage at the bottom of each directory''s output. This can help users quickly determine how much space is being used by a particular directory or the entire file system. For example, running `du --total /` in a terminal will display the total disk usage for the entire file system.'
+        version: '[AI] `du --version` is a command used in Unix-based systems to estimate file sizes and disk usage. The `--version` option is used to display the version information of the `du` utility itself, providing details such as its name, version number, and compilation information.'

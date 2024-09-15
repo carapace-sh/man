@@ -1,0 +1,75 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: cherry-pick
+description: Apply the changes introduced by some existing commits
+group: main
+flags:
+    --abort: cancel the operation and return to the pre-sequence state
+    --allow-empty: preserve empty commits
+    --allow-empty-message: allow empty commit message
+    --cleanup=: set commit message cleanup mode
+    --continue: ontinue the operation in progress
+    --ff: fast forward
+    --keep-redundant-commits: preserve redundant commits
+    --no-gpg-sign: do not GPG-sign commits
+    --no-rerere-autoupdate: disallow rerere mechanism to update the index
+    --quit: forget about the current operation in progress
+    --rerere-autoupdate: allow rerere mechanism to update the index
+    --skip: skip the current commit
+    --strategy=: use the given merge strategy
+    -S, --gpg-sign?: GPG-sign commits
+    -X, --strategy-option=: pass the merge strategy-specific option through to the merge strategy
+    -e, --edit: edit the commit message prior to committing
+    -m, --mainline=: specify parent number to pick relative change
+    -n, --no-commit: apply changes without committing them
+    -s, --signoff: add Signed-off-by line at the end of the commit message
+    -x: append cherry-pick source to original commit message
+documentation:
+    command: '[AI] `git cherry-pick` is a Git command used to apply the changes introduced by a single commit from one branch to another branch. It preserves the author, committer dates, and commit messages. When you run `git cherry-pick <commit>`, Git will extract the changes made in that commit and apply them as new commits on the current branch. If there are conflicts during the application of the changes, you''ll need to resolve them manually before committing the new commits.'
+    flag:
+        abort: '[AI] `git cherry-pick --abort` is a Git command used to abandon a cherry-pick operation that is in progress and keep the working directory and index in their current state before starting the cherry-pick. This command rolls back any changes made during the cherry-pick process without committing them, allowing you to start over or cancel the operation entirely.'
+        allow-empty: '[AI] The `git cherry-pick --allow-empty` command is a Git operation used to apply a specific commit from one branch to another. The `--allow-empty` option allows empty commits, i.e., commits without any changes, to be picked and applied. Empty commits can represent things like tag creation or other metadata changes, which may be needed when transferring commits between branches with different histories.'
+        allow-empty-message: '[AI] `git cherry-pick` is a command used to apply a single commit from one branch to another. The `--allow-empty-message` option allows committing an empty message, which means committing without including a commit message at all. This can be useful when applying a commit with the same message as the one being picked up, or in cases where the commit message is not important for the task at hand. However, it''s generally recommended to include descriptive messages in your commits for clarity and traceability.'
+        cleanup: '[AI] `git cherry-pick --cleanup` is a Git command used to remove the applied and failed commit(s) from the current branch after a cherry-picking operation. It leaves the working directory, index, and HEAD untouched and only modifies the refs. This command is helpful when you accidentally pick the wrong commit or when the commit fails to apply cleanly. By using `--cleanup`, you can easily go back to your previous state without manually removing the unwanted commits.'
+        continue: '[AI] `git cherry-pick --continue` is a command used in Git version control system to continue applying a previously started cherry-pick operation. When you use `git cherry-pick <commit>`, it applies the changes introduced in that commit to your current branch, but this process can be interrupted before completion. If you want to resume the application of those changes, you can use `git cherry-pick --continue`. This command tells Git to apply any remaining changes from the previously started cherry-pick operation.'
+        edit: '[AI] `git cherry-pick --edit` is a Git command used to apply a specific commit from one branch to another. The `--edit` option enables an interactive editing process before the commit is actually applied, allowing you to modify the changes made in the commit if necessary. This way, you can review and adjust the code differences between the source and target branches before they are merged.'
+        ff: '[AI] `git cherry-pick --ff` is a Git command used to apply a commit from one branch to another, creating a fast-forward merge if possible. The `--ff` option stands for "fast-forward," indicating that the current branch can be directly updated with the commits from another branch without creating a new merge commit. If the branches have diverged and there are conflicts, this command won''t work and you should use other Git merging methods instead.'
+        gpg-sign: '[AI] `git cherry-pick --gpg-sign` is a Git command used to apply a specific commit from one branch to another while signing the commit message with GPG (GNU Privacy Guard) keys for added security. The `--gpg-sign` option ensures that the committed changes are digitally signed using the configured GPG key before creating a new commit in the target branch. This helps maintain the authenticity and integrity of the commits during development collaborations.'
+        keep-redundant-commits: '[AI] The `git cherry-pick` command is a Git utility used to apply the changes introduced by some existing commits to the current branch. When you use the option `--keep-redundant-commits`, Git will not fast-forward or squash commits during the cherry-pick process, even if they introduce identical changes to the current branch. This means that all applied commits, including those with redundant changes, will be kept as separate commits in the new branch.'
+        mainline: '[AI] `git cherry-pick --mainline` is a Git command used to apply a specific commit from one branch to another, usually the mainline or master branch. This command retrieves the most recent common ancestor of both branches and then applies the specified commit on top of it. The result is that the changes introduced by the selected commit are integrated into the target branch. It''s essential to ensure that the cherry-picked commit does not introduce any conflicts before or after the mainline branch, as resolving these may require additional effort.'
+        no-commit: '[AI] `git cherry-pick --no-commit` is a command used in Git version control system to apply the changes introduced by a specific commit to the current working directory, without creating a new commit. This means that the changes are only applied locally and do not affect the project history unless you choose to create a new commit manually after making any necessary adjustments. The `--no-commit` option prevents Git from automatically committing the changes after the cherry-pick operation is completed.'
+        no-gpg-sign: '[AI] `git cherry-pick --no-gpg-sign` is a command used in Git version control system to apply a specific commit from one branch to another, bypassing the GPG signature verification process. This means that the signed commits will not be verified for authenticity using the given key before applying the changes. It''s important to note that disabling this security feature should only be done when trusted sources are involved and with caution, as it may introduce potential security risks.'
+        no-rerere-autoupdate: '[AI] `git cherry-pick --no-rerere-autoupdate` is a Git command used to apply a specific commit from one branch to another. The `--no-rerere-autoupdate` option disables the automatic resolution of duplicate commits during the cherry-pick process. This means that if there are any conflicts between the commits being picked and the current branch, Git will not attempt to automatically merge or resolve them based on previous commits. Instead, it will force the user to manually resolve any conflicts before continuing with the cherry-pick operation.'
+        quit: '[AI] `git cherry-pick --quit` is a Git command used to apply an individual commit from one branch to another, but if there are any conflicts during the application process, it will stop at the first conflict and leave the working directory in an unchanged state without resolving or committing anything. It''s useful when you want to see the conflicts before deciding how to proceed with the cherry-pick operation.'
+        rerere-autoupdate: |-
+            [AI] `git cherry-pick --rerere-autoupdate` is a Git command used to apply a specific commit, or a range of commits, from one branch to another. The `--rerere-autoupdate` option enables an optimization called "Rerere (Resolved Edition Record and Replay)".
+
+            With Rerere enabled, Git stores the differences between the base commit and the commit being picked when it's first encountered during a cherry-pick. If the same commit is picked again, Git will try to apply the stored changes instead of running a three-way merge. This can speed up the cherry-pick process when dealing with large or frequently-cherry-picked commits, as it avoids redundant merges and conflict resolution steps.
+
+            When you run `git cherry-pick --rerere-autoupdate <commit>`, Git will apply the changes from the commit using the stored information if available. If there are any conflicts, you'll still need to resolve them manually.
+        signoff: '[AI] `git cherry-pick --signoff` is a Git command used to apply a specific commit from one branch to another. The `--signoff` option adds a "Signed-off-by" line in the commit message, which records the author''s name and email for the newly created commit, confirming that they have reviewed and approve the changes made in the committed code. This is often used when contributing to open-source projects where maintainers require commits to be signed off before merging them into their repository.'
+        skip: '[AI] `git cherry-pick --skip` is a Git command used to skip the application of a specific commit during a cherry-pick operation. When you run `git cherry-pick <commit>`, Git attempts to apply the changes introduced by that commit to your current branch. If for some reason, you decide that you don''t want to apply that commit, you can use `--skip` to skip it and move on to the next one. In other words, `git cherry-pick --skip <commit>` skips the application of the specified commit without making any changes to your working directory or repository.'
+        strategy: |-
+            [AI] `git cherry-pick` is a command used to apply the changes introduced by a specific commit to the current branch. The `--strategy` option specifies how Git should handle non-fast-forward changes, which may arise due to conflicting commits or branches.
+
+            There are three strategies available: "resolve", "recursive" (default), and "ours". Each strategy behaves differently when encountering merge conflicts:
+
+            1. `--strategy=resolve`: This strategy attempts to automatically resolve merge conflicts by editing the conflicted files in a text editor, asking the user to manually edit them. Use this option if you prefer to have more control over resolving merge conflicts yourself.
+
+            2. `--strategy=recursive`: This is the default strategy. It tries to apply a commit's changes recursively and automatically merges any conflicts it encounters. If there are unresolvable merge conflicts, Git will leave the conflicted files untouched in the working directory for you to resolve manually.
+
+            3. `--strategy=ours`: This strategy discards the changes made by the commit being picked and keeps only the current branch's changes when encountering merge conflicts. It can be useful if you're sure that the changes in the current branch are correct, and you want to ignore any conflicting changes brought by the cherry-picked commit.
+
+            By specifying a strategy with `git cherry-pick --strategy`, you can control how Git handles merge conflicts during the cherry-pick process.
+        strategy-option: |-
+            [AI] `git cherry-pick` is a command used to apply the changes introduced by a single commit to the current branch. The `--strategy-option` flag is an optional argument that allows customizing the strategy used when resolving merge conflicts during the cherry-pick process.
+
+            By default, Git tries to perform a fast-forward cherry-pick (i.e., directly applying the changes from the source commit without creating a new commit). However, if there are merge conflicts, it will pause and ask the user to resolve them manually. With `--strategy-option`, you can configure how these conflicts should be handled:
+
+            1. `theirs`: Keep the conflicting changes from the current branch and discard those from the source commit.
+            2. `ours`: Keep the conflicting changes from the source commit and discard those from the current branch.
+            3. `merge`: Merge both sets of changes together, creating a new commit that includes all resolved conflicts. This is the default strategy when using `git merge`.
+            4. `rebase": Apply the changes in the same way as git rebase (i.e., applying the changes interactively and resolving any conflicts before committing them).
+            5. Custom strategies: Provide a custom script to handle the merging of conflicting files.
+
+            Using this flag, you can control how Git deals with merge conflicts during cherry-pick operations, ensuring that your desired conflict resolution strategy is applied consistently.
+        x: '[AI] `git cherry-pick` is a command used to apply the changes introduced by a single commit to the current branch. The `-x` option is an extended mode that allows you to interactively review and edit each hunk (a piece of code) of the committed change before applying it. If you specify multiple commits with this option, Git will stop after the first hunk failure or conflict, allowing you to fix issues before continuing with the next commit. This can be useful when you want to apply specific changes from one branch to another while carefully reviewing and resolving any conflicts that may arise.'

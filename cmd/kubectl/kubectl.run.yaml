@@ -1,0 +1,143 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: run
+description: Run a particular image on the cluster
+group: basic beginner
+flags:
+    --allow-missing-template-keys: If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
+    --annotations*=: Annotations to apply to the pod.
+    --attach: If true, wait for the Pod to start running, and then attach to the Pod as if 'kubectl attach ...' were called.  Default false, unless '-i/--stdin' is set, in which case the default is true. With '--restart=Never' the exit code of the container process is returned.
+    --cascade&?: Must be "background", "orphan", or "foreground". Selects the deletion cascading strategy for the dependents (e.g. Pods created by a ReplicationController). Defaults to background.
+    --command: If true and extra arguments are present, use them as the 'command' field in the container, rather than the 'args' field which is the default.
+    --dry-run?: Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
+    --env*=: Environment variables to set in the container.
+    --expose: If true, create a ClusterIP service associated with the pod.  Requires `--port`.
+    --field-manager=: Name of the manager used to track field ownership.
+    --force&: If true, immediately remove resources from API and bypass graceful deletion. Note that immediate deletion of some resources may result in inconsistency or data loss and requires confirmation.
+    --grace-period&=: Period of time in seconds given to the resource to terminate gracefully. Ignored if negative. Set to 1 for immediate shutdown. Can only be set to 0 when --force is true (force deletion).
+    --image!=: The image for the container to run.
+    --image-pull-policy=: The image pull policy for the container.  If left empty, this value will not be specified by the client and defaulted by the server.
+    --leave-stdin-open: If the pod is started in interactive mode or with stdin, leave stdin open after the first attach completes. By default, stdin will be closed after the first attach completes.
+    --override-type=: 'The method used to override the generated object: json, merge, or strategic.'
+    --overrides=: An inline JSON override for the generated object. If this is non-empty, it is used to override the generated object. Requires that the object supply a valid apiVersion field.
+    --pod-running-timeout=: The length of time (like 5s, 2m, or 3h, higher than zero) to wait until at least one pod is running
+    --port=: The port that this container exposes.
+    --privileged: If true, run the container in privileged mode.
+    --record&: Record current kubectl command in the resource annotation. If set to false, do not record the command. If set to true, record the command. If not set, default to updating the existing annotation value only if one already exists.
+    --restart=: The restart policy for this Pod.  Legal values [Always, OnFailure, Never].
+    --rm: If true, delete the pod after it exits.  Only valid when attaching to the container, e.g. with '--attach' or with '-i/--stdin'.
+    --save-config: If true, the configuration of current object will be saved in its annotation. Otherwise, the annotation will be unchanged. This flag is useful when you want to perform kubectl apply on this object in the future.
+    --show-managed-fields: If true, keep the managedFields when printing objects in JSON or YAML format.
+    --template=: Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates [http://golang.org/pkg/text/template/#pkg-overview].
+    --timeout&=: The length of time to wait before giving up on a delete, zero means determine a timeout from the size of the object
+    --wait&: If true, wait for resources to be gone before returning. This waits for finalizers.
+    -R, --recursive&: Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.
+    -f, --filename&*=: to use to replace the resource.
+    -i, --stdin: Keep stdin open on the container in the pod, even if nothing is attached.
+    -k, --kustomize&=: Process a kustomization directory. This flag can't be used together with -f or -R.
+    -l, --labels=: Comma separated labels to apply to the pod. Will override previous values.
+    -o, --output=: 'Output format. One of: (json, yaml, name, go-template, go-template-file, template, templatefile, jsonpath, jsonpath-as-json, jsonpath-file).'
+    -q, --quiet: If true, suppress prompt messages.
+    -t, --tty: Allocate a TTY for the container in the pod.
+documentation:
+    command: '[AI] `kubectl run` is a command used with the Kubernetes command-line interface (CLI) tool to create and manage containerized applications on a Kubernetes cluster. It creates a new Deployment or Job, depending on the specified container image and number of replicas, from an image in a registry or a local Docker image. The application''s configuration is defined using a YAML file, which can include various settings such as labels, ports, and environment variables. `kubectl run` starts the containers and manages their lifecycle on the cluster. Once created, the deployment or job can be scaled, updated, and monitored using other Kubernetes CLI commands.'
+    flag:
+        allow-missing-template-keys: '[AI] The `kubectl run` command with the `--allow-missing-template-keys` flag allows the creation of a new container in a Pod, even if some mandatory template keys are missing from the container''s configuration file (YAML manifest). This flag is particularly useful when creating containers using placeholders or when you don''t have all the required information at hand yet. With this flag set, Kubernetes will create the container with the given name and other specified attributes, assuming that any missing keys will be filled in later.'
+        annotations: '[AI] `kubectl run` is a command-line utility used to create and manage containerized applications on Kubernetes clusters. The `--annotations` flag allows you to set custom key-value pairs as annotations for the created resource, such as a pod or a deployment. Annotations provide additional metadata for Kubernetes objects, which can be used by other components in the system, like selectors or label queries.'
+        attach: '[AI] `kubectl run` is a command-line tool used to create and manage containerized applications on Kubernetes clusters. The `--attach` flag, when used with `kubectl run`, instructs the command to attach to the container''s stdin, stdout, and stderr in an interactive session once it is running. This allows users to interactively manage the container, sending commands and receiving real-time output.'
+        cascade: '[AI] `kubectl run` is a command-line tool used to create and manage containers in Kubernetes clusters. The `--cascade` flag is an optional argument for this command. When used, it automatically creates or updates the related Kubernetes resources such as ConfigMaps, Secrets, and Deployments/StatefulSets that are referenced by the container image''s Dockerfile or YAML manifest file. In other words, it ensures a consistent state across the related resources by cascading the changes made to the container image. This can save time and effort in managing multiple resources manually.'
+        command: '[AI] `kubectl run` is a command-line utility for Kubernetes used to create and manage containerized applications. The `--command` option is passed with this command to specify a single command that will be run in the container, without creating a full-fledged deployment or a ReplicaSet. This command is executed as an entrypoint in the container image specified by the context (image name, if no image is provided it uses the current context). The container is ephemeral, meaning it gets deleted once the command finishes executing.'
+        dry-run: |-
+            [AI] `kubectl run --dry-run` is a command used with the Kubernetes command-line interface (CLI) tool `kubectl`. It allows users to simulate the creation or update of a Kubernetes resource without actually executing the operation.
+
+            When you use this command, `kubectl` generates the YAML manifest file that would be created if you were to execute the create or update operation with `apply`, but it does not apply the changes to your cluster. Instead, the output shows the generated YAML in the console, allowing you to review the changes before proceeding. This can help prevent unintended modifications and ensure that you are applying the correct configuration.
+        env: '[AI] `kubectl run` is a command-line utility used to create and manage containerized applications on Kubernetes clusters. The `--env` flag sets environment variables for containers in the newly created pod. For example, `kubectl run my-pod --image=my-image --env="VAR1=value1" --env="VAR2=value2"` creates a new pod named "my-pod" with the given image and sets two environment variables "VAR1" and "VAR2" to their respective values. This can be useful for configuring applications without modifying their code or Docker images directly.'
+        expose: '[AI] `kubectl run` is a command used to create and manage containerized applications in Kubernetes clusters. The `--expose` flag, when used with `kubectl run`, deploys the container with an additional Kubernetes Service resource. This service creates a stable external IP address and DNS name for the container, exposing it as a network service that can be accessed by other components in or outside of the cluster. The exposed service automatically selects an available port number, assigns it to the service, and maps it back to the container''s port 80 (by default) using a NodePort or ClusterIP type. This enables external traffic to reach the container without requiring manual configuration for incoming connections.'
+        field-manager: |-
+            [AI] `kubectl run` is a command-line tool used to create and manage containers in a Kubernetes cluster. The `--field-manager` flag is an option that can be used with `kubectl apply` and `kubectl create` to create or update custom resources with the strategic seal of approval (SSOA) controller.
+
+            This flag tells Kubernetes that the resource being created or updated should be managed by the SSOA controller, ensuring that any fields marked with `managedFields:` in the custom resource definition are handled appropriately and maintained over time. This is particularly useful when working with custom resources, as it allows for a more automated approach to managing their lifecycle within the cluster.
+        filename: '[AI] `kubectl run` is a command-line utility used to create and manage containers in Kubernetes clusters. The `--filename` option specifies the name of a YAML or JSON file that contains the container image, configuration details like ports, environment variables, etc. This command creates a new pod from the file content, runs the container image inside it, and manages its lifecycle. It''s commonly used for creating ad-hoc containers, such as troubleshooting tools or temporary applications.'
+        force: '[AI] `kubectl run` is a command used in Kubernetes to create and manage containers within a cluster. The `--force` flag is an optional argument for this command, which forces the creation of the container even if it already exists. When you use `kubectl run --image <image> <container> --force`, Kubernetes will check if a container with that name already exists in the specified namespace. If it does, Kubernetes will still create a new pod and replace the existing container with the new image without asking for confirmation. This can be useful when you need to update an existing container quickly and don''t want to go through the confirmation process each time.'
+        grace-period: '[AI] `kubectl run` is a command used to create and manage containerized applications on Kubernetes. The `--grace-period` flag sets the length of time (in seconds) after a Pod is deleted but before its containers are terminated. This allows for a controlled shutdown of the containers, giving them an opportunity to save their state or gracefully close open connections. If no `--grace-period` is specified, the default value is 30 seconds.'
+        image: '[AI] `kubectl run` is a command used with the Kubernetes command-line interface (CLI) tool to create and manage containers within a Kubernetes cluster. The `--image` flag specifies the Docker image to use for creating the container. When you execute `kubectl run <pod-name> --image=<image>:<tag> --restart=<Policy> [<flags>]`, it will create a new pod from the specified image and manage its lifecycle according to the given restart policy. The flag `--image` is mandatory if you are creating a container from an image, as Kubernetes needs this information to pull and deploy the correct container image.'
+        image-pull-policy: |-
+            [AI] `kubectl run` is a command used to create and manage containers in a Kubernetes cluster. The `--image-pull-policy` flag determines how images are pulled when creating or updating a container.
+
+            There are three possible values for this flag:
+
+            1. `Always`: Images will always be pulled, even if they already exist on the node. This is useful when you want to ensure that all nodes have the most up-to-date image.
+            2. `IfNotPresent`: Images will only be pulled if they do not already exist on the node. This is the default behavior when no `--image-pull-policy` flag is provided.
+            3. `Never`: Images will never be pulled, even if they don't exist on the node. In this case, you would need to manually pull the image and push it to a Kubernetes registry or use a different method to make it available to your cluster.
+        kustomize: |-
+            [AI] `kubectl run` is a command-line utility used with Kubernetes to create and manage containerized applications. The `--kustomize` flag is an option that allows you to apply customizations using Kustomize, a set of tools for managing YAML configurations, before creating the resource.
+
+            With this flag, you can define your application's desired state in a `kustomization.yaml` file containing various extensions and patches to modify your base configuration files. The combined result will be applied when running the command. This is useful for managing complex or evolving deployments with ease, allowing you to keep your configurations modular and maintainable.
+        labels: '[AI] `kubectl run` is a command used in Kubernetes to create and manage containerized applications. The `--labels` option sets labels for the containers or pods created by this command. Labels are key-value pairs that help categorize and filter objects in Kubernetes, making it easier to manage them. When you use `kubectl run --labels <key>=<value>`, Kubernetes creates a new containerized application with the specified label. For example, `kubectl run my-app --labels app=my-app`.'
+        leave-stdin-open: '[AI] The `kubectl run` command is used to create and execute a container in a Kubernetes cluster. The `--leave-stdin-open` option keeps the container''s standard input open after the command has completed execution. This allows you to continue interacting with the container''s process, such as when running an interactive shell or debugging an application. Without this flag, the container would exit once the command has finished executing.'
+        output: |-
+            [AI] `kubectl run` is a command used in Kubernetes to create and manage containerized applications. The `--output` flag specifies the format for the output of the command. It can be set to "json" or "yaml" to return the created resource in the respective format, or to "none" if no output is desired. For example:
+
+            ```sh
+            $ kubectl run my-deployment --image=nginx --restart=RollingUpdate --output yaml > my-deployment.yaml
+            ```
+
+            This command creates a new deployment called `my-deployment` using the Nginx image, with a RollingUpdate strategy, and saves the resulting YAML definition to a file named `my-deployment.yaml`.
+        override-type: |-
+            [AI] `kubectl run` is a command used to create and manage containers in a Kubernetes cluster. The `--override-type` flag modifies how conflicts are resolved when creating or updating a resource.
+
+            With `--override-type`, if a conflict occurs due to the presence of an existing resource with similar but not identical labels, the new resource takes precedence. This is useful for forcing the creation or update of a resource even if there is a conflicting label. The options are: `LabelOverrides` (conflicts are resolved based on the specificity of the labels) or `All` (all conflicts are overridden).
+
+            For example, `kubectl run my-pod --image=my-image --override-type=LabelOverrides` would create a new pod with the same label as an existing one but would take precedence due to the `--override-type` flag.
+        overrides: |-
+            [AI] `kubectl run` is a command-line utility for Kubernetes used to create and manage containerized applications. The `--overrides` flag allows you to modify the YAML definition of an existing resource before creating or updating it.
+
+            By providing a custom YAML manifest as an argument with `--overrides`, you can update specific fields, add new ones, or remove unwanted configurations while maintaining the majority of the original definition. This is useful when you want to make minor adjustments to an existing deployment or create a new instance based on an existing template but with slight modifications.
+
+            For example, `kubectl run my-pod --image=my-image:latest --overrides='{"spec": {"containers":[{"name":"container1","image":"new-image:v2"}]}}'` creates a new pod named "my-pod" based on the existing definition but with the container image for "container1" updated to "new-image:v2".
+        pod-running-timeout: '[AI] `kubectl run` is a command-line utility for Kubernetes used to create and manage containers as ephemeral pods. The `--pod-running-timeout` flag sets the duration before considering a created pod failed if it doesn''t enter the Running state within that time. By default, this timeout is 60 seconds. This flag allows users to specify a custom timeout to accommodate longer container start or initialization times. If the timeout expires before the container becomes ready, Kubernetes marks the pod as Failed and may delete it unless manually saved with `--restart=Never`.'
+        port: '[AI] `kubectl run` is a command-line utility for Kubernetes used to create and manage containerized applications. The `--port` flag specifies the container''s exposed port number for the created pod. This allows external traffic to be directed to the application inside the container. When using `kubectl run`, if no container image is specified, it defaults to creating a temporary Alpine-based container. For example, `kubectl run my-app --image=my-registry/my-app:v1 --port=8080`.'
+        privileged: '[AI] `kubectl run --privileged` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`. This command creates and runs a new container in a pod with elevated privileges. The `--privileged` flag grants the container additional capabilities beyond those typically available to containers, such as the ability to access raw sockets, mount host paths as read-write volumes, and drop capabilities. This flag should be used with caution as it increases security risks.'
+        quiet: '[AI] `kubectl run` is a command-line utility used to create and manage containers in Kubernetes clusters. The `--quiet` flag is an option for this command that reduces the output of the command to just the container ID or name, minimizing clutter and making it suitable for scripting or automated tasks where detailed output is not necessary.'
+        record: '[AI] `kubectl run` is a command used in Kubernetes to create and manage containers. The `--record` flag, when used with this command, tells Kubectl to update the existing deployment or replica set instead of creating a new one if it already exists. This is useful for making incremental changes to running applications without affecting their availability during updates.'
+        recursive: '[AI] `kubectl run --recursive` is a command used with the Kubernetes command-line tool (kubectl) to create and deploy containerized applications in a Kubernetes cluster. The `--recursive` flag indicates that this operation should be applied recursively to all matching objects in the current context. For instance, if you run `kubectl run --image=my-image my-deployment --template="..." --recursive`, it will create or update all deployments named `my-deployment` and their related child resources (e.g., replicas, services, etc.) based on the given template in a recursive manner. This command can save time when you want to make consistent updates across multiple instances of an application.'
+        restart: |-
+            [AI] `kubectl run` is a command used in Kubernetes to create and manage container images as Deployments or Jobs. The `--restart` flag specifies what strategy should be used for restarting containers that fail.
+
+            There are three types of restart policies:
+
+            1. `Always`: A failed container will be restarted immediately. This is the default policy.
+            2. `OnFailure`: A container will only be restarted if it fails. This means that a container can be replaced by a new instance if the old one is not responding, which can be useful for debugging or when deploying new versions.
+            3. `Never`: Containers will never be restarted, regardless of their failure status. This policy should only be used with caution and when manually managing containers is preferred over automatic recovery.
+        rm: '[AI] `kubectl run` is a command used in Kubernetes to create and manage containers as ephemeral pods. The `--rm` flag stands for "remove" and signifies that the created container should be terminated and its underlying pod deleted when the container finishes executing, regardless of whether it exited with an error or success status. This is useful for running one-off tasks in Kubernetes without leaving behind unnecessary resources.'
+        save-config: '[AI] `kubectl run` is a command-line utility used to create and manage containerized applications on Kubernetes clusters. The `--save-config` flag saves the configuration of the running container as a `KubernetesManifest.yaml` file in the current working directory after the container completes execution. This can be useful for keeping track of the desired state of your application or for deploying it repeatedly with consistent configurations.'
+        show-managed-fields: '[AI] `kubectl run` is a command used to create and manage containers in Kubernetes clusters. The `--show-managed-fields` flag is an optional argument for this command. When used, it will display the fields that were managed or changed during the creation or update of a resource. In other words, it shows the differences between the desired state defined in the `kubectl run` command and the current state of the created or updated resource. This can be helpful for understanding what modifications Kubernetes made to the resource when applying your changes.'
+        stdin: |-
+            [AI] `kubectl run` is a command-line utility used for deploying and managing applications on Kubernetes clusters. The `--stdin` flag is an option that allows users to input container image, commands, or configuration directly from the terminal instead of specifying them in a file.
+
+            When you use `kubectl run <image> --restart=Never -- /bin/sh -- <command> -- --arg1 arg1Value -- --arg2 arg2Value -- ...`, the container will be created with the specified image, and the `--stdin` flag enables passing input interactively. This is useful when you need to provide dynamic or complex arguments for your command.
+
+            For example:
+            ```bash
+            kubectl run my-container \
+              --restart=Never \
+              --image=my-registry/my-image \
+              --stdin \
+              /bin/sh \
+              -c 'echo "Hello, World!" && read -p "Enter your name: "; echo "Welcome $REPLACE_ME!"'
+            ```
+            This command will create a new container named `my-container`, use the specified image (`my-registry/my-image`), and run an interactive shell (`/bin/sh`) with the given command. When executed, it will print "Hello, World!" and prompt for user input to replace the placeholder value (`$REPLACE_ME`).
+        template: |-
+            [AI] `kubectl run --template` is a command used in Kubernetes to create and manage containerized applications directly from YAML manifests or templates. The `--template` flag indicates that the given file contains a template for creating resources, rather than describing an existing one.
+
+            When using this command, you provide a valid Kubernetes manifest file as an argument. `kubectl` will then process the file's templates to generate and create the actual resource objects, such as Deployments, Services, or ConfigMaps. This can be useful when you want to automate the creation of resources based on customized configuration or variables.
+
+            For example:
+
+            ```bash
+            kubectl run my-app --template=my-app-manifest.yaml
+            ```
+
+            In the above command, `my-app-manifest.yaml` is a file that contains Kubernetes manifest templates for creating a Deployment or other resources. When you execute this command, `kubectl` will generate and create these resources based on the information in your template file.
+        timeout: '[AI] `kubectl run` is a command-line utility used to create and manage containerized applications on Kubernetes clusters. The `--timeout` flag sets a limit for how long `kubectl run` should wait for the container to start before it considers the command as failed. Once the timeout is reached, `kubectl` will terminate the pod and return an error. This can be useful when starting containers that take longer than expected to initialize or when testing scripts with known timeouts.'
+        tty: '[AI] `kubectl run` is a command used in Kubernetes to create and manage containers. The `--tty` flag is an optional argument that requests a TTY (Teletype) allocation for the container''s standard input stream. In simple terms, it means allocating a virtual terminal for the container''s interactive use, allowing commands to be run with the ability to see their output in real-time and interactively provide input if necessary.'
+        wait: '[AI] `kubectl run` is a command used in Kubernetes to create and manage containers. The `--wait` flag, when used with this command, indicates that the kubectl tool should wait for the container to be running before returning control back to the user. This is useful when you want to ensure that your container is fully started and ready before continuing with other commands or scripts. When `kubectl run --wait` is executed, it will create a new container based on the provided image, configuration, and command, and then it will wait for that container to be in a running state before exiting.'

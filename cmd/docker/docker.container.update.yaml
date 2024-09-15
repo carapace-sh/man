@@ -1,0 +1,81 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: update [OPTIONS] CONTAINER [CONTAINER...]
+description: Update configuration of one or more containers
+flags:
+    --blkio-weight=: Block IO (relative weight), between 10 and 1000, or 0 to disable (default 0)
+    --cpu-period=: Limit CPU CFS (Completely Fair Scheduler) period
+    --cpu-quota=: Limit CPU CFS (Completely Fair Scheduler) quota
+    --cpu-rt-period=: Limit the CPU real-time period in microseconds
+    --cpu-rt-runtime=: Limit the CPU real-time runtime in microseconds
+    --cpus=: Number of CPUs
+    --cpuset-cpus=: CPUs in which to allow execution (0-3, 0,1)
+    --cpuset-mems=: MEMs in which to allow execution (0-3, 0,1)
+    --kernel-memory=: Kernel memory limit (deprecated)
+    --memory-reservation=: Memory soft limit
+    --memory-swap=: 'Swap limit equal to memory plus swap: -1 to enable unlimited swap'
+    --pids-limit=: Tune container pids limit (set -1 for unlimited)
+    --restart=: Restart policy to apply when a container exits
+    -c, --cpu-shares=: CPU shares (relative weight)
+    -m, --memory=: Memory limit
+documentation:
+    command: |-
+        [AI] `docker container update` is a command used to modify the configuration of one or more running Docker containers. Specifically, it changes the container's configuration settings such as memory limit, CPU usage limit, and ports binding without affecting the container's images or data.
+
+        The basic syntax for this command is: `docker container update [OPTIONS] CONTAINER [CONTAINER...]`
+
+        Here, `[OPTIONS]` refers to any additional options that can be passed with the command like `--memory`, `--cpus`, or `--restart`. For example, you might use:
+
+        ```bash
+        docker container update --memory 2g my_container
+        ```
+
+        This would increase the memory limit for the container named 'my_container' to 2 gigabytes.
+    flag:
+        blkio-weight: |-
+            [AI] `docker container update` is a command used to update the configuration of running Docker containers. The `--blkio-weight` option is used to set the block I/O (BIOP) weight for a container.
+
+            Block I/O weight is a mechanism in the Linux kernel to control the share of I/O resources among different processes or containers. A higher weight value indicates a higher priority for the container's I/O requests, resulting in better performance for that container.
+
+            By using `--blkio-weight`, you can adjust the BIOP priority of running Docker containers to optimize resource usage and ensure fairness between them. The value is set as a decimal number between 0 and 1, with 1 being the highest priority. For example, `docker container update <container_id> --blkio-weight 0.5` sets the container's BIOP weight to 0.5.
+        cpu-period: '[AI] The `docker container update` command with the `--cpu-period` option is used to update the CPU quotas for a running Docker container. By default, Docker containers have no specific CPU limit or quota. With this flag, you can set a maximum amount of CPU time that the container can use in nanoseconds per period. This flag helps ensure fair sharing of system resources between multiple containers and prevents containers from consuming excessive amounts of CPU time, thus improving overall system performance and stability.'
+        cpu-quota: '[AI] The `docker container update` command with the `--cpu-quota` option allows you to adjust the CPU resource limit for a running Docker container. By specifying a new value in terms of Shares (a relative measure of CPU resources), you can allocate more or less CPU resources to that container compared to other containers on the same host. This can be useful for managing resource usage and ensuring fairness between containers.'
+        cpu-rt-period: |-
+            [AI] The `docker container update` command is used to update the configuration of a running Docker container. The specific option `--cpu-rt-period` sets the CPU real-time (RT) period for the container's Linux control group (cgroup).
+
+            A RT cgroup provides guaranteed CPU time slices for tasks, ensuring that they receive the specified amount of CPU resources without being preempted by other tasks. Setting a non-zero value for `--cpu-rt-period` allows the container to use RT scheduling, which can be useful for real-time applications or containers that require predictable CPU usage.
+
+            For example, if you set `--cpu-rt-period=1000000ns`, Docker will create a new cgroup with a 1ms (1,000,000ns) RT period for the container. This ensures that the container receives at least one CPU time slice every millisecond, providing more predictable and consistent CPU usage.
+        cpu-rt-runtime: |-
+            [AI] The `docker container update` command with the `--cpu-rt-runtime` flag is used to update the configuration of a running Docker container, specifically related to real-time (RT) CPU resources.
+
+            When you set up a container, you can define CPU and memory requirements for the container. However, some applications might require low-latency or hard real-time processing, which goes beyond the scope of normal CPU scheduling in containers. Docker provides RT capabilities to address such use cases.
+
+            The `--cpu-rt-runtime` flag enables setting up an RT kernel thread inside a container to manage real-time tasks and processes. This ensures that these tasks are scheduled with priority and meet their deadlines even when the host system is under heavy load or other high-priority tasks compete for resources.
+
+            It's important to note that the use of RT capabilities may require specific Linux kernel versions, and not all Docker distributions support it by default. You might need to enable appropriate kernel settings on your host operating system to make the most out of this feature.
+        cpu-shares: '[AI] The `docker container update` command is used to modify the configuration of running Docker containers. The `--cpu-shares` option allows you to specify the proportion of CPU resources that a container is entitled to relative to other containers on the same host. By default, all containers share the available CPU resources equally (with a proportional share of 1024). You can use this flag to adjust the CPU shares allocated to a specific container, which can help manage resource usage and prioritize workloads in a multi-container environment.'
+        cpus: '[AI] The `docker container update` command is used to reconfigure the settings of a running Docker container. The `--cpus` option sets the number of CPUs allocated to the container. By increasing or decreasing this value, you can adjust the container''s CPU resource allocation, potentially improving performance or conserving system resources.'
+        cpuset-cpus: '[AI] The `docker container update` command is used to reapply the configuration on a running Docker container. The specific option `--cpuset-cpus` allows you to set or modify the CPUs that the container is permitted to use on the host system. By providing a comma-separated list of CPU numbers, this flag helps manage and prioritize the resource usage for multiple containers in a multi-container Docker environment.'
+        cpuset-mems: '[AI] The `docker container update` command is used to reapply the configuration of a running Docker container, including its resource limits. The `--cpuset-mems` option specifically refers to limiting the containers'' access to CPU and memory resources based on a CPUs and memory nodes (or "mems" for short) assignment. This can be useful for ensuring containers are allocated specific resources and prevent them from interfering with each other''s performance on a shared host system. By using this flag, you can specify a comma-separated list of CPUs and mems to assign to the container. For example, `--cpuset-mems="0-1,3"` would allocate CPU 0 through 1 and memory nodes 0 and 1 for the container.'
+        kernel-memory: |-
+            [AI] The `docker container update` command with the `--kernel-memory` flag is used to modify the kernel memory limit for a running Docker container. This flag sets the maximum amount of memory that can be used by the container's kernel, separate from the container's own memory limit. By default, Docker containers use the host system's available memory, but setting a kernel memory limit can help prevent the container from using more memory than allocated and potentially causing system instability. The format for this command is:
+
+            ```bash
+            docker container update <container_id_or_name> --kernel-memory <size>
+            ```
+
+            Replace `<container_id_or_name>` with the ID or name of the running container and `<size>` with the desired kernel memory limit in bytes (e.g., "1073741824" for 1GB).
+        memory: '[AI] The `docker container update` command is used to reapply the configuration changes to one or more containers in Docker. The `--memory` option allows you to set a new limit for the amount of memory that can be used by the container. This can help ensure that containers do not use excessive memory resources, which can improve system performance and stability. By using this command with the `--memory` flag, you are updating the container''s configuration to use a specific memory limit.'
+        memory-reservation: '[AI] The `docker container update` command with the `--memory-reservation` option is used to change the memory reservation for a running Docker container. Memory reservation specifies the minimum amount of memory that will be guaranteed to the container, which helps ensure predictable container behavior and prevent out-of-memory situations. By updating this value, you can adjust the container''s memory usage and improve system performance if necessary.'
+        memory-swap: '[AI] The `docker container update` command with the `--memory-swap` option is used to change the memory limit and swap limit for a running Docker container. Memory limit sets the maximum amount of RAM that a container can use, while swap limit sets the maximum amount of swap space (virtual memory) that a container can use. By default, Docker containers use the same memory and swap settings as their respective images. However, by using this command, you can adjust these limits to optimize container performance or resource usage. For example: `docker container update <container-id> --memory 2g --memory-swap 1g`. This command sets a new memory limit of 2GB and a swap limit of 1GB for the specified container.'
+        pids-limit: |-
+            [AI] The `docker container update` command is used to modify the configuration of a running Docker container. The `--pids-limit` option sets a limit on the maximum number of processes a container can have. By default, a container has no limit and can run an unlimited number of processes.
+
+            Using the `--pids-limit` flag restricts the total number of processes in the container to the specified value. This can be useful for containers that tend to spawn excessive numbers of processes, which can impact system performance or cause other issues. The argument after the flag is the maximum allowed number of processes. For example:
+
+            ```bash
+            docker container update <container-id> --pids-limit 1000
+            ```
+
+            This command sets a limit of 1,000 processes for the container with the given `<container-id>`.
+        restart: '[AI] The `docker container update` command with the `--restart` option is used to modify the restart policy of a running Docker container. This means you can specify what action Docker should take if the container exits unexpectedly. The possible values for the restart policy are: "no" (default), "always", "on-failures", or "unless-stopped". For example, `docker container update <container_id> --restart always` will cause the container to be automatically restarted every time it exits.'

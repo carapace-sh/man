@@ -1,0 +1,64 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: filter-branch
+description: Rewrite branches
+group: manipulator
+flags:
+    --commit-filter=: This is the filter for performing the commit
+    --env-filter=: This filter may be used if you only need to modify the environment in which the commit will be performed
+    --index-filter=: This is the filter for rewriting the index
+    --msg-filter=: This is the filter for rewriting the commit messages
+    --original=: Use this option to set the namespace where the original commits will be stored
+    --parent-filter=: This is the filter for rewriting the commit’s parent list
+    --prune-empty: Some filters will generate empty commits that leave the tree untouched
+    --setup=: This is not a real filter executed for each commit but a one time setup just before the loop
+    --state-branch=: This option will cause the mapping from old to new objects to be loaded from named branch
+    --subdirectory-filter=: Only look at the history which touches the given subdirectory
+    --tag-name-filter=: This is the filter for rewriting tag names
+    --tree-filter=: This is the filter for rewriting the tree and its contents
+    -d=: Use this option to set the path to the temporary directory used for rewriting
+    -f, --force: Force to start with an existing temporary directory or when there are already refs starting with refs/original/
+documentation:
+    command: '[AI] `git filter-branch` is a Git command used to rewrite Git history by filtering and possibly removing branches that match certain patterns in branch names or committer names. This command modifies the committed objects and updates the local repository accordingly, making it a powerful tool for implementing history cleaning tasks such as removing sensitive data, incorrect tags, or unwanted branches. It''s important to note that this operation is destructive and irreversible when used with remote repositories, so always be careful and create a backup before using it.'
+    flag:
+        commit-filter: |-
+            [AI] `git filter-branch --commit-filter` is a Git command used to rewrite commit messages or modify commits' identities in a local repository. The `--commit-filter` option takes a script as an argument, which Git applies to each commit as it is filtered through during the branch rewriting process.
+
+            This command can be useful when you need to remove sensitive information, such as email addresses or names, from old commits for security reasons. By using this command, you can create a new set of commits with modified author and committer information. However, use it with caution, as it's a powerful tool that can lead to data loss if misused.
+        d: '[AI] `git filter-branch -d` is a Git command used to remove or rewrite branches in the Git history. The `-d` option stands for "delete empty commits," which are commits with no associated changeset. When you run `git filter-branch -d <branch>`, Git will delete any empty commits found on that branch, creating a new, cleaner history for that branch. This command is often used to remove unwanted branches or sensitive information from a Git repository before sharing it publicly.'
+        env-filter: |-
+            [AI] `git filter-branch --env-filter` is a Git command used to rewrite Git history by changing or setting environment variables for commits as they are applied. This can be useful in cases where you want to remove sensitive data, such as access tokens or API keys, from the commit messages or author information in your Git history.
+
+            The `--env-filter` option takes a script that reads and modifies the current environment variable values. The script is passed each commit message and author information, and can set new values for use in the rewrite process. For example:
+
+            ```bash
+            git filter-branch --env-filter 'ENV_VAR="newvalue"' <branch_name>
+            ```
+
+            This command would replace all occurrences of `OLDVALUE` with `newvalue` in the environment variables for commits in the specified branch.
+        force: '[AI] `git filter-branch --force` is a Git command used to rewrite Git history by filtering and replacing specific text in commits. The `--force` option overwrites existing branches and refs without asking for confirmation, potentially leading to data loss if not used carefully. It''s essential to understand the implications before using this command, as it modifies the commit history irreversibly.'
+        index-filter: '[AI] `git filter-branch --index-filter` is a Git command used to rewrite Git history by filtering and transforming the index (staging area) of each commit. This can be useful for tasks like removing sensitive data from a public repository or renaming files with inconsistent naming conventions. The syntax `--index-filter` followed by a shell command is provided as an argument, which will be applied to every file in every commit. Keep in mind that this operation rewrites the entire Git history, so it''s essential to back up your repository before using it and be aware of potential risks such as losing collaborative work or data inconsistencies.'
+        msg-filter: '[AI] `git filter-branch --msg-filter` is a Git command used to rewrite the committed message history of a Git repository. This command takes a new message filter as an argument, which is a shell script or a program that receives the current commit message and returns the new message to be used for the corresponding commit in the new history. The command will then replace all occurrences of the old messages with the new ones in the repository''s history. This can be useful if you want to change the commit messages of a Git repository for various reasons, such as to improve readability or to maintain consistency across multiple commits. However, keep in mind that using `filter-branch` will result in a new Git history and may cause issues with remote repositories or other Git tools that depend on the original history.'
+        original: '[AI] The `git filter-branch --origin` command is used to rewrite Git history with new commit messages or filter branch names in a local repository, fetching branches and their commits from a remote repository named as ''origin''. This operation can be destructive since it modifies the commit history. It''s important to use this command carefully and consider taking a backup of your data before running it. The primary purpose of using `--origin` is to update the local branch history with any changes made on the remote repository, ensuring the local repository has the most recent commits.'
+        parent-filter: |-
+            [AI] `git filter-branch --parent-filter` is a Git command used to rewrite Git history by replacing the parent commit ids with new ones based on a given filter expression. This operation can be useful for cases where you want to remove sensitive data from previous commits or modify the commit message of older commits.
+
+            The `--parent-filter` option takes a script that accepts a list of parents and returns a list of new parents. The script can perform any arbitrary transformations, such as replacing old parent ids with new ones or filtering out unwanted commits. This way, you can rewrite the entire history tree while preserving the commit order and the number of commits.
+
+            Here's an example:
+
+            ```bash
+            git filter-branch --parent-filter 'if [ $# -eq 0 ]; then exit 1; fi; echo $1 | sed "s/old_parent_id/new_parent_id/"' <commit>
+            ```
+
+            Replace `<commit>` with the hash or branch name of the commit you want to modify. In this example, the script takes one parent commit id as an argument and uses `sed` to replace "old\_parent\_id" with "new\_parent\_id". This can be used to rewrite history with new or modified parent commits.
+
+            Keep in mind that using `git filter-branch --parent-filter` will modify the Git history permanently, so make sure you have a backup of your repository and understand the implications before running this command.
+        prune-empty: '[AI] `git filter-branch --prune-empty` is a Git command used to remove branches or commits with no associated commit messages or empty commits. The command filters the branch history and rewrites it with the specified changes. By adding `--prune-empty`, Git will automatically delete branches that only contain empty commits, making the Git history cleaner and easier to manage.'
+        setup: '[AI] `git filter-branch --setup` is a Git command used to rewrite Git history by updating or creating new Git commit messages and refs with a specified setup, such as setting up new author names or emails for all commits in a branch. It does not modify the content of the commits themselves but only their metadata like authorship and commit messages. The changes are permanent, so use it carefully, as this command can lead to data loss if used incorrectly.'
+        state-branch: '[AI] `git filter-branch --state-branch` is a Git command used to rewrite branch history, specifically to create new branches based on specific commits with a given state (e.g., ''clean'' or ''merged''). This command modifies the branch history locally and does not update the remote branches by default. The `--state-branch` option specifies that you want to create new branches based on commits that have a certain state, like being ''merged''. It filters and rewrites the branch history to only keep the specified branches or commits, discarding others. This is often used for cleaning up branch histories before sharing them with others.'
+        subdirectory-filter: '[AI] `git filter-branch --subdirectory-filter` is a Git command used to rewrite branch history by filtering branches to include only the content from a specific subdirectory. This can be useful in cases where a repository contains multiple subdirectories, each with its own separate project history, and you want to extract or isolate one of them into a new repository. The command modifies the repository''s history, so it should be used with caution and only when necessary, as it may lead to data loss if not performed correctly.'
+        tag-name-filter: |-
+            [AI] `git filter-branch --tag-name-FILTER` is a Git command used to rewrite the named branches and their associated tags in a Git repository, applying a given filter function to the ref names. The `--tag-name-FILTER` option specifies how to process tag names, with valid filters being 'list' (list all matching tags), 'keep' (keep only matching tags), or 'prune' (remove non-matching tags).
+
+            This command is often used for sensitive information cleanup in Git repositories by rewriting branches and their associated tags that contain unwanted commits, like committing passwords or other secrets. However, be cautious as it may result in losing data if the filter function is not correctly defined or executed.
+        tree-filter: '[AI] `git filter-branch --tree-filter` is a Git command used to rewrite commit tree history by filtering or transforming the contents of the trees and committing the new trees. It''s primarily used for tasks like removing sensitive data, such as passwords or private keys, from a repository''s history. The `--tree-filter` option specifies a custom script to process each tree object, allowing fine-grained control over the filtering process. This command rewrites all branches and tags in the current repository. It should be used with caution as it permanently modifies the repository''s history.'

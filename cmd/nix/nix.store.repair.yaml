@@ -1,0 +1,92 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: repair
+description: repair store path
+flags:
+    --arg*=: Pass the value expr as the argument name to Nix functions
+    --argstr*=: Pass the string string as the argument name to Nix functions
+    --commit-lock-file: Commit changes to the flake's lock file
+    --debug: Set the logging verbosity level to 'debug'
+    --debugger: Start an interactive environment if evaluation fail
+    --eval-store=: The Nix store to use for evaluations
+    --impure: Allow access to mutable paths and repositories
+    --inputs-from=: Use the inputs of the specified flake as registry entries
+    --log-format=: Set the format of log output
+    --no-registries: Don't allow lookups in the flake registries
+    --no-update-lock-file: Do not allow any updates to the flake's lock file
+    --no-write-lock-file: Do not write the flake's newly generated lock file
+    --override-flake=: Override the flake registries, redirecting original-ref to resolved-ref
+    --override-input=: Override a specific flake input (e.g. dwarffs/nixpkgs)
+    --quiet: Decrease the logging verbosity level
+    --recreate-lock-file: Recreate the flake's lock file from scratch
+    --update-input=: Update a specific flake input (ignoring its previous entry in the lock file
+    -I, --include: Add path to the list of locations used to look up <...> file names
+    -L, --print-build-logs: Print full build logs on standard error
+    -v, --verbose: Increase the logging verbosity level
+documentation:
+    command: '[AI] `nix store repair` is a Nix package manager command used to check and repair any potential issues with the integrity of the Nix store, which is where Nix stores its installed packages. This command uses cryptographic hash checks to ensure that each file in the store matches its expected value, and if any discrepancies are found, it will attempt to repair or replace the problematic files using cached or downloaded data. The overall goal of `nix store repair` is to maintain the reliability and consistency of your Nix environment by verifying and fixing any potential issues within the Nix store.'
+    flag:
+        arg: |-
+            [AI] `nix store` is a command-line tool used in the Nix package manager to manage Nix expressions, which define software packages and their dependencies. The command `nix store --repair --arg` is used for repairing a corrupt or damaged Nix expression store.
+
+            The `--repair` flag instructs the command to attempt repairing any damaged or inconsistent data in the store. The `--arg` option is used to provide additional arguments specific to the repair process, such as the path to the store database.
+
+            For example: `nix store --repair --arg '/path/to/store/database'`. This command would attempt to repair any inconsistencies or damage in the Nix expression store located at '/path/to/store/database'.
+        argstr: '[AI] The `nix store repair --argstr` command is a Nix Pakage Manager utility used to repair damaged or corrupt installations in the Nix expression language environment. It takes an argument string (specified using `--argstr`) which contains key-value pairs that provide additional options for the repair process. For example, `--argstr ''channel=myChannel''` can be used to specify a particular Nix channel during repair. The specific repair options depend on the nature of the damage and are documented in the Nix Manual.'
+        commit-lock-file: |-
+            [AI] The `nix store` command is a part of Nix, a package manager for Linux and other Unix systems. The specific command `nix store --repair --commit-lock-file` is used to repair a damaged or corrupted Nix store.
+
+            The Nix store is where all the installed packages are stored in a immutable, tree-like structure. The `--repair` option tells Nix to attempt to recover from any damage or inconsistencies in the store. The `--commit-lock-file` option instructs Nix to use a specific commit lock file if one exists. This can be useful when trying to repair a specific version of the store, and helps ensure that only the desired version is being repaired.
+
+            Overall, this command is used to repair potential issues with the Nix store, allowing users to maintain a stable and functional system.
+        debug: '[AI] `nix store repair --debug` is a command used in Nix, a package manager for Linux and other Unix systems. This command initiates a repair process with extended debugging information on the Nix expression tree (store), which can help diagnose issues related to corrupted or inconsistent packages in the Nix store. It logs detailed information about each operation performed during the repair process, allowing users to identify and resolve any problems more effectively.'
+        debugger: |-
+            [AI] The `nix store` command is a part of Nix, a package manager for Linux and other Unix systems. The `repair` subcommand is used to check and fix inconsistencies in the Nix store, which is a central repository of packages managed by Nix.
+
+            The option `--debugger` is used to start the repair process with more detailed debugging information. It enables a more verbose output, providing additional data that can be helpful for troubleshooting and understanding what repair actions are being taken. This can include printing out the exact files being processed, their hashes, and other relevant metadata. By using this option, users can gain a deeper insight into how Nix manages its packages and can help identify potential issues in the store or during the repair process.
+        eval-store: |-
+            [AI] `nix store repair` is a command in Nix, a package manager for Linux and other Unix systems. It is used to verify and repair the integrity of the Nix store, which is a central part of Nix's distribution model.
+
+            The `--eval-store` option is a sub-command that allows users to evaluate expressions against the contents of the Nix store. The expression can be any valid Nix expression, such as a build function or a call to a package from the store.
+
+            When you run `nix store repair --eval-store <expression>`, Nix will first repair any damaged files in the store and then evaluate the given expression against the repaired store. This can be useful for debugging or testing, as it allows you to interactively query the state of the packages in the store without having to build them first.
+
+            For example, `nix store repair --eval-store '(buildPackages "greet" { version = "1.0"; })'` would evaluate the expression that builds and returns information about the "greet" package with version 1.0.
+        impure: |-
+            [AI] `nix-store` is a part of Nix, a powerful package manager for Linux and other Unix systems. The command `nix store repair --impure` is used to check and repair the integrity of the Nix store, which is a collection of isolated builds and caches for Nix packages.
+
+            The `--impure` option allows the repair process to also check and fix files that are not part of the guaranteed build output but may have become corrupted or otherwise invalid over time. This can help ensure that the entire Nix store remains consistent and functional, reducing the likelihood of build failures or other issues caused by corrupt files.
+        include: '[AI] `nix store repair --include` is a command in Nix, a package manager for Linux and other Unix systems. This command is used to repair damaged or inconsistent Nix store configurations by rebuilding and updating the store from the Nix expression language. The `--include` option tells Nix to also include out-of-tree packages and custom configurations during the repair process. This means that any additional packages not located in the default Nix distribution channels, but rather in the user''s custom configurations, will be repaired as well. The goal is to ensure the entire Nix store configuration, including custom components, is consistent and functional.'
+        inputs-from: |-
+            [AI] The `nix store` command is a part of NixOS, a Linux distribution known for its declarative configuration management and immutable package system. The `repair` subcommand is used to check and fix inconsistencies in the Nix expression tree.
+
+            The option `--inputs-from <file>` specifies that the inputs for the repair process should be read from the given file instead of the default input paths. This can be useful when dealing with complex installation setups or when the default inputs are not available, allowing you to provide a custom list of Nix expressions or files to be used in the repair process.
+        log-format: |-
+            [AI] The `nix store` command is a part of Nix, a package manager for Linux and other Unix systems. The `repair` subcommand is used to check and repair inconsistencies in the Nix store, which is a central repository of packages and their dependencies.
+
+            The option `--log-format` specifies the format of the output logged during the repair process. By default, Nix uses a verbose text format. However, you can use other formats like JSON for more structured data or customize your own format using this option.
+        no-registries: '[AI] The `nix store` is a component of Nix, a popular package manager for Linux and other Unix systems. The command `nix store repair --no-registries` is used to check and repair the integrity of the local Nix store, which is a cache of built packages. The `--no-registries` option disables checking and repairing of remote registries, meaning that only the locally cached data will be checked and repaired. This command can help ensure consistency and correctness of installed packages in cases where there were issues with the download or build process.'
+        no-update-lock-file: |-
+            [AI] The `nix store repair` command is a utility in Nix, a package manager for Linux and other systems. It's used to verify and repair the integrity of the Nix store, which is a central part of the Nix distribution system.
+
+            The option `--no-update-lock-file` disables the creation or use of a lock file during the repair process. A lock file ensures that only one instance of this command can run at a time to avoid conflicts and data corruption. With this option, you may run multiple instances simultaneously but without the protection provided by the lock file. Use it with caution to avoid potential issues.
+        no-write-lock-file: '[AI] `nix store repair` is a command in Nix Pakages Manager to verify and repair the integrity of the Nix store, which is a central component of the Nix distribution for managing and building software. The option `--no-write-lock-file` disables creating or using a write lock file during the repair process. A write lock ensures that only one instance of the repair command can run at a time to prevent data inconsistencies. By disabling this option, multiple instances of the command can be executed concurrently, potentially speeding up the repair process in environments where multiple cores or machines are available for parallel execution. However, using multiple instances increases the risk of conflicts and should be used with caution.'
+        override-flake: |-
+            [AI] `nix store repair` is a command used in Nix, a package manager for Linux and other Unix systems. This command is used to check and repair the integrity of the Nix store, which is a collection of isolated builds and caches.
+
+            The `--override-flake` option is used when dealing with "flakes," which are Nix expressions that define a set of packages with their dependencies. With this flag, you can force the repair process to use a specific version of a flake instead of the one currently in the store, potentially resolving issues caused by outdated or broken dependencies.
+
+            For instance, if a dependency within a flake is causing problems in your system, you can run `nix store repair --override-flake <path/to/your/flake>` to enforce the use of a different version of that dependency during the repair process.
+        override-input: |-
+            [AI] `nix store repair --override-input` is a command used in Nix, a package manager for Linux and other Unix systems. The `repair` subcommand checks the integrity of installed software and their dependencies, and fixes any inconsistencies or damage.
+
+            The `--override-input` option allows users to specify a new input path for a broken installation instead of rebuilding it from source. This can be useful when dealing with corrupted downloads or when you want to quickly restore a specific version of a package without having to build it again from scratch.
+
+            In summary, `nix store repair --override-input` is used to fix inconsistencies in Nix package installations by allowing users to provide an alternate input path for broken packages.
+        print-build-logs: '[AI] `nix store repair` is a command in Nix, a package manager for Linux and other Unix systems. The `--print-build-logs` option is used to display the build logs of packages that have been previously built and stored in the Nix store. This can be helpful in troubleshooting build issues or examining the build process in detail. When run, it will print out the build logs for each affected package, which may include information about dependencies, compile commands, and error messages if any occurred during the initial build.'
+        quiet: |-
+            [AI] `nix-store` is a component of NixOS, a configuration management system and distribution. The command `nix store repair --quiet` is used to check and repair any inconsistencies or damages in the Nix store, which is where NixOS stores built packages and their dependencies.
+
+            The `--quiet` flag is an option that suppresses informational messages during the repair process, making it run with minimal output. This can be useful when running the command in scripts or automation workflows to avoid distractions from unnecessary text.
+        recreate-lock-file: '[AI] `nix store repair` is a command in Nix, a package manager for Linux and other Unix systems. The `--recreate-lock-file` option is used when the lock file, which is created during the installation or upgrade of a package, gets corrupted. By using this option, Nix will delete the existing lock file and create a new one, allowing the installation or upgrade process to continue. In essence, it helps resolve issues with broken lock files during package management operations in Nix.'
+        update-input: '[AI] The `nix store` command with the option `repair --update-input` is used to repair broken or inconsistent Nix expressions in a Nix profile or store channel. It scans for input files that have been modified outside of Nix, and updates their corresponding Nix expressions to match the current state of the files. This can help maintain consistency between the declared dependencies in the Nix expression and the actual files on disk.'
+        verbose: '[AI] `nix store repair` is a command in Nix, a package manager for Linux and other Unix systems. The `--verbose` option increases the amount of output produced by the command. When you run `nix store repair --verbose`, it will display detailed information about the repair process, including which stores are being checked, any errors or warnings encountered, and the actions taken to resolve them. The goal is to ensure the integrity and consistency of the Nix expression language and its associated package data by verifying and repairing stored configurations and derivations.'

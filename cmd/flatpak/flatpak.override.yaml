@@ -1,0 +1,125 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: override [OPTION…] [APP]
+description: Override settings [for application]
+group: run
+flags:
+    --add-policy=: Add generic policy option
+    --allow=: Allow feature
+    --device=: Expose device to app
+    --disallow=: Don't allow feature
+    --env-fd=: Read environment variables in env -0 format from FD
+    --env=: Set environment variable
+    --filesystem=: Expose filesystem to app (:ro for read-only)
+    --help-all: Show all help options
+    --installation=: Work on a non-default system-wide installation
+    --no-talk-name=: Don't allow app to talk to name on the session bus
+    --nodevice=: Don't expose device to app
+    --nofilesystem=: Don't expose filesystem to app
+    --nosocket=: Don't expose socket to app
+    --ostree-verbose: Show OSTree debug information
+    --own-name=: Allow app to own name on the session bus
+    --persist=: Persist home directory subpath
+    --remove-policy=: Remove generic policy option
+    --reset: Remove existing overrides
+    --share=: Share with host
+    --show: Show existing overrides
+    --socket=: Expose socket to app
+    --system: Work on the system-wide installation (default)
+    --system-no-talk-name=: Don't allow app to talk to name on the system bus
+    --system-own-name=: Allow app to own name on the system bus
+    --system-talk-name=: Allow app to talk to name on the system bus
+    --talk-name=: Allow app to talk to name on the session bus
+    --unset-env=: Remove variable from environment
+    --unshare=: Unshare with host
+    -h, --help: Show help options
+    -u, --user: Work on the user installation
+    -v, --verbose: Show debug information, -vv for more detail
+documentation:
+    command: '[AI] The `flatpak override` command is used to modify the runtime configuration of a Flatpak application or runtime. It allows you to set custom environment variables, add or remove files and directories, or change other settings for a specific application or runtime. For example, you can use it to allow additional permissions, set resource limits, or adjust other advanced options. The command takes the form `flatpak override --if-present <option> <application-id or runtime-name>`. Each option specifies a key and value, such as `--env=VARIABLE_NAME=value` to set an environment variable. Multiple options can be combined in a single command.'
+    flag:
+        add-policy: '[AI] `flatpak override --add-policy` is a command used in Flatpak, a software deployment and application packaging system. This command allows you to temporarily modify the default security policies applied to installed Flatpaks. By using this command followed by the name of a Flatpak application and specific policy rules, you can relax certain security restrictions for that application. This can be helpful in some cases where an application requires permissions beyond what is normally allowed but is trusted. However, it''s important to note that applying overrides increases the potential security risks, so they should only be used with caution and understanding of the implications.'
+        allow: |-
+            [AI] `flatpak override --allow` is a command used in the Flatpak application packaging and deployment system. It allows users to temporarily grant permissions to specific Flatpaks that have been denied due to security reasons.
+
+            When an application is installed with Flatpak, it is sandboxed to ensure security and prevent potential harm to the system. However, if an application requires access to certain resources or capabilities that are initially denied, it can be granted permission using the `override` command.
+
+            The `--allow` flag specifies which permissions or resources to grant. For example, `flatpak override --allow <application-id> camel:access_wayland` grants Wayland access to the specified application.
+
+            It is important to note that using overrides can introduce potential security risks and should be used with caution. Overrides should only be granted when necessary and temporary, as they can bypass intended security measures.
+        device: '[AI] `flatpak override --device` is a command used in the Flatpak application packaging system to modify the default behavior of a Flatpak application regarding access to specific devices or buses. By using this command followed by the name of an application and the device or bus to be overridden, administrators can grant or deny permissions that would otherwise be handled automatically by Flatpak''s sandboxing mechanisms. This command is essential for managing system-level applications that require unique access configurations.'
+        disallow: '[AI] `flatpak override --disallow` is a command used in the Flatpak package management system to disable overriding specific settings or permissions for a particular application. When this command is used, Flatpak will not allow any manual overrides for the specified application, enforcing the default settings and restrictions set by the distribution or the application itself. This can be useful for ensuring consistent and secure application behavior across systems or to prevent unintended changes that could impact an application''s functionality.'
+        env: '[AI] `flatpak override --env` is a command used in the Flatpak application packaging system. It allows users or administrators to set custom environment variables for specific Flatpak applications or runtimes, overriding any default settings. This can be useful for configuring applications that have strict dependencies on specific environment variables or for troubleshooting and customization purposes. The command takes the form `flatpak override [--user|--system] <application> env:<KEY>=<VALUE>`, where `<application>` is the name of the Flatpak application or runtime, `--user` or `--system` specifies the scope (user or system-wide), and `<KEY>` and `<VALUE>` define the custom environment variable to set.'
+        env-fd: '[AI] `flatpak override --env-fd` is a command used in Flatpak, a software deployment platform for Linux desktops. This command allows setting custom environment variables for a specific Flatpak application overriding any defaults. The `--env-fd` option specifies that the environment variables are read from a file descriptor instead of being directly provided as arguments. This can be useful when you want to set a large number of variables or keep the variables in an external file, for instance in a configuration management system like Ansible or Puppet.'
+        filesystem: '[AI] `flatpak override --filesystem` is a command used in Flatpak, a popular application packaging system for Linux. This command allows users to modify the filesystem of a specific Flatpak application overriding its original configuration. By using this command followed by the application''s ID and then a list of files or directories with their respective paths, users can add, remove or replace files from the application''s sandboxed environment. This feature is particularly useful when you want to customize an application without affecting its main upstream sources, providing flexibility for developers, system administrators and power users.'
+        help: |-
+            [AI] `flatpak override` is a command-line utility provided by Flatpak, a software deployment and packaging system. The `--help` option when used with this command displays detailed help information about the `override` subcommand. Here's what it does in brief:
+
+            `flatpak override [OPTIONS] <APP_ID> [OVERRIDE_FILE]`
+
+            This command allows you to create, manage, or delete custom overrides for installed Flatpak applications (specified by their unique identifiers `<APP_ID>`). An override is a configuration file that can modify the application's environment variables, libraries, and other settings. The optional `[OVERRIDE_FILE]` argument specifies the path to an existing override file instead of creating a new one.
+
+            Using `--help` with this command will display various options you can use when working with overrides:
+
+            - `--list`: List all available overrides for the given application.
+            - `--get [OVERRIDE_FILE]`: Retrieve the content of an existing override file.
+            - `--set [OVERRIDE_FILE]`: Edit the contents of an existing override file in your default text editor, and save any changes automatically when you exit the editor.
+            - `--remove [OVERRIDE_FILE]`: Delete a specific override for the application.
+            - `--global`: Apply the override to all instances (system and user) of the application instead of just one.
+
+            To see the full help message, run `flatpak override --help` in your terminal or command prompt.
+        help-all: |-
+            [AI] `flatpak override` is a command-line tool provided by Flatpak, a software deployment and application packaging system. The `--help-all` option is used to display comprehensive help for all available overrides.
+
+            An override is a way to customize the behavior of a specific Flatpak application or runtime installation. It allows users to modify various aspects such as environment variables, file permissions, and runtimes.
+
+            Using `flatpak override --help-all` will display detailed information about all available override types, their purpose, and the available options for each one. This command is useful when you want to understand the capabilities of Flatpak overrides and how to use them effectively.
+        installation: '[AI] `flatpak override --install <application>` is a command used in the Flatpak application packaging system. It allows users to install an overridden version of a specific Flatpak application package, which may override certain settings or dependencies of the original package. The `--install` flag instructs Flatpak to actually install the overridden package after applying the override. Overriding can be useful when a user wants to customize an application''s configuration beyond what is provided by the default package or when they need to install a non-standard dependency that the original package does not include.'
+        no-talk-name: '[AI] `flatpak override` is a command used in the Flatpak application packaging system to modify the behavior of an installed application. The `--no-change-display-name` or shorter form `--no-talk-name` option prevents the display name of the application from being changed by future updates. This can be useful if you prefer a specific name for an application and don''t want it to change even with updates.'
+        nodevice: |-
+            [AI] `flatpak override --nodevice` is a command used in the Flatpak application packaging and deployment system. This command allows you to override the default device access settings for a specific Flatpak application.
+
+            When an application is installed via Flatpak, it's given a defined set of permissions regarding access to devices such as cameras, microphones, or input devices. However, there might be cases where an application needs access to a specific device that was not granted by default. In these situations, you can use the `override --nodevice` command to grant the application access to a particular device.
+
+            The syntax for this command is:
+
+            ```bash
+            flatpak override <application_id> com.example.app.device.<device_type>.<device_name>=<access-level>
+            ```
+
+            Replace `<application_id>` with the Flatpak application's ID, `<device_type>` with the type of device (e.g., 'camera', 'microphone', etc.), and `<device_name>` with a specific device identifier. Replace `<access-level>` with the desired access level, which can be 'allow' or 'deny'. For example:
+
+            ```bash
+            flatpak override com.example.app org.acme:camera.microphone=allow
+            ```
+
+            This command grants the application 'com.example.app' access to the microphone device identified by 'org.acme:camera.microphone'.
+        nofilesystem: '[AI] The `flatpak override --nofilesystem` command is a Flatpak (application packaging system) command used to create or modify an application override file without including any filesystem overrides. An override file allows adjusting the behavior of a Flatpak application, such as setting environment variables or modifying permissions. With `--nofilesystem`, only non-filesystem overrides like environment variables and permissions can be set in the override file.'
+        nosocket: |-
+            [AI] The `flatpak override --nosocket` command is used in Flatpak, a software deployment and package management system for Linux. This command disables the creation of Unix domain sockets for a specific application or runtime.
+
+            Unix domain sockets are a method of inter-process communication that allows two processes on the same system to communicate without using a network. Enabling them can provide performance benefits, but they also introduce security risks if not managed properly.
+
+            By using `--nosocket`, you're instructing Flatpak not to create any Unix domain sockets for the specified application or runtime during installation or update. This can be useful in situations where you want to limit inter-process communication between applications, improve security, or troubleshoot specific issues.
+        ostree-verbose: '[AI] `flatpak override` is a command used in Flatpak, a software deployment and packaging system for Linux. The `--ostree-verbose` option is a debug flag that provides detailed output when using the OSTree backend for version control and file management within the Flatpak environment. When you run `flatpak override --ostree-verbose`, it outputs verbose information about the state transitions, commits, and other actions taken by the command as it applies or removes overrides on a specific application or runtime.'
+        own-name: '[AI] `flatpak override --own-name` is a command used in the Flatpak application packaging system. It allows users to create or update an override file that assigns a specific application identifier (name) to a different Flatpak application installation. This can be useful when multiple applications share the same name but need to be distinguished, such as custom builds or versions of an application. The `--own-name` option sets the new identifier as the owning user''s name for the overridden application, ensuring that future system updates won''t overwrite the override.'
+        persist: |-
+            [AI] `flatpak override --persist` is a command used in the Flatpak application packaging system to create or update a persistent override file. An override file allows modifying the default configuration of a Flatpak application, such as environment variables, file access rules, or installed runtimes.
+
+            The `--persist` flag ensures that the override file will survive system updates and reinstalls, making it a permanent change for the affected application. Without this flag, an override file would only be applied during the current session.
+        remove-policy: '[AI] The `flatpak override --remove-policy` command is used to remove a specific application''s policy in Flatpak, which is a software deployment and packaging system for Linux desktop. Policies define the access control rules that restrict or allow an application to perform certain actions. By removing the policy, you are essentially disabling those restrictions for the specified application, allowing it to run with fewer limitations. It''s important to note that this action should be used with caution as it can potentially introduce security vulnerabilities if the application is not fully trusted.'
+        reset: '[AI] `flatpak override --reset` is a command used in the Flatpak package management system to reset all application overrides. An override is a configuration file that allows users or administrators to modify the behavior of a Flatpak application, such as setting environment variables or allowing additional permissions. The `--reset` option resets all overrides back to their default values. This command can be useful when experiencing issues with applications due to custom overrides and wanting to restore the original configuration.'
+        share: '[AI] The `flatpak override --share` command is used to create or modify a Flatpak application override file. An override file allows users and administrators to customize the behavior of a Flatpak application by specifying additional environment variables, files, or other settings that will be applied when the application runs. The `--share` option in this command shares an existing override file with another system or user. This means that the specified override file will be copied to the default location for overrides on the target system or made available to the target user, allowing them to benefit from the customizations defined in the file.'
+        show: '[AI] `flatpak override --show` is a command used in Flatpak, a software deployment and package management system. This command is used to list currently applied overrides on a Flatpak installation. Overrides allow users or administrators to customize the behavior of specific applications or run them with additional privileges. The `--show` option displays the details of each override, including the application ID, the key used for the override, and its value.'
+        socket: '[AI] The `flatpak override --socket` command is used to create or modify a socket override file for a Flatpak application. A socket override allows customizing how an application communicates through Unix domain sockets, such as specifying the path or permissions. The command takes the name of the application and the new socket configuration as arguments. For example, `flatpak override --socket myapp com.example.mysocket /tmp/myapp-socket` would create a new socket for the "myapp" Flatpak application at "/tmp/myapp-socket".'
+        system: '[AI] `flatpak override --system` is a command used in the Flatpak package manager for Linux systems. This command allows you to force the installation of a system-wide version of a Flatpak application, overriding any existing user installations. The `--system` flag specifies that you want to affect the system-wide installation only. When you use this command to install an application, it is installed in the system''s Flatpak runtime instead of your user''s runtime, making the application available for all users on the system.'
+        system-no-talk-name: '[AI] The `flatpak override` command is used to modify the behavior of a Flatpak application or runtime. Specifically, the option `--system-no-talk-name` disables the automatic generation of a system-wide talk name for a Flatpak application. A talk name is a display name for an application that appears in various system UI elements such as the application menu and notifications. By using this override, system administrators can set custom talk names for applications installed for all users on a system.'
+        system-own-name: |-
+            [AI] `flatpak override` is a command used in the Flatpak package manager to modify the behavior of an installed application. The `--system-own-name` option is used to set or change the system-wide name for a specific Flatpak application.
+
+            When you install a Flatpak application, it may conflict with another application that has the same name but different ownership (user vs. system). In such cases, using `flatpak override --system-own-name <application> <new_name>` allows you to assign a unique name to the application at the system level, resolving any potential conflicts and ensuring both applications can coexist on your system.
+        system-talk-name: '[AI] The `flatpak override --system` command is used in Flatpak, a software deployment and application packaging system, to set custom overrides for system applications. The `--talk-name` option specifies the name of the environment variable that will be used to store the new name for the application. When you use `--system` flag along with it, the override applies system-wide, affecting all users on the system. By combining these two options, you can set a custom name for a system-wide installed Flatpak application.'
+        talk-name: '[AI] `flatpak override` is a command used in Flatpak, a software deployment and packaging system. The `--talk-name` option is part of this command and is used to modify the display name or identifier of an installed application or runtime overriding its default one. By using this option, users can give custom names to flatpaks for easier identification in their application menus or listings.'
+        unset-env: '[AI] `flatpak override --unset-env` is a command used in Flatpak, a software deployment and packaging system for Linux. This command is used to remove an environment variable override that was previously set for a specific application or runtime. By using `--unset-env`, the variable will revert back to its default value in the hosting system.'
+        unshare: '[AI] `flatpak override --unshare` is a command used in the Flatpak application packaging system to create or modify an override file for a specific application installation. An override file allows customizing the behavior of the installed application by modifying its configuration. The `--unshare` option means that the override file will not be shared across different user sessions or machines, making it a local override only. This can be useful when you need to make unique configuration changes for an application without affecting other users or installations.'
+        user: '[AI] The `flatpak override --user` command is used in the Flatpak application packaging system to create or modify user overrides for installed applications. Overrides allow users to customize application settings, environment variables, and other aspects that are not modifiable through the regular application configuration. By using this command, users can specify key-value pairs for specific application IDs, which will take precedence over the default settings when launching the applications. This command affects only the current user session.'
+        verbose: '[AI] `flatpak override` is a command used in the Flatpak application packaging system to modify the default behavior of an installed application. The `--verbose` option increases the amount and detail of output produced during the execution of the command, helping users to better understand what the command is doing. For example, if you use `flatpak override --verbose <application> <option>`, it will display more information about the applied override and any changes made to the application''s configuration.'

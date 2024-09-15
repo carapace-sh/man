@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: describe (-f FILENAME | TYPE [NAME_PREFIX | -l label] | TYPE/NAME)
+description: Show details of a specific resource or group of resources
+group: troubleshooting
+flags:
+    --chunk-size=: Return large lists in chunks rather than all at once. Pass 0 to disable. This flag is beta and may change in the future.
+    --show-events: If true, display events related to the described object.
+    -A, --all-namespaces: If present, list the requested object(s) across all namespaces. Namespace in current context is ignored even if specified with --namespace.
+    -R, --recursive: Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.
+    -f, --filename*=: Filename, directory, or URL to files containing the resource to describe
+    -k, --kustomize=: Process the kustomization directory. This flag can't be used together with -f or -R.
+    -l, --selector=: Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2). Matching objects must satisfy all of the specified label constraints.
+documentation:
+    command: |-
+        [AI] `kubectl describe` is a command used in Kubernetes to retrieve detailed information about the resources and their current state. When you run this command followed by the type and name of a resource (e.g., `kubectl describe pod my-pod-name`), it returns a multi-page output with various sections, including:
+
+        1. **Metadata**: Information about the resource's creation time, UID, labels, and annotations.
+        2. **Spec**: The desired state of the resource as defined in the Kubernetes manifest file.
+        3. **Status**: Current state of the resource, including conditions, messages, and any error details.
+        4. **Events**: A list of past events that occurred with the resource.
+
+        This command provides an in-depth view of a resource's configuration and lifecycle, making it helpful for debugging and understanding complex deployments.
+    flag:
+        all-namespaces: '[AI] `kubectl describe --all-namespaces` is a command used with the Kubernetes CLI (kubectl) to retrieve detailed information about all resources in all namespaces in a Kubernetes cluster. The "describe" subcommand provides a human-readable description of a resource, and adding "--all-namespaces" flag expands the query scope to include descriptions for all namespaces rather than just the default one. This command is often used by system administrators and DevOps engineers for troubleshooting or monitoring Kubernetes environments.'
+        chunk-size: '[AI] `kubectl describe` is a command used to retrieve detailed information about Kubernetes resources, such as pods, services, and deployments. The `--chunk-size` flag modifies the output format by displaying the description in smaller chunks or pages instead of one large output. This can be helpful for viewing large descriptions without overwhelming your terminal window or requiring excessive scrolling.'
+        filename: '[AI] The `kubectl describe` command is used to display detailed information about a specific Kubernetes resource, such as a pod or deployment. The `--filename` flag is an optional argument that allows you to save the output of the describe command to a file instead of printing it to the console. So, when you use `kubectl describe --filename <file-path>`, it will generate a description of the resource in YAML or JSON format and save it to the specified file path. This can be useful for storing or sharing detailed information about Kubernetes resources.'
+        kustomize: |-
+            [AI] `kubectl describe --kustomize` is a command used with the Kubernetes command-line tool (`kubectl`) to generate descriptions of Kubernetes resources in a human-readable format, but with an added feature: it applies and describes customized resource configurations using the `kustomize` library.
+
+            When you use `--kustomize` flag, `kubectl` first builds a `kustomization.yaml` file that specifies how to customize the base resource (usually obtained via `kubectl get`). Then it applies these customizations using `kustomize`, before finally outputting the described resources in the standard format.
+
+            This command can be particularly useful when dealing with complex, customized Kubernetes resources or environments where you need to compare different versions of your configurations.
+        recursive: '[AI] `kubectl describe --recursive` is a command used with Kubernetes'' `kubectl` tool to retrieves detailed information about a resource or its sub-resources in a recursive manner, meaning it will display the description of the specified resource along with descriptions of all of its contained objects (such as pods, containers, and volumes), nested up to ten levels deep by default. This command helps users understand complex Kubernetes objects with multiple levels of nesting, providing a comprehensive view of the object''s structure and configuration.'
+        selector: '[AI] `kubectl describe` is a command used to retrieve detailed information about a resource in Kubernetes, such as a pod or deployment. The `--selector` option filters the description output to only include resources that match a specific label selector. For example, `kubectl describe --selector=app=my-app` would display the details of all resources (pods, replica sets, etc.) with the label `app=my-app`. This can be useful for getting detailed information about a specific subset of resources in your cluster.'
+        show-events: |-
+            [AI] `kubectl describe --show-events` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`, to retrieve detailed information about a specific Kubernetes resource, along with its event history.
+
+            When you run this command followed by the type and name of a resource, such as `describe pod my-pod`, it returns an output that includes:
+
+            1. Detailed description of the resource's current state, including metadata, specification, and status.
+            2. Event history: A chronological list of significant events related to the resource, such as when it was created or deleted, when its status changed, or when errors occurred. Each event includes a timestamp, type (e.g., Normal, Warning, Error), reason, message, and source (if applicable).
+
+            Using `--show-events` option specifically will display only the event history information in a more concise format, making it useful for debugging or monitoring Kubernetes resources' past events.

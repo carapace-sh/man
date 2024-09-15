@@ -1,0 +1,59 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: archive
+description: Create an archive of files from a named tree
+group: main
+flags:
+    --add-file=: add untracked file to archive
+    --exec=: path to the remote git-upload-archive command
+    --format=: archive format
+    --prefix=: prepend prefix to each pathname in the archive
+    --remote=: retrieve the archive from remote repository <repo>
+    --worktree-attributes: read .gitattributes in working directory
+    "-0": set compression level
+    "-1": set compression level
+    "-2": set compression level
+    "-3": set compression level
+    "-4": set compression level
+    "-5": set compression level
+    "-6": set compression level
+    "-7": set compression level
+    "-8": set compression level
+    "-9": set compression level
+    -l, --list: list supported archive formats
+    -o, --output=: write the archive to this file
+    -v, --verbose: report archived files on stderr
+documentation:
+    command: '[AI] `git archive` is a Git command used to create a tar or zip archive of one or more trees in your Git repository. It takes the name of a reference (branch, tag, or commit hash) as an argument and outputs the archive in the current directory. For example, `git archive master --format tar > myarchive.tar` creates a tarball named "myarchive.tar" from the master branch. Archives can be used for distribution or backup purposes.'
+    flag:
+        "0": '[AI] `git archive --output` is a Git command used to create an archive of one or more commits in a repository. The `--output` option followed by a file name specifies where to save the archive, while `-o` or `--output` with no argument will write the archive data to standard output (i.e., your terminal). When you use the option `-0`, it sets the output format to be a raw, uncompressed stream of bytes that represents the packed Git repository format. This flag is typically used when you want to create an archive to be imported back into another Git repository using `git-importer`.'
+        "1": '[AI] `git archive` is a Git command used to create an archive of one or more trees in your Git repository. The `-1` option specifies that only the most recent tree (i.e., the HEAD commit) should be archived. This results in a tarball or zipfile containing the files as they existed at the specified commit.'
+        "2": '[AI] `git archive` is a Git command used to create an archive of one or more commit trees into a single tar file. The option `-2` specifies that only the most recent two commits should be included in the archive. So, the command `git archive -2 <commit>` will create a tarball containing the most recent two commits and their contents. If no commit is specified, it defaults to the current HEAD.'
+        "3": '[AI] `git archive` is a Git command used to create an archive of one or more commits. The option `-3` sets the number of commits to include in the archive, starting from the current HEAD, which is the default behavior. Therefore, `git archive -3` creates an archive containing the latest commit and the two previous commits.'
+        "4": '[AI] `git archive -4` is a Git command used to create an archive of the most recent commit and up to four previous commits, in a specified format such as tar or zip. The number "4" represents the depth of the history to be included in the archive. This command can be helpful when you want to share a specific set of commits with someone who doesn''t have access to your Git repository.'
+        "5": '[AI] `git archive` is a Git command used to create a local or remote archive of your project''s current state at a particular commit. The option `-5` sets the number of commits to include in the archive starting from the current HEAD, i.e., it creates an archive containing the last 5 commits and their corresponding tree objects and files. If no directory is specified after `git archive`, it will create an archive under the `.git/archives` directory within your local repository.'
+        "6": '[AI] `git archive` is a Git command used to create an archive of a specific commit or a set of commits. The option `-6` specifies that only the last six commits should be included in the archive. This results in a tarball that contains the files as they existed in those six commits. If no commit range is provided, Git uses the HEAD commit.'
+        "7": '[AI] `git archive` is a Git command used to create a tar or zip archive of one or more trees in your Git repository. The option `-7` sets the compression level to the maximum (level 9) when creating a gzipped archive. Therefore, `git archive -7 <tree-ish>` creates a gzipped archive with maximum compression of the specified tree.'
+        "8": '[AI] `git archive --deep=8` is a Git command used to create a tar archive of one or more branches, commits, or trees. The option `--deep=8` sets the recursion depth to 8, which means only the specified number of parent directories and their contents will be included in the archive. This can help keep the archive size small while still capturing a significant portion of the project history.'
+        "9": '[AI] `git archive` is a Git command used to create a tar or zip archive of one or more trees in your Git repository. The `-9` option specifies that only the named tree(s) and their immediate ancestors up to 9 generations deep will be included in the archive. This means that only the specified tree, its parents, grandparents, and so on up to great-great-great-grandparents will be included. The resulting archive can be useful for sharing a specific snapshot of your project with others, preserving its history at a specific point in time.'
+        add-file: |-
+            [AI] `git archive` is a Git command used to create an archive of your project's files at a specific commit. The `--add-file` option allows you to add one or more new files to the snapshot before creating the archive. This can be useful when you want to include locally modified files in the archive that haven't been committed yet. The syntax is as follows:
+
+            ```bash
+            git archive --format [tar|zip] [ref] --add-file [path/to/file] HEAD > archive.ext
+            ```
+
+            Replace `[ref]` with the name of a branch or commit hash, `[path/to/file]` with the path to the file you want to add, and `archive.ext` with the desired output file name and extension (e.g., "tar" for tarball or "zip" for ZIP archive). The `HEAD` keyword is used to base the snapshot on the current HEAD of your repository.
+        exec: '[AI] `git archive --exec` is a Git command used to create an archive of specific commit(s) or tree(s) in a repository, and then execute a given command on the extracted archive. The command takes the following format: `git archive --format=<format> <commit-or-tree> ... | tar -xOF - <cmd>`. Here, `--exec` is an option that allows specifying the command to be run after extraction. The command is enclosed within the pipe symbol `|`, followed by the extract and run command, such as `tar -xOF - <cmd>`. This feature can be helpful for automating tasks like deploying code or generating documentation.'
+        format: |-
+            [AI] `git archive` is a Git command used to create an archive of one or more commits, including all their content and metadata. The `--format` option specifies the output format for the archive. It can be set to one of several values:
+
+            1. `tar.gz` or `zip`: Creates a standard tarball or zipfile archive respectively. This is the most common usage.
+            2. `tar.gz <filename>` or `zip <filename>`: Creates an archived file with a specific name.
+            3. `tar.lzma`, `tar.xz`, or `tar.Z`: Creates a compressed tarball archive using lzma, xz or gzip respectively for better compression.
+            4. `raw`, `bundle`, or `rfc-diff`: Creates an archive in raw format (for each file, one separate archive), bundle format (an archive containing a Git repository), or RFC diff format (contains individual patches) respectively.
+        list: '[AI] `git archive --list` is a Git command used to create and list available archives of a commit or tree. This command generates a tar or zip file representation of the specified Git object, but instead of saving it directly to disk, it only displays a list of available archive names. The output includes the archive format (tar or zip), the SHA-1 checksum of the Git object, and the proposed name for the archive based on its contents. This command is useful when you need to know which archives are available before deciding which one to download.'
+        output: '[AI] `git archive --output` is a Git command used to create a tar or zip archive from a specific commit or tree in your Git repository. The `--output` option specifies the output file name and location for the generated archive. For example, `git archive --output=mycommit.tar mybranch^` will create a tar archive named "mycommit.tar" containing files as they existed in the specified commit or tree (in this case, the second-to-last commit of the branch named ''mybranch'').'
+        prefix: '[AI] `git archive --prefix` is a Git command used to create a tar or zip archive of one or more tree objects in your repository. The `--prefix` option specifies a prefix that will be added to the name of each file in the archive. This can be useful for creating archives with consistent naming conventions when extracting the files into another directory. For example, `git archive --prefix my_prefix/ v1.0 | tar -xf -` would create an archive with all extracted files under the "my\_prefix" directory.'
+        remote: '[AI] `git archive --remote` is a Git command that retrieves and archives one or more trees or commits from a remote repository into a local file or directory. The command fetches the tree or commit data from the specified remote, creates a new archive in the current directory, and saves it as a tar or gzipped tarball (.tar.gz). This can be useful when you want to create an offline backup of specific revisions or share the repository history with others who may not have access to the original remote repository.'
+        verbose: '[AI] `git archive --verbose` is a Git command used to create a tar or zip archive of one or more trees in a Git repository. The `--verbose` option increases the amount of output displayed during the archiving process, providing detailed information about which trees and commits are being included in the archive. This can be helpful for debugging or understanding the exact content of the archive.'
+        worktree-attributes: '[AI] `git archive --worktree-attributes` is a Git command that creates an archive of a specific commit, including the files in the working directory and their attributes (such as file mode, ownership, and timestamps). By default, it generates a tarball archive, but other formats like zip or raw are also supported using the `--format` option. This can be useful for creating archives that reflect not only the commit''s contents but also the current state of the files in the working directory at that time.'

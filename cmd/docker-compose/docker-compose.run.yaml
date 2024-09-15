@@ -1,0 +1,80 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: run [OPTIONS] SERVICE [COMMAND] [ARGS...]
+description: Run a one-off command on a service.
+flags:
+    --build: Build image before starting container.
+    --cap-add=: Add Linux capabilities
+    --cap-drop=: Drop Linux capabilities
+    --entrypoint=: Override the entrypoint of the image
+    --name=: Assign a name to the container
+    --no-deps: Don't start linked services.
+    --quiet-pull: Pull without printing progress information.
+    --remove-orphans: Remove containers for services not defined in the Compose file.
+    --rm: Automatically remove the container when it exits
+    --use-aliases: Use the service's network useAliases in the network(s) the container connects to.
+    -P, --service-ports: Run command with all service's ports enabled and mapped to the host.
+    -T, --no-TTY: 'Disable pseudo-TTY allocation (default: auto-detected).'
+    -d, --detach: Run container in background and print container ID
+    -e, --env*=: Set environment variables
+    -i, --interactive: Keep STDIN open even if not attached.
+    -l, --label*=: Add or override a label
+    -p, --publish*=: Publish a container's port(s) to the host.
+    -t, --tty&: Allocate a pseudo-TTY.
+    -u, --user=: Run as specified username or uid
+    -v, --volume*=: Bind mount a volume.
+    -w, --workdir=: Working directory inside the container
+documentation:
+    command: '[AI] `docker-compose run` is a command used with Docker Compose files to execute commands inside one or more containers. It starts the services if they are not already running, then runs the specified command and sends its output to standard streams (stdout and stderr). The container continues running after the command completes, unlike `docker-compose exec`, which stops the container once the command finishes.'
+    flag:
+        build: |-
+            [AI] `docker-compose run --build` is a command used with Docker Compose files to build and then run a service. Here's a brief explanation:
+
+            1. `--build`: This flag instructs Docker Compose to rebuild the images for all services that do not already exist, before starting the containers. This can be useful when developing or whenever you have made changes to your Dockerfiles.
+            2. `run`: This command is used to run a service defined in the Compose file. It starts and interacts with a container. In this case, we're also using it to trigger the build process as explained above.
+
+            So, when you use `docker-compose run --build <service>`, Docker Compose will rebuild all images first, and then start a new container based on the updated images for the specified service.
+        cap-add: '[AI] `docker-compose run` is a command used in Docker Compose to run a service defined in a `docker-compose.yml` file. The `--cap-add` flag grants additional Linux capabilities to the container. Capabilities are permissions that allow the container to perform specific system actions, such as `SYS_ADMIN`, `NET_ADMIN`, or `MKNOD`. By specifying `--cap-add` followed by a list of capabilities, you''re allowing the container to use those capabilities during its execution. This can be helpful in certain use cases where additional privileges are required.'
+        cap-drop: |-
+            [AI] `docker-compose run` is a command used with Docker Compose files to run a service using an image that is defined in the Compose file. The `--cap-drop` flag is an option that can be passed to this command for modifying the container's Linux capabilities.
+
+            Capabilities are special permissions that allow containers to perform certain tasks beyond what a standard, unprivileged process can do on a host. With the `--cap-drop` flag, you can remove specific capabilities from the container, thereby limiting its privileges. For example, you might use this option to drop the `NET_ADMIN` capability to prevent a container from managing network interfaces or to drop the `SYS_ADMIN` capability to restrict the container's ability to change system settings.
+
+            By using `docker-compose run --cap-drop` followed by the desired capabilities, you can create containers with more restricted access, making your applications more secure.
+        detach: '[AI] `docker-compose run` is a command used with Docker Compose files to build and run services defined in the file. The `--detach` option, also known as `--background`, runs the container in detached mode, which means it will be started in the background and its control will be returned back to the user immediately after the container is created. This is useful for long-running processes that don''t require user interaction or constant monitoring. The container''s logs can be accessed using `docker-compose logs` command.'
+        entrypoint: |-
+            [AI] `docker-compose run` is a command used in Docker Compose to run a service as a one-off container, rather than starting or updating an existing container. The `--entrypoint` option specifies the command that will be run when the container is started.
+
+            When you use `docker-compose run <service> --entrypoint <command>`, Docker Compose will build an image for the specified service if it doesn't already exist, then start a new container using that image and run the given `<command>` as the entrypoint instead of the default command defined in the service's Dockerfile.
+
+            For example, if you have a service named `my-service` with a Dockerfile that defines `CMD ["python", "app.py"]`, running `docker-compose run my-service --entrypoint python app.py` would start a new container and run the command `python app.py` instead of the default `CMD`.
+        env: '[AI] `docker-compose run` is a command used in Docker Compose to build and then run a service defined in a docker-compose.yml file. The `--env` option sets environment variables for the container. When you use `docker-compose run --env VARIABLE=value SERVICE`, it builds and runs the specified service with the given environment variable set.'
+        interactive: '[AI] `docker-compose run` is a command used in Docker Compose to run a service defined in a `docker-compose.yml` file in the background and attach an interactive terminal to it. The `--interactive` flag enables keeping STDIN open so commands can be passed to the container in an interactive fashion, allowing for real-time interaction with the container''s process. This is useful when you need to debug or run ad-hoc commands within a running container.'
+        label: '[AI] `docker-compose run` is a command used to execute a single one-off command on a service defined in a Docker Compose file. The `--label` option allows you to attach key-value pairs as metadata to the container created by this command. These labels can be useful for adding descriptive information or identifying containers based on specific tags. For example, `docker-compose run --label app=myapp myservice sh -c "echo Hello World"` would create a new container from `myservice` and attach the label `app=myapp`.'
+        name: '[AI] `docker-compose run` is a command used with Docker Compose files to start and execute a single container based on the defined services in the file. The `--name` option allows you to specify a custom name for the container, overriding the default one generated by Docker. When you use this command, Docker Compose will create a new container with the specified name, pull or download the image if it''s not already present on your local system, start the container and run the given command inside it.'
+        no-TTY: '[AI] `docker-compose run` is a command used in Docker Compose to build and then run a service based on an image definition in a `docker-compose.yml` file. The `--no-TTY` flag is optional and it prevents the container from being opened in interactive mode, which means that it does not create a pseudo-terminal (PTY) for the container. Instead, it runs the container in non-interactive mode, making it suitable for background jobs or automated tasks where no user input is required.'
+        no-deps: '[AI] `docker-compose run` is a command used in Docker Compose to build and then run a service. The `--no-deps` flag is an optional argument that instructs the command to not build or start any dependent services. This means that only the specified service will be affected, regardless of its dependencies. In other words, it runs the specified service in isolation.'
+        publish: |-
+            [AI] `docker-compose run` is a command used in Docker Compose to run a service defined in a `docker-compose.yml` file in its own container. The `--publish` option publishes a binding between the container's port and a host port, allowing access to that container's service from the host machine.
+
+            For example, `docker-compose run --publish 80:80 my_service` will start a new container for `my_service`, publish port 80 on the host to port 80 in the container, and allow access to `my_service` on port 80 of the host machine.
+        quiet-pull: '[AI] `docker-compose run` is a command used in Docker Compose to build and run services defined in a `docker-compose.yml` file. The `--quiet-pull` flag is an optional argument that instructs the command to not output any messages when pulling new images from a registry before running the container. In other words, it suppresses the pull messages during the execution of the command. This can be useful in automated environments or scripts where you don''t need to see the pull messages for every run.'
+        remove-orphans: |-
+            [AI] The `docker-compose run` command with the `--remove-orphans` option is used to run a service even if it's already running, and remove any stopped or exited containers for that service that are not part of the desired set defined in the Compose file.
+
+            When you run `docker-compose up`, Docker Compose ensures that all required services are running and their containers are connected to each other as specified in the YAML file. If a container for a given service is already running, Compose does not start a new one.
+
+            However, when using `docker-compose run --remove-orphans <command>`, Docker Compose will run the command inside a new container for the specified service, even if there's already an active container for that service. Additionally, it removes any containers that are not part of the desired set, ensuring consistency and compliance with your defined Compose configuration.
+        rm: '[AI] `docker-compose run` is a command used in Docker Compose to run a service defined in a docker-compose.yml file with an isolated container. The `--rm` flag indicates that the container should be automatically removed once its process terminates. In other words, it creates and runs a new container, and then removes the container after the command execution is complete to keep your environment clean.'
+        service-ports: '[AI] `docker-compose run` is a command used in Docker Compose to run a service as a one-off container, rather than starting it as part of the defined app. The `--service-ports` flag publishes the service''s exposed ports to the host machine, enabling direct access to the service from outside of the Docker network. This can be useful when you want to test or debug your application without having to start the entire Compose stack.'
+        tty: '[AI] `docker-compose run` is a command used in Docker Compose to start a service and run a command inside a container. The `--tty` option requests that a pseudo-TTY be allocated to the container, allowing for interactive input and output. This can be useful when running commands that require user interaction or when debugging containers.'
+        use-aliases: '[AI] `docker-compose run` is a command used to build and then run a service defined in a Docker Compose file. The `--use-aliases` option is an additional argument that allows using the aliases defined in the Compose file instead of having to use the full container names when running the command. This can be useful for simplifying commands and improving readability, especially when dealing with multiple services in a project.'
+        user: '[AI] `docker-compose run` is a command used to run a service defined in a Docker Compose file as a one-off container rather than starting a new container as a background service. The `--user` option allows specifying a custom user (in the format `<username>:<groupname>`) for the container''s main process instead of using the default root user. This can be useful to ensure that containers run with minimal privileges and follow security best practices.'
+        volume: |-
+            [AI] `docker-compose run` is a command used in Docker Compose to execute a single container based on the defined services in a `docker-compose.yml` file. The `--volume` option specifies one or more local directories or files to be mounted as volumes inside the container. This allows data to be shared between the host and the container, enabling various use cases like persisting data beyond the container's lifecycle or sharing configurations. For example:
+
+            ```bash
+            docker-compose run --volume ./data:/app/data myservice
+            ```
+
+            This command runs `myservice`, mounts the local `./data` directory to the `/app/data` path within the container, and starts the service's container. Any changes made inside the container in the mounted volume will be reflected on the host as well.
+        workdir: '[AI] `docker-compose run` is a command used with Docker Compose files to run a service against an image, interactively in a container. The `--workdir` option sets the working directory for any commands that get run inside the container. This means that when you run a command inside a container using this flag, it will start from the specified directory within the container. For example: `docker-compose run --workdir /app my_service bash`, would start a new container based on `my_service` image and open a bash shell with the working directory set to `/app` inside the container.'

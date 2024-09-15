@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: inspect [OPTIONS] CONFIG [CONFIG...]
+description: Display detailed information on one or more configs
+flags:
+    --pretty: Print the information in a human friendly format
+    -f, --format=: 'Format output using a custom template:'
+documentation:
+    command: '[AI] `docker config inspect` is a Docker command used to display detailed information about a specified Docker image, container, or build context''s configuration file. The output includes various key-value pairs such as image name, digest, history, size, and other relevant details specific to the given Docker object. It helps in understanding the configuration settings of an image or container and can be useful for debugging or comparing configurations between different objects.'
+    flag:
+        format: |-
+            [AI] `docker config inspect --format` is a command used with Docker to obtain specific information from Docker service configuration files. The "--format" option allows you to customize the output format of the inspection results. For instance, if you have a Docker Compose file and want to extract the value of a particular environment variable, you can use this command:
+
+            ```bash
+            $ docker-compose config --services <service_name> --output json | jq -r '.[].Environment[] | select(.Key == "ENVIRONMENT_VARIABLE") | .Value'
+
+            # Instead, you can use the following command with inspect and format:
+            $ docker config inspect --format '{{range .Config.Env | {{.Key}}="{{.Value}" | end}}' <container_name>
+            ```
+
+            In this example, the `jq` tool is used to parse the JSON output of the `docker-compose config` command for extracting the value of an environment variable. Alternatively, you can use Docker's built-in `config inspect` command with format to get the same result without having to deal with parsing JSON:
+
+            ```bash
+            $ docker config inspect --format '{{range .Config.Env | {(.Key): .Value} | end}}' <container_name>
+            ```
+
+            In summary, `docker config inspect --format` is a powerful tool for extracting and manipulating configuration data from Docker Compose files or container configurations in a customizable way.
+        pretty: '[AI] `docker config inspect --pretty` is a Docker command used to display the details of a Docker image, container, or build context configuration in a human-readable format. The `--pretty` flag modifies the output formatting from JSON to textual data, making it easier for users to understand and parse the information directly from the terminal.'

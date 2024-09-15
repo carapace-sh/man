@@ -1,0 +1,58 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: configmap NAME [--from-file=[key=]source] [--from-literal=key1=value1] [--dry-run=server|client|none]
+aliases:
+    - cm
+description: Create a config map from a local file, directory or literal value
+flags:
+    --allow-missing-template-keys: If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
+    --append-hash: Append a hash of the configmap to its name.
+    --dry-run?: Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
+    --field-manager=: Name of the manager used to track field ownership.
+    --from-env-file*=: Specify the path to a file to read lines of key=val pairs to create a configmap.
+    --from-file*=: Key file can be specified using its file path, in which case file basename will be used as configmap key, or optionally with a key and file path, in which case the given key will be used.  Specifying a directory will iterate each named file in the directory whose basename is a valid configmap key.
+    --from-literal*=: Specify a key and literal value to insert in configmap (i.e. mykey=somevalue)
+    --save-config: If true, the configuration of current object will be saved in its annotation. Otherwise, the annotation will be unchanged. This flag is useful when you want to perform kubectl apply on this object in the future.
+    --show-managed-fields: If true, keep the managedFields when printing objects in JSON or YAML format.
+    --template=: Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates [http://golang.org/pkg/text/template/#pkg-overview].
+    --validate?: Validation mode.
+    -o, --output=: 'Output format. One of: (json, yaml, name, go-template, go-template-file, template, templatefile, jsonpath, jsonpath-as-json, jsonpath-file).'
+documentation:
+    command: '[AI] `kubectl create configmap` is a command used in Kubernetes for creating a ConfigMap resource. A ConfigMap is an object used to store and manage configuration data, such as key-value pairs or entire files, which can be consumed by other resources like Pods or Containers. The syntax of the command is: `kubectl create configmap <configmap-name> [--from=<source>] [--dry-run] [--output=<output-format>]`. The `<configmap-name>` is a required argument, specifying the name of the ConfigMap. The optional `--from` flag allows you to specify the source of data for your ConfigMap, such as a file or an existing ConfigMap. Other flags include `--dry-run`, which allows you to preview the changes without applying them, and `--output`, which allows you to output the YAML or JSON definition of the new ConfigMap.'
+    flag:
+        allow-missing-template-keys: |-
+            [AI] `kubectl create configmap` is a command used to create a new ConfigMap resource in Kubernetes. The `--allow-missing-template-keys` flag enables the creation of a ConfigMap even if there are missing keys in the provided YAML or JSON file.
+
+            Without this flag, Kubernetes would return an error when creating a ConfigMap with missing keys because it requires that all keys specified in the template exist in the data to be added. However, with `--allow-missing-template-keys`, Kubernetes will ignore the missing keys and still create the ConfigMap using the existing keys and their values.
+
+            This flag can be useful when creating ConfigMaps from files where some keys might not be present yet or when migrating ConfigMaps between different environments with varying key sets. However, it's important to note that this behavior may lead to unexpected results if the missing keys are required for proper functionality of the application using the ConfigMap.
+        append-hash: |-
+            [AI] `kubectl create configmap` is a command used to create a new ConfigMap resource in Kubernetes. The `--append-hash` option is used to append a new data item to an existing ConfigMap, while keeping the old data items unchanged.
+
+            When you use this flag, a new data key-value pair will be added to the ConfigMap, but the existing keys and values will remain untouched. Additionally, a hash value will be computed based on the newly added data item(s) and appended to the name of the new ConfigMap as a suffix in the form `-<hash>`.
+
+            This is particularly useful when you want to update an existing ConfigMap without affecting its current data and have the updated ConfigMap maintain a distinct identity.
+        dry-run: |-
+            [AI] `kubectl create configmap` is a command used to create a new ConfigMap resource in a Kubernetes cluster. The `--dry-run` option is used to display the YAML manifest that would be created, without actually applying it. This allows you to review the configuration before creating it in the cluster. For example:
+
+            ```bash
+            $ kubectl create configmap myconfigmap --dry-run -o yaml > myconfigmap.yaml
+            ```
+
+            This command would generate a YAML file called `myconfigmap.yaml`, which contains the configuration that would be used to create the new ConfigMap resource if `--dry-run` was not used. If you're satisfied with the configuration, you can apply it to your cluster using `kubectl apply -f myconfigmap.yaml`.
+        field-manager: |-
+            [AI] `kubectl create configmap` is a command used to create a new ConfigMap resource in Kubernetes using the `kubectl` tool. The `--field-manager` flag is an optional argument that, when provided, enables automatic field management for creating and updating ConfigMaps.
+
+            Field management automates the process of merging changes made outside of `kubectl create` or `kubectl apply` commands with the desired state defined in the command itself. This can be useful when multiple team members are working on the same Kubernetes resources, as it ensures that all changes are applied consistently and conflict-free.
+
+            Using `--field-manager` also enables features like change tracking and rollbacks, allowing you to revert back to previous versions of a ConfigMap if necessary. Overall, it simplifies the process of managing ConfigMaps in complex environments with multiple developers collaborating on the same resources.
+        from-env-file: '[AI] `kubectl create configmap` is a command used to create a new ConfigMap resource in Kubernetes using data from environment files. The `--from-env-file` flag specifies the path to one or more files containing key=value pairs, where each pair represents an environment variable. Kubectl will read these files and create keys in the ConfigMap with the same names as the environment variable keys, and their values will be set to the corresponding environment variable values. The created ConfigMap can then be used to inject environment variables into containers or applied as a volume for use by other resources.'
+        from-file: '[AI] `kubectl create configmap` is a command used to create a new ConfigMap resource in Kubernetes using files as the source of data. The `--from-file` option specifies one or more key-value pairs, where each pair consists of a file path and a desired key name for the ConfigMap. For example, `kubectl create configmap myconfigmap --from-file=path/to/file1=key1,path/to/file2=key2`. Kubernetes will read the files specified and store their contents as values in the ConfigMap, which can then be referenced by other Kubernetes resources.'
+        from-literal: '[AI] `kubectl create configmap` is a command used in Kubernetes to create a new ConfigMap resource. The `--from-literal` flag specifies that the source of the data to be added to the ConfigMap is a key-value pair, passed as an argument to the command. For example, `kubectl create configmap myconfigmap --from-literal=key1=value1 --from-literal=key2=value2` creates a new ConfigMap named "myconfigmap" with two keys and their corresponding values.'
+        output: '[AI] `kubectl create configmap` is a command used to create a new ConfigMap resource in Kubernetes. The `--output` flag specifies the format for the output of the command. By default, no output is produced. However, you can use the `--output json` or `--output yaml` flags to have the command print out the created ConfigMap resource in JSON or YAML format, respectively. This can be useful for creating and applying ConfigMaps from the command line without having to manually create and edit YAML files. For example, `kubectl create configmap my-config --from-literal=key1=value1 --output yaml > my-config.yaml` would create a new ConfigMap named "my-config" with the key "key1" set to the value "value1", and then save the output as a YAML file named "my-config.yaml".'
+        save-config: '[AI] `kubectl create configmap` is a command used to create a new ConfigMap resource in Kubernetes using the `kubectl` command-line interface. A ConfigMap is an API object that can be used to store and manage non-confidential data such as application property files or environment variables. The `--save-config` flag is optional, but when used it indicates that the output of `kubectl create` should be saved to a file instead of just displaying the created ConfigMap resource object. In other words, this flag allows you to store the configuration data in a file after creating the ConfigMap in your Kubernetes cluster.'
+        show-managed-fields: |-
+            [AI] `kubectl create configmap` is a command used to create a new ConfigMap resource in Kubernetes. The `--show-managed-fields` flag is an optional argument that, when provided, will display the fields managed by the kubectl command in the output.
+
+            In simpler terms, this command creates a ConfigMap and prints out the differences between the desired state (defined by the command) and the current state of the ConfigMap in the cluster, if any. This can be useful for understanding what changes will be made when applying the new configuration.
+        template: '[AI] `kubectl create configmap` is a command used to create a new ConfigMap resource in Kubernetes using the KUBECTL tool. The `--template` option is used with this command to generate the ConfigMap data from a template file instead of providing it directly. This approach allows for managing and versioning the configuration files separately from the Kubernetes manifest files. When you run the command, Kubectl processes the template file, interpolates any variables, and creates the ConfigMap object with the generated data.'
+        validate: '[AI] `kubectl create configmap --validate` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`. This command creates a new ConfigMap resource in a Kubernetes cluster, but with an additional flag `--validate` that performs data validation on the key-value pairs provided before creating the resource. If the provided key-value data is valid, the ConfigMap will be created. Otherwise, an error message will be displayed. The goal of using this command is to ensure the correctness and consistency of the key-value data before creating a ConfigMap, which can help prevent potential errors or issues in your Kubernetes application.'

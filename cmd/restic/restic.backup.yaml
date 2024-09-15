@@ -1,0 +1,88 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: backup
+description: Create a new backup of files and/or directories
+flags:
+    --exclude-caches: excludes cache directories that are marked with a CACHEDIR.TAG file. See https://bford.info/cachedir/ for the Cache Directory Tagging Standard
+    --exclude-file*=: read exclude patterns from a `file` (can be specified multiple times)
+    --exclude-if-present*=: takes `filename[:header]`, exclude contents of directories containing filename (except filename itself) if header of that file is as provided (can be specified multiple times)
+    --exclude-larger-than=: 'max `size` of the files to be backed up (allowed suffixes: k/K, m/M, g/G, t/T)'
+    --files-from*=: read the files to backup from `file` (can be combined with file args; can be specified multiple times)
+    --files-from-raw*=: read the files to backup from `file` (can be combined with file args; can be specified multiple times)
+    --files-from-verbatim*=: read the files to backup from `file` (can be combined with file args; can be specified multiple times)
+    --hostname=: set the `hostname` for the snapshot manually
+    --iexclude*=: same as --exclude `pattern` but ignores the casing of filenames
+    --iexclude-file*=: same as --exclude-file but ignores casing of `file`names in patterns
+    --ignore-ctime: ignore ctime changes when checking for modified files
+    --ignore-inode: ignore inode number changes when checking for modified files
+    --parent=: 'use this parent `snapshot` (default: last snapshot in the repo that has the same target files/directories)'
+    --stdin: read backup from stdin
+    --stdin-filename=: '`filename` to use when reading from stdin'
+    --tag*=: add `tags` for the new snapshot in the format `tag[,tag,...]` (can be specified multiple times)
+    --time=: '`time` of the backup (ex. ''2012-11-01 22:08:41'') (default: now)'
+    --with-atime: store the atime for all files and directories
+    -H, --host=: set the `hostname` for the snapshot manually. To prevent an expensive rescan use the "parent" flag
+    -e, --exclude*=: exclude a `pattern` (can be specified multiple times)
+    -f, --force: force re-reading the target files/directories (overrides the "parent" flag)
+    -n, --dry-run: do not upload or write any data, just show what would be done
+    -x, --one-file-system: exclude other file systems, don't cross filesystem boundaries and subvolumes
+documentation:
+    command: |-
+        [AI] `restic` is a versatile, file-level backup program that uses the Git data model under the hood for efficient deduplication. The command `restic backup` initiates a new or schedules an existing backup with `restic`.
+
+        Here's how it works:
+
+        1. First, you need to create a repository (remote) where backups will be stored: `restic init <REMOTE_URL>`
+        2. Next, authenticate the remote by creating a password or using an SSH key: `restic pass <PASSWORD>` or `restic ssh-auth-setup [user@host]:<REMOTE_PATH>`
+        3. Now you can back up files and directories using the following command:
+           - `restic backup [SOURCE] @<REMOTE>:[BACKUP_NAME]` where [SOURCE] is a local file or directory, [REMOTE] is the URL of your remote repository, and [BACKUP_NAME] is an optional name for the backup.
+        4. By default, `restic` only stores differences between backups, making it efficient in terms of storage space and bandwidth usage.
+
+        To perform a selective or incremental backup, you can specify individual files or directories as the source using the globbing pattern (e.g., `**/*.txt`). Additionally, you can combine multiple sources into one command using the `+` symbol: `restic backup <SOURCE1> <SOURCE2> @<REMOTE>:[BACKUP_NAME]`.
+
+        To learn more about advanced features such as scheduling backups, selective restores, and encrypted backups, refer to the [official documentation](https://restic.sh/docs/).
+    flag:
+        dry-run: |-
+            [AI] `restic` is a versatile backup program that allows you to easily back up data using the Git-like data model. The `--dry-run` option is used with the `backup` command in `restic`.
+
+            When you run `restic backup --dry-run`, it simulates a backup operation without actually creating or modifying any files. This allows you to test your backup configuration, check which files will be included in the backup, and estimate the amount of data that will be backed up, without affecting your actual data.
+
+            In summary, `restic backup --dry-run` is a command used to perform a simulated backup operation using `restic`. It helps you to ensure your backup setup is correct before executing an actual backup and potentially losing or overwriting data.
+        exclude: '[AI] `restic` is a backup program that uses the Git data model under the hood. The `--exclude` option is used to exclude certain files or directories from being backed up. You can provide one or more glob patterns as arguments to this flag, separated by commas. For example, `--exclude="*.log,/path/to/directory/*"` will exclude all files with the extension `.log` and all files in the directory `/path/to/directory/` and its subdirectories. The exclusion applies recursively to subdirectories that match the patterns as well.'
+        exclude-caches: '[AI] `restic` is a backup program that uses the Git data model under the hood for efficient deduplication and compression. The `--exclude-caches` option is used to exclude specific directories or files from being backed up. This can be useful in cases where there are large caches, such as Docker or NPM, that do not need to be backed up, as they can take up a significant amount of storage space. The flag tells `restic` not to include these directories when creating backups.'
+        exclude-file: '[AI] `restic` is a backup program that uses the Git data model for versioning and deduplication. The option `--exclude-file` allows you to specify a file containing a list of glob patterns or file paths, which restic will exclude from being backed up during the next backup run. This can be useful if there are files or directories that don''t need to be included in backups, such as large temporary files or system files. The exclusion file should be in plain text format and one pattern per line.'
+        exclude-if-present: '[AI] The `--exclude-if-present` flag in `restic`, a backup program, is used to exclude files or directories from being backed up only if they already exist in the backup repository. This means that if a file or directory with the same name and path already exists in the backup, it will not be backed up again, saving storage space and reducing redundancy. It''s particularly useful when dealing with large or frequently changing files or directories where you want to minimize the amount of data being repeatedly backed up without losing any data.'
+        exclude-larger-than: '[AI] `restic` is a backup program that uses the Git data model for efficient incremental backups. The option `--exclude-larger-than` allows you to exclude files larger than a specified size from being backed up in an attempt to save storage space and reduce backup time. For example, `--exclude-larger-than "10GiB"` would exclude any file larger than 10GB during the backup process.'
+        files-from: '[AI] `restic` is a backup program that uses the Git data model under the hood to create efficient, incremental backups. The `--files-from` option is used to read a list of files or directories to be backed up from an external file instead of specifying them directly on the command line. This file can contain absolute or relative paths, one per line. By using this option, you can easily manage large or dynamic sets of files that need to be backed up in an efficient way.'
+        files-from-raw: |-
+            [AI] `restic` is a versatile backup program that allows backing up data in an efficient and flexible way. The option `--files-from-raw` modifies how `restic` reads the list of files to be backed up from a file or standard input.
+
+            Instead of reading the filenames as text lines, `--files-from-raw` interprets the given data as raw bytes. This can be useful in specific use cases, such as when dealing with binary files containing lists of files in a format that is not easily parseable as text.
+
+            The raw bytes are expected to represent the header, followed by the list of filenames, each represented as their respective byte sequence. Restic will then treat these byte sequences as filenames when performing the backup operation.
+        files-from-verbatim: '[AI] The `--files-from-verbatim` flag in a `restic` backup command is used to specify a file or standard input containing a list of files to be backed up, with each line being treated as an absolute file path. This allows for more complex backup selection, such as selecting files based on patterns or scripts that generate lists of files to back up. The flag ensures that restic uses the exact paths provided and does not attempt to expand any wildcards or globs.'
+        force: |-
+            [AI] `restic` is a backup program that uses the Git data model for handling backups. The `--force` option is used with certain restic commands, such as `restore` and `delete`, to override existing data in the destination.
+
+            When using `restore`, `--force` will overwrite any existing files in the destination directory with the restored data, even if the files already exist. This can be useful when accidentally restoring data into the wrong directory or when dealing with conflicting versions of restored data.
+
+            With `delete`, `--force` will delete files that are present in the backup store but not on the destination filesystem. This can be used to clean up old and unnecessary backups, but it's important to use this option with caution as it will permanently delete data from your backups.
+        host: '[AI] `restic` is a backup program that uses the Git data model for versioning and deduplicating backups. The command `restic backup` is used to create new backups, and the option `--host` specifies the remote host or repository where the backup data will be stored. For example, `restic backup --host ssh://user@remote:/path/to/repo/` creates a backup and sends it to an SSH server at the specified address and path.'
+        hostname: '[AI] `restic` is a backup program that utilizes the Git data model for versioning backups. The command `restic backup --hostname <Hostname>` initiates a new backup of all selected data (specified in the restic configuration file or provided on the command line) from the system with the given hostname. This command performs an incremental backup, meaning it only saves the differences between previous backups and the current data, resulting in efficient storage and transfer of data. The hostname is used to identify the source of the data being backed up.'
+        iexclude: '[AI] `restic backup --iexclude` is a command-line option for the `restic` data backup tool. It allows users to exclude specific directories or files from being backed up by prefixing them with a `+` sign in the exclude file. The exclude file is typically a text file where each line specifies a pattern to exclude. For example, `+/\.temp/` would exclude all files and directories matching the `/.temp/` pattern from being backed up. This option enables more granular control over what data is included in backups.'
+        iexclude-file: '[AI] `restic` is a versatile backup program that supports various options for customizing backups, including the use of an exclude file with the `--iexclude-file` option. This option instructs restic to read a list of paths or patterns from a file and exclude those during the backup process. By providing a path to this file as an argument, you can define specific directories or files that will be omitted from the backup, which may help reduce the size or scope of the backup data.'
+        ignore-ctime: '[AI] `restic` is a backup program that allows selective backups and efficient data transfer. The option `--ignore-ctime` is used to override the default behavior of considering file metadata (like creation time) when choosing which files to include in the next backup. With this flag, restic will only consider file content for selecting files to be backed up or restored, regardless of their metadata. This can save bandwidth and computation resources if you''re backing up large datasets with minimal changes in file metadata.'
+        ignore-inode: '[AI] The `--ignore-inode` flag is a command-line option for the `restic` backup tool. It instructs `restic` to ignore differences in file inode numbers when comparing and syncing files between repositories during backups. Inode numbers are unique identifiers assigned to each file on a Unix-based file system, and changes to an inode number (for example, due to file metadata updates) may not necessarily mean that the file content has changed. By ignoring inode differences with `--ignore-inode`, `restic` can save bandwidth and time by only transferring files that have actually been modified.'
+        one-file-system: '[AI] `restic` is a versatile and efficient backup program that supports multiple file systems in a single backup. The option `--one-file-system` limits `restic` to back up only one file system, ensuring that the backup process does not traverse mount points or mix data from different file systems. This can be useful for maintaining separate backups of independent file systems or when working with complex storage architectures.'
+        parent: '[AI] `restic` is a backup program that supports differential and incremental backups. The option `--parent` tells `restic` to create a new snapshot as a child of an existing one, creating an ancestor-descendant relationship between the snapshots. This allows for efficient backup storage by only keeping the differences between parent and child snapshots. Additionally, it enables versioning and point-in-time recovery.'
+        stdin: '[AI] `restic backup` is a command from the restic data backup and sync tool. The `--stdin` option tells restic to read the backup data from standard input instead of files or other sources. This can be useful when integrating restic with scripts or other automated workflows that don''t involve saving backup data as files. When used together, this command chain indicates that a restic backup operation is being executed, but instead of supplying the data to be backed up from files, the backup data will be provided through standard input.'
+        stdin-filename: |-
+            [AI] `restic` is a backup program that allows incremental backups and deduplicates data to save storage. The command `restic backup --stdin-filename` is used for reading filenames or paths from standard input instead of specifying them directly. Here's a breakdown:
+
+            1. `restic`: A popular, efficient, and easy-to-use backup tool that supports various backends like S3, local files, and more.
+            2. `backup`: The command to create a new backup or perform an incremental backup, updating existing backups if necessary.
+            3. `--stdin-filename`: An option that instructs `restic` to read filenames or paths from standard input (stdin) instead of specifying them explicitly in the command line arguments. This is useful when scripting or automating backups, especially when dealing with large numbers of files.
+
+            So, in summary, the command `restic backup --stdin-filename` creates a new or incremental backup using the provided filenames or paths read from stdin.
+        tag: '[AI] `restic` is a backup program that allows for efficient incremental backups using the Git data model. The `--tag` option in a `restic` backup command creates or updates a specific tag for a particular backup snapshot. When used with the `backup` command, it saves the current backup state with the given tag name for future references. The tagged snapshot can be later restored or listed separately from other backups using its tag name.'
+        time: '[AI] `restic` is a backup program that uses the Git data model under the hood for efficient incremental backups. The option `--time <timestamp>` specifies the desired timestamp for the backup. This can be in various formats, such as ISO 8601 or Unix timestamp, and it defines when the backup should be taken. With this option, you can create backups at specific points in time to meet your data retention requirements.'
+        with-atime: '[AI] `restic` is a versatile backup program that supports incremental backups using the Git data model. The option `--with-atime` is used to enable backing up of file metadata including the last access time (ATIME). By default, restic only backs up file metadata such as ownership, permissions, and size. Enabling `--with-atime` ensures that the last accessed time of each file is also saved during backups. This can be useful for certain use cases where tracking file access times is important.'

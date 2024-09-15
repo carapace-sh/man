@@ -1,0 +1,147 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: merge
+description: Join two or more development histories together
+group: main
+flags:
+    --abort: abort the current in-progress merge
+    --allow-unrelated-histories: allow merging unrelated histories
+    --autostash: automatically stash/stash pop before and after
+    --cleanup=: 'how to strip spaces and #comments from message'
+    --commit: perform a commit if the merge succeeds (default)
+    --continue: continue the current in-progress merge
+    --ff: allow fast-forward (default)
+    --ff-only: abort if fast-forward is not possible
+    --into-name=: use <name> instead of the real target
+    --log=: add (at most <n>) entries from shortlog to merge commit message
+    --no-autostash: do not create a temporary stash entry
+    --no-commit: perform the merge and stop just before creating a merge commit
+    --no-edit: accept the auto-generated message
+    --no-ff: force merge commit
+    --no-gpg-sign: countermand both commit.gpgSign and earlier --gpg-sign
+    --no-log: do not list one-line descriptions from the actual commits being merged
+    --no-overwrite-ignore: do not overwrite ignored files from the merge result
+    --no-progress: do not show progress
+    --no-rerere-autoupdate: 'do not update index automatically '
+    --no-signoff: countermand an earlier --signoff
+    --no-squash: perform the merge and commit the result
+    --no-verify: bypass pre-merge-commit and commit-msg hooks
+    --no-verify-signatures: do not verify signatures
+    --overwrite-ignore: update ignored files (default)
+    --progress: force progress reporting
+    --quit: --abort but leave index and working tree alone
+    --rerere-autoupdate: update the index with reused conflict resolution if possible
+    --signoff: add a Signed-off-by trailer
+    --squash: create a single commit instead of doing a merge
+    --stat: show a diffstat at the end of the merge
+    --summary: (synonym to --stat)
+    --verify-signatures: verify that the named commit has a valid GPG signature
+    -F, --file=: read message from file
+    -S, --gpg-sign?: GPG sign commit
+    -X, --strategy-option=: option for selected merge strategy
+    -e, --edit: edit message before committing
+    -m, --message=: merge commit message
+    -n, --no-stat: do not show a diffstat at the end of the merge
+    -q, --quiet: be more quiet
+    -s, --strategy=: merge strategy to use
+    -v, --verbose: be more verbose
+documentation:
+    command: '[AI] `git merge` is a command used in Git version control system to integrate changes from one branch into another. It automatically resolves most conflicts and allows users to review and resolve any conflicts that may arise. The command assumes that the branches to be merged have no divergent history, meaning they share a common commit point. If the branches have diverged, `git merge` can still be used, but it will create a merge commit that represents the integration of the two branches.'
+    flag:
+        abort: '[AI] `git merge --abort` is a Git command used to discard the changes introduced during an abortive merge. When you initiate a merge in Git but realize that it''s not working as intended or there are conflicts, you can use this command to undo the merge operation. It will leave your working directory and branch in their pre-merge state.'
+        allow-unrelated-histories: |-
+            [AI] `git merge --allow-unrelated-histories` is a command used in Git version control system to perform a merge between two branches or commits with unrelated histories, meaning their common ancestor goes far back in the commit history.
+
+            By default, Git refuses such merges due to potential conflicts and complexity. However, this option explicitly allows the merge operation to proceed despite the unrelated histories. It's useful when merging branches that have been developed independently for a long time or from different projects with some shared codebase.
+
+            Keep in mind, using `--allow-unrelated-histories` may increase the likelihood of conflicts and complex merge resolutions. Always ensure a good understanding of both branches before attempting this kind of merge.
+        autostash: |-
+            [AI] `git merge --autostash` is a Git command used to perform a git merge while automatically stashing any local modifications that might cause a conflict with the incoming changes.
+
+            When you run this command, Git checks if there are any uncommitted changes in your working directory or index. If it finds any, it automatically stashes them using `git stash save "message" --quiet` (with an empty message by default). Then, Git performs the merge operation as usual.
+
+            This command is useful when you want to merge changes from another branch while preserving your local modifications. It helps prevent conflicts and keeps your working directory clean without having to manually stash your changes before merging.
+        cleanup: |-
+            [AI] `git merge --cleanup` is a command used in Git version control system to manage and remove unnecessary files generated during a merge conflict resolution. When merging two branches, Git may create merge files with the extensions ".mine", ".ours", and ".theirs" in the conflicting areas of your working directory. These files are used to keep track of the changes made by each branch during the merge process.
+
+            The `--cleanup` option is used to remove these merge files once you've successfully resolved the conflicts and committed the changes. It helps keep your working directory clean and avoid confusion caused by unnecessary files. The command can be run after a successful merge commit with:
+
+            ```bash
+            git merge --commit <merge-commit> --cleanup
+            ```
+
+            Replace `<merge-commit>` with the hash or branch name of the merge commit you want to clean up.
+        commit: |-
+            [AI] `git merge --commit` is a Git command used to perform a commit after a successful merge of two branches or commits. When you run `git merge`, Git tries to automatically combine the changes from the source branch into the current branch (also known as the target branch). If the merge results in a conflict, you'll need to resolve those conflicts manually before committing the merged changes.
+
+            The `--commit` option is used when you want Git to create a new commit after the merge, automatically resolving any non-conflicting changes and committing them along with a message describing the merge. This is useful when merging branches that contain only non-conflicting changes or when you want to automate the process of creating a new commit from a successful merge.
+
+            In summary, `git merge --commit` performs a merge operation followed by an immediate commit of the merged changes, resolving any non-conflicting changes automatically.
+        continue: '[AI] `git merge --continue` is a Git command used during a merge conflict resolution process. After you have resolved the conflicts in your working directory files, you can use this command to tell Git to continue the merge process automatically. It assumes that all conflicts have been successfully resolved and allows Git to fast-forward any remaining commits and create a new commit with the merged changes.'
+        edit: |-
+            [AI] `git merge --edit` is a Git command used to perform an interactive merge. This means that you can edit the files being merged before committing the changes.
+
+            When you run this command, Git will open a text editor with the conflicting files. You can then review and modify the differences between the branches being merged. Once you've made your desired changes, save and close the file in the text editor. Git will then automatically stage the edited changes for you. Finally, you can commit the merge with `git commit -m "your message"` as usual.
+
+            This command is useful when dealing with complex merges where manual intervention is required to resolve conflicts or when you want to review the changes being merged in detail before committing.
+        ff: '[AI] `git merge --ff` is a fast-forward merge command in Git. When you have a local branch that is completely up-to-date with another branch (i.e., there are no conflicts), you can use this command to update your current branch with the latest changes from the other branch without creating a new commit. The "--ff" option tells Git to perform a fast-forward merge, meaning it directly moves the pointer of the current branch to the tip of the other branch, instead of creating an intermediate commit. This results in a cleaner and faster merge process when there are no conflicts.'
+        ff-only: |-
+            [AI] The `git merge --ff-only` command is used to perform a fast-forward merge in Git. A fast-forward merge is when the current branch can be directly advanced to the tip of another branch without creating a new commit. This is usually indicative of having a linear history and no conflicts between the branches being merged.
+
+            The `--ff-only` option adds an extra safety check. It refuses to perform a non-fast-forward merge, even if there are differences between the branches. Instead, it only performs a fast-forward merge and will not create a new commit. This can be useful when you want to ensure that the history remains linear and there are no conflicts or new commits being introduced unintentionally during the merge process.
+        file: |-
+            [AI] The `git merge --file` command is a Git porcelain command used to perform a commit-merging operation with a specified file from another branch into the current branch's working directory. It allows merging specific files without merging the entire repository. The `--file` option specifies the path to the desired conflicted file.
+
+            When you run this command, Git will attempt to merge the specified file from the source branch into the current branch. If there are any conflicts during the merge process, Git will mark those sections with conflict markers (<<<<<, ====, and >>>>>) in the conflicting files in both branches. The user can then manually edit these files and choose which changes to keep for the final merge commit.
+
+            Once you've resolved any conflicts, you can add the changes using `git add <file>` and perform a regular commit with `git commit -m "<commit message>"` as usual.
+        gpg-sign: '[AI] `git merge --gpg-sign` is a Git command used to perform a git merge and sign the commit message with a GPG key after the merge resolution is completed. This adds an additional layer of security by digitally signing the commits, ensuring their authenticity and integrity. It''s important to note that you must have set up your GPG key for this command to work effectively.'
+        into-name: '[AI] The `git merge --allow-unrelated-histories` command with the `--into` option (often aliased as `--merge-into`) performs a non-fast-forward merge but instead of creating a new commit, it applies the changes from the source branch into the current branch. This is useful when merging branches with unrelated histories or when you want to incorporate specific changes without creating a new commit. The changes are applied as if you had manually picked the hunks to apply with `git cherry-pick` or `git apply`.'
+        log: '[AI] `git merge --log` is a Git command used to display a log of merged commits, showing the commit messages, author names, and dates for each merge event in a repository. It provides a summary of merges, including the branches that were merged, and can be helpful in understanding the history of how different branches were integrated with one another.'
+        message: |-
+            [AI] The `git merge --message` command is used to perform a git merge with an optional commit message provided on the same line as the command. This means that instead of opening the text editor for composing a commit message after the merge is completed, you can specify it directly in the terminal. The general syntax is:
+
+            ```bash
+            git merge <source-branch> --message="<commit-message>"
+            ```
+
+            This command merges the `<source-branch>` into the current branch and sets the commit message to `<commit-message>`. It's a convenient way for developers who prefer to write commit messages in plain text editors, but still want to keep their workflows efficient.
+        no-autostash: '[AI] `git merge --no-autostash` is a Git command used to perform a merge of two branches or commits, but with the additional flag `--no-autostash`, Git will not automatically stash any unsaved changes in your working directory before performing the merge. This means that any uncommitted changes you have in your current branch will be merged together with the changes from the branch or commit you''re merging, potentially leading to conflicts that need to be resolved manually. It is useful when you intentionally want to keep uncommitted changes and merge them along with the new changes.'
+        no-commit: '[AI] `git merge --no-commit` is a Git command used to perform a fast merge without creating a new commit. When you run this command, Git will attempt to merge the specified branch or changes into your current branch, but it won''t automatically create a new commit with the merged changes. Instead, it leaves the merged changes in your working directory as uncommitted modifications for you to review and commit separately. This can be useful when you want to manually handle merge conflicts or when performing a merge that might not be ready for public consumption yet.'
+        no-edit: '[AI] `git merge --no-edit` is a command used in Git version control system to perform a fast-forward merge between two branches or commits, without opening an editor for the commit message. When you run this command, Git automatically checks if there are any conflicts between the changes in the branches. If there are no conflicts, the branch with the current checkout is updated with the changes from the other branch and the merge is completed. In case of conflicts, Git stops the process and leaves it to the user to resolve them manually before completing the merge. This command is useful when you want to keep your merge commits simple, without a commit message or when you prefer to write your messages in a separate editor or text file.'
+        no-ff: |-
+            [AI] The `git merge --no-ff` command is used to perform a merge in Git without creating a fast-forward (FF) commit. Fast-forward commits occur when the current branch can be directly built on top of the branch being merged, resulting in no new commit being created.
+
+            When you run `git merge <branch>`, by default Git creates a FF commit if possible to keep the commit history linear and simple. However, there are situations where you might want to create a new commit even for a FF merge. This is where `--no-ff` comes in: it forces Git to always create a new commit regardless of whether or not the merge can be done as a FF commit.
+
+            The result is an explicit merge commit that records the merge and provides a clear representation in the commit history. In summary, `git merge --no-ff` ensures that all merges are recorded as distinct commits.
+        no-gpg-sign: '[AI] `git merge --no-gpg-sign` is a Git command used to perform a fast, non-interactive merge of two branches without signing the commit message with GPG (GNU Privacy Guard). This option is useful when you don''t want or need to sign your commit messages during the merging process. It assumes that both branches have already been signed with valid GPG keys and that you are sure about the changes being merged. The `--no-gpg-sign` flag overrides Git''s default behavior of signing commits during a merge.'
+        no-log: '[AI] The `git merge --no-log` command is used to perform a git merge without displaying any commit messages or other log information. This means that the merge will be committed silently, with no confirmation or feedback beyond success or failure. It''s often used when merging large or multiple branches where the log output would clutter the terminal. However, it''s important to note that using this command without careful consideration can lead to lost information or unintended changes if the merge isn''t carefully reviewed before committing.'
+        no-overwrite-ignore: '[AI] `git merge --no-overwrite-ignore` is a Git command used to perform a merge of two branches or commits while disabling the ignore-renamed-files option. This means that if there are files with the same name but different content in both the source and target branches, they will be marked as conflicts during the merge process instead of being overwritten. This allows the developer to manually resolve the conflicting changes before completing the merge.'
+        no-progress: '[AI] The `git merge --no-progress` command is used to perform a fast-forward merge in Git without showing the merge progress message. When you run this command, Git attempts to apply the changes from one branch directly onto another branch if they have no conflicts. If there are any conflicts, they will be left for you to resolve manually. This can be useful when you''re sure that the branches can be merged cleanly and want to skip the merge progress message for a cleaner console output.'
+        no-rerere-autoupdate: |-
+            [AI] The `git merge --no-rerere-autoupdate` command is used to perform a git merge without automatically updating the rerere (Resolved Edition of a Resolved Edit) index.
+
+            In Git, when merging two branches with common history, Git will attempt to use the recorded resolution information in the rerere index to automate the merge process and avoid resolving conflicts manually. The `--no-rerere-autoupdate` option disables this behavior, forcing Git to resolve conflicts manually for each merge conflict that arises during the merge process.
+
+            In summary, this command is used when you want more control over the merge process, preferring to resolve any potential merge conflicts manually instead of relying on Git's automatic resolution using the rerere index.
+        no-signoff: |-
+            [AI] `git merge --no-signoff` is a Git command used to perform a non-fast-forward merge without requiring a commit message with a signed-off timestamp. This option can be useful when working on projects where multiple developers don't have access to each other's email for signing off messages, or when the development workflow doesn't require signed commits.
+
+            In standard Git workflows, a merge commit requires an author and committer email address and a signed-off commit message. By using `--no-signoff`, you bypass that requirement, allowing the merge to be committed without the signing process. It is essential to note that skipping this step can potentially introduce non-reviewed changes into the project history. Therefore, it's generally recommended to use `git merge --no-signoff` only when collaborating with trusted team members or in specific circumstances where the workflow doesn't require signed commits.
+        no-squash: '[AI] `git merge --no-squash` is a command used in Git version control system to perform a non-fast-forward merge without squashing or combining all commit messages into one. In other words, it keeps separate commits for each merged branch instead of creating a single new commit with multiple changes. This can be useful when you want to preserve the history of individual changes during the merging process.'
+        no-stat: '[AI] `git merge --no-stat` is a Git command used to perform a fast, commit-free merge without showing a diff statistics (also known as a "merge stat") before the merge commit is created. This can be useful when merging multiple branches or commits and you want to skip the review of individual file changes in each commit, especially if you trust that the changes are compatible and want to keep your merge history clean. The `--no-stat` flag overrides the default behavior of displaying a merge statistics screen before creating the merge commit.'
+        no-verify: '[AI] `git merge --no-verify` is a Git command used to perform a fast commit after a successful merge without undergoing the default verification process. The `--no-verify` option disables the post-merge hooks, which are scripts that run automatically after a merge operation to ensure data consistency or perform additional tasks. It''s typically used when you''re confident in the changes and prefer to bypass this extra layer of safety checks.'
+        no-verify-signatures: '[AI] `git merge --no-verify-signatures` is a Git command used for merging branches or commits while disabling signature verification. This means that Git will not check if the signed tags and GPG keys match before applying the changes. The use of this command may bypass important security checks and should only be used in specific circumstances, such as when working with untrusted repositories or when you have verified the authenticity of the commits outside of Git.'
+        overwrite-ignore: '[AI] The `git merge --overwrite-ignore` command is used during a git merge when there are conflicts between files in the working directory and the changes being merged. This option tells Git to overwrite local changes that do not have corresponding conflict markers (<<<<<<, >>>>>) with the changes being merged, effectively ignoring any unmarked local changes during the merge process. It can be useful when merging changes from a branch where you''re confident that your local changes won''t conflict with the incoming changes.'
+        progress: '[AI] `git merge --progress` is a command used in Git version control system for a three-way merge with explicit conflict resolution. It merges the current branch into the working directory, showing the merged files with conflicts marked line by line. The command provides an interactive session where you can review and manually resolve the conflicts before completing the merge. This way, you have full control over the merge process and can ensure that all changes are properly integrated.'
+        quiet: '[AI] `git merge --quiet` is a Git command used to perform a fast-forward merge. It merges the current branch into another branch if there are no conflicts, and does not output any message or status info in the console by default. If there are conflicts during the merge process, it will still prompt for resolution like regular merge commands do. The `--quiet` flag is useful when running Git merges as part of automated build or deployment processes to keep the command output minimal.'
+        quit: '[AI] `git merge --quit` is a Git command used to initiate a merge process between two branches or commits, but with the intention of aborting it if there are any conflicts. It attempts to automatically apply the changes from one branch to another and if successful, fast-forwards the current branch to the tip of the other. However, if conflicts arise during the merge process, Git will leave the branches in their unmerged state and stop the merge with no commit being made. This command is useful when you want to check for potential conflicts before fully committing to a merge.'
+        rerere-autoupdate: '[AI] `git merge --rerere-autoupdate` is a Git command used to perform a three-way merge with automated conflict resolution using the Rerere (Resolved-in-rebase) mechanism. This option enables the Rerere autoupdate feature, which automatically stores previous merge results and reuses them when merging the same files again, reducing the need for manual conflict resolution. In summary, it''s a powerful command for efficient and automatic merging in Git repository scenarios where the same file conflicts frequently.'
+        signoff: '[AI] The `git merge --signoff` command is used to finalize a Merge Commit in Git. After resolving any potential merge conflicts, running this command allows you to review and verify the commit message associated with the merge before it''s added to the project history. By signing off, you certify that the changes in the commit are your work and that you have reviewed and tested them before merging into the main branch. This helps maintain the integrity of the codebase.'
+        squash: '[AI] `git merge --squash` is a Git command used for merging branches while keeping a clean commit history. Instead of creating a new commit for each merged file, this command combines all changes into one commit with an informative message. The author date and the parent commits are also carried over from the base branch. It''s useful when preparing pull requests or collaborating on code where having a clear commit history is essential.'
+        stat: '[AI] `git merge --stat` is a Git command used to show a diff statistic summary for three trees involved in a merge commit: the current branch, the merge base, and the branch being merged in. It provides an overview of which files have been modified, deleted, or are new, helping users visualize the changes that will be committed when they complete the merge process.'
+        strategy: '[AI] `git merge --strategy` is a command used in Git version control system to specify a custom merging strategy for resolving conflicts during a merge operation. By default, Git uses the "ours" and "theirs" strategies to keep changes from both branches separate. However, there are other strategies like "rebase", "resolve", "recursive", and "octopus" that can be used to handle more complex merging scenarios. For example, `git merge --strategy=recursive` can be used when dealing with multiple branches or merge commits. The specified strategy is applied during the merge process to help Git determine how to combine changes from different branches.'
+        strategy-option: '[AI] `git merge --strategy-option` is a command used in Git version control system to specify a custom merging strategy during a merge conflict resolution. The `--strategy-option` option allows you to provide arguments to the chosen merging strategy (e.g., ''ours'', ''theirs'', ''rebase'', or others) to customize its behavior. For instance, you can use it with the ''mine'' or ''their'' strategies to prioritize one side of the conflict during the resolution. This command is useful when dealing with complex merges and when the default merging strategies don''t meet your requirements.'
+        summary: '[AI] `git merge --summary` is a command used in Git version control system to display a summary of the changes that would be committed when merging two branches or commits. It does not actually perform the merge, but rather shows the differences between the heads being merged and allows the user to review and decide whether to proceed with the merge. The output includes the titles of the commits being merged, the number of added and deleted lines, and a brief description of each change.'
+        verbose: '[AI] `git merge --verbose` is a Git command used to perform a merge of two branches or commits in Git. The `--verbose` option increases the amount of output during the merge process, providing detailed information about the merge steps and any conflicts that may arise. It displays the names of the merge base commit, the merge heads being merged, and each file that is being merged with an indication of the changes made to it. This level of detail can be helpful for understanding the specifics of a complex merge or resolving any conflicts that might occur during the process.'
+        verify-signatures: '[AI] `git merge --verify-signatures` is a Git command used to verify the authenticity of signed commits during the merging process. This option ensures that the GPG keys associated with the commit signatories match the ones stored in the local or remote repositories before applying the changes. It adds an extra layer of security to prevent unauthorized modifications to the project history.'

@@ -1,0 +1,55 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: 'ingress NAME --rule=host/path=service:port[,tls[=secret]] '
+aliases:
+    - ing
+description: Create an ingress with the specified name
+flags:
+    --allow-missing-template-keys: If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
+    --annotation*=: Annotation to insert in the ingress object, in the format annotation=value
+    --class=: Ingress Class to be used
+    --default-backend=: Default service for backend, in format of svcname:port
+    --dry-run?: Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
+    --field-manager=: Name of the manager used to track field ownership.
+    --rule*=: Rule in format host/path=service:port[,tls=secretname]. Paths containing the leading character '*' are considered pathType=Prefix. tls argument is optional.
+    --save-config: If true, the configuration of current object will be saved in its annotation. Otherwise, the annotation will be unchanged. This flag is useful when you want to perform kubectl apply on this object in the future.
+    --show-managed-fields: If true, keep the managedFields when printing objects in JSON or YAML format.
+    --template=: Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates [http://golang.org/pkg/text/template/#pkg-overview].
+    --validate?: Validation mode.
+    -o, --output=: 'Output format. One of: (json, yaml, name, go-template, go-template-file, template, templatefile, jsonpath, jsonpath-as-json, jsonpath-file).'
+documentation:
+    command: '[AI] `kubectl create ingress` is a command used to create an Ingress resource in Kubernetes. An Ingress is a collection of rules that allow inbound connections to reach the cluster services. It typically includes load balancing, SSL termination, and name-based virtual hosting. The command requires a YAML file or JSON object defining the Ingress properties such as hostnames, paths, and backend services. After execution, Kubernetes processes the definition and creates the corresponding Ingress resource with a unique name by default.'
+    flag:
+        allow-missing-template-keys: '[AI] `kubectl create ingress --allow-missing-templates-keys` is a command used in Kubernetes to create an Ingress resource with a YAML file that may contain missing keys or values. The `--allow-missing-template-keys` flag allows the creation of the Ingress even if some required template keys are missing in the YAML file. This flag is useful when managing complex configurations where it''s challenging to ensure every key is present, but the overall structure and desired resource creation can still be achieved. Keep in mind that using this flag could result in warnings or errors, and it may impact the correctness of your Ingress configuration.'
+        annotation: '[AI] The `kubectl create ingress` command is used to create an Ingress resource in a Kubernetes cluster. The `--annotation` flag allows you to set custom key-value pairs as metadata for the new Ingress. For example, `--annotation key1=value1 --annotation key2=value2`. These annotations can be useful for configuring additional behavior or providing additional information about the Ingress.'
+        class: |-
+            [AI] The command `kubectl create ingress --class <NginxControllerName>` is used to create an Ingress resource in a Kubernetes cluster. An Ingress is a collection of rules that allow inbound connections to reach the cluster services.
+
+            The `--class` flag specifies the name of the Ingress controller, for example, NginxControllerName, which will handle and manage this Ingress resource. This ensures that traffic coming to the cluster through the created Ingress is properly routed to the relevant services based on the rules defined in the Ingress resource.
+        default-backend: |-
+            [AI] The `kubectl create ingress --default-backend` command is used to create an Ingress resource in a Kubernetes cluster. An Ingress is a collection of rules that allow inbound connections to reach the cluster services.
+
+            The `--default-backend` flag specifies that an additional backend configuration should be created as part of the Ingress, which will act as a fallback service for incoming traffic when no other Ingress or Service matches the request. This can be useful for implementing a "404 Not Found" page or error handling in your application infrastructure.
+
+            The command creates both the Ingress rule(s) and the default backend configuration in one step, making it a convenient shorthand for setting up such a scenario.
+        dry-run: '[AI] `kubectl create ingress --dry-run` is a command used with the Kubernetes `kubectl` tool to create an Ingress resource in a cluster, but without actually applying the configuration. The `--dry-run` flag outputs what would be applied if the command was run without this flag, in the format that Kubernetes would receive it. This can be useful for reviewing changes before making them persistent. It returns a YAML manifest that describes the Ingress resource and its properties.'
+        field-manager: '[AI] The `kubectl create ingress --field-manager` command is used to create a Kubernetes Ingress resource using specific field values managed by `kubectl`. It allows you to set individual fields of the Ingress manifest without providing the entire YAML file. This can be useful for making targeted updates or applying custom configurations while keeping the majority of the Ingress configuration unchanged. The command takes the Ingress rules and annotations as arguments, which are then applied when creating the resource.'
+        output: |-
+            [AI] `kubectl create ingress` is a command used to create an Ingress resource in Kubernetes using the `kubectl` CLI (Command Line Interface) tool. The `--output` flag specifies the format of the output after the creation of the Ingress.
+
+            Commonly used values for `--output` are `json`, which returns the raw YAML or JSON representation of the created resource, and `yaml`, which formats the output as a human-readable YAML file. Other possible values include `go-template` and `template`.
+
+            For example:
+
+            ```bash
+            $ kubectl create ingress my-ingress --output yaml > myingress.yaml
+            ```
+
+            This command creates an Ingress resource named "my-ingress" and saves the output as a YAML file named "myingress.yaml".
+        rule: '[AI] The `kubectl create ingress --rule` command is used to create a new Kubernetes Ingress resource with specific routing rules. The `--rule` flag defines a list of rules for matching incoming requests to the corresponding backend services or targets. Each rule consists of an HTTP method (GET, POST, etc.), a host name or path, and optional conditions such as source IP addresses or query parameters. For example, `kubectl create ingress my-namespace --rule="HTTP:/myapp/*:Backends=service1"` creates an Ingress with a rule for any HTTP request to the path "/myapp/*" that routes to service "service1".'
+        save-config: '[AI] `kubectl create ingress --save-config` is a command used to create an Ingress resource in Kubernetes, which manages external access to the cluster services. The `--save-config` flag saves the configuration of the created resource in a file after its creation, allowing easy reuse or version control. This can be helpful for keeping track of changes made to infrastructure resources.'
+        show-managed-fields: '[AI] The `kubectl create ingress --show-managed-fields` command creates a Kubernetes Ingress resource and displays the managed fields, which are the parts of the resource that have been changed or created by the command. This flag helps you understand what exactly has been modified during the creation process, making it useful for tracking changes to your infrastructure configuration.'
+        template: |-
+            [AI] `kubectl create ingress --template` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`. The `create` subcommand is used to create new resources in a Kubernetes cluster. In this case, it's being used to create an Ingress resource.
+
+            The `--template` flag is a special option that allows you to generate and apply YAML manifests from a template. Instead of providing the contents of the YAML file directly, you can define variables and use them in the template to generate the final YAML. This is useful for creating resources with similar but not identical configurations. The generated YAML will be printed to stdout by default, or you can redirect it to a file using `>` or `>>`. Finally, you can apply the generated YAML using the `apply` command.
+        validate: '[AI] `kubectl create ingress --validate` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`, to create a new Ingress resource in a Kubernetes cluster. The `--validate` flag is optional and used to validate the YAML or JSON definition file for the Ingress resource before creating it. This can help identify any errors or inconsistencies in the configuration file prior to applying it to the cluster, preventing potential deployment issues.'

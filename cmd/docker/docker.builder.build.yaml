@@ -1,0 +1,120 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: build [OPTIONS] PATH | URL | -
+description: Build an image from a Dockerfile
+flags:
+    --add-host=: Add a custom host-to-IP mapping ("host:ip")
+    --build-arg=: Set build-time variables
+    --cache-from*=: Images to consider as cache sources
+    --cgroup-parent=: Optional parent cgroup for the container
+    --compress: Compress the build context using gzip
+    --cpu-period=: Limit the CPU CFS (Completely Fair Scheduler) period
+    --cpu-quota=: Limit the CPU CFS (Completely Fair Scheduler) quota
+    --cpuset-cpus=: CPUs in which to allow execution (0-3, 0,1)
+    --cpuset-mems=: MEMs in which to allow execution (0-3, 0,1)
+    --disable-content-trust: Skip image verification
+    --force-rm: Always remove intermediate containers
+    --iidfile=: Write the image ID to the file
+    --isolation=: Container isolation technology
+    --label=: Set metadata for an image
+    --memory-swap=: 'Swap limit equal to memory plus swap: -1 to enable unlimited swap'
+    --network=: Set the networking mode for the RUN instructions during build
+    --no-cache: Do not use cache when building the image
+    --platform=: Set platform if server is multi-platform capable
+    --pull: Always attempt to pull a newer version of the image
+    --rm: Remove intermediate containers after a successful build
+    --security-opt*=: Security options
+    --shm-size=: Size of "/dev/shm"
+    --squash: Squash newly built layers into a single new layer
+    --target=: Set the target build stage to build.
+    --ulimit=: Ulimit options
+    -c, --cpu-shares=: CPU shares (relative weight)
+    -f, --file=: Name of the Dockerfile (Default is "PATH/Dockerfile")
+    -m, --memory=: Memory limit
+    -q, --quiet: Suppress the build output and print image ID on success
+    -t, --tag=: Name and optionally a tag in the "name:tag" format
+documentation:
+    command: '[AI] `docker build` is a command used to build Docker images from a Dockerfile. The `Dockerfile` specifies the base image, adds layers with instructions like `COPY`, `RUN`, `FROM`, etc., and finally defines the application or microservice that will run inside the container. When you run `docker builder build <context>`, it initiates the building process by reading the `Dockerfile(s)` in the given context (a directory containing the `Dockerfile`), fetching required base images, applying the instructions from the Dockerfile to create new layers, and finally producing a new Docker image. Once built, you can use this image to create containers using the `docker run` command.'
+    flag:
+        add-host: '[AI] The `--add-host` flag in Docker Builder''s `build` command is used to add custom host mappings between the build environment and the Docker daemon''s network. This can be useful when building Docker images that need to access specific hosts or services not available on the default network, such as those running on the local machine. The syntax for this flag is `--add-host <alias>:<address>`, where `<alias>` is a descriptive name for the host and `<address>` is its IP address or hostname. For example: `--add-host my-service:192.168.0.5`.'
+        build-arg: |-
+            [AI] The `docker build` command is used to build a Docker image from a Dockerfile. The `--build-arg` option allows passing build-time variables as arguments, which can be referenced in the Dockerfile using the syntax `$VARIABLE_NAME`. This enables customizing the image building process based on input values. For example:
+
+            ```bash
+            $ docker build --build-arg MY_IMAGE_VERSION=1.0 .
+            ```
+
+            This command sets a variable named `MY_IMAGE_VERSION` to the value `1.0` during the build process. In the Dockerfile, this value can be referenced by using `$MY_IMAGE_VERSION`:
+
+            ```dockerfile
+            ARG MY_IMAGE_VERSION
+            # ... other instructions ...
+            RUN echo "Image version: $MY_IMAGE_VERSION"
+            ```
+
+            This results in an output message like 'Image version: 1.0' when the image is built.
+        cache-from: '[AI] The `docker builder build --cache-from` flag is used to specify a Docker image as the cache source when building a new Docker image using the `docker build` command. This means that Docker will use any cached layers from the specified image to speed up the build process, rather than rebuilding those layers from scratch. The cache-from image should be a base image or an intermediate image that contains the necessary layers for the new image to be built. Using this flag can significantly reduce the time it takes to build new Docker images by leveraging previously built and cached content.'
+        cgroup-parent: |-
+            [AI] The `docker build` command is used to construct Docker images from Dockerfiles. The `--cgroup-parent` option allows you to specify the cgroup parent for the containers created during the build process.
+
+            When building a Docker image, Docker creates temporary containers to execute each step in the Dockerfile. By default, these containers are unconstrained and can use all available system resources. However, using `--cgroup-parent` allows you to set resource limitations for these containers by specifying an existing cgroup parent.
+
+            This can be useful when building large images or running multiple builds in parallel on a resource-limited system. By setting resource limits for the build containers, you can prevent them from consuming excessive resources and impacting the performance of other tasks.
+        compress: '[AI] `docker builder build --compress` is a command used in Docker to build an image using a Dockerfile with compressed output. The `--compress` flag compresses the built image layers and the resulting container files during the build process, which can significantly reduce the size of the final image or container. This can be useful when dealing with large images or containers that consume excessive storage space.'
+        cpu-period: '[AI] The `docker build` command is used to construct Docker images from Dockerfiles. The option `--cpu-period` sets a limit on the amount of CPU resources that the builder process can use during image building. This can be useful in environments where resource availability is limited or when building large or complex images, to prevent other processes from being starved of CPU resources. The value of `--cpu-period` is specified in nanoseconds, representing the maximum amount of CPU time per period (default is 100ns).'
+        cpu-quota: '[AI] The `docker builder build --cpu-quota` is a command used in Docker to limit the amount of CPU resources that can be consumed by the container during the build process. This option sets a hard limit on the number of CPU shares that can be used by the build, which helps prevent resource contention and ensures that other processes running on the host system are not significantly impacted. The value following `--cpu-quota` is the specified limit in decimal format representing the percentage of total CPU available to the Docker daemon for building. For example, `--cpu-quota 0.5` sets a limit of 50% of the available CPU for the build process.'
+        cpu-shares: '[AI] The `docker builder build --cpu-shares` command is used to configure CPU shares while building a Docker image using the Docker Builder tool. CPU shares specify the proportion of available system CPU resources that a container can use. By setting this option during image build, you can control how much CPU resources each container created from the image will get at runtime, ensuring fairness and efficient usage of system resources.'
+        cpuset-cpus: '[AI] The `docker build` command is used to construct Docker images from Dockerfiles. The option `--cpuset-cpus` is a resource constraint that allows specifying the number of CPUs that can be used by the Docker daemon for building the image. This flag ensures that other running containers or system processes don''t interfere with the build process, preventing potential performance issues. By setting a specific value (e.g., `--cpuset-cpus=2`), only two CPUs will be allocated to the Docker builder process during image construction.'
+        cpuset-mems: '[AI] The `docker build` command is used to build Docker images from a Dockerfile or a directory containing multiple Dockerfiles. The option `--cpuset-mems` limits the container used for building the image to use only specific CPU and memory resources. By setting this flag followed by a comma-separated list of CPUs and memory nodes, you can ensure that the image build process does not consume more than the allocated resources, preventing potential interference with other resource-intensive tasks on the host system.'
+        disable-content-trust: |-
+            [AI] The `docker build` command with the `--disable-content-trust` flag is used to disable content trust in Docker image builds. Content trust, also known as notary or signing, is a security feature that ensures the authenticity and integrity of Docker images by digitally signing them using GPG keys.
+
+            With this flag disabled, Docker will still build the image, but it won't verify or sign the images during the build process or when pulling them from a registry. This may be useful in certain situations where content trust is not required, such as when building images locally for testing purposes or when working with third-party images that lack signed content. However, using this flag comes with increased security risks, and it's generally recommended to enable content trust whenever possible.
+        file: '[AI] `docker build` is a command used to build Docker images from Dockerfiles. The `--file` option specifies the path to the Dockerfile that should be used for building the image. For example, `docker builder build --file /path/to/Dockerfile .` would build an image using the Dockerfile located at /path/to/Dockerfile in the current directory.'
+        force-rm: '[AI] `docker build` is a command used to build Docker images from Dockerfiles. The `--force-rm` flag is an optional argument for this command. When used, it forces Docker to remove unused stages and containers after the build process is completed. In other words, it ensures that only the final image remains in the build context once the build is finished. This can help keep the build environment clean and reduce disk usage.'
+        iidfile: '[AI] The `docker builder build --no-cache --iidfile <output_file>` command is used to build a Docker image using an existing `Dockerfile`. The `--no-cache` flag instructs the Docker daemon not to use previously cached build artifacts, ensuring that all build steps are executed from scratch. The `--iidfile` option specifies the output file where the new image ID will be written for future reference.'
+        isolation: |-
+            [AI] The `--isolation` option in Docker Builder's `build` command specifies the container isolation technology to use during the build process. This can be set to either "default" or a specific runtime such as "docker-container", "namespace", or "linux".
+
+            Using container isolation helps improve security by isolating the build environment from the host system and other containers. By default, Docker uses the `buildkit` backend for building which includes container isolation. However, if you want to explicitly set the isolation technology, you can use the `--isolation` flag. For example:
+
+            ```
+            $ docker builder build --isolation=docker --no-cache <image_name> .
+            ```
+
+            This command would use Docker's container runtime for building the image with container isolation enabled.
+        label: '[AI] `docker builder build --label` is a command used in Docker to build an image using a Dockerfile, but with an added feature of setting custom metadata labels for the resulting image. The `--label` option followed by a key-value pair sets a label that can be later retrieved using the `docker images ls --filter "reference=<image_name>"` command or by introspecting the image manifest file. This can help in managing and organizing images with additional information.'
+        memory: '[AI] The `docker builder build --memory` command is used to set a memory limit for the Docker Builder when creating a new Docker image. The `--memory` flag followed by a number represents the maximum amount of memory in Megabytes that can be used during the build process. If the build requires more memory than specified, it may fail or result in suboptimal images due to the need for frequent pauses and garbage collection. This flag helps ensure that the build process stays within resource constraints, allowing for more reliable and consistent image creation.'
+        memory-swap: '[AI] The `docker build` command with the `--memory-swap` option is used when building a Docker image in an environment where memory is limited. This flag allows the builder to use swap space when needed during the build process. Swap space is an area on the hard drive that can be used as if it were additional physical RAM. By enabling `--memory-swap`, Docker will utilize the available swap space, increasing the total amount of memory available for the build process and potentially allowing larger or more complex images to be built in environments with limited memory.'
+        network: |-
+            [AI] The `docker build` command is used to build Docker images from Dockerfiles. The `--network` option specifies which networking mode to use for the build process.
+
+            By default, Docker builds use the "bridge" networking mode, where a new virtual bridge network is created and all build context containers are connected to it. This mode is suitable for most use cases.
+
+            However, you can also use other networking modes during the build process, such as `host` or `overlay`. For instance, the `--network host` option makes all build context containers run with the same network stack as the host system, while the `--network overlay` creates an overlay network that allows for inter-container communication between multiple builds.
+
+            In summary, the `docker builder build --network` flag is used to specify which networking mode to use when building Docker images using the `docker build` command.
+        no-cache: '[AI] The `docker builder build --no-cache` command is used to build a Docker image from a `Dockerfile`. The `--no-cache` flag instructs Docker to not use any cached layers when building the image, even if they match the current image tags. This forces Docker to rebuild all the layers from scratch each time you run this command, ensuring that every build step is executed with the latest versions of dependencies and avoiding potential inconsistencies caused by using stale cached layers.'
+        platform: '[AI] The `docker build` command with the `--platform` option is used to build Docker images specifically for target hardware and operating system platforms. This can be useful when developing applications that need to run on multiple environments, ensuring the built image is optimized for each platform. The flag takes as argument the target platform in the format `<architecture>-<os>`. For example, `--platform x86_64-linux-gnu` would build an image for 64-bit Linux on x86\_64 architecture. This results in smaller images and better performance when running in those environments.'
+        pull: '[AI] `docker build --pull` is a command used to build a Docker image from a Dockerfile. The `--pull` option tells Docker to pull the latest versions of any base images or dependencies not already present on the local system before starting the build process. This ensures that the resulting image is based on the most up-to-date versions of its dependencies, reducing the potential for compatibility issues.'
+        quiet: '[AI] `docker builder build --quiet` is a command used in Docker to build an image from a Dockerfile or a context of files using the Docker Builder engine in quiet mode. Quiet mode suppresses all output except for errors and build progress messages. This is useful when automating builds or running them in the background, as it keeps the terminal clean and focused on other tasks.'
+        rm: '[AI] The `docker build` command with the `--rm` flag is used to build a Docker image, where `--rm` is an optional argument. When this flag is provided, any containers that are created during the build process will be automatically removed once they are no longer needed. This can help keep the number of running containers in check and avoid unnecessary resource usage. The `docker builder build` command builds an image using a Dockerfile, and the `--rm` flag affects the lifecycle of containers used in the build process.'
+        security-opt: |-
+            [AI] `docker build` is a Docker command used to construct a new Docker image from a Dockerfile or a directory containing one or more Dockerfiles. The `--security-opt` flag is an optional argument that can be passed to this command for enhancing the security of the resulting image.
+
+            When used, `--security-opt` allows setting various security options for the container and the image it builds. These options include:
+
+            1. `seccomp`: Allows setting seccomp profiles (Security Compute Machines) to control the system calls made by a container.
+            2. `apparmor`: Enables AppArmor profiles, which provide Mandatory Access Control (MAC) for the application inside a container.
+            3. `label`: Sets metadata labels on the image and containers based on the RBAC and SELinux policies.
+            4. `runtime`: Specifies the runtime environment used to run the container.
+            5. `privileged`: Indicates whether the container is privileged or not (default is false). A privileged container has extended capabilities, allowing it to bypass certain Linux security features.
+
+            By passing `--security-opt seccomp=<seccomp_profile>`, `--security-opt apparmor=<apparmor_profile>`, `--security-opt label=<label_name>=<label_value>`, or other valid security options, the user can configure their images to meet specific security requirements.
+        shm-size: '[AI] The `docker build` command is used to build Docker images from Dockerfiles. The `--shm-size` option sets the size of the shared memory (also known as Temporary Shared Memory or TsM) that Docker uses during the build process. This option allows you to specify a custom size for the TsM, which can be useful when building large images or running the build process on systems with limited resources. The value is specified in bytes (e.g., `--shm-size 1g` sets the size to 1 gigabyte). By default, Docker sets the TsM size based on the requirements of the build processes, but you can override this with the `--shm-size` option.'
+        squash: |-
+            [AI] `docker builder build --squash` is a command used in Docker to create a new image with a smaller size by merging all the intermediate layers into one. The `--squash` flag is used during the build process to achieve this optimization.
+
+            When you build an image using `docker build`, each step in the Dockerfile creates a new image layer, which adds to the final image size. With `--squash`, all these intermediate layers are combined into a single, flatter image, resulting in a reduced image size. This is particularly useful for distributing and deploying containers where smaller image sizes can lead to faster download times and lower storage requirements.
+        tag: '[AI] `docker build` is a Docker command used to build a new Docker image from a Dockerfile. The `--tag` option is used to specify a name and an optional tag for the resulting image. For example, `docker build --tag my-image:v1 .` would build an image named "my-image" with version "v1". Multiple tags can be set using multiple `--tag` options or by defining them in the Dockerfile. Once built, this image can be used to run containers with that specific configuration.'
+        target: '[AI] The `docker builder build --target` command is used to initiate a multi-stage build process in Docker, allowing you to create multiple labeled targets within the same Dockerfile. This command instructs Docker Builder to stop at a specific target after each build step has completed, without continuing to the next steps. The benefit of using this command is that it enables you to produce intermediate images for testing or debugging purposes during the development process, before finally building the final image.'
+        ulimit: '[AI] The `docker build` command is used to build Docker images from a Dockerfile or a directory containing one. The `--ulimit` option sets resource limits for the build process. Specifically, it allows you to limit the amount of memory (with the `-m` flag) and number of processes (with the `-c` flag) that can be used during the build process to prevent potential build failures due to resource exhaustion on the host system. For example: `docker build --ulimit mem=2g -m 2g,2g --no-cache .` sets a memory limit of 2GB for the build process.'

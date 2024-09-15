@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: cp [OPTIONS] SERVICE:SRC_PATH DEST_PATH|-
+description: Copy files/folders between a service container and the local filesystem
+flags:
+    --all&: copy to all the containers of the service.
+    --index=: index of the container if service has multiple replicas
+    -L, --follow-link: Always follow symbol link in SRC_PATH
+    -a, --archive: Archive mode (copy all uid/gid information)
+documentation:
+    command: '[AI] `docker-compose cp` is a command used with Docker Compose files to execute coping tasks between the container filesystems and the host system or between containers. The syntax is `docker-compose cp <src> <container:dest|hostpath:dest>`. Here, `<src>` is the source file or directory path on the host or in a container, `<container>` is the name of the target container, and `<hostpath:dest>` or `<container:dest>` are the destination paths. For instance, `docker-compose cp app/file container1:/new/path` copies `app/file` to `/new/path` in `container1`. Similarly, `docker-compose cp app/file host:/destination/path` copies `app/file` to the host system at the specified path.'
+    flag:
+        all: '[AI] `docker-compose cp --all` is a command used with Docker Compose files to copy files or directories between the host machine and containers. The `--all` option is used to copy files in both directions, meaning it copies files from the host to containers and vice versa. In summary, this command synchronizes the files between the host and containers.'
+        archive: |-
+            [AI] `docker-compose cp --archive` is a command used in Docker Compose for copying files or directories between the host machine and containers. The `--archive` option archives the files, meaning it creates a tarball of the data before transferring it to the container. This can be useful when dealing with large amounts of data or when preserving file metadata and permissions. The command has the following format:
+
+            ```bash
+            docker-compose cp <source>:<source_path> <container>:<target_path> [--archive]
+            ```
+
+            For instance, to archive and copy a directory from container 'my_container' named 'data' on host to the same location inside another container named 'receiver', use:
+
+            ```bash
+            docker-compose cp my_container:/data /tmp/archive.tar my_project_name:/
+            docker-compose cp my_project_name:/tmp/archive.tar receiver:/data --archive
+            ```
+
+            This command first creates an archive from the 'data' directory inside container 'my_container', then copies it to '/tmp/archive.tar' on the host. Finally, the tarball is copied to the 'receiver' container and extracted there.
+        follow-link: '[AI] `docker-compose cp` is a command used with Docker Compose files to copy files or directories between containers. The `--follow-links` flag is an optional argument that allows copying symbolic links as symbolic links instead of their target files. When this option is used, Docker will preserve the original symbolic link in the destination container and not replace it with the target file. This can be useful when working with multi-container applications where symbolic links are frequently used to establish inter-container communication or share common resources.'
+        index: |-
+            [AI] `docker-compose cp --index` is a command used with Docker Compose to copy files or directories between the host machine and containers. The `--index` option is not a standard Docker Compose command, but an extension provided by some third-party tools like Portworx or Docker Data Replicas.
+
+            With this option, you can specify which version of a container's files to copy based on their index in the history of container updates. This can be useful when dealing with data volume changes, rollbacks, and disaster recovery scenarios. The syntax is `docker-compose cp <source> <container>:<path>@<index>`.

@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: update-ref
+description: Update the object name stored in a ref safely
+group: low-level manipulator
+flags:
+    --create-reflog: create a reflog
+    --no-deref: update <refname> not the one it points to
+    --stdin: read updates from stdin
+    -d: delete the reference
+    -m=: reason of the update
+    -z: stdin has NUL-terminated arguments
+documentation:
+    command: '[AI] `git update-ref` is a Git command used to update or create refs (reference objects) locally, without performing a full fetch or pull from a remote repository. Refs are pointers to the current branch tips or commit hashes in Git. This command can be used to update the local ref with a new commit hash or create a new ref. It takes arguments specifying the ref name and the new value, typically in the format `git update-ref <ref> <new-commit>`. Without the `--fast-forward` option, Git will allow updating the ref even if the new commit is not an ancestor of the current branch head, potentially leading to a non-fast-forward update or creating a new branch.'
+    flag:
+        create-reflog: '[AI] `git update-ref --create-reflog` is a Git command used to create and update a ref (a reference to a specific commit in a repository), while also creating a reflog (an append-only history log) for the given ref. The reflog keeps track of all the changes made to the ref, including deleted commits, allowing for easy recovery in case of accidental loss or damage.'
+        d: '[AI] `git update-ref -d` is a Git command used to delete a reference, typically a branch, locally. When you run this command followed by the name of a branch, Git removes the local reference but keeps the commits in the repository intact. This command does not affect the remote branches unless you are using `git push --delete` after deleting a local branch to delete it from the remote repository as well.'
+        m: |-
+            [AI] `git update-ref` is a Git command used to manually update or create references, such as branches or tags, in the Git repository. The `-m` option follows the command and is used to provide a message for the commit that will be created when updating the ref. For example:
+
+            ```sh
+            git update-ref refs/heads/mybranch < new-commit-hash > -m "Commit message"
+            ```
+
+            This command updates `mybranch` with the new commit hash and associates the given commit message with that update. It's useful when you need to force push a branch or create a tag without an automatic commit. Note that using this command requires caution, as it can overwrite existing branches or tags.
+        no-deref: '[AI] `git update-ref --no-deref` is a Git command used to update a reference locally, without fetching or following any linked references (also known as "hard links" or "dangling pointers"). This means that if the current branch or tag being updated points to a commit that does not exist locally, this command will fail. The `--no-deref` option is used to prevent Git from automatically creating new hard links when updating references. It''s often used for force pushing and force updating local refs or tags, which can be risky and should be done with caution.'
+        stdin: '[AI] `git update-ref --stdin` is a Git command used to update or create refs (references to specific commits in a Git repository) by providing new commit hashes through standard input, instead of specifying the new hash as an argument. This can be useful for automation tasks, such as updating a local or remote ref using another script or tool. When run with `--stdin`, Git reads the new commit hash from the standard input stream and updates the named reference accordingly.'
+        z: |-
+            [AI] `git update-ref --zec <ref>` is a Git command used to write or update a reference with zero-terminated data. The `--zec` option ensures that the new value of the reference is followed by a null byte (NUL character), which may be necessary in certain edge cases when dealing with refs that are expected to contain binary data.
+
+            This command does not check if the new value already exists or if it's valid, so use it with caution and make sure you have the correct reference name and data.

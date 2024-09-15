@@ -1,0 +1,48 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: exec [OPTIONS] CONTAINER COMMAND [ARG...]
+description: Execute a command in a running container
+flags:
+    --detach-keys=: Override the key sequence for detaching a container
+    --env-file=: Read in a file of environment variables
+    --privileged: Give extended privileges to the command
+    -d, --detach: 'Detached mode: run command in the background'
+    -e, --env=: Set environment variables
+    -i, --interactive: Keep STDIN open even if not attached
+    -t, --tty: Allocate a pseudo-TTY
+    -u, --user=: 'Username or UID (format: "<name|uid>[:<group|gid>]")'
+    -w, --workdir=: Working directory inside the container
+documentation:
+    command: '[AI] `docker container exec` is a command used to execute a command in a running Docker container. The syntax is as follows: `docker container exec <container-id> <command>`. Here, `<container-id>` refers to the ID or name of the running Docker container, and `<command>` is the command you wish to run inside the container. This command allows interacting with a container''s processes without having to start a new container.'
+    flag:
+        detach: '[AI] `docker container exec --detach` is a command used to run a new process in an already running Docker container. The `--detach` or `-d` option runs the command in the background and returns the container''s ID immediately, rather than waiting for the command to finish before exiting. This allows you to keep the container running in detached mode even after the command execution has finished. In essence, it starts a process in a container without attaching the standard input, output, or error streams of the container to the terminal from which the command is run.'
+        detach-keys: '[AI] `docker container exec --detach-keys` is a command used in Docker to run a command inside a running container in detached mode (also known as background mode). The `--detach-keys` flag is optional and specifies one or more key combinations that, when sent to the container''s TTY, will cause it to print its logs. This can be useful for monitoring the container''s output without keeping a terminal window open for it. By default, no keys are set up for logging in detached mode.'
+        env: '[AI] `docker container exec` is a command used to execute a command in a running Docker container. The `--env` option allows you to set environment variables for the command being executed. For example, `docker container exec <container_name> <command> --env VAR1=value --env VAR2=value`. This sets the environment variables `VAR1` and `VAR2` to the specified values when running the command inside the container.'
+        env-file: |-
+            [AI] `docker container exec` is a command used to execute a command in a running Docker container. The `--env-file` option allows you to set environment variables for the command by providing a file containing key-value pairs.
+
+            For example, if you have a file named `env_vars.txt` with the following content:
+
+            ```bash
+            VAR1=value1
+            VAR2=value2
+            ```
+
+            You can use it with the `docker container exec` command as follows:
+
+            ```bash
+            docker container exec <container_name> --env-file env_vars.txt <command>
+            ```
+
+            This will run the specified command inside the container with the environment variables defined in the file.
+        interactive: '[AI] `docker container exec --interactive` is a command used to execute a command in an already running Docker container. The `--interactive` flag enables interactive TTY (Text Teletype) sessions, allowing for input and output between the host terminal and the container. This enables users to interactively run commands or applications within the container in real time.'
+        privileged: '[AI] The `--privileged` flag in the `docker exec` command grants the highest level of permissions to the running container, bypassing most of the Linux kernel security measures. This means that the container has full access to the host''s hardware and can make changes to its own kernel and file system. It is important to note that the use of privileged containers should be limited due to potential security risks.'
+        tty: '[AI] `docker container exec` is a command used to run a command in a running Docker container. The `--tty` option allocates a pseudo-TTY (teletype) for the container''s process, allowing it to function as if it were an interactive terminal. This means that output from the command will be displayed in real-time and user input can be provided interactively, making it useful for running applications that require user interaction or producing output in a readable format.'
+        user: '[AI] `docker container exec` is a command used to run a command in a running Docker container. The `--user` option allows specifying a custom user name or UID and GID for the container''s execution. This can be useful when you want to ensure that the command runs with specific user privileges. For example, `docker container exec --user myusername mycontainer id` would run the "id" command inside the container with the specified user account.'
+        workdir: |-
+            [AI] The `docker container exec` command is used to run a command in a running Docker container. The `--workdir` option sets the working directory for the command inside the container. In other words, it specifies the directory where the command will be executed when it is run inside the container. This can be useful when you want to ensure that your command starts with a specific working directory within the container. For example:
+
+            ```bash
+            docker container exec my_container /bin/sh -c "cd /my/working/directory && ls" --workdir /my/working/directory
+            ```
+
+            This command runs `ls` inside the container with working directory set to `/my/working/directory`. This ensures that when you list files inside the container, you'll get the files under that specific directory and not from the root directory.

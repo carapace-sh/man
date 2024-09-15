@@ -1,0 +1,58 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: kill
+description: Forcibly terminate a process
+flags:
+    --timeout=: wait up to timeout and send follow-up signal
+    --verbose: print pids that will be signaled
+    -L, --table: list signal names and numbers
+    -V, --version: display version
+    -a, --all: do not restrict the name-to-pid conversion to processes
+    -h, --help: display this help
+    -l, --list?: list signal names, or convert a signal number to a name
+    -p, --pid: print pids without signaling them
+    -q, --queue=: use sigqueue(2), not kill(2), and pass <value> as data
+    -s, --signal=: send this <signal> instead of SIGTERM
+documentation:
+    command: '[AI] The `kill` command is a utility in Unix and Unix-like operating systems used to send signals to running processes. Signals can instruct a process to terminate (be killed), or perform other actions such as suspending or resuming execution. The basic syntax of the command is `kill [OPTION]... [PID]`, where `[OPTION]...` specify various options and `[PID]` is the Process ID number of the process to be signaled. Without any options, sending signal 15 (SIGTERM) is the default action. Other common signals include SIGKILL (9), which forces a process to terminate immediately, and SIGTSTP (20), which sends a suspend signal, causing a process to stop but not terminate.'
+    flag:
+        all: '[AI] The `kill` command with the option `-ALL` or simply `--all` is used to send the SIGTERM signal to all processes in a given process group. If no process group is specified, it defaults to the current terminal (TTY). This action sends a termination notice to each process, asking them to gracefully exit. If the processes do not respond, the `SIGKILL` signal can be used instead, which forces the processes to terminate immediately without giving them a chance to clean up first.'
+        help: |-
+            [AI] The `kill` command in Unix-based systems is used to send signals to processes to terminate them. The `--help` option is used to display detailed information about how to use the `kill` command, including valid signals to send and their meanings. Here's a brief overview of the output you might see with `kill --help`:
+
+            * Displays a list of signal numbers and names that can be sent using the `kill` command.
+            * Explains how to use the basic syntax for sending signals, which is `kill [PID] [SIGNAL]`.
+            * Provides examples of how to use various options with `kill`, such as `-l` (list signals) or `-SIGTERM` (send SIGTERM signal).
+            * Describes some advanced usage scenarios, like sending signals to multiple processes at once using process groups.
+        list: '[AI] The `kill` command with the option `--list` in Unix-like operating systems displays a list of current process IDs (PIDs) that can be terminated with the `kill` command. It does not terminate any processes itself, but instead provides a list to aid in selecting the correct PID to send a signal to for termination. The output typically includes the process ID number and the corresponding process name if available.'
+        pid: '[AI] `kill --pid` is a command in Unix-based operating systems used to send signals to a specific process identified by its Process ID (PID). The `--pid` option specifies that only the process with the given PID should be targeted. When executed, it terminates the selected process unless specified otherwise through signals like `SIGTERM` or `SIGKILL`.'
+        queue: |-
+            [AI] The `kill --queue` command is a utility in Unix-like operating systems, specifically designed for managing jobs queued in the background using the `kill` command with the `-QUEUE` option. This option allows users to view and manipulate the queue of processes waiting to be signaled by a `kill` command without actually sending the signal yet.
+
+            When used without any specific arguments, `kill --queue` lists all the jobs queued for termination in the current terminal session. It displays each job's process ID (PID), the corresponding signum and signame (the signal to be sent), and other relevant information such as the user who submitted the job and the status of the job in the queue.
+
+            Users can modify the queue by adding or removing jobs using other options like `kill -queue ADD <jobspec>` and `kill -queue DELETE <jobspec>`, respectively. These commands let you add a new process to the queue for termination or delete an existing one from the queue without actually killing it yet.
+
+            In summary, `kill --queue` is an essential tool for managing jobs queued in the background with the `kill` command, providing users with fine-grained control over the order and target selection of the processes to be signaled or removed from the queue.
+        signal: |-
+            [AI] The `kill` command in Unix-based operating systems is used to send signals to a process, causing it to terminate or be brought into a specific state. The `--signal` option allows specifying the signal number or name to be sent. Commonly used signals include:
+
+            * `SIGTERM` (15): politely requests a process to terminate.
+            * `SIGKILL` (9): forces a process to terminate immediately, without giving it a chance to clean up first.
+
+            So, using the `kill --signal SIGTERM <PID>` command would send a `SIGTERM` signal to the process identified by its Process ID (PID), while `kill --signal SIGKILL <PID>` sends a `SIGKILL` signal instead.
+        table: '[AI] `kill --table` is a command used in Unix-like operating systems to display a table of processes matched by given criteria, but without sending any signals to terminate them. The `kill` utility is typically used to send signals to processes to make them stop or terminate. The `--table` option, however, only lists the process information in tabular format for diagnostic purposes.'
+        timeout: '[AI] The `kill` command in Unix-like operating systems is used to terminate processes. The option `--timeout` or `-2` is not a standard flag for `kill`. However, some implementations, such as GNU `kill`, support it. This flag sets a signal timeout before sending the SIGTERM signal to a process. If the process does not respond to the SIGTERM signal, the `kill` command will wait for the specified time (in seconds) before sending the SIGKILL signal, which forces the process to terminate immediately. The default timeout is usually 15 seconds.'
+        verbose: |-
+            [AI] The `kill` command with the `-v` or `--verbose` option in Unix or Linux systems displays detailed information about the signals that can be sent to a process. When used with a process ID (PID), it shows the corresponding signal name and its symbolic representation, providing a clearer understanding of the intended effect of the signal being sent. For instance, `kill --verbose 1234` would display something like:
+
+            ```bash
+            $ kill --verbose 1234
+             1) SIGHUP        : 1 <SIGHAND> [Hangup]
+             2) SIGINT        : 2 <SIGINT>  [Interrupt]
+             3) SIGQUIT       : 3 <SIGQUIT> [Quit]
+             4) SIGILL        : 4 <SIGILL>  [Illegal Instruction (not reachable)]
+             ...
+            ```
+
+            The above output lists all the possible signals that can be sent to process ID 1234, along with their names and corresponding symbolic representations.
+        version: '[AI] The `kill` command with the `--version` option is used to display the version information of the kill utility installed on your system. This can be helpful in determining which version of the kill utility is currently being used, especially when troubleshooting or when working across multiple systems with different versions.'

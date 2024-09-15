@@ -1,0 +1,51 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: write
+description: Write a commit-graph file based on the commits found in packfiles
+flags:
+    --append: Include all commits that are present in the existing commit-graph file
+    --changed-paths: Compute and write information about the paths changed between a commit and its first parent
+    --max-new-filters=: Generate at most n new Bloom filters
+    --no-max-new-filters: Do not limit Bloom filters
+    --no-progress: Turn progress off explicitly
+    --object-dir=: Use given directory for the location of packfiles and commit-graph file
+    --progress: Turn progress on explicitly
+    --reachable: Generate the new commit graph by walking commits starting at all refs.
+    --split?: Write the commit-graph as a chain of multiple commit-graph files stored in <dir>/info/commit-graphs
+    --stdin-commits: Generate the new commit graph by walking commits starting at the commits specified in stdin as a list of OIDs in hex, one OID per line
+    --stdin-packs: Generate the new commit graph by walking objects only in the specified  pack-indexe
+documentation:
+    command: '[AI] The `git commit-graph write` command is used to create or update a Commit-Graph file in Git. This file is a compact binary representation of the committed history, which can be useful for data transfer or backup purposes. It does not create new commits but rather writes or updates the Commit-Graph file with the current state of the commit history.'
+    flag:
+        append: '[AI] `git commit-graph write --append` is a command used in Git to append new commits to an existing commit graph file, also known as a packfile or a reflog, instead of creating a new one. The `commit-graph` subcommand generates a binary representation of the committed history, and the `write` option creates or updates the specified file with this data. The `--append` flag appends new commits to the existing file instead of overwriting it. This is useful when you want to keep adding commits to an ongoing branch without creating new packfiles.'
+        changed-paths: |-
+            [AI] `git commit-graph write --changed-paths` is a Git command that writes or creates a new commit-graph object in the Git database, representing a sequence of commits. This command is often used when dealing with large or complex repositories where efficient data manipulation is necessary.
+
+            The `--changed-paths` option adds an additional blob object to the commit-graph, which stores the list of changed file paths for each committed change. This allows efficient querying and filtering of commits based on their changes without having to read the full content of each commit. The changed paths are stored as a delta between the previous and current commit, further optimizing storage space in large repositories.
+        max-new-filters: |-
+            [AI] `git commit-graph write --max-new-filters` is a Git command for creating or updating a Commit-Graph file. The Commit-Graph is a data structure that represents the directed acyclic graph of commits, allowing efficient querying of commit history.
+
+            The `--max-new-filters` option sets an upper limit on the number of new filter scripts Git will allow when generating the Commit-Graph. Filter scripts can be used to customize how certain data is displayed or processed during commit-graph generation. By setting a limit, this command prevents an unintended large number of filters from being applied and potentially causing performance issues or other unexpected behavior.
+        no-max-new-filters: |-
+            [AI] The `git commit-graph write --no-max-new-filters` command is used to write or update a Git commit-graph, which is a data structure that represents the directed acyclic graph (DAG) of all commits in a repository.
+
+            The `--no-max-new-filters` option disables the limit on the number of new filters that can be applied during this operation. Filters are transformations that modify the contents of files before they're hashed, such as `git filter-branch` or `git rebase --interactive --root --autosquash`.
+
+            In essence, the command writes or updates a Git commit-graph with an unlimited number of filters applied. This may be useful in certain edge cases where complex filtering operations need to be performed on large numbers of commits. However, it is important to note that applying numerous filters can significantly impact performance and may lead to unwanted side effects if not carefully used.
+        no-progress: |-
+            [AI] `git commit-graph write --no-progress` is a Git command that generates a new or updates an existing commit-graph file. This file describes the directed acyclic graph (DAG) of commits in the current repository, including their parent-child relationships. The `--no-progress` option disables progress messages during the writing process.
+
+            When you run this command without any other arguments or options, Git assumes that you want to write a new commit-graph file based on the current state of your repository, overwriting any existing file with the same name in the `.git/refs/deltas/` directory. You can also use it to update an existing commit-graph file by passing the path to the file as an argument.
+
+            Keep in mind that generating or updating a commit-graph file can be resource-intensive, especially for large repositories. To avoid issues, it's recommended to run this command with care, and only when necessary.
+        object-dir: '[AI] The `git commit-graph write --object-dir` command is used to generate a new, packed Git commit-graph object that represents the entire history of a Git repository. This is typically done when creating an archive or export of the repository, as it results in a single, large binary file containing all commit objects and their parent-child relationships. The `--object-dir` option specifies the directory where Git should write the individual object files that make up the commit-graph before packing them into a single file.'
+        progress: '[AI] `git commit-graph write --progress` is a Git command used to create or update a commit-graph file, which is an internal data structure used by Git to represent the history of a repository as a directed acyclic graph (DAG). The `--progress` option causes Git to write the commit-graph in progressive format, which allows partial updates and can be used for efficient incremental rebuilding of the commit-graph. This command does not create new commits or modify the working directory, but rather manipulates the underlying data structures of Git.'
+        reachable: |-
+            [AI] The `git commit-graph write --reachable` command is used to generate a compact binary representation of the reachable commits in a Git repository's commit history, also known as a commit graph. This operation can be useful for various purposes, such as creating an efficient data structure for accessing and querying commit information or for use in Git-based data analysis tools.
+
+            The `--reachable` option filters the commits to only include those that are reachable from the current `HEAD` commit, effectively excluding any detached branches or other unreachable commits. The output is written to a file in the commit-graph format, which can be later read using Git's `git commit-tree` command for various purposes.
+        split: '[AI] `git commit-graph write --split` is a Git command used to generate or update a commit-graph, which is a directed acyclic graph (DAG) representation of the committed history. The `--split` option splits the output into separate files for each connected component in the commit-graph. This can be useful when working with large or complex repositories where analyzing the commit-graph as a whole may not be practical. The resulting files contain the SHA-1 hashes and parent relationships of the committed objects, enabling various graph analysis and visualization tools to process them efficiently.'
+        stdin-commits: '[AI] `git commit-graph write --stdin-commits` is a Git command used to generate or update a Git commitment graph in a binary format called "commit-graph" or "raw commitment graph." This command takes input from standard input (STDIN), which should be a stream of valid Git commit messages and their corresponding hashes, representing a sequence of commits. The output is written to a file or STDOUT as a raw commitment graph data. This command does not create or modify the actual commits in your repository but only generates a snapshot of the commit history in the specified format.'
+        stdin-packs: |-
+            [AI] `git commit-graph write --stdin-packs` is a Git command used to create or update a Git Commit-Graph object. This command writes the graph data to a file instead of the default location in the Git database. The `--stdin-packs` option allows passing packed Git objects through standard input instead of reading from the filesystem.
+
+            In simpler terms, this command creates or updates a Git Commit-Graph object by providing the packed Git objects as input. It is often used in automated workflows and scripts where Git objects need to be processed without reading or writing to disk.

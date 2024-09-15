@@ -1,0 +1,81 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: deploy
+description: Deploy OpenFaaS functions
+flags:
+    --annotation*=: Set one or more annotation (ANNOTATION=VALUE)
+    --constraint*=: Apply a constraint to the function
+    --envsubst: Substitute environment variables in stack.yml file
+    --fprocess=: fprocess value to be run as a serverless function by the watchdog
+    --handler=: Directory with handler for function, e.g. handler.js
+    --image=: Docker image name to build
+    --lang=: Programming language template
+    --name=: Name of the deployed function
+    --network=: Name of the network
+    --read-template: Read the function's template
+    --readonly: Force the root container filesystem to be read only
+    --replace: Remove and re-create existing function(s)
+    --secret*=: Give the function access to a secure secret
+    --tag=: Override latest tag on function Docker image, accepts 'latest', 'sha', 'branch', or 'describe'
+    --tls-no-verify: Disable TLS validation
+    --update: Perform rolling update on existing function(s)
+    -e, --env*=: Set one or more environment variables (ENVVAR=VALUE)
+    -g, --gateway=: Gateway URL starting with http(s)://
+    -k, --token=: Pass a JWT token to use instead of basic auth
+    -l, --label*=: Set one or more label (LABEL=VALUE)
+    -n, --namespace=: Namespace of the function
+documentation:
+    command: '[AI] `faas-cli deploy` is a command used in the FaaS (Function-as-a-Service) toolchain provided by OpenFaaS. This command is responsible for building Docker images of your functions and then deploying them to an OpenFaaS cluster or provider, such as Kubernetes, AWS Lambda, or Azure Functions. The `deploy` command integrates with the version control system, typically Git, to automate the process of updating the functions in production. It also supports canary releases for safer deployment strategies.'
+    flag:
+        annotation: '[AI] `faas-cli deploy --annotation` is a command used with the FaaS (Function-as-a-Service) CLI tool to deploy functions annotated with specific metadata. The `--annotation` flag allows you to define custom key-value pairs as metadata for your functions during deployment. This can be useful for adding additional information to your functions that may not be part of the function code itself, but rather metadata relevant to the deployment environment or other aspects of the FaaS platform. For instance, you might use annotations to set deployment-specific configurations, add security labels, or provide other important context data.'
+        constraint: '[AI] The `faas-cli deploy --constraint` command is used with the FaaS-CLI (Function as a Service Command Line Interface) tool to control the deployment of serverless functions. This specific command is used to apply constraints during the deployment process. Constraints are rules or conditions that determine where and how your function should be executed. For example, you may want to deploy your function only in a certain region or on a particular infrastructure provider. By using this command, you can specify these constraints as arguments to ensure that your function is deployed according to your desired configuration.'
+        env: '[AI] The `faas-cli deploy --env` command is used with the FaaS (Function-as-a-Service) CLI tool to deploy a serverless function. The `--env` option sets or updates environment variables for the deployed function. These variables can be used within the function code to configure its behavior. For example, you could set a database connection string or an API key as an environment variable. The updated variables will be available when the function is invoked.'
+        envsubst: '[AI] `faas-cli deploy --envsubst` is a command provided by the FaaS-cli (Function-as-a-Service command line interface) tool. This command deploys a function written in a FaaS-supported language (such as Node.js, Python, or Go) to a specified FaaS provider (like AWS Lambda, OpenFaas, or Google Cloud Functions). The `--envsubst` flag is used to replace placeholders in the environment variables with their actual values during deployment. This is particularly useful for managing configuration data securely and reducing the risk of exposing sensitive information.'
+        fprocess: '[AI] `faas-cli deploy --fprocess` is a command used in the FaaS (Function-as-a-Service) context, specifically with the FAAS-CLI tool. This command deploys a local function, built with the FaaS framework, to a running FaaS server or provider using FastAPI as the function process manager. The `--fprocess` flag indicates the use of FastAPI as the process manager for handling and invoking the deployed functions.'
+        gateway: '[AI] The `faas-cli deploy --gateway` command is a feature of the FaaS-CLI (Function-as-a-Service Command Line Interface) tool used in serverless computing. This specific command deploys a Faas application along with defining and creating or updating an API gateway. The gateway manages the incoming HTTP requests to the functions and routes them accordingly, acting as a reverse proxy. In simple terms, it exposes your functions as an API endpoint.'
+        handler: '[AI] The `faas-cli deploy --handler` command is used in the FaaS (Function-as-a-Service) context with the Faas-cli tool. This command deploys a locally built function to a specified FaaS provider, such as AWS Lambda or Google Cloud Functions. The `--handler` flag specifies the entry point of the function code in the format `path_to_module.function_name`. For example, if your function code is located in a Python module named `my_module` with a function named `my_function`, you would use `--handler my_module:my_function`. This command also allows other flags like `--app` to specify the FaaS application name, `--env` for setting environment variables and `--log-file` for specifying log file location.'
+        image: '[AI] `faas-cli deploy --image` is a command used with the FaaS (Function-as-a-Service) CLI tool to deploy a new or updated function image to a supported FaaS provider, such as OpenFaaS or AWS Lambda. The `--image` option specifies the Docker image name and tag to be deployed. The command pushes the image to the Faas registry if it''s not already present, and then deploys the function using the provided image.'
+        label: |-
+            [AI] The `faas-cli deploy --label` command is used with the FaaS (Function-as-a-Service) CLI tool to deploy functions and tag them with custom labels for better organization and identification within the deployed serverless infrastructure.
+
+            The `--label` flag accepts a key-value pair where the key represents the label name, and the value is the desired label value. Multiple labels can be specified by providing multiple key-value pairs separated by commas. For example:
+
+            ```bash
+            faas-cli deploy --label app=myapp,version=v1
+            ```
+
+            This would tag the deployed functions with the "app" label having the value "myapp" and the "version" label having the value "v1". These labels can then be used to filter or manage functions in the FaaS infrastructure using a dashboard, CLI tools, or other management interfaces.
+        lang: '[AI] The `faas-cli deploy --lang` command is used with the FaaS (Function-as-a-Service) CLI tool to deploy a serverless function written in a specific programming language. The `--lang` option specifies the language of the function code file, such as `go`, `python`, or `nodejs`. The `deploy` command then builds the function image using the specified language runtime and deploys it to the FaaS provider (e.g., AWS Lambda, Google Cloud Functions) for execution.'
+        name: '[AI] The `faas-cli deploy --name` command is used in Faas (Function as a Service) technology with the FaaS CLI (Command Line Interface) tool. This command deploys a specific function, defined locally or in a source control repository, to a Faas backend such as OpenFaas or OpenWhisk. The `--name` flag is used to specify the name of the function that will be deployed.'
+        namespace: |-
+            [AI] The `faas-cli deploy --namespace` command is used in FaaS (Function-as-a-Service) development with the Faas-CLI tool. This command deploys a function or application built and packaged locally, to a specific Kubernetes namespace.
+
+            The `--namespace` flag specifies the name of the target Kubernetes namespace where the deployed function or app will reside. Multiple functions or apps can be deployed in different namespaces within the same FaaS cluster, providing separation and organization.
+
+            In summary, `faas-cli deploy --namespace <namespace_name>` deploys a FaaS application or function to the specified Kubernetes namespace.
+        network: '[AI] `faas-cli deploy --network` is a command used with the FaaS (Function-as-a-Service) CLI tool to deploy a function or application to a FaaS platform, specifically setting up network configurations for the deployed function or service. The `--network` flag allows you to configure various networking options, such as specifying a custom network name, linking functions to each other using named inputs and outputs, or exposing ports to access the function from outside the network. It helps in managing communication between different services and ensuring proper network isolation for your FaaS applications.'
+        read-template: '[AI] `faas-cli deploy --read-template` is a command used in FaaS (Function-as-a-Service) development with the Faas-cli tool. This command is used to read and output the contents of a Faa function definition file in CloudNative Function Format (CNFF), without actually deploying it to a specific cloud provider. The output can then be further modified or reviewed before executing the deployment.'
+        readonly: |-
+            [AI] `faas-cli deploy --readonly` is a command used in the FaaS (Function-as-a-Service) development with Faas-netes, an open-source toolkit for building and deploying serverless functions.
+
+            This command deploys the functions defined in your `function.yaml` file to the target cluster without making them writable or updatable. In other words, it sets the deployment to a read-only state, meaning that the functions can still be invoked but their configuration cannot be modified after deployment. This can be useful for ensuring that the deployed functions remain unchanged during testing or for creating an immutable infrastructure.
+        replace: '[AI] `faas-cli deploy --replace` is a command used in FaaS (Function-as-a-Service) development with the Faas-cli tool. This command deploys a new version of a function replacing the existing one. When you use `--replace`, the previous instance of your function is terminated and replaced by the new one, ensuring that the latest code is running in the FaaS provider. This is useful for deploying updates or hotfixes to your functions quickly.'
+        secret: |-
+            [AI] `faas-cli deploy --secret` is a command provided by FaaS-CLI (Function as a Service Command Line Interface) to deploy functions and services using FaaS architecture. This specific command is used for deploying applications with sensitive data, such as API keys or access tokens, securely.
+
+            Instead of hardcoding these secrets in the function code or configuration files, `--secret` option allows you to encrypt them locally and upload the encrypted versions to the cloud provider's key management system (KMS) or a separate secret manager like Hashicorp Vault. Once the secrets are securely stored, their references are added to the application configuration in an encrypted form.
+
+            During deployment, `faas-cli` will automatically decrypt these sensitive data and inject them as environment variables for your functions, ensuring secure handling of the secrets throughout the development lifecycle.
+        tag: |-
+            [AI] The `faas-cli deploy --tag` command is used with the FaaS-CLI (Function as a Service Command Line Interface) tool for deploying serverless functions written in various programming languages such as Node.js, Go, or Python.
+
+            This specific command deploys an already built and tagged Docker image of your function to your chosen FaaS platform, be it OpenFaas, FaaSd, or any other compatible platform. By using the `--tag` flag, you specify the unique identifier for the particular image version that you want to deploy.
+
+            In summary, `faas-cli deploy --tag <image_tag>` is used to deploy a previously built Docker image of your FaaS function with a given tag to your target platform.
+        tls-no-verify: |-
+            [AI] `faas-cli deploy --tls-no-verify` is a command used in FaaS (Function-as-a-Service) development with the Faas-cli tool. This flag disables TLS certificate verification during deployment.
+
+            In secure communication over the internet, Transport Layer Security (TLS) encrypts data transmitted between two parties to maintain confidentiality and integrity. TLS also ensures that each party can authenticate the other before starting the session. The `--tls-no-verify` flag disregards this critical security measure during deployment.
+
+            This command might be used when deploying to an untrusted environment or when dealing with self-signed certificates, but it is generally not recommended for production use as it exposes your application and data to potential security risks such as man-in-the-middle attacks.
+        token: '[AI] `faas-cli deploy --token` is a command used in Faas (Function-as-a-Service) technology with the FaaS CLI (Command Line Interface) tool. This command is responsible for deploying functions to a FaaS platform, such as OpenFaaS or FaaSNetes, using an authentication token. The `--token` option is used to specify the token for secure access to the target Faas cluster or provider''s API. Without this token, deployment would not be possible. It is crucial for securing communication between your local environment and the cloud platform.'
+        update: '[AI] `faas-cli deploy --update` is a command used in Faas (Function-as-a-Service) technology to update existing functions deployed with the Faas-cli tool. The `--update` flag instructs the tool to replace the current version of the function with a new one, without affecting other aspects of the deployment. This allows developers to easily deploy new versions of their functions while keeping the rest of their configuration unchanged.'

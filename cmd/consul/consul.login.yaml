@@ -1,0 +1,60 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: login
+description: Login to Consul using an auth method
+flags:
+    --bearer-token-file=: Path to a file containing a secret bearer token to use with this auth method.
+    --ca-file=: Path to a CA file to use for TLS when communicating with Consul.
+    --ca-path=: Path to a directory of CA certificates to use for TLS when communicating with Consul.
+    --client-cert=: Path to a client cert file to use for TLS when 'verify_incoming' is enabled.
+    --client-key=: Path to a client key file to use for TLS when 'verify_incoming' is enabled.
+    --datacenter=: Name of the datacenter to query.
+    --http-addr=: The `address` and port of the Consul HTTP agent.
+    --meta*=: Metadata to set on the token, formatted as key=value.
+    --method=: Name of the auth method to login to.
+    --namespace=: Specifies the namespace to query.
+    --stale: Permit any Consul server (non-leader) to respond to this request.
+    --tls-server-name=: The server name to use as the SNI host when connecting via TLS.
+    --token-file=: File containing the ACL token to use in the request.
+    --token-sink-file=: The most recent token's SecretID is kept up to date in this file.
+    --token=: ACL token to use in the request.
+    --type=: Type of the auth method to login to.
+documentation:
+    command: '[AI] `consul login` is a command used in Hashicorp''s Consul service discovery and configuration tool. It initiates a new SSH-key based authentication session with a Consul server. Once logged in, you can manage and configure various aspects of the Consul environment such as creating and modifying services, configuring clients, and managing keys. The command typically requires providing the address or hostname of the Consul server and your Consul ACL token for authorization.'
+    flag:
+        bearer-token-file: '[AI] The `consul login` command is a tool from the Consul service discovery and configuration management platform. The `--bearer-token-file` option is used to provide a file containing a bearer token for authentication when interacting with Consul''s HTTP API or CLI. This token should have been generated previously, for example, by creating an API key in the Consul web interface or using other Consul tools like `consul identity`. The file contains the token as plain text and is passed to the command through this flag, allowing secure access to Consul services and configurations.'
+        ca-file: '[AI] The `consul login` command is used to log into a Consul server and obtain an access token, which can be used for API interactions with that specific client''s namespace. The `--ca-file` option specifies the path to a file containing the CA (Certifying Authority) certificate used to sign the server''s SSL certificates. This option is required when connecting to a Consul server using TLS and validates the server''s identity before proceeding with the login process.'
+        ca-path: '[AI] `consul login` is a command-line tool for Consul, an open-source distributed computing platform that provides service discovery, configuration, and orchestration. The `--ca-path` option specifies the path to a directory containing CA (Certificate Authority) certificates used to authenticate with Consul securely. These certificates are required when using TLS (Transport Layer Security) to encrypt communication between the client and the Consul server. With this option, users can log in to Consul''s HTTP API using their ACL-defined tokens while maintaining a secure connection.'
+        client-cert: '[AI] `consul login --client-cert` is a command used in Hashicorp''s Consul service to authenticate and log in to the Consul API using a client certificate. The command requires three arguments: the path to the key file, the path to the client certificate file, and an optional tag or label for the client. This method provides secure access to Consul APIs by utilizing Transport Layer Security (TLS) encryption and public key authentication, ensuring that only authenticated clients can interact with the service.'
+        client-key: '[AI] `consul login --client-key` is a command used in Hashicorp Consul, an open-source tool for service discovery, configuration, and orchestration. This command allows users to log in to the Consul HTTP API using a client key instead of a token. Client keys are used to authenticate applications that interact with Consul programmatically. The `--client-key` option is followed by the specific client key for authentication. Once logged in, the authenticated client can perform various tasks such as registering services, configuring clients, and managing the KV store.'
+        datacenter: '[AI] The `consul login --datacenter` command is used in Consul, a connectivity and service discovery tool by Hashicorp. This command logs into a specific datacenter within a Consul cluster. Once logged in, the user or application can interact with that datacenter''s services registry and connect to other members in that datacenter for service discovery and communication. This is particularly useful when working with multi-datacenter setups where each datacenter may have unique services or configurations.'
+        http-addr: '[AI] `consul login --http-addr` is a command used in Hashicorp Consul, an open-source tool for service discovery, configuration, and orchestration. This command allows users to log into the Consul HTTP API with specified HTTP address as an argument. The flag `--http-addr` sets the Consul server''s HTTP interface endpoint that you want to connect to. For instance, if your Consul server is running on an IP address 192.168.0.1 and listening on port 8500 for HTTP traffic, you would use `consul login --http-addr http://192.168.0.1:8500` to authenticate with the server using this endpoint.'
+        meta: '[AI] `consul login --meta` is a command used in the Consul service discovery and configuration management tool. This command is used to log in or authenticate with a Consul server using an API token, which can be provided through the `--token` flag. The `--meta` flag is optional and is used to set or update custom key-value metadata associated with the token. These metadata keys and values can be useful for organizing and managing tokens, and they are accessible via Consul''s HTTP API or CLI tools.'
+        method: |-
+            [AI] The `consul login` command is a part of Hashicorp's Consul service, which provides various services including Key-Value store, Health Checks, and Service Discovery.
+
+            The `--method` option in the `consul login` command specifies how the authentication token will be obtained. The available methods are:
+
+            1. `token`: Use an existing Consul ACL token to log in. This requires providing a valid token as an argument.
+            2. `username-password`: Provide a username and password for a user account in Consul. This method is typically used when the account has been created through the Consul web UI or API.
+            3. `cert`: Use TLS client certificates for authentication. In this case, the certificate files need to be provided as arguments.
+            4. `jwt`: Use JSON Web Tokens (JWT) for authentication. In this case, a valid JWT needs to be provided as an argument.
+
+            For example, if you want to log in using a username and password, you would run the command like this:
+            ```
+            consul login --method=username-password <username> <password>
+            ```
+        namespace: '[AI] The `consul login --namespace` command is used in Consul, a Connect and Service Mesh platform from Hashicorp. This command logs into the Consul service with the specified namespace. The namespace is an identifier for a logical cluster of services in a Consul deployment, allowing you to manage and isolate different environments or teams within the same Consul installation.'
+        stale: '[AI] The `consul login --stale` command is used in Hashicorp''s Consul service discovery and configuration management tool. This command generates a new token for an existing client, even if the client is already registered with the Consul server. A stale token can be useful when a previous token has been compromised or lost, allowing you to revoke the old token and issue a new one without having to deregister and re-register the client. It''s important to note that using stale tokens may pose security risks if not properly managed, as anyone with access to the token can connect as that client.'
+        tls-server-name: '[AI] The `consul login --tls-server-name` command is used to authenticate with a Consul server over TLS (Transport Layer Security). The `--tls-server-name` option specifies the TLS name of the Consul server that you are connecting to. It''s important to use this flag to ensure secure communication between your client and the Consul server, as it verifies that you''re communicating with the intended server and not an imposter. Without this flag or a valid certificate, the connection could be vulnerable to man-in-the-middle attacks.'
+        token: '[AI] `consul login` is a command-line utility provided by Hashicorp''s Consul service for securely managing access to the Consul API. The `--token` option follows this command and takes an API token as its argument. This token acts as authentication credential, granting the user the specified level of access to the Consul server. When using `consul login --token <TOKEN>`, the user is logging in with the provided API token and gaining programmatic access to manage and interact with Consul services and configuration.'
+        token-file: '[AI] The `consul login` command is a tool from Hashicorp''s Consul service to authenticate and obtain a token for interacting with the Consul API. The `--token-file` flag is used to specify a file where an existing token can be stored and loaded for authentication. This allows users to avoid having to manually enter or generate tokens every time they interact with the Consul API, making it more convenient and secure.'
+        token-sink-file: '[AI] The `consul login --token-sink-file` command is used in Hashicorp Consul, an open-source tool for service discovery, configuration, and orchestration. This command generates a new client or token authentication credentials and saves it to a file specified by the `--token-sink-file` flag. The generated token can be used to authenticate with Consul API and perform various operations like registering services, creating keys, and managing configs. It''s helpful when automating tasks that require Consul authentication.'
+        type: |-
+            [AI] `consul login` is a command-line utility for Consul, an open-source tool for service discovery and configuration management. The `--type` flag specifies the type of token to be issued or used. Consul supports several types of tokens, including ACL (Access Control List) tokens, session tokens, and API keys.
+
+            For example:
+
+            * `consul login --token my_token` uses an existing token.
+            * `consul login --acl-token my_team_token` logs in using an ACL token for team management.
+            * `consul login --session-token my_session_token` logs in using a session token for single-use authentication.
+            * `consul login --api-key my_api_key` logs in using an API key for rate limiting and access control purposes.

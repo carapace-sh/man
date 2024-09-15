@@ -1,0 +1,44 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: shred
+description: overwrite a file to hide its contents, and optionally delete it
+flags:
+    --help: display this help and exit
+    --random-source=: get random bytes from FILE
+    --remove=: like -u but give control on HOW to delete;  See below
+    --version: output version information and exit
+    -f, --force: change permissions to allow writing if necessary
+    -n, --iterations=: overwrite N times instead of the default (3)
+    -s, --size=: shred this many bytes (suffixes like K, M, G accepted)
+    -u: deallocate and remove file after overwriting
+    -v, --verbose: show progress
+    -x, --exact: do not round file sizes up to the next full block;
+    -z, --zero: add a final overwrite with zeros to hide shredding
+documentation:
+    command: '[AI] The `shred` command is a data wiping utility in Unix-like operating systems. It overwrites files multiple times with random patterns to securely erase their contents before deletion, making it difficult or impossible to recover the original data. Users can specify the number of passes and the pattern used for each pass. For example, `shred -n 3 -u file` would overwrite a file named "file" three times with random patterns and then remove it from the system. This command is particularly useful for securing sensitive information before disposing of storage devices or decommissioning systems.'
+    flag:
+        exact: '[AI] `shred` is a Linux command-line utility for securing deletion of files by overwriting their contents multiple times with random data to make recovery difficult. The `--exact` option instructs `shred` to overwrite each block exactly the number of times specified in the command, without rounding up or down, ensuring that the exact requested number of passes is applied to the file size.'
+        force: '[AI] The `shred` command with the `--force` option is a data destruction utility in Unix-like operating systems. It overwrites files multiple times with random patterns, making their data unrecoverable, and then securely deletes them. The `--force` flag forces `shred` to operate on files even if they are already open or in use by other processes. This is useful when dealing with large or system files that may be difficult to close before destruction can occur. By using this option, the command will overwrite those files regardless, ensuring complete data destruction.'
+        help: |-
+            [AI] `shred` is a Linux command-line utility used for securely overwriting files to prevent data recovery. The option `--help` displays detailed information about how to use the `shred` command, including:
+
+            * Usage syntax
+            * List of available options and their meanings
+            * Examples of usage with explanations
+
+            Here is a brief explanation of some commonly used options:
+
+            - `-n NUM_PASSES`: The number of overwrite passes to perform (default: 3)
+            - `-v` or `--verbose`: Display progress information during the overwriting process
+            - `-z` or `--zero`: Overwrite with zeros instead of random data (implies `--remove-file`)
+            - `-u UID` or `--user=UID`: Specify the user ID to use when opening the file for writing
+            - `-g GID` or `--group=GID`: Specify the group ID to use when opening the file for writing.
+
+            The `shred --help` command is useful for understanding the various options available and how to format a proper command line for securely overwriting files.
+        iterations: '[AI] The `--iterations` option in the `shred` command is used to specify the number of passes it should make over the data to be destroyed. Each pass uses a different pattern, making it more difficult for data to be recovered using common data recovery techniques. A higher value of iterations increases the level of security, but also takes longer to complete.'
+        random-source: '[AI] The `shred` command is a data wiping utility used to securely delete files or zero out free disk space in Linux and Unix systems. The option `--random-source` specifies that the random data to be written over the file should not come from /dev/urandom, but instead from a file provided as an argument. This can be useful if you have a large file of truly random data and want to use it for wiping other files, or for adding an additional layer of security by ensuring that the source of the random data is not predictable even on the same system.'
+        remove: '[AI] The `shred` command with the option `--remove` is a data destruction utility used to securely erase files or entire disks in Linux and other Unix-like operating systems. When using the `--remove` option, `shred` overwrites the specified data with random patterns multiple times and then physically removes the original file to prevent data recovery. This process makes it difficult for anyone to retrieve the original data even with advanced data recovery techniques. The number of passes and pattern size can be configured using additional options.'
+        size: '[AI] `shred` is a Linux command-line utility used to securely erase files by overwriting them multiple times with random data. The `--size` option specifies the size, in bytes or blocks, of each overwrite pass. For example, `shred --size=256K file.txt` would overwrite `file.txt` with 256 kilobytes of random data per pass, a total of 7 passes (as specified by the default behavior of `shred`) before considering it securely destroyed. This helps ensure that even if an attacker obtains the file, they will not be able to read its original contents from the remaining data.'
+        u: '[AI] The `shred` command is a data destruction utility in Unix-like operating systems. The option `-u` or `--random-source=/dev/urandom` specifies that the random data to be written over the file should come from `/dev/urandom`, which is a source of true random numbers. With this option, `shred` generates new random data for each pass, making it more secure than using a predictable pattern or file content for data destruction. The goal of using `shred` with `-u` is to ensure thorough and secure deletion of sensitive data by overwriting the file multiple times with random data.'
+        verbose: '[AI] `shred` is a data destruction utility in Unix-like operating systems. The `--verbose` option is used to display detailed information about the shredding process. When you run the command `shred --verbose <filename>`, it will overwrite and destroy the specified file multiple times using various patterns, while providing real-time feedback on the progress of each pass, including the number of sectors written and other relevant details. This helps in ensuring that the data destruction is being done correctly and thoroughly, as well as providing a visual indication of the process''s completion.'
+        version: '[AI] The `shred` is a data wiping utility used to securely delete files in Unix-like operating systems. The command `shred --version` is used to display the version information of the installed `shred` utility, including its name, version number, and compilation options. This helps users ensure they have the latest version and check for any potential security vulnerabilities or compatibility issues with their system.'
+        zero: '[AI] The `shred` command with the `--zero` option is a data destruction utility in Unix-like operating systems. It overwrites files multiple times with zeroes to securely erase their content before deletion. The `--zero` flag specifies that each pass over the data should write zeroes, making it an effective method for preparing media for disposal or data sanitization.'

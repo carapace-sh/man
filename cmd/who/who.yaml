@@ -1,0 +1,68 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: who
+description: show who is logged on
+flags:
+    --help: display this help and exit
+    --lookup: attempt to canonicalize hostnames via DNS
+    --message: same as -T
+    --version: output version information and exit
+    -H, --heading: print line of column headings
+    -T, --mesg: add user's message status as +, - or ?
+    -a, --all: same as -b -d --login -p -r -t -T -u
+    -b, --boot: time of last system boot
+    -d, --dead: print dead processes
+    -l, --login: print system login processes
+    -m: only hostname and user associated with stdin
+    -p, --process: print active processes spawned by init
+    -q, --count: all login names and number of users logged on
+    -r, --runlevel: print current runlevel
+    -s, --short: print only name, line, and time (default)
+    -t, --time: print last system clock change
+    -u, --users: list users logged in
+    -w, --writable: same as -T
+documentation:
+    command: '[AI] The `who` command is a Linux utility that displays the current login information for users connected to or logged in on the system. It shows the username, terminal or device, and login time for each user. You can use it to check who is currently logged into your system and what they are using to do so.'
+    flag:
+        all: '[AI] The `who --all` command is not a valid Linux or Unix command. The `who` command with no options displays the current login information for terminals on the local system. Adding `--all` as an option is not recognized by this command. To display all users currently logged in on the local and remote systems, use the `who -a` or `w` command instead.'
+        boot: '[AI] The `who --boot` command is a utility in Unix-like operating systems that displays information about currently running processes, with a focus on those started as a result of a boot event. It provides details such as the user who initiated the boot process, the time of the boot, and the PID (Process ID) and command line arguments for each booted process. This information is useful for system administrators to diagnose issues related to the boot process or identify processes that were started during boot.'
+        count: '[AI] The `who --count` command is a Linux utility used to show who is currently accessing or was last accessing files on a Unix-based system. With the `--count` option, it displays the number of accesses for each user next to their name in the output. This can be helpful for identifying heavy file usage by specific users.'
+        dead: '[AI] The `--dead` option is used with the `who` command in Unix-like operating systems. It modifies the output of the `who` command to exclude entries for users who are currently logged in and have a terminal connected. This can help identify users who have logged in remotely but have since disconnected, or who may be idle at their local terminals. The default output of `who` includes all current logins.'
+        heading: |-
+            [AI] The `who --heading` command is not a valid command in Unix or Linux systems. The `who` command is used to display the current login information for users on the system, showing who is currently logged in and what terminal they are using. However, there is no option called `--heading`. If you want to customize the heading of the output from the `who` command, you can use shell redirection or piping with other commands like `awk`, `sed`, or `head` and `tail` to modify the output format. For example:
+
+            ```bash
+            $ who > output.txt
+            $ awk '{print "Session ", NR, ": " $1 "@" $2 " [" $NF "] (" substr($3, 1, length($3)-4) ") <" $8 ">"} FS=":"' output.txt > new_output.txt
+            ```
+
+            This command uses `awk` to reformat the output file `output.txt` and create a new file called `new_output.txt` with a custom heading for each line.
+        help: '[AI] The `who --help` command is not a valid Linux or Unix command. The `who` command is used to display the users currently logged into the system and their terminals. When you run `who --help`, you will get an error message stating that "who: unrecognized option ''--help''". Instead, use `man who` or `help who` for detailed information about the `who` command usage and options.'
+        login: '[AI] The `who --login` command is a utility in Unix-like operating systems, including Linux distributions, that reports who is currently logged into the system and what terminal or remote connection they are using. The `--login` option filters the output to show only those users who have logged in as a regular user (as opposed to those who have logged in through other means such as through SSH without a terminal).'
+        lookup: '[AI] The `who --lookup` command is a utility in Unix-like operating systems, specifically designed to query the who database or the /etc/utmp and /var/run/utmp files for current system activity. This includes information about logged-in users, their terminal devices, login times, and processes. It''s commonly used to check the current status of user sessions on a system. When you run `who --lookup` followed by a username or TTY number, it will display detailed information about that specific entry if available.'
+        m: '[AI] The `-m` option is used with the Unix `who` command, which is used to display the users currently logged into a system and their terminal or device information. The `-m` flag specifically shows only the active users, i.e., those who have logged in and are currently using the system resources. This option filters out the idle or offline users from the output.'
+        mesg: '[AI] The `who --message` command is a Unix utility used to report who is currently logged in to a Unix system and the message they left, if any. When you run this command without options, it displays the usernames of all users currently logged in. With the `--message` option, it adds the last login message for each user as well. The output is displayed in a tabular format with columns showing the username, hostname or terminal device, login time, and the login message if available.'
+        message: '[AI] The `who --message` command is a utility in Unix-like operating systems, specifically designed to report who has been accessing a file or terminal during a specified time period. When used without any options, it displays the current system time and user information for the most recent access. However, using the `--message` option, it will display additional information such as the specific action taken (read, write, append) and the size of data transferred. Essentially, this option provides more detailed information about the file or terminal access events.'
+        process: '[AI] The `who --process` command is a utility in Unix-like operating systems, specifically the `who` command with the `--process` option. This option displays who is logged into the system along with the processes they have running. It merges process information from `/proc/` with user information from the system''s login database to provide comprehensive session data.'
+        runlevel: |-
+            [AI] The `who --runlevel` command is a utility in Linux that displays the current system runlevel and the users currently logged in on the terminal or virtual consoles.
+
+            The `--runlevel` option specifically shows the current system runlevel, which describes the state of the init system processes and the corresponding level of services that are active. Runlevels range from 0 (halt) to 6 (rebooting), representing various states such as multi-user mode, single-user mode, or emergency mode.
+
+            In summary, `who --runlevel` is a command to display the current system runlevel and user session information in Linux.
+        short: '[AI] The `who --short` command is a Unix utility used to report which users are currently logged into the system and what terminals they are using. The `--short` option is used to display only the usernames and their respective TTY (Teletype) devices in a compact format, with each line containing one username and its corresponding TTY number.'
+        time: '[AI] The `who --time` command is a Unix utility used to report on user activity on a system. It displays who was logged in and what they were doing during a specified time range. When used with the `--time` option, it shows the output in a more human-readable format with timestamps. For example, `who --time 16:30 yesterday` will display the list of users who were active between 4:30 PM and 5:30 PM on the previous day.'
+        users: '[AI] The `who --users` command is a utility in Unix-like operating systems used to report who is currently using the computer system and which terminals or devices they are connected from. It displays real-time information about user activities on the terminal and login sessions, showing the username, terminal or IP address, login time, and idle time. The output can be customized with options such as --quiet to display only active users or --mqtt to filter by specific patterns in the username or device field. It helps system administrators monitor system usage and identify potential security issues.'
+        version: '[AI] The `who --version` command is not a valid command in Unix or Linux systems. The `who` command is used to report who is logged into the system and what they are doing. However, it doesn''t have a version option. If you intended to check the version of another tool such as Git or Java, use the appropriate version command for that tool instead. For example, `git --version` or `java --version`.'
+        writable: |-
+            [AI] The `who --writable` command is a Linux utility used to list files and directories with writable permissions for their group or others in a file system hierarchy. This command is particularly useful for identifying files that may be vulnerable to modification by unintended users.
+
+            When you run `who --writable`, it recursively traverses the specified directory tree, displaying files and directories whose access permissions grant write permission to either the group or others. The output includes the file path, size, owner, group, and mode information, allowing you to quickly identify and address potential security concerns.
+
+            For example:
+            ```
+            $ who --writable /path/to/directory
+            /path/to/directory/file1 (4096) root:group writable
+            /path/to/directory/subdir/ (4096) user:group writable,others:writable
+            /path/to/directory/file2 (8192) user:other writable
+            ```
+            In this example, `file1`, `subdir`, and `file2` have write permissions for their respective groups or others. You should assess whether these permissions are intended to ensure proper access control.

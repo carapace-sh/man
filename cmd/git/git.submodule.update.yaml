@@ -1,0 +1,48 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: update
+description: Update the registered submodule
+flags:
+    --checkout: Checkout commit of superproject as detached HEAD
+    --depth=: Create a shallow clone
+    --init: Initialize all submodules
+    --jobs=: Clone new submodules in parallel
+    --merge: Merge commit of superproject into submodule
+    --no-recommend-shallow: Ignore configured shallow recommendation
+    --rebase: Rebase current branch onto commit of superproject
+    --recommend-shallow: Initial clone will use recommended configuration
+    --recursive: Traverse submodules recursively
+    --reference=: reference repository
+    --remote: Use submodules's remote tracking branch to update
+    -N, --no-Fetch: Don't fetch from remote
+    -f, --force: throw away local changes
+documentation:
+    command: '[AI] `git submodule update` is a Git command used to update your local submodules to their corresponding committed versions, as specified in the `.gitmodules` file or `Submodule` config block in a Git workspace. This command fetches, checks out, and merges (if necessary) the latest commit of each submodule, ensuring they are synchronized with their parent project.'
+    flag:
+        checkout: '[AI] `git submodule update --checkout` is a Git command used to update and checkout the branches of any linked Git submodules in your main repository. This command ensures that both the submodule''s content and the associated branch are up-to-date, helping to maintain consistency between the parent project and its submodules. It performs an automatic pull or fetch followed by a checkout, and it also allows for conflict resolution if necessary.'
+        depth: '[AI] `git submodule update --depth` is a Git command used to update the submodules in your Git repository. The `--depth` option specifies that only the necessary commits for the current project should be fetched and checked out for each submodule, instead of the entire history. This can help reduce the amount of data transferred and stored when working with large or complex projects.'
+        force: '[AI] `git submodule update --force` is a Git command used to update all submodules in a Git repository with the latest changes from their respective repositories, overwriting any local modifications made to the submodules. The `--force` option allows to discard any changes in the submodules that conflict with the remote versions, effectively resetting them to match the state of the submodules in the superproject.'
+        init: |-
+            [AI] `git submodule update --init` is a Git command used to update your local submodules and their repositories to the latest version. It consists of two parts:
+
+            1. `submodule update`: This command fetches the changes from the remote repository of each submodule if there are any updates available, then checks out the new commit. This brings the submodule's codebase up-to-date in your local project.
+
+            2. `--init`: This flag initializes an empty Git subrepository for any newly-added or modified submodules that aren't already tracked by Git in your project. It also configures the Git remote for each submodule and sets the necessary Git references to track the specified branch, usually 'master'.
+
+            By running `git submodule update --init`, you ensure both your main project and its submodules are synchronized with their respective repositories, allowing you to work effectively on a project that includes multiple independent subprojects.
+        jobs: |-
+            [AI] `git submodule update --jobs` is a Git command used to update all submodules in your Git repository with parallel processing enabled. A submodule is a Git repository embedded as a subdirectory of another Git repository.
+
+            When you run this command, Git will fetch and checkout the new commits from each submodule's repository using as many jobs (parallel processes) as configured in your system or specified by the `--jobs` option. This can significantly speed up the submodule update process if you have multiple submodules that need to be updated. If no jobs option is provided, Git will default to updating submodules sequentially.
+        merge: '[AI] `git submodule update --merge` is a Git command used to update and merge changes from specified submodules into the main project repository. When you run this command, Git first fetches and checks out the latest version of each submodule''s remote repository. Then it merges any new commits in those repositories into the local submodule branches. Finally, it updates the links to the submodules in the main project repository. This command helps keep your submodules in sync with their respective repositories and ensures that any changes made there are integrated seamlessly into your project.'
+        no-Fetch: '[AI] `git submodule update --no-fetch` is a Git command used to update the submodules in your project, but it skips the fetching of new branches or commits from the remote repositories of those submodules. This means that you will only get the latest commit of the currently checked out branch for each submodule in your local repository, without pulling any additional changes. It is useful if you want to update submodules without having to deal with potential conflicts or unwanted changes in those repositories.'
+        no-recommend-shallow: |-
+            [AI] The `git submodule update --no-recommend-shallow` command is used to update all submodules in a Git repository to their latest revisions, without allowing the submodules to be updated to shallow clones if they are configured to use deep clones.
+
+            When using git submodules, a Git subrepository can be either "shallow" or "deep". A shallow submodule stores only the commit hash and the URL of the remote repository, while a deep submodule stores the entire history of the subrepository locally. By default, Git recommends converting a deep submodule to a shallow one when pulling from a remote repository, as it saves disk space and time.
+
+            However, in some cases, deep submodules are preferred for their full local history, especially when working on complex projects or collaborating with others. In such scenarios, using `--no-recommend-shallow` ensures that the update process respects the existing deep submodule configuration and does not attempt to convert it to a shallow one.
+        rebase: '[AI] `git submodule update --rebase` is a Git command used to update the submodules in your project with the latest changes from their respective repositories, and then perform a fast-forward rebase on each submodule to keep your local submodule branches up-to-date with the master branch. This command ensures that both your main project and its submodules reflect the most recent commit states within their respective repositories.'
+        recommend-shallow: '[AI] `git submodule update --recommend-shallow` is a Git command used to update the submodules in your project while recommending a shallow clone for each submodule. A shallow clone contains only the history up to the point of the most recent checkout, saving bandwidth and storage space. This option allows you to optimize your workflow by downloading only the required data instead of the complete history for large or multiple submodules.'
+        recursive: '[AI] `git submodule update --recursive` is a Git command used to update all the submodules within a Git project to their respective latest versions. The `--recursive` option ensures that this command not only updates the primary module (project repository), but also all the nested submodules recursively. It performs an automatic fetch, checkout, and merge or rebase if needed for each submodule, keeping your project''s dependencies up-to-date.'
+        reference: '[AI] `git submodule update --reference` is a Git command used to update the submodules in your project with references from a specific commit or branch instead of the submodule''s own master branch. This can be useful when working on a specific version of your project and you want to ensure that the submodules are synchronized with that particular version. By default, `git submodule update` updates each submodule to its latest commit in their respective branches. Using the `--reference` option allows you to specify a different commit or branch reference to use for updating.'
+        remote: '[AI] `git submodule update --remote` is a Git command used to update the submodules in your Git repository with the latest changes from their respective remote repositories. When you run this command, Git will first fetch the new commits for each submodule and then merge or rebase those changes into the local submodule branches. This helps keep your submodules up-to-date with their origins and ensures that any local modifications in the submodules are not lost.'

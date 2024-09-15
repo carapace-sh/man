@@ -1,0 +1,149 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: systemctl
+description: Query or send control commands to the system manager
+flags:
+    --boot-loader-entry=: Boot into a specific boot loader entry on next boot
+    --boot-loader-menu=: Boot into boot loader menu on next boot
+    --check-inhibitors=: Specify if checking inhibitors before shutting down, sleeping or hibernating
+    --dry-run: Only print what would be done
+    --failed: Shortcut for --state=failed
+    --firmware-setup: Tell the firmware to show the setup menu on next boot
+    --global: Enable/disable/mask default user unit files globally
+    --job-mode=: Specify how to deal with already queued jobs, when queueing a new job
+    --kill-who=: Whom to send signal to
+    --legend=: Enable/disable the legend (column headers and hints)
+    --marked: Restart/reload previously marked units
+    --mkdir: Create directory before mounting, if missing
+    --no-ask-password: Do not ask for system passwords
+    --no-block: Do not wait until operation finished
+    --no-pager: Do not pipe output into a pager
+    --no-reload: Don't reload daemon after en-/dis-abling unit files
+    --no-wall: Don't send wall message before halt/power-off/reboot
+    --now: Start or stop unit after enabling or disabling it
+    --plain: Print unit dependencies as a list instead of a tree
+    --read-only: Create read-only bind mount
+    --reverse: Show reverse dependencies with 'list-dependencies'
+    --root=: Enable/disable/mask unit files in the specified root directory
+    --runtime: Enable/disable/mask unit files temporarily until next reboot
+    --show-types: When showing sockets, explicitly show their type
+    --state=: List units with particular LOAD or SUB or ACTIVE state
+    --system: Connect to system manager
+    --timestamp=: Change format of printed timestamps.
+    --user: Connect to user service manager
+    --value: When showing properties, only print the value
+    --version: Show package version
+    --wait: wait until service stopped or startup completed
+    --what=: Which types of resources to remove
+    -H, --host=: Operate on remote host
+    -P=: Equivalent to --value --property=NAME
+    -T, --show-transaction: When enqueuing a unit job, show full transaction
+    -a, --all: Show all properties/all units currently in memory, including dead/empty ones
+    -f, --force: override existing symlinks or execute action immediately
+    -h, --help: Show this help
+    -i: Shortcut for --check-inhibitors=no
+    -l, --full: Don't ellipsize unit names on output
+    -n, --lines=: Number of journal entries to show
+    -o, --output=: Change journal output mode
+    -p, --property=: Show only properties by this name
+    -q, --quiet: Suppress output
+    -r, --recursive: Show unit list of host and local containers
+    -s, --signal=: Which signal to send
+    -t, --type=: List units of a particular type
+documentation:
+    command: '[AI] `systemctl` is a system and service manager commander for the systemd init system in Linux. It allows users to start, stop, restart, reload, enable or disable services and their related daemon processes, view their status, and manage other system settings. It''s commonly used from the command line interface (CLI) to perform various system maintenance tasks related to system and service management.'
+    flag:
+        P: '[AI] `systemctl` is a system and service manager for the Linux operating system. The option `-P` or `--show-all` is used with `systemctl list` command to display all active, inactive, and failed services along with their statuses and other relevant information. It provides a comprehensive view of all services in various states, making it useful for troubleshooting and system management.'
+        all: '[AI] `systemctl --all` is a command used in Linux systems with Systemd init system. This command is used to list all active, inactive, failed, and suspended units across all available subsystems (such as default, multi-user, etc.). The "--all" option provides a comprehensive view of the system''s current unit statuses, helping users and administrators monitor and manage the system state effectively.'
+        boot-loader-entry: |-
+            [AI] `systemctl --boot-loader-entry` is a command used in Linux systems to manage and interact with bootloader entries. It's part of systemd, a popular system and service manager. This specific command is used for querying or manipulating the bootloader entries available on the system.
+
+            When run without any arguments, it will list all currently defined bootloader entries along with their associated boot targets. With additional flags or arguments, you can start, stop, reload, or remove specific entries. For example:
+
+            * `systemctl set-default <entry>` sets the default boot entry
+            * `systemctl default <entry>` makes the specified entry the default at the next reboot
+            * `systemctl start <entry>` starts a bootloader entry without restarting the system
+
+            These commands are useful for managing multiple boot options, like different kernels or recovery modes, and for troubleshooting issues related to the boot process.
+        boot-loader-menu: '[AI] `systemctl --boot-loader-menu` is a command in Linux systems that displays the list of available boot entries configured in the system''s boot loader (usually GRUB2 or systemd-boot). This command allows users to view and select which entry to use for the next reboot or boot into recovery mode if necessary. It does not modify the boot configuration, but only provides information about the available options.'
+        check-inhibitors: |-
+            [AI] `systemctl --check-inhibitors` is a command used in systemd, a popular Linux system and service manager. This command checks for current and potential conflicting or dependent inhibitor units that might affect the start or stop of other units in the system.
+
+            An inhibitor unit is a dependency relation between two units that allows one to prevent the other from entering a particular state. For example, a graphical session manager may set an inhibitor lock on the display manager service, preventing other login sessions from starting while it's active.
+
+            Using `systemctl --check-inhibitors`, you can check for current and potential inhibitor units that might impact the desired operation on a specific unit without actually executing the start or stop command. This is useful when you want to understand the system state before taking action, especially in complex systems where dependencies might cause unintended consequences.
+        dry-run: '[AI] `systemctl --dry-run` is a command used with the systemd init system in Linux. The `--dry-run` option is used to simulate or test the execution of other commands without actually making any changes. When used with `systemctl`, it allows users to view what would be done if they were to execute a specific systemd command, such as starting, stopping, or reloading a service, without affecting the actual system state. This can help prevent unintended consequences and is particularly useful when making complex changes or troubleshooting issues.'
+        failed: '[AI] `systemctl --failed` is a command used in Linux systems to list all the services that have failed to start or are currently in a failed state. The command queries the systemd system and management tool for units (services, targets, etc.) with a exit code other than 0, indicating a failed start or stop attempt. It provides useful information like unit name, status, start/stop time, and error message when available, helping system administrators identify and troubleshoot issues with problematic services.'
+        firmware-setup: '[AI] `systemctl --firmware-setup` is a command used in Linux systems to initialize or update the system firmware. Firmware are low-level software that control hardware devices, and they need to be properly installed and updated for the system to function correctly. This command is typically run during the boot process or after installing new firmware packages using a package manager. The `--firmware-setup` option instructs systemd, the system and service manager in Linux, to perform this task. It scans the installed firmware packages and sets them up by symlinking them to their respective target directories, making them available for the system.'
+        force: '[AI] `systemctl --force` is a command used in systemd-managed Linux systems to forcibly start, stop, or reload a service despite any dependencies or other conflicting processes. The `--force` option overrides the normal constraints of systemd and allows the specified operation to be performed even if it might normally be prevented by other system conditions. It''s important to use this command with caution as forcing an action may disrupt running services or the system itself.'
+        full: '[AI] `systemctl --full` is a command used in systemd, a popular Linux init system. This command is used to display detailed information about the managed services and units. The `--full` option increases the amount of output, providing more details like the service''s SubState, ActiveState, Status, and Processes, among other things, helping system administrators in troubleshooting and understanding systemd''s behavior.'
+        global: '[AI] `systemctl --global` is a command used in systemd, a popular Linux init system. The `--global` option modifies the system-wide configuration of systemd instead of acting on individual units or services. With this option, it''s possible to query or set settings for all units, such as their default behavior, environment variables, or the location of configuration files. In summary, `systemctl --global` is a command used to manage and modify system-wide systemd settings.'
+        help: '[AI] `systemctl` is a system and service manager for the systemd init system. The command `systemctl --help` displays detailed help information about the `systemctl` utility. It lists all available sub-commands and their usage, providing brief descriptions for each. Additionally, it explains how to use various options to control system and service management tasks such as starting, stopping, enabling, disabling, or querying the status of services and targets.'
+        host: '[AI] `systemctl --host` is a command used in systemd, a popular Linux init system. This command is used to control and manage systemd units across multiple systems or hosts connected over a network. The `--host` option specifies that the operation should be performed on remote targets specified in files with the `.conf` extension in the `/etc/systemd/host.d/` directory, rather than on the local system. This is useful for managing system services and units in a centralized way across a network of machines.'
+        i: |-
+            [AI] `systemctl` is a system and service manager for the Linux operating system. The option `-i` or `--interactive` is used with certain `systemctl` commands to make them interactive, meaning that they will prompt for confirmation before executing a potentially destructive operation, such as stopping or starting a service.
+
+            For example, if you want to start a service interactively, you can use the following command:
+
+            ```bash
+            sudo systemctl start <service_name> -i
+            ```
+
+            The system will then ask for confirmation before proceeding with the start operation. If you confirm by entering 'Y' or 'yes', the service will be started. If you press enter without typing anything, the default answer is taken as a 'no'.
+
+            This option is important because it provides an extra layer of safety and prevents accidental changes to system services.
+        job-mode: |-
+            [AI] `systemctl --job-mode` is a command used in Systemd, a system and service manager for Linux operating systems. This command is used to set or query the job mode of a Systemd unit, which defines how the system should handle the output of a unit's jobs.
+
+            There are three possible job modes: "on-success", "on-failure", and "persistent". "On-success" means that a job will only be kept after it has successfully completed. "On-failure" keeps a job after it has failed. "Persistent" keeps a job regardless of its exit status.
+
+            For example, to set a unit's job mode to "on-success", the command would be: `systemctl --job-mode=on-success <unit-name>`
+
+            Without any arguments, `systemctl --job-mode` will display the current job mode of the default target (usually 'multi-user.target').
+        kill-who: '[AI] `systemctl --kill-who` is a command used in Linux systems to send a SIGTERM signal to a running systemd process or service that is currently unresponsive and not terminating gracefully upon being requested to stop with the usual `systemctl stop` command. The `--kill` option instructs systemctl to use more forceful methods, specifically sending a kill signal. The `--who-owns` option is used to specify which process or service should be killed based on its name or UID/GID ownership. This command can help in situations where normal methods for stopping a process have failed, but it should only be used as a last resort since it can result in data loss or corruption if the process has open files or is in the middle of writing critical data to disk.'
+        legend: '[AI] `systemctl --legend` is a command used in Systemd, a system and session manager for Linux operating systems. This command displays a legend or a list of all available actions that can be performed using `systemctl`, such as "start", "stop", "restart", "status", "enable", and "disable". The legend helps users understand the different options they have when managing services and units in Systemd.'
+        lines: '[AI] `systemctl --lines` is a command used in Linux systems to display the contents of log files, specifically the lines that match a given pattern or error message, preceding and following the matched line. The number of lines displayed before and after can be specified using the `--context` option followed by two integers. For example, `systemctl --lines=5 stderr grep "Error" journal` would display the 5 lines before and after any lines containing the string "Error" in the system journal''s error log. This command helps in debugging system issues by providing more context around error messages.'
+        marked: '[AI] `systemctl --marked` is a command used in Linux systems with Systemd as the init system. This command lists all the unit files (services, targets, etc.) that have been marked with the `MARKED` state flag. The `--marked` option filters the output to show only those units that have been manually marked by an administrator, typically using the `systemctl mark <unit> --active` or `systemctl mark <unit> --inactive` commands. These flags can be used to indicate that a unit should be automatically started or stopped in certain circumstances, such as system boot or when bringing up a particular virtual machine.'
+        mkdir: '[AI] `systemctl` is a system and service manager for the systemd init system in Linux. The command `--mkdir` is an option used with `systemctl` to create a new directory under `/etc/systemd`. For example, `systemctl --mkdir my-new-directory` would create a new empty directory named "my-new-directory" under the `/etc/systemd` directory. This can be useful for creating directories that will contain systemd service files or other configuration files for custom services.'
+        no-ask-password: '[AI] `systemctl --no-ask-password` is a command used in Linux systems to manage services with systemd, without being prompted for password or user confirmation. The `--no-ask-password` option allows the administrator to execute systemctl commands as root without needing to enter a password each time. This can be useful when writing scripts or automating tasks where repeated user intervention is undesirable. It''s important to note that using this command should only be done with caution, as it may pose security risks if used indiscriminately in a shared or unsecured environment.'
+        no-block: '[AI] `systemctl --no-block` is a command used in systemd, a popular Linux init system. It is an option passed to `systemctl`, the system control manager, to prevent it from blocking further processing after executing a command. When used, `systemctl` will not wait for the service or target to finish booting before returning control to the terminal or script. This can be useful when running multiple concurrent commands in scripts or automation tools.'
+        no-pager: '[AI] `systemctl --no-pager` is a command used in Linux systems to list the current status of system services managed by systemd, without scrolling through the output page by page. The `--no-pager` option prevents the output from being sent to a pager like `less` or `more`, causing it instead to be printed directly to the terminal screen. This can be useful when you want to quickly view and parse the entire list of services, without interruptions for pagination prompts.'
+        no-reload: '[AI] `systemctl --no-reload` is a command used in Linux systems to manage services with systemd. The `--no-reload` option prevents systemd from reloading the configuration files of the specified services after they have been started or stopped. This means that any changes made to the service configuration files will not take effect until the services are restarted manually. This command is useful when testing or making configuration modifications without disrupting currently running services.'
+        no-wall: '[AI] `systemctl --no-wall` is a command used in Linux systems to control the systemd system and service manager without displaying messages on the terminal wall or graphical interface. The `--no-wall` option prevents the output of messages that are normally displayed as notices, warnings, or errors. This allows for a quieter and more focused experience when managing services using systemctl.'
+        now: '[AI] `systemctl --now` is a command used in systemd-based Linux distributions to immediately start or stop services with the given name. The `--now` option is used to apply the changes effectively and instantaneously, as opposed to delaying the execution until the next reboot or system restart. This command can be used to manage services independently of the system''s current runlevel, providing real-time control over the system''s service management.'
+        output: '[AI] `systemctl --output` is a command in Systemd, a system and service manager for Linux operating systems. This command modifies the output format of other systemctl commands. For example, `systemctl list-units --type=service --output=%H %F` lists all service units with their respective target runlevels (stored in the "H" field and unit names in the "F" field). It can be used to customize the output of systemctl commands for specific needs.'
+        plain: '[AI] `systemctl --plain` is a command used in Linux systems to list the current status of system services, but in a more compact and machine-readable format. The `--plain` option suppresses the header and other extra information usually displayed with the `systemctl list-units` or `systemctl status` commands, providing only the name and current status (running, stopped, failing, etc.) of each unit.'
+        property: '[AI] `systemctl --property` is a command used in Linux systems to query the systemd system and service manager for properties of installed units (services, targets, etc.). The `--property` option allows specifying one or more properties to be displayed. For example, `systemctl --property=Status` can show the current status of all units, while `systemctl --property=SubLevel:=/run/systemd/journal/ dev-disk-by%2Duuid-xxx.service --value` can display the journal file location for a specific service.'
+        quiet: '[AI] `systemctl --quiet` is a command used in systemd, a popular Linux init system. The `--quiet` option is used to suppress all non-error messages and make the output as minimal as possible when managing services or daemons using `systemctl`. This can be useful for scripts or automated processes where only error messages or specific outputs are required.'
+        read-only: '[AI] `systemctl --read-only` is a command used in Linux systems to view the current state and properties of systemd managed services, without allowing any modifications. It shows important information such as the current status, load and runtime of each service, but it does not allow making any changes to the service files or their configurations. This is useful for checking the configuration of running services or troubleshooting issues without risking unintended modifications.'
+        recursive: '[AI] `systemctl --recursive` is a command used in Systemd, a system and service manager for Linux operating systems. This command is used to list all the managed units (services, targets, sockets, etc.) hierarchically ordered by their dependencies. The `--recursive` option shows not only the direct dependencies but also the indirect ones, revealing the entire system hierarchy of the specified unit or target.'
+        reverse: '[AI] `systemctl --reverse` is a command used in Linux systems with Systemd init system to list the dependencies of a given system service, but it shows the reverse dependency order. In other words, instead of showing the services that depend on the target service, it displays the services that are dependent on them. This can be useful for troubleshooting and understanding more complex relationships between different services in the Systemd system.'
+        root: |-
+            [AI] `systemctl --root` is a command used in Linux systems to control the systemd system and service manager with an alternative configuration directory. By default, systemd looks for its configuration files under `/etc/systemd/`. But sometimes, you might need to access or manage services on another partition or installation where the default configuration directory doesn't apply.
+
+            The `--root` option in `systemctl` allows you to specify an alternate root directory for systemctl to operate from. This can be useful when managing multiple independent systems that have different configurations, or when working with containers or chroots.
+
+            For example, if you want to access the systemd configuration and control services on a separate partition mounted at `/mnt/my_other_system`, you would use:
+
+            ```bash
+            sudo systemctl --root=/mnt/my_other_system
+            ```
+
+            Now, you can list services or manage them as if you were directly logged into that other system. This command does not change the current working directory; it only changes the root directory for systemctl operations.
+        runtime: '[AI] `systemctl --runtime` is a command used in systemd, a Linux system and service manager. This command modifies or queries the running state of system services without affecting the persistent configuration files, i.e., it changes the runtime or transient state of services. By default, `systemctl` operates on the persistent state, which is stored in configuration files under `/etc/systemd/system`. Using the `--runtime` option lets you operate directly on the current running status of services without making any permanent changes to the system configuration.'
+        show-transaction: '[AI] `systemctl --show-transaction` is a command used in Systemd, a popular system and service manager for Linux operating systems. This command displays detailed information about the transactions that will be performed by a subsequent systemctl command, such as start, stop, or reload of services or targets. It helps users to review and understand the changes that will be made to the system before executing the command. The output includes the actions to be taken, their targets or units, and the relevant dependencies or conflicts involved.'
+        show-types: '[AI] `systemctl --show-types` is a command used in Linux systems to display a list of available types for systemd unit files. Systemd is a system and service manager for Linux operating systems. Unit files define units of work that can be managed by systemd, such as services, targets, sockets, and timers. The `--show-types` option allows you to view the different types without having to remember their filenames which typically end with ".service", ".target", ".socket", etc. The output will show each unit type and a brief description for each.'
+        signal: |-
+            [AI] `systemctl --signal` is a command used in Linux systems to send a signal to a running systemd service. Systemd is the default init system (runtime process supervision) for most modern Linux distributions.
+
+            The `--signal` option allows specifying a signal name, such as "RESTART", "TERM", "HUP" or others, which will be sent to the targeted service. The effect of each signal varies: for instance, "RESTART" signals will cause the service to stop and then start again, while "TERM" signals request a graceful termination of the service.
+
+            For example, `systemctl --signal RESTART <service-name>` would restart the specified service.
+        state: '[AI] `systemctl --state` is a command used in Linux systems with systemd init system. It displays the list of units (services, targets, paths) that currently match a given state: active, inactive, failed, or subsystem-specific states like suspended or running. This command helps in checking the current status and state information of different units without explicitly checking their individual statuses using `systemctl is-active` or similar commands.'
+        system: '[AI] `systemctl --system` is a command used in Linux systems to manage and control system services using systemd. The `--system` option specifies that the operation will be performed on system-wide services, as opposed to user services. System services are those that run with root privileges and are intended to operate at boot time or during system initialization. When you use this command followed by other sub-commands such as `start`, `stop`, `restart`, `status`, etc., it will affect the respective system services throughout the system, rather than user-defined services in individual user accounts.'
+        timestamp: '[AI] `systemctl --timestamp` is a command used in Linux systems to list all systemd managed services and their respective last restart timestamps. The flag `--timestamp` requests that the output includes the timestamp information for each service. This can be useful for identifying when services were last restarted, which can aid in troubleshooting or system maintenance.'
+        type: '[AI] `systemctl --type` is a command used in Systemd, a system and session manager for Linux operating systems. This command is used to list units in the Systemd system and manager that match a specific type. The type can be specified as a unit type such as "service", "target", or "socket". For example, `systemctl --type service` would list all the service units currently registered with Systemd.'
+        user: '[AI] `systemctl --user` is a command-line utility for controlling systemd user units, which run under the context of an individual user instead of the system as a whole. With this command, you can start, stop, or check the status of user services and daemons managed by systemd. It provides similar functionality to `systemctl` but acts on user units instead of system units.'
+        value: '[AI] `systemctl --value` is a command used in Linux systems to retrieve the current boolean value (enabled or disabled) of a systemd unit file. When you run this command followed by the name of a unit file, it returns "true" if the unit is enabled, and "false" if it''s disabled. For example, `systemctl --value myservice.service` will return "true" if "myservice.service" is currently enabled and "false" otherwise.'
+        version: '[AI] `systemctl --version` is a command used in Linux systems to check the version of the systemd init system and its associated utilities, including `systemctl`. Systemd is a widely-used system and service manager for Linux operating systems that handles starting and stopping processes and managing dependencies among them. The output of `systemctl --version` will display the version number of the installed systemd package.'
+        wait: '[AI] `systemctl --wait` is a command-line option used with Systemd, a system and service manager for Linux operating systems. This option causes systemd to wait for the specified unit (service or target) to finish booting before returning control to the terminal or script. By using `--wait`, you ensure that any dependent services or targets are also started and finished before continuing with other tasks, providing a more reliable and consistent boot process or service management experience.'
+        what: '[AI] `systemctl --what` is a command used in Linux systems with Systemd init system. It''s a part of the Systemctl utility for managing and controlling the Systemd system and service manager. The `--what` option is used to display the current state and status information about a specified unit or service, without taking any action. In simpler terms, it shows what the current operation (running, stopped, paused, etc.) is for the specified service or unit.'

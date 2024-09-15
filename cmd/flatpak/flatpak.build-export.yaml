@@ -1,0 +1,107 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: build-export [OPTION…] LOCATION DIRECTORY [BRANCH]
+description: Create a repository from a build directory
+group: build
+flags:
+    --arch=: Architecture to export for (must be host compatible)
+    --collection-id=: Collection ID
+    --disable-fsync: Do not invoke fsync()
+    --disable-sandbox: Do not sandbox icon validator
+    --end-of-life-rebase=: Mark build as end-of-life, to be replaced with the given ID
+    --end-of-life=: Mark build as end-of-life
+    --exclude=: Files to exclude
+    --files=: Use alternative directory for the files
+    --gpg-homedir=: GPG Homedir to use when looking for keyrings
+    --gpg-sign=: GPG Key ID to sign the commit with
+    --include=: Excluded files to include
+    --metadata=: Use alternative file for the metadata
+    --no-summary-index: Don't generate a summary index
+    --no-update-summary: Don't update the summary
+    --ostree-verbose: Show OSTree debug information
+    --subset=: Add to a named subset
+    --timestamp=: Override the timestamp of the commit
+    --token-type=: Set type of token needed to install this commit
+    --update-appstream: Update the appstream branch
+    -b, --body=: Full description
+    -h, --help: Show help options
+    -r, --runtime: Commit runtime (/usr), not /app
+    -s, --subject=: One line subject
+    -v, --verbose: Show debug information, -vv for more detail
+documentation:
+    command: '[AI] `flatpak build-export` is a command used in the Flatpak packaging system to generate an export of a built application. It takes as input a directory containing a Flatpak project and produces an output file in the .flatpkg format, which can then be installed or distributed to other systems. This command is typically used during the development process to create packages for testing or deployment.'
+    flag:
+        arch: |-
+            [AI] The `flatpak build-export` command is a tool provided by Flatpak, a software deployment and packaging system. This command is used to export a built Flatpak application bundle as a ready-to-download package.
+
+            The `--arch` option specifies the architecture for which the exported package is intended. It could be a specific CPU architecture like x86_64 or armv7l, or it could be a multiarchitecture string like "x86_64, armv7l" to build an universal binary that can run on multiple architectures. By exporting the package for a particular architecture, you ensure that the package is optimized for that specific hardware and will run efficiently.
+        body: '[AI] `flatpak build-export` is a command-line utility in the Flatpak software development platform used for building and packaging applications into portable, sandboxed runtimes. The `--body` option exports only the application bundle (the "body") itself as a Flatpak ref, without creating or modifying any repositories. This results in an output file containing the serialized flatpak data that represents the app''s runtime and metadata, which can be imported into other systems or used for further processing.'
+        collection-id: |-
+            [AI] `flatpak build-export` is a command-line tool from Flatpak, a popular application packaging system for Linux and other Unix-like operating systems. The `--collection-id` option specifies an identifier for the collection of packages to be exported.
+
+            The command `flatpak build-export --collection-id <ID>` exports all the Flatpak applications and runtimes in the given collection (identified by `<ID>`) as a series of files, usually in a tarball or a tree archive format. This can be useful for creating reproducible snapshots of software environments, distributing packages to other systems, or building package repositories.
+        disable-fsync: '[AI] The `flatpak build-export` command is a utility provided by Flatpak, a software deployment platform, to create a new Flatpak build. The `--disable-fsync` option disables file system synchronization during the build process. This means that the data written to temporary files during the build will not be synchronized to stable storage until the build process is complete. This can improve build performance by reducing I/O operations, but it also increases the risk of data loss if the build fails or is interrupted before completion.'
+        disable-sandbox: '[AI] `flatpak build-export` is a command-line utility provided by Flatpak, a software deployment and packaging system. The `--disable-sandbox` option disables the creation of a sandbox for the built application package. A sandbox is an isolated environment that enhances security by restricting the access of applications to the host system. However, disabling the sandbox allows the application to have more privileges and potentially increases the risk of security vulnerabilities. The output of `flatpak build-export` with this option will not include the sandbox configuration files, resulting in a smaller and faster-to-transfer package.'
+        end-of-life: '[AI] The `flatpak build-export --end-of-life` command is used in Flatpak, a software deployment and packaging system, to generate an export of a specific application or runtime''s metadata, including its current state and end-of-life information. This exported data can then be used for archival purposes or to import the software into another system while preserving its previous state and end-of-life information. The `--end-of-life` flag indicates that the export should include metadata marking the application or runtime as no longer supported, ensuring it is not accidentally installed on newer systems.'
+        end-of-life-rebase: |-
+            [AI] `flatpak build-export` is a command-line tool provided by Flatpak, a software deployment and application packaging system. The `--end-of-life-rebase` option is used when you want to create a new export of an existing repository with all applications marked as end-of-life (EOL). End-of-life applications are those that have reached the end of their support lifecycle.
+
+            When using this command, Flatpak will rebase the given repository onto a new base branch. This results in a new export containing only the EOL applications, discarding all other applications and their associated data from the original repository. The exported files can then be used to recreate an isolated, read-only repository for the EOL applications elsewhere.
+        exclude: |-
+            [AI] `flatpak build-export` is a command-line tool provided by Flatpak, a software deployment and packaging system. This command is used to create an artifact (a file or a set of files) from an existing application bundle or project's source code.
+
+            The `--exclude` option is an argument that can be passed to this command. It allows the user to exclude specific directories, files, or file patterns when creating the exported artifact. This can be useful for excluding sensitive data, temporary files, or large data sets from the exported artifact to reduce its size or maintain privacy.
+
+            In summary, `flatpak build-export --exclude` is a command that generates an artifact (a Flatpak bundle) while excluding certain directories, files, or file patterns defined by the user.
+        files: '[AI] `flatpak build-export` is a command-line tool provided by Flatpak, a software deployment and package management system. The `--files` option is used with this command to generate a manifest file and export the files of a given Flatpak application bundle. As a result, an archive containing all the necessary files to build the application from source is produced. This can be useful for sharing or distributing the application source code or for building the package locally.'
+        gpg-homedir: '[AI] `flatpak build-export` is a command-line utility in Flatpak, a software deployment and packaging system. It is used to export a Flatpak application bundle as a ready-to-be-distributed package. The `--gpg-homedir` option specifies the directory path containing GnuPG keys to sign the created bundle with. This option ensures that the bundled software can be verified by users before installation, maintaining security and trust.'
+        gpg-sign: '[AI] `flatpak build-export` is a command-line tool in the Flatpak package management system used to build and export a new Flatpak application bundle. The `--gpg-sign` option enables GPG signing of the generated artifacts, which adds digital signatures for security and authenticity verification. When using this flag, you''ll be prompted to enter your GPG passphrase before the export process begins. Signed bundles can then be distributed through trusted channels or repositories.'
+        help: |-
+            [AI] `flatpak build-export` is a command-line utility provided by Flatpak, a software deployment and packaging system. The `--help` option is used to display detailed help information about the command.
+
+            When you run `flatpak build-export --help`, it will output a usage message explaining:
+
+            1. The name of the command: `flatpak build-export`.
+            2. A brief description of what the command does: Exports a Flatpak build.
+            3. Usage syntax with placeholders for arguments and options.
+            4. Detailed explanation of each argument, option, and their default values.
+
+            For example:
+
+            ```sh
+            $ flatpak build-export --help
+            Usage: flatpak build-export [OPTIONS] SOURCE_BUILD_DIRECTORY [OUTPUT_FILE]
+
+            Export a Flatpak build to a file or directory.
+
+            Options:
+              -h, --help                 Print this help message and exit.
+              --input INPUT              Input file or directory (implies OUTPUT_DIR=.)).
+              --output OUTPUT_FILE|--dir OUTPUT_DIR  Output file or directory.
+              --bundle                   Bundle the exported data into a single tarball.
+                  --no-bundle             Don't bundle the exported data.
+              --force                    Overwrite existing output files.
+            ```
+
+            This information helps you understand how to use `flatpak build-export`, its input and output, and various available options.
+        include: '[AI] `flatpak build-export` is a command-line utility provided by Flatpak, a software deployment and application packaging system. The `--include` option is used in conjunction with this command to specify the set of files or directories to include in the exported artifact (the OCI image or a bundle file). This can be useful for including additional data, configurations, or resources that are required by the application at runtime but are not part of its source code. The full syntax is `flatpak build-export [options] <project> --include=<files-or-directories>`.'
+        metadata: '[AI] `flatpak build-export` is a command-line tool used in the Flatpak application packaging system to create an immutable and portable distribution of an application. The `--metadata` option requests that only metadata files be generated during the export process instead of a full Flatpak bundle. These metadata files describe essential information about the application, such as its name, summary, description, dependencies, etc., which are required for other systems to install and run the application using Flatpak.'
+        no-summary-index: '[AI] `flatpak build-export` is a command-line utility in the Flatpak package manager used to build and export a new Flatpak application bundle. The `--no-summary-index` option disables the generation of a summary index file along with the bundle. A summary index is an optional metadata file that contains a list of hashes for all files in the application bundle, allowing faster bundle verification during installation. Without this option, only the application bundle itself will be exported.'
+        no-update-summary: '[AI] `flatpak build-export` is a command used in the Flatpak application packaging system to create an export of a built Flatpak bundle. The `--no-update-summary` option disables the generation of an update summary file, which is a text document listing the changes made between the source code and the packaged version of the software. This option is useful when you don''t need to maintain an update summary or if you want to reduce the size and complexity of the exported bundle.'
+        ostree-verbose: '[AI] `flatpak build-export` is a command used in Flatpak, a software deployment and packaging system, to export a built application or SDK as an OS-specific image. The `--ostree-verbose` option is used with this command for more detailed output when creating an OSTree manifest file, which is the format used by Flatpak''s OSTree backend for storing and managing snapshots of filesystems. This helps in troubleshooting and gaining insights into the build process during exportation.'
+        runtime: '[AI] `flatpak build-export` is a command used in the Flatpak package management system to create an external representation of a Flatpak application bundle. The `--runtime` option specifies that only the runtime dependencies (libraries and frameworks required for the execution of the application) should be included in the exported manifest file. This results in a smaller, more portable bundle that can be easily shared or deployed across different systems.'
+        subject: '[AI] `flatpak build-export` is a command-line tool provided by Flatpak, a software deployment and packaging system. The `--subject` option is used with this command to specify the subject identifiers for the generated flatpak application bundle. A subject identifier is a unique string that identifies the builder and the application being packaged. For example, if you are building an application from your own account with the username "myusername", the default subject would be "org.example.myusername.appname%{arch}". Using `--subject "com.mycompany.myapp.version-1.0"` sets the identifier to "com.mycompany.myapp.version-1.0" instead. This command exports a build of an existing application, creating a new flatpak ref or file that can be used for distribution.'
+        subset: '[AI] `flatpak build-export` is a command-line tool provided by Flatpak, a software deployment and application packaging system. The `--subset` option is used with this command to create an export of only a subset of the packages and their dependencies, rather than the entire project or application. This can be useful for sharing smaller bundles with others or for creating customized environments. The resulting export can be imported into other systems using the `flatpak install --from-files` or similar commands.'
+        timestamp: |-
+            [AI] `flatpak build-export` is a command-line tool provided by Flatpak, a popular application packaging system for Linux distributions. The `--timestamp` option is used to generate an export of a Flatpak application bundle with a specific timestamp appended to the exported archive name.
+
+            This means that when you run `flatpak build-export --timestamp <app_name>`, it will create a new versioned archive of your application under the name `<app_name>-<timestamp>.flatpakref`. The timestamp represents the current date and time of the export process, ensuring that each exported version is uniquely identified. This can be useful for versioning and tracking changes to your application over time.
+        token-type: |-
+            [AI] `flatpak build-export` is a command-line tool used in the Flatpak application packaging system. The `--token-type` option specifies the type of authentication token to be generated or exported for use in building and distributing Flatpak applications.
+
+            There are two types of tokens:
+            1. Build Service Token: Used to authenticate with a Flatpak Building Service to build and distribute packages. This token includes your private key.
+            2. Repo Host Token: Used to authenticate with a Flatpak repository hosting service to publish and manage repositories. This token does not include your private key, as the building service is responsible for generating and signing the builds.
+
+            So, in summary, the `--token-type` option determines whether an exported token is of build service type or repo host type.
+        update-appstream: '[AI] `flatpak build-export` is a command used in the Flatpak package manager to build and export a new or updated app bundle for an application, including its metadata. The `--update-appstream` option specifically instructs the tool to update the AppStream metainformation file associated with the application, ensuring it reflects any changes made to the application''s metadata.'
+        verbose: '[AI] `flatpak build-export` is a command used in the Flatpak packaging system to generate an artifact, i.e., a file or a set of files representing a specific version of a Flatpak application bundle. The `--verbose` option increases the level of output detail during the command execution, providing more information about the internal build and export process steps. It can be useful for debugging and understanding the behind-the-scenes details of how the Flatpak SDK generates and exports a specific application package.'

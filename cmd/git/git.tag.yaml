@@ -1,0 +1,68 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: tag
+description: Create, list, delete or verify a tag object signed with GPG
+group: main
+flags:
+    --cleanup=: 'how to strip spaces and #comments from message'
+    --color?: respect format colors
+    --column=: show tag list in columns
+    --contains=: print only tags that contain the commit
+    --create-reflog: create a reflog
+    --format=: format to use for the output
+    --merged=: print only tags that are merged
+    --no-contains=: print only tags that don't contain the commit
+    --no-merged=: print only tags that are not merged
+    --points-at=: print only tags of the object
+    --sort=: field name to sort on
+    -F, --file=: read message from file
+    -a, --annotate: annotated tag, needs a message
+    -d, --delete: delete tags
+    -e, --edit: force edit of tag message
+    -f, --force: replace the tag if exists
+    -i, --ignore-case: sorting and filtering are case insensitive
+    -l, --list: list tag names
+    -m, --message=: tag message
+    -n: print <n> lines of each tag message
+    -s, --sign: annotated and GPG-signed tag
+    -u, --local-user=: use another key to sign the tag
+    -v, --verify: verify tags
+documentation:
+    command: '[AI] The `git tag` command is used to create, list, or manage tags in Git. Tags are labels that mark specific commits with a name and a semantic meaning. They can be used for versioning (creating release tags), annotating important commits, or any other purpose. When you run the `git tag` command without any arguments, it will list all existing tags in your current repository. However, you can also use it to create a new tag by providing a name and an optional message, as in `git tag my_tag v1.0`. To create an annotated tag, add the `-a` flag: `git tag -a my_tag -m "Tag message"`. If you want to push the tag to a remote repository, use the `push` command: `git push origin my_tag`.'
+    flag:
+        annotate: '[AI] `git tag --annotate` is a Git command used to examine or modify annotated tags'' messages and committer information. Annotated tags are signed and verified tags, which store both the tag message and the full commit details of the associated commit. Running this command will open the text editor to allow modification of the tag message and/or author/committer information for the specified tag, or display the existing annotations if no changes are made. The modifications are then committed as a new annotated tag once saved.'
+        cleanup: |-
+            [AI] `git tag --cleanup` is a Git command used to remove unreachable local tags and, optionally, also delete tags that have been pushed but are no longer present in the remote repository. The command has two forms:
+
+            1. `git tag --cleanup <tags>` removes specified local tags that don't exist on the remote repository.
+            2. `git tag --cleanup --prune` removes both local and remote tags that don't exist anymore on the remote repository.
+
+            This command can help in maintaining a clean and up-to-date tag list by removing unused or outdated tags.
+        color: '[AI] The `git tag --color` command is used to display Git tags with colored output in the terminal. It''s an optional argument that enhances the readability of the tag listing by highlighting the tags based on their annotated, light-blue and other types, such as marked or v1.x, with different colors. This makes it easier for developers to quickly identify important tags at a glance.'
+        column: '[AI] `git tag --column` is a command used in Git version control system to display all available tags in a column format. By default, Git shows tags in a list format with one line per tag and additional information like tag name, tag object name, and creation date. However, the `--column` option changes this behavior by outputting all tag information on a single line, separated by whitespace. This can be useful when working with large numbers of tags or integrating Git repositories into other systems that require columnar data input.'
+        contains: '[AI] `git tag --contains <tag1> <tag2>` is a Git command used to find all the common ancestor tags between two given tags `<tag1>` and `<tag2>`. It returns a list of tags that mark commits reachable from both specified tags, in reverse chronological order. This can be useful for tracking down a chain of tags that share a common base commit.'
+        create-reflog: '[AI] `git tag --create-reflog` is a Git command used to create and maintain a reflog (short for reference log) for newly created tags. A reflog is a backup history of a Git reference, including deleted references, which can be useful in case of accidental tag deletion or loss of commits. By default, Git does not create a reflog for new tags unless specified with this option. When used, `git tag` creates the new tag and also updates the tag''s reflog, ensuring that the tag history is preserved.'
+        delete: '[AI] `git tag --delete` is a Git command used to delete a local or remote named tag. When you run this command with the tag name as an argument, Git will remove the reference to that specific tag from your local repository. If you add the `--force` flag, you can also forcefully delete a tag that other local or remote collaborators might be using. Without the `--force` option, Git will prevent deletion if the tag is not local or if it has been pushed to a remote repository and other collaborators are using it.'
+        edit: '[AI] `git tag --edit` is a Git command used to interactively create or edit a new annotated tag with the given name and message. The command opens up the default text editor for you to input the desired tag message, and once saved, creates a new tag with that message at the current commit. This can be useful when creating tags with long or specific descriptions.'
+        file: |-
+            [AI] The `git tag --file` command is used to write or update a Git tag to a given file instead of the default output to the terminal. This can be useful for integrating Git tags into other workflows, such as continuous integration systems or scripts, by saving the tag information in a file rather than printing it to the console. When using this command, specify the tag name and the output file path with the `--tag` and `--file` options respectively:
+
+            ```bash
+            git tag --tag <tag-name> --file=<output-file-path>
+            ```
+        force: |-
+            [AI] `git tag --force` is a Git command used to update an existing tag with new commit changes. When you create a tag in Git, it simply marks a specific commit with a label for easy reference. However, if new commits have been added to the branch since the tag was created, `git tag` will refuse to update the tag, as it might break the integrity of the tag's history.
+
+            By using the `--force` option, Git will override any existing tag with the new commit changes. This can be risky if other collaborators have already pulled or cloned the repository, as their local tags could get outdated or lost when you force a push to update the remote tags. Therefore, it's crucial to exercise caution and only use `git tag --force` when necessary and after notifying your team members.
+        format: '[AI] `git tag --format` is a command used to customize the output format of git tags when listing them. The `--format` option allows specifying a template string, which determines how each tag is displayed. For example, `git tag --format="%(refname:short)-%(objectname:short)"`, will display each tag with its short name followed by its corresponding commit hash. This can be useful for scripting or data analysis purposes.'
+        ignore-case: '[AI] `git tag --ignore-case` is a Git command used to create or list tags with an optional ignore case flag. By default, Git is case-sensitive when comparing and managing tags. With this option, Git will match and manage tags regardless of their case (upper or lower). This can be helpful in situations where you want to ensure that both uppercase and lowercase tag names are treated as equivalent.'
+        list: '[AI] `git tag --list` is a Git command used to list all the available tags in a repository. Tags are used to mark specific commits with labels for easy reference, versioning, or annotation. The output of this command is simply a list of all the tags, showing their names and the tag type (lightweight or annotated). The current tag, if there is one, is marked with an asterisk (\*). This command does not fetch or create new tags; it only lists the existing ones.'
+        local-user: '[AI] `git tag --local-user` is a Git command used to list all local annotated tags in a repository, showing also the corresponding email and name of the author who created each tag. These tags have not been pushed to a remote repository yet.'
+        merged: '[AI] The `git tag --merged` command lists all annotated and lightweight tags in the current repository, filtering out those that don''t point to committed code. In other words, it shows only the tags associated with fully merged branches or commits. This can be useful for verifying which tags represent stable releases, as they should ideally correspond to points where all the development branches have been merged into the mainline branch.'
+        message: '[AI] `git tag --message` is a Git command used to display or edit the message associated with a specific tag. When you run this command followed by a tag name, Git will show you the message that was included when creating that tag. If you include the `-e` flag, Git will allow you to edit the message before saving it, enabling you to update the tag message if needed.'
+        "n": '[AI] The `git tag -n` command is used to show the annotated tag with its corresponding tag name, message, and the author and committer information. The `-n` option stands for "show-ref-name-only" which means it will only display the tag name instead of the full ref name. For example, `git tag -n v1.0` will show the message, author, and committer information associated with the tag `v1.0`.'
+        no-contains: '[AI] The `git tag --no-contains <tag1> <tag2>` command is used to check if one git tag does not contain another tag in its history. In other words, it checks if the two tags refer to different points in the git repository''s history. If the output is empty or contains no messages, then `<tag1>` does not point to a commit that is an ancestor of `<tag2>`. If there is an error message or output, it means that `<tag1>` contains `<tag2>`.'
+        no-merged: '[AI] The `git tag --no-merged` command lists all unreachable local tags in your Git repository, which means these tags are not yet merged into any branches or commits. These tags represent annotated marks on a commit, and the `--no-merged` option helps ensure that you don''t accidentally push untagged work to a remote repository.'
+        points-at: '[AI] `git tag --points-at` is a Git command used to retrieve the commit object associated with a specific tag. In other words, it returns the hash of the commit that the given tag points to. This can be useful for verifying tag integrity or resolving conflicts between local and remote tags. The output is the 40-character hexadecimal SHA-1 commit hash.'
+        sign: '[AI] `git tag --sign` is a Git command used to create a signed and GPG-verified tag. A signed tag provides an added layer of security by associating a tag with a specific GPG key, ensuring that only the person who controls the private key can create or modify the tag. This can be useful for important tags such as release tags in a version control system. The command creates a new tag and then signs it using the default editor to allow input of the GPG key passphrase if necessary.'
+        sort: '[AI] `git tag --sort` is a Git command used to list all tags in a repository, but sorts them based on their creation time. By default, it sorts the tags in reverse chronological order (newest first), as indicated by the `--sort=-v:refname` option. You can also use `--sort=v:refname` to sort the tags in ascending order (oldest first). This command helps when you want to check which are the oldest or newest tags in your Git repository.'
+        verify: '[AI] `git tag --verify` is a Git command used to list all local annotated tags that have been signed with GPG keys. The `--verify` option ensures the authenticity and integrity of the signed tags by checking their signatures against the public keys stored in the keyring. If the signature verification is successful, the tag will be displayed along with its associated commit hash and tag message. If the verification fails or the tag is not signed, it will not be shown.'

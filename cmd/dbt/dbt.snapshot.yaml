@@ -1,0 +1,49 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: snapshot
+description: Execute snapshots defined in your project
+flags:
+    --defer: Defer to the state variable for resolving unselected nodes
+    --exclude*=: Specify the models to exclude
+    --favor-state: Defer to the state variable for resolving unselected nodes
+    --no-defer: Do not defer to the state variable for resolving unselected nodes
+    --no-favor-state: If defer is set, expect standard defer behaviour
+    --profile=: Which profile to load. Overrides setting in dbt_project.yml
+    --project-dir=: Which directory to look in for the dbt_project.yml file
+    --selector=: The selector name to use
+    --state=: Use the given directory as the source for json files to compare
+    --threads=: Specify number of threads to use while snapshotting tables
+    --vars=: Supply variables to the project
+    -h, --help: show this help message and exit
+    -m, --models*=: Specify the nodes to include
+    -s, --select*=: Specify the nodes to include
+    -t, --target=: Which target to load for the given profile
+documentation:
+    command: '[AI] `dbt snapshot` is a command used in dbt (Data Build Tool), an open-source data transformation and orchestration tool. This command saves the current state of your database schema and data as a `snapshot`. A snapshot is a point-in-time representation of the metadata and data captured from your production database, serving as a backup or a reference for future comparisons. By creating snapshots regularly, you can track changes in your data models, identify inconsistencies, and easily revert to previous states if needed.'
+    flag:
+        defer: '[AI] `dbt snapshot --defer` is a command in dbt (data build tool), used to create a new snapshot of data models and schema changes, but without applying those changes to the target database yet. The `--defer` option defers the application of the snapshot, allowing users to review and make adjustments before executing the changes. This approach provides more control and flexibility during the database deployment process.'
+        exclude: '[AI] `dbt snapshot --exclude` is a command in dbt (Data Build Tool), used to take a snapshot of data models and schemas while excluding specific tables or columns from being captured. The `--exclude` flag allows users to provide a list of table names, column names, or regular expressions as arguments, which will be excluded during the snapshotting process. This can be useful when there are large or frequently changing datasets that aren''t necessary for the current analysis and should not affect the versioned snapshots.'
+        favor-state: '[AI] `dbt snapshot --favor-state` is a command in dbt (data build tool) that creates a new snapshot of your data models, but with a preference for keeping the current state of the materialized tables instead of overwriting them with the latest model definitions. This means that any data or metadata changes in the materialized tables that are not reflected in the models will be preserved in the new snapshot. It''s useful when you want to maintain the existing state of your materialized tables, but still create a new snapshot for tracking purposes.'
+        help: |-
+            [AI] `dbt snapshot --help` is a command used in dbt (Data Build Tool), an open-source data transformation and orchestration tool. This command generates a snapshot of your database schema and data, storing it as an artifact. The help option provides detailed information about how to use this command effectively. Here's a quick overview:
+
+            Usage: `dbt snapshot <profile> [flags]`
+            - `<profile>`: A dbt profile containing configuration for your target database.
+
+            Flags:
+            - `--select, -s`: Filter the data in your snapshot based on an SQL statement.
+            - `--ignore-fields, -i`: Ignore certain fields from being included in the snapshot.
+            - `--include-fields, -I`: Include specific fields that are not usually captured by dbt.
+            - `--output, -o`: Specify a file path or URL for saving the snapshot output. (default: "out/snapshots/<profile>.json")
+
+            This command captures the current state of your data and schema in JSON format, which can be useful for tracking changes over time or for sharing snapshot data between team members.
+        models: '[AI] `dbt snapshot --models` is a command in dbt (Data Build Tool), an open-source data transformation toolkit. This command takes a snapshot of the current state of models in a given dbt project. It captures the schema definitions and data from the most recent successful run for each model, creating a new artifact file under the `_snapshots` directory within the corresponding model folder. This snapshot can be used for comparison or rollback purposes, helping to maintain versioned control of data transformations.'
+        no-defer: '[AI] `dbt snapshot --no-defer` is a command in dbt (data build tool), used to create a new snapshot of data models and schema changes, applying those changes immediately without queueing them up for future application with `--defer`. This option allows running the snapshot directly without waiting for the next execution of the materialization schedule.'
+        no-favor-state: '[AI] `dbt snapshot --no-favor-states` is a command used in dbt (data build tool) to take a snapshot of data models and schemes in a database without applying any state management or favoring any specific state over others. In other words, it creates a new snapshot with no preference given to previously recorded states. This can be useful when you want to preserve an exact point-in-time representation of your data models and schemas for comparison or reporting purposes.'
+        profile: '[AI] `dbt snapshot --profile` is a command used in dbt (data build tool) to take a snapshot of data model metadata and save it as a YAML file. The `--profile` option specifies the dbt profile to use, which can contain configuration settings for different environments like database credentials or output directories. By using this command, you can capture the current state of your data models'' metadata and version it for future comparison or deployment.'
+        project-dir: '[AI] `dbt snapshot --project-dir` is a command used in dbt (Data Build Tool), an open-source data transformation and testing toolkit. This command takes a snapshot of the current state of your database schema and data, as defined by your dbt models, located in the specified project directory. The result is saved as a `.dbtsnapshot` file within that directory, allowing for easy versioning and reversion of database states.'
+        select: '[AI] `dbt snapshot --select` is a command used in dbt (data build tool) for taking a snapshot of specific data models or artifacts instead of the entire project. This command allows users to selectively capture the state of specific models, saving disk space and reducing the time required for snapshots compared to taking a full snapshot of an entire project. The selected artifacts are saved in the `snapshots` folder with a unique name and timestamp.'
+        selector: '[AI] `dbt snapshot --selector` is a command used in dbt (Data Build Tool), an open-source data transformation and testing toolkit. This command takes a snapshot of the database schema for models selected by a given selector expression. The snapshot is saved as a file, which can be later applied using `dbt apply` or compared using `dbt compare`. The selector expression allows users to filter which models'' snapshots are taken based on specific criteria such as model names or tags.'
+        state: '[AI] `dbt snapshot --state` is a command used in dbt (data build tool), an open-source data transformation and orchestration tool. This command takes a snapshot of the current state of your database schema and saved model metadata, without running any tests or applying any changes. It''s useful for creating a backup or checking the current state of your data models before making further changes.'
+        target: '[AI] `dbt snapshot --target` is a command used in dbt (Data Build Tool), an open-source data transformation and orchestration tool. This command takes a database snapshot, which means it creates a point-in-time copy of the current state of the database schema and data. The `--target` option specifies where to store this snapshot, which can be a local file or a remote storage location such as Amazon S3 or Google Cloud Storage. The snapshot can later be restored for various purposes like testing, disaster recovery, or versioning.'
+        threads: '[AI] `dbt snapshot --threads` is a command used in dbt (data build tool) to generate snapshots of data models. The `--threads` option specifies the number of threads to use during the snapshot generation process. By default, dbt uses one thread, but you can increase the concurrency by using multiple threads to speed up the process. For example, `dbt snapshot --threads 4` would generate snapshots using four threads simultaneously.'
+        vars: '[AI] `dbt snapshot --vars` is a command in dbt (Data Build Tool), an open-source data transformation tool, used to take a snapshot of the current state of models and schemas in a database. The `--vars` option allows passing key-value pairs as variables which can be referenced in SQL queries or dbt model files using the `${variable_name}` syntax. These variables can be used to set values for configuration options, connection strings, or any other data that needs to be passed dynamically during the snapshot process.'

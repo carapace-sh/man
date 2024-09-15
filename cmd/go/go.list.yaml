@@ -1,0 +1,122 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: list
+description: list packages or modules
+flags:
+    -C=: Change to dir before running the command
+    -a: force rebuilding of packages that are already up-to-date
+    -asan: enable interoperation with address sanitizer
+    -asmflags=: arguments to pass on each go tool asm invocation
+    -buildmode=: build mode to use
+    -buildvcs?: whether to stamp binaries with version control information
+    -compiled: set CompiledGoFiles to the Go source files presented to the compiler
+    -compiler=: name of compiler to use
+    -cover: enable code coverage instrumentation
+    -coverpkg=: apply coverage analysis to each package matching the patterns
+    -deps: iterate over not just the named packages but also all their dependencies
+    -e: change the handling of erroneous packages
+    -export: set the Export field to the name of a file containing up-to-date export information
+    -f=: specify an alternate format for the list
+    -find: identify the named packages but not resolve their dependencies
+    -gccgoflags=: arguments to pass on each gccgo compiler/linker invocation
+    -gcflags=: arguments to pass on each go tool compile invocation
+    -installsuffix=: a suffix to use in the name of the package installation directory
+    -json: print package data in JSON format
+    -ldflags=: arguments to pass on each go tool link invocation
+    -linkshared: build code that will be linked against shared libraries
+    -m: list modules instead of packages
+    -mod=: module download mode to use
+    -modcacherw: leave newly-created directories in the module cache read-write
+    -modfile=: read and possibly write an alternate go.mod file
+    -msan: enable interoperation with memory sanitizer
+    -n: print the commands but do not run them
+    -overlay=: read a JSON config file that provides an overlay for build operations
+    -p=: the number of programs to run in parallel
+    -pgo=: specify the file path of a profile for profile-guided optimization
+    -pkgdir=: install and load all packages from dir
+    -race: enable data race detection
+    -tags=: a comma-separated list of build tags to consider satisfied during the
+    -test: report not only the named packages but also their test binaries
+    -toolexec=: a program to use to invoke toolchain programs like vet and asm
+    -trimpath: remove all file system paths from the resulting executable
+    -u: add information about available upgrades
+    -v: print the names of packages as they are compiled
+    -versions: set the Module's Versions field to list of all known versions
+    -work: print the name of the temporary work directory
+    -x: print the commands
+documentation:
+    command: |-
+        [AI] `go list` is a command-line tool in Go programming language used to list the files or modules that match a given pattern. It reads the current Go module file, `go.mod`, and prints out the imported modules or the local source files that match the provided argument. The basic usage is:
+
+        ```sh
+        go list [module|pattern]
+        ```
+
+        For example, to print all the dependencies in your project's `go.mod` file, you can use it as follows:
+
+        ```sh
+        go list -f '{{index .Name}}'
+        ```
+
+        This will output the names of the listed modules or files without any further formatting information.
+    flag:
+        C: '[AI] `go list -C` is a command-line tool from the Go programming language. It lists the dependencies of a Go project, organized by tree structure (also known as recursive or transitive dependencies). This means it shows not only the direct dependencies but also their dependencies'' dependencies and so on. Each line in the output represents a module with its import path and version number.'
+        a: '[AI] `go list -a` is a command used in the Go programming language to list all the dependencies and modules defined in the current Go mod file (go.mod or go.sum) and their corresponding versions. The `-a` flag stands for "all," meaning it will display not only the direct dependencies but also the transitive ones, which are the dependencies of your dependencies. This command helps keep track of the project''s dependency tree and ensures consistent versioning across the development environment.'
+        asan: '[AI] `go list` is a command-line tool in Go programming language used to perform various tasks related to Go modules. The `-m` or `--mod` option is used to query the Go module dependency tree. However, when using `go list` with the `-asan` flag (short for AddressSanitizer), it generates a list of packages along with their respective AddressSanitizer test binary names. In simple terms, `go list -asan` lists all the modules and their corresponding ASAN test binaries.'
+        asmflags: '[AI] `go list -asmflags` is a command-line tool in the Go programming language used to print out the ASM flags for a specific module or package. These ASM flags are compiler options that get passed through to the assembly stage of the Go compiler, which can be used to customize the generated assembly code. For example, `-C flag` might enable C calling conventions, `-m32` might force 32-bit mode, and `-p` might produce an object file instead of a binary. These flags are useful for low-level optimization or porting Go code to different systems.'
+        buildmode: |-
+            [AI] The `go list` command with the `-buildmode=<mode>` flag is used to generate a list of Go modules required to build an application, specifying the desired build mode.
+
+            The available modes are:
+
+            1. **normal**: Builds the specified module and its dependencies. This is the default mode.
+            2. **c-shared**: Generates C-shared libraries instead of binaries or executables.
+            3. **mod**: Prints a list of modules needed to build the given Go source files with `go mod` in the current directory as the root module.
+            4. **vendor**: Builds dependencies using the vendor directory instead of `go.mod` and `go.sum`. This mode is deprecated since Go 1.16.
+
+            For example, to get a list of modules required to build an application with C-shared libraries, you can use:
+
+            ```sh
+            $ go list -buildmode=c-shared
+            ```
+        buildvcs: '[AI] The `go list` command with the `-buildvcs` flag is used to generate a list of Go modules and their corresponding VCS (Version Control System) information, such as Git commit messages or Mercurial changesets. It prints out the module name, import path, and version control information in the format `<import_path>@<commit>`. This can be useful for automation scripts that need to identify the specific commit of a dependency used in a project.'
+        compiled: '[AI] The `go list` command with the `-compiled` flag is used to list the names of all the files that have been compiled in a Go module or project. It does not include source files, but rather only those files that have already been built and are ready for use in the current or dependent packages. This can be useful when you want to check which files have been compiled without having to build your entire project or module again.'
+        compiler: '[AI] The `go list` command is a tool in Go programming language used to generate lists of packages and their dependencies. The `-compiler` flag modifies the output by specifying the target compiler or architectures for the generated list. For instance, `go list -compiler=x86_64` will return a list with the required packages and dependencies for building a Go binary on an x86\_64 architecture.'
+        cover: '[AI] `go list -cover` is a command used in Go programming language to generate a report of source files and the number of covered and missing lines of code during testing. The `-cover` flag tells Go test tool to produce the coverage data, while `go list` is used to list the packages and sources involved. The output shows the percentage of lines covered by tests for each source file.'
+        coverpkg: '[AI] The `go list` command with the `-coverpkg` flag generates a list of Go packages and their corresponding coverage data files for use with the `gcov` tool or other coverage analysis tools. This flag is useful during testing to collect coverage information from the tested source code. The output of this command includes the package import path, followed by the corresponding coverage file name in the `$GOCOVDIR` directory (default: `./cover/`) or a user-specified directory.'
+        deps: '[AI] `go list -deps` is a command used in the Go programming language to list the dependencies of a given Go module or project, as specified by its Go.mod file. The `-deps` flag outputs the absolute paths to the dependency modules instead of their names and versions. This information can be useful for building or managing the project''s dependencies outside of the standard `go build` and `go get` commands.'
+        e: '[AI] `go list -e` is a command-line tool in Go programming language used to list the dependencies (imports) of given Go modules or packages. The `-e` option instructs the tool to print the name of each dependency instead of its location or version number. For example, running `go list -e ./myproject/...` in a directory containing a Go project named `myproject` will output a list of import paths for that project''s dependencies.'
+        export: '[AI] `go list -export` is a command-line tool in Go programming language used to generate the import declarations for specified packages. It reads the go.mod or go.sum files and outputs the required package import paths as Go source code, including the package name and version if specified. The output can be redirected to a file for easy inclusion in other Go source files.'
+        f: '[AI] `go list -f` is a command-line tool in Go programming language used to list the dependencies or modules specified in a Go project''s `go.mod` file. The `-f` (or `--format`) flag allows specifying an output format for the listing, such as `"modreq"` for displaying the required modules and their versions. In summary, it generates a list of dependencies with desired formatting based on the project''s `go.mod` file.'
+        find: '[AI] `go list -find` is a command-line tool in Go programming language. It lists the dependencies of a given Go module and their corresponding versions, recursively searching through subdirectories specified by `GO_SEARCH` environment variable or in `go.mod` files if present. The `-find` flag enables this deep search behavior.'
+        gccgoflags: '[AI] `go list` is a command-line tool in Go programming language used to perform various tasks such as listing dependencies or source files. The `-gccgoflags` flag is an optional argument for this command that allows specifying compiler flags for the CGo component of Go programs. CGo is a feature of Go that enables calling C code from Go code and vice versa, making it easier to use existing C libraries in Go projects. The `-gccgoflags` flag lets you pass specific compiler flags directly to the CCompilerInvocations for the build process, allowing customizations like setting include paths or other compiler options when building CGo parts of your Go project.'
+        gcflags: '[AI] `go list` is a command-line tool in Go programming language used to perform various tasks related to source code management, such as printing the dependencies of a given package or listing the files matching specific patterns. The `-gcflags` option is used with `go list` to display the current Go compiler flags that control garbage collector behavior for the specified module or packages. These flags can influence parameters like GC mode, heap size, and survivor ratio, impacting the memory management efficiency and performance of the program.'
+        installsuffix: '[AI] The `-installsuffix` flag in Go''s `list` command is used to specify a suffix that will be appended to the installed package name when it is imported as a dependency in Go source code. This can be useful for managing multiple versions of the same package or for ensuring that imported packages have consistent naming conventions. For example, `go list -f ''\{{.Name}}-v0.1.0'' -installsuffix v0.1.0` would append the string "v0.1.0" to the installed package name when it is displayed in a `go list` output.'
+        json: '[AI] `go list -json` is a command in Go programming language used to list the dependencies of a project and output the results in JSON format. It queries the go.mod file or multiple go.mod files in the current directory, or recursively in subdirectories if used with the `-m` flag, and returns information about each listed module such as its name, version, and import path. This command is useful for automating tasks related to managing Go dependencies.'
+        ldflags: '[AI] `go list -ldflags` is a command used in the Go programming language to display the build flags, or compiler flags, for specified packages. The `-l` flag tells the command to output the flags in a long format that includes the full import path of each package and its corresponding flags. The `-d` flag enables the display of unused flags as well. Overall, this command helps developers understand which flags are being used when building their Go projects.'
+        linkshared: '[AI] `go list` is a command-line tool in Go programming language used to query information about packages and dependencies. The `-linkshared` flag modifies the output of the command by only showing the shared dependencies, which are the dependencies that have no build tags and are already built as part of other projects in the current Go workspace. This can help identify and manage dependencies with circular imports or avoid unnecessary rebuilds during development.'
+        m: '[AI] `go list -m` is a command-line tool provided by Go programming language. It prints the dependencies of given Go modules, specified as module paths or GOFILES (Go files with import declarations), in the form of "module @ version". The `-m` flag stands for "modify", indicating that the output can be used as input for `go mod edit` command to update the Go.mod file with the latest dependency versions.'
+        mod: '[AI] `go list -mod` is a command in Go programming language used to print out the current or desired module dependencies of a given Go project, based on its `go.mod` file. It allows you to check and manage the list of direct and transitive dependencies for your project. The output includes the import path and the corresponding version specified in the `go.mod` file.'
+        modcacherw: '[AI] The `go list` command is a part of Go programming language''s standard library used to print various information about packages. The `-modcache` flag is an argument that instructs it to display information about the package dependencies stored in the Go Mod Cache, which is where Go stores downloaded and locally built modules for offline use. The full command `go list -modcache` shows a list of all the cached packages along with their versions.'
+        modfile: '[AI] `go list -modfile` is a command in Go programming language used to print the Go.mod file(s) associated with the specified module directory or dependencies. This command helps developers to check and manage their module files, ensuring the correct dependencies are being used for their projects. It provides information about the location of the Go.mod file, which specifies the module''s version constraints and summarizes its direct and transitive dependencies.'
+        msan: '[AI] `go list -msan` is a command used in Go programming language''s `govbuild` tool. It generates a list of packages and their corresponding minimum Go version requirements, but it also checks for memory safety issues using the `-m` flag and the Memory Safety Analyzer (MSAN) tool with the `-msan` flag. This command helps ensure that a project uses only memory safe code and runs on supported Go versions.'
+        "n": '[AI] The `go list` command with the `-n` flag is used to print the names of the Go modules that depend on the current module, up to a specified depth level. If no depth level is specified, it will print the names of directly dependent modules only. The output is typically used as input for other commands, such as `go build` or `go test`.'
+        overlay: '[AI] The `go list` command with the `-overlay` flag is used to display a overlays of dependencies and their corresponding versions for one or more Go modules in the current directory or specified by URL, instead of just listing the module names and versions. This information can be useful when managing multiple revisions of dependencies in a project. The output shows the current version, the desired version (if any is specified), and the difference between the two (if applicable).'
+        p: '[AI] `go list -p` is a command-line tool in Go programming language used to print the dependencies of given Go modules in the form of a recursive path prefix. It lists out the import paths needed to build the given module and its transitive dependencies. The `-p` flag specifies this output format.'
+        pgo: |-
+            [AI] The command `go list -pgo` is a Go programming language build tool command used to query the dependencies of a given Go module. Here's a breakdown of the command:
+
+            - `go`: Invokes the Go command-line interface (CLI) tool.
+            - `list`: Specifies that we want to use the list subcommand.
+            - `-p`: Tells the list command to display the output in the format of "package [version]".
+            - `-go`: Instructs the list command to show the dependencies as if they were build constraints, which includes showing the import path and the version constraint for each dependency.
+        pkgdir: '[AI] The `go list` command with the `-pkgdir` flag is used to print the import paths of packages along with their corresponding local directory paths within your Go module. In other words, it helps you identify where each imported package''s source code resides in your development environment. This can be useful when working on larger projects that consist of multiple packages or when managing dependencies across different repositories.'
+        race: '[AI] The `go list` command with the `-race` flag is used for generating a list of packages and their dependencies in a recursive manner, including transitive dependencies. It follows the composition of Go modules and provides an output that can be used as input for `go build`, `go test`, or other Go commands to ensure all required packages are present before executing them.'
+        tags: '[AI] `go list -tags` is a command used in the Go programming language to list the files and dependencies of a Go project, along with their associated build tags. Build tags are optional labels that can be specified when building Go packages to include or exclude certain features based on specific conditions. The `-tags` flag causes `go list` to print out the tags associated with each dependency or package in the project.'
+        test: '[AI] `go list -test` is a command used in Go programming language to list all the tests in the current module or specified packages. It searches for files with `_test.go` suffix in the source directories and displays their names. The tests are unit tests that can be run using the `go test` command.'
+        toolexec: '[AI] `go list -toolexec` is a command-line tool provided by Go language. It lists the Go modules required by the current Go project and generates a shell command to execute `go run`, `go test`, or other Go commands with the specified module''s executable instead of using `go build` or `go test` directly. This can be useful when working on projects that depend on multiple modules, ensuring that the correct versions of each are used for testing and execution.'
+        trimpath: '[AI] `go list` is a command-line tool in Go programming language used to retrieve information about packages and dependencies. The `-trimpath` flag modifies the output of `go list` by removing the file system path prefixes from the package names, providing only the last directory name or module name. This can be useful when dealing with multiple import paths that have common prefixes.'
+        u: '[AI] The `go list` command with the `-u` flag is used to print out the explicit import paths of packages needed by the current Go project, without evaluating or building the dependencies. It provides a deterministic and reproducible way to see exactly which packages are being imported, making it useful for versioning and dependency management purposes.'
+        v: '[AI] `go list` is a command-line tool in Go programming language used to list dependencies or modules. The `-v` (verbose) flag option increases the output verbosity, providing more detailed information about the dependencies or modules being listed. This includes the current version, expected and actual import path, and the revision hash if it''s a VCS-managed dependency.'
+        versions: '[AI] The `go list` command with the `-versions` flag is used to print out a list of available Go versions that are installed on a system, along with their corresponding installation locations. It helps developers manage multiple Go versions and easily switch between them for different projects.'
+        work: '[AI] `go list -work` is a command-line tool used in the Go programming language to generate a list of dependencies for a given Go project, starting with the current main module and recursively including all transitive dependencies. The `-work` flag tells the tool to output the full path to each dependency file instead of just the import path. This can be useful when building or testing a project, as it allows you to easily specify the correct locations of the dependency files for the build process.'
+        x: '[AI] `go list -x` is a command used in the Go programming language to print the dependencies of a given Go module or project, with their exact versions specified by the go.mod file. It lists out the modules and their versions needed to build the project. The "-x" flag shows the complete build constraints including the required operating system and architecture.'

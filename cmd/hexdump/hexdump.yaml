@@ -1,0 +1,65 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: hexdump
+description: Display file contents in hexadecimal, decimal, octal, or ascii
+flags:
+    -C, --canonical: canonical hex+ASCII display
+    -L, --color?: interpret color formatting specifiers
+    -V, --version: display version
+    -b, --one-byte-octal: one-byte octal display
+    -c, --one-byte-char: one-byte character display
+    -d, --two-bytes-decimal: two-byte decimal display
+    -e, --format=: format string to be used for displaying data
+    -f, --format-file=: file that contains format strings
+    -h, --help: display this help
+    -n, --length=: interpret only length bytes of input
+    -o, --two-bytes-octal: two-byte octal display
+    -s, --skip=: skip offset bytes from the beginning
+    -v, --no-squeezing: output identical lines
+    -x, --two-bytes-hex: two-byte hexadecimal display
+documentation:
+    command: '[AI] `hexdump` is a command-line utility used to display data in hexadecimal format with optional ASCII representation. It can be used to inspect, compare, or convert binary files into a more human-readable format. The output includes bytes represented as two-digit hexadecimal numbers and their corresponding ASCII characters if the input is printable. Users can also control the output format, byte ordering, and endianness. For example: `hexdump -n 10 file.bin` would display the first ten bytes of the binary file `file.bin`.'
+    flag:
+        canonical: '[AI] The `hexdump` command with the option `--canonical` (or just `-c`) is used to display data in canonical hexadecimal format. This means that each byte of input is displayed as a pair: a two-digit hexadecimal number followed by a colon and then an ASCII character if it is printable. For non-printable bytes, a `.` represents the byte. Each group of 16 bytes or less is separated by a space. This format is widely used for comparing binary files or analyzing low-level data.'
+        color: '[AI] `hexdump --color` is a command-line utility from the GNU Hex Editor (hed) package. This option configures `hexdump` to display hexadecimal data with colored output for easier reading. Each byte value is represented by two columns: one column shows the hexadecimal number and the other column displays a color-coded representation of that value based on its hexadecimal range (e.g., 00-0F in red, 10-1F in green, etc.). This visual enhancement makes it easier to identify patterns or specific values within large data sets.'
+        format: |-
+            [AI] `hexdump` is a command-line utility used to display the contents of binary files in various formats. The `--format` option allows specifying how the output should be formatted. Here are some common format options:
+
+            1. `'d'` or `'dec'`: Display the data as decimal numbers.
+            2. `'h'` or `'hex'`: Display the data as hexadecimal numbers, with each pair of bytes separated by a space.
+            3. `'s'` or `'raw'`: Display the data in its raw binary format.
+            4. `'e'` or `'ascii'`: Display the data as ASCII characters.
+            5. `'a'`: Display the data as ASCII, but treat any contiguous sequence of bytes that begins with 0x0A (LF) as a newline character.
+            6. Custom formats can also be defined using the `'%'` symbol followed by various format specifiers. For example, `'%02hhx'` displays each byte in hexadecimal format with leading zeros.
+        format-file: '[AI] The `hexdump` command with the option `--format-file` allows specifying a custom format file to define how the output of the binary data should be displayed. This can include options such as showing ASCII characters, bytes per line, and endianess among others. The custom format file is provided as an argument to the `--format-file` option, and its contents should adhere to the Hexdump Format File syntax.'
+        help: |-
+            [AI] `hexdump` is a command-line utility used to convert and display data in various formats, with a focus on hexadecimal representation. The `--help` option provides detailed information about how to use the tool effectively. Here's an overview of the flag:
+
+            ```
+            --help              Print this help message and exit
+            ```
+
+            Using `hexdump --help` will display extensive usage instructions, explanations of available options, and examples for various invocation scenarios. This information will guide users on how to apply different format modifiers, set byte order, specify input and output files, and more.
+        length: '[AI] The `hexdump` is a command-line utility used to convert binary data into human-readable hexadecimal and ASCII formats. The option `--length N` sets the output length to `N` bytes per line, making the hexadecimal and ASCII representations more manageable and easier to read for larger binary data.'
+        no-squeezing: '[AI] `hexdump` is a command-line utility used to display the contents of binary data in various formats. The `--no-squeezing` option is one of its features that prevents merging or "squeezing" of consecutive bytes with the same value into a single representation. In other words, it forces `hexdump` to print each byte as a separate character instead of representing multiple identical bytes as a single character and a count. This can be useful for examining binary data where every byte needs to be individually inspected.'
+        one-byte-char: '[AI] `hexdump` is a command-line utility used to display the contents of a binary file in hexadecimal, ASCII or octal format. The `--one-byte-char` option tells `hexdump` to output each byte as a single character instead of the default behavior where multiple bytes are combined into one hexadecimal or ASCII string. This results in an uninterrupted sequence of bytes, making it easier to visually inspect or compare binary data where individual byte values matter.'
+        one-byte-octal: '[AI] `hexdump` is a command-line utility used to convert and display data in various formats. The option `--one-byte-octal` is used with it to display data as a series of octal numbers, representing the bytes in the data being dumped. Each byte is displayed as a three-digit number preceded by a 0x character. This format is commonly used for debugging and analyzing binary data.'
+        skip: '[AI] `hexdump` is a command-line utility used to display the contents of binary files in various formats, including hexadecimal. The option `--skip=N` is used to skip the first N bytes when dumping the file''s content. In other words, it starts printing the output from byte (N+1). For example, `hexdump --skip=3 filename.bin` will display the hexadecimal representation of bytes 4 and onwards in the file.'
+        two-bytes-decimal: |-
+            [AI] `hexdump` is a command-line utility used to display data in various formats, including hexadecimal. The option `--two-bytes-decimal` tells `hexdump` to output two bytes (one hexadecimal digit pair) per line when in hexadecimal mode. This means that the data will be displayed as a series of lines, each containing two hexadecimal digits representing the binary data. For example, the byte sequence 0x1A 0x2B would be displayed as:
+
+            ```
+            1a 2b
+            ```
+        two-bytes-hex: '[AI] `hexdump --two-bytes-hex` is a command used in Unix-based systems to display the contents of a binary file in hexadecimal format, with each pair of bytes on a separate line. The option `--two-bytes-hex` instructs the tool to print exactly two hexadecimal digits per byte, resulting in lines that consist of four characters representing the raw data.'
+        two-bytes-octal: |-
+            [AI] `hexdump` is a command-line utility used to convert and display binary data in various formats. The option `--two-bytes-octal` tells `hexdump` to output two hexadecimal digits per byte of input data, in octal format.
+
+            For example, given an input file with the following bytes: 0x41 0x42 0x69 0x6e 0x69 0x73 0x20 0x61, `hexdump -n 8 --two-bytes-octal input_file` will output:
+
+            ```
+            01 02 41 42 69 6e 69 73   // The first two bytes are represented as '01' and '02'.
+            03 04 73 65               // The next two bytes are '69' and '73', which in octal is '111' and '111'. So, they are represented as '03' and '04' followed by their hexadecimal representation.
+            ```
+
+            This format can be useful when dealing with binary data containing multiple bytes of the same value or when working with environments where octal representation is preferred.
+        version: '[AI] The `hexdump --version` command is used with the `hexdump` utility, which is a data dumping tool commonly used in Unix-like operating systems. This command displays the version information of the installed `hexdump` utility, providing details such as its name, version number, and sometimes other relevant information like the operating system it was built for or the compilation date.'

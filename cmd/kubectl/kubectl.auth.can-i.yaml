@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: can-i VERB [TYPE | TYPE/NAME | NONRESOURCEURL]
+description: Check whether an action is allowed
+flags:
+    --list: If true, prints all allowed actions.
+    --no-headers: If true, prints allowed actions without headers
+    --subresource=: SubResource such as pod/log or deployment/scale
+    -A, --all-namespaces: If true, check the specified action in all namespaces.
+    -q, --quiet: If true, suppress output and just return the exit code.
+documentation:
+    command: '[AI] `kubectl auth can-i` is a command used with Kubernetes to check the role-based access control (RBAC) rules for a specific user or service account within a cluster. The command takes an argument specifying the action and resource, and returns whether that action is allowed for the authenticated user or not based on the current RBAC rules. For example, `kubectl auth can-i create pods --as=system:serviceaccount:mynamespace:mypodserviceaccount` checks if the service account ''mypodserviceaccount'' in the namespace ''mynamespace'' is authorized to create pods.'
+    flag:
+        all-namespaces: '[AI] `kubectl auth can-i --all-namespaces` is a command used with Kubernetes'' `kubectl` tool to check the role-based access control (RBAC) rules for a given user or service account in all namespaces within a cluster. The command takes an argument, specifying a verb (action) and resource type. For example, "can-i create pods" or "can-i delete services". The output indicates whether the specified permission is allowed or denied for each resource in every namespace. This command helps to verify RBAC rules'' consistency and identify potential security risks by ensuring that the least privilege principle is applied.'
+        list: '[AI] `kubectl auth can-i --list` is a command used with the Kubernetes command-line tool (`kubectl`) to check the Role-Based Access Control (RBAC) rules in a Kubernetes cluster and list the actions that a user or service account is authorized to perform. The `can-i` subcommand provides a quick way to verify permissions without having to write complex RBAC rules or YAML manifests. It takes no arguments by default, so it lists all available resources and their respective permissions for the currently authenticated context.'
+        no-headers: '[AI] `kubectl auth can-i` is a command used with the Kubernetes command-line interface (CLI) tool, `kubectl`. This command is utilized to check the role-based access control (RBAC) rules for a specified user or service account within a Kubernetes cluster. The `--no-headers` flag is an optional argument that is used to suppress the display of table headers when the output is presented in a tabular format. In essence, it provides a plain text output, making it easier to parse and process the results programmatically.'
+        quiet: |-
+            [AI] `kubectl auth can-i --quiet` is a command used with the Kubernetes `kubectl` tool to check the allowed actions for a specific user or role within a Kubernetes cluster based on Role-Based Access Control (RBAC) rules. The `--quiet` flag is used to suppress all output except for the result of the check, making it useful for automation and scripting purposes. This command returns a single line indicating whether the specified user or role has the given permission or not. For example:
+
+            ```bash
+            $ kubectl auth can-i create deployments --as=myuser --quiet
+            true
+            ```
+
+            The output `true` indicates that the user 'myuser' is authorized to create Deployments within the cluster. If the command returns an empty line or an error message, it means that the user does not have the given permission.
+        subresource: '[AI] The `kubectl auth can-i` command is a feature of the Kubernetes CLI (kubectl) tool used to check the RBAC (Role-Based Access Control) permissions for a given user or service account in a Kubernetes cluster. The `--subresource` option allows specifying a sub-resource under a resource, if applicable. For instance, `can-i create pods in namespace mynamespace? --as=myuser` checks if the user "myuser" has permission to create pods in the namespace "mynamespace". Using `--subresource` option allows checking permissions for specific sub-resources under a resource, such as `can-i get events for a specific pod? --as=myuser --subresource=events`.'

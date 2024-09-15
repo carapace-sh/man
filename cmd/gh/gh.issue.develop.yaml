@@ -1,0 +1,56 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: develop {<number> | <url>}
+description: Manage linked branches for an issue
+group: Targeted commands
+flags:
+    --branch-repo=: Name or URL of the repository where you want to create your new branch
+    -b, --base=: Name of the base branch you want to make your new branch from
+    -c, --checkout: Checkout the branch after creating it
+    -i, --issue-repo&=: Name or URL of the issue's repository
+    -l, --list: List linked branches for the issue
+    -n, --name=: Name of the branch to create
+documentation:
+    command: '[AI] The `gh issue develop` command is used with the GitHub CLI (gh) tool to create a new branch based on the current branch and open a new issue in GitHub. It combines the actions of creating a new branch from the current one, checking out the new branch, and then opening an issue using the provided issue title and description. The command assumes that you have already initialized git and authenticated with your GitHub account in the terminal.'
+    flag:
+        base: |-
+            [AI] The `gh issue develop --base` command is a GitHub CLI (Command Line Interface) command used to create and checkout a new branch based on an existing GitHub Issue. This command does the following:
+
+            1. Fetches the latest remote repository data, ensuring you have the latest issue data.
+            2. Creates a new branch from the base branch specified in the issue (usually `main` or `master`), and checks it out locally.
+            3. Opens the specified issue in your default text editor or GitHub's web interface for you to work on, making it easy to start developing a fix for that issue.
+            4. Sets up the remote tracking branches in your local repository to allow pushing your changes back to the remote repository when you're done.
+
+            This command simplifies the process of starting a new development branch from an existing GitHub Issue and is particularly useful when working on open-source projects or contributing to other repositories.
+        branch-repo: |-
+            [AI] The `gh issue develop --branch-repo` command is a GitHub CLI (Command Line Interface) command used to create and checkout a new branch based on an existing GitHub Issue. Here's a brief explanation:
+
+            1. `gh issue`: This is the base command for interacting with GitHub issues using the GitHub CLI.
+            2. `develop`: This is the name of the new branch that will be created. It's a common convention to use this name for branches used for development work.
+            3. `--branch-repo`: This flag instructs the command to create a new branch in the current repository (implicitly), but also creates and checks out a corresponding branch in the issue's repository as well.
+
+            In summary, this command helps developers quickly start working on an issue by creating a new branch in their local GitHub repository and the related remote repository for the issue, all with one simple command.
+        checkout: '[AI] `git hub issue develop --checkout` is a command used in Git to create and checkout a new branch based on an existing GitHub issue. This command fetches the latest code from the remote repository, creates a new branch with the name of the issue number, switches to that branch, and then checks out the files related to that issue for development. It is often used when developers want to work on specific issues reported in a GitHub project without affecting the main development branch.'
+        issue-repo: |-
+            [AI] The `gh issue develop --issue-repo` command is a GitHub CLI (Command Line Interface) command used to create and start developing a new branch based on an existing GitHub Issue. Here's a brief explanation:
+
+            1. `gh issue develop`: This part of the command instructs GitHub CLI to create a new branch for developing an issue.
+            2. `--issue-repo`: This option is used to specify the repository where the issue is located. It takes the format `<owner>/<repository>`. For example, if the issue is in the "tensorflow" repository owned by Google, you would use `--issue-repo google/tensorflow`.
+
+            So, the complete command `gh issue develop --issue-repo <owner>/<repository>` creates a new branch for developing an issue in the specified GitHub repository. This is commonly used for issue-based development workflows, where developers can easily create and switch between branches to work on different issues.
+        list: '[AI] `gh issue develop --list` is a GitHub CLI (Command Line Interface) command used to list issues that are assigned to the current branch or in progress development in a GitHub repository. This command filters out closed issues and only displays open issues related to the ongoing development work. It''s commonly used by developers to keep track of their ongoing work on specific issues.'
+        name: |-
+            [AI] `git hub issue develop --name` is not a valid command or flag combination in Git. It seems to be a mix of Git and GitHub CLI commands.
+
+            The correct usage for creating a new branch from an existing GitHub Issue, for example, Issue #123, would be:
+
+            1. Fetch the latest changes: `git fetch origin`
+            2. Create a new branch based on the issue branch (main or master by default): `git checkout -b develop <issue_number> --track origin/issue/<issue_number>`
+               Replace `develop` with your desired branch name, and replace `<issue_number>` with the actual number of the GitHub Issue.
+            3. You'll be automatically switched to the new branch you just created. Now, you can start working on your development tasks related to the issue.
+
+            If you want to develop a feature based on an existing issue while keeping it in sync with the main or master branch, you should create a new branch from the issue branch (`develop`) and then push that branch to the remote repository:
+
+            1. Create a new branch: `git checkout -b <feature_branch_name> develop`
+            2. Commit your changes: `git add .; git commit -m "Your commit message"`
+            3. Push your new branch to the remote repository: `git push origin <feature_branch_name>`.
+            4. Now open a pull request on GitHub for reviewers and collaborators to merge your feature branch into the main branch (or master) if it's approved.

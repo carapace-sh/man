@@ -1,0 +1,83 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: create
+aliases:
+    - new
+description: Create new merge request
+flags:
+    --allow-collaboration: Allow commits from other members
+    --copy-issue-labels: Copy labels from issue to the merge request. Used with --related-issue
+    --create-source-branch: Create source branch if it does not exist
+    --draft: Mark merge request as a draft
+    --fill-commit-body: Fill description with each commit body when multiple commits. Can only be used with --fill
+    --no-editor: Don't open editor to enter description. If set to true, uses prompt. (default false)
+    --push: Push committed changes after creating merge request. Make sure you have committed changes
+    --recover: Save the options to a file if the merge request fails to be created. If the file exists, the options will be loaded from the recovery file (EXPERIMENTAL)
+    --remove-source-branch: Remove Source Branch on merge
+    --reviewer*=: Request review from users by their `usernames`
+    --squash-before-merge: Squash commits into a single commit when merging
+    --target-project&=: Add target project by id or OWNER/REPO or GROUP/NAMESPACE/REPO
+    --wip: Mark merge request as a work in progress. Alternative to --draft
+    -H, --head=: Select another head repository using the `OWNER/REPO` or `GROUP/NAMESPACE/REPO` format or the project ID or full URL
+    -a, --assignee*=: Assign merge request to people by their `usernames`
+    -b, --target-branch=: The target or base branch into which you want your code merged
+    -d, --description=: Supply a description for merge request
+    -f, --fill: Do not prompt for title/description and just use commit info
+    -i, --related-issue=: Create merge request for an issue. The merge request title will be created from the issue if --title is not provided.
+    -l, --label*=: Add label by name. Multiple labels should be comma separated
+    -m, --milestone=: The global ID or title of a milestone to assign
+    -s, --source-branch=: The Branch you are creating the merge request. Default is the current branch.
+    -t, --title=: Supply a title for merge request
+    -w, --web: continue merge request creation on web browser
+    -y, --yes: Skip submission confirmation prompt, with --fill it skips all optional prompts
+documentation:
+    command: |-
+        [AI] `glab mr create` is a GitLab CLI (Command Line Interface) command used to create a new Merge Request (MR) in GitLab. It requires specifying the source and target branches, as well as an optional commit message and description. The basic syntax is:
+
+        ```bash
+        glab mr create [<source_branch>] [<target_branch>] [-m "<commit_message>"] [-d "<description>"]
+        ```
+
+        When you run this command, GitLab CLI will create a new merge commit on the source branch and open a new MR with the specified target branch. The MR contains the new merge commit and can be reviewed, discussed, and merged as usual in GitLab.
+    flag:
+        allow-collaboration: '[AI] The `glab mr create --allow-collaboration` command is used in GitLab''s git interface (Glab) to create a merge request with collaboration enabled. A merge request is a way to propose changes from one branch to another, typically for code review and discussion before merging the changes into the main branch. The `--allow-collaboration` flag permits other collaborators to work on the same merge request, allowing them to make modifications, add comments, or even suggest improvements. This encourages a more collaborative development process.'
+        assignee: '[AI] `glab mr create --assignee` is a GitLab CLI (Command Line Interface) command for creating a Merge Request in GitLab with a specified assignee. This command allows developers to easily open a new Merge Request, assign it to another team member for review and collaboration, and streamline the code merge process within GitLab.'
+        copy-issue-labels: '[AI] `glab mr create --copy-issue-labels` is a GitLab CLI command used to create a new merge request with existing issue labels from an source issue. When you run this command, it creates a new merge request based on the current branch and automatically copies the issue labels from a specified source issue to the new merge request. This helps maintain consistency between issues and merge requests in your GitLab project.'
+        create-source-branch: '[AI] `glab mr create` is a GitLab CLI command used to create a merge request in GitLab. The `--create-source-branch` option instructs the command to also create a new branch based on the current working directory as the source branch for the merge request. This means that a new branch will be created locally and remotely, with the changes in the current working directory as the initial commit of that branch. The merge request will then be associated with this new branch.'
+        description: |-
+            [AI] The command `glab mr create --description` is used in the GitLab CLI (Command Line Interface) tool to create a new merge request with a given description. Here's a brief explanation:
+
+            - `glab`: This is the name of the GitLab CLI tool, which allows users to interact with GitLab repositories from the command line.
+            - `mr`: Merge requests are a way to propose changes to projects hosted on GitLab. The `mr` keyword specifies that you want to work with merge requests.
+            - `create`: This is the action you want to perform. In this case, it means creating a new merge request.
+            - `--description`: This option allows you to specify a description for your merge request when you create it. The description can be provided as an argument after the option. It's a good practice to include a clear and concise explanation of the changes being proposed in the merge request description, so that other developers can easily understand what you are doing and provide feedback if necessary.
+        draft: '[AI] `glab mr create --draft` is a GitLab CLI command used to create a new merge request with an initial draft commit. The `--draft` option ensures that the merge request is not automatically merged when it''s created, allowing you to make further changes before merging. This can be useful for work in progress or for discussions with your team before merging the changes into the main branch.'
+        fill: '[AI] The `glab mr create --fill` command is a GitLab Merge Request (MR) sub-command used to create a new MR with auto-generated changes. This means that the `--fill` option will automatically generate and pre-populate the MR with changes based on a given branch or commit, allowing users to review and modify the suggested changes before merging. It is particularly useful for keeping feature branches up-to-date with the latest code in the main branch.'
+        fill-commit-body: '[AI] `glab mr create` is a GitLab command-line tool for Merge Requests. The `--fill-commit-body` option sets the commit message for newly created commits in the merge request. When you run `glab mr create <branch> --fill-commit-body="<message>"`, it creates a new merge request with the specified branch and sets the commit messages for all the commits to the given message. This can save time when creating multiple related commits as part of a merge request.'
+        head: '[AI] The command `glab mr create --head` is used in GitLab to create a new merge request with the current branch head as the source branch. This means that the latest changes from your local or remote branch will be proposed for merging into the target branch via a new merge request. The `--head` option specifies that the source branch should be set to the current HEAD, which is typically the local or current branch being worked on.'
+        label: '[AI] The `glab mr create --label` command is used in GitLab to create a merge request with a specific label. This command creates a new branch from the current HEAD, pushes it to the remote repository, and opens a new merge request associated with that branch. The `--label` option allows you to specify one or more labels for the merge request, making it easier to search, organize, and prioritize merge requests based on their associated labels.'
+        milestone: '[AI] The `glab mr create --milestone` command is used in GitLab to create a new merge request (MR) branch and associate it with a specific milestone in a project. This allows developers to easily track the progress of their changes towards a particular release or goal. The `--milestone` option specifies the name or ID of the desired milestone.'
+        no-editor: '[AI] `glab mr create --no-editor` is a GitLab CLI command for creating a merge request in GitLab without opening the default text editor for committing changes. The `--no-editor` option suppresses the editor, allowing the user to commit changes using the staged files or the command line before creating the merge request.'
+        push: |-
+            [AI] `glab mr create --push` is a GitLab CLI command for creating and pushing a merge request from the command line. Here's what each part does:
+
+            - `glab`: This is the name of the GitLab Command Line Interface (CLI) tool used to interact with GitLab repositories.
+            - `mr`: Stands for Merge Request, which is a feature in GitLab that allows developers to propose changes to a project and get feedback before they are merged into the main branch.
+            - `create`: This action creates a new merge request based on your current local changes.
+            - `--push`: This flag pushes the new branches (the source and target branches for the merge request) to the remote repository after creating the merge request. It's useful when working offline or when you want to ensure that both branches are up-to-date before creating the merge request.
+        recover: '[AI] `glab mr create --recover` is a GitLab Merge Request command used to create a new merge request from a branch, while also recovering an abandoned draft. An abandoned merge request is one that was previously started but not finished or merged within a certain timeframe. The `--recover` option brings back the draft of such merge requests and allows you to continue working on them as if they were still open. In other words, it helps in resuming work on abandoned merge requests.'
+        related-issue: '[AI] `glab mr create --related-issue` is a GitLab command used to create a new merge request (MR) with an existing issue as a related issue. This command can be used from the Git terminal or command line interface. The `--related-issue` option specifies the ID or title of the issue to relate to the new MR. Once created, the merge request will be linked to the related issue in GitLab''s issue tracking system, allowing developers to easily track progress and make connections between changes and issues.'
+        remove-source-branch: |-
+            [AI] The `glab mr create --remove-source-branch` command is a GitLab CLI (Command Line Interface) instruction used to create a new merge request in GitLab without keeping the source branch as a separate entity after creation.
+
+            When creating a new merge request with `glab mr create`, by default, GitLab keeps both the source and target branches around after the merge request is created. However, using the `--remove-source-branch` flag, GitLab deletes the source branch automatically once the merge request is submitted or closed.
+
+            This command can be useful when working with disposable branches that are not intended to be kept long term, reducing clutter and maintaining a clean GitLab project environment.
+        reviewer: '[AI] `glab mr create --reviewer` is a GitLab CLI command used to create a merge request in GitLab with a specified reviewer. The merge request is created from the current branch, and you can add multiple reviewers using this format. This command is helpful when you want to initiate a merge request while assigning it to someone else for review. It''s an efficient way to collaborate on code changes within a GitLab project.'
+        source-branch: '[AI] `glab mr create` is a GitLab CLI command used to create a merge request in GitLab. The `--source-branch` option specifies the name of the branch that will be the base for the changes in the merge request. This flag is important because it sets the context for the merge request, indicating which branch represents the current development state and serves as a starting point for the changes to be merged in.'
+        squash-before-merge: '[AI] The `git lab mr create --squash` command is used to create a new Merge Request (MR) in GitLab with the `--squash` option enabled, which indicates that the commits to be included in the MR should be squashed before they are merged. This means that multiple commits will be combined into a single commit in the MR, making the history cleaner and easier to review. The `--squash-before-merge` flag further specifies that this squashing should happen before the merge is actually applied to the main branch. This way, developers can ensure that they have properly reviewed and tested all of the changes before they are merged into production.'
+        target-branch: '[AI] The `glab mr create` command is a GitLab CLI tool used to create a merge request in GitLab. The `--target-branch` option specifies the branch that you want to create the merge request against. When you run `glab mr create <source_branch> --target-branch <target_branch>`, it creates a new merge request with the given source and target branches. The source branch is usually a feature or topic branch, and the target branch represents the main development branch (e.g., `master` or `main`) where you want to merge your changes. This command allows developers to propose changes for review and collaboration before merging them into the main project branch.'
+        target-project: '[AI] The `glab mr create --target-project` command is used in GitLab to create a new merge request (MR) branch from the current branch and target it to a specific project in GitLab. The `--target-project` option specifies the ID or the full path of the target project. This command allows developers to collaborate on code changes with other team members, ensuring code quality and maintaining a clear development history.'
+        title: '[AI] The command `glab mr create --title` is a GitLab CLI (Command Line Interface) command used to create a new merge request in GitLab. The `--title` option sets the title for the merge request. This allows you to give your merge request a descriptive and meaningful name, making it easier to understand the purpose of the change when browsing or searching through multiple merge requests.'
+        web: '[AI] `glab` is a Git interface for Kubernetes, developed by GitLab. The command `mr create --web` creates a new merge request (MR) in GitLab using the web interface. `glab` abstracts the process of creating an MR from the command line and automates some steps, such as setting up the correct branches and committing changes before creating the MR. By default, it opens the newly created MR in your web browser for easy review and collaboration.'
+        wip: '[AI] `glab mr create --wis` is a GitLab command used to create a new merge request work in progress (WIP) branch from the current local branch. The `--wip` flag indicates that the merge request should be created as a draft, allowing you to continue making changes before merging. It helps in collaborative development where multiple developers can work on the same codebase without conflicting merge commits.'
+        "yes": '[AI] `glab mr create --yes` is a GitLab CLI command used to create a merge request with the specified branch as source and target branches, and automatically open an editor for confirmation if there is only one commit to be introduced in the merge request. The `--yes` option is used to suppress the editor prompt, allowing the merge request to be created without user interaction.'

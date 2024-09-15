@@ -1,0 +1,76 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: fdisk
+description: manipulate disk partition table
+flags:
+    --bytes: print SIZE in bytes rather than in human readable format
+    --lock?: use exclusive device lock (yes, no or nonblock)
+    -B, --protect-boot: don't erase bootbits when creating a new label
+    -C, --cylinders=: specify the number of cylinders
+    -H, --heads=: specify the number of heads
+    -L, --color?: colorize output
+    -S, --sectors=: specify the number of sectors per track
+    -V, --version: display version
+    -W, --wipe-partitions=: wipe signatures from new partitions (auto, always or never)
+    -b, --sector-size=: physical and logical sector size
+    -c, --compatibility?: mode is 'dos' or 'nondos' (default)
+    -h, --help: display this help
+    -l, --list: display partitions and exit
+    -n, --noauto-pt: don't create default partition table on empty devices
+    -o, --output=: output columns
+    -s, --getsz: display device size in 512-byte sectors [DEPRECATED]
+    -t, --type=: recognize specified partition table type only
+    -u, --units?: 'display units: ''cylinders'' or ''sectors'' (default)'
+    -w, --wipe=: wipe signatures (auto, always or never)
+    -x, --list-details: like --list but with more details
+documentation:
+    command: '[AI] `fdisk` is a low-level disk partitioning utility used to create and manage partitions on Linux and other operating systems. It allows users to view, delete, create, format, and resize existing partitions. The partitions can be of various types such as primary or extended, and can be formatted with file systems like ext4, NTFS, or FAT. The command-line interface is intuitive and interactive, allowing users to navigate through the disk using a menu and enter commands to modify its partition table.'
+    flag:
+        bytes: '[AI] The `fdisk --bytes` command is a utility used in Linux for managing and partitioning hard drives or other storage devices. The `--bytes` option specifically displays the size of partitions in bytes instead of default sector or block units. This can be useful when dealing with large filesystems or when comparing disk usage across different systems where byte sizes may vary. For instance, a 1GB partition would be displayed as having exactly 1,073,721,600 bytes instead of the default 1,048,576 sectors or blocks.'
+        color: '[AI] `fdisk` is a common command-line utility for managing disk partitions in Unix-like operating systems. The `--color` option enables colored output for improved readability and clarity when interacting with the terminal. This can make it easier to distinguish between different types of messages, such as warnings or errors, during the partitioning process.'
+        compatibility: '[AI] The `--compatibility` option in the `fdisk` command is used to specify the compatibility level for the disk format. It allows you to use older disk label formats when working with disks that were created using different versions of `fdisk`. For example, if you have an old disk that was formatted using an earlier version of `fdisk`, you can use the `--compatibility=older` option to read and write its label correctly. By default, `fdisk` uses the latest disk format, so this option is useful when working with legacy systems or older disks.'
+        cylinders: '[AI] `fdisk` is a command-line utility for managing disk partitions in Unix-like operating systems. The `--cylinders` option is used to display the partition table with cylinder coordinates instead of the default sector or block addresses. Cylinders represent the physical location on a hard disk where data is stored, and are organized into tracks and sectors. By using this option, you can get a better understanding of the disk''s layout in terms of its physical structure.'
+        getsz: '[AI] `fdisk --getsz` is a command used in Linux to retrieve the size of the first sector and the last sector of a specified disk or partition, expressed in bytes or sectors. This information can be useful for various system administration tasks such as creating filesystems or managing disk partitions. The output includes two values: the starting sector (counting from 0) and the ending sector (counting from the beginning of the disk). For example, `fdisk --getsz /dev/sda1` will display the size information for partition 1 of device /dev/sda.'
+        heads: '[AI] The `fdisk --heads` command is a utility used in Linux to manipulate and inspect partition tables of disk drives or other block devices. The option `--heads` displays the number of tracks per cylinder and heads per track, as well as the total number of sectors per track and the size of each sector in bytes. This information helps in understanding the physical layout of the storage device and is useful for creating partitions optimally.'
+        help: |-
+            [AI] `fdisk` is a command-line utility for managing and creating partitions on Linux and Unix-like operating systems. The option `--help` provides a brief summary of the available commands and their usage. Here's a concise explanation:
+
+            `fdisk --help` displays the help message which includes:
+
+            1. A short description of fdisk.
+            2. A list of available verbose (full) and terse (brief) forms of usage.
+            3. Detailed explanation for each command, including their usage and purpose:
+               - `n`: Create a new partition.
+               - `d`: Delete a partition.
+               - `v`: Print the partition table in a human-readable format.
+               - `p`: Print the partition table.
+               - `l`: List all known partition types.
+               - `m`: Display a list of extended labels or edit the list of extended labels.
+            4. Other options such as:
+               - `--unit=SECTORS|KIBIBYTES|MEGABYTES|GB`, to specify the unit for output.
+               - `--verbose`, to print detailed information during execution.
+            5. Explanation of common partition types and their codes (e.g., `83` for Linux).
+
+            The help message also provides examples on using these commands with various options for different scenarios.
+        list: '[AI] `fdisk --list` is a command used in Unix-like operating systems to display a list of currently defined partitions on a storage device, such as a hard disk or an SSD. The output shows partition details like start and end sectors, size, type (e.g., Linux or Windows), and mount point if any. This command is useful for checking the current partition layout and for preparing a system for installing an operating system or managing storage.'
+        list-details: '[AI] `fdisk --list-details` is a command used in Unix and Linux operating systems to display detailed information about the partitions in a disk or a storage device. The output shows the partition number, start sector, end sector, size, type of file system, mount point, and other attributes. This command provides a more comprehensive view compared to using `fdisk -l` which only displays basic information like partition size, file system type, and mount point.'
+        lock: '[AI] The `fdisk --lock` command is used to acquire a write lock on a disk partition table with the fdisk utility. It ensures that no other process can modify the partition table at the same time, preventing data inconsistencies or conflicts. This lock is necessary before making significant changes to the partition structure using fdisk. Once the lock is released, the partition table becomes accessible for reading and writing by other processes.'
+        noauto-pt: |-
+            [AI] The `fdisk` command is a low-level disk partitioning tool in Linux and other Unix-like systems. The option `--noauto-pt` disables the automatic detection and setting of the partition table type.
+
+            By default, `fdisk` tries to infer the partition table type based on the detected disk. However, some old disks or special cases may require manual setting of the partition table type (e.g., MBR for BIOS-bootable disks or GPT for EFI-bootable disks).
+
+            The `--noauto-pt` option tells `fdisk` not to attempt automatic detection and allows the user to explicitly set the partition table type using the `t` command. This can be useful in situations where the default detection is incorrect or when working with specific disk configurations.
+        output: '[AI] The `fdisk --output` command is used with the fdisk utility in Unix-like operating systems for managing and inspecting disk partitions. The `--output` option specifies that the output of the command should be in a machine-readable format, typically written to a file. This makes it easier for scripts or other automated tools to process the information contained within the disk partition table.'
+        protect-boot: '[AI] The `--protect-boot` option in the `fdisk` command is used to mark a partition as bootable. When you run `fdisk` with this option and set a partition active, it will also mark that partition as having a boot sector, making it the primary bootable partition in the system. This means that the operating system will look for an operating system to load from this marked partition first during the system start-up process. The flag is important when creating or managing partitions on a hard drive or other storage devices to ensure proper bootability of the operating system installed on it.'
+        sector-size: '[AI] `fdisk --sector-size` is a command option for the `fdisk` utility in Unix-like operating systems. This option specifies the size of a sector when creating or manipulating partition tables. It allows users to set the sector size manually, which can be useful when dealing with disks that have sectors larger or smaller than the default 512 bytes. The syntax is `fdisk [device] --sector-size [sector-size]`, where `[device]` is the disk or partition to be worked on and `[sector-size]` is the desired sector size in bytes. For example, `fdisk /dev/sda --sector-size 4096` sets the sector size to 4096 bytes (1 MB) on device `/dev/sda`.'
+        sectors: '[AI] The `fdisk --sectors` command is used in Linux to display or change the number of sectors per track, number of tracks per cylinder, and number of cylinders on a disk partition. Sectors are the smallest addressable units of data storage. By adjusting these values, you can manipulate the logical size of a partition without changing its physical size. Keep in mind that improper usage can lead to data loss or corruption.'
+        type: '[AI] `fdisk --type` is a command used with the `fdisk` utility in Linux to display the disk sig codes for partitions. It does not create, delete or modify partitions, unlike other common fdisk commands such as `fdisk /dev/sda`. Instead, it provides information about the type of file system each partition uses, represented by a unique sig code. This can be useful for identification and troubleshooting purposes.'
+        units: '[AI] The `--units` option in the `fdisk` command is used to specify the unit size for output. By default, `fdisk` displays disk sizes and sectors in 512-byte units. However, with `--units` set to sector, you can display sizes in sectors. Setting it to MB (megabytes) or GB (gigabytes) will display sizes in those respective units instead. This can be helpful when working with large disks or wanting to make the output more human-readable.'
+        version: '[AI] `fdisk --version` is a command used in Unix-like operating systems to display the version information of the fdisk utility. This command provides details such as the name, version number, and other relevant information about the installed fdisk software.'
+        wipe: '[AI] The `fdisk --wipe` command is a utility used in Linux to securely erase all data on a disk or partition. It overwrites all sectors with zeroes, which makes it impossible to recover previous data using common methods. This can be useful when preparing to sell or donate old computers or before disposing of hard drives, to ensure the confidentiality of sensitive data. The `--wipe` option in `fdisk` is a wrapper for other tools like `shred` or `dd`, which perform the actual data overwriting. It''s important to note that using this command will result in the loss of all stored information, and care should be taken to ensure that the correct disk is being targeted before running it.'
+        wipe-partitions: |-
+            [AI] `fdisk --wipe-partitions` is a command used in Linux to securely erase all existing partitions on a hard drive or other storage device. This operation should be performed with caution, as it will permanently destroy all data on the affected partitions.
+
+            The `--wipe-partitions` option tells `fdisk` to overwrite each partition table entry with zeros before deleting it, ensuring that the previous partition information is completely overwritten and cannot be easily recovered. This helps protect against data recovery attempts in case of theft or disposal of the device.
+
+            Keep in mind that this command only erases the partition tables; any data on the underlying physical media will still be present unless it has also been wiped using additional tools like `shred` or `dd`.
