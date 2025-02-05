@@ -12,13 +12,68 @@ flags:
     -t=: Override the default tempdir.
     -v: Verbose output.
 documentation:
-    command: '[AI] `git archimport` is a Git command used for importing archive files into Git repositories. It reads an Archive Import Manifest file (usually with a .tar.gz or .zip extension) and creates new trees, blobs, and commits in the repository based on the data in the manifest file. This can be useful for importing large collections of files into a Git repository where other methods like `git add` might not be practical due to file size limitations.'
+    command: |
+        Imports a project from one or more GNU Arch repositories. It will follow
+        branches and repositories within the namespaces defined by the
+        &lt;archive&gt;/&lt;branch&gt; parameters supplied. If it cannot find
+        the remote branch a merge comes from it will just import it as a regular
+        commit. If it can find it, it will mark it as a merge whenever possible
+        (see discussion below).
+
+        The script expects you to provide the key roots where it can start the
+        import from an *initial import* or *tag* type of Arch commit. It will
+        follow and import new branches within the provided roots.
+
+        It expects to be dealing with one project only. If it sees branches that
+        have different roots, it will refuse to run. In that case, edit your
+        &lt;archive&gt;/&lt;branch&gt; parameters to define clearly the scope of
+        the import.
+
+        *git archimport* uses `tla` extensively in the background to access the
+        Arch repository. Make sure you have a recent version of `tla` available
+        in the path. `tla` must know about the repositories you pass to *git
+        archimport*.
+
+        For the initial import, *git archimport* expects to find itself in an
+        empty directory. To follow the development of a project that uses Arch,
+        rerun *git archimport* with the same parameters as the initial import to
+        perform incremental imports.
+
+        While *git archimport* will try to create sensible branch names for the
+        archives that it imports, it is also possible to specify Git branch
+        names manually. To do so, write a Git branch name after each
+        &lt;archive&gt;/&lt;branch&gt; parameter, separated by a colon. This
+        way, you can shorten the Arch branch names and convert Arch jargon to
+        Git jargon, for example mapping a "PROJECT--devo--VERSION" branch to
+        "master".
+
+        Associating multiple Arch branches to one Git branch is possible; the
+        result will make the most sense only if no commits are made to the first
+        branch, after the second branch is created. Still, this is useful to
+        convert Arch repositories that had been rotated periodically.
     flag:
-        D: '[AI] `git archimport -D` is a Git command used to import an Archive or ASCII Diffs into a Git repository as new commit(s). The `-D` option stands for "no fast-forward" mode, which means that the imported commits cannot overwrite any existing commits in the current branch. This ensures that the import does not accidentally lose any existing work.'
-        T: '[AI] `git archimport` is a Git command used to import an Archive (AAR) file into Git''s history. The `-T` option, specifically, stands for "tag." When using this option, `git archimport` will create tags in the Git repository for each commit in the imported archive that has a tag in the AAR file. These tags will have the same names as the corresponding tags in the Archive.'
-        a: '[AI] `git archimport` is a Git command used to import an Archive (AARCH) format into Git''s history. The `-a` option is used to import all architectures present in the AARCH file. It processes all architectures in one go, creating new branches for each architecture and merging their histories into the current branch. This command helps migrate large projects with multiple architectures from other version control systems to Git.'
-        f: '[AI] `git archimport -f` is a Git command used for importing an Archive (AAR) or Packed Archive Tree (PAT) format into Git''s history. The `-f` option stands for "force" and is used when you want to overwrite existing commits in the target repository without asking for confirmation. In other words, using `git archimport -f` will replace all existing commits with the ones from the imported archive, potentially losing any changes made after those imports were created.'
-        h: '[AI] `git archimport -h` is a Git command used to import an Archive into a Git repository. The `-h` option displays help information about how to use this command, including required arguments (an archive file or URL), optional flags, and examples of usage. In essence, it''s a way to import historical commits and their associated files from an external archive format (like tar or zip) into Git, creating new branches or tags with the imported history.'
-        o: '[AI] `git archimport` is a Git command used to import an Archive (AAR) file into Git''s archive format. The `-o` option following `archimport` specifies an output branch name for the imported archive. In other words, it creates a new Git branch with the specified name and populates it with the contents of the imported archive. This command is particularly useful when working with large repositories or when dealing with multiple related projects where you want to keep each project''s history separate.'
-        t: '[AI] `git archive import` is a Git command used to import an archive into the Git repository. The `-t` option (type) specifies the format of the archive being imported. For example, `-t tar.gz` or `-t zip`. This tells Git how to interpret and extract the contents of the archive during the import process.'
-        v: '[AI] `git archive import` is a Git command used to create an archive from a tree-ish object (commit, tag, or tree) and import it into a new Git repository. The `-v` option stands for "verbose," which means that Git will print more detailed information about the progress of the operation during each step. When using `git archive import -v`, you can follow the output to see what files are being extracted and imported, as well as any potential errors or warnings.'
+        D: |
+            Follow merge ancestry and attempt to import trees that have been merged
+            from. Specify a depth greater than 1 if patch logs have been pruned.
+        T: |
+            Many tags. Will create a tag for every commit, reflecting the commit
+            name in the Arch repository.
+        a: |
+            Attempt to auto-register archives at `http://mirrors.sourcecontrol.net`
+            This is particularly useful with the -D option.
+        f: |
+            Use the fast patchset import strategy. This can be significantly faster
+            for large trees, but cannot handle directory renames or permissions
+            changes. The default strategy is slow and safe.
+        h: |
+            Display usage.
+        o: |
+            Use this for compatibility with old-style branch names used by earlier
+            versions of *git archimport*. Old-style branch names were
+            category--branch, whereas new-style branch names are
+            archive,category--branch--version. In both cases, names given on the
+            command-line will override the automatically-generated ones.
+        t: |
+            Override the default tempdir.
+        v: |
+            Verbose output.
