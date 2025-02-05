@@ -26,25 +26,137 @@ flags:
     -u, --update: Update the index just where it already has an entry matching <pathspec>.
     -v, --verbose: Be verbose.
 documentation:
-    command: '[AI] `git add` is a Git command used to stage files for commitment. It takes modified and new files from the working directory and adds them to the index, preparing them to be committed in the next git commit step. When you run `git add <file>`, it stages the specified file, and when you use `git add .` or `git add --all`, it stages all changes in the current directory and its subdirectories for the next Git commit.'
+    command: |
+        This command updates the index using the current content found in the working tree,
+        to prepare the content staged for the next commit.
+        It typically adds the current content of existing paths as a whole,
+        but with some options it can also be used to add content with only part of the changes
+        made to the working tree files applied, or remove paths that do not exist in the working tree anymore.
+
+        The "index" holds a snapshot of the content of the working tree,
+        and it is this snapshot that is taken as the contents of the next commit.
+        Thus after making any changes to the working tree, and before running the commit command,
+        you must use the `add` command to add any new or modified files to the index.
+
+        This command can be performed multiple times before a commit.
+        It only adds the content of the specified file(s) at the time the add command is run;
+        if you want subsequent changes included in the next commit,
+        then you must run `git add` again to add the new content to the index.
+
+        The `git status` command can be used to obtain a summary of which
+        files have changes that are staged for the next commit.
+
+        The `git add` command will not add ignored files by default.
+        If any ignored files were explicitly specified on the command line,
+        `git add` will fail with a list of ignored files.
+        Ignored files reached by directory recursion or filename globbing performed by Git
+        (quote your globs before the shell) will be silently ignored.
+        The `git add` command can be used to add ignored files with the `-f` (force) option.
+
+        Please see [git-commit](cmd://git/commit) for alternative ways to add content to a commit.
     flag:
-        all: '[AI] `git add --all` is a Git command that adds all modified files in the current repository to the staging area. This command does not include untracked files by default, but you can use `--force` or `-A` options to include them as well. Once files are added to the staging area, they can be committed with `git commit`. The staging area is a key concept in Git workflow, where you prepare changes for the next commit.'
-        chmod: '[AI] `git add --chmod` is a Git command used to modify file permissions during the staging process. It allows changing the Unix-style file mode bits (e.g., read, write, execute) of files or directories before committing them. This command does not directly change the actual file permissions on the file system; instead, it updates the index with the new permissions. When you then commit using `git commit`, the changes will be persisted in the version history along with the updated file permissions.'
-        dry-run: '[AI] `git add --dry-run` is a Git command used to perform a simulation of what would happen if you were to use `git add` to stage files for commit. The `--dry-run` option does not actually modify the repository; instead, it shows which files would be staged if the command were run without this flag. This can be useful when you want to check what files will be affected by a `git add` command before actually committing changes.'
-        edit: '[AI] `git add --edit` is a Git command used to stage files for a commit while also allowing the user to edit the file content in the staging area before making the final commitment. This can be useful when making small text changes, such as correcting typos or formatting issues, without having to checkout and modify the working directory separately. The `--edit` option opens the file in the default editor for modification before adding it to the index, ready for committing.'
-        force: '[AI] `git add --force` is a Git command used to override the file conflicts during the `git add` process. When you try to add files that have local modifications but are also modified in the latest commit, Git will prevent the add operation and display an error message. To forcefully add those files with your local changes, use the `--force` option. Be cautious as this command may lead to unwanted data loss if used carelessly.'
-        ignore-errors: '[AI] `git add --ignore-errors` is a Git command used during the staging process. It tells Git to add files to the index even if there are unresolvable merge conflicts or other errors preventing the normal `git add` command from doing so. This can be useful when dealing with large projects or complex merge situations, as it allows you to proceed with the rest of the changes while leaving the problematic files for manual resolution later. However, keep in mind that using this option may result in unintended consequences if not used carefully.'
-        ignore-missing: '[AI] The `git add --ignore-missing` command is a Git command used to add or update files in the staging area, while ignoring any files that are not present in the working directory due to being deleted or moved elsewhere but still exist in the repository. This can be useful when dealing with large projects or complex workflows where files are frequently moved or deleted. By using `--ignore-missing`, Git will skip adding the missing files and only process the existing ones in the working directory.'
-        ignore-removal: '[AI] The `git add --ignore-removal` command is used to add files to the Git index, but ignore any deleted files in the current directory or subdirectories. This means that any removed files will not be included in the next Git commit, even if they are already tracked by Git. It can be useful when working on a project where certain files may be deleted locally but still needed in the repository.'
-        intent-to-add: '[AI] `git add --intent-to-add` is a Git command used to stage files for a future commit, indicating your intent to add those files to the staging area without actually committing them yet. This command does not create a new commit but instead records the files to be added in the index. You can use this command when you want to prepare files for a commit while keeping the staging area separate from the committed history until you''re ready.'
-        interactive: '[AI] `git add --interactive` is a Git command used to start an interactive staging area session. It allows users to selectively stage specific file changes for the next commit using an interface displayed in the terminal. By default, it opens the text editor and shows a list of files with modifications. Users can then choose which hunks (changesets) within each file they want to stage for the next commit by entering numbers corresponding to those hunks. This command offers more control over what gets staged before committing.'
-        no-all: '[AI] `git add --no-all` is a Git command used to selectively add specific files to the staging area without adding all changed files in the current directory or the entire project using `git add .`. This option is particularly useful when you want to stage only certain modifications while keeping others unstaged. By omitting `--all`, Git will not automatically include changes to tracked files unless explicitly added using individual file paths.'
-        no-ignore-removal: '[AI] The `git add` command with the `--no-ignore-removal` option modifies the default behavior of Git when adding files to the staging area. By default, Git ignores changes to files that are marked as "ignored" in the `.gitignore` file and other ignored patterns. However, the `--no-ignore-removal` flag overrides this behavior, allowing all changes to be added, including those that would normally be ignored due to matching ignore rules. This can be useful when you want to forcefully add a file that has been accidentally marked as ignored or when working with complex ignore rules.'
-        no-warn-embedded-repo: '[AI] The `git add --no-warn-embedded-repo` command is used to add files to the Git staging area without displaying warnings for any embedded Git repositories that may be detected within those files. Embedded Git repositories can be identified by Git when it encounters a `.git` directory or certain other specific file patterns. By using this flag, Git will proceed with the add operation without showing these warnings, which can be useful if you are sure that the embedded repositories are not intended to be added to your current Git project.'
-        patch: '[AI] `git add --patch` is a Git command used to interactively stage changes for a commit. It opens up a text-based interface where you can review and select hunks (parts of a file) to be included in the staging area. This allows fine-grained control over which modifications should be included in the next commit, making it useful for resolving merge conflicts or when dealing with complex changes.'
-        pathspec-file-nul: '[AI] `git add` is a Git command used to stage changes for committing. The `--pathspec-file` option allows specifying a file containing pathspecifics, which are patterns or paths to selectively add specific files or directories. The `--pathspec-file-nul` option extends this functionality by allowing the file to contain null characters as separators between pathspecs, enabling the use of arbitrary filenames in the pathspec file without escaping special characters. This is particularly useful when dealing with large sets of files or complex naming schemes.'
-        pathspec-from-file: '[AI] `git add` is a Git command used to stage files for committing. The option `--pathspec-from-file` allows specifying a file containing a list of paths to be staged. In other words, it enables adding multiple files to the staging area by providing their paths in a text file instead of specifying them individually on the command line. This can be useful when dealing with large numbers of files or when automating Git tasks.'
-        refresh: '[AI] `git add --refresh` is not a recognized Git command. It seems to be a mistake as there is no such command in Git''s standard set of operations. The correct commands for adding changes to the staging area are `git add <file>` or `git add .` (for all files).'
-        renormalize: '[AI] `git add --renormalize` is a Git command used to update the index (staging area) with changes from the working directory, resolving any merge conflicts and re-applying any staged changes that may have been overwritten during a conflict resolution process. This command can be useful in complex merges or when dealing with multiple branches, as it helps ensure that all intended changes are properly staged before committing.'
-        update: '[AI] `git add --update` is a Git command used to update the index with changes from the working directory, keeping only those files that have already been tracked (i.e., previously added to the Git repository). This command does not modify or affect untracked files. The `--update` flag instructs Git to perform an automatic staging based on the current state of the working directory and the index. It''s often used in workflows that require frequent commits, helping to keep the index and the branch up-to-date with the latest changes.'
-        verbose: '[AI] `git add --verbose` is a Git command used to add specific files or changes to the staging area with more detailed output. When you run this command, Git will display a verbose message for each file being added, showing the delta between your working directory and the index, including the mode, the file size before and after the change, and the altered lines. This command is useful when you want to double-check what exactly will be committed before running `git commit`.'
+        all: |
+            Update the index not only where the working tree has a file matching **\<pathspec\>**
+            but also where the index already has an entry.
+            This adds, modifies, and removes index entries to match the working tree.
+
+            If no **\<pathspec\>** is given when `-A` option is used,
+            all files in the entire working tree are updated
+            (old versions of Git used to limit the update to the current directory and its subdirectories).
+        chmod: |
+            Override the executable bit of the added files.
+            The executable bit is only changed in the index, the files on disk are left unchanged.
+        dry-run: |
+            Don’t actually add the file(s), just show if they exist and/or will be ignored.
+        edit: |
+            Open the diff vs. the index in an editor and let the user edit it.
+            After the editor was closed, adjust the hunk headers and apply the patch to the index.
+
+            The intent of this option is to pick and choose lines of the patch to apply,
+            or even to modify the contents of lines to be staged.
+            This can be quicker and more flexible than using the interactive hunk selector.
+            However, it is easy to confuse oneself and create a patch that does not apply to the index.
+
+            See EDITING PATCHES below.
+        force: |
+            Allow adding otherwise ignored files.
+        ignore-errors: |
+            If some files could not be added because of errors indexing them,
+            do not abort the operation, but continue adding the others.
+            The command shall still exit with non-zero status.
+            The configuration variable `add.ignoreErrors` can be set to true to make this the default behaviour.
+        ignore-missing: |
+            This option can only be used together with `–dry-run`.
+            By using this option the user can check if any of the given files would be ignored,
+            no matter if they are already present in the work tree or not.
+        ignore-removal: |
+            Update the index by adding new files that are unknown to the index and files modified in the working tree,
+            but ignore files that have been removed from the working tree.
+            This option is a no-op when no **\<pathspec\>** is used.
+
+            This option is primarily to help users who are used to older versions of Git,
+            whose `git add <pathspec>...` was a synonym for `git add –no-all <pathspec>...`, i.e. ignored removed files.
+        intent-to-add: |
+            Record only the fact that the path will be added later.
+            An entry for the path is placed in the index with no content.
+            This is useful for, among other things, showing the unstaged content of
+            such files with `git diff` and committing them with `git commit -a`.
+        interactive: |
+            Add modified contents in the working tree interactively to the index.
+            Optional path arguments may be supplied to limit operation to a subset of the working tree.
+            See "Interactive mode" for details.
+        no-all: |
+            Update the index by adding new files that are unknown to the index and files modified in the working tree,
+            but ignore files that have been removed from the working tree.
+            This option is a no-op when no **\<pathspec\>** is used.
+
+            This option is primarily to help users who are used to older versions of Git,
+            whose `git add <pathspec>...` was a synonym for `git add –no-all <pathspec>...`, i.e. ignored removed files.
+        no-ignore-removal: |
+            Update the index not only where the working tree has a file matching **\<pathspec\>**
+            but also where the index already has an entry.
+            This adds, modifies, and removes index entries to match the working tree.
+
+            If no **\<pathspec\>** is given when `-A` option is used,
+            all files in the entire working tree are updated
+            (old versions of Git used to limit the update to the current directory and its subdirectories).
+        no-warn-embedded-repo: |
+            By default, `git add` will warn when adding an embedded repository to the index
+            without using `git submodule add` to create an entry in `.gitmodules`.
+            This option will suppress the warning (e.g., if you are manually performing operations on submodules).
+        patch: |
+            Interactively choose hunks of patch between the index and the work tree and add them to the index.
+            This gives the user a chance to review the difference before adding modified contents to the index.
+
+            This effectively runs `add --interactive`, but bypasses the initial command menu
+            and directly jumps to the `patch` subcommand.
+            See "Interactive mode" for details.
+        pathspec-file-nul: |
+            Only meaningful with `--pathspec-from-file`.
+            Pathspec elements are separated with **NUL** character and all other
+            characters are taken literally (including newlines and quotes).
+        pathspec-from-file: |
+            Pathspec is passed in **\<file\>** instead of commandline args.
+            If **\<file\>** is exactly `-` then standard input is used.
+            Pathspec elements are separated by LF or CR/LF.
+            Pathspec elements can be quoted as explained for the configuration variable
+            `core.quotePath` (see [git-config](cmd://git/config)).
+             See also `--pathspec-file-nul` and global `--literal-pathspecs`.
+        refresh: |
+            Don’t add the file(s), but only refresh their stat() information in the index.
+        renormalize: |
+            Apply the "clean" process freshly to all tracked files to forcibly add them again to the index.
+            This is useful after changing `core.autocrlf` configuration or the `text` attribute
+            in order to correct files added with wrong CRLF/LF line endings.
+            This option implies `-u`.
+            Lone CR characters are untouched, thus while a CRLF cleans to LF,
+            a CRCRLF sequence is only partially cleaned to CRLF.
+        update: |
+            Update the index just where it already has an entry matching **\<pathspec\>**.
+            This removes as well as modifies index entries to match the working tree, but adds no new files.
+
+            If no **\<pathspec\>** is given when `-u` option is used,
+            all tracked files in the entire working tree are updated
+            (old versions of Git used to limit the update to the current directory and its subdirectories).
+        verbose: |
+            Be verbose.
