@@ -33,43 +33,190 @@ flags:
     -t: 'show raw timestamp '
     -w: ignore whitespace differences
 documentation:
-    command: '[AI] `git blame` is a Git command that shows the committed authorship and commitment message for each line of a file, along with the last author to change that line and the commit hash where the change was made. It helps in identifying who made what changes in a file and when, allowing for effective version control and collaboration troubleshooting.'
+    command: |
+        Annotates each line in the given file with information from the revision
+        which last modified the line. Optionally, start annotating from the
+        given revision.
+
+        When specified one or more times, `-L` restricts annotation to the
+        requested lines.
+
+        The origin of lines is automatically followed across whole-file renames
+        (currently there is no option to turn the rename-following off). To
+        follow lines moved from one file to another, or to follow lines that
+        were copied and pasted from another file, etc., see the `-C` and `-M`
+        options.
+
+        The report does not tell you anything about lines which have been
+        deleted or replaced; you need to use a tool such as *git diff* or the
+        "pickaxe" interface briefly mentioned in the following paragraph.
+
+        Apart from supporting file annotation, Git also supports searching the
+        development history for when a code snippet occurred in a change. This
+        makes it possible to track when a code snippet was added to a file,
+        moved or copied between files, and eventually deleted or replaced. It
+        works by searching for a text string in the diff. A small example of the
+        pickaxe interface that searches for `blame_usage`:
+
+        ```sh
+        $ git log --pretty=oneline -S'blame_usage'
+        5040f17eba15504bad66b14a645bddd9b015ebb7 blame -S <ancestry-file>
+        ea4c7f9bf69e781dd0cd88d2bccb2bf5cc15c9a7 git-blame: Make the output
+        ```
     flag:
-        C: '[AI] `git blame -C` is a Git command used to show the commit history and the corresponding changes made in a specific file, displaying only the commit messages and not the individual author lines. The `-C` option stands for "show only the commit hashes," making it ideal for quickly viewing the sequence of commits that affected a particular file.'
-        L: '[AI] `git blame -L <file_path>:<line_number>` is a Git command used to show the commitment history and author information for a specific line or range of lines in a file. The `-L` option allows you to specify the line number(s) to inspect. This can be helpful when trying to identify who last modified a particular part of the code and when they did it.'
-        M: '[AI] `git blame -M` is a Git command used to show the commit history of a file with merged changes. The `-M` option stands for "merges" and tells Git to only show commits that introduced merges in the file''s history. This command can help identify when and where merges were made, making it useful when debugging merge conflicts or understanding the evolution of a collaborative project.'
-        S: '[AI] `git blame -S` is a Git command used to find the exact commit or commits that introduced a specific string in the project''s source code history. The `-S` option tells Git to show only the committed lines where the specified string appears, along with their authors and commit messages. It helps identify who made the change and when, which is useful for debugging and understanding the evolution of the codebase.'
-        abbrev: '[AI] `git blame --abbrev` is a Git command used to show the commit hash, author, and message of the last N commits that modified a specific file, with abbreviated commit hashes (7 instead of 40 characters) for better display in the terminal. It''s useful for quickly identifying recent changes to a file and their corresponding commits without having to navigate through the full commit history.'
-        b: '[AI] `git blame -b` is a Git command used to display the commit history and annotated blames for a specific file. The `-b` option stands for "branch" and instructs Git to show the commits that introduced the changes in the current branch, as well as the authors and commit messages associated with those commits. This command provides insight into who made what changes and when, making it useful for understanding the evolution of a file over time within a Git repository.'
-        c: '[AI] `git blame -c` is a Git command used to list the commits that changed specific lines in a file, with the `-c` option being used to only show the commit hashes instead of the full blame output. This can be useful when trying to quickly identify which commits introduced or modified certain lines in a file''s history. The output will display each line number and the corresponding commit hash that changed it.'
-        color-by-age: '[AI] `git blame --color-by-age` is a Git command used to display the commitment history of a specific file with color-coded output based on the age of each commit. The ''--color-by-age'' option highlights the commits in the output with colors that indicate when they were committed, making it easier to identify recent changes from older ones. This can be helpful for understanding the evolution of a file and tracking down when specific changes were introduced.'
-        color-lines: '[AI] `git blame --color-lines` is a Git command used to show the commit history and author information for each line of a file, along with the specific change made in that line. The `--color-lines` option adds colored lines to indicate which lines have been modified between commits. This makes it easier to visually identify and navigate the changes within the file.'
-        contents: '[AI] `git blame --contents` is a Git command used to show the committed versions of file contents at each line where there were changes. It displays the author, commit message, and date associated with each change, allowing users to trace the history of a file''s content and understand who made what modifications.'
-        ignore-rev: '[AI] `git blame --ignore-rev` is a Git command used to show the commit history and annotations for a specific file, but it skips commits with the specified revison(s). This can be useful when reviewing the change history of a file and you want to exclude certain commits from the output. For instance, if you want to see who last modified a file without looking at a specific rebase or merge commit, you can use `git blame --ignore-rev <commit-hash>`. This command shows the annotated author, date, and the line number where each change was made in the file, but it excludes the specified revision(s).'
-        ignore-revs-file: '[AI] `git blame --ignore-revs-file` is a Git command used to show the commit history and annotate each line of a file with the author, date, and commit message responsible for that change. The `--ignore-revs-file` option is passed as an argument to prevent Git from considering specific revisions mentioned in a file. This can be useful when investigating complex merge conflicts or unwanted changes, as it allows focusing only on the commits relevant to the current analysis.'
-        incremental: '[AI] `git blame --incremental` is a Git command used to show the commit history of a file with the annotated author messages, but it displays them incrementally, meaning only the difference between successive commits will be shown instead of the full message for each commit. This can make it easier to compare and understand the changes made to a file over multiple commits.'
-        l: '[AI] `git blame -l` is a Git command used to show the annotated history of a specific line or range of lines in a file, displaying the author, commit message, and date for each change made to that line. The `-l` option causes Git to display only the commits related to the lines specified and not the entire diff context. It''s often used to trace the history of changes to specific lines and understand who introduced a particular modification.'
-        line-porcelain: '[AI] `git blame --line-porcelain` is a Git command used to retrieve detailed annotated blame output in a streamlined, raw format called porcelain. Porcelain is a low-level extension point for Git, allowing the creation of custom scripts and filters. In this case, `--line-porcelain` generates a stream of data with the following information per annotated blob line: author date, commit message SHA1, author name, and the changeset containing the change. This format is convenient when writing custom Git scripts or tools that need to process blame output in a specific way.'
-        minimal: '[AI] `git blame --minimal` is a Git command used to show the annotated author, date, and commit message of each line in a file, with minimal extra context. It displays only the relevant information for understanding who wrote what part of the file at different points in its history, making it useful for quickly identifying changes made by specific authors or commits.'
-        porcelain: '[AI] `git blame --porcelain` is a Git command used to show an abbreviated commit history for a file with the author, date, and the blob hash of each line that was changed. The `--porcelain` format option outputs the result in a customizable way, suitable for further processing by scripts or tools. It provides one record per line, with fields separated by whitespace: <commit-hash>, <author-date>, <author-name>, <authored-commit-message>, <filepath>:<line number>, <content-hash>.'
-        progress: '[AI] `git blame --progress` is a Git command that shows the commit history and the corresponding author, date, and line changes for each modification of a file. However, unlike the regular `git blame` command, `--progress` displays the differences between consecutive commits side by side in a table format, making it easier to see the evolution of the code over multiple commits.'
-        root: '[AI] `git blame --root` is a Git command used to identify the most recent author and commit message for each line of a file, starting from its root (the point where there are no more `git merge` or `git rebase` commits). It helps in tracing the history of changes in a file at the line level and finding out when and by whom specific lines were modified.'
-        s: '[AI] `git blame -s` is a Git command used to show the author, commit message, and the line where each change was made in a file, but only displaying the short commit hashes instead of the full commit messages. It''s often used to quickly identify who made specific changes and when, providing a more compact output than `git blame`.'
-        score-debug: |-
-            [AI] `git blame --score-debug` is a Git command that provides detailed debugging information about the "blame" operation. The "blame" command is used to show the history of changes for a specific file or portion of a file, displaying each author, their commit message, and the changed lines.
+        C: |
+            In addition to `-M`, detect lines moved or copied from other files that
+            were modified in the same commit. This is useful when you reorganize
+            your program and move code around across files. When this option is
+            given twice, the command additionally looks for copies from other files
+            in the commit that creates the file. When this option is given three
+            times, the command additionally looks for copies from other files in any
+            commit.
 
-            The `--score-debug` flag adds extra output that's useful for developers when they suspect Git's internal data structures are causing issues during blame operations. It displays detailed information about how Git calculates the scores for each committed change, which helps in debugging performance or consistency problems related to the "blame" algorithm.
+            &lt;num&gt; is optional but it is the lower bound on the number of
+            alphanumeric characters that Git must detect as moving/copying between
+            files for it to associate those lines with the parent commit. And the
+            default value is 40. If there are more than one `-C` options given, the
+            &lt;num&gt; argument of the last `-C` will take effect.
+        L: |
+            Annotate only the line range given by *&lt;start&gt;,&lt;end&gt;*, or by
+            the function name regex *&lt;funcname&gt;*. May be specified multiple
+            times. Overlapping ranges are allowed.
 
-            Some common use cases for `git blame --score-debug` include:
+            *&lt;start&gt;* and *&lt;end&gt;* are optional. `-L <start>` or
+            `-L <start>,` spans from *&lt;start&gt;* to end of file. `-L ,<end>`
+            spans from start of file to *&lt;end&gt;*.
 
-            1. Investigating slow or inconsistent "blame" operations due to large files or complex histories.
-            2. Debugging issues with Git's internal data structures, such as index files or hash tables.
-            3. Understanding the underlying mechanics of Git's "blame" algorithm and its performance characteristics.
+            *&lt;start&gt;* and *&lt;end&gt;* can take one of these forms:
 
-            It is important to note that `git blame --score-debug` generates a significant amount of output, making it more useful for advanced users and developers who need fine-grained control over Git's inner workings.
-        show-email: '[AI] `git blame --show-email` is a Git command used to display the committed history of a file, along with the author''s email address for each change. It shows the author, date, and commit message associated with each line in the file that has been modified in the Git repository. This command is helpful for understanding who made what changes and when.'
-        show-name: '[AI] `git blame --show-name` is a Git command used to display the author name for each committed change in a file, along with the corresponding commit message and the line number of the change. It provides the names of the authors who made each modification, making it helpful for tracing the history of changes in a file and understanding the contributions of different team members.'
-        show-number: '[AI] `git blame --show-number` is a command used in Git version control system to display the annotated commit message, author date, and the line number where each occurrence of a specific file was last modified by each author. The `--show-number` option adds line numbers to the output, making it easier to identify the exact location of the change within the file.'
-        show-stats: '[AI] `git blame --show-stats` is a Git command that displays a statistical summary of who made what changes and when in the history of a file. It provides an overview of the number of added, modified, and deleted lines for each author, ordered by the total number of changed lines. This can be useful to identify the contributors with the most substantial modifications to a file over time.'
-        t: '[AI] `git blame -t` is a Git command that shows the timeline of commits affecting a specific file or line, displaying the author, commit message, and date for each change. The `-t` option stands for "raw" or "text", which outputs the information in a tabular format with columns for author, date, and commit message. It''s useful for quickly reviewing the commit history of specific files or lines without opening individual commit messages.'
-        w: '[AI] `git blame -w` is a Git command used to show the commit history and annotations for every change made to a specific file, displaying the author, date, and commit message for each line modification. The `-w` option stands for "wide" format, which means it shows not only the annotated changes but also the entire context of each blob in a side-by-side diff view. This command can be helpful for investigating who made specific changes and when, as well as understanding the content differences between different versions of a file.'
+            -   number
+
+                If *&lt;start&gt;* or *&lt;end&gt;* is a number, it specifies an
+                absolute line number (lines count from 1).
+
+            -   `/regex/`
+
+                This form will use the first line matching the given POSIX regex. If
+                *&lt;start&gt;* is a regex, it will search from the end of the
+                previous `-L` range, if any, otherwise from the start of file. If
+                *&lt;start&gt;* is `^/regex/`, it will search from the start of
+                file. If *&lt;end&gt;* is a regex, it will search starting at the
+                line given by *&lt;start&gt;*.
+
+            -   +offset or -offset
+
+                This is only valid for *&lt;end&gt;* and will specify a number of
+                lines before or after the line given by *&lt;start&gt;*.
+
+            If `:<funcname>` is given in place of *&lt;start&gt;* and *&lt;end&gt;*,
+            it is a regular expression that denotes the range from the first
+            funcname line that matches *&lt;funcname&gt;*, up to the next funcname
+            line. `:<funcname>` searches from the end of the previous `-L` range, if
+            any, otherwise from the start of file. `^:<funcname>` searches from the
+            start of file. The function names are determined in the same way as
+            `git diff` works out patch hunk headers (see *Defining a custom
+            hunk-header* in [gitattributes](man://gitattributes/5)).
+        M: |
+            Detect moved or copied lines within a file. When a commit moves or
+            copies a block of lines (e.g. the original file has A and then B, and
+            the commit changes it to B and then A), the traditional *blame*
+            algorithm notices only half of the movement and typically blames the
+            lines that were moved up (i.e. B) to the parent and assigns blame to the
+            lines that were moved down (i.e. A) to the child commit. With this
+            option, both groups of lines are blamed on the parent by running extra
+            passes of inspection.
+
+            &lt;num&gt; is optional but it is the lower bound on the number of
+            alphanumeric characters that Git must detect as moving/copying within a
+            file for it to associate those lines with the parent commit. The default
+            value is 20.
+        S: |
+            Use revisions from revs-file instead of calling
+            [git-rev-list](cmd://git/rev-list).
+        abbrev: |
+            Instead of using the default 7+1 hexadecimal digits as the abbreviated
+            object name, use &lt;m&gt;+1 digits, where &lt;m&gt; is at least
+            &lt;n&gt; but ensures the commit object names are unique. Note that 1
+            column is used for a caret to mark the boundary commit.
+        b: |
+            Show blank SHA-1 for boundary commits. This can also be controlled via
+            the `blame.blankBoundary` config option.
+        c: |
+            Use the same output mode as [git-annotate](cmd://git/annotate)
+            (Default: off).
+        color-by-age: |
+            Color line annotations depending on the age of the line in the default
+            format. The `color.blame.highlightRecent` config option controls what
+            color is used for each range of age.
+        color-lines: |
+            Color line annotations in the default format differently if they come
+            from the same commit as the preceding line. This makes it easier to
+            distinguish code blocks introduced by different commits. The color
+            defaults to cyan and can be adjusted using the
+            `color.blame.repeatedLines` config option.
+        contents: |
+            Annotate using the contents from the named file, starting from
+            &lt;rev&gt; if it is specified, and HEAD otherwise. You may specify *-*
+            to make the command read from the standard input for the file contents.
+        ignore-rev: |
+            Ignore changes made by the revision when assigning blame, as if the
+            change never happened. Lines that were changed or added by an ignored
+            commit will be blamed on the previous commit that changed that line or
+            nearby lines. This option may be specified multiple times to ignore more
+            than one revision. If the `blame.markIgnoredLines` config option is set,
+            then lines that were changed by an ignored commit and attributed to
+            another commit will be marked with a `?` in the blame output. If the
+            `blame.markUnblamableLines` config option is set, then those lines
+            touched by an ignored commit that we could not attribute to another
+            revision are marked with a *\**.
+        ignore-revs-file: |
+            Ignore revisions listed in `file`, which must be in the same format as
+            an `fsck.skipList`. This option may be repeated, and these files will be
+            processed after any files specified with the `blame.ignoreRevsFile`
+            config option. An empty file name, `""`, will clear the list of revs
+            from previously processed files.
+        incremental: |
+            Show the result incrementally in a format designed for machine
+            consumption.
+        l: |
+            Show long rev (Default: off).
+        line-porcelain: |
+            Show the porcelain format, but output commit information for each line,
+            not just the first time a commit is referenced. Implies --porcelain.
+        minimal: |
+            [TODO] missing documentation
+        porcelain: |
+            Show in a format designed for machine consumption.
+        progress: |
+            Progress status is reported on the standard error stream by default when
+            it is attached to a terminal. This flag enables progress reporting even
+            if not attached to a terminal. Can’t use `--progress` together with
+            `--porcelain` or `--incremental`.
+        root: |
+            Do not treat root commits as boundaries. This can also be controlled via
+            the `blame.showRoot` config option.
+        s: |
+            Suppress the author name and timestamp from the output.
+        score-debug: |
+            Include debugging information related to the movement of lines between
+            files (see `-C`) and lines moved within a file (see `-M`). The first
+            number listed is the score. This is the number of alphanumeric
+            characters detected as having been moved between or within files. This
+            must be above a certain threshold for *git blame* to consider those
+            lines of code to have been moved.
+        show-email: |
+            Show the author email instead of the author name (Default: off). This
+            can also be controlled via the `blame.showEmail` config option.
+        show-name: |
+            Show the filename in the original commit. By default the filename is
+            shown if there is any line that came from a file with a different name,
+            due to rename detection.
+        show-number: |
+            Show the line number in the original commit (Default: off).
+        show-stats: |
+            Include additional statistics at the end of blame output.
+        t: |
+            Show raw timestamp (Default: off).
+        w: |
+            Ignore whitespace when comparing the parent’s version and the child’s to
+            find where the lines came from.
