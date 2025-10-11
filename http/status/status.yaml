@@ -1,0 +1,87 @@
+"100": |
+  The HTTP [100 Continue] **informational response** status code indicates that the initial part of a request has been received and has not yet been rejected by the server.
+  The client should continue with a request or discard the 100 response if the request is already finished.
+  
+  When a request has an `Expect: 100-continue` header, the [100 Continue] response indicates that the server is ready or capable of receiving the request content.
+  Waiting for a [100 Continue] response can be helpful if a client anticipates that an error is likely, for example, when sending state-changing operations without previously verified authentication credentials.
+
+  [100 Continue]:http://status/100
+"101": |
+  The HTTP [101 Switching Protocols] **informational response** status code indicates the protocol that a server has switched to.
+  The protocol is specified in the [Upgrade] request header received from a client.
+  
+  The server includes an [Upgrade] header in this response to indicate the protocol it has agreed to switch to.
+  The process is described in detail in the **Protocol upgrade mechanism** guide.
+
+  [101 Switching Protocols]:http://status/101
+  [Upgrade]:http://header/Upgrade
+"102": |
+  The HTTP [102 Processing] **informational response** status code indicates to client that a full request has been received and the server is working on it.
+  This status code is only sent if the server expects the request to take significant time.
+  
+  > [!NOTE]
+  > Regular web servers do not return this response.
+  > This status code was first introduced in Web Distributed Authoring and Versioning WebDAV **RFC 2518**, but it was removed from WebDAV in **RFC 4918**.
+
+  [102 Processing]:http://status/102
+"103": |
+  The HTTP [103 Early Hints] **informational response** may be sent by a server while it is still preparing a response, with hints about the sites and resources that the server expects the final response will link to.
+  This allows a browser to **preconnect** to sites or start **preloading** resources even before the server has prepared and sent a final response.
+  Preloaded resources indicated by early hints are fetched by the client as soon as the hints are received.
+  
+  The early hint response is primarily intended for use with the [Link](http://header/Link) header, which indicates the resources to be loaded.
+  It may also contain a [Content-Security-Policy](http://header/Content-Security-Policy) header that is enforced while processing the early hint.
+  
+  A server might send multiple [103 Early Hints] responses, for example, following a redirect.
+  Browsers only process the first early hints response, and this response must be discarded if the request results in a cross-origin redirect.
+  
+  > [!NOTE]
+  > For compatibility and security reasons, it is recommended to only send HTTP [103 Early Hints] responses over HTTP/2 or later unless the client is known to handle informational responses correctly.
+
+  [103 Early Hints]:http://status/103
+"200": |
+  The HTTP [200 OK] **successful response** status code indicates that a request has succeeded.
+  A [200 OK] response is cacheable by default.
+  
+  A [200 OK] response has a different meaning and format depending on the HTTP request method.
+  Here's how they vary for different methods:
+  
+  - [GET](http://method/GET): A resource was retrieved by the server and included in the response body.
+  - [POST](http://method/POST): An action succeeded; the response has a message body describing the result.
+  - [HEAD](http://method/HEAD): Identical to `GET`, except there is no message body.
+  - [TRACE](http://method/TRACE): The response has a message body containing the request as received by the server.
+  
+  Although possible, successful [PUT](http://method/PUT) or [DELETE](http://method/DELETE) requests often do not result in a [200 OK] response.
+  It is more common to see [201 Created] if the resource is uploaded or created for the first time, or [204 No Content] upon successful deletion of a resource.
+
+  [200 OK]:http://status/200
+  [201 Created]:http://status/201
+  [204 No Content]:http://status/204
+"201": |
+  The HTTP [201 Created] **successful response** status code indicates that the HTTP request has led to the creation of a resource.
+  This status code is commonly sent as the result of a [POST] request.
+  
+  The new resource, or a description and link to the new resource, is created before the response is returned.
+  The newly-created items can be returned in the body of the response message, but must be locatable by the **URL of the initiating request** or by the URL in the value of the [Location](http://header/Location) header provided with the response.
+
+  [POST]:http://method/POST
+  [201 Created]:http://status/201
+"202": |
+  The HTTP [202 Accepted] **successful response** status code indicates that a request has been accepted for processing, but processing has not been completed or may not have started.
+  The actual processing of the request is not guaranteed; a task or action may fail or be disallowed when a server tries to process it.
+  
+  A [202 Accepted] response is non-committal, meaning there is no way to later send an asynchronous HTTP response to indicate the outcome of the processing.
+  This response code is typically used when the request is handled by another process or server, or when requests are processed in batches.
+
+  [202 Accepted]:http://status/202
+"203": |
+  The HTTP [203 Non-Authoritative Information] **successful response** status code indicates that the request was successful, but a _transforming **proxy**_ has modified the headers or enclosed content from the origin server's [200 OK] response.
+
+  The purpose of this status code is to allow transforming proxies to notify clients when changes have been applied to successful responses, since this may impact decisions regarding the content later.
+  Transformations to messages can mean modifications of headers to indicate that a resource is from a mirror or a backup, but may also mean modifying content in a way that are presumed to be desirable to the client.
+  These modifications might include malware filtering, format transcoding, privacy filtering, or other hints to the client about future requests.
+  
+  The [203 Non-Authoritative Information] response is similar to the `214` **Transformation Applied** value of the deprecated [Warning](http://header/Warning) header, which may be applicable to responses with any status code.
+
+  [200 OK]:http://status/200
+  [203 Non-Authoritative Information]:http://status/203
