@@ -85,3 +85,82 @@
 
   [200 OK]:http://status/200
   [203 Non-Authoritative Information]:http://status/203
+"204": |
+  The HTTP [204 No Content] **successful response** status code indicates that a request has succeeded, but the client doesn't need to navigate away from its current page.
+  A [204 No Content] response is cacheable by default, and an [ETag](http://header/ETag) header is included in such cases.
+  
+  A [204 No Content] in response to these request methods has the following meaning and results:
+  
+  - [DELETE](http://method/DELETE): The action was successful, and no further information needs to be supplied.
+  - [PUT](http://method/PUT): The action was successful, and the [ETag](http://header/ETag) value contains the entity tag for the new representation of that target resource.
+  
+  A [204 No Content] response can be used when implementing "save and continue editing" functionality for applications like wiki sites.
+  In this case, a [PUT](http://method/PUT) request could be used to save the page contents, and a [204 No Content] response indicates to the browser that the editor should not be replaced by other content.
+  
+  Note that the response must not include any content or the [Content-Length](http://header/Content-Length) header (browsers may reject responses that include content).
+
+  [204 No Content]:http://status/204
+"205": |
+  The HTTP [205 Reset Content] **successful response** status code indicates that the request has been successfully processed and the client should reset the document view.
+
+  This response is intended to support use cases where the user receives content that supports data entry, submits user-edited data in a request, and the content needs to be reset for the next entry.
+  The instruction to "reset content" can mean clearing the contents of a form, resetting a canvas state, or refreshing a UI; the implementation depends on the client.
+  
+  > [!NOTE]
+  > In web applications that use the [205 Reset Content] status, it's assumed that the client handles resetting content after a [205 Reset Content] response.
+  > This is typically done via JavaScript, as resetting content such as forms after a [205 Reset Content] response is not handled natively by browsers.
+  
+  Note that the response must not include any content or the [Content-Length](http://header/Content-Length) header (browsers may reject responses that include content).
+  The empty response may also be indicated using the [Transfer-Encoding](http://header/Transfer-Encoding) `chunked` header with an empty chunk.
+
+  [205 Reset Content]:http://status/205
+"206": |
+  The HTTP [206 Partial Content] **successful response** status code is sent in response to a **range request**.
+  The response body contains the requested ranges of data as specified in the [Range](http://header/Range) header of the request.
+  
+  The format of the response depends on the number of ranges requested.
+  If a single range is requested, the [Content-Type](http://header/Content-Type) of the entire response is set to the type of the document, and a [Content-Range](http://header/Content-Range) is provided.
+  If several ranges are requested, the [Content-Type](http://header/Content-Type) is set to `multipart/byteranges`, and each fragment covers one range, with its own [Content-Range](http://header/Content-Range) and [Content-Type](http://header/Content-Type) headers describing it.
+
+  [206 Partial Content]:http://status/206
+"207": |
+  The HTTP [207 Multi-Status] **successful response** status code indicates a mixture of responses.
+  This response is used exclusively in the context of Web Distributed Authoring and Versioning (**WebDAV**).
+  
+  The response body is a `text/xml` or `application/xml` HTTP entity with a `multistatus` root element that lists individual response codes.
+  
+  > [!NOTE]
+  > Browsers accessing web pages will never encounter this status code.
+  > The ability to return a _collection of resources_ is part of the **WebDAV** protocol and is only encountered by web applications that access a WebDAV server.
+
+  [207 Multi-Status]:http://status/207
+"208": |
+  The HTTP [208 Already Reported] **successful response** status code is used in a [207 Multi-Status] response to save space and avoid conflicts.
+  This response is used exclusively in the context of Web Distributed Authoring and Versioning (**WebDAV**).
+  
+  If the same resource is requested several times (for example, as part of a collection) with different paths, only the first one is reported with [200 OK].
+  Responses for all other bindings will report with this [208 Already Reported] status code, so no conflicts are created and the response stays shorter.
+  
+  > [!NOTE]
+  > The ability to _bind_ a resource to several paths is an extension to the **WebDAV** protocol (it may be received by web applications accessing a WebDAV server).
+  > Browsers accessing web pages will never encounter this status code.
+
+  [200 OK]:http://status/200
+  [207 Multi-Status]:http://status/207
+  [208 Already Reported]:http://status/208
+"226": |
+  The HTTP [226 IM Used] **successful response** status code indicates that the server is returning a **delta** in response to a [GET](http://method/GET) request.
+  It is used in the context of _HTTP delta encodings_.
+  
+  IM stands for _instance manipulation_, which refers to the algorithm generating a _delta_.
+  In delta encoding, a client sends a [GET](http://method/GET) request with two headers: [A-IM](http://header/A-IM), which indicates a preference for a differencing algorithm, and [If-None-Match](http://header/If-None-Match), which specifies the version of a resource it has.
+  The server responds with deltas relative to a given base document, rather than the document in full.
+  This response uses the [226 IM Used] status code, an [IM](http://header/IM) header that describes the differencing algorithm used, and may include a [Delta-Base](http://header/Delta-Base) header with the [ETag](http://header/ETag) matching the base document associated to the delta.
+  
+  > [!WARNING]
+  > Poor support for HTTP delta encodings means there are few implementations.
+  > Instead, most systems rely solely on **compression methods** to reduce bandwidth, although a combination of compression and delta encodings is possible.
+  >
+  > Even if the client and server support delta encodings, proxies or caches may not, and the complexity of adding HTTP delta encodings to a system may outweigh the benefits.
+
+  [226 IM Used]:http://status/226
