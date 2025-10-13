@@ -164,3 +164,106 @@
   > Even if the client and server support delta encodings, proxies or caches may not, and the complexity of adding HTTP delta encodings to a system may outweigh the benefits.
 
   [226 IM Used]:http://status/226
+"300": |
+  The HTTP [300 Multiple Choices] **redirection response** status code indicates that the request has more than one possible response.
+  The user-agent or the user should choose one of them.
+  
+  > [!NOTE]
+  > In **agent-driven content negotiation**, a client and server collaboratively decide the best variant of a given resource when the server has multiple variants.
+  > Most clients lack a method for automatically choosing from responses, and the additional round-trips slow down client-server interaction.
+  > **Server-driven content negotiation** is far more common, where a server chooses the most appropriate resource for the client based on the request headers [Accept-Language](http://header/Accept-Language), [Accept](http://header/Accept), etc.).
+  
+  The server should include content in the response that contains a list of resource metadata and URIs from which the user or user agent can choose.
+  The format of the content is implementation-specific, but should be easily parsed by the user agent (such as HTML or JSON).
+  
+  If the server has a preferred choice that the client should request, it can include it in a [Location](http://header/Location) header.
+
+  [300 Multiple Choices]:http://status/300
+"301": |
+  The HTTP [301 Moved Permanently] **redirection response** status code indicates that the requested resource has been permanently moved to the URL in the [Location](http://header/Location) header.
+
+  A browser receiving this status will automatically request the resource at the URL in the `Location` header, redirecting the user to the new page.
+  Search engines receiving this response will attribute links to the original URL to the redirected resource, passing the **SEO** ranking to the new URL.
+  
+  > [!NOTE]
+  > In the **Fetch Standard**, when a user agent receives a [301 Moved Permanently] in response to a [POST](http://method/POST) request, it uses the [GET](http://method/GET) method in the subsequent redirection request, as permitted by the HTTP **specification**.
+  > To avoid user agents modifying the request, use [308 Permanent Redirect] instead, as altering the method after a [308 Permanent Redirect] response is prohibited.
+
+  [301 Moved Permanently]:http://status/301
+  [308 Permanent Redirect]:http://status/308
+"302": |
+  The HTTP [302 Found] **redirection response** status code indicates that the requested resource has been temporarily moved to the URL in the [Location](http://header/Location) header.
+  
+  A browser receiving this status will automatically request the resource at the URL in the [Location](http://header/locatin) header, redirecting the user to the new page.
+  Search engines receiving this response will not attribute links to the original URL to the new resource, meaning no **Glossary** value is transferred to the new URL.
+  
+  > [!NOTE]
+  > In the **Fetch Standard**, when a user agent receives a [302 Found] in response to a [POST](http://method/POST) request, it uses the [GET](http://method/GET) method in the subsequent redirection request, as permitted by the HTTP **specification**.
+  > To avoid user agents modifying the request, use [307 Temporary Redirect] instead, as altering the method after a `307` response is prohibited.
+  >
+  > In cases where you want any request method to be changed to [GET](http://method/GET), use [303 See Other].
+  > This is useful when you want to give a response to a [PUT](http://method/PUT) method that is not the uploaded resource but a confirmation message such as: "you successfully uploaded XYZ".
+
+  [302 Found]:http://status/302
+  [303 See Other]:http://status/303
+  [307 Temporary Redirect]:http://status/307
+"303": |
+  The HTTP [303 See Other] **redirection response** status code indicates that the browser should redirect to the URL in the [Location](http://header/Location) header instead of rendering the requested resource.
+
+  This response code is often sent back as a result of [PUT](http://method/PUT) or [POST](http://method/POST) methods so the client may retrieve a confirmation, or view a representation of a real-world object.
+  The method to retrieve the redirected resource is always [GET](http://method/GET).
+
+  [303 See Other]:http://status/303
+"304": |
+  The HTTP [304 Not Modified] **redirection response** status code indicates that there is no need to retransmit the requested resources.
+  
+  This response code is sent when the request is a **conditional** [GET](http://method/GET) or [HEAD](http://method/HEAD) request with an [If-None-Match](http://header/If-None-Match) or an [If-Modified-Since](http://header/If-Modified-Since) header and the condition evaluates to 'false'.
+  It confirms that the resource cached by the client is still valid and that the server would have sent a [200 OK](http://status/200) response with the resource if the condition evaluated to 'true'.
+  See **HTTP caching** for more information.
+  
+  The response must not contain a body and must include the headers that would have been sent in an equivalent [200 OK](http://status/200) response, such as:
+  
+  - [Cache-Control](http://header/Cache-Control)
+  - [Content-Location](http://header/Content-Location)
+  - [Date](http://header/Date)
+  - [ETag](http://header/ETag)
+  - [Expires](http://header/Expires)
+  - [Vary](http://header/Vary)
+  
+  > [!NOTE]
+  > Many **developer tools' network panels** of browsers create extraneous requests leading to [304 Not Modified] responses, so that access to the local cache is visible to developers.
+
+  [304 Not Modified]:http://status/304
+"307": |
+  The HTTP [307 Temporary Redirect] **redirection response** status code indicates that the resource requested has been temporarily moved to the URL in the [Location](http://header/Location) header.
+
+  A browser receiving this status will automatically request the resource at the URL in the [Location](http://header/Location) header, redirecting the user to the new page.
+  Search engines receiving this response will not attribute links to the original URL to the new resource, meaning no **SEO** value is transferred to the new URL.
+  
+  The method and the body of the original request are reused to perform the redirected request.
+  In the cases where you want the request method to be changed to [GET](http://method/GET), use [303 See Other] instead.
+  This is useful when you want to give an answer to a successful [PUT](http://method/PUT) request that is not the uploaded resource, but a status monitor or confirmation message like "You have successfully uploaded XYZ".
+  
+  The difference between [307 Temporary Redirect] and [302 Found] is that [307 Temporary Redirect] guarantees that the client **will not change** the request method and body when the redirected request is made.
+  With [302 Found], older clients incorrectly changed the method to [GET](http://method/GET).
+  [307 Temporary Redirect] and [302 Found] responses are identical when the request method is [GET](http://method/GET).
+
+  [307 Temporary Redirect]:http://status/307
+  [303 See Other]:http://status/303
+  [302 Found]:http://status/302
+"308": |
+  The HTTP [308 Permanent Redirect] **redirection response** status code indicates that the requested resource has been permanently moved to the URL given by the [Location](http://header/location) header.
+
+  A browser receiving this status will automatically request the resource at the URL in the [Location](http://header/Location) header, redirecting the user to the new page.
+  Search engines receiving this response will attribute links to the original URL to the redirected resource, passing the **SEO** ranking to the new URL.
+  
+  The request method and the body **will not be modified** by the client in the redirected request.
+  A [301 Moved Permanently] requires the request method and the body to remain unchanged when redirection is performed, but this is incorrectly handled by older clients to use the [GET](http://method/GET) method instead.
+  
+  > [!NOTE]
+  > Some Web applications may use the [308 Permanent Redirect] in a non-standard way and for different purposes.
+  > For example, Google Drive uses a `308 Resume Incomplete` response to indicate to the client when an unfinished upload has stalled.
+  > See **Perform a resumable download** on the Google Drive documentation for more information.
+
+  [301 Moved Permanently]:http://status/301
+  [308 Permanent Redirect]:http://status/308
