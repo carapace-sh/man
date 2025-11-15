@@ -1,0 +1,47 @@
+name: create-data-source
+description: Creates a data source connector for an Amazon Q Business application.
+flags:
+    --application-id=!: The identifier of the Amazon Q Business application the data source will be attached to.
+    --client-token=: A token you provide to identify a request to create a data source connector.
+    --configuration=!: Configuration information to connect your data source repository to Amazon Q Business.
+    --description=: A description for the data source connector.
+    --display-name=!: A name for the data source connector.
+    --document-enrichment-configuration=: ""
+    --index-id=!: The identifier of the index that you want to use with the data source connector.
+    --media-extraction-configuration=: The configuration for extracting information from media in documents during ingestion.
+    --role-arn=: The Amazon Resource Name (ARN) of an IAM role with permission to access the data source and required resources.
+    --sync-schedule=: Sets the frequency for Amazon Q Business to check the documents in your data source repository and update your index.
+    --tags=: A list of key-value pairs that identify or categorize the data source connector.
+    --vpc-configuration=: Configuration information for an Amazon VPC (Virtual Private Cloud) to connect to your data source.
+documentation:
+    command: |-
+        Creates a data source connector for an Amazon Q Business application.
+
+        `CreateDataSource` is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an exception is raised.
+    flag:
+        application-id: The identifier of the Amazon Q Business application the data source will be attached to.
+        client-token: A token you provide to identify a request to create a data source connector. Multiple calls to the `CreateDataSource` API with the same client token will create only one data source connector.
+        configuration: |-
+            Configuration information to connect your data source repository to Amazon Q Business. Use this parameter to provide a JSON schema with configuration information specific to your data source connector.
+
+            Each data source has a JSON schema provided by Amazon Q Business that you must use. For example, the Amazon S3 and Web Crawler connectors require the following JSON schemas:
+
+            - [Amazon S3 JSON schema](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/s3-api.html)
+            - [Web Crawler JSON schema](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/web-crawler-api.html)
+
+            You can find configuration templates for your specific data source using the following steps:
+
+            1. Navigate to the [Supported connectors](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/connectors-list.html) page in the Amazon Q Business User Guide, and select the data source of your choice.
+            2. Then, from your specific data source connector page, select **Using the API**. You will find the JSON schema for your data source, including parameter descriptions, in this section.
+        description: A description for the data source connector.
+        display-name: A name for the data source connector.
+        document-enrichment-configuration: ""
+        index-id: The identifier of the index that you want to use with the data source connector.
+        media-extraction-configuration: The configuration for extracting information from media in documents during ingestion.
+        role-arn: The Amazon Resource Name (ARN) of an IAM role with permission to access the data source and required resources. This field is required for all connector types except custom connectors, where it is optional.
+        sync-schedule: |-
+            Sets the frequency for Amazon Q Business to check the documents in your data source repository and update your index. If you don't set a schedule, Amazon Q Business won't periodically update the index.
+
+            Specify a `cron-` format schedule string or an empty string to indicate that the index is updated on demand. You can't specify the `Schedule` parameter when the `Type` parameter is set to `CUSTOM`. If you do, you receive a `ValidationException` exception.
+        tags: 'A list of key-value pairs that identify or categorize the data source connector. You can also use tags to help control access to the data source connector. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.'
+        vpc-configuration: Configuration information for an Amazon VPC (Virtual Private Cloud) to connect to your data source. For more information, see [Using Amazon VPC with Amazon Q Business connectors](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/connector-vpc.html).

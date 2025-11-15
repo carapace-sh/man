@@ -1,0 +1,60 @@
+name: send-data-integration-event
+description: Send the data payload for the event with real-time data for analysis or monitoring.
+flags:
+    --client-token=: The idempotent client token.
+    --data=!: The data payload of the event, should follow the data schema of the target dataset, or see [Data entities supported in AWS Supply Chain](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html). To send single data record, use JsonObject format; to send multiple data records, use JsonArray format.
+    --dataset-target=: The target dataset configuration for **scn.data.dataset** event type.
+    --event-group-id=!: Event identifier (for example, orderId for InboundOrder) used for data sharding or partitioning.
+    --event-timestamp=: The timestamp (in epoch seconds) associated with the event.
+    --event-type=!: The data event type.
+    --instance-id=!: The AWS Supply Chain instance identifier.
+completion:
+    flag:
+        event-type:
+            - scn.data.forecast
+            - scn.data.inventorylevel
+            - scn.data.inboundorder
+            - scn.data.inboundorderline
+            - scn.data.inboundorderlineschedule
+            - scn.data.outboundorderline
+            - scn.data.outboundshipment
+            - scn.data.processheader
+            - scn.data.processoperation
+            - scn.data.processproduct
+            - scn.data.reservation
+            - scn.data.shipment
+            - scn.data.shipmentstop
+            - scn.data.shipmentstoporder
+            - scn.data.supplyplan
+            - scn.data.dataset
+documentation:
+    command: Send the data payload for the event with real-time data for analysis or monitoring. The real-time data events are stored in an Amazon Web Services service before being processed and stored in data lake.
+    flag:
+        client-token: The idempotent client token. The token is active for 8 hours, and within its lifetime, it ensures the request completes only once upon retry with same client token. If omitted, the AWS SDK generates a unique value so that AWS SDK can safely retry the request upon network errors.
+        data: |-
+            The data payload of the event, should follow the data schema of the target dataset, or see [Data entities supported in AWS Supply Chain](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html). To send single data record, use JsonObject format; to send multiple data records, use JsonArray format.
+
+            Note that for AWS Supply Chain dataset under **asc** namespace, it has a connection\_id internal field that is not allowed to be provided by client directly, they will be auto populated.
+        dataset-target: The target dataset configuration for **scn.data.dataset** event type.
+        event-group-id: Event identifier (for example, orderId for InboundOrder) used for data sharding or partitioning. Noted under one eventGroupId of same eventType and instanceId, events are processed sequentially in the order they are received by the server.
+        event-timestamp: The timestamp (in epoch seconds) associated with the event. If not provided, it will be assigned with current timestamp.
+        event-type: |-
+            The data event type.
+
+            - **scn.data.dataset** - Send data directly to any specified dataset.
+            - **scn.data.supplyplan** - Send data to [supply\_plan](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/supply-plan-entity.html) dataset.
+            - **scn.data.shipmentstoporder** - Send data to [shipment\_stop\_order](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/replenishment-shipment-stop-order-entity.html) dataset.
+            - **scn.data.shipmentstop** - Send data to [shipment\_stop](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/replenishment-shipment-stop-entity.html) dataset.
+            - **scn.data.shipment** - Send data to [shipment](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/replenishment-shipment-entity.html) dataset.
+            - **scn.data.reservation** - Send data to [reservation](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/planning-reservation-entity.html) dataset.
+            - **scn.data.processproduct** - Send data to [process\_product](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/operation-process-product-entity.html) dataset.
+            - **scn.data.processoperation** - Send data to [process\_operation](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/operation-process-operation-entity.html) dataset.
+            - **scn.data.processheader** - Send data to [process\_header](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/operation-process-header-entity.html) dataset.
+            - **scn.data.forecast** - Send data to [forecast](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/forecast-forecast-entity.html) dataset.
+            - **scn.data.inventorylevel** - Send data to [inv\_level](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/inventory_mgmnt-inv-level-entity.html) dataset.
+            - **scn.data.inboundorder** - Send data to [inbound\_order](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/replenishment-inbound-order-entity.html) dataset.
+            - **scn.data.inboundorderline** - Send data to [inbound\_order\_line](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/replenishment-inbound-order-line-entity.html) dataset.
+            - **scn.data.inboundorderlineschedule** - Send data to [inbound\_order\_line\_schedule](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/replenishment-inbound-order-line-schedule-entity.html) dataset.
+            - **scn.data.outboundorderline** - Send data to [outbound\_order\_line](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/outbound-fulfillment-order-line-entity.html) dataset.
+            - **scn.data.outboundshipment** - Send data to [outbound\_shipment](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/outbound-fulfillment-shipment-entity.html) dataset.
+        instance-id: The AWS Supply Chain instance identifier.

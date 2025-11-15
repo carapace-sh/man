@@ -1,0 +1,20 @@
+name: batch-delete-cluster-nodes
+description: Deletes specific nodes within a SageMaker HyperPod cluster.
+flags:
+    --cluster-name=!: The name of the SageMaker HyperPod cluster from which to delete the specified nodes.
+    --node-ids=: A list of node IDs to be deleted from the specified cluster.
+    --node-logical-ids=: A list of `NodeLogicalIds` identifying the nodes to be deleted.
+documentation:
+    command: |-
+        Deletes specific nodes within a SageMaker HyperPod cluster. `BatchDeleteClusterNodes` accepts a cluster name and a list of node IDs.
+
+        - To safeguard your work, back up your data to Amazon S3 or an FSx for Lustre file system before invoking the API on a worker node group. This will help prevent any potential data loss from the instance root volume. For more information about backup, see [Use the backup script provided by SageMaker HyperPod](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-operate-cli-command.html#sagemaker-hyperpod-operate-cli-command-update-cluster-software-backup).
+        - If you want to invoke this API on an existing cluster, you'll first need to patch the cluster by running the [UpdateClusterSoftware API](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateClusterSoftware.html). For more information about patching a cluster, see [Update the SageMaker HyperPod platform software of a cluster](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-operate-cli-command.html#sagemaker-hyperpod-operate-cli-command-update-cluster-software).
+    flag:
+        cluster-name: The name of the SageMaker HyperPod cluster from which to delete the specified nodes.
+        node-ids: |-
+            A list of node IDs to be deleted from the specified cluster.
+
+            - For SageMaker HyperPod clusters using the Slurm workload manager, you cannot remove instances that are configured as Slurm controller nodes.
+            - If you need to delete more than 99 instances, contact [Support](http://aws.amazon.com/contact-us/) for assistance.
+        node-logical-ids: A list of `NodeLogicalIds` identifying the nodes to be deleted. You can specify up to 50 `NodeLogicalIds`. You must specify either `NodeLogicalIds`, `InstanceIds`, or both, with a combined maximum of 50 identifiers.

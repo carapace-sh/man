@@ -1,0 +1,38 @@
+name: create-flywheel
+description: A flywheel is an Amazon Web Services resource that orchestrates the ongoing training of a model for custom classification or custom entity recognition.
+flags:
+    --active-model-arn=: To associate an existing model with the flywheel, specify the Amazon Resource Number (ARN) of the model version.
+    --client-request-token=: A unique identifier for the request.
+    --data-access-role-arn=!: The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend the permissions required to access the flywheel data in the data lake.
+    --data-lake-s3-uri=!: Enter the S3 location for the data lake.
+    --data-security-config=: Data security configurations.
+    --flywheel-name=!: Name for the flywheel.
+    --model-type=: The model type.
+    --tags=: The tags to associate with this flywheel.
+    --task-config=: Configuration about the model associated with the flywheel.
+completion:
+    flag:
+        model-type:
+            - DOCUMENT_CLASSIFIER
+            - ENTITY_RECOGNIZER
+documentation:
+    command: |-
+        A flywheel is an Amazon Web Services resource that orchestrates the ongoing training of a model for custom classification or custom entity recognition. You can create a flywheel to start with an existing trained model, or Comprehend can create and train a new model.
+
+        When you create the flywheel, Comprehend creates a data lake in your account. The data lake holds the training data and test data for all versions of the model.
+
+        To use a flywheel with an existing trained model, you specify the active model version. Comprehend copies the model's training data and test data into the flywheel's data lake.
+
+        To use the flywheel with a new model, you need to provide a dataset for training data (and optional test data) when you create the flywheel.
+
+        For more information about flywheels, see [Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html) in the *Amazon Comprehend Developer Guide*.
+    flag:
+        active-model-arn: To associate an existing model with the flywheel, specify the Amazon Resource Number (ARN) of the model version. Do not set `TaskConfig` or `ModelType` if you specify an `ActiveModelArn`.
+        client-request-token: A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
+        data-access-role-arn: The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend the permissions required to access the flywheel data in the data lake.
+        data-lake-s3-uri: Enter the S3 location for the data lake. You can specify a new S3 bucket or a new folder of an existing S3 bucket. The flywheel creates the data lake at this location.
+        data-security-config: Data security configurations.
+        flywheel-name: Name for the flywheel.
+        model-type: The model type. You need to set `ModelType` if you are creating a flywheel for a new model.
+        tags: The tags to associate with this flywheel.
+        task-config: Configuration about the model associated with the flywheel. You need to set `TaskConfig` if you are creating a flywheel for a new model.

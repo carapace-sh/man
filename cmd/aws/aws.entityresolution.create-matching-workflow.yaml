@@ -1,0 +1,28 @@
+name: create-matching-workflow
+description: Creates a matching workflow that defines the configuration for a data processing job.
+flags:
+    --description=: A description of the workflow.
+    --incremental-run-config=: Optional.
+    --input-source-config=!: A list of `InputSource` objects, which have the fields `InputSourceARN` and `SchemaName`.
+    --output-source-config=!: A list of `OutputSource` objects, each of which contains fields `outputS3Path`, `applyNormalization`, `KMSArn`, and `output`.
+    --resolution-techniques=!: An object which defines the `resolutionType` and the `ruleBasedProperties`.
+    --role-arn=!: The Amazon Resource Name (ARN) of the IAM role.
+    --tags=: The tags used to organize, track, or control access for this resource.
+    --workflow-name=!: The name of the workflow.
+documentation:
+    command: |-
+        Creates a matching workflow that defines the configuration for a data processing job. The workflow name must be unique. To modify an existing workflow, use `UpdateMatchingWorkflow`.
+
+        For workflows where `resolutionType` is `ML_MATCHING` or `PROVIDER`, incremental processing is not supported.
+    flag:
+        description: A description of the workflow.
+        incremental-run-config: |-
+            Optional. An object that defines the incremental run type. This object contains only the `incrementalRunType` field, which appears as "Automatic" in the console.
+
+            For workflows where `resolutionType` is `ML_MATCHING` or `PROVIDER`, incremental processing is not supported.
+        input-source-config: A list of `InputSource` objects, which have the fields `InputSourceARN` and `SchemaName`.
+        output-source-config: A list of `OutputSource` objects, each of which contains fields `outputS3Path`, `applyNormalization`, `KMSArn`, and `output`.
+        resolution-techniques: An object which defines the `resolutionType` and the `ruleBasedProperties`.
+        role-arn: The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
+        tags: The tags used to organize, track, or control access for this resource.
+        workflow-name: The name of the workflow. There can't be multiple `MatchingWorkflows` with the same name.

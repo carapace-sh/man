@@ -1,0 +1,31 @@
+name: modify-replication-group-shard-configuration
+description: Modifies a replication group's shards (node groups) by allowing you to add shards, remove shards, or rebalance the keyspaces among existing shards.
+flags:
+    --apply-immediately!: Indicates that the shard reconfiguration process begins immediately.
+    --no-apply-immediately!&: Indicates that the shard reconfiguration process begins immediately.
+    --node-group-count=!: The number of node groups (shards) that results from the modification of the shard configuration.
+    --node-groups-to-remove=: If the value of `NodeGroupCount` is less than the current number of node groups (shards), then either `NodeGroupsToRemove` or `NodeGroupsToRetain` is required.
+    --node-groups-to-retain=: If the value of `NodeGroupCount` is less than the current number of node groups (shards), then either `NodeGroupsToRemove` or `NodeGroupsToRetain` is required.
+    --replication-group-id=!: The name of the Valkey or Redis OSS (cluster mode enabled) cluster (replication group) on which the shards are to be configured.
+    --resharding-configuration=: Specifies the preferred availability zones for each node group in the cluster.
+documentation:
+    command: Modifies a replication group's shards (node groups) by allowing you to add shards, remove shards, or rebalance the keyspaces among existing shards.
+    flag:
+        apply-immediately: |-
+            Indicates that the shard reconfiguration process begins immediately. At present, the only permitted value for this parameter is `true`.
+
+            Value: true
+        node-group-count: The number of node groups (shards) that results from the modification of the shard configuration.
+        node-groups-to-remove: |-
+            If the value of `NodeGroupCount` is less than the current number of node groups (shards), then either `NodeGroupsToRemove` or `NodeGroupsToRetain` is required. `NodeGroupsToRemove` is a list of `NodeGroupId`s to remove from the cluster.
+
+            ElastiCache will attempt to remove all node groups listed by `NodeGroupsToRemove` from the cluster.
+        node-groups-to-retain: |-
+            If the value of `NodeGroupCount` is less than the current number of node groups (shards), then either `NodeGroupsToRemove` or `NodeGroupsToRetain` is required. `NodeGroupsToRetain` is a list of `NodeGroupId`s to retain in the cluster.
+
+            ElastiCache will attempt to remove all node groups except those listed by `NodeGroupsToRetain` from the cluster.
+        replication-group-id: The name of the Valkey or Redis OSS (cluster mode enabled) cluster (replication group) on which the shards are to be configured.
+        resharding-configuration: |-
+            Specifies the preferred availability zones for each node group in the cluster. If the value of `NodeGroupCount` is greater than the current number of node groups (shards), you can use this parameter to specify the preferred availability zones of the cluster's shards. If you omit this parameter ElastiCache selects availability zones for you.
+
+            You can specify this parameter only if the value of `NodeGroupCount` is greater than the current number of node groups (shards).

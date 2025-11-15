@@ -1,0 +1,38 @@
+name: import-stacks-to-stack-set
+description: Import existing stacks into a new StackSets.
+flags:
+    --call-as=: By default, `SELF` is specified.
+    --operation-id=: A unique, user defined, identifier for the StackSet operation.
+    --operation-preferences=: The user-specified preferences for how CloudFormation performs a StackSet operation.
+    --organizational-unit-ids=: The list of OU ID's to which the imported stacks must be mapped as deployment targets.
+    --stack-ids-url=: The Amazon S3 URL which contains list of stack ids to be inputted.
+    --stack-ids=: The IDs of the stacks you are importing into a StackSet.
+    --stack-set-name=!: The name of the StackSet.
+completion:
+    flag:
+        call-as:
+            - SELF
+            - DELEGATED_ADMIN
+documentation:
+    command: Import existing stacks into a new StackSets. Use the stack import operation to import up to 10 stacks into a new StackSet in the same account as the source stack or in a different administrator account and Region, by specifying the stack ID of the stack you intend to import.
+    flag:
+        call-as: |-
+            By default, `SELF` is specified. Use `SELF` for StackSets with self-managed permissions.
+
+            - If you are signed in to the management account, specify `SELF`.
+            - For service managed StackSets, specify `DELEGATED_ADMIN`.
+        operation-id: A unique, user defined, identifier for the StackSet operation.
+        operation-preferences: |-
+            The user-specified preferences for how CloudFormation performs a StackSet operation.
+
+            For more information about maximum concurrent accounts and failure tolerance, see [StackSet operation options](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-ops-options).
+        organizational-unit-ids: The list of OU ID's to which the imported stacks must be mapped as deployment targets.
+        stack-ids: |-
+            The IDs of the stacks you are importing into a StackSet. You import up to 10 stacks per StackSet at a time.
+
+            Specify either `StackIds` or `StackIdsUrl`.
+        stack-ids-url: |-
+            The Amazon S3 URL which contains list of stack ids to be inputted.
+
+            Specify either `StackIds` or `StackIdsUrl`.
+        stack-set-name: The name of the StackSet. The name must be unique in the Region where you create your StackSet.

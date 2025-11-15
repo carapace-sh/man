@@ -1,0 +1,53 @@
+name: create-maintenance-window
+description: Creates a new maintenance window.
+flags:
+    --allow-unassociated-targets=!: Enables a maintenance window task to run on managed nodes, even if you haven't registered those nodes as targets.
+    --client-token=: User-provided idempotency token.
+    --cutoff=!: The number of hours before the end of the maintenance window that Amazon Web Services Systems Manager stops scheduling new tasks for execution.
+    --description=: An optional description for the maintenance window.
+    --duration=!: The duration of the maintenance window in hours.
+    --end-date=: The date and time, in ISO-8601 Extended format, for when you want the maintenance window to become inactive.
+    --name=!: The name of the maintenance window.
+    --schedule-offset=: The number of days to wait after the date and time specified by a cron expression before running the maintenance window.
+    --schedule-timezone=: The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format.
+    --schedule=!: The schedule of the maintenance window in the form of a cron or rate expression.
+    --start-date=: The date and time, in ISO-8601 Extended format, for when you want the maintenance window to become active.
+    --tags=: Optional metadata that you assign to a resource.
+documentation:
+    command: |-
+        Creates a new maintenance window.
+
+        The value you specify for `Duration` determines the specific end time for the maintenance window based on the time it begins. No maintenance window tasks are permitted to start after the resulting endtime minus the number of hours you specify for `Cutoff`. For example, if the maintenance window starts at 3 PM, the duration is three hours, and the value you specify for `Cutoff` is one hour, no maintenance window tasks can start after 5 PM.
+    flag:
+        allow-unassociated-targets: |-
+            Enables a maintenance window task to run on managed nodes, even if you haven't registered those nodes as targets. If enabled, then you must specify the unregistered managed nodes (by node ID) when you register a task with the maintenance window.
+
+            If you don't enable this option, then you must specify previously-registered targets when you register a task with the maintenance window.
+        client-token: User-provided idempotency token.
+        cutoff: The number of hours before the end of the maintenance window that Amazon Web Services Systems Manager stops scheduling new tasks for execution.
+        description: An optional description for the maintenance window. We recommend specifying a description to help you organize your maintenance windows.
+        duration: The duration of the maintenance window in hours.
+        end-date: The date and time, in ISO-8601 Extended format, for when you want the maintenance window to become inactive. `EndDate` allows you to set a date and time in the future when the maintenance window will no longer run.
+        name: The name of the maintenance window.
+        schedule: The schedule of the maintenance window in the form of a cron or rate expression.
+        schedule-offset: |-
+            The number of days to wait after the date and time specified by a cron expression before running the maintenance window.
+
+            For example, the following cron expression schedules a maintenance window to run on the third Tuesday of every month at 11:30 PM.
+
+            `cron(30 23 ? * TUE#3 *)`
+
+            If the schedule offset is `2`, the maintenance window won't run until two days later.
+        schedule-timezone: 'The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los\_Angeles", "UTC", or "Asia/Seoul". For more information, see the [Time Zone Database](https://www.iana.org/time-zones) on the IANA website.'
+        start-date: |-
+            The date and time, in ISO-8601 Extended format, for when you want the maintenance window to become active. `StartDate` allows you to delay activation of the maintenance window until the specified future date.
+
+            When using a rate schedule, if you provide a start date that occurs in the past, the current date and time are used as the start date.
+        tags: |-
+            Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a maintenance window to identify the type of tasks it will run, the types of targets, and the environment it will run in. In this case, you could specify the following key-value pairs:
+
+            - `Key=TaskType,Value=AgentUpdate`
+            - `Key=OS,Value=Windows`
+            - `Key=Environment,Value=Production`
+
+            To add tags to an existing maintenance window, use the [AddTagsToResource]() operation.

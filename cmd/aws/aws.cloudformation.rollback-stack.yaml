@@ -1,0 +1,28 @@
+name: rollback-stack
+description: When specifying `RollbackStack`, you preserve the state of previously provisioned resources when an operation fails.
+flags:
+    --client-request-token=: A unique identifier for this `RollbackStack` request.
+    --retain-except-on-create=: When set to `true`, newly created resources are deleted when the operation rolls back.
+    --role-arn=: The Amazon Resource Name (ARN) of an IAM role that CloudFormation assumes to rollback the stack.
+    --stack-name=!: The name that's associated with the stack.
+documentation:
+    command: |-
+        When specifying `RollbackStack`, you preserve the state of previously provisioned resources when an operation fails. You can check the status of the stack through the [DescribeStacks]() operation.
+
+        Rolls back the specified stack to the last known stable state from `CREATE_FAILED` or `UPDATE_FAILED` stack statuses.
+
+        This operation will delete a stack if it doesn't contain a last known stable state. A last known stable state includes any status in a `*_COMPLETE`. This includes the following stack statuses.
+
+        - `CREATE_COMPLETE`
+        - `UPDATE_COMPLETE`
+        - `UPDATE_ROLLBACK_COMPLETE`
+        - `IMPORT_COMPLETE`
+        - `IMPORT_ROLLBACK_COMPLETE`
+    flag:
+        client-request-token: A unique identifier for this `RollbackStack` request.
+        retain-except-on-create: |-
+            When set to `true`, newly created resources are deleted when the operation rolls back. This includes newly created resources marked with a deletion policy of `Retain`.
+
+            Default: `false`
+        role-arn: The Amazon Resource Name (ARN) of an IAM role that CloudFormation assumes to rollback the stack.
+        stack-name: The name that's associated with the stack.

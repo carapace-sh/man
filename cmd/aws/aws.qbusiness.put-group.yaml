@@ -1,0 +1,30 @@
+name: put-group
+description: Create, or updates, a mapping of users—who have access to a document—to groups.
+flags:
+    --application-id=!: The identifier of the application in which the user and group mapping belongs.
+    --data-source-id=: The identifier of the data source for which you want to map users to their groups.
+    --group-members=!: ""
+    --group-name=!: The list that contains your users or sub groups that belong the same group.
+    --index-id=!: The identifier of the index in which you want to map users to their groups.
+    --role-arn=: The Amazon Resource Name (ARN) of an IAM role that has access to the S3 file that contains your list of users that belong to a group.
+    --type=!: The type of the group.
+completion:
+    flag:
+        type:
+            - INDEX
+            - DATASOURCE
+documentation:
+    command: |-
+        Create, or updates, a mapping of users—who have access to a document—to groups.
+
+        You can also map sub groups to groups. For example, the group "Company Intellectual Property Teams" includes sub groups "Research" and "Engineering". These sub groups include their own list of users or people who work in these teams. Only users who work in research and engineering, and therefore belong in the intellectual property group, can see top-secret company documents in their Amazon Q Business chat results.
+
+        There are two options for creating groups, either passing group members inline or using an S3 file via the S3PathForGroupMembers field. For inline groups, there is a limit of 1000 members per group and for provided S3 files there is a limit of 100 thousand members. When creating a group using an S3 file, you provide both an S3 file and a `RoleArn` for Amazon Q Buisness to access the file.
+    flag:
+        application-id: The identifier of the application in which the user and group mapping belongs.
+        data-source-id: The identifier of the data source for which you want to map users to their groups. This is useful if a group is tied to multiple data sources, but you only want the group to access documents of a certain data source. For example, the groups "Research", "Engineering", and "Sales and Marketing" are all tied to the company's documents stored in the data sources Confluence and Salesforce. However, "Sales and Marketing" team only needs access to customer-related documents stored in Salesforce.
+        group-members: ""
+        group-name: The list that contains your users or sub groups that belong the same group. For example, the group "Company" includes the user "CEO" and the sub groups "Research", "Engineering", and "Sales and Marketing".
+        index-id: The identifier of the index in which you want to map users to their groups.
+        role-arn: The Amazon Resource Name (ARN) of an IAM role that has access to the S3 file that contains your list of users that belong to a group.
+        type: The type of the group.

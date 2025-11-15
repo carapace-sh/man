@@ -1,0 +1,85 @@
+name: create-cluster
+description: Creates a cluster.
+flags:
+    --aclname=!: The name of the Access Control List to associate with the cluster.
+    --auto-minor-version-upgrade=: When set to true, the cluster will automatically receive minor engine version upgrades after launch.
+    --cluster-name=!: The name of the cluster.
+    --data-tiering=: Enables data tiering.
+    --description=: An optional description of the cluster.
+    --engine-version=: The version number of the Redis OSS engine to be used for the cluster.
+    --engine=: The name of the engine to be used for the cluster.
+    --ip-discovery=: The mechanism for discovering IP addresses for the cluster discovery protocol.
+    --kms-key-id=: The ID of the KMS key used to encrypt the cluster.
+    --maintenance-window=: Specifies the weekly time range during which maintenance on the cluster is performed.
+    --multi-region-cluster-name=: The name of the multi-Region cluster to be created.
+    --network-type=: Specifies the IP address type for the cluster.
+    --node-type=!: The compute and memory capacity of the nodes in the cluster.
+    --num-replicas-per-shard=: The number of replicas to apply to each shard.
+    --num-shards=: The number of shards the cluster will contain.
+    --parameter-group-name=: The name of the parameter group associated with the cluster.
+    --port=: The port number on which each of the nodes accepts connections.
+    --security-group-ids=: A list of security group names to associate with this cluster.
+    --snapshot-arns=: A list of Amazon Resource Names (ARN) that uniquely identify the RDB snapshot files stored in Amazon S3.
+    --snapshot-name=: The name of a snapshot from which to restore data into the new cluster.
+    --snapshot-retention-limit=: The number of days for which MemoryDB retains automatic snapshots before deleting them.
+    --snapshot-window=: The daily time range (in UTC) during which MemoryDB begins taking a daily snapshot of your shard.
+    --sns-topic-arn=: The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic to which notifications are sent.
+    --subnet-group-name=: The name of the subnet group to be used for the cluster.
+    --tags=: A list of tags to be added to this resource.
+    --tlsenabled=: A flag to enable in-transit encryption on the cluster.
+completion:
+    flag:
+        ip-discovery:
+            - ipv4
+            - ipv6
+        network-type:
+            - ipv4
+            - ipv6
+            - dual_stack
+documentation:
+    command: Creates a cluster. All nodes in the cluster run the same protocol-compliant engine software.
+    flag:
+        aclname: The name of the Access Control List to associate with the cluster.
+        auto-minor-version-upgrade: When set to true, the cluster will automatically receive minor engine version upgrades after launch.
+        cluster-name: The name of the cluster. This value must be unique as it also serves as the cluster identifier.
+        data-tiering: Enables data tiering. Data tiering is only supported for clusters using the r6gd node type. This parameter must be set when using r6gd nodes. For more information, see [Data tiering](https://docs.aws.amazon.com/memorydb/latest/devguide/data-tiering.html).
+        description: An optional description of the cluster.
+        engine: The name of the engine to be used for the cluster.
+        engine-version: The version number of the Redis OSS engine to be used for the cluster.
+        ip-discovery: The mechanism for discovering IP addresses for the cluster discovery protocol. Valid values are 'ipv4' or 'ipv6'. When set to 'ipv4', cluster discovery functions such as cluster slots, cluster shards, and cluster nodes return IPv4 addresses for cluster nodes. When set to 'ipv6', the cluster discovery functions return IPv6 addresses for cluster nodes. The value must be compatible with the NetworkType parameter. If not specified, the default is 'ipv4'.
+        kms-key-id: The ID of the KMS key used to encrypt the cluster.
+        maintenance-window: |-
+            Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period.
+
+            Valid values for `ddd` are:
+
+            - `sun`
+            - `mon`
+            - `tue`
+            - `wed`
+            - `thu`
+            - `fri`
+            - `sat`
+
+            Example: `sun:23:00-mon:01:30`
+        multi-region-cluster-name: The name of the multi-Region cluster to be created.
+        network-type: Specifies the IP address type for the cluster. Valid values are 'ipv4', 'ipv6', or 'dual\_stack'. When set to 'ipv4', the cluster will only be accessible via IPv4 addresses. When set to 'ipv6', the cluster will only be accessible via IPv6 addresses. When set to 'dual\_stack', the cluster will be accessible via both IPv4 and IPv6 addresses. If not specified, the default is 'ipv4'.
+        node-type: The compute and memory capacity of the nodes in the cluster.
+        num-replicas-per-shard: The number of replicas to apply to each shard. The default value is 1. The maximum is 5.
+        num-shards: The number of shards the cluster will contain. The default value is 1.
+        parameter-group-name: The name of the parameter group associated with the cluster.
+        port: The port number on which each of the nodes accepts connections.
+        security-group-ids: A list of security group names to associate with this cluster.
+        snapshot-arns: A list of Amazon Resource Names (ARN) that uniquely identify the RDB snapshot files stored in Amazon S3. The snapshot files are used to populate the new cluster. The Amazon S3 object name in the ARN cannot contain any commas.
+        snapshot-name: The name of a snapshot from which to restore data into the new cluster. The snapshot status changes to restoring while the new cluster is being created.
+        snapshot-retention-limit: The number of days for which MemoryDB retains automatic snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.
+        snapshot-window: |-
+            The daily time range (in UTC) during which MemoryDB begins taking a daily snapshot of your shard.
+
+            Example: 05:00-09:00
+
+            If you do not specify this parameter, MemoryDB automatically chooses an appropriate time range.
+        sns-topic-arn: The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic to which notifications are sent.
+        subnet-group-name: The name of the subnet group to be used for the cluster.
+        tags: 'A list of tags to be added to this resource. Tags are comma-separated key,value pairs (e.g. Key=myKey, Value=myKeyValue. You can include multiple tags as shown following: Key=myKey, Value=myKeyValue Key=mySecondKey, Value=mySecondKeyValue.'
+        tlsenabled: A flag to enable in-transit encryption on the cluster.

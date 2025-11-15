@@ -1,0 +1,36 @@
+name: update-repository-creation-template
+description: Updates an existing repository creation template.
+flags:
+    --applied-for=: Updates the list of enumerable strings representing the Amazon ECR repository creation scenarios that this template will apply towards.
+    --custom-role-arn=: The ARN of the role to be assumed by Amazon ECR.
+    --description=: A description for the repository creation template.
+    --encryption-configuration=: ""
+    --image-tag-mutability-exclusion-filters=: Updates a repository with filters that define which image tags can override the default image tag mutability setting.
+    --image-tag-mutability=: Updates the tag mutability setting for the repository.
+    --lifecycle-policy=: Updates the lifecycle policy associated with the specified repository creation template.
+    --prefix=!: The repository namespace prefix that matches an existing repository creation template in the registry.
+    --repository-policy=: Updates the repository policy created using the template.
+    --resource-tags=: The metadata to apply to the repository to help you categorize and organize.
+completion:
+    flag:
+        image-tag-mutability:
+            - MUTABLE
+            - IMMUTABLE
+            - IMMUTABLE_WITH_EXCLUSION
+            - MUTABLE_WITH_EXCLUSION
+documentation:
+    command: Updates an existing repository creation template.
+    flag:
+        applied-for: Updates the list of enumerable strings representing the Amazon ECR repository creation scenarios that this template will apply towards. The two supported scenarios are `PULL_THROUGH_CACHE` and `REPLICATION`
+        custom-role-arn: The ARN of the role to be assumed by Amazon ECR. This role must be in the same account as the registry that you are configuring. Amazon ECR will assume your supplied role when the customRoleArn is specified. When this field isn't specified, Amazon ECR will use the service-linked role for the repository creation template.
+        description: A description for the repository creation template.
+        encryption-configuration: ""
+        image-tag-mutability: Updates the tag mutability setting for the repository. If this parameter is omitted, the default setting of `MUTABLE` will be used which will allow image tags to be overwritten. If `IMMUTABLE` is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
+        image-tag-mutability-exclusion-filters: Updates a repository with filters that define which image tags can override the default image tag mutability setting.
+        lifecycle-policy: Updates the lifecycle policy associated with the specified repository creation template.
+        prefix: |-
+            The repository namespace prefix that matches an existing repository creation template in the registry. All repositories created using this namespace prefix will have the settings defined in this template applied. For example, a prefix of `prod` would apply to all repositories beginning with `prod/`. This includes a repository named `prod/team1` as well as a repository named `prod/repository1`.
+
+            To apply a template to all repositories in your registry that don't have an associated creation template, you can use `ROOT` as the prefix.
+        repository-policy: Updates the repository policy created using the template. A repository policy is a permissions policy associated with a repository to control access permissions.
+        resource-tags: The metadata to apply to the repository to help you categorize and organize. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.

@@ -1,0 +1,54 @@
+name: search
+description: Finds SageMaker resources that match a search query.
+flags:
+    --cross-account-filter-option=: A cross account filter option.
+    --max-results=: The maximum number of results to return.
+    --next-token=: If more than `MaxResults` resources match the specified `SearchExpression`, the response includes a `NextToken`.
+    --resource=!: The name of the SageMaker resource to search for.
+    --search-expression=: A Boolean conditional statement.
+    --sort-by=: The name of the resource property used to sort the `SearchResults`.
+    --sort-order=: How `SearchResults` are ordered.
+    --visibility-conditions=: Limits the results of your search request to the resources that you can access.
+completion:
+    flag:
+        cross-account-filter-option:
+            - SameAccount
+            - CrossAccount
+        resource:
+            - TrainingJob
+            - Experiment
+            - ExperimentTrial
+            - ExperimentTrialComponent
+            - Endpoint
+            - Model
+            - ModelPackage
+            - ModelPackageGroup
+            - Pipeline
+            - PipelineExecution
+            - FeatureGroup
+            - FeatureMetadata
+            - Image
+            - ImageVersion
+            - Project
+            - HyperParameterTuningJob
+            - ModelCard
+            - PipelineVersion
+        sort-order:
+            - Ascending
+            - Descending
+documentation:
+    command: |-
+        Finds SageMaker resources that match a search query. Matching resources are returned as a list of `SearchRecord` objects in the response. You can sort the search results by any resource property in a ascending or descending order.
+
+        You can query against the following value types: numeric, text, Boolean, and timestamp.
+
+        The Search API may provide access to otherwise restricted data. See [Amazon SageMaker API Permissions: Actions, Permissions, and Resources Reference](https://docs.aws.amazon.com/sagemaker/latest/dg/api-permissions-reference.html) for more information.
+    flag:
+        cross-account-filter-option: A cross account filter option. When the value is `"CrossAccount"` the search results will only include resources made discoverable to you from other accounts. When the value is `"SameAccount"` or `null` the search results will only include resources from your account. Default is `null`. For more information on searching for resources made discoverable to your account, see [Search discoverable resources](https://docs.aws.amazon.com/sagemaker/latest/dg/feature-store-cross-account-discoverability-use.html) in the SageMaker Developer Guide. The maximum number of `ResourceCatalog`s viewable is 1000.
+        max-results: The maximum number of results to return.
+        next-token: If more than `MaxResults` resources match the specified `SearchExpression`, the response includes a `NextToken`. The `NextToken` can be passed to the next `SearchRequest` to continue retrieving results.
+        resource: The name of the SageMaker resource to search for.
+        search-expression: A Boolean conditional statement. Resources must satisfy this condition to be included in search results. You must provide at least one subexpression, filter, or nested filter. The maximum number of recursive `SubExpressions`, `NestedFilters`, and `Filters` that can be included in a `SearchExpression` object is 50.
+        sort-by: The name of the resource property used to sort the `SearchResults`. The default is `LastModifiedTime`.
+        sort-order: How `SearchResults` are ordered. Valid values are `Ascending` or `Descending`. The default is `Descending`.
+        visibility-conditions: Limits the results of your search request to the resources that you can access.

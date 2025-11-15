@@ -1,0 +1,47 @@
+name: describe-instance-image-metadata
+description: Describes the AMI that was used to launch an instance, even if the AMI is deprecated, deregistered, made private (no longer public or shared with your account), or not allowed.
+flags:
+    --dry-run: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response.
+    --filters=: The filters.
+    --instance-ids=: The instance IDs.
+    --max-results=: The maximum number of items to return for this request.
+    --next-token=: The token returned from a previous paginated request.
+    --no-dry-run&: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response.
+documentation:
+    command: |-
+        Describes the AMI that was used to launch an instance, even if the AMI is deprecated, deregistered, made private (no longer public or shared with your account), or not allowed.
+
+        If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance.
+
+        If you specify an instance ID that is not valid, an instance that doesn't exist, or an instance that you do not own, an error (`InvalidInstanceID.NotFound`) is returned.
+
+        Recently terminated instances might appear in the returned results. This interval is usually less than one hour.
+
+        In the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected Availability Zone, or do not specify any instance IDs at all, the call fails. If you specify only instance IDs that are in an unaffected Availability Zone, the call works normally.
+
+        The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    flag:
+        dry-run: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+        filters: |-
+            The filters.
+
+            - `availability-zone` - The name of the Availability Zone (for example, `us-west-2a`) or Local Zone (for example, `us-west-2-lax-1b`) of the instance.
+            - `instance-id` - The ID of the instance.
+            - `image-allowed` - A Boolean that indicates whether the image meets the criteria specified for Allowed AMIs.
+            - `instance-state-name` - The state of the instance (`pending` | `running` | `shutting-down` | `terminated` | `stopping` | `stopped`).
+            - `instance-type` - The type of instance (for example, `t3.micro`).
+            - `launch-time` - The time when the instance was launched, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, `2023-09-29T11:04:43.305Z`. You can use a wildcard (`*`), for example, `2023-09-29T*`, which matches an entire day.
+            - `owner-alias` - The owner alias (`amazon` | `aws-marketplace` | `aws-backup-vault`). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the `Owner` request parameter instead of this filter.
+            - `owner-id` - The Amazon Web Services account ID of the owner. We recommend that you use the `Owner` request parameter instead of this filter.
+            - `tag:<key>` - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key `Owner` and the value `TeamA`, specify `tag:Owner` for the filter name and `TeamA` for the filter value.
+            - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
+            - `zone-id` - The ID of the Availability Zone (for example, `usw2-az2`) or Local Zone (for example, `usw2-lax1-az1`) of the instance.
+        instance-ids: |-
+            The instance IDs.
+
+            If you don't specify an instance ID or filters, the output includes information for all instances.
+        max-results: |-
+            The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
+
+            Default: 1000
+        next-token: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.

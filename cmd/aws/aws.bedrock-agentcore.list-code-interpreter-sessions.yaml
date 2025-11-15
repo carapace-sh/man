@@ -1,0 +1,29 @@
+name: list-code-interpreter-sessions
+description: Retrieves a list of code interpreter sessions in Amazon Bedrock that match the specified criteria.
+flags:
+    --code-interpreter-identifier=!: The unique identifier of the code interpreter to list sessions for.
+    --max-results=: The maximum number of results to return in a single call.
+    --next-token=: The token for the next set of results.
+    --status=: The status of the code interpreter sessions to list.
+completion:
+    flag:
+        status:
+            - READY
+            - TERMINATED
+documentation:
+    command: |-
+        Retrieves a list of code interpreter sessions in Amazon Bedrock that match the specified criteria. This operation returns summary information about each session, including identifiers, status, and timestamps.
+
+        You can filter the results by code interpreter identifier and session status. The operation supports pagination to handle large result sets efficiently.
+
+        We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of sessions.
+
+        The following operations are related to `ListCodeInterpreterSessions`:
+
+        - [StartCodeInterpreterSession](https://docs.aws.amazon.com/API_StartCodeInterpreterSession.html)
+        - [GetCodeInterpreterSession](https://docs.aws.amazon.com/API_GetCodeInterpreterSession.html)
+    flag:
+        code-interpreter-identifier: The unique identifier of the code interpreter to list sessions for. If specified, only sessions for this code interpreter are returned. If not specified, sessions for all code interpreters are returned.
+        max-results: The maximum number of results to return in a single call. The default value is 10. Valid values range from 1 to 100. To retrieve the remaining results, make another call with the returned `nextToken` value.
+        next-token: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. If not specified, Amazon Bedrock returns the first page of results.
+        status: The status of the code interpreter sessions to list. Valid values include ACTIVE, STOPPING, and STOPPED. If not specified, sessions with any status are returned.

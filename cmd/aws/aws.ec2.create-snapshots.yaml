@@ -1,0 +1,47 @@
+name: create-snapshots
+description: Creates crash-consistent snapshots of multiple EBS volumes attached to an Amazon EC2 instance.
+flags:
+    --copy-tags-from-source=: Copies the tags from the specified volume to corresponding snapshot.
+    --description=: A description propagated to every snapshot specified by the instance.
+    --dry-run: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response.
+    --instance-specification=!: The instance to specify which volumes should be included in the snapshots.
+    --location=: Only supported for instances in Local Zones.
+    --no-dry-run&: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response.
+    --outpost-arn=: Only supported for instances on Outposts.
+    --tag-specifications=: Tags to apply to every snapshot specified by the instance.
+completion:
+    flag:
+        copy-tags-from-source:
+            - volume
+        location:
+            - regional
+            - local
+documentation:
+    command: |-
+        Creates crash-consistent snapshots of multiple EBS volumes attached to an Amazon EC2 instance. Volumes are chosen by specifying an instance. Each volume attached to the specified instance will produce one snapshot that is crash-consistent across the instance. You can include all of the volumes currently attached to the instance, or you can exclude the root volume or specific data (non-root) volumes from the multi-volume snapshot set.
+
+        The location of the source instance determines where you can create the snapshots.
+
+        - If the source instance is in a Region, you must create the snapshots in the same Region as the instance.
+        - If the source instance is in a Local Zone, you can create the snapshots in the same Local Zone or in its parent Amazon Web Services Region.
+        - If the source instance is on an Outpost, you can create the snapshots on the same Outpost or in its parent Amazon Web Services Region.
+    flag:
+        copy-tags-from-source: Copies the tags from the specified volume to corresponding snapshot.
+        description: A description propagated to every snapshot specified by the instance.
+        dry-run: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+        instance-specification: The instance to specify which volumes should be included in the snapshots.
+        location: |-
+            Only supported for instances in Local Zones. If the source instance is not in a Local Zone, omit this parameter.
+
+            - To create local snapshots in the same Local Zone as the source instance, specify `local`.
+            - To create regional snapshots in the parent Region of the Local Zone, specify `regional` or omit this parameter.
+
+            Default value: `regional`
+        outpost-arn: |-
+            Only supported for instances on Outposts. If the source instance is not on an Outpost, omit this parameter.
+
+            - To create the snapshots on the same Outpost as the source instance, specify the ARN of that Outpost. The snapshots must be created on the same Outpost as the instance.
+            - To create the snapshots in the parent Region of the Outpost, omit this parameter.
+
+            For more information, see [Create local snapshots from volumes on an Outpost](https://docs.aws.amazon.com/ebs/latest/userguide/snapshots-outposts.html#create-snapshot) in the *Amazon EBS User Guide*.
+        tag-specifications: Tags to apply to every snapshot specified by the instance.

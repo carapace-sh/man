@@ -1,0 +1,25 @@
+name: start-id-mapping-job
+description: Starts the `IdMappingJob` of a workflow.
+flags:
+    --job-type=: The job type for the ID mapping job.
+    --output-source-config=: A list of `OutputSource` objects.
+    --workflow-name=!: The name of the ID mapping job to be retrieved.
+completion:
+    flag:
+        job-type:
+            - BATCH
+            - INCREMENTAL
+            - DELETE_ONLY
+documentation:
+    command: Starts the `IdMappingJob` of a workflow. The workflow must have previously been created using the `CreateIdMappingWorkflow` endpoint.
+    flag:
+        job-type: |-
+            The job type for the ID mapping job.
+
+            If the `jobType` value is set to `INCREMENTAL`, only new or changed data is processed since the last job run. This is the default value if the `CreateIdMappingWorkflow` API is configured with an `incrementalRunConfig`.
+
+            If the `jobType` value is set to `BATCH`, all data is processed from the input source, regardless of previous job runs. This is the default value if the `CreateIdMappingWorkflow` API isn't configured with an `incrementalRunConfig`.
+
+            If the `jobType` value is set to `DELETE_ONLY`, only deletion requests from `BatchDeleteUniqueIds` are processed.
+        output-source-config: A list of `OutputSource` objects.
+        workflow-name: The name of the ID mapping job to be retrieved.

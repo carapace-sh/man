@@ -1,0 +1,57 @@
+name: update-package-versions-status
+description: Updates the status of one or more versions of a package.
+flags:
+    --domain-owner=: The 12-digit account number of the Amazon Web Services account that owns the domain.
+    --domain=!: The name of the domain that contains the repository that contains the package versions with a status to be updated.
+    --expected-status=: The package version’s expected status before it is updated.
+    --format=!: A format that specifies the type of the package with the statuses to update.
+    --namespace=: The namespace of the package version to be updated.
+    --package=!: The name of the package with the version statuses to update.
+    --repository=!: The repository that contains the package versions with the status you want to update.
+    --target-status=!: The status you want to change the package version status to.
+    --version-revisions=: A map of package versions and package version revisions.
+    --versions=!: An array of strings that specify the versions of the package with the statuses to update.
+completion:
+    flag:
+        expected-status:
+            - Published
+            - Unfinished
+            - Unlisted
+            - Archived
+            - Disposed
+            - Deleted
+        format:
+            - npm
+            - pypi
+            - maven
+            - nuget
+            - generic
+            - ruby
+            - swift
+            - cargo
+        target-status:
+            - Published
+            - Unfinished
+            - Unlisted
+            - Archived
+            - Disposed
+            - Deleted
+documentation:
+    command: Updates the status of one or more versions of a package. Using `UpdatePackageVersionsStatus`, you can update the status of package versions to `Archived`, `Published`, or `Unlisted`. To set the status of a package version to `Disposed`, use [DisposePackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DisposePackageVersions.html).
+    flag:
+        domain: The name of the domain that contains the repository that contains the package versions with a status to be updated.
+        domain-owner: The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces.
+        expected-status: The package version’s expected status before it is updated. If `expectedStatus` is provided, the package version's status is updated only if its status at the time `UpdatePackageVersionsStatus` is called matches `expectedStatus`.
+        format: A format that specifies the type of the package with the statuses to update.
+        namespace: |-
+            The namespace of the package version to be updated. The package component that specifies its namespace depends on its type. For example:
+
+            - The namespace of a Maven package version is its `groupId`.
+            - The namespace of an npm or Swift package version is its `scope`.
+            - The namespace of a generic package is its `namespace`.
+            - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+        package: The name of the package with the version statuses to update.
+        repository: The repository that contains the package versions with the status you want to update.
+        target-status: The status you want to change the package version status to.
+        version-revisions: A map of package versions and package version revisions. The map `key` is the package version (for example, `3.5.2`), and the map `value` is the package version revision.
+        versions: An array of strings that specify the versions of the package with the statuses to update.

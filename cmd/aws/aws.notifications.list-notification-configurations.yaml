@@ -1,0 +1,31 @@
+name: list-notification-configurations
+description: Returns a list of abbreviated `NotificationConfigurations` according to specified filters, in reverse chronological order (newest first).
+flags:
+    --channel-arn=: The Amazon Resource Name (ARN) of the Channel to match.
+    --event-rule-source=: The matched event source.
+    --max-results=: The maximum number of results to be returned in this call.
+    --next-token=: The start token for paginated calls.
+    --status=: The `NotificationConfiguration` status to match.
+    --subtype=: The subtype used to filter the notification configurations in the request.
+completion:
+    flag:
+        status:
+            - ACTIVE
+            - PARTIALLY_ACTIVE
+            - INACTIVE
+            - DELETING
+        subtype:
+            - ACCOUNT
+            - ADMIN_MANAGED
+documentation:
+    command: Returns a list of abbreviated `NotificationConfigurations` according to specified filters, in reverse chronological order (newest first).
+    flag:
+        channel-arn: The Amazon Resource Name (ARN) of the Channel to match.
+        event-rule-source: |-
+            The matched event source.
+
+            Must match one of the valid EventBridge sources. Only Amazon Web Services service sourced events are supported. For example, `aws.ec2` and `aws.cloudwatch`. For more information, see [Event delivery from Amazon Web Services services](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-service-event.html#eb-service-event-delivery-level) in the *Amazon EventBridge User Guide*.
+        max-results: The maximum number of results to be returned in this call. Defaults to 20.
+        next-token: The start token for paginated calls. Retrieved from the response of a previous `ListEventRules` call. Next token uses Base64 encoding.
+        status: "The `NotificationConfiguration` status to match.\n\n- Values:\n  \n  - `ACTIVE`\n    \n    - All `EventRules` are `ACTIVE` and any call can be run.\n  - `PARTIALLY_ACTIVE`\n    \n    - Some `EventRules` are `ACTIVE` and some are `INACTIVE`. Any call can be run.\n    - Any call can be run.\n  - `INACTIVE`\n    \n    - All `EventRules` are `INACTIVE` and any call can be run.\n  - `DELETING`\n    \n    - This `NotificationConfiguration` is being deleted.\n    - Only `GET` and `LIST` calls can be run."
+        subtype: The subtype used to filter the notification configurations in the request.

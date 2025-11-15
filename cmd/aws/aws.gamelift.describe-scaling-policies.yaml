@@ -1,0 +1,45 @@
+name: describe-scaling-policies
+description: |-
+    **This API works with the following fleet types:** EC2
+
+    Retrieves all scaling policies applied to a fleet.
+flags:
+    --fleet-id=!: A unique identifier for the fleet for which to retrieve scaling policies.
+    --limit=: The maximum number of results to return.
+    --location=: The fleet location.
+    --next-token=: A token that indicates the start of the next sequential page of results.
+    --status-filter=: Scaling policy status to filter results on.
+completion:
+    flag:
+        status-filter:
+            - ACTIVE
+            - UPDATE_REQUESTED
+            - UPDATING
+            - DELETE_REQUESTED
+            - DELETING
+            - DELETED
+            - ERROR
+documentation:
+    command: |-
+        **This API works with the following fleet types:** EC2
+
+        Retrieves all scaling policies applied to a fleet.
+
+        To get a fleet's scaling policies, specify the fleet ID. You can filter this request by policy status, such as to retrieve only active scaling policies. Use the pagination parameters to retrieve results as a set of sequential pages. If successful, set of `ScalingPolicy` objects is returned for the fleet.
+
+        A fleet may have all of its scaling policies suspended. This operation does not affect the status of the scaling policies, which remains ACTIVE.
+    flag:
+        fleet-id: A unique identifier for the fleet for which to retrieve scaling policies. You can use either the fleet ID or ARN value.
+        limit: The maximum number of results to return. Use this parameter with `NextToken` to get results as a set of sequential pages.
+        location: The fleet location. If you don't specify this value, the response contains the scaling policies of every location in the fleet.
+        next-token: A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
+        status-filter: |-
+            Scaling policy status to filter results on. A scaling policy is only in force when in an `ACTIVE` status.
+
+            - **ACTIVE** -- The scaling policy is currently in force.
+            - **UPDATEREQUESTED** -- A request to update the scaling policy has been received.
+            - **UPDATING** -- A change is being made to the scaling policy.
+            - **DELETEREQUESTED** -- A request to delete the scaling policy has been received.
+            - **DELETING** -- The scaling policy is being deleted.
+            - **DELETED** -- The scaling policy has been deleted.
+            - **ERROR** -- An error occurred in creating the policy. It should be removed and recreated.

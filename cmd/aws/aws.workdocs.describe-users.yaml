@@ -1,0 +1,49 @@
+name: describe-users
+description: Describes the specified users.
+flags:
+    --authentication-token=: Amazon WorkDocs authentication token.
+    --fields=: A comma-separated list of values.
+    --include=: The state of the users.
+    --limit=: The maximum number of items to return.
+    --marker=: The marker for the next set of results.
+    --order=: The order for the results.
+    --organization-id=: The ID of the organization.
+    --query=: A query to filter users by user name.
+    --sort=: The sorting criteria.
+    --user-ids=: The IDs of the users.
+completion:
+    flag:
+        include:
+            - ALL
+            - ACTIVE_PENDING
+        order:
+            - ASCENDING
+            - DESCENDING
+        sort:
+            - USER_NAME
+            - FULL_NAME
+            - STORAGE_LIMIT
+            - USER_STATUS
+            - STORAGE_USED
+documentation:
+    command: |-
+        Describes the specified users. You can describe all users or filter the results (for example, by status or organization).
+
+        By default, Amazon WorkDocs returns the first 24 active or pending users. If there are more results, the response includes a marker that you can use to request the next set of results.
+    flag:
+        authentication-token: Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
+        fields: A comma-separated list of values. Specify "STORAGE\_METADATA" to include the user storage quota and utilization information.
+        include: The state of the users. Specify "ALL" to include inactive users.
+        limit: The maximum number of items to return.
+        marker: The marker for the next set of results. (You received this marker from a previous call.)
+        order: The order for the results.
+        organization-id: The ID of the organization.
+        query: |-
+            A query to filter users by user name. Remember the following about the `Userids` and `Query` parameters:
+
+            - If you don't use either parameter, the API returns a paginated list of all users on the site.
+            - If you use both parameters, the API ignores the `Query` parameter.
+            - The `Userid` parameter only returns user names that match a corresponding user ID.
+            - The `Query` parameter runs a "prefix" search for users by the `GivenName`, `SurName`, or `UserName` fields included in a [CreateUser](https://docs.aws.amazon.com/workdocs/latest/APIReference/API_CreateUser.html) API call. For example, querying on `Ma` returns Márcia Oliveira, María García, and Mateo Jackson. If you use multiple characters, the API only returns data that matches all characters. For example, querying on `Ma J` only returns Mateo Jackson.
+        sort: The sorting criteria.
+        user-ids: The IDs of the users.

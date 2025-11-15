@@ -1,0 +1,19 @@
+name: update-contact-routing-data
+description: Updates routing priority and age on the contact (**QueuePriority** and **QueueTimeAdjustmentInSeconds**).
+flags:
+    --contact-id=!: The identifier of the contact in this instance of Amazon Connect.
+    --instance-id=!: The identifier of the Amazon Connect instance.
+    --queue-priority=: Priority of the contact in the queue.
+    --queue-time-adjustment-seconds=: The number of seconds to add or subtract from the contact's routing age.
+    --routing-criteria=: Updates the routing criteria on the contact.
+documentation:
+    command: |-
+        Updates routing priority and age on the contact (**QueuePriority** and **QueueTimeAdjustmentInSeconds**). These properties can be used to change a customer's position in the queue. For example, you can move a contact to the back of the queue by setting a lower routing priority relative to other contacts in queue; or you can move a contact to the front of the queue by increasing the routing age which will make the contact look artificially older and therefore higher up in the first-in-first-out routing order. Note that adjusting the routing age of a contact affects only its position in queue, and not its actual queue wait time as reported through metrics. These properties can also be updated by using [the Set routing priority / age flow block](https://docs.aws.amazon.com/connect/latest/adminguide/change-routing-priority.html).
+
+        Either **QueuePriority** or **QueueTimeAdjustmentInSeconds** should be provided within the request body, but not both.
+    flag:
+        contact-id: The identifier of the contact in this instance of Amazon Connect.
+        instance-id: The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+        queue-priority: Priority of the contact in the queue. The default priority for new contacts is 5. You can raise the priority of a contact compared to other contacts in the queue by assigning them a higher priority, such as 1 or 2.
+        queue-time-adjustment-seconds: The number of seconds to add or subtract from the contact's routing age. Contacts are routed to agents on a first-come, first-serve basis. This means that changing their amount of time in queue compared to others also changes their position in queue.
+        routing-criteria: "Updates the routing criteria on the contact. These properties can be used to change how a\L contact is routed within the queue."

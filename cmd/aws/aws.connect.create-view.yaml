@@ -1,0 +1,33 @@
+name: create-view
+description: Creates a new view with the possible status of `SAVED` or `PUBLISHED`.
+flags:
+    --client-token=: A unique Id for each create view request to avoid duplicate view creation.
+    --content=!: View content containing all content necessary to render a view except for runtime input data.
+    --description=: The description of the view.
+    --instance-id=!: The identifier of the Amazon Connect instance.
+    --name=!: The name of the view.
+    --status=!: Indicates the view status as either `SAVED` or `PUBLISHED`.
+    --tags=: The tags associated with the view resource (not specific to view version).These tags can be used to organize, track, or control access for this resource.
+completion:
+    flag:
+        status:
+            - PUBLISHED
+            - SAVED
+documentation:
+    command: |-
+        Creates a new view with the possible status of `SAVED` or `PUBLISHED`.
+
+        The views will have a unique name for each connect instance.
+
+        It performs basic content validation if the status is `SAVED` or full content validation if the status is set to `PUBLISHED`. An error is returned if validation fails. It associates either the `$SAVED` qualifier or both of the `$SAVED` and `$LATEST` qualifiers with the provided view content based on the status. The view is idempotent if ClientToken is provided.
+    flag:
+        client-token: A unique Id for each create view request to avoid duplicate view creation. For example, the view is idempotent ClientToken is provided.
+        content: |-
+            View content containing all content necessary to render a view except for runtime input data.
+
+            The total uncompressed content has a maximum file size of 400kB.
+        description: The description of the view.
+        instance-id: The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        name: The name of the view.
+        status: Indicates the view status as either `SAVED` or `PUBLISHED`. The `PUBLISHED` status will initiate validation on the content.
+        tags: 'The tags associated with the view resource (not specific to view version).These tags can be used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.'

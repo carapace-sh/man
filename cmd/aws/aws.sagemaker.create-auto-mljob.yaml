@@ -1,0 +1,45 @@
+name: create-auto-mljob
+description: Creates an Autopilot job also referred to as Autopilot experiment or AutoML job.
+flags:
+    --auto-mljob-config=: A collection of settings used to configure an AutoML job.
+    --auto-mljob-name=!: Identifies an Autopilot job.
+    --auto-mljob-objective=: Specifies a metric to minimize or maximize as the objective of a job.
+    --generate-candidate-definitions-only=: Generates possible candidates without training the models.
+    --input-data-config=!: An array of channel objects that describes the input data and its location.
+    --model-deploy-config=: Specifies how to generate the endpoint name for an automatic one-click Autopilot model deployment.
+    --output-data-config=!: Provides information about encryption and the Amazon S3 output path needed to store artifacts from an AutoML job.
+    --problem-type=: Defines the type of supervised learning problem available for the candidates.
+    --role-arn=!: The ARN of the role that is used to access the data.
+    --tags=: An array of key-value pairs.
+completion:
+    flag:
+        problem-type:
+            - BinaryClassification
+            - MulticlassClassification
+            - Regression
+documentation:
+    command: |-
+        Creates an Autopilot job also referred to as Autopilot experiment or AutoML job.
+
+        An AutoML job in SageMaker AI is a fully automated process that allows you to build machine learning models with minimal effort and machine learning expertise. When initiating an AutoML job, you provide your data and optionally specify parameters tailored to your use case. SageMaker AI then automates the entire model development lifecycle, including data preprocessing, model training, tuning, and evaluation. AutoML jobs are designed to simplify and accelerate the model building process by automating various tasks and exploring different combinations of machine learning algorithms, data preprocessing techniques, and hyperparameter values. The output of an AutoML job comprises one or more trained models ready for deployment and inference. Additionally, SageMaker AI AutoML jobs generate a candidate model leaderboard, allowing you to select the best-performing model for deployment.
+
+        For more information about AutoML jobs, see [https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html) in the SageMaker AI developer guide.
+
+        We recommend using the new versions [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html) and [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html), which offer backward compatibility.
+
+        `CreateAutoMLJobV2` can manage tabular problem types identical to those of its previous version `CreateAutoMLJob`, as well as time-series forecasting, non-tabular problem types such as image or text classification, and text generation (LLMs fine-tuning).
+
+        Find guidelines about how to migrate a `CreateAutoMLJob` to `CreateAutoMLJobV2` in [Migrate a CreateAutoMLJob to CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development-create-experiment.html#autopilot-create-experiment-api-migrate-v1-v2).
+
+        You can find the best-performing model after you run an AutoML job by calling [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html) (recommended) or [DescribeAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJob.html).
+    flag:
+        auto-mljob-config: A collection of settings used to configure an AutoML job.
+        auto-mljob-name: Identifies an Autopilot job. The name must be unique to your account and is case insensitive.
+        auto-mljob-objective: Specifies a metric to minimize or maximize as the objective of a job. If not specified, the default objective metric depends on the problem type. See [AutoMLJobObjective](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLJobObjective.html) for the default values.
+        generate-candidate-definitions-only: Generates possible candidates without training the models. A candidate is a combination of data preprocessors, algorithms, and algorithm parameter settings.
+        input-data-config: 'An array of channel objects that describes the input data and its location. Each channel is a named input source. Similar to `InputDataConfig` supported by [HyperParameterTrainingJobDefinition](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterTrainingJobDefinition.html). Format(s) supported: CSV, Parquet. A minimum of 500 rows is required for the training dataset. There is not a minimum number of rows required for the validation dataset.'
+        model-deploy-config: Specifies how to generate the endpoint name for an automatic one-click Autopilot model deployment.
+        output-data-config: 'Provides information about encryption and the Amazon S3 output path needed to store artifacts from an AutoML job. Format(s) supported: CSV.'
+        problem-type: Defines the type of supervised learning problem available for the candidates. For more information, see [SageMaker Autopilot problem types](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-datasets-problem-types.html#autopilot-problem-types).
+        role-arn: The ARN of the role that is used to access the data.
+        tags: An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see [Tagging Amazon Web ServicesResources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html). Tag keys must be unique per resource.

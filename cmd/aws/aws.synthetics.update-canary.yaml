@@ -1,0 +1,95 @@
+name: update-canary
+description: Updates the configuration of a canary that has already been created.
+flags:
+    --artifact-config=: A structure that contains the configuration for canary artifacts, including the encryption-at-rest settings for artifacts that the canary uploads to Amazon S3.
+    --artifact-s3-location=: The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary.
+    --browser-configs=: A structure that specifies the browser type to use for a canary run.
+    --code=: A structure that includes the entry point from which the canary should start running your script.
+    --dry-run-id=: Update the existing canary using the updated configurations from the DryRun associated with the DryRunId.
+    --execution-role-arn=: The ARN of the IAM role to be used to run the canary.
+    --failure-retention-period-in-days=: The number of days to retain data about failed runs of this canary.
+    --name=!: The name of the canary that you want to update.
+    --provisioned-resource-cleanup=: Specifies whether to also delete the Lambda functions and layers used by this canary when the canary is deleted.
+    --run-config=: A structure that contains the timeout value that is used for each individual run of the canary.
+    --runtime-version=: Specifies the runtime version to use for the canary.
+    --schedule=: A structure that contains information about how often the canary is to run, and when these runs are to stop.
+    --success-retention-period-in-days=: The number of days to retain data about successful runs of this canary.
+    --visual-reference=: Defines the screenshots to use as the baseline for comparisons during visual monitoring comparisons during future runs of this canary.
+    --visual-references=: A list of visual reference configurations for the canary, one for each browser type that the canary is configured to run on.
+    --vpc-config=: If this canary is to test an endpoint in a VPC, this structure contains information about the subnet and security groups of the VPC endpoint.
+completion:
+    flag:
+        provisioned-resource-cleanup:
+            - AUTOMATIC
+            - "OFF"
+documentation:
+    command: |-
+        Updates the configuration of a canary that has already been created.
+
+        For multibrowser canaries, you can add or remove browsers by updating the browserConfig list in the update call. For example:
+
+        - To add Firefox to a canary that currently uses Chrome, specify browserConfigs as \[CHROME, FIREFOX]
+        - To remove Firefox and keep only Chrome, specify browserConfigs as \[CHROME]
+
+        You can't use this operation to update the tags of an existing canary. To change the tags of an existing canary, use [TagResource](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_TagResource.html).
+
+        When you use the `dryRunId` field when updating a canary, the only other field you can provide is the `Schedule`. Adding any other field will thrown an exception.
+    flag:
+        artifact-config: A structure that contains the configuration for canary artifacts, including the encryption-at-rest settings for artifacts that the canary uploads to Amazon S3.
+        artifact-s3-location: The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files. The name of the Amazon S3 bucket can't include a period (.).
+        browser-configs: |-
+            A structure that specifies the browser type to use for a canary run. CloudWatch Synthetics supports running canaries on both `CHROME` and `FIREFOX` browsers.
+
+            If not specified, `browserConfigs` defaults to Chrome.
+        code: A structure that includes the entry point from which the canary should start running your script. If the script is stored in an Amazon S3 bucket, the bucket name, key, and version are also included.
+        dry-run-id: |-
+            Update the existing canary using the updated configurations from the DryRun associated with the DryRunId.
+
+            When you use the `dryRunId` field when updating a canary, the only other field you can provide is the `Schedule`. Adding any other field will thrown an exception.
+        execution-role-arn: |-
+            The ARN of the IAM role to be used to run the canary. This role must already exist, and must include `lambda.amazonaws.com` as a principal in the trust policy. The role must also have the following permissions:
+
+            - `s3:PutObject`
+            - `s3:GetBucketLocation`
+            - `s3:ListAllMyBuckets`
+            - `cloudwatch:PutMetricData`
+            - `logs:CreateLogGroup`
+            - `logs:CreateLogStream`
+            - `logs:CreateLogStream`
+        failure-retention-period-in-days: |-
+            The number of days to retain data about failed runs of this canary.
+
+            This setting affects the range of information returned by [GetCanaryRuns](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanaryRuns.html), as well as the range of information displayed in the Synthetics console.
+        name: |-
+            The name of the canary that you want to update. To find the names of your canaries, use [DescribeCanaries](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DescribeCanaries.html).
+
+            You cannot change the name of a canary that has already been created.
+        provisioned-resource-cleanup: |-
+            Specifies whether to also delete the Lambda functions and layers used by this canary when the canary is deleted.
+
+            If the value of this parameter is `OFF`, then the value of the `DeleteLambda` parameter of the [DeleteCanary](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DeleteCanary.html) operation determines whether the Lambda functions and layers will be deleted.
+        run-config: |-
+            A structure that contains the timeout value that is used for each individual run of the canary.
+
+            Environment variable keys and values are encrypted at rest using Amazon Web Services owned KMS keys. However, the environment variables are not encrypted on the client side. Do not store sensitive information in them.
+        runtime-version: Specifies the runtime version to use for the canary. For a list of valid runtime versions and for more information about runtime versions, see [Canary Runtime Versions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Library.html).
+        schedule: A structure that contains information about how often the canary is to run, and when these runs are to stop.
+        success-retention-period-in-days: |-
+            The number of days to retain data about successful runs of this canary.
+
+            This setting affects the range of information returned by [GetCanaryRuns](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanaryRuns.html), as well as the range of information displayed in the Synthetics console.
+        visual-reference: |-
+            Defines the screenshots to use as the baseline for comparisons during visual monitoring comparisons during future runs of this canary. If you omit this parameter, no changes are made to any baseline screenshots that the canary might be using already.
+
+            Visual monitoring is supported only on canaries running the **syn-puppeteer-node-3.2** runtime or later. For more information, see [Visual monitoring](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Library_SyntheticsLogger_VisualTesting.html) and [Visual monitoring blueprint](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Blueprints_VisualTesting.html)
+        visual-references: |-
+            A list of visual reference configurations for the canary, one for each browser type that the canary is configured to run on. Visual references are used for visual monitoring comparisons.
+
+            `syn-nodejs-puppeteer-11.0` and above, and `syn-nodejs-playwright-3.0` and above, only supports `visualReferences`. `visualReference` field is not supported.
+
+            Versions older than `syn-nodejs-puppeteer-11.0` supports both `visualReference` and `visualReferences` for backward compatibility. It is recommended to use `visualReferences` for consistency and future compatibility.
+
+            For multibrowser visual monitoring, you can update the baseline for all configured browsers in a single update call by specifying a list of VisualReference objects, one per browser. Each VisualReference object maps to a specific browser configuration, allowing you to manage visual baselines for multiple browsers simultaneously.
+
+            For single configuration canaries using Chrome browser (default browser), use visualReferences for `syn-nodejs-puppeteer-11.0` and above, and `syn-nodejs-playwright-3.0` and above canaries. The browserType in the visualReference object is not mandatory.
+        vpc-config: If this canary is to test an endpoint in a VPC, this structure contains information about the subnet and security groups of the VPC endpoint. For more information, see [Running a Canary in a VPC](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_VPC.html).

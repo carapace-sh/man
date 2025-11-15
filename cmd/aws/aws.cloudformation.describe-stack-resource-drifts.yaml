@@ -1,0 +1,26 @@
+name: describe-stack-resource-drifts
+description: Returns drift information for the resources that have been checked for drift in the specified stack.
+flags:
+    --max-results=: The maximum number of results to be returned with a single call.
+    --next-token=: The token for the next set of items to return.
+    --stack-name=!: The name of the stack for which you want drift information.
+    --stack-resource-drift-status-filters=: The resource drift status values to use as filters for the resource drift results returned.
+documentation:
+    command: |-
+        Returns drift information for the resources that have been checked for drift in the specified stack. This includes actual and expected configuration values for resources where CloudFormation detects configuration drift.
+
+        For a given stack, there will be one `StackResourceDrift` for each stack resource that has been checked for drift. Resources that haven't yet been checked for drift aren't included. Resources that don't currently support drift detection aren't checked, and so not included. For a list of resources that support drift detection, see [Resource type support for imports and drift detection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-supported-resources.html).
+
+        Use [DetectStackResourceDrift]() to detect drift on individual resources, or [DetectStackDrift]() to detect drift on all supported resources for a given stack.
+    flag:
+        max-results: The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a `NextToken` value that you can assign to the `NextToken` request parameter to get the next set of results.
+        next-token: The token for the next set of items to return. (You received this token from a previous call.)
+        stack-name: The name of the stack for which you want drift information.
+        stack-resource-drift-status-filters: |-
+            The resource drift status values to use as filters for the resource drift results returned.
+
+            - `DELETED`: The resource differs from its expected template configuration in that the resource has been deleted.
+            - `MODIFIED`: One or more resource properties differ from their expected template values.
+            - `IN_SYNC`: The resource's actual configuration matches its expected template configuration.
+            - `NOT_CHECKED`: CloudFormation doesn't currently return this value.
+            - `UNKNOWN`: CloudFormation could not run drift detection for the resource.

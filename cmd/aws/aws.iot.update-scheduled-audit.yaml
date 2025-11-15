@@ -1,0 +1,34 @@
+name: update-scheduled-audit
+description: Updates a scheduled audit, including which checks are performed and how often the audit takes place.
+flags:
+    --day-of-month=: The day of the month on which the scheduled audit takes place.
+    --day-of-week=: The day of the week on which the scheduled audit takes place.
+    --frequency=: How often the scheduled audit takes place, either `DAILY`, `WEEKLY`, `BIWEEKLY`, or `MONTHLY`.
+    --scheduled-audit-name=!: The name of the scheduled audit.
+    --target-check-names=: Which checks are performed during the scheduled audit.
+completion:
+    flag:
+        day-of-week:
+            - SUN
+            - MON
+            - TUE
+            - WED
+            - THU
+            - FRI
+            - SAT
+        frequency:
+            - DAILY
+            - WEEKLY
+            - BIWEEKLY
+            - MONTHLY
+documentation:
+    command: |-
+        Updates a scheduled audit, including which checks are performed and how often the audit takes place.
+
+        Requires permission to access the [UpdateScheduledAudit](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    flag:
+        day-of-month: The day of the month on which the scheduled audit takes place. This can be `1` through `31` or `LAST`. This field is required if the `frequency` parameter is set to `MONTHLY`. If days 29-31 are specified, and the month does not have that many days, the audit takes place on the "LAST" day of the month.
+        day-of-week: The day of the week on which the scheduled audit takes place. This can be one of `SUN`, `MON`, `TUE`, `WED`, `THU`, `FRI`, or `SAT`. This field is required if the "frequency" parameter is set to `WEEKLY` or `BIWEEKLY`.
+        frequency: How often the scheduled audit takes place, either `DAILY`, `WEEKLY`, `BIWEEKLY`, or `MONTHLY`. The start time of each audit is determined by the system.
+        scheduled-audit-name: The name of the scheduled audit. (Max. 128 chars)
+        target-check-names: Which checks are performed during the scheduled audit. Checks must be enabled for your account. (Use `DescribeAccountAuditConfiguration` to see the list of all checks, including those that are enabled or use `UpdateAccountAuditConfiguration` to select which checks are enabled.)

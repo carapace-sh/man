@@ -1,0 +1,49 @@
+name: forecast-geofence-events
+description: This action forecasts future geofence events that are likely to occur within a specified time horizon if a device continues moving at its current speed.
+flags:
+    --collection-name=!: The name of the geofence collection.
+    --device-state=!: Represents the device's state, including its current position and speed.
+    --distance-unit=: The distance unit used for the `NearestDistance` property returned in a forecasted event.
+    --max-results=: An optional limit for the number of resources returned in a single call.
+    --next-token=: The pagination token specifying which page of results to return in the response.
+    --speed-unit=: The speed unit for the device captured by the device state.
+    --time-horizon-minutes=: The forward-looking time window for forecasting, specified in minutes.
+completion:
+    flag:
+        distance-unit:
+            - Kilometers
+            - Miles
+        speed-unit:
+            - KilometersPerHour
+            - MilesPerHour
+documentation:
+    command: |-
+        This action forecasts future geofence events that are likely to occur within a specified time horizon if a device continues moving at its current speed. Each forecasted event is associated with a geofence from a provided geofence collection. A forecast event can have one of the following states:
+
+        `ENTER`: The device position is outside the referenced geofence, but the device may cross into the geofence during the forecasting time horizon if it maintains its current speed.
+
+        `EXIT`: The device position is inside the referenced geofence, but the device may leave the geofence during the forecasted time horizon if the device maintains it's current speed.
+
+        `IDLE`:The device is inside the geofence, and it will remain inside the geofence through the end of the time horizon if the device maintains it's current speed.
+
+        Heading direction is not considered in the current version. The API takes a conservative approach and includes events that can occur for any heading.
+    flag:
+        collection-name: The name of the geofence collection.
+        device-state: Represents the device's state, including its current position and speed. When speed is omitted, this API performs a *containment check*. The *containment check* operation returns `IDLE` events for geofences where the device is currently inside of, but no other events.
+        distance-unit: |-
+            The distance unit used for the `NearestDistance` property returned in a forecasted event. The measurement system must match for `DistanceUnit` and `SpeedUnit`; if `Kilometers` is specified for `DistanceUnit`, then `SpeedUnit` must be `KilometersPerHour`.
+
+            Default Value: `Kilometers`
+        max-results: |-
+            An optional limit for the number of resources returned in a single call.
+
+            Default value: `20`
+        next-token: |-
+            The pagination token specifying which page of results to return in the response. If no token is provided, the default page is the first page.
+
+            Default value: `null`
+        speed-unit: |-
+            The speed unit for the device captured by the device state. The measurement system must match for `DistanceUnit` and `SpeedUnit`; if `Kilometers` is specified for `DistanceUnit`, then `SpeedUnit` must be `KilometersPerHour`.
+
+            Default Value: `KilometersPerHour`.
+        time-horizon-minutes: The forward-looking time window for forecasting, specified in minutes. The API only returns events that are predicted to occur within this time horizon. When no value is specified, this API performs a *containment check*. The *containment check* operation returns `IDLE` events for geofences where the device is currently inside of, but no other events.

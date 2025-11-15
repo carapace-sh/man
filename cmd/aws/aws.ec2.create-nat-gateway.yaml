@@ -1,0 +1,44 @@
+name: create-nat-gateway
+description: Creates a NAT gateway in the specified subnet.
+flags:
+    --allocation-id=: \[Public NAT gateways only] The allocation ID of an Elastic IP address to associate with the NAT gateway.
+    --client-token=: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    --connectivity-type=: Indicates whether the NAT gateway supports public or private connectivity.
+    --dry-run: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response.
+    --no-dry-run&: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response.
+    --private-ip-address=: The private IPv4 address to assign to the NAT gateway.
+    --secondary-allocation-ids=: Secondary EIP allocation IDs.
+    --secondary-private-ip-address-count=: \[Private NAT gateway only] The number of secondary private IPv4 addresses you want to assign to the NAT gateway.
+    --secondary-private-ip-addresses=: Secondary private IPv4 addresses.
+    --subnet-id=!: The ID of the subnet in which to create the NAT gateway.
+    --tag-specifications=: The tags to assign to the NAT gateway.
+completion:
+    flag:
+        connectivity-type:
+            - private
+            - public
+documentation:
+    command: |-
+        Creates a NAT gateway in the specified subnet. This action creates a network interface in the specified subnet with a private IP address from the IP address range of the subnet. You can create either a public NAT gateway or a private NAT gateway.
+
+        With a public NAT gateway, internet-bound traffic from a private subnet can be routed to the NAT gateway, so that instances in a private subnet can connect to the internet.
+
+        With a private NAT gateway, private communication is routed across VPCs and on-premises networks through a transit gateway or virtual private gateway. Common use cases include running large workloads behind a small pool of allowlisted IPv4 addresses, preserving private IPv4 addresses, and communicating between overlapping networks.
+
+        For more information, see [NAT gateways](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) in the *Amazon VPC User Guide*.
+
+        When you create a public NAT gateway and assign it an EIP or secondary EIPs, the network border group of the EIPs must match the network border group of the Availability Zone (AZ) that the public NAT gateway is in. If it's not the same, the NAT gateway will fail to launch. You can see the network border group for the subnet's AZ by viewing the details of the subnet. Similarly, you can view the network border group of an EIP by viewing the details of the EIP address. For more information about network border groups and EIPs, see [Allocate an Elastic IP address](https://docs.aws.amazon.com/vpc/latest/userguide/WorkWithEIPs.html) in the *Amazon VPC User Guide*.
+    flag:
+        allocation-id: \[Public NAT gateways only] The allocation ID of an Elastic IP address to associate with the NAT gateway. You cannot specify an Elastic IP address with a private NAT gateway. If the Elastic IP address is associated with another resource, you must first disassociate it.
+        client-token: |-
+            Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+
+            Constraint: Maximum 64 ASCII characters.
+        connectivity-type: Indicates whether the NAT gateway supports public or private connectivity. The default is public connectivity.
+        dry-run: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+        private-ip-address: The private IPv4 address to assign to the NAT gateway. If you don't provide an address, a private IPv4 address will be automatically assigned.
+        secondary-allocation-ids: Secondary EIP allocation IDs. For more information, see [Create a NAT gateway](https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-working-with.html) in the *Amazon VPC User Guide*.
+        secondary-private-ip-address-count: \[Private NAT gateway only] The number of secondary private IPv4 addresses you want to assign to the NAT gateway. For more information about secondary addresses, see [Create a NAT gateway](https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-working-with.html) in the *Amazon VPC User Guide*.
+        secondary-private-ip-addresses: Secondary private IPv4 addresses. For more information about secondary addresses, see [Create a NAT gateway](https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-working-with.html) in the *Amazon VPC User Guide*.
+        subnet-id: The ID of the subnet in which to create the NAT gateway.
+        tag-specifications: The tags to assign to the NAT gateway.

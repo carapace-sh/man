@@ -1,0 +1,46 @@
+name: get-spot-placement-scores
+description: Calculates the Spot placement score for a Region or Availability Zone based on the specified target capacity and compute requirements.
+flags:
+    --dry-run: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response.
+    --instance-requirements-with-metadata=: The attributes for the instance types.
+    --instance-types=: The instance types.
+    --max-results=: The maximum number of items to return for this request.
+    --next-token=: The token returned from a previous paginated request.
+    --no-dry-run&: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response.
+    --no-single-availability-zone&: Specify `true` so that the response returns a list of scored Availability Zones.
+    --region-names=: The Regions used to narrow down the list of Regions to be scored.
+    --single-availability-zone: Specify `true` so that the response returns a list of scored Availability Zones.
+    --target-capacity-unit-type=: The unit for the target capacity.
+    --target-capacity=!: The target capacity.
+completion:
+    flag:
+        target-capacity-unit-type:
+            - vcpu
+            - memory-mib
+            - units
+documentation:
+    command: |-
+        Calculates the Spot placement score for a Region or Availability Zone based on the specified target capacity and compute requirements.
+
+        You can specify your compute requirements either by using `InstanceRequirementsWithMetadata` and letting Amazon EC2 choose the optimal instance types to fulfill your Spot request, or you can specify the instance types by using `InstanceTypes`.
+
+        For more information, see [Spot placement score](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-placement-score.html) in the *Amazon EC2 User Guide*.
+    flag:
+        dry-run: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+        instance-requirements-with-metadata: |-
+            The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with those attributes.
+
+            If you specify `InstanceRequirementsWithMetadata`, you can't specify `InstanceTypes`.
+        instance-types: |-
+            The instance types. We recommend that you specify at least three instance types. If you specify one or two instance types, or specify variations of a single instance type (for example, an `m3.xlarge` with and without instance storage), the returned placement score will always be low.
+
+            If you specify `InstanceTypes`, you can't specify `InstanceRequirementsWithMetadata`.
+        max-results: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
+        next-token: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+        region-names: The Regions used to narrow down the list of Regions to be scored. Enter the Region code, for example, `us-east-1`.
+        single-availability-zone: |-
+            Specify `true` so that the response returns a list of scored Availability Zones. Otherwise, the response returns a list of scored Regions.
+
+            A list of scored Availability Zones is useful if you want to launch all of your Spot capacity into a single Availability Zone.
+        target-capacity: The target capacity.
+        target-capacity-unit-type: The unit for the target capacity.

@@ -1,0 +1,38 @@
+name: create-microsoft-ad
+description: Creates a Microsoft AD directory in the Amazon Web Services Cloud.
+flags:
+    --description=: A description for the directory.
+    --edition=: 'Managed Microsoft AD is available in two editions: `Standard` and `Enterprise`.'
+    --name=!: The fully qualified domain name for the Managed Microsoft AD directory, such as `corp.example.com`.
+    --network-type=: The network type for your domain.
+    --password=!: The password for the default administrative user named `Admin`.
+    --short-name=: The NetBIOS name for your domain, such as `CORP`.
+    --tags=: The tags to be assigned to the Managed Microsoft AD directory.
+    --vpc-settings=!: Contains VPC information for the [CreateDirectory]() or [CreateMicrosoftAD]() operation.
+completion:
+    flag:
+        edition:
+            - Enterprise
+            - Standard
+            - Hybrid
+        network-type:
+            - Dual-stack
+            - IPv4
+            - IPv6
+documentation:
+    command: |-
+        Creates a Microsoft AD directory in the Amazon Web Services Cloud. For more information, see [Managed Microsoft AD](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_microsoft_ad.html) in the *Directory Service Admin Guide*.
+
+        Before you call *CreateMicrosoftAD*, ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the *CreateMicrosoftAD* operation, see [Directory Service API Permissions: Actions, Resources, and Conditions Reference](http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html).
+    flag:
+        description: A description for the directory. This label will appear on the Amazon Web Services console `Directory Details` page after the directory is created.
+        edition: 'Managed Microsoft AD is available in two editions: `Standard` and `Enterprise`. `Enterprise` is the default.'
+        name: The fully qualified domain name for the Managed Microsoft AD directory, such as `corp.example.com`. This name will resolve inside your VPC only. It does not need to be publicly resolvable.
+        network-type: The network type for your domain. The default value is `IPv4` or `IPv6` based on the provided subnet capabilities.
+        password: |-
+            The password for the default administrative user named `Admin`.
+
+            If you need to change the password for the administrator account, you can use the [ResetUserPassword]() API call.
+        short-name: The NetBIOS name for your domain, such as `CORP`. If you don't specify a NetBIOS name, it will default to the first part of your directory DNS. For example, `CORP` for the directory DNS `corp.example.com`.
+        tags: The tags to be assigned to the Managed Microsoft AD directory.
+        vpc-settings: Contains VPC information for the [CreateDirectory]() or [CreateMicrosoftAD]() operation.

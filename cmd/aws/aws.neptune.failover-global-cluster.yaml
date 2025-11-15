@@ -1,0 +1,30 @@
+name: failover-global-cluster
+description: Initiates the failover process for a Neptune global database.
+flags:
+    --allow-data-loss=: Specifies whether to allow data loss for this global database cluster operation.
+    --global-cluster-identifier=!: Identifier of the Neptune global database that should be failed over.
+    --switchover=: Specifies whether to switch over this global database cluster.
+    --target-db-cluster-identifier=!: The Amazon Resource Name (ARN) of the secondary Neptune DB cluster that you want to promote to primary for the global database.
+documentation:
+    command: |-
+        Initiates the failover process for a Neptune global database.
+
+        A failover for a Neptune global database promotes one of secondary read-only DB clusters to be the primary DB cluster and demotes the primary DB cluster to being a secondary (read-only) DB cluster. In other words, the role of the current primary DB cluster and the selected target secondary DB cluster are switched. The selected secondary DB cluster assumes full read/write capabilities for the Neptune global database.
+
+        This action applies **only** to Neptune global databases. This action is only intended for use on healthy Neptune global databases with healthy Neptune DB clusters and no region-wide outages, to test disaster recovery scenarios or to reconfigure the global database topology.
+    flag:
+        allow-data-loss: |-
+            Specifies whether to allow data loss for this global database cluster operation. Allowing data loss triggers a global failover operation.
+
+            If you don't specify `AllowDataLoss`, the global database cluster operation defaults to a switchover.
+
+            Constraints:Can't be specified together with the `Switchover` parameter.
+        global-cluster-identifier: |-
+            Identifier of the Neptune global database that should be failed over. The identifier is the unique key assigned by the user when the Neptune global database was created. In other words, it's the name of the global database that you want to fail over.
+
+            Constraints: Must match the identifier of an existing Neptune global database.
+        switchover: |-
+            Specifies whether to switch over this global database cluster.
+
+            Constraints:Can't be specified together with the `AllowDataLoss` parameter.
+        target-db-cluster-identifier: The Amazon Resource Name (ARN) of the secondary Neptune DB cluster that you want to promote to primary for the global database.

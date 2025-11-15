@@ -1,0 +1,24 @@
+name: update-solution
+description: Updates an Amazon Personalize solution to use a different automatic training configuration.
+flags:
+    --perform-auto-training=: Whether the solution uses automatic training to create new solution versions (trained models).
+    --solution-arn=!: The Amazon Resource Name (ARN) of the solution to update.
+    --solution-update-config=: The new configuration details of the solution.
+documentation:
+    command: |-
+        Updates an Amazon Personalize solution to use a different automatic training configuration. When you update a solution, you can change whether the solution uses automatic training, and you can change the training frequency. For more information about updating a solution, see [Updating a solution](https://docs.aws.amazon.com/personalize/latest/dg/updating-solution.html).
+
+        A solution update can be in one of the following states:
+
+        CREATE PENDING &gt; CREATE IN\_PROGRESS &gt; ACTIVE -or- CREATE FAILED
+
+        To get the status of a solution update, call the [DescribeSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolution.html) API operation and find the status in the `latestSolutionUpdate`.
+    flag:
+        perform-auto-training: |-
+            Whether the solution uses automatic training to create new solution versions (trained models). You can change the training frequency by specifying a `schedulingExpression` in the `AutoTrainingConfig` as part of solution configuration.
+
+            If you turn on automatic training, the first automatic training starts within one hour after the solution update completes. If you manually create a solution version within the hour, the solution skips the first automatic training. For more information about automatic training, see [Configuring automatic training](https://docs.aws.amazon.com/personalize/latest/dg/solution-config-auto-training.html).
+
+            After training starts, you can get the solution version's Amazon Resource Name (ARN) with the [ListSolutionVersions](https://docs.aws.amazon.com/personalize/latest/dg/API_ListSolutionVersions.html) API operation. To get its status, use the [DescribeSolutionVersion](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolutionVersion.html).
+        solution-arn: The Amazon Resource Name (ARN) of the solution to update.
+        solution-update-config: The new configuration details of the solution.

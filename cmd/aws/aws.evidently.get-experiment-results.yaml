@@ -1,0 +1,39 @@
+name: get-experiment-results
+description: Retrieves the results of a running or completed experiment.
+flags:
+    --base-stat=: The statistic used to calculate experiment results.
+    --end-time=: The date and time that the experiment ended, if it is completed.
+    --experiment=!: The name of the experiment to retrieve the results of.
+    --metric-names=!: The names of the experiment metrics that you want to see the results of.
+    --period=: In seconds, the amount of time to aggregate results together.
+    --project=!: The name or ARN of the project that contains the experiment that you want to see the results of.
+    --report-names=: The names of the report types that you want to see.
+    --result-stats=: The statistics that you want to see in the returned results.
+    --start-time=: The date and time that the experiment started.
+    --treatment-names=!: The names of the experiment treatments that you want to see the results for.
+completion:
+    flag:
+        base-stat:
+            - Mean
+documentation:
+    command: |-
+        Retrieves the results of a running or completed experiment. No results are available until there have been 100 events for each variation and at least 10 minutes have passed since the start of the experiment. To increase the statistical power, Evidently performs an additional offline p-value analysis at the end of the experiment. Offline p-value analysis can detect statistical significance in some cases where the anytime p-values used during the experiment do not find statistical significance.
+
+        Experiment results are available up to 63 days after the start of the experiment. They are not available after that because of CloudWatch data retention policies.
+    flag:
+        base-stat: The statistic used to calculate experiment results. Currently the only valid value is `mean`, which uses the mean of the collected values as the statistic.
+        end-time: The date and time that the experiment ended, if it is completed. This must be no longer than 30 days after the experiment start time.
+        experiment: The name of the experiment to retrieve the results of.
+        metric-names: The names of the experiment metrics that you want to see the results of.
+        period: In seconds, the amount of time to aggregate results together.
+        project: The name or ARN of the project that contains the experiment that you want to see the results of.
+        report-names: The names of the report types that you want to see. Currently, `BayesianInference` is the only valid value.
+        result-stats: |-
+            The statistics that you want to see in the returned results.
+
+            - `PValue` specifies to use p-values for the results. A p-value is used in hypothesis testing to measure how often you are willing to make a mistake in rejecting the null hypothesis. A general practice is to reject the null hypothesis and declare that the results are statistically significant when the p-value is less than 0.05.
+            - `ConfidenceInterval` specifies a confidence interval for the results. The confidence interval represents the range of values for the chosen metric that is likely to contain the true difference between the `baseStat` of a variation and the baseline. Evidently returns the 95% confidence interval.
+            - `TreatmentEffect` is the difference in the statistic specified by the `baseStat` parameter between each variation and the default variation.
+            - `BaseStat` returns the statistical values collected for the metric for each variation. The statistic uses the same statistic specified in the `baseStat` parameter. Therefore, if `baseStat` is `mean`, this returns the mean of the values collected for each variation.
+        start-time: The date and time that the experiment started.
+        treatment-names: The names of the experiment treatments that you want to see the results for.

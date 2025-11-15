@@ -1,0 +1,115 @@
+name: register-image
+description: Registers an AMI.
+flags:
+    --architecture=: The architecture of the AMI.
+    --billing-products=: The billing product codes.
+    --block-device-mappings=: The block device mapping entries.
+    --boot-mode=: The boot mode of the AMI.
+    --description=: A description for your AMI.
+    --dry-run: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response.
+    --ena-support: Set to `true` to enable enhanced networking with ENA for the AMI and any instances that you launch from the AMI.
+    --image-location=: The full path to your AMI manifest in Amazon S3 storage.
+    --imds-support=: Set to `v2.0` to indicate that IMDSv2 is specified in the AMI.
+    --kernel-id=: The ID of the kernel.
+    --name=!: A name for your AMI.
+    --no-dry-run&: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response.
+    --no-ena-support&: Set to `true` to enable enhanced networking with ENA for the AMI and any instances that you launch from the AMI.
+    --ramdisk-id=: The ID of the RAM disk.
+    --root-device-name=: The device name of the root device volume (for example, `/dev/sda1`).
+    --sriov-net-support=: Set to `simple` to enable enhanced networking with the Intel 82599 Virtual Function interface for the AMI and any instances that you launch from the AMI.
+    --tag-specifications=: The tags to apply to the AMI.
+    --tpm-support=: Set to `v2.0` to enable Trusted Platform Module (TPM) support.
+    --uefi-data=: Base64 representation of the non-volatile UEFI variable store.
+    --virtualization-type=: The type of virtualization (`hvm` | `paravirtual`).
+completion:
+    flag:
+        architecture:
+            - i386
+            - x86_64
+            - arm64
+            - x86_64_mac
+            - arm64_mac
+        boot-mode:
+            - legacy-bios
+            - uefi
+            - uefi-preferred
+        imds-support:
+            - v2.0
+        tpm-support:
+            - v2.0
+documentation:
+    command: |-
+        Registers an AMI. When you're creating an instance-store backed AMI, registering the AMI is the final step in the creation process. For more information about creating AMIs, see [Create an AMI from a snapshot](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html#creating-launching-ami-from-snapshot) and [Create an instance-store backed AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-instance-store.html) in the *Amazon EC2 User Guide*.
+
+        If needed, you can deregister an AMI at any time. Any modifications you make to an AMI backed by an instance store volume invalidates its registration. If you make changes to an image, deregister the previous image and register the new image.
+
+        **Register a snapshot of a root device volume**
+
+        You can use `RegisterImage` to create an Amazon EBS-backed Linux AMI from a snapshot of a root device volume. You specify the snapshot using a block device mapping. You can't set the encryption state of the volume using the block device mapping. If the snapshot is encrypted, or encryption by default is enabled, the root volume of an instance launched from the AMI is encrypted.
+
+        For more information, see [Create an AMI from a snapshot](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html#creating-launching-ami-from-snapshot) and [Use encryption with EBS-backed AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIEncryption.html) in the *Amazon EC2 User Guide*.
+
+        **Amazon Web Services Marketplace product codes**
+
+        If any snapshots have Amazon Web Services Marketplace product codes, they are copied to the new AMI.
+
+        In most cases, AMIs for Windows, RedHat, SUSE, and SQL Server require correct licensing information to be present on the AMI. For more information, see [Understand AMI billing information](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-billing-info.html) in the *Amazon EC2 User Guide*. When creating an AMI from a snapshot, the `RegisterImage` operation derives the correct billing information from the snapshot's metadata, but this requires the appropriate metadata to be present. To verify if the correct billing information was applied, check the `PlatformDetails` field on the new AMI. If the field is empty or doesn't match the expected operating system code (for example, Windows, RedHat, SUSE, or SQL), the AMI creation was unsuccessful, and you should discard the AMI and instead create the AMI from an instance. For more information, see [Create an AMI from an instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html#how-to-create-ebs-ami) in the *Amazon EC2 User Guide*.
+
+        If you purchase a Reserved Instance to apply to an On-Demand Instance that was launched from an AMI with a billing product code, make sure that the Reserved Instance has the matching billing product code. If you purchase a Reserved Instance without the matching billing product code, the Reserved Instance is not applied to the On-Demand Instance. For information about how to obtain the platform details and billing information of an AMI, see [Understand AMI billing information](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-billing-info.html) in the *Amazon EC2 User Guide*.
+    flag:
+        architecture: |-
+            The architecture of the AMI.
+
+            Default: For Amazon EBS-backed AMIs, `i386`. For instance store-backed AMIs, the architecture specified in the manifest file.
+        billing-products: |-
+            The billing product codes. Your account must be authorized to specify billing product codes.
+
+            If your account is not authorized to specify billing product codes, you can publish AMIs that include billable software and list them on the Amazon Web Services Marketplace. You must first register as a seller on the Amazon Web Services Marketplace. For more information, see [Getting started as an Amazon Web Services Marketplace seller](https://docs.aws.amazon.com/marketplace/latest/userguide/user-guide-for-sellers.html) and [AMI-based products in Amazon Web Services Marketplace](https://docs.aws.amazon.com/marketplace/latest/userguide/ami-products.html) in the *Amazon Web Services Marketplace Seller Guide*.
+        block-device-mappings: |-
+            The block device mapping entries.
+
+            If you specify an Amazon EBS volume using the ID of an Amazon EBS snapshot, you can't specify the encryption state of the volume.
+
+            If you create an AMI on an Outpost, then all backing snapshots must be on the same Outpost or in the Region of that Outpost. AMIs on an Outpost that include local snapshots can be used to launch instances on the same Outpost only. For more information, [Create AMIs from local snapshots](https://docs.aws.amazon.com/ebs/latest/userguide/snapshots-outposts.html#ami) in the *Amazon EBS User Guide*.
+        boot-mode: |-
+            The boot mode of the AMI. A value of `uefi-preferred` indicates that the AMI supports both UEFI and Legacy BIOS.
+
+            The operating system contained in the AMI must be configured to support the specified boot mode.
+
+            For more information, see [Instance launch behavior with Amazon EC2 boot modes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-boot.html) in the *Amazon EC2 User Guide*.
+        description: A description for your AMI.
+        dry-run: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+        ena-support: |-
+            Set to `true` to enable enhanced networking with ENA for the AMI and any instances that you launch from the AMI.
+
+            This option is supported only for HVM AMIs. Specifying this option with a PV AMI can make instances launched from the AMI unreachable.
+        image-location: The full path to your AMI manifest in Amazon S3 storage. The specified bucket must have the `aws-exec-read` canned access control list (ACL) to ensure that it can be accessed by Amazon EC2. For more information, see [Canned ACL](https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#canned-acl) in the *Amazon S3 Service Developer Guide*.
+        imds-support: |-
+            Set to `v2.0` to indicate that IMDSv2 is specified in the AMI. Instances launched from this AMI will have `HttpTokens` automatically set to `required` so that, by default, the instance requires that IMDSv2 is used when requesting instance metadata. In addition, `HttpPutResponseHopLimit` is set to `2`. For more information, see [Configure the AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-IMDS-new-instances.html#configure-IMDS-new-instances-ami-configuration) in the *Amazon EC2 User Guide*.
+
+            If you set the value to `v2.0`, make sure that your AMI software can support IMDSv2.
+        kernel-id: The ID of the kernel.
+        name: |-
+            A name for your AMI.
+
+            Constraints: 3-128 alphanumeric characters, parentheses (()), square brackets (\[]), spaces ( ), periods (.), slashes (/), dashes (-), single quotes ('), at-signs (@), or underscores(\_)
+        ramdisk-id: The ID of the RAM disk.
+        root-device-name: The device name of the root device volume (for example, `/dev/sda1`).
+        sriov-net-support: |-
+            Set to `simple` to enable enhanced networking with the Intel 82599 Virtual Function interface for the AMI and any instances that you launch from the AMI.
+
+            There is no way to disable `sriovNetSupport` at this time.
+
+            This option is supported only for HVM AMIs. Specifying this option with a PV AMI can make instances launched from the AMI unreachable.
+        tag-specifications: |-
+            The tags to apply to the AMI.
+
+            To tag the AMI, the value for `ResourceType` must be `image`. If you specify another value for `ResourceType`, the request fails.
+
+            To tag an AMI after it has been registered, see [CreateTags](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateTags.html).
+        tpm-support: Set to `v2.0` to enable Trusted Platform Module (TPM) support. For more information, see [NitroTPM](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitrotpm.html) in the *Amazon EC2 User Guide*.
+        uefi-data: Base64 representation of the non-volatile UEFI variable store. To retrieve the UEFI data, use the [GetInstanceUefiData](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetInstanceUefiData) command. You can inspect and modify the UEFI data by using the [python-uefivars tool](https://github.com/awslabs/python-uefivars) on GitHub. For more information, see [UEFI Secure Boot for Amazon EC2 instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/uefi-secure-boot.html) in the *Amazon EC2 User Guide*.
+        virtualization-type: |-
+            The type of virtualization (`hvm` | `paravirtual`).
+
+            Default: `paravirtual`

@@ -1,0 +1,52 @@
+name: get-reservation-utilization
+description: Retrieves the reservation utilization for your account.
+flags:
+    --filter=: Filters utilization data by dimensions.
+    --granularity=: If `GroupBy` is set, `Granularity` can't be set.
+    --group-by=: Groups only by `SUBSCRIPTION_ID`.
+    --max-results=: The maximum number of objects that you returned for this request.
+    --next-page-token=: The token to retrieve the next set of results.
+    --sort-by=: The value that you want to sort the data by.
+    --time-period=!: Sets the start and end dates for retrieving Reserved Instance (RI) utilization.
+completion:
+    flag:
+        granularity:
+            - DAILY
+            - MONTHLY
+            - HOURLY
+documentation:
+    command: Retrieves the reservation utilization for your account. Management account in an organization have access to member accounts. You can filter data by dimensions in a time period. You can use `GetDimensionValues` to determine the possible dimension values. Currently, you can group only by `SUBSCRIPTION_ID`.
+    flag:
+        filter: "Filters utilization data by dimensions. You can filter by the following dimensions:\n\n- AZ\n- CACHE\\_ENGINE\n- DEPLOYMENT\\_OPTION\n- INSTANCE\\_TYPE\n- LINKED\\_ACCOUNT\n- OPERATING\\_SYSTEM\n- PLATFORM\n- REGION\n- SERVICE\n  \n  If not specified, the `SERVICE` filter defaults to Amazon Elastic Compute Cloud - Compute. Supported values for `SERVICE` are Amazon Elastic Compute Cloud - Compute, Amazon Relational Database Service, Amazon ElastiCache, Amazon Redshift, and Amazon Elasticsearch Service. The value for the `SERVICE` filter should not exceed \"1\".\n- SCOPE\n- TENANCY\n\n`GetReservationUtilization` uses the same [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html) object as the other operations, but only `AND` is supported among each dimension, and nesting is supported up to only one level deep. If there are multiple values for a dimension, they are OR'd together."
+        granularity: |-
+            If `GroupBy` is set, `Granularity` can't be set. If `Granularity` isn't set, the response object doesn't include `Granularity`, either `MONTHLY` or `DAILY`. If both `GroupBy` and `Granularity` aren't set, `GetReservationUtilization` defaults to `DAILY`.
+
+            The `GetReservationUtilization` operation supports only `DAILY` and `MONTHLY` granularities.
+        group-by: Groups only by `SUBSCRIPTION_ID`. Metadata is included.
+        max-results: The maximum number of objects that you returned for this request. If more objects are available, in the response, Amazon Web Services provides a NextPageToken value that you can use in a subsequent call to get the next batch of objects.
+        next-page-token: The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
+        sort-by: |-
+            The value that you want to sort the data by.
+
+            The following values are supported for `Key`:
+
+            - `UtilizationPercentage`
+            - `UtilizationPercentageInUnits`
+            - `PurchasedHours`
+            - `PurchasedUnits`
+            - `TotalActualHours`
+            - `TotalActualUnits`
+            - `UnusedHours`
+            - `UnusedUnits`
+            - `OnDemandCostOfRIHoursUsed`
+            - `NetRISavings`
+            - `TotalPotentialRISavings`
+            - `AmortizedUpfrontFee`
+            - `AmortizedRecurringFee`
+            - `TotalAmortizedFee`
+            - `RICostForUnusedHours`
+            - `RealizedSavings`
+            - `UnrealizedSavings`
+
+            The supported values for `SortOrder` are `ASCENDING` and `DESCENDING`.
+        time-period: Sets the start and end dates for retrieving Reserved Instance (RI) utilization. The start date is inclusive, but the end date is exclusive. For example, if `start` is `2017-01-01` and `end` is `2017-05-01`, then the cost and usage data is retrieved from `2017-01-01` up to and including `2017-04-30` but not including `2017-05-01`.

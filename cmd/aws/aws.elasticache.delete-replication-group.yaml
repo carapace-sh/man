@@ -1,0 +1,18 @@
+name: delete-replication-group
+description: Deletes an existing replication group.
+flags:
+    --final-snapshot-identifier=: The name of a final node group (shard) snapshot.
+    --replication-group-id=!: The identifier for the cluster to be deleted.
+    --retain-primary-cluster=: If set to `true`, all of the read replicas are deleted, but the primary node is retained.
+documentation:
+    command: |-
+        Deletes an existing replication group. By default, this operation deletes the entire replication group, including the primary/primaries and all of the read replicas. If the replication group has only one primary, you can optionally delete only the read replicas, while retaining the primary by setting `RetainPrimaryCluster=true`.
+
+        When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the selected resources; you cannot cancel or revert this operation.
+
+        - `CreateSnapshot` permission is required to create a final snapshot. Without this permission, the API call will fail with an `Access Denied` exception.
+        - This operation is valid for Redis OSS only.
+    flag:
+        final-snapshot-identifier: The name of a final node group (shard) snapshot. ElastiCache creates the snapshot from the primary node in the cluster, rather than one of the replicas; this is to ensure that it captures the freshest data. After the final snapshot is taken, the replication group is immediately deleted.
+        replication-group-id: The identifier for the cluster to be deleted. This parameter is not case sensitive.
+        retain-primary-cluster: If set to `true`, all of the read replicas are deleted, but the primary node is retained.

@@ -1,0 +1,29 @@
+name: search-users-by-image
+description: Searches for UserIDs using a supplied image.
+flags:
+    --collection-id=!: The ID of an existing collection containing the UserID.
+    --image=!: ""
+    --max-users=: Maximum number of UserIDs to return.
+    --quality-filter=: A filter that specifies a quality bar for how much filtering is done to identify faces.
+    --user-match-threshold=: Specifies the minimum confidence in the UserID match to return.
+completion:
+    flag:
+        quality-filter:
+            - NONE
+            - AUTO
+            - LOW
+            - MEDIUM
+            - HIGH
+documentation:
+    command: |-
+        Searches for UserIDs using a supplied image. It first detects the largest face in the image, and then searches a specified collection for matching UserIDs.
+
+        The operation returns an array of UserIDs that match the face in the supplied image, ordered by similarity score with the highest similarity first. It also returns a bounding box for the face found in the input image.
+
+        Information about faces detected in the supplied image, but not used for the search, is returned in an array of `UnsearchedFace` objects. If no valid face is detected in the image, the response will contain an empty `UserMatches` list and no `SearchedFace` object.
+    flag:
+        collection-id: The ID of an existing collection containing the UserID.
+        image: ""
+        max-users: Maximum number of UserIDs to return.
+        quality-filter: A filter that specifies a quality bar for how much filtering is done to identify faces. Filtered faces aren't searched for in the collection. The default value is NONE.
+        user-match-threshold: Specifies the minimum confidence in the UserID match to return. Default value is 80.

@@ -1,0 +1,46 @@
+name: export-ecsservice-recommendations
+description: Exports optimization recommendations for Amazon ECS services on Fargate.
+flags:
+    --account-ids=: The Amazon Web Services account IDs for the export Amazon ECS service recommendations.
+    --fields-to-export=: The recommendations data to include in the export file.
+    --file-format=: The format of the export file.
+    --filters=: An array of objects to specify a filter that exports a more specific set of Amazon ECS service recommendations.
+    --include-member-accounts=: If your account is the management account or the delegated administrator of an organization, this parameter indicates whether to include recommendations for resources in all member accounts of the organization.
+    --s3-destination-config=!: ""
+completion:
+    flag:
+        file-format:
+            - Csv
+documentation:
+    command: |-
+        Exports optimization recommendations for Amazon ECS services on Fargate.
+
+        Recommendations are exported in a CSV file, and its metadata in a JSON file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html) in the *Compute Optimizer User Guide*.
+
+        You can only have one Amazon ECS service export job in progress per Amazon Web Services Region.
+    flag:
+        account-ids: |-
+            The Amazon Web Services account IDs for the export Amazon ECS service recommendations.
+
+            If your account is the management account or the delegated administrator of an organization, use this parameter to specify the member account you want to export recommendations to.
+
+            This parameter can't be specified together with the include member accounts parameter. The parameters are mutually exclusive.
+
+            If this parameter or the include member accounts parameter is omitted, the recommendations for member accounts aren't included in the export.
+
+            You can specify multiple account IDs per request.
+        fields-to-export: The recommendations data to include in the export file. For more information about the fields that can be exported, see [Exported files](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html#exported-files) in the *Compute Optimizer User Guide*.
+        file-format: |-
+            The format of the export file.
+
+            The CSV file is the only export file format currently supported.
+        filters: An array of objects to specify a filter that exports a more specific set of Amazon ECS service recommendations.
+        include-member-accounts: |-
+            If your account is the management account or the delegated administrator of an organization, this parameter indicates whether to include recommendations for resources in all member accounts of the organization.
+
+            The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access) in the *Compute Optimizer User Guide*.
+
+            If this parameter is omitted, recommendations for member accounts of the organization aren't included in the export file.
+
+            If this parameter or the account ID parameter is omitted, recommendations for member accounts aren't included in the export.
+        s3-destination-config: ""

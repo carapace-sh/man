@@ -1,0 +1,28 @@
+name: start-signing-job
+description: Initiates a signing job to be performed on the code provided.
+flags:
+    --client-request-token=!: String that identifies the signing request.
+    --destination=!: The S3 bucket in which to save your signed object.
+    --profile-name=!: The name of the signing profile.
+    --profile-owner=: The AWS account ID of the signing profile owner.
+    --source=!: The S3 bucket that contains the object to sign or a BLOB that contains your raw code.
+documentation:
+    command: |-
+        Initiates a signing job to be performed on the code provided. Signing jobs are viewable by the `ListSigningJobs` operation for two years after they are performed. Note the following requirements:
+
+        - You must create an Amazon S3 source bucket. For more information, see [Creating a Bucket](http://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html) in the *Amazon S3 Getting Started Guide*.
+        - Your S3 source bucket must be version enabled.
+        - You must create an S3 destination bucket. AWS Signer uses your S3 destination bucket to write your signed code.
+        - You specify the name of the source and destination buckets when calling the `StartSigningJob` operation.
+        - You must ensure the S3 buckets are from the same Region as the signing profile. Cross-Region signing isn't supported.
+        - You must also specify a request token that identifies your request to Signer.
+
+        You can call the [DescribeSigningJob]() and the [ListSigningJobs]() actions after you call `StartSigningJob`.
+
+        For a Java example that shows how to use this action, see [StartSigningJob](https://docs.aws.amazon.com/signer/latest/developerguide/api-startsigningjob.html).
+    flag:
+        client-request-token: String that identifies the signing request. All calls after the first that use this token return the same response as the first call.
+        destination: The S3 bucket in which to save your signed object. The destination contains the name of your bucket and an optional prefix.
+        profile-name: The name of the signing profile.
+        profile-owner: The AWS account ID of the signing profile owner.
+        source: The S3 bucket that contains the object to sign or a BLOB that contains your raw code.

@@ -1,0 +1,43 @@
+name: list-stream-sessions
+description: Retrieves a list of Amazon GameLift Streams stream sessions that a stream group is hosting.
+flags:
+    --export-files-status=: Filter by the exported files status.
+    --identifier=!: The unique identifier of a Amazon GameLift Streams stream group to retrieve the stream session for.
+    --max-results=: The number of results to return.
+    --next-token=: The token that marks the start of the next set of results.
+    --status=: Filter by the stream session status.
+completion:
+    flag:
+        export-files-status:
+            - SUCCEEDED
+            - FAILED
+            - PENDING
+        status:
+            - ACTIVATING
+            - ACTIVE
+            - CONNECTED
+            - PENDING_CLIENT_RECONNECTION
+            - RECONNECTING
+            - TERMINATING
+            - TERMINATED
+            - ERROR
+documentation:
+    command: |-
+        Retrieves a list of Amazon GameLift Streams stream sessions that a stream group is hosting.
+
+        To retrieve stream sessions, specify the stream group, and optionally filter by stream session status. You can paginate the results as needed.
+
+        This operation returns the requested stream sessions in no particular order.
+    flag:
+        export-files-status: |-
+            Filter by the exported files status. You can specify one status in each request to retrieve only sessions that currently have that exported files status.
+
+            Exported files can be in one of the following states:
+
+            - `SUCCEEDED`: The exported files are successfully stored in an S3 bucket.
+            - `FAILED`: The session ended but Amazon GameLift Streams couldn't collect and upload the files to S3.
+            - `PENDING`: Either the stream session is still in progress, or uploading the exported files to the S3 bucket is in progress.
+        identifier: The unique identifier of a Amazon GameLift Streams stream group to retrieve the stream session for. You can use either the stream group ID or the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html).
+        max-results: The number of results to return. Use this parameter with `NextToken` to return results in sequential pages. Default value is `25`.
+        next-token: The token that marks the start of the next set of results. Use this token when you retrieve results as sequential pages. To get the first page of results, omit a token value. To get the remaining pages, provide the token returned with the previous result set.
+        status: Filter by the stream session status. You can specify one status in each request to retrieve only sessions that are currently in that status.

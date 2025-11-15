@@ -1,0 +1,54 @@
+name: list-types
+description: Returns summary information about all extensions, including your private resource types, modules, and Hooks as well as all public extensions from Amazon Web Services and third-party publishers.
+flags:
+    --deprecated-status=: The deprecation status of the extension that you want to get summary information about.
+    --filters=: Filter criteria to use in determining which extensions to return.
+    --max-results=: The maximum number of results to be returned with a single call.
+    --next-token=: The token for the next set of items to return.
+    --provisioning-type=: For resource types, the provisioning behavior of the resource type.
+    --type=: The type of extension.
+    --visibility=: The scope at which the extensions are visible and usable in CloudFormation operations.
+completion:
+    flag:
+        deprecated-status:
+            - LIVE
+            - DEPRECATED
+        provisioning-type:
+            - NON_PROVISIONABLE
+            - IMMUTABLE
+            - FULLY_MUTABLE
+        type:
+            - RESOURCE
+            - MODULE
+            - HOOK
+        visibility:
+            - PUBLIC
+            - PRIVATE
+documentation:
+    command: Returns summary information about all extensions, including your private resource types, modules, and Hooks as well as all public extensions from Amazon Web Services and third-party publishers.
+    flag:
+        deprecated-status: |-
+            The deprecation status of the extension that you want to get summary information about.
+
+            Valid values include:
+
+            - `LIVE`: The extension is registered for use in CloudFormation operations.
+            - `DEPRECATED`: The extension has been deregistered and can no longer be used in CloudFormation operations.
+        filters: |-
+            Filter criteria to use in determining which extensions to return.
+
+            Filters must be compatible with `Visibility` to return valid results. For example, specifying `AWS_TYPES` for `Category` and `PRIVATE` for `Visibility` returns an empty list of types, but specifying `PUBLIC` for `Visibility` returns the desired list.
+        max-results: The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a `NextToken` value that you can assign to the `NextToken` request parameter to get the next set of results.
+        next-token: The token for the next set of items to return. (You received this token from a previous call.)
+        provisioning-type: |-
+            For resource types, the provisioning behavior of the resource type. CloudFormation determines the provisioning type during registration, based on the types of handlers in the schema handler package submitted.
+
+            Valid values include:
+
+            - `FULLY_MUTABLE`: The resource type includes an update handler to process updates to the type during stack update operations.
+            - `IMMUTABLE`: The resource type doesn't include an update handler, so the type can't be updated and must instead be replaced during stack update operations.
+            - `NON_PROVISIONABLE`: The resource type doesn't include create, read, and delete handlers, and therefore can't actually be provisioned.
+
+            The default is `FULLY_MUTABLE`.
+        type: The type of extension.
+        visibility: "The scope at which the extensions are visible and usable in CloudFormation operations.\n\nValid values include:\n\n- `PRIVATE`: Extensions that are visible and usable within this account and Region. This includes:\n  \n  - Private extensions you have registered in this account and Region.\n  - Public extensions that you have activated in this account and Region.\n- `PUBLIC`: Extensions that are publicly visible and available to be activated within any Amazon Web Services account. This includes extensions from Amazon Web Services and third-party publishers.\n\nThe default is `PRIVATE`."

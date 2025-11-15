@@ -1,0 +1,79 @@
+name: create-solution
+description: By default, all new solutions use automatic training.
+flags:
+    --dataset-group-arn=!: The Amazon Resource Name (ARN) of the dataset group that provides the training data.
+    --event-type=: When your have multiple event types (using an `EVENT_TYPE` schema field), this parameter specifies which event type (for example, 'click' or 'like') is used for training the model.
+    --name=!: The name for the solution.
+    --no-perform-hpo&: Whether to perform hyperparameter optimization (HPO) on the specified or selected recipe.
+    --perform-auto-ml=: We don't recommend enabling automated machine learning.
+    --perform-auto-training=: Whether the solution uses automatic training to create new solution versions (trained models).
+    --perform-hpo: Whether to perform hyperparameter optimization (HPO) on the specified or selected recipe.
+    --recipe-arn=: The Amazon Resource Name (ARN) of the recipe to use for model training.
+    --solution-config=: The configuration properties for the solution.
+    --tags=: A list of [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html) to apply to the solution.
+documentation:
+    command: |-
+        By default, all new solutions use automatic training. With automatic training, you incur training costs while your solution is active. To avoid unnecessary costs, when you are finished you can [update the solution](https://docs.aws.amazon.com/personalize/latest/dg/API_UpdateSolution.html) to turn off automatic training. For information about training costs, see [Amazon Personalize pricing](https://aws.amazon.com/personalize/pricing/).
+
+        Creates the configuration for training a model (creating a solution version). This configuration includes the recipe to use for model training and optional training configuration, such as columns to use in training and feature transformation parameters. For more information about configuring a solution, see [Creating and configuring a solution](https://docs.aws.amazon.com/personalize/latest/dg/customizing-solution-config.html).
+
+        By default, new solutions use automatic training to create solution versions every 7 days. You can change the training frequency. Automatic solution version creation starts within one hour after the solution is ACTIVE. If you manually create a solution version within the hour, the solution skips the first automatic training. For more information, see [Configuring automatic training](https://docs.aws.amazon.com/personalize/latest/dg/solution-config-auto-training.html).
+
+        To turn off automatic training, set `performAutoTraining` to false. If you turn off automatic training, you must manually create a solution version by calling the [CreateSolutionVersion](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolutionVersion.html) operation.
+
+        After training starts, you can get the solution version's Amazon Resource Name (ARN) with the [ListSolutionVersions](https://docs.aws.amazon.com/personalize/latest/dg/API_ListSolutionVersions.html) API operation. To get its status, use the [DescribeSolutionVersion](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolutionVersion.html).
+
+        After training completes you can evaluate model accuracy by calling [GetSolutionMetrics](https://docs.aws.amazon.com/personalize/latest/dg/API_GetSolutionMetrics.html). When you are satisfied with the solution version, you deploy it using [CreateCampaign](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateCampaign.html). The campaign provides recommendations to a client through the [GetRecommendations](https://docs.aws.amazon.com/personalize/latest/dg/API_RS_GetRecommendations.html) API.
+
+        Amazon Personalize doesn't support configuring the `hpoObjective` for solution hyperparameter optimization at this time.
+
+        **Status**
+
+        A solution can be in one of the following states:
+
+        - CREATE PENDING &gt; CREATE IN\_PROGRESS &gt; ACTIVE -or- CREATE FAILED
+        - DELETE PENDING &gt; DELETE IN\_PROGRESS
+
+        To get the status of the solution, call [DescribeSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolution.html). If you use manual training, the status must be ACTIVE before you call `CreateSolutionVersion`.
+
+        **Related APIs**
+
+        - [UpdateSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_UpdateSolution.html)
+        - [ListSolutions](https://docs.aws.amazon.com/personalize/latest/dg/API_ListSolutions.html)
+        - [CreateSolutionVersion](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolutionVersion.html)
+        - [DescribeSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolution.html)
+        - [DeleteSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_DeleteSolution.html)
+
+        <!--THE END-->
+
+        - [ListSolutionVersions](https://docs.aws.amazon.com/personalize/latest/dg/API_ListSolutionVersions.html)
+        - [DescribeSolutionVersion](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolutionVersion.html)
+    flag:
+        dataset-group-arn: The Amazon Resource Name (ARN) of the dataset group that provides the training data.
+        event-type: |-
+            When your have multiple event types (using an `EVENT_TYPE` schema field), this parameter specifies which event type (for example, 'click' or 'like') is used for training the model.
+
+            If you do not provide an `eventType`, Amazon Personalize will use all interactions for training with equal weight regardless of type.
+        name: The name for the solution.
+        perform-auto-ml: |-
+            We don't recommend enabling automated machine learning. Instead, match your use case to the available Amazon Personalize recipes. For more information, see [Choosing a recipe](https://docs.aws.amazon.com/personalize/latest/dg/working-with-predefined-recipes.html).
+
+            Whether to perform automated machine learning (AutoML). The default is `false`. For this case, you must specify `recipeArn`.
+
+            When set to `true`, Amazon Personalize analyzes your training data and selects the optimal USER\_PERSONALIZATION recipe and hyperparameters. In this case, you must omit `recipeArn`. Amazon Personalize determines the optimal recipe by running tests with different values for the hyperparameters. AutoML lengthens the training process as compared to selecting a specific recipe.
+        perform-auto-training: |-
+            Whether the solution uses automatic training to create new solution versions (trained models). The default is `True` and the solution automatically creates new solution versions every 7 days. You can change the training frequency by specifying a `schedulingExpression` in the `AutoTrainingConfig` as part of solution configuration. For more information about automatic training, see [Configuring automatic training](https://docs.aws.amazon.com/personalize/latest/dg/solution-config-auto-training.html).
+
+            Automatic solution version creation starts within one hour after the solution is ACTIVE. If you manually create a solution version within the hour, the solution skips the first automatic training.
+
+            After training starts, you can get the solution version's Amazon Resource Name (ARN) with the [ListSolutionVersions](https://docs.aws.amazon.com/personalize/latest/dg/API_ListSolutionVersions.html) API operation. To get its status, use the [DescribeSolutionVersion](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolutionVersion.html).
+        perform-hpo: |-
+            Whether to perform hyperparameter optimization (HPO) on the specified or selected recipe. The default is `false`.
+
+            When performing AutoML, this parameter is always `true` and you should not set it to `false`.
+        recipe-arn: The Amazon Resource Name (ARN) of the recipe to use for model training. This is required when `performAutoML` is false. For information about different Amazon Personalize recipes and their ARNs, see [Choosing a recipe](https://docs.aws.amazon.com/personalize/latest/dg/working-with-predefined-recipes.html).
+        solution-config: |-
+            The configuration properties for the solution. When `performAutoML` is set to true, Amazon Personalize only evaluates the `autoMLConfig` section of the solution configuration.
+
+            Amazon Personalize doesn't support configuring the `hpoObjective` at this time.
+        tags: A list of [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html) to apply to the solution.

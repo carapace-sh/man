@@ -1,0 +1,61 @@
+name: create-access-point
+description: Creates an access point and associates it to a specified bucket.
+flags:
+    --account-id=!: The Amazon Web Services account ID for the account that owns the specified access point.
+    --bucket-account-id=: The Amazon Web Services account ID associated with the S3 bucket associated with this access point.
+    --bucket=!: The name of the bucket that you want to associate this access point with.
+    --name=!: The name you want to assign to this access point.
+    --public-access-block-configuration=: The `PublicAccessBlock` configuration that you want to apply to the access point.
+    --scope=: For directory buckets, you can filter access control to specific prefixes, API operations, or a combination of both.
+    --tags=: An array of tags that you can apply to an access point.
+    --vpc-configuration=: If you include this field, Amazon S3 restricts access to this access point to requests from the specified virtual private cloud (VPC).
+documentation:
+    command: |-
+        Creates an access point and associates it to a specified bucket. For more information, see [Managing access to shared datasets with access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html) or [Managing access to shared datasets in directory buckets with access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html) in the *Amazon S3 User Guide*.
+
+        To create an access point and attach it to a volume on an Amazon FSx file system, see [CreateAndAttachS3AccessPoint](https://docs.aws.amazon.com/fsx/latest/APIReference/API_CreateAndAttachS3AccessPoint.html) in the *Amazon FSx API Reference*.
+
+        S3 on Outposts only supports VPC-style access points.
+
+        For more information, see [Accessing Amazon S3 on Outposts using virtual private cloud (VPC) only access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the *Amazon S3 User Guide*.
+
+        All Amazon S3 on Outposts REST API requests for this action require an additional parameter of `x-amz-outpost-id` to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of `s3-control`. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the `x-amz-outpost-id` derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateAccessPoint.html#API_control_CreateAccessPoint_Examples) section.
+
+        The following actions are related to `CreateAccessPoint`:
+
+        - [GetAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPoint.html)
+        - [DeleteAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessPoint.html)
+        - [ListAccessPoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPoints.html)
+        - [ListAccessPointsForDirectoryBuckets](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPointsForDirectoryBuckets.html)
+
+        You must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`.
+    flag:
+        account-id: The Amazon Web Services account ID for the account that owns the specified access point.
+        bucket: |-
+            The name of the bucket that you want to associate this access point with.
+
+            For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well.
+
+            For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format `arn:aws:s3-outposts:<Region>:<account-id>:outpost/<outpost-id>/bucket/<my-bucket-name>`. For example, to access the bucket `reports` through Outpost `my-outpost` owned by account `123456789012` in Region `us-west-2`, use the URL encoding of `arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports`. The value must be URL encoded.
+        bucket-account-id: |-
+            The Amazon Web Services account ID associated with the S3 bucket associated with this access point.
+
+            For same account access point when your bucket and access point belong to the same account owner, the `BucketAccountId` is not required. For cross-account access point when your bucket and access point are not in the same account, the `BucketAccountId` is required.
+        name: |-
+            The name you want to assign to this access point.
+
+            For directory buckets, the access point name must consist of a base name that you provide and suffix that includes the `ZoneID` (Amazon Web Services Availability Zone or Local Zone) of your bucket location, followed by `--xa-s3`. For more information, see [Managing access to shared datasets in directory buckets with access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html) in the *Amazon S3 User Guide*.
+        public-access-block-configuration: The `PublicAccessBlock` configuration that you want to apply to the access point.
+        scope: |-
+            For directory buckets, you can filter access control to specific prefixes, API operations, or a combination of both. For more information, see [Managing access to shared datasets in directory buckets with access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html) in the *Amazon S3 User Guide*.
+
+            Scope is only supported for access points attached to directory buckets.
+        tags: |-
+            An array of tags that you can apply to an access point. Tags are key-value pairs of metadata used to control access to your access points. For more information about tags, see [Using tags with Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html). For information about tagging access points, see [Using tags for attribute-based access control (ABAC)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html#using-tags-for-abac).
+
+            - You must have the `s3:TagResource` permission to create an access point with tags for a general purpose bucket.
+            - You must have the `s3express:TagResource` permission to create an access point with tags for a directory bucket.
+        vpc-configuration: |-
+            If you include this field, Amazon S3 restricts access to this access point to requests from the specified virtual private cloud (VPC).
+
+            This is required for creating an access point for Amazon S3 on Outposts buckets.

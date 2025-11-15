@@ -1,0 +1,26 @@
+name: import-firewall-domains
+description: Imports domain names from a file into a domain list, for use in a DNS firewall rule group.
+flags:
+    --domain-file-url=!: The fully qualified URL or URI of the file stored in Amazon Simple Storage Service (Amazon S3) that contains the list of domains to import.
+    --firewall-domain-list-id=!: The ID of the domain list that you want to modify with the import operation.
+    --operation=!: What you want DNS Firewall to do with the domains that are listed in the file.
+completion:
+    flag:
+        operation:
+            - REPLACE
+documentation:
+    command: |-
+        Imports domain names from a file into a domain list, for use in a DNS firewall rule group.
+
+        Each domain specification in your domain list must satisfy the following requirements:
+
+        - It can optionally start with `*` (asterisk).
+        - With the exception of the optional starting asterisk, it must only contain the following characters: `A-Z`, `a-z`, `0-9`, `-` (hyphen).
+        - It must be from 1-255 characters in length.
+    flag:
+        domain-file-url: |-
+            The fully qualified URL or URI of the file stored in Amazon Simple Storage Service (Amazon S3) that contains the list of domains to import.
+
+            The file must be in an S3 bucket that's in the same Region as your DNS Firewall. The file must be a text file and must contain a single domain per line.
+        firewall-domain-list-id: The ID of the domain list that you want to modify with the import operation.
+        operation: What you want DNS Firewall to do with the domains that are listed in the file. This must be set to `REPLACE`, which updates the domain list to exactly match the list in the file.

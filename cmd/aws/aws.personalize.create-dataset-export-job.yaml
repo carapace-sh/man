@@ -1,0 +1,33 @@
+name: create-dataset-export-job
+description: Creates a job that exports data from your dataset to an Amazon S3 bucket.
+flags:
+    --dataset-arn=!: The Amazon Resource Name (ARN) of the dataset that contains the data to export.
+    --ingestion-mode=: The data to export, based on how you imported the data.
+    --job-name=!: The name for the dataset export job.
+    --job-output=!: The path to the Amazon S3 bucket where the job's output is stored.
+    --role-arn=!: The Amazon Resource Name (ARN) of the IAM service role that has permissions to add data to your output Amazon S3 bucket.
+    --tags=: A list of [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html) to apply to the dataset export job.
+completion:
+    flag:
+        ingestion-mode:
+            - BULK
+            - PUT
+            - ALL
+documentation:
+    command: |-
+        Creates a job that exports data from your dataset to an Amazon S3 bucket. To allow Amazon Personalize to export the training data, you must specify an service-linked IAM role that gives Amazon Personalize `PutObject` permissions for your Amazon S3 bucket. For information, see [Exporting a dataset](https://docs.aws.amazon.com/personalize/latest/dg/export-data.html) in the Amazon Personalize developer guide.
+
+        **Status**
+
+        A dataset export job can be in one of the following states:
+
+        - CREATE PENDING &gt; CREATE IN\_PROGRESS &gt; ACTIVE -or- CREATE FAILED
+
+        To get the status of the export job, call [DescribeDatasetExportJob](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDatasetExportJob.html), and specify the Amazon Resource Name (ARN) of the dataset export job. The dataset export is complete when the status shows as ACTIVE. If the status shows as CREATE FAILED, the response includes a `failureReason` key, which describes why the job failed.
+    flag:
+        dataset-arn: The Amazon Resource Name (ARN) of the dataset that contains the data to export.
+        ingestion-mode: The data to export, based on how you imported the data. You can choose to export only `BULK` data that you imported using a dataset import job, only `PUT` data that you imported incrementally (using the console, PutEvents, PutUsers and PutItems operations), or `ALL` for both types. The default value is `PUT`.
+        job-name: The name for the dataset export job.
+        job-output: The path to the Amazon S3 bucket where the job's output is stored.
+        role-arn: The Amazon Resource Name (ARN) of the IAM service role that has permissions to add data to your output Amazon S3 bucket.
+        tags: A list of [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html) to apply to the dataset export job.

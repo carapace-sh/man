@@ -1,0 +1,19 @@
+name: batch-evaluate-feature
+description: This operation assigns feature variation to user sessions.
+flags:
+    --project=!: The name or ARN of the project that contains the feature being evaluated.
+    --requests=!: An array of structures, where each structure assigns a feature variation to one user session.
+documentation:
+    command: |-
+        This operation assigns feature variation to user sessions. For each user session, you pass in an `entityID` that represents the user. Evidently then checks the evaluation rules and assigns the variation.
+
+        The first rules that are evaluated are the override rules. If the user's `entityID` matches an override rule, the user is served the variation specified by that rule.
+
+        Next, if there is a launch of the feature, the user might be assigned to a variation in the launch. The chance of this depends on the percentage of users that are allocated to that launch. If the user is enrolled in the launch, the variation they are served depends on the allocation of the various feature variations used for the launch.
+
+        If the user is not assigned to a launch, and there is an ongoing experiment for this feature, the user might be assigned to a variation in the experiment. The chance of this depends on the percentage of users that are allocated to that experiment. If the user is enrolled in the experiment, the variation they are served depends on the allocation of the various feature variations used for the experiment.
+
+        If the user is not assigned to a launch or experiment, they are served the default variation.
+    flag:
+        project: The name or ARN of the project that contains the feature being evaluated.
+        requests: An array of structures, where each structure assigns a feature variation to one user session.

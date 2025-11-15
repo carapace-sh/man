@@ -1,0 +1,24 @@
+name: list-scrapers
+description: The `ListScrapers` operation lists all of the scrapers in your account.
+flags:
+    --filters=: (Optional) A list of key-value pairs to filter the list of scrapers returned.
+    --max-results=: Optional) The maximum number of scrapers to return in one `ListScrapers` operation.
+    --next-token=: (Optional) The token for the next set of items to return.
+documentation:
+    command: The `ListScrapers` operation lists all of the scrapers in your account. This includes scrapers being created or deleted. You can optionally filter the returned list.
+    flag:
+        filters: |-
+            (Optional) A list of key-value pairs to filter the list of scrapers returned. Keys include `status`, `sourceArn`, `destinationArn`, and `alias`.
+
+            Filters on the same key are `OR`'d together, and filters on different keys are `AND`'d together. For example, `status=ACTIVE&status=CREATING&alias=Test`, will return all scrapers that have the alias Test, and are either in status ACTIVE or CREATING.
+
+            To find all active scrapers that are sending metrics to a specific Amazon Managed Service for Prometheus workspace, you would use the ARN of the workspace in a query:
+
+            `status=ACTIVE&destinationArn=arn:aws:aps:us-east-1:123456789012:workspace/ws-example1-1234-abcd-56ef-123456789012`
+
+            If this is included, it filters the results to only the scrapers that match the filter.
+        max-results: |-
+            Optional) The maximum number of scrapers to return in one `ListScrapers` operation. The range is 1-1000.
+
+            If you omit this parameter, the default of 100 is used.
+        next-token: (Optional) The token for the next set of items to return. (You received this token from a previous call.)

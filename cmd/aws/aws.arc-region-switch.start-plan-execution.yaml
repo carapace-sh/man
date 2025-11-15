@@ -1,0 +1,29 @@
+name: start-plan-execution
+description: Starts the execution of a Region switch plan.
+flags:
+    --action=!: The action to perform.
+    --comment=: An optional comment explaining why the plan execution is being started.
+    --latest-version=: A boolean value indicating whether to use the latest version of the plan.
+    --mode=: The plan execution mode.
+    --plan-arn=!: The Amazon Resource Name (ARN) of the plan to execute.
+    --target-region=!: The Amazon Web Services Region to target with this execution.
+completion:
+    flag:
+        action:
+            - activate
+            - deactivate
+        mode:
+            - graceful
+            - ungraceful
+documentation:
+    command: |-
+        Starts the execution of a Region switch plan. You can execute a plan in either PRACTICE or RECOVERY mode.
+
+        In PRACTICE mode, the execution simulates the steps without making actual changes to your application's traffic routing. In RECOVERY mode, the execution performs actual changes to shift traffic between Regions.
+    flag:
+        action: The action to perform. Valid values are ACTIVATE (to shift traffic to the target Region) or DEACTIVATE (to shift traffic away from the target Region).
+        comment: An optional comment explaining why the plan execution is being started.
+        latest-version: A boolean value indicating whether to use the latest version of the plan. If set to false, you must specify a specific version.
+        mode: The plan execution mode. Valid values are `Practice`, for testing without making actual changes, or `Recovery`, for actual traffic shifting and application recovery.
+        plan-arn: The Amazon Resource Name (ARN) of the plan to execute.
+        target-region: The Amazon Web Services Region to target with this execution. This is the Region that traffic will be shifted to or from, depending on the action.

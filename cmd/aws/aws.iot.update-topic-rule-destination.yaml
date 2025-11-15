@@ -1,0 +1,38 @@
+name: update-topic-rule-destination
+description: Updates a topic rule destination.
+flags:
+    --arn=!: The ARN of the topic rule destination.
+    --status=!: The status of the topic rule destination.
+completion:
+    flag:
+        status:
+            - ENABLED
+            - IN_PROGRESS
+            - DISABLED
+            - ERROR
+            - DELETING
+documentation:
+    command: |-
+        Updates a topic rule destination. You use this to change the status, endpoint URL, or confirmation URL of the destination.
+
+        Requires permission to access the [UpdateTopicRuleDestination](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    flag:
+        arn: The ARN of the topic rule destination.
+        status: |-
+            The status of the topic rule destination. Valid values are:
+
+            IN\_PROGRESS
+
+            A topic rule destination was created but has not been confirmed. You can set `status` to `IN_PROGRESS` by calling `UpdateTopicRuleDestination`. Calling `UpdateTopicRuleDestination` causes a new confirmation challenge to be sent to your confirmation endpoint.
+
+            ENABLED
+
+            Confirmation was completed, and traffic to this destination is allowed. You can set `status` to `DISABLED` by calling `UpdateTopicRuleDestination`.
+
+            DISABLED
+
+            Confirmation was completed, and traffic to this destination is not allowed. You can set `status` to `ENABLED` by calling `UpdateTopicRuleDestination`.
+
+            ERROR
+
+            Confirmation could not be completed, for example if the confirmation timed out. You can call `GetTopicRuleDestination` for details about the error. You can set `status` to `IN_PROGRESS` by calling `UpdateTopicRuleDestination`. Calling `UpdateTopicRuleDestination` causes a new confirmation challenge to be sent to your confirmation endpoint.

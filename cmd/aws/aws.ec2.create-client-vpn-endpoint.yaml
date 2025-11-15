@@ -1,0 +1,101 @@
+name: create-client-vpn-endpoint
+description: Creates a Client VPN endpoint.
+flags:
+    --authentication-options=!: Information about the authentication method to be used to authenticate clients.
+    --client-cidr-block=: The IPv4 address range, in CIDR notation, from which to assign client IP addresses.
+    --client-connect-options=: The options for managing connection authorization for new client connections.
+    --client-login-banner-options=: Options for enabling a customizable text banner that will be displayed on Amazon Web Services provided clients when a VPN session is established.
+    --client-route-enforcement-options=: Client route enforcement is a feature of the Client VPN service that helps enforce administrator defined routes on devices connected through the VPN.
+    --client-token=: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    --connection-log-options=!: Information about the client connection logging options.
+    --description=: A brief description of the Client VPN endpoint.
+    --disconnect-on-session-timeout: Indicates whether the client VPN session is disconnected after the maximum timeout specified in `SessionTimeoutHours` is reached.
+    --dns-servers=: Information about the DNS servers to be used for DNS resolution.
+    --dry-run: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response.
+    --endpoint-ip-address-type=: The IP address type for the Client VPN endpoint.
+    --no-disconnect-on-session-timeout&: Indicates whether the client VPN session is disconnected after the maximum timeout specified in `SessionTimeoutHours` is reached.
+    --no-dry-run&: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response.
+    --no-split-tunnel&: Indicates whether split-tunnel is enabled on the Client VPN endpoint.
+    --security-group-ids=: The IDs of one or more security groups to apply to the target network.
+    --self-service-portal=: Specify whether to enable the self-service portal for the Client VPN endpoint.
+    --server-certificate-arn=!: The ARN of the server certificate.
+    --session-timeout-hours=: The maximum VPN session duration time in hours.
+    --split-tunnel: Indicates whether split-tunnel is enabled on the Client VPN endpoint.
+    --tag-specifications=: The tags to apply to the Client VPN endpoint during creation.
+    --traffic-ip-address-type=: The IP address type for traffic within the Client VPN tunnel.
+    --transport-protocol=: The transport protocol to be used by the VPN session.
+    --vpc-id=: The ID of the VPC to associate with the Client VPN endpoint.
+    --vpn-port=: The port number to assign to the Client VPN endpoint for TCP and UDP traffic.
+completion:
+    flag:
+        endpoint-ip-address-type:
+            - ipv4
+            - ipv6
+            - dual-stack
+        self-service-portal:
+            - enabled
+            - disabled
+        traffic-ip-address-type:
+            - ipv4
+            - ipv6
+            - dual-stack
+        transport-protocol:
+            - tcp
+            - udp
+documentation:
+    command: Creates a Client VPN endpoint. A Client VPN endpoint is the resource you create and configure to enable and manage client VPN sessions. It is the destination endpoint at which all client VPN sessions are terminated.
+    flag:
+        authentication-options: Information about the authentication method to be used to authenticate clients.
+        client-cidr-block: The IPv4 address range, in CIDR notation, from which to assign client IP addresses. The address range cannot overlap with the local CIDR of the VPC in which the associated subnet is located, or the routes that you add manually. The address range cannot be changed after the Client VPN endpoint has been created. Client CIDR range must have a size of at least /22 and must not be greater than /12.
+        client-connect-options: The options for managing connection authorization for new client connections.
+        client-login-banner-options: Options for enabling a customizable text banner that will be displayed on Amazon Web Services provided clients when a VPN session is established.
+        client-route-enforcement-options: |-
+            Client route enforcement is a feature of the Client VPN service that helps enforce administrator defined routes on devices connected through the VPN. T his feature helps improve your security posture by ensuring that network traffic originating from a connected client is not inadvertently sent outside the VPN tunnel.
+
+            Client route enforcement works by monitoring the route table of a connected device for routing policy changes to the VPN connection. If the feature detects any VPN routing policy modifications, it will automatically force an update to the route table, reverting it back to the expected route configurations.
+        client-token: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+        connection-log-options: |-
+            Information about the client connection logging options.
+
+            If you enable client connection logging, data about client connections is sent to a Cloudwatch Logs log stream. The following information is logged:
+
+            - Client connection requests
+            - Client connection results (successful and unsuccessful)
+            - Reasons for unsuccessful client connection requests
+            - Client connection termination time
+        description: A brief description of the Client VPN endpoint.
+        disconnect-on-session-timeout: Indicates whether the client VPN session is disconnected after the maximum timeout specified in `SessionTimeoutHours` is reached. If `true`, users are prompted to reconnect client VPN. If `false`, client VPN attempts to reconnect automatically. The default value is `true`.
+        dns-servers: Information about the DNS servers to be used for DNS resolution. A Client VPN endpoint can have up to two DNS servers. If no DNS server is specified, the DNS address configured on the device is used for the DNS server.
+        dry-run: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+        endpoint-ip-address-type: The IP address type for the Client VPN endpoint. Valid values are `ipv4` (default) for IPv4 addressing only, `ipv6` for IPv6 addressing only, or `dual-stack` for both IPv4 and IPv6 addressing. When set to `dual-stack,` clients can connect to the endpoint using either IPv4 or IPv6 addresses..
+        security-group-ids: The IDs of one or more security groups to apply to the target network. You must also specify the ID of the VPC that contains the security groups.
+        self-service-portal: |-
+            Specify whether to enable the self-service portal for the Client VPN endpoint.
+
+            Default Value: `enabled`
+        server-certificate-arn: The ARN of the server certificate. For more information, see the [Certificate Manager User Guide](https://docs.aws.amazon.com/acm/latest/userguide/).
+        session-timeout-hours: |-
+            The maximum VPN session duration time in hours.
+
+            Valid values: `8 | 10 | 12 | 24`
+
+            Default value: `24`
+        split-tunnel: |-
+            Indicates whether split-tunnel is enabled on the Client VPN endpoint.
+
+            By default, split-tunnel on a VPN endpoint is disabled.
+
+            For information about split-tunnel VPN endpoints, see [Split-tunnel Client VPN endpoint](https://docs.aws.amazon.com/vpn/latest/clientvpn-admin/split-tunnel-vpn.html) in the *Client VPN Administrator Guide*.
+        tag-specifications: The tags to apply to the Client VPN endpoint during creation.
+        traffic-ip-address-type: The IP address type for traffic within the Client VPN tunnel. Valid values are `ipv4` (default) for IPv4 traffic only, `ipv6` for IPv6 addressing only, or `dual-stack` for both IPv4 and IPv6 traffic. When set to `dual-stack`, clients can access both IPv4 and IPv6 resources through the VPN .
+        transport-protocol: |-
+            The transport protocol to be used by the VPN session.
+
+            Default value: `udp`
+        vpc-id: The ID of the VPC to associate with the Client VPN endpoint. If no security group IDs are specified in the request, the default security group for the VPC is applied.
+        vpn-port: |-
+            The port number to assign to the Client VPN endpoint for TCP and UDP traffic.
+
+            Valid Values: `443` | `1194`
+
+            Default Value: `443`

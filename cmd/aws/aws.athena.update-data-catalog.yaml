@@ -1,0 +1,21 @@
+name: update-data-catalog
+description: Updates the data catalog that has the specified name.
+flags:
+    --description=: New or modified text that describes the data catalog.
+    --name=!: The name of the data catalog to update.
+    --parameters=: Specifies the Lambda function or functions to use for updating the data catalog.
+    --type=!: Specifies the type of data catalog to update.
+completion:
+    flag:
+        type:
+            - LAMBDA
+            - GLUE
+            - HIVE
+            - FEDERATED
+documentation:
+    command: Updates the data catalog that has the specified name.
+    flag:
+        description: New or modified text that describes the data catalog.
+        name: The name of the data catalog to update. The catalog name must be unique for the Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at sign, or hyphen characters. The remainder of the length constraint of 256 is reserved for use by Athena.
+        parameters: "Specifies the Lambda function or functions to use for updating the data catalog. This is a mapping whose values depend on the catalog type.\n\n- For the `HIVE` data catalog type, use the following syntax. The `metadata-function` parameter is required. `The sdk-version` parameter is optional and defaults to the currently supported version.\n  \n  `metadata-function=lambda_arn, sdk-version=version_number`\n- For the `LAMBDA` data catalog type, use one of the following sets of required parameters, but not both.\n  \n  - If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required.\n    \n    `metadata-function=lambda_arn, record-function=lambda_arn`\n  - If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function.\n    \n    `function=lambda_arn`"
+        type: Specifies the type of data catalog to update. Specify `LAMBDA` for a federated catalog, `HIVE` for an external hive metastore, or `GLUE` for an Glue Data Catalog.

@@ -1,0 +1,20 @@
+name: describe-events
+description: Returns information about events that meet the specified filter criteria.
+flags:
+    --filter=: Values to narrow the results returned.
+    --locale=: The locale (language) to return information in.
+    --max-results=: The maximum number of items to return in one batch, between 10 and 100, inclusive.
+    --next-token=: If the results of a search are large, only a portion of the results are returned, and a `nextToken` pagination token is returned in the response.
+documentation:
+    command: |-
+        Returns information about events that meet the specified filter criteria. Events are returned in a summary form and do not include the detailed description, any additional metadata that depends on the event type, or any affected resources. To retrieve that information, use the [DescribeEventDetails](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetails.html) and [DescribeAffectedEntities](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeAffectedEntities.html) operations.
+
+        If no filter criteria are specified, all events are returned. Results are sorted by `lastModifiedTime`, starting with the most recent event.
+
+        - When you call the `DescribeEvents` operation and specify an entity for the `entityValues` parameter, Health might return public events that aren't specific to that resource. For example, if you call `DescribeEvents` and specify an ID for an Amazon Elastic Compute Cloud (Amazon EC2) instance, Health might return events that aren't specific to that resource or service. To get events that are specific to a service, use the `services` parameter in the `filter` object. For more information, see [Event](https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html).
+        - This API operation uses pagination. Specify the `nextToken` parameter in the next request to return more results.
+    flag:
+        filter: Values to narrow the results returned.
+        locale: The locale (language) to return information in. English (en) is the default and the only supported value at this time.
+        max-results: The maximum number of items to return in one batch, between 10 and 100, inclusive.
+        next-token: If the results of a search are large, only a portion of the results are returned, and a `nextToken` pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
