@@ -1,0 +1,37 @@
+name: create-application
+description: Creates an application resource in Amazon GameLift Streams, which specifies the application content you want to stream, such as a game build or other software, and configures the settings to run it.
+flags:
+    --application-log-output-uri=: An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to save application logs.
+    --application-log-paths=: Locations of log files that your content generates during a stream session.
+    --application-source-uri=!: The location of the content that you want to stream.
+    --client-token=: A unique identifier that represents a client request.
+    --description=!: A human-readable label for the application.
+    --executable-path=!: The relative path and file name of the executable file that Amazon GameLift Streams will stream.
+    --runtime-environment=!: Configuration settings that identify the operating system for an application resource.
+    --tags=: A list of labels to assign to the new application resource.
+documentation:
+    command: |-
+        Creates an application resource in Amazon GameLift Streams, which specifies the application content you want to stream, such as a game build or other software, and configures the settings to run it.
+
+        Before you create an application, upload your application content files to an Amazon Simple Storage Service (Amazon S3) bucket. For more information, see **Getting Started** in the Amazon GameLift Streams Developer Guide.
+
+        Make sure that your files in the Amazon S3 bucket are the correct version you want to use. If you change the files at a later time, you will need to create a new Amazon GameLift Streams application.
+
+        If the request is successful, Amazon GameLift Streams begins to create an application and sets the status to `INITIALIZED`. When an application reaches `READY` status, you can use the application to set up stream groups and start streams. To track application status, call [GetApplication](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_GetApplication.html).
+    flag:
+        application-log-output-uri: |-
+            An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to save application logs. Required if you specify one or more `ApplicationLogPaths`.
+
+            The log bucket must have permissions that give Amazon GameLift Streams access to write the log files. For more information, see [Application log bucket permission policy](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/applications.html#application-bucket-permission-template) in the *Amazon GameLift Streams Developer Guide*.
+        application-log-paths: Locations of log files that your content generates during a stream session. Enter path values that are relative to the `ApplicationSourceUri` location. You can specify up to 10 log paths. Amazon GameLift Streams uploads designated log files to the Amazon S3 bucket that you specify in `ApplicationLogOutputUri` at the end of a stream session. To retrieve stored log files, call [GetStreamSession](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_GetStreamSession.html) and get the `LogFileLocationUri`.
+        application-source-uri: |-
+            The location of the content that you want to stream. Enter an Amazon S3 URI to a bucket that contains your game or other application. The location can have a multi-level prefix structure, but it must include all the files needed to run the content. Amazon GameLift Streams copies everything under the specified location.
+
+            This value is immutable. To designate a different content location, create a new application.
+
+            The Amazon S3 bucket and the Amazon GameLift Streams application must be in the same Amazon Web Services Region.
+        client-token: A unique identifier that represents a client request. The request is idempotent, which ensures that an API request completes only once. When users send a request, Amazon GameLift Streams automatically populates this field.
+        description: A human-readable label for the application. You can update this value later.
+        executable-path: The relative path and file name of the executable file that Amazon GameLift Streams will stream. Specify a path relative to the location set in `ApplicationSourceUri`. The file must be contained within the application's root folder. For Windows applications, the file must be a valid Windows executable or batch file with a filename ending in .exe, .cmd, or .bat. For Linux applications, the file must be a valid Linux binary executable or a script that contains an initial interpreter line starting with a shebang ('`#!`').
+        runtime-environment: "Configuration settings that identify the operating system for an application resource. This can also include a compatibility layer and other drivers.\n\nA runtime environment can be one of the following:\n\n- For Linux applications\n  \n  - Ubuntu 22.04 LTS (`Type=UBUNTU, Version=22_04_LTS`)\n- For Windows applications\n  \n  - Microsoft Windows Server 2022 Base (`Type=WINDOWS, Version=2022`)\n  - Proton 9.0-2 (`Type=PROTON, Version=20250516`)\n  - Proton 8.0-5 (`Type=PROTON, Version=20241007`)\n  - Proton 8.0-2c (`Type=PROTON, Version=20230704`)"
+        tags: A list of labels to assign to the new application resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources is useful for resource management, access management and cost allocation. See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the *Amazon Web Services General Reference*. You can use [TagResource](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_TagResource.html) to add tags, [UntagResource](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_UntagResource.html) to remove tags, and [ListTagsForResource](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_ListTagsForResource.html) to view tags on existing resources.

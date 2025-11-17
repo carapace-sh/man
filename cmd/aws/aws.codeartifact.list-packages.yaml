@@ -1,0 +1,51 @@
+name: list-packages
+description: Returns a list of [PackageSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageSummary.html) objects for packages in a repository that match the request parameters.
+flags:
+    --domain-owner=: The 12-digit account number of the Amazon Web Services account that owns the domain.
+    --domain=!: The name of the domain that contains the repository that contains the requested packages.
+    --format=: The format used to filter requested packages.
+    --max-results=: The maximum number of results to return per page.
+    --namespace=: The namespace prefix used to filter requested packages.
+    --next-token=: The token for the next set of results.
+    --package-prefix=: A prefix used to filter requested packages.
+    --publish=: The value of the `Publish` package origin control restriction used to filter requested packages.
+    --repository=!: The name of the repository that contains the requested packages.
+    --upstream=: The value of the `Upstream` package origin control restriction used to filter requested packages.
+completion:
+    flag:
+        format:
+            - npm
+            - pypi
+            - maven
+            - nuget
+            - generic
+            - ruby
+            - swift
+            - cargo
+        publish:
+            - ALLOW
+            - BLOCK
+        upstream:
+            - ALLOW
+            - BLOCK
+documentation:
+    command: Returns a list of [PackageSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageSummary.html) objects for packages in a repository that match the request parameters.
+    flag:
+        domain: The name of the domain that contains the repository that contains the requested packages.
+        domain-owner: The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces.
+        format: The format used to filter requested packages. Only packages from the provided format will be returned.
+        max-results: The maximum number of results to return per page.
+        namespace: |-
+            The namespace prefix used to filter requested packages. Only packages with a namespace that starts with the provided string value are returned. Note that although this option is called `--namespace` and not `--namespace-prefix`, it has prefix-matching behavior.
+
+            Each package format uses namespace as follows:
+
+            - The namespace of a Maven package version is its `groupId`.
+            - The namespace of an npm or Swift package version is its `scope`.
+            - The namespace of a generic package is its `namespace`.
+            - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+        next-token: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        package-prefix: A prefix used to filter requested packages. Only packages with names that start with `packagePrefix` are returned.
+        publish: The value of the `Publish` package origin control restriction used to filter requested packages. Only packages with the provided restriction are returned. For more information, see [PackageOriginRestrictions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginRestrictions.html).
+        repository: The name of the repository that contains the requested packages.
+        upstream: The value of the `Upstream` package origin control restriction used to filter requested packages. Only packages with the provided restriction are returned. For more information, see [PackageOriginRestrictions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginRestrictions.html).

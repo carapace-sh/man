@@ -1,0 +1,50 @@
+name: create-log-anomaly-detector
+description: Creates an *anomaly detector* that regularly scans one or more log groups and look for patterns and anomalies in the logs.
+flags:
+    --anomaly-visibility-time=: The number of days to have visibility on an anomaly.
+    --detector-name=: A name for this anomaly detector.
+    --evaluation-frequency=: Specifies how often the anomaly detector is to run and look for anomalies.
+    --filter-pattern=: You can use this parameter to limit the anomaly detection model to examine only log events that match the pattern you specify here.
+    --kms-key-id=: Optionally assigns a KMS key to secure this anomaly detector and its findings.
+    --log-group-arn-list=!: An array containing the ARN of the log group that this anomaly detector will watch.
+    --tags=: An optional list of key-value pairs to associate with the resource.
+completion:
+    flag:
+        evaluation-frequency:
+            - ONE_MIN
+            - FIVE_MIN
+            - TEN_MIN
+            - FIFTEEN_MIN
+            - THIRTY_MIN
+            - ONE_HOUR
+documentation:
+    command: |-
+        Creates an *anomaly detector* that regularly scans one or more log groups and look for patterns and anomalies in the logs.
+
+        An anomaly detector can help surface issues by automatically discovering anomalies in your log event traffic. An anomaly detector uses machine learning algorithms to scan log events and find *patterns*. A pattern is a shared text structure that recurs among your log fields. Patterns provide a useful tool for analyzing large sets of logs because a large number of log events can often be compressed into a few patterns.
+
+        The anomaly detector uses pattern recognition to find `anomalies`, which are unusual log events. It uses the `evaluationFrequency` to compare current log events and patterns with trained baselines.
+
+        Fields within a pattern are called *tokens*. Fields that vary within a pattern, such as a request ID or timestamp, are referred to as *dynamic tokens* and represented by `<*>`.
+
+        The following is an example of a pattern:
+
+        `[INFO] Request time: <*> ms`
+
+        This pattern represents log events like `[INFO] Request time: 327 ms` and other similar log events that differ only by the number, in this csse 327. When the pattern is displayed, the different numbers are replaced by `<*>`
+
+        Any parts of log events that are masked as sensitive data are not scanned for anomalies. For more information about masking sensitive data, see [Help protect sensitive log data with masking](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data.html).
+    flag:
+        anomaly-visibility-time: The number of days to have visibility on an anomaly. After this time period has elapsed for an anomaly, it will be automatically baselined and the anomaly detector will treat new occurrences of a similar anomaly as normal. Therefore, if you do not correct the cause of an anomaly during the time period specified in `anomalyVisibilityTime`, it will be considered normal going forward and will not be detected as an anomaly.
+        detector-name: A name for this anomaly detector.
+        evaluation-frequency: Specifies how often the anomaly detector is to run and look for anomalies. Set this value according to the frequency that the log group receives new logs. For example, if the log group receives new log events every 10 minutes, then 15 minutes might be a good setting for `evaluationFrequency` .
+        filter-pattern: You can use this parameter to limit the anomaly detection model to examine only log events that match the pattern you specify here. For more information, see [Filter and Pattern Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html).
+        kms-key-id: |-
+            Optionally assigns a KMS key to secure this anomaly detector and its findings. If a key is assigned, the anomalies found and the model used by this detector are encrypted at rest with the key. If a key is assigned to an anomaly detector, a user must have permissions for both this key and for the anomaly detector to retrieve information about the anomalies that it finds.
+
+            Make sure the value provided is a valid KMS key ARN. For more information about using a KMS key and to see the required IAM policy, see [Use a KMS key with an anomaly detector](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/LogsAnomalyDetection-KMS.html).
+        log-group-arn-list: An array containing the ARN of the log group that this anomaly detector will watch. You can specify only one log group ARN.
+        tags: |-
+            An optional list of key-value pairs to associate with the resource.
+
+            For more information about tagging, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)

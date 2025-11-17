@@ -1,0 +1,28 @@
+name: delete-environment
+description: Deletes an environment.
+flags:
+    --application-id=!: The application ID that includes the environment that you want to delete.
+    --deletion-protection-check=: A parameter to configure deletion protection.
+    --environment-id=!: The ID of the environment that you want to delete.
+completion:
+    flag:
+        deletion-protection-check:
+            - ACCOUNT_DEFAULT
+            - APPLY
+            - BYPASS
+documentation:
+    command: |-
+        Deletes an environment.
+
+        To prevent users from unintentionally deleting actively-used environments, enable [deletion protection](https://docs.aws.amazon.com/appconfig/latest/userguide/deletion-protection.html).
+    flag:
+        application-id: The application ID that includes the environment that you want to delete.
+        deletion-protection-check: |-
+            A parameter to configure deletion protection. Deletion protection prevents a user from deleting an environment if your application called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html) or in the environment during the specified interval.
+
+            This parameter supports the following values:
+
+            - `BYPASS`: Instructs AppConfig to bypass the deletion protection check and delete a configuration profile even if deletion protection would have otherwise prevented it.
+            - `APPLY`: Instructs the deletion protection check to run, even if deletion protection is disabled at the account level. `APPLY` also forces the deletion protection check to run against resources created in the past hour, which are normally excluded from deletion protection checks.
+            - `ACCOUNT_DEFAULT`: The default setting, which instructs AppConfig to implement the deletion protection value specified in the `UpdateAccountSettings` API.
+        environment-id: The ID of the environment that you want to delete.

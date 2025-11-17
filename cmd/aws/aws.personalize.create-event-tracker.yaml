@@ -1,0 +1,32 @@
+name: create-event-tracker
+description: Creates an event tracker that you use when adding event data to a specified dataset group using the [PutEvents](https://docs.aws.amazon.com/personalize/latest/dg/API_UBS_PutEvents.html) API.
+flags:
+    --dataset-group-arn=!: The Amazon Resource Name (ARN) of the dataset group that receives the event data.
+    --name=!: The name for the event tracker.
+    --tags=: A list of [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html) to apply to the event tracker.
+documentation:
+    command: |-
+        Creates an event tracker that you use when adding event data to a specified dataset group using the [PutEvents](https://docs.aws.amazon.com/personalize/latest/dg/API_UBS_PutEvents.html) API.
+
+        Only one event tracker can be associated with a dataset group. You will get an error if you call `CreateEventTracker` using the same dataset group as an existing event tracker.
+
+        When you create an event tracker, the response includes a tracking ID, which you pass as a parameter when you use the [PutEvents](https://docs.aws.amazon.com/personalize/latest/dg/API_UBS_PutEvents.html) operation. Amazon Personalize then appends the event data to the Item interactions dataset of the dataset group you specify in your event tracker.
+
+        The event tracker can be in one of the following states:
+
+        - CREATE PENDING &gt; CREATE IN\_PROGRESS &gt; ACTIVE -or- CREATE FAILED
+        - DELETE PENDING &gt; DELETE IN\_PROGRESS
+
+        To get the status of the event tracker, call [DescribeEventTracker](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeEventTracker.html).
+
+        The event tracker must be in the ACTIVE state before using the tracking ID.
+
+        **Related APIs**
+
+        - [ListEventTrackers](https://docs.aws.amazon.com/personalize/latest/dg/API_ListEventTrackers.html)
+        - [DescribeEventTracker](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeEventTracker.html)
+        - [DeleteEventTracker](https://docs.aws.amazon.com/personalize/latest/dg/API_DeleteEventTracker.html)
+    flag:
+        dataset-group-arn: The Amazon Resource Name (ARN) of the dataset group that receives the event data.
+        name: The name for the event tracker.
+        tags: A list of [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html) to apply to the event tracker.

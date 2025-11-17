@@ -1,0 +1,38 @@
+name: import-workspace-image
+description: Imports the specified Windows 10 or 11 Bring Your Own License (BYOL) image into Amazon WorkSpaces.
+flags:
+    --applications=: If specified, the version of Microsoft Office to subscribe to.
+    --ec2-image-id=!: The identifier of the EC2 image.
+    --image-description=!: The description of the WorkSpace image.
+    --image-name=!: The name of the WorkSpace image.
+    --ingestion-process=!: The ingestion process to be used when importing the image, depending on which protocol you want to use for your BYOL Workspace image, either PCoIP, WSP, or bring your own protocol (BYOP).
+    --tags=: The tags.
+completion:
+    flag:
+        ingestion-process:
+            - BYOL_REGULAR
+            - BYOL_GRAPHICS
+            - BYOL_GRAPHICSPRO
+            - BYOL_GRAPHICS_G4DN
+            - BYOL_REGULAR_WSP
+            - BYOL_GRAPHICS_G4DN_WSP
+            - BYOL_REGULAR_BYOP
+            - BYOL_GRAPHICS_G4DN_BYOP
+documentation:
+    command: Imports the specified Windows 10 or 11 Bring Your Own License (BYOL) image into Amazon WorkSpaces. The image must be an already licensed Amazon EC2 image that is in your Amazon Web Services account, and you must own the image. For more information about creating BYOL images, see [Bring Your Own Windows Desktop Licenses](https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html).
+    flag:
+        applications: |-
+            If specified, the version of Microsoft Office to subscribe to. Valid only for Windows 10 and 11 BYOL images. For more information about subscribing to Office for BYOL images, see [Bring Your Own Windows Desktop Licenses](https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html).
+
+            - Although this parameter is an array, only one item is allowed at this time.
+            - During the image import process, non-GPU DCV (formerly WSP) WorkSpaces with Windows 11 support only `Microsoft_Office_2019`. GPU DCV (formerly WSP) WorkSpaces with Windows 11 do not support Office installation.
+        ec2-image-id: The identifier of the EC2 image.
+        image-description: The description of the WorkSpace image.
+        image-name: The name of the WorkSpace image.
+        ingestion-process: |-
+            The ingestion process to be used when importing the image, depending on which protocol you want to use for your BYOL Workspace image, either PCoIP, WSP, or bring your own protocol (BYOP). To use DCV, specify a value that ends in `_WSP`. To use PCoIP, specify a value that does not end in `_WSP`. To use BYOP, specify a value that ends in `_BYOP`.
+
+            For non-GPU-enabled bundles (bundles other than Graphics or GraphicsPro), specify `BYOL_REGULAR`, `BYOL_REGULAR_WSP`, or `BYOL_REGULAR_BYOP`, depending on the protocol.
+
+            The `BYOL_REGULAR_BYOP` and `BYOL_GRAPHICS_G4DN_BYOP` values are only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use these values. For more information, see [Amazon WorkSpaces Core](http://aws.amazon.com/workspaces/core/).
+        tags: The tags. Each WorkSpaces resource can have a maximum of 50 tags.

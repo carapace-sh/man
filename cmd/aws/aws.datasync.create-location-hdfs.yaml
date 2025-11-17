@@ -1,0 +1,52 @@
+name: create-location-hdfs
+description: Creates a transfer *location* for a Hadoop Distributed File System (HDFS).
+flags:
+    --agent-arns=!: The Amazon Resource Names (ARNs) of the DataSync agents that can connect to your HDFS cluster.
+    --authentication-type=!: The type of authentication used to determine the identity of the user.
+    --block-size=: The size of data blocks to write into the HDFS cluster.
+    --kerberos-keytab=: The Kerberos key table (keytab) that contains mappings between the defined Kerberos principal and the encrypted keys.
+    --kerberos-krb5-conf=: The `krb5.conf` file that contains the Kerberos configuration information.
+    --kerberos-principal=: The Kerberos principal with access to the files and folders on the HDFS cluster.
+    --kms-key-provider-uri=: The URI of the HDFS cluster's Key Management Server (KMS).
+    --name-nodes=!: The NameNode that manages the HDFS namespace.
+    --qop-configuration=: The Quality of Protection (QOP) configuration specifies the Remote Procedure Call (RPC) and data transfer protection settings configured on the Hadoop Distributed File System (HDFS) cluster.
+    --replication-factor=: The number of DataNodes to replicate the data to when writing to the HDFS cluster.
+    --simple-user=: The user name used to identify the client on the host operating system.
+    --subdirectory=: A subdirectory in the HDFS cluster.
+    --tags=: The key-value pair that represents the tag that you want to add to the location.
+completion:
+    flag:
+        authentication-type:
+            - SIMPLE
+            - KERBEROS
+documentation:
+    command: |-
+        Creates a transfer *location* for a Hadoop Distributed File System (HDFS). DataSync can use this location as a source or destination for transferring data.
+
+        Before you begin, make sure that you understand how DataSync [accesses HDFS clusters](https://docs.aws.amazon.com/datasync/latest/userguide/create-hdfs-location.html#accessing-hdfs).
+    flag:
+        agent-arns: The Amazon Resource Names (ARNs) of the DataSync agents that can connect to your HDFS cluster.
+        authentication-type: The type of authentication used to determine the identity of the user.
+        block-size: The size of data blocks to write into the HDFS cluster. The block size must be a multiple of 512 bytes. The default block size is 128 mebibytes (MiB).
+        kerberos-keytab: |-
+            The Kerberos key table (keytab) that contains mappings between the defined Kerberos principal and the encrypted keys. You can load the keytab from a file by providing the file's address.
+
+            If `KERBEROS` is specified for `AuthenticationType`, this parameter is required.
+        kerberos-krb5-conf: |-
+            The `krb5.conf` file that contains the Kerberos configuration information. You can load the `krb5.conf` file by providing the file's address. If you're using the CLI, it performs the base64 encoding for you. Otherwise, provide the base64-encoded text.
+
+            If `KERBEROS` is specified for `AuthenticationType`, this parameter is required.
+        kerberos-principal: |-
+            The Kerberos principal with access to the files and folders on the HDFS cluster.
+
+            If `KERBEROS` is specified for `AuthenticationType`, this parameter is required.
+        kms-key-provider-uri: The URI of the HDFS cluster's Key Management Server (KMS).
+        name-nodes: The NameNode that manages the HDFS namespace. The NameNode performs operations such as opening, closing, and renaming files and directories. The NameNode contains the information to map blocks of data to the DataNodes. You can use only one NameNode.
+        qop-configuration: The Quality of Protection (QOP) configuration specifies the Remote Procedure Call (RPC) and data transfer protection settings configured on the Hadoop Distributed File System (HDFS) cluster. If `QopConfiguration` isn't specified, `RpcProtection` and `DataTransferProtection` default to `PRIVACY`. If you set `RpcProtection` or `DataTransferProtection`, the other parameter assumes the same value.
+        replication-factor: The number of DataNodes to replicate the data to when writing to the HDFS cluster. By default, data is replicated to three DataNodes.
+        simple-user: |-
+            The user name used to identify the client on the host operating system.
+
+            If `SIMPLE` is specified for `AuthenticationType`, this parameter is required.
+        subdirectory: A subdirectory in the HDFS cluster. This subdirectory is used to read data from or write data to the HDFS cluster. If the subdirectory isn't specified, it will default to `/`.
+        tags: The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.

@@ -1,0 +1,48 @@
+name: export-lambda-function-recommendations
+description: Exports optimization recommendations for Lambda functions.
+flags:
+    --account-ids=: The IDs of the Amazon Web Services accounts for which to export Lambda function recommendations.
+    --fields-to-export=: The recommendations data to include in the export file.
+    --file-format=: The format of the export file.
+    --filters=: An array of objects to specify a filter that exports a more specific set of Lambda function recommendations.
+    --include-member-accounts=: Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the management account of an organization.
+    --s3-destination-config=!: ""
+completion:
+    flag:
+        file-format:
+            - Csv
+documentation:
+    command: |-
+        Exports optimization recommendations for Lambda functions.
+
+        Recommendations are exported in a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html) in the *Compute Optimizer User Guide*.
+
+        You can have only one Lambda function export job in progress per Amazon Web Services Region.
+    flag:
+        account-ids: |-
+            The IDs of the Amazon Web Services accounts for which to export Lambda function recommendations.
+
+            If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations.
+
+            This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive.
+
+            Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted.
+
+            You can specify multiple account IDs per request.
+        fields-to-export: The recommendations data to include in the export file. For more information about the fields that can be exported, see [Exported files](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html#exported-files) in the *Compute Optimizer User Guide*.
+        file-format: |-
+            The format of the export file.
+
+            The only export file format currently supported is `Csv`.
+        filters: An array of objects to specify a filter that exports a more specific set of Lambda function recommendations.
+        include-member-accounts: |-
+            Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the management account of an organization.
+
+            The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access) in the *Compute Optimizer User Guide*.
+
+            Recommendations for member accounts of the organization are not included in the export file if this parameter is omitted.
+
+            This parameter cannot be specified together with the account IDs parameter. The parameters are mutually exclusive.
+
+            Recommendations for member accounts are not included in the export if this parameter, or the account IDs parameter, is omitted.
+        s3-destination-config: ""

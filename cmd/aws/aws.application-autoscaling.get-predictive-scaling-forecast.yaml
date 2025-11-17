@@ -1,0 +1,66 @@
+name: get-predictive-scaling-forecast
+description: Retrieves the forecast data for a predictive scaling policy.
+flags:
+    --end-time=!: The exclusive end time of the time range for the forecast data to get.
+    --policy-name=!: The name of the policy.
+    --resource-id=!: The identifier of the resource.
+    --scalable-dimension=!: The scalable dimension.
+    --service-namespace=!: The namespace of the Amazon Web Services service that provides the resource.
+    --start-time=!: The inclusive start time of the time range for the forecast data to get.
+completion:
+    flag:
+        scalable-dimension:
+            - ecs:service:DesiredCount
+            - ec2:spot-fleet-request:TargetCapacity
+            - elasticmapreduce:instancegroup:InstanceCount
+            - appstream:fleet:DesiredCapacity
+            - dynamodb:table:ReadCapacityUnits
+            - dynamodb:table:WriteCapacityUnits
+            - dynamodb:index:ReadCapacityUnits
+            - dynamodb:index:WriteCapacityUnits
+            - rds:cluster:ReadReplicaCount
+            - sagemaker:variant:DesiredInstanceCount
+            - custom-resource:ResourceType:Property
+            - comprehend:document-classifier-endpoint:DesiredInferenceUnits
+            - comprehend:entity-recognizer-endpoint:DesiredInferenceUnits
+            - lambda:function:ProvisionedConcurrency
+            - cassandra:table:ReadCapacityUnits
+            - cassandra:table:WriteCapacityUnits
+            - kafka:broker-storage:VolumeSize
+            - elasticache:cache-cluster:Nodes
+            - elasticache:replication-group:NodeGroups
+            - elasticache:replication-group:Replicas
+            - neptune:cluster:ReadReplicaCount
+            - sagemaker:variant:DesiredProvisionedConcurrency
+            - sagemaker:inference-component:DesiredCopyCount
+            - workspaces:workspacespool:DesiredUserSessions
+        service-namespace:
+            - ecs
+            - elasticmapreduce
+            - ec2
+            - appstream
+            - dynamodb
+            - rds
+            - sagemaker
+            - custom-resource
+            - comprehend
+            - lambda
+            - cassandra
+            - kafka
+            - elasticache
+            - neptune
+            - workspaces
+documentation:
+    command: |-
+        Retrieves the forecast data for a predictive scaling policy.
+
+        Load forecasts are predictions of the hourly load values using historical load data from CloudWatch and an analysis of historical trends. Capacity forecasts are represented as predicted values for the minimum capacity that is needed on an hourly basis, based on the hourly load forecast.
+
+        A minimum of 24 hours of data is required to create the initial forecasts. However, having a full 14 days of historical data results in more accurate forecasts.
+    flag:
+        end-time: The exclusive end time of the time range for the forecast data to get. The maximum time duration between the start and end time is 30 days.
+        policy-name: The name of the policy.
+        resource-id: The identifier of the resource.
+        scalable-dimension: The scalable dimension.
+        service-namespace: The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use `custom-resource` instead.
+        start-time: The inclusive start time of the time range for the forecast data to get. At most, the date and time can be one year before the current date and time

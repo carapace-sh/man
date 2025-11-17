@@ -1,0 +1,29 @@
+name: create-custom-metric
+description: Use this API to define a Custom Metric published by your devices to Device Defender.
+flags:
+    --client-request-token=!: Each custom metric must have a unique client request token.
+    --display-name=: The friendly name in the console for the custom metric.
+    --metric-name=!: The name of the custom metric.
+    --metric-type=!: The type of the custom metric.
+    --tags=: Metadata that can be used to manage the custom metric.
+completion:
+    flag:
+        metric-type:
+            - string-list
+            - ip-address-list
+            - number-list
+            - number
+documentation:
+    command: |-
+        Use this API to define a Custom Metric published by your devices to Device Defender.
+
+        Requires permission to access the [CreateCustomMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    flag:
+        client-request-token: Each custom metric must have a unique client request token. If you try to create a new custom metric that already exists with a different token, an exception occurs. If you omit this value, Amazon Web Services SDKs will automatically generate a unique client request.
+        display-name: The friendly name in the console for the custom metric. This name doesn't have to be unique. Don't use this name as the metric identifier in the device metric report. You can update the friendly name after you define it.
+        metric-name: The name of the custom metric. This will be used in the metric report submitted from the device/thing. The name can't begin with `aws:`. You can't change the name after you define it.
+        metric-type: |-
+            The type of the custom metric.
+
+            The type `number` only takes a single metric value as an input, but when you submit the metrics value in the DeviceMetrics report, you must pass it as an array with a single value.
+        tags: Metadata that can be used to manage the custom metric.

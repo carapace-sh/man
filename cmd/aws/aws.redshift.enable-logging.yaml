@@ -1,0 +1,33 @@
+name: enable-logging
+description: Starts logging information, such as queries and connection attempts, for the specified Amazon Redshift cluster.
+flags:
+    --bucket-name=: The name of an existing S3 bucket where the log files are to be stored.
+    --cluster-identifier=!: The identifier of the cluster on which logging is to be started.
+    --log-destination-type=: The log destination type.
+    --log-exports=: The collection of exported log types.
+    --s3-key-prefix=: The prefix applied to the log file names.
+completion:
+    flag:
+        log-destination-type:
+            - s3
+            - cloudwatch
+documentation:
+    command: Starts logging information, such as queries and connection attempts, for the specified Amazon Redshift cluster.
+    flag:
+        bucket-name: |-
+            The name of an existing S3 bucket where the log files are to be stored.
+
+            Constraints:
+
+            - Must be in the same region as the cluster
+            - The cluster must have read bucket and put object permissions
+        cluster-identifier: |-
+            The identifier of the cluster on which logging is to be started.
+
+            Example: `examplecluster`
+        log-destination-type: The log destination type. An enum with possible values of `s3` and `cloudwatch`.
+        log-exports: The collection of exported log types. Possible values are `connectionlog`, `useractivitylog`, and `userlog`.
+        s3-key-prefix: |-
+            The prefix applied to the log file names.
+
+            Valid characters are any letter from any language, any whitespace character, any numeric character, and the following characters: underscore (`_`), period (`.`), colon (`:`), slash (`/`), equal (`=`), plus (`+`), backslash (`\`), hyphen (`-`), at symbol (`@`).

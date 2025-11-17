@@ -1,0 +1,36 @@
+name: start-sync-execution
+description: Starts a Synchronous Express state machine execution.
+flags:
+    --included-data=: If your state machine definition is encrypted with a KMS key, callers must have `kms:Decrypt` permission to decrypt the definition.
+    --input=: 'The string that contains the JSON input data for the execution, for example:'
+    --name=: The name of the execution.
+    --state-machine-arn=!: The Amazon Resource Name (ARN) of the state machine to execute.
+    --trace-header=: Passes the X-Ray trace header.
+completion:
+    flag:
+        included-data:
+            - ALL_DATA
+            - METADATA_ONLY
+documentation:
+    command: |-
+        Starts a Synchronous Express state machine execution. `StartSyncExecution` is not available for `STANDARD` workflows.
+
+        `StartSyncExecution` will return a `200 OK` response, even if your execution fails, because the status code in the API response doesn't reflect function errors. Error codes are reserved for errors that prevent your execution from running, such as permissions errors, limit errors, or issues with your state machine code and configuration.
+
+        This API action isn't logged in CloudTrail.
+    flag:
+        included-data: If your state machine definition is encrypted with a KMS key, callers must have `kms:Decrypt` permission to decrypt the definition. Alternatively, you can call the API with `includedData = METADATA_ONLY` to get a successful response without the encrypted definition.
+        input: |-
+            The string that contains the JSON input data for the execution, for example:
+
+            `"{\"first_name\" : \"Alejandro\"}"`
+
+            If you don't include any JSON input data, you still must include the two braces, for example: `"{}"`
+
+            Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
+        name: The name of the execution.
+        state-machine-arn: The Amazon Resource Name (ARN) of the state machine to execute.
+        trace-header: |-
+            Passes the X-Ray trace header. The trace header can also be passed in the request payload.
+
+            For X-Ray traces, all Amazon Web Services services use the `X-Amzn-Trace-Id` header from the HTTP request. Using the header is the preferred mechanism to identify a trace. `StartExecution` and `StartSyncExecution` API operations can also use `traceHeader` from the body of the request payload. If **both** sources are provided, Step Functions will use the **header value** (preferred) over the value in the request body.

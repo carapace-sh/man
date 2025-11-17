@@ -1,0 +1,34 @@
+name: list-stream-sessions-by-account
+description: Retrieves a list of Amazon GameLift Streams stream sessions that this user account has access to.
+flags:
+    --export-files-status=: Filter by the exported files status.
+    --max-results=: The number of results to return.
+    --next-token=: The token that marks the start of the next set of results.
+    --status=: Filter by the stream session status.
+completion:
+    flag:
+        export-files-status:
+            - SUCCEEDED
+            - FAILED
+            - PENDING
+        status:
+            - ACTIVATING
+            - ACTIVE
+            - CONNECTED
+            - PENDING_CLIENT_RECONNECTION
+            - RECONNECTING
+            - TERMINATING
+            - TERMINATED
+            - ERROR
+documentation:
+    command: |-
+        Retrieves a list of Amazon GameLift Streams stream sessions that this user account has access to.
+
+        In the returned list of stream sessions, the `ExportFilesMetadata` property only shows the `Status` value. To get the `OutpurUri` and `StatusReason` values, use [GetStreamSession](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_GetStreamSession.html).
+
+        We don't recommend using this operation to regularly check stream session statuses because it's costly. Instead, to check status updates for a specific stream session, use [GetStreamSession](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_GetStreamSession.html).
+    flag:
+        export-files-status: Filter by the exported files status. You can specify one status in each request to retrieve only sessions that currently have that exported files status.
+        max-results: The number of results to return. Use this parameter with `NextToken` to return results in sequential pages. Default value is `25`.
+        next-token: The token that marks the start of the next set of results. Use this token when you retrieve results as sequential pages. To get the first page of results, omit a token value. To get the remaining pages, provide the token returned with the previous result set.
+        status: Filter by the stream session status. You can specify one status in each request to retrieve only sessions that are currently in that status.

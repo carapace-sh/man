@@ -1,0 +1,23 @@
+name: describe-images
+description: Returns metadata about the images in a repository.
+flags:
+    --filter=: The filter key and value with which to filter your `DescribeImages` results.
+    --image-ids=: The list of image IDs for the requested repository.
+    --max-results=: The maximum number of repository results returned by `DescribeImages` in paginated output.
+    --next-token=: The `nextToken` value returned from a previous paginated `DescribeImages` request where `maxResults` was used and the results exceeded the value of that parameter.
+    --registry-id=: The Amazon Web Services account ID associated with the registry that contains the repository in which to describe images.
+    --repository-name=!: The repository that contains the images to describe.
+documentation:
+    command: |-
+        Returns metadata about the images in a repository.
+
+        Starting with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the `docker images` command shows the uncompressed image size. Therefore, Docker might return a larger image than the image shown in the Amazon Web Services Management Console.
+
+        The new version of Amazon ECR *Basic Scanning* doesn't use the [ImageDetail$imageScanFindingsSummary]() and [ImageDetail$imageScanStatus]() attributes from the API response to return scan results. Use the [DescribeImageScanFindings]() API instead. For more information about Amazon Web Services native basic scanning, see [Scan images for software vulnerabilities in Amazon ECR](https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html).
+    flag:
+        filter: The filter key and value with which to filter your `DescribeImages` results.
+        image-ids: The list of image IDs for the requested repository.
+        max-results: The maximum number of repository results returned by `DescribeImages` in paginated output. When this parameter is used, `DescribeImages` only returns `maxResults` results in a single page along with a `nextToken` response element. The remaining results of the initial request can be seen by sending another `DescribeImages` request with the returned `nextToken` value. This value can be between 1 and 1000. If this parameter is not used, then `DescribeImages` returns up to 100 results and a `nextToken` value, if applicable. This option cannot be used when you specify images with `imageIds`.
+        next-token: The `nextToken` value returned from a previous paginated `DescribeImages` request where `maxResults` was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the `nextToken` value. This value is `null` when there are no more results to return. This option cannot be used when you specify images with `imageIds`.
+        registry-id: The Amazon Web Services account ID associated with the registry that contains the repository in which to describe images. If you do not specify a registry, the default registry is assumed.
+        repository-name: The repository that contains the images to describe.

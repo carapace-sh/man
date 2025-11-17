@@ -1,0 +1,44 @@
+name: list-jobs
+description: Lists jobs.
+flags:
+    --max-results=: The maximum number of results to return per request.
+    --namespace-id=: The namespace used to indicate that a job is a customer-managed job.
+    --next-token=: The token to retrieve the next set of results.
+    --status=: An optional filter that lets you search for jobs that have the specified status.
+    --target-selection=: Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT).
+    --thing-group-id=: A filter that limits the returned jobs to those for the specified group.
+    --thing-group-name=: A filter that limits the returned jobs to those for the specified group.
+completion:
+    flag:
+        status:
+            - IN_PROGRESS
+            - CANCELED
+            - COMPLETED
+            - DELETION_IN_PROGRESS
+            - SCHEDULED
+        target-selection:
+            - CONTINUOUS
+            - SNAPSHOT
+documentation:
+    command: |-
+        Lists jobs.
+
+        Requires permission to access the [ListJobs](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    flag:
+        max-results: The maximum number of results to return per request.
+        namespace-id: |-
+            The namespace used to indicate that a job is a customer-managed job.
+
+            When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.
+
+            `$aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/`
+
+            The `namespaceId` feature is only supported by IoT Greengrass at this time. For more information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
+        next-token: The token to retrieve the next set of results.
+        status: An optional filter that lets you search for jobs that have the specified status.
+        target-selection: |-
+            Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group.
+
+            We recommend that you use continuous jobs instead of snapshot jobs for dynamic thing group targets. By using continuous jobs, devices that join the group receive the job execution even after the job has been created.
+        thing-group-id: A filter that limits the returned jobs to those for the specified group.
+        thing-group-name: A filter that limits the returned jobs to those for the specified group.

@@ -1,0 +1,32 @@
+name: count-tokens
+description: Returns the token count for a given inference request.
+flags:
+    --input=!: The input for which to count tokens.
+    --model-id=!: The unique identifier or ARN of the foundation model to use for token counting.
+documentation:
+    command: |-
+        Returns the token count for a given inference request. This operation helps you estimate token usage before sending requests to foundation models by returning the token count that would be used if the same input were sent to the model in an inference request.
+
+        Token counting is model-specific because different models use different tokenization strategies. The token count returned by this operation will match the token count that would be charged if the same input were sent to the model in an `InvokeModel` or `Converse` request.
+
+        You can use this operation to:
+
+        - Estimate costs before sending inference requests.
+        - Optimize prompts to fit within token limits.
+        - Plan for token usage in your applications.
+
+        This operation accepts the same input formats as `InvokeModel` and `Converse`, allowing you to count tokens for both raw text inputs and structured conversation formats.
+
+        The following operations are related to `CountTokens`:
+
+        - [InvokeModel](https://docs.aws.amazon.com/bedrock/latest/API/API_runtime_InvokeModel.html) - Sends inference requests to foundation models
+        - [Converse](https://docs.aws.amazon.com/bedrock/latest/API/API_runtime_Converse.html) - Sends conversation-based inference requests to foundation models
+    flag:
+        input: |-
+            The input for which to count tokens. The structure of this parameter depends on whether you're counting tokens for an `InvokeModel` or `Converse` request:
+
+            - For `InvokeModel` requests, provide the request body in the `invokeModel` field
+            - For `Converse` requests, provide the messages and system content in the `converse` field
+
+            The input format must be compatible with the model specified in the `modelId` parameter.
+        model-id: The unique identifier or ARN of the foundation model to use for token counting. Each model processes tokens differently, so the token count is specific to the model you specify.

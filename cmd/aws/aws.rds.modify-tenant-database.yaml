@@ -1,0 +1,67 @@
+name: modify-tenant-database
+description: Modifies an existing tenant database in a DB instance.
+flags:
+    --dbinstance-identifier=!: The identifier of the DB instance that contains the tenant database that you are modifying.
+    --manage-master-user-password=: Specifies whether to manage the master user password with Amazon Web Services Secrets Manager.
+    --master-user-password=: The new password for the master user of the specified tenant database in your DB instance.
+    --master-user-secret-kms-key-id=: The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager.
+    --new-tenant-dbname=: The new name of the tenant database when renaming a tenant database.
+    --rotate-master-user-password=: Specifies whether to rotate the secret managed by Amazon Web Services Secrets Manager for the master user password.
+    --tenant-dbname=!: The user-supplied name of the tenant database that you want to modify.
+documentation:
+    command: Modifies an existing tenant database in a DB instance. You can change the tenant database name or the master user password. This operation is supported only for RDS for Oracle CDB instances using the multi-tenant configuration.
+    flag:
+        dbinstance-identifier: |-
+            The identifier of the DB instance that contains the tenant database that you are modifying. This parameter isn't case-sensitive.
+
+            Constraints:
+
+            - Must match the identifier of an existing DB instance.
+        manage-master-user-password: |-
+            Specifies whether to manage the master user password with Amazon Web Services Secrets Manager.
+
+            If the tenant database doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn on this management. In this case, you can't specify `MasterUserPassword`.
+
+            If the tenant database already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the master user password is not managed with Amazon Web Services Secrets Manager, then you must specify `MasterUserPassword`. In this case, Amazon RDS deletes the secret and uses the new password for the master user specified by `MasterUserPassword`.
+
+            For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the *Amazon RDS User Guide.*
+
+            Constraints:
+
+            - Can't manage the master user password with Amazon Web Services Secrets Manager if `MasterUserPassword` is specified.
+        master-user-password: |-
+            The new password for the master user of the specified tenant database in your DB instance.
+
+            Amazon RDS operations never return the password, so this action provides a way to regain access to a tenant database user if the password is lost. This includes restoring privileges that might have been accidentally revoked.
+
+            Constraints:
+
+            - Can include any printable ASCII character except `/`, `"` (double quote), `@`, `&` (ampersand), and `'` (single quote).
+
+            Length constraints:
+
+            - Must contain between 8 and 30 characters.
+        master-user-secret-kms-key-id: "The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager.\n\nThis setting is valid only if both of the following conditions are met:\n\n- The tenant database doesn't manage the master user password in Amazon Web Services Secrets Manager.\n  \n  If the tenant database already manages the master user password in Amazon Web Services Secrets Manager, you can't change the KMS key used to encrypt the secret.\n- You're turning on `ManageMasterUserPassword` to manage the master user password in Amazon Web Services Secrets Manager.\n  \n  If you're turning on `ManageMasterUserPassword` and don't specify `MasterUserSecretKmsKeyId`, then the `aws/secretsmanager` KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the `aws/secretsmanager` KMS key to encrypt the secret, and you must use a self-managed KMS key.\n\nThe Amazon Web Services KMS key identifier is any of the following:\n\n- Key ARN\n- Key ID\n- Alias ARN\n- Alias name for the KMS key\n\nTo use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN.\n\nA default KMS key exists for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region."
+        new-tenant-dbname: |-
+            The new name of the tenant database when renaming a tenant database. This parameter isn’t case-sensitive.
+
+            Constraints:
+
+            - Can't be the string null or any other reserved word.
+            - Can't be longer than 8 characters.
+        rotate-master-user-password: |-
+            Specifies whether to rotate the secret managed by Amazon Web Services Secrets Manager for the master user password.
+
+            This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB instance. The secret value contains the updated password.
+
+            For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the *Amazon RDS User Guide.*
+
+            Constraints:
+
+            - You must apply the change immediately when rotating the master user password.
+        tenant-dbname: |-
+            The user-supplied name of the tenant database that you want to modify. This parameter isn’t case-sensitive.
+
+            Constraints:
+
+            - Must match the identifier of an existing tenant database.

@@ -1,0 +1,45 @@
+name: list-command-executions
+description: List all command executions.
+flags:
+    --command-arn=: The Amazon Resource Number (ARN) of the command.
+    --completed-time-filter=: List all command executions that completed any time before or after the date and time that you specify.
+    --max-results=: The maximum number of results to return in this operation.
+    --namespace=: The namespace of the command.
+    --next-token=: To retrieve the next set of results, the `nextToken` value from a previous response; otherwise `null` to receive the first set of results.
+    --sort-order=: Specify whether to list the command executions that were created in the ascending or descending order.
+    --started-time-filter=: List all command executions that started any time before or after the date and time that you specify.
+    --status=: List all command executions for the device that have a particular status.
+    --target-arn=: The Amazon Resource Number (ARN) of the target device.
+completion:
+    flag:
+        namespace:
+            - AWS-IoT
+            - AWS-IoT-FleetWise
+        sort-order:
+            - ASCENDING
+            - DESCENDING
+        status:
+            - CREATED
+            - IN_PROGRESS
+            - SUCCEEDED
+            - FAILED
+            - REJECTED
+            - TIMED_OUT
+documentation:
+    command: |-
+        List all command executions.
+
+        - You must provide only the `startedTimeFilter` or the `completedTimeFilter` information. If you provide both time filters, the API will generate an error. You can use this information to retrieve a list of command executions within a specific timeframe.
+        - You must provide only the `commandArn` or the `thingArn` information depending on whether you want to list executions for a specific command or an IoT thing. If you provide both fields, the API will generate an error.
+
+        For more information about considerations for using this API, see [List command executions in your account (CLI)](https://docs.aws.amazon.com/iot/latest/developerguide/iot-remote-command-execution-start-monitor.html#iot-remote-command-execution-list-cli).
+    flag:
+        command-arn: The Amazon Resource Number (ARN) of the command. You can use this information to list all command executions for a particular command.
+        completed-time-filter: List all command executions that completed any time before or after the date and time that you specify. The date and time uses the format `yyyy-MM-dd'T'HH:mm`.
+        max-results: The maximum number of results to return in this operation.
+        namespace: The namespace of the command.
+        next-token: To retrieve the next set of results, the `nextToken` value from a previous response; otherwise `null` to receive the first set of results.
+        sort-order: Specify whether to list the command executions that were created in the ascending or descending order. By default, the API returns all commands in the descending order based on the start time or completion time of the executions, that are determined by the `startTimeFilter` and `completeTimeFilter` parameters.
+        started-time-filter: List all command executions that started any time before or after the date and time that you specify. The date and time uses the format `yyyy-MM-dd'T'HH:mm`.
+        status: List all command executions for the device that have a particular status. For example, you can filter the list to display only command executions that have failed or timed out.
+        target-arn: The Amazon Resource Number (ARN) of the target device. You can use this information to list all command executions for a particular device.

@@ -1,0 +1,60 @@
+name: create-image-version
+description: Creates a version of the SageMaker AI image specified by `ImageName`.
+flags:
+    --aliases=: A list of aliases created with the image version.
+    --base-image=!: The registry path of the container image to use as the starting point for this version.
+    --client-token=!: A unique ID.
+    --horovod=: Indicates Horovod compatibility.
+    --image-name=!: The `ImageName` of the `Image` to create a version of.
+    --job-type=: Indicates SageMaker AI job type compatibility.
+    --mlframework=: The machine learning framework vended in the image version.
+    --processor=: Indicates CPU or GPU compatibility.
+    --programming-lang=: The supported programming language and its version.
+    --release-notes=: The maintainer description of the image version.
+    --vendor-guidance=: The stability of the image version, specified by the maintainer.
+completion:
+    flag:
+        job-type:
+            - TRAINING
+            - INFERENCE
+            - NOTEBOOK_KERNEL
+        processor:
+            - CPU
+            - GPU
+        vendor-guidance:
+            - NOT_PROVIDED
+            - STABLE
+            - TO_BE_ARCHIVED
+            - ARCHIVED
+documentation:
+    command: Creates a version of the SageMaker AI image specified by `ImageName`. The version represents the Amazon ECR container image specified by `BaseImage`.
+    flag:
+        aliases: A list of aliases created with the image version.
+        base-image: |-
+            The registry path of the container image to use as the starting point for this version. The path is an Amazon ECR URI in the following format:
+
+            `<acct-id>.dkr.ecr.<region>.amazonaws.com/<repo-name[:tag] or [@digest]>`
+        client-token: A unique ID. If not specified, the Amazon Web Services CLI and Amazon Web Services SDKs, such as the SDK for Python (Boto3), add a unique value to the call.
+        horovod: Indicates Horovod compatibility.
+        image-name: The `ImageName` of the `Image` to create a version of.
+        job-type: |-
+            Indicates SageMaker AI job type compatibility.
+
+            - `TRAINING`: The image version is compatible with SageMaker AI training jobs.
+            - `INFERENCE`: The image version is compatible with SageMaker AI inference jobs.
+            - `NOTEBOOK_KERNEL`: The image version is compatible with SageMaker AI notebook kernels.
+        mlframework: The machine learning framework vended in the image version.
+        processor: |-
+            Indicates CPU or GPU compatibility.
+
+            - `CPU`: The image version is compatible with CPU.
+            - `GPU`: The image version is compatible with GPU.
+        programming-lang: The supported programming language and its version.
+        release-notes: The maintainer description of the image version.
+        vendor-guidance: |-
+            The stability of the image version, specified by the maintainer.
+
+            - `NOT_PROVIDED`: The maintainers did not provide a status for image version stability.
+            - `STABLE`: The image version is stable.
+            - `TO_BE_ARCHIVED`: The image version is set to be archived. Custom image versions that are set to be archived are automatically archived after three months.
+            - `ARCHIVED`: The image version is archived. Archived image versions are not searchable and are no longer actively supported.

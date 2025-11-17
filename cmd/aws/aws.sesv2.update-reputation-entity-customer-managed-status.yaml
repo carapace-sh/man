@@ -1,0 +1,28 @@
+name: update-reputation-entity-customer-managed-status
+description: Update the customer-managed sending status for a reputation entity.
+flags:
+    --reputation-entity-reference=!: The unique identifier for the reputation entity.
+    --reputation-entity-type=!: The type of reputation entity.
+    --sending-status=!: The new customer-managed sending status for the reputation entity.
+completion:
+    flag:
+        reputation-entity-type:
+            - RESOURCE
+        sending-status:
+            - ENABLED
+            - REINSTATED
+            - DISABLED
+documentation:
+    command: |-
+        Update the customer-managed sending status for a reputation entity. This allows you to enable, disable, or reinstate sending for the entity.
+
+        The customer-managed status works in conjunction with the Amazon Web Services Amazon SES-managed status to determine the overall sending capability. When you update the customer-managed status, the Amazon Web Services Amazon SES-managed status remains unchanged. If Amazon Web Services Amazon SES has disabled the entity, it will not be allowed to send regardless of the customer-managed status setting. When you reinstate an entity through the customer-managed status, it can continue sending only if the Amazon Web Services Amazon SES-managed status also permits sending, even if there are active reputation findings, until the findings are resolved or new violations occur.
+    flag:
+        reputation-entity-reference: The unique identifier for the reputation entity. For resource-type entities, this is the Amazon Resource Name (ARN) of the resource.
+        reputation-entity-type: The type of reputation entity. Currently, only `RESOURCE` type entities are supported.
+        sending-status: |-
+            The new customer-managed sending status for the reputation entity. This can be one of the following:
+
+            - `ENABLED` – Allow sending for this entity.
+            - `DISABLED` – Prevent sending for this entity.
+            - `REINSTATED` – Allow sending even if there are active reputation findings.

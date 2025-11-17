@@ -1,0 +1,31 @@
+name: update-certificate
+description: Updates the status of the specified certificate.
+flags:
+    --certificate-id=!: The ID of the certificate.
+    --new-status=!: The new status.
+completion:
+    flag:
+        new-status:
+            - ACTIVE
+            - INACTIVE
+            - REVOKED
+            - PENDING_TRANSFER
+            - REGISTER_INACTIVE
+            - PENDING_ACTIVATION
+documentation:
+    command: |-
+        Updates the status of the specified certificate. This operation is idempotent.
+
+        Requires permission to access the [UpdateCertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+
+        Certificates must be in the ACTIVE state to authenticate devices that use a certificate to connect to IoT.
+
+        Within a few minutes of updating a certificate from the ACTIVE state to any other state, IoT disconnects all devices that used that certificate to connect. Devices cannot use a certificate that is not in the ACTIVE state to reconnect.
+    flag:
+        certificate-id: The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
+        new-status: |-
+            The new status.
+
+            **Note:** Setting the status to PENDING\_TRANSFER or PENDING\_ACTIVATION will result in an exception being thrown. PENDING\_TRANSFER and PENDING\_ACTIVATION are statuses used internally by IoT. They are not intended for developer use.
+
+            **Note:** The status value REGISTER\_INACTIVE is deprecated and should not be used.

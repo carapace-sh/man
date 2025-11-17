@@ -1,0 +1,37 @@
+name: create-template
+description: Creates a template either from a `TemplateDefinition` or from an existing Quick Sight analysis or template.
+flags:
+    --aws-account-id=!: The ID for the Amazon Web Services account that the group is in.
+    --definition=: The definition of a template.
+    --name=: A display name for the template.
+    --permissions=: A list of resource permissions to be set on the template.
+    --source-entity=: The entity that you are using as a source when you create the template.
+    --tags=: Contains a map of the key-value pairs for the resource tag or tags assigned to the resource.
+    --template-id=!: An ID for the template that you want to create.
+    --validation-strategy=: TThe option to relax the validation needed to create a template with definition objects.
+    --version-description=: A description of the current template version being created.
+documentation:
+    command: |-
+        Creates a template either from a `TemplateDefinition` or from an existing Quick Sight analysis or template. You can use the resulting template to create additional dashboards, templates, or analyses.
+
+        A *template* is an entity in Quick Sight that encapsulates the metadata required to create an analysis and that you can use to create s dashboard. A template adds a layer of abstraction by using placeholders to replace the dataset associated with the analysis. You can use templates to create dashboards by replacing dataset placeholders with datasets that follow the same schema that was used to create the source analysis and template.
+    flag:
+        aws-account-id: The ID for the Amazon Web Services account that the group is in. You use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
+        definition: |-
+            The definition of a template.
+
+            A definition is the data model of all features in a Dashboard, Template, or Analysis.
+
+            Either a `SourceEntity` or a `Definition` must be provided in order for the request to be valid.
+        name: A display name for the template.
+        permissions: A list of resource permissions to be set on the template.
+        source-entity: |-
+            The entity that you are using as a source when you create the template. In `SourceEntity`, you specify the type of object you're using as source: `SourceTemplate` for a template or `SourceAnalysis` for an analysis. Both of these require an Amazon Resource Name (ARN). For `SourceTemplate`, specify the ARN of the source template. For `SourceAnalysis`, specify the ARN of the source analysis. The `SourceTemplate` ARN can contain any Amazon Web Services account and any Quick Sight-supported Amazon Web Services Region.
+
+            Use the `DataSetReferences` entity within `SourceTemplate` or `SourceAnalysis` to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.
+
+            Either a `SourceEntity` or a `Definition` must be provided in order for the request to be valid.
+        tags: Contains a map of the key-value pairs for the resource tag or tags assigned to the resource.
+        template-id: An ID for the template that you want to create. This template is unique per Amazon Web Services Region; in each Amazon Web Services account.
+        validation-strategy: TThe option to relax the validation needed to create a template with definition objects. This skips the validation step for specific errors.
+        version-description: A description of the current template version being created. This API operation creates the first version of the template. Every time `UpdateTemplate` is called, a new version is created. Each version of the template maintains a description of the version in the `VersionDescription` field.

@@ -1,0 +1,42 @@
+name: create-mac-system-integrity-protection-modification-task
+description: Creates a System Integrity Protection (SIP) modification task to configure the SIP settings for an x86 Mac instance or Apple silicon Mac instance.
+flags:
+    --client-token=: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    --dry-run: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response.
+    --instance-id=!: The ID of the Amazon EC2 Mac instance.
+    --mac-credentials=: '**\[Apple silicon Mac instances only]** Specifies the following credentials:'
+    --mac-system-integrity-protection-configuration=: Specifies the overrides to selectively enable or disable individual SIP settings.
+    --mac-system-integrity-protection-status=!: Specifies the overall SIP status for the instance.
+    --no-dry-run&: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response.
+    --tag-specifications=: Specifies tags to apply to the SIP modification task.
+completion:
+    flag:
+        mac-system-integrity-protection-status:
+            - enabled
+            - disabled
+documentation:
+    command: |-
+        Creates a System Integrity Protection (SIP) modification task to configure the SIP settings for an x86 Mac instance or Apple silicon Mac instance. For more information, see [Configure SIP for Amazon EC2 instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/mac-sip-settings.html#mac-sip-configure) in the *Amazon EC2 User Guide*.
+
+        When you configure the SIP settings for your instance, you can either enable or disable all SIP settings, or you can specify a custom SIP configuration that selectively enables or disables specific SIP settings.
+
+        If you implement a custom configuration, [connect to the instance and verify the settings](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/mac-sip-settings.html#mac-sip-check-settings) to ensure that your requirements are properly implemented and functioning as intended.
+
+        SIP configurations might change with macOS updates. We recommend that you review custom SIP settings after any macOS version upgrade to ensure continued compatibility and proper functionality of your security configurations.
+
+        To enable or disable all SIP settings, use the **MacSystemIntegrityProtectionStatus** parameter only. For example, to enable all SIP settings, specify the following:
+
+        - `MacSystemIntegrityProtectionStatus=enabled`
+
+        To specify a custom configuration that selectively enables or disables specific SIP settings, use the **MacSystemIntegrityProtectionStatus** parameter to enable or disable all SIP settings, and then use the **MacSystemIntegrityProtectionConfiguration** parameter to specify exceptions. In this case, the exceptions you specify for **MacSystemIntegrityProtectionConfiguration** override the value you specify for **MacSystemIntegrityProtectionStatus**. For example, to enable all SIP settings, except `NvramProtections`, specify the following:
+
+        - `MacSystemIntegrityProtectionStatus=enabled`
+        - `MacSystemIntegrityProtectionConfigurationRequest "NvramProtections=disabled"`
+    flag:
+        client-token: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+        dry-run: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+        instance-id: The ID of the Amazon EC2 Mac instance.
+        mac-credentials: "**\\[Apple silicon Mac instances only]** Specifies the following credentials:\n\n- **Internal disk administrative user**\n  \n  - **Username** - Only the default administrative user (`aws-managed-user`) is supported and it is used by default. You can't specify a different administrative user.\n  - **Password** - If you did not change the default password for `aws-managed-user`, specify the default password, which is *blank*. Otherwise, specify your password.\n- **Amazon EBS root volume administrative user**\n  \n  - **Username** - If you did not change the default administrative user, specify `ec2-user`. Otherwise, specify the username for your administrative user.\n  - **Password** - Specify the password for the administrative user.\n\nThe credentials must be specified in the following JSON format:\n\n`{ \"internalDiskPassword\":\"internal-disk-admin_password\", \"rootVolumeUsername\":\"root-volume-admin_username\", \"rootVolumepassword\":\"root-volume-admin_password\" }`"
+        mac-system-integrity-protection-configuration: Specifies the overrides to selectively enable or disable individual SIP settings. The individual settings you specify here override the overall SIP status you specify for **MacSystemIntegrityProtectionStatus**.
+        mac-system-integrity-protection-status: Specifies the overall SIP status for the instance. To enable all SIP settings, specify `enabled`. To disable all SIP settings, specify `disabled`.
+        tag-specifications: Specifies tags to apply to the SIP modification task.

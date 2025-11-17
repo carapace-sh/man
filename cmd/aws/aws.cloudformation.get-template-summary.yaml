@@ -1,0 +1,40 @@
+name: get-template-summary
+description: Returns information about a new or existing template.
+flags:
+    --call-as=: \[Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account.
+    --stack-name=: The name or the stack ID that's associated with the stack, which aren't always interchangeable.
+    --stack-set-name=: The name or unique ID of the StackSet from which the stack was created.
+    --template-body=: Structure that contains the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes.
+    --template-summary-config=: Specifies options for the `GetTemplateSummary` API action.
+    --template-url=: The URL of a file that contains the template body.
+completion:
+    flag:
+        call-as:
+            - SELF
+            - DELEGATED_ADMIN
+documentation:
+    command: |-
+        Returns information about a new or existing template. The `GetTemplateSummary` action is useful for viewing parameter information, such as default parameter values and parameter types, before you create or update a stack or StackSet.
+
+        You can use the `GetTemplateSummary` action when you submit a template, or you can get template information for a StackSet, or a running or deleted stack.
+
+        For deleted stacks, `GetTemplateSummary` returns the template information for up to 90 days after the stack has been deleted. If the template doesn't exist, a `ValidationError` is returned.
+    flag:
+        call-as: "\\[Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account.\n\nBy default, `SELF` is specified. Use `SELF` for StackSets with self-managed permissions.\n\n- If you are signed in to the management account, specify `SELF`.\n- If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.\n  \n  Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*."
+        stack-name: |-
+            The name or the stack ID that's associated with the stack, which aren't always interchangeable. For running stacks, you can specify either the stack's name or its unique stack ID. For deleted stack, you must specify the unique stack ID.
+
+            Conditional: You must specify only one of the following parameters: `StackName`, `StackSetName`, `TemplateBody`, or `TemplateURL`.
+        stack-set-name: |-
+            The name or unique ID of the StackSet from which the stack was created.
+
+            Conditional: You must specify only one of the following parameters: `StackName`, `StackSetName`, `TemplateBody`, or `TemplateURL`.
+        template-body: |-
+            Structure that contains the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes.
+
+            Conditional: You must specify only one of the following parameters: `StackName`, `StackSetName`, `TemplateBody`, or `TemplateURL`.
+        template-summary-config: Specifies options for the `GetTemplateSummary` API action.
+        template-url: |-
+            The URL of a file that contains the template body. The URL must point to a template (max size: 1 MB) that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with `https://`.
+
+            Conditional: You must specify only one of the following parameters: `StackName`, `StackSetName`, `TemplateBody`, or `TemplateURL`.

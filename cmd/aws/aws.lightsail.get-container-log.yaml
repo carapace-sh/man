@@ -1,0 +1,35 @@
+name: get-container-log
+description: Returns the log events of a container of your Amazon Lightsail container service.
+flags:
+    --container-name=!: The name of the container that is either running or previously ran on the container service for which to return a log.
+    --end-time=: The end of the time interval for which to get log data.
+    --filter-pattern=: The pattern to use to filter the returned log events to a specific term.
+    --page-token=: The token to advance to the next page of results from your request.
+    --service-name=!: The name of the container service for which to get a container log.
+    --start-time=: The start of the time interval for which to get log data.
+documentation:
+    command: |-
+        Returns the log events of a container of your Amazon Lightsail container service.
+
+        If your container service has more than one node (i.e., a scale greater than 1), then the log events that are returned for the specified container are merged from all nodes on your container service.
+
+        Container logs are retained for a certain amount of time. For more information, see [Amazon Lightsail endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/lightsail.html) in the *Amazon Web Services General Reference*.
+    flag:
+        container-name: The name of the container that is either running or previously ran on the container service for which to return a log.
+        end-time: "The end of the time interval for which to get log data.\n\nConstraints:\n\n- Specified in Coordinated Universal Time (UTC).\n- Specified in the Unix time format.\n  \n  For example, if you wish to use an end time of October 1, 2018, at 9 PM UTC, specify `1538427600` as the end time.\n\nYou can convert a human-friendly time to Unix time format using a converter like [Epoch converter](https://www.epochconverter.com/)."
+        filter-pattern: |-
+            The pattern to use to filter the returned log events to a specific term.
+
+            The following are a few examples of filter patterns that you can specify:
+
+            - To return all log events, specify a filter pattern of `""`.
+            - To exclude log events that contain the `ERROR` term, and return all other log events, specify a filter pattern of `"-ERROR"`.
+            - To return log events that contain the `ERROR` term, specify a filter pattern of `"ERROR"`.
+            - To return log events that contain both the `ERROR` and `Exception` terms, specify a filter pattern of `"ERROR Exception"`.
+            - To return log events that contain the `ERROR` *or* the `Exception` term, specify a filter pattern of `"?ERROR ?Exception"`.
+        page-token: |-
+            The token to advance to the next page of results from your request.
+
+            To get a page token, perform an initial `GetContainerLog` request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
+        service-name: The name of the container service for which to get a container log.
+        start-time: "The start of the time interval for which to get log data.\n\nConstraints:\n\n- Specified in Coordinated Universal Time (UTC).\n- Specified in the Unix time format.\n  \n  For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, specify `1538424000` as the start time.\n\nYou can convert a human-friendly time to Unix time format using a converter like [Epoch converter](https://www.epochconverter.com/)."

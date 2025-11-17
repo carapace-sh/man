@@ -1,0 +1,24 @@
+name: update-dashboard
+description: Updates the specified dashboard.
+flags:
+    --dashboard-id=!: The name or ARN of the dashboard.
+    --refresh-schedule=: The refresh schedule configuration for the dashboard.
+    --termination-protection-enabled=: Specifies whether termination protection is enabled for the dashboard.
+    --widgets=: An array of widgets for the dashboard.
+documentation:
+    command: |-
+        Updates the specified dashboard.
+
+        To set a refresh schedule, CloudTrail must be granted permissions to run the `StartDashboardRefresh` operation to refresh the dashboard on your behalf. To provide permissions, run the `PutResourcePolicy` operation to attach a resource-based policy to the dashboard. For more information, see [Resource-based policy example for a dashboard](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html#security_iam_resource-based-policy-examples-dashboards) in the *CloudTrail User Guide*.
+
+        CloudTrail runs queries to populate the dashboard's widgets during a manual or scheduled refresh. CloudTrail must be granted permissions to run the `StartQuery` operation on your behalf. To provide permissions, run the `PutResourcePolicy` operation to attach a resource-based policy to each event data store. For more information, see [Example: Allow CloudTrail to run queries to populate a dashboard](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html#security_iam_resource-based-policy-examples-eds-dashboard) in the *CloudTrail User Guide*.
+    flag:
+        dashboard-id: The name or ARN of the dashboard.
+        refresh-schedule: The refresh schedule configuration for the dashboard.
+        termination-protection-enabled: Specifies whether termination protection is enabled for the dashboard. If termination protection is enabled, you cannot delete the dashboard until termination protection is disabled.
+        widgets: |-
+            An array of widgets for the dashboard. A custom dashboard can have a maximum of 10 widgets.
+
+            To add new widgets, pass in an array that includes the existing widgets along with any new widgets. Run the `GetDashboard` operation to get the list of widgets for the dashboard.
+
+            To remove widgets, pass in an array that includes the existing widgets minus the widgets you want removed.

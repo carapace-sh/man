@@ -1,0 +1,27 @@
+name: create-certificate-authority-audit-report
+description: Creates an audit report that lists every time that your CA private key is used to issue a certificate.
+flags:
+    --audit-report-response-format=!: The format in which to create the report.
+    --certificate-authority-arn=!: The Amazon Resource Name (ARN) of the CA to be audited.
+    --s3-bucket-name=!: The name of the S3 bucket that will contain the audit report.
+completion:
+    flag:
+        audit-report-response-format:
+            - JSON
+            - CSV
+documentation:
+    command: |-
+        Creates an audit report that lists every time that your CA private key is used to issue a certificate. The [IssueCertificate](https://docs.aws.amazon.com/privateca/latest/APIReference/API_IssueCertificate.html) and [RevokeCertificate](https://docs.aws.amazon.com/privateca/latest/APIReference/API_RevokeCertificate.html) actions use the private key.
+
+        To save the audit report to your designated Amazon S3 bucket, you must create a bucket policy that grants Amazon Web Services Private CA permission to access and write to it. For an example policy, see [Prepare an Amazon S3 bucket for audit reports](https://docs.aws.amazon.com/privateca/latest/userguide/PcaAuditReport.html#s3-access).
+
+        Amazon Web Services Private CA assets that are stored in Amazon S3 can be protected with encryption. For more information, see [Encrypting Your Audit Reports](https://docs.aws.amazon.com/privateca/latest/userguide/PcaAuditReport.html#audit-report-encryption).
+
+        You can generate a maximum of one report every 30 minutes.
+    flag:
+        audit-report-response-format: The format in which to create the report. This can be either **JSON** or **CSV**.
+        certificate-authority-arn: |-
+            The Amazon Resource Name (ARN) of the CA to be audited. This is of the form:
+
+            `arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012`.
+        s3-bucket-name: The name of the S3 bucket that will contain the audit report.

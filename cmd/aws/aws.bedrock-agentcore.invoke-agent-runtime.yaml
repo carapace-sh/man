@@ -1,0 +1,45 @@
+name: invoke-agent-runtime
+description: Sends a request to an agent or tool hosted in an Amazon Bedrock AgentCore Runtime and receives responses in real-time.
+flags:
+    --accept=: The desired MIME type for the response from the agent runtime.
+    --account-id=: The identifier of the Amazon Web Services account for the agent runtime resource.
+    --agent-runtime-arn=!: The Amazon Web Services Resource Name (ARN) of the agent runtime to invoke.
+    --baggage=: Additional context information for distributed tracing.
+    --content-type=: The MIME type of the input data in the payload.
+    --mcp-protocol-version=: The version of the MCP protocol being used.
+    --mcp-session-id=: The identifier of the MCP session.
+    --payload=!: The input data to send to the agent runtime.
+    --qualifier=: The qualifier to use for the agent runtime.
+    --runtime-session-id=: The identifier of the runtime session.
+    --runtime-user-id=: The identifier of the runtime user.
+    --trace-id=: The trace identifier for request tracking.
+    --trace-parent=: The parent trace information for distributed tracing.
+    --trace-state=: The trace state information for distributed tracing.
+documentation:
+    command: |-
+        Sends a request to an agent or tool hosted in an Amazon Bedrock AgentCore Runtime and receives responses in real-time.
+
+        To invoke an agent you must specify the AgentCore Runtime ARN and provide a payload containing your request. You can optionally specify a qualifier to target a specific version or endpoint of the agent.
+
+        This operation supports streaming responses, allowing you to receive partial responses as they become available. We recommend using pagination to ensure that the operation returns quickly and successfully when processing large responses.
+
+        For example code, see [Invoke an AgentCore Runtime agent](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-invoke-agent.html).
+
+        If you're integrating your agent with OAuth, you can't use the Amazon Web Services SDK to call `InvokeAgentRuntime`. Instead, make a HTTPS request to `InvokeAgentRuntime`. For an example, see [Authenticate and authorize with Inbound Auth and Outbound Auth](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-oauth.html).
+
+        To use this operation, you must have the `bedrock-agentcore:InvokeAgentRuntime` permission. If you are making a call to `InvokeAgentRuntime` on behalf of a user ID with the `X-Amzn-Bedrock-AgentCore-Runtime-User-Id` header, You require permissions to both actions (`bedrock-agentcore:InvokeAgentRuntime` and `bedrock-agentcore:InvokeAgentRuntimeForUser`).
+    flag:
+        accept: The desired MIME type for the response from the agent runtime. This tells the agent runtime what format to use for the response data. Common values include application/json for JSON data.
+        account-id: The identifier of the Amazon Web Services account for the agent runtime resource.
+        agent-runtime-arn: The Amazon Web Services Resource Name (ARN) of the agent runtime to invoke. The ARN uniquely identifies the agent runtime resource in Amazon Bedrock.
+        baggage: Additional context information for distributed tracing.
+        content-type: The MIME type of the input data in the payload. This tells the agent runtime how to interpret the payload data. Common values include application/json for JSON data.
+        mcp-protocol-version: The version of the MCP protocol being used.
+        mcp-session-id: The identifier of the MCP session.
+        payload: The input data to send to the agent runtime. The format of this data depends on the specific agent configuration and must match the specified content type. For most agents, this is a JSON object containing the user's request.
+        qualifier: The qualifier to use for the agent runtime. This can be a version number or an endpoint name that points to a specific version. If not specified, Amazon Bedrock uses the default version of the agent runtime.
+        runtime-session-id: The identifier of the runtime session.
+        runtime-user-id: The identifier of the runtime user.
+        trace-id: The trace identifier for request tracking.
+        trace-parent: The parent trace information for distributed tracing.
+        trace-state: The trace state information for distributed tracing.

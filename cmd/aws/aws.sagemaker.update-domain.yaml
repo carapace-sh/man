@@ -1,0 +1,44 @@
+name: update-domain
+description: Updates the default settings for new user profiles in the domain.
+flags:
+    --app-network-access-type=: Specifies the VPC used for non-EFS traffic.
+    --app-security-group-management=: The entity that creates and manages the required security groups for inter-app communication in `VPCOnly` mode.
+    --default-space-settings=: The default settings for shared spaces that users create in the domain.
+    --default-user-settings=: A collection of settings.
+    --domain-id=!: The ID of the domain to be updated.
+    --domain-settings-for-update=: A collection of `DomainSettings` configuration values to update.
+    --subnet-ids=: The VPC subnets that Studio uses for communication.
+    --tag-propagation=: Indicates whether custom tag propagation is supported for the domain.
+    --vpc-id=: The identifier for the VPC used by the domain for network communication.
+completion:
+    flag:
+        app-network-access-type:
+            - PublicInternetOnly
+            - VpcOnly
+        app-security-group-management:
+            - Service
+            - Customer
+        tag-propagation:
+            - ENABLED
+            - DISABLED
+documentation:
+    command: Updates the default settings for new user profiles in the domain.
+    flag:
+        app-network-access-type: |-
+            Specifies the VPC used for non-EFS traffic.
+
+            - `PublicInternetOnly` - Non-EFS traffic is through a VPC managed by Amazon SageMaker AI, which allows direct internet access.
+            - `VpcOnly` - All Studio traffic is through the specified VPC and subnets.
+
+            This configuration can only be modified if there are no apps in the `InService`, `Pending`, or `Deleting` state. The configuration cannot be updated if `DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn` is already set or `DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn` is provided as part of the same request.
+        app-security-group-management: The entity that creates and manages the required security groups for inter-app communication in `VPCOnly` mode. Required when `CreateDomain.AppNetworkAccessType` is `VPCOnly` and `DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn` is provided. If setting up the domain for use with RStudio, this value must be set to `Service`.
+        default-space-settings: The default settings for shared spaces that users create in the domain.
+        default-user-settings: A collection of settings.
+        domain-id: The ID of the domain to be updated.
+        domain-settings-for-update: A collection of `DomainSettings` configuration values to update.
+        subnet-ids: |-
+            The VPC subnets that Studio uses for communication.
+
+            If removing subnets, ensure there are no apps in the `InService`, `Pending`, or `Deleting` state.
+        tag-propagation: Indicates whether custom tag propagation is supported for the domain. Defaults to `DISABLED`.
+        vpc-id: The identifier for the VPC used by the domain for network communication. Use this field only when adding VPC configuration to a SageMaker AI domain used in Amazon SageMaker Unified Studio that was created without VPC settings. SageMaker AI doesn't automatically apply VPC updates to existing applications. Stop and restart your applications to apply the changes.

@@ -1,0 +1,46 @@
+name: update-component
+description: Update a component.
+flags:
+    --client-token=: The client token for the updated component.
+    --deployment-type=!: The deployment type.
+    --description=: An optional customer-provided description of the component.
+    --name=!: The name of the component to update.
+    --service-instance-name=: The name of the service instance that you want to attach this component to.
+    --service-name=: The name of the service that `serviceInstanceName` is associated with.
+    --service-spec=: The service spec that you want the component to use to access service inputs.
+    --template-file=: A path to the Infrastructure as Code (IaC) file describing infrastructure that a custom component provisions.
+completion:
+    flag:
+        deployment-type:
+            - NONE
+            - CURRENT_VERSION
+documentation:
+    command: |-
+        Update a component.
+
+        There are a few modes for updating a component. The `deploymentType` field defines the mode.
+
+        You can't update a component while its deployment status, or the deployment status of a service instance attached to it, is `IN_PROGRESS`.
+
+        For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the *Proton User Guide*.
+    flag:
+        client-token: The client token for the updated component.
+        deployment-type: |-
+            The deployment type. It defines the mode for updating a component, as follows:
+
+            `NONE`
+
+            In this mode, a deployment *doesn't* occur. Only the requested metadata parameters are updated. You can only specify `description` in this mode.
+
+            `CURRENT_VERSION`
+
+            In this mode, the component is deployed and updated with the new `serviceSpec`, `templateSource`, and/or `type` that you provide. Only requested parameters are updated.
+        description: An optional customer-provided description of the component.
+        name: The name of the component to update.
+        service-instance-name: The name of the service instance that you want to attach this component to. Don't specify to keep the component's current service instance attachment. Specify an empty string to detach the component from the service instance it's attached to. Specify non-empty values for both `serviceInstanceName` and `serviceName` or for neither of them.
+        service-name: The name of the service that `serviceInstanceName` is associated with. Don't specify to keep the component's current service instance attachment. Specify an empty string to detach the component from the service instance it's attached to. Specify non-empty values for both `serviceInstanceName` and `serviceName` or for neither of them.
+        service-spec: The service spec that you want the component to use to access service inputs. Set this only when the component is attached to a service instance.
+        template-file: |-
+            A path to the Infrastructure as Code (IaC) file describing infrastructure that a custom component provisions.
+
+            Components support a single IaC file, even if you use Terraform as your template language.

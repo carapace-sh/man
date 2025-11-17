@@ -1,0 +1,20 @@
+name: unassign-private-nat-gateway-address
+description: Unassigns secondary private IPv4 addresses from a private NAT gateway.
+flags:
+    --dry-run: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response.
+    --max-drain-duration-seconds=: The maximum amount of time to wait (in seconds) before forcibly releasing the IP addresses if connections are still in progress.
+    --nat-gateway-id=!: The ID of the NAT gateway.
+    --no-dry-run&: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response.
+    --private-ip-addresses=!: The private IPv4 addresses you want to unassign.
+documentation:
+    command: |-
+        Unassigns secondary private IPv4 addresses from a private NAT gateway. You cannot unassign your primary private IP. For more information, see [Edit secondary IP address associations](https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-working-with.html#nat-gateway-edit-secondary) in the *Amazon VPC User Guide*.
+
+        While unassigning is in progress, you cannot assign/unassign additional IP addresses while the connections are being drained. You are, however, allowed to delete the NAT gateway.
+
+        A private IP address will only be released at the end of MaxDrainDurationSeconds. The private IP addresses stay associated and support the existing connections, but do not support any new connections (new connections are distributed across the remaining assigned private IP address). After the existing connections drain out, the private IP addresses are released.
+    flag:
+        dry-run: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+        max-drain-duration-seconds: The maximum amount of time to wait (in seconds) before forcibly releasing the IP addresses if connections are still in progress. Default value is 350 seconds.
+        nat-gateway-id: The ID of the NAT gateway.
+        private-ip-addresses: The private IPv4 addresses you want to unassign.

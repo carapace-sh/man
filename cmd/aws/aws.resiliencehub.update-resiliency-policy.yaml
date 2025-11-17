@@ -1,0 +1,34 @@
+name: update-resiliency-policy
+description: Updates a resiliency policy.
+flags:
+    --data-location-constraint=: Specifies a high-level geographical location constraint for where your resilience policy data can be stored.
+    --policy-arn=!: Amazon Resource Name (ARN) of the resiliency policy.
+    --policy-description=: Description of the resiliency policy.
+    --policy-name=: Name of the resiliency policy.
+    --policy=: Resiliency policy to be created, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds.
+    --tier=: The tier for this resiliency policy, ranging from the highest severity (`MissionCritical`) to lowest (`NonCritical`).
+completion:
+    flag:
+        data-location-constraint:
+            - AnyLocation
+            - SameContinent
+            - SameCountry
+        tier:
+            - MissionCritical
+            - Critical
+            - Important
+            - CoreServices
+            - NonCritical
+            - NotApplicable
+documentation:
+    command: |-
+        Updates a resiliency policy.
+
+        Resilience Hub allows you to provide a value of zero for `rtoInSecs` and `rpoInSecs` of your resiliency policy. But, while assessing your application, the lowest possible assessment result is near zero. Hence, if you provide value zero for `rtoInSecs` and `rpoInSecs`, the estimated workload RTO and estimated workload RPO result will be near zero and the **Compliance status** for your application will be set to **Policy breached**.
+    flag:
+        data-location-constraint: Specifies a high-level geographical location constraint for where your resilience policy data can be stored.
+        policy: Resiliency policy to be created, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds.
+        policy-arn: 'Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:`partition`:resiliencehub:`region`:`account`:resiliency-policy/`policy-id`. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the *Amazon Web Services General Reference* guide.'
+        policy-description: Description of the resiliency policy.
+        policy-name: Name of the resiliency policy.
+        tier: The tier for this resiliency policy, ranging from the highest severity (`MissionCritical`) to lowest (`NonCritical`).

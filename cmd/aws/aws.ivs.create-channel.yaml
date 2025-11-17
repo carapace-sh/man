@@ -1,0 +1,46 @@
+name: create-channel
+description: Creates a new channel and an associated stream key to start streaming.
+flags:
+    --authorized: Whether the channel is private (enabled for playback authorization).
+    --container-format=: Indicates which content-packaging format is used (MPEG-TS or fMP4).
+    --insecure-ingest: Whether the channel allows insecure RTMP and SRT ingest.
+    --latency-mode=: Channel latency mode.
+    --multitrack-input-configuration=: Object specifying multitrack input configuration.
+    --name=: Channel name.
+    --no-authorized&: Whether the channel is private (enabled for playback authorization).
+    --no-insecure-ingest&: Whether the channel allows insecure RTMP and SRT ingest.
+    --playback-restriction-policy-arn=: Playback-restriction-policy ARN.
+    --preset=: Optional transcode preset for the channel.
+    --recording-configuration-arn=: Recording-configuration ARN.
+    --tags=: Array of 1-50 maps, each of the form `string:string (key:value)`.
+    --type=: Channel type, which determines the allowable resolution and bitrate.
+completion:
+    flag:
+        container-format:
+            - TS
+            - FRAGMENTED_MP4
+        latency-mode:
+            - NORMAL
+            - LOW
+        preset:
+            - HIGHER_BANDWIDTH_DELIVERY
+            - CONSTRAINED_BANDWIDTH_DELIVERY
+        type:
+            - BASIC
+            - STANDARD
+            - ADVANCED_SD
+            - ADVANCED_HD
+documentation:
+    command: Creates a new channel and an associated stream key to start streaming.
+    flag:
+        authorized: 'Whether the channel is private (enabled for playback authorization). Default: `false`.'
+        container-format: 'Indicates which content-packaging format is used (MPEG-TS or fMP4). If `multitrackInputConfiguration` is specified and `enabled` is `true`, then `containerFormat` is required and must be set to `FRAGMENTED_MP4`. Otherwise, `containerFormat` may be set to `TS` or `FRAGMENTED_MP4`. Default: `TS`.'
+        insecure-ingest: 'Whether the channel allows insecure RTMP and SRT ingest. Default: `false`.'
+        latency-mode: 'Channel latency mode. Use `NORMAL` to broadcast and deliver live video up to Full HD. Use `LOW` for near-real-time interaction with viewers. Default: `LOW`.'
+        multitrack-input-configuration: 'Object specifying multitrack input configuration. Default: no multitrack input configuration is specified.'
+        name: Channel name.
+        playback-restriction-policy-arn: 'Playback-restriction-policy ARN. A valid ARN value here both specifies the ARN and enables playback restriction. Default: "" (empty string, no playback restriction policy is applied).'
+        preset: Optional transcode preset for the channel. This is selectable only for `ADVANCED_HD` and `ADVANCED_SD` channel types. For those channel types, the default `preset` is `HIGHER_BANDWIDTH_DELIVERY`. For other channel types (`BASIC` and `STANDARD`), `preset` is the empty string (`""`).
+        recording-configuration-arn: 'Recording-configuration ARN. A valid ARN value here both specifies the ARN and enables recording. Default: "" (empty string, recording is disabled).'
+        tags: Array of 1-50 maps, each of the form `string:string (key:value)`. See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html) in *Tagging Amazon Web Services Resources and Tag Editor* for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        type: 'Channel type, which determines the allowable resolution and bitrate. *If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately.* Default: `STANDARD`. For details, see [Channel Types](https://docs.aws.amazon.com/ivs/latest/LowLatencyAPIReference/channel-types.html).'

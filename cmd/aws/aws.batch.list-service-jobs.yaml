@@ -1,0 +1,43 @@
+name: list-service-jobs
+description: Returns a list of service jobs for a specified job queue.
+flags:
+    --filters=: The filter to apply to the query.
+    --job-queue=: The name or ARN of the job queue with which to list service jobs.
+    --job-status=: The job status with which to filter service jobs.
+    --max-results=: The maximum number of results returned by `ListServiceJobs` in paginated output.
+    --next-token=: The `nextToken` value returned from a previous paginated `ListServiceJobs` request where `maxResults` was used and the results exceeded the value of that parameter.
+completion:
+    flag:
+        job-status:
+            - SUBMITTED
+            - PENDING
+            - RUNNABLE
+            - SCHEDULED
+            - STARTING
+            - RUNNING
+            - SUCCEEDED
+            - FAILED
+documentation:
+    command: Returns a list of service jobs for a specified job queue.
+    flag:
+        filters: |-
+            The filter to apply to the query. Only one filter can be used at a time. When the filter is used, `jobStatus` is ignored. The results are sorted by the `createdAt` field, with the most recent jobs being first.
+
+            JOB\_NAME
+
+            The value of the filter is a case-insensitive match for the job name. If the value ends with an asterisk (\*), the filter matches any job name that begins with the string before the '\*'. This corresponds to the `jobName` value. For example, `test1` matches both `Test1` and `test1`, and `test1*` matches both `test1` and `Test10`. When the `JOB_NAME` filter is used, the results are grouped by the job name and version.
+
+            BEFORE\_CREATED\_AT
+
+            The value for the filter is the time that's before the job was created. This corresponds to the `createdAt` value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970.
+
+            AFTER\_CREATED\_AT
+
+            The value for the filter is the time that's after the job was created. This corresponds to the `createdAt` value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970.
+        job-queue: The name or ARN of the job queue with which to list service jobs.
+        job-status: The job status with which to filter service jobs.
+        max-results: The maximum number of results returned by `ListServiceJobs` in paginated output. When this parameter is used, `ListServiceJobs` only returns `maxResults` results in a single page and a `nextToken` response element. The remaining results of the initial request can be seen by sending another `ListServiceJobs` request with the returned `nextToken` value. This value can be between 1 and 100. If this parameter isn't used, then `ListServiceJobs` returns up to 100 results and a `nextToken` value if applicable.
+        next-token: |-
+            The `nextToken` value returned from a previous paginated `ListServiceJobs` request where `maxResults` was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the `nextToken` value. This value is `null` when there are no more results to return.
+
+            Treat this token as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes.

@@ -1,0 +1,30 @@
+name: create-event-destination
+description: Creates a new event destination in a configuration set.
+flags:
+    --client-token=: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    --cloud-watch-logs-destination=: An object that contains information about an event destination for logging to Amazon CloudWatch Logs.
+    --configuration-set-name=!: Either the name of the configuration set or the configuration set ARN to apply event logging to.
+    --event-destination-name=!: The name that identifies the event destination.
+    --kinesis-firehose-destination=: An object that contains information about an event destination for logging to Amazon Data Firehose.
+    --matching-event-types=!: An array of event types that determine which events to log.
+    --sns-destination=: An object that contains information about an event destination for logging to Amazon SNS.
+documentation:
+    command: |-
+        Creates a new event destination in a configuration set.
+
+        An event destination is a location where you send message events. The event options are Amazon CloudWatch, Amazon Data Firehose, or Amazon SNS. For example, when a message is delivered successfully, you can send information about that event to an event destination, or send notifications to endpoints that are subscribed to an Amazon SNS topic.
+
+        You can only create one event destination at a time. You must provide a value for a single event destination using either `CloudWatchLogsDestination`, `KinesisFirehoseDestination` or `SnsDestination`. If an event destination isn't provided then an exception is returned.
+
+        Each configuration set can contain between 0 and 5 event destinations. Each event destination can contain a reference to a single destination, such as a CloudWatch or Firehose destination.
+    flag:
+        client-token: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
+        cloud-watch-logs-destination: An object that contains information about an event destination for logging to Amazon CloudWatch Logs.
+        configuration-set-name: Either the name of the configuration set or the configuration set ARN to apply event logging to. The ConfigurateSetName and ConfigurationSetArn can be found using the [DescribeConfigurationSets]() action.
+        event-destination-name: The name that identifies the event destination.
+        kinesis-firehose-destination: An object that contains information about an event destination for logging to Amazon Data Firehose.
+        matching-event-types: |-
+            An array of event types that determine which events to log. If "ALL" is used, then End User MessagingSMS logs every event type.
+
+            The `TEXT_SENT` event type is not supported.
+        sns-destination: An object that contains information about an event destination for logging to Amazon SNS.

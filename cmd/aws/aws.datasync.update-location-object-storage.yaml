@@ -1,0 +1,57 @@
+name: update-location-object-storage
+description: Modifies the following configuration parameters of the object storage transfer location that you're using with DataSync.
+flags:
+    --access-key=: Specifies the access key (for example, a user name) if credentials are required to authenticate with the object storage server.
+    --agent-arns=: (Optional) Specifies the Amazon Resource Names (ARNs) of the DataSync agents that can connect with your object storage system.
+    --cmk-secret-config=: Specifies configuration information for a DataSync-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
+    --custom-secret-config=: Specifies configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
+    --location-arn=!: Specifies the ARN of the object storage system location that you're updating.
+    --secret-key=: Specifies the secret key (for example, a password) if credentials are required to authenticate with the object storage server.
+    --server-certificate=: Specifies a certificate chain for DataSync to authenticate with your object storage system if the system uses a private or self-signed certificate authority (CA).
+    --server-hostname=: Specifies the domain name or IP address (IPv4 or IPv6) of the object storage server that your DataSync agent connects to.
+    --server-port=: Specifies the port that your object storage server accepts inbound network traffic on (for example, port 443).
+    --server-protocol=: Specifies the protocol that your object storage server uses to communicate.
+    --subdirectory=: Specifies the object prefix for your object storage server.
+completion:
+    flag:
+        server-protocol:
+            - HTTPS
+            - HTTP
+documentation:
+    command: |-
+        Modifies the following configuration parameters of the object storage transfer location that you're using with DataSync.
+
+        For more information, see [Configuring DataSync transfers with an object storage system](https://docs.aws.amazon.com/datasync/latest/userguide/create-object-location.html).
+    flag:
+        access-key: Specifies the access key (for example, a user name) if credentials are required to authenticate with the object storage server.
+        agent-arns: |-
+            (Optional) Specifies the Amazon Resource Names (ARNs) of the DataSync agents that can connect with your object storage system. If you are setting up an agentless cross-cloud transfer, you do not need to specify a value for this parameter.
+
+            You cannot add or remove agents from a storage location after you initially create it.
+        cmk-secret-config: Specifies configuration information for a DataSync-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
+        custom-secret-config: Specifies configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
+        location-arn: Specifies the ARN of the object storage system location that you're updating.
+        secret-key: |-
+            Specifies the secret key (for example, a password) if credentials are required to authenticate with the object storage server.
+
+            If you provide a secret using `SecretKey`, but do not provide secret configuration details using `CmkSecretConfig` or `CustomSecretConfig`, then DataSync stores the token using your Amazon Web Services account's Secrets Manager secret.
+        server-certificate: |-
+            Specifies a certificate chain for DataSync to authenticate with your object storage system if the system uses a private or self-signed certificate authority (CA). You must specify a single `.pem` file with a full certificate chain (for example, `file:///home/user/.ssh/object_storage_certificates.pem`).
+
+            The certificate chain might include:
+
+            - The object storage system's certificate
+            - All intermediate certificates (if there are any)
+            - The root certificate of the signing CA
+
+            You can concatenate your certificates into a `.pem` file (which can be up to 32768 bytes before base64 encoding). The following example `cat` command creates an `object_storage_certificates.pem` file that includes three certificates:
+
+            `cat object_server_certificate.pem intermediate_certificate.pem ca_root_certificate.pem > object_storage_certificates.pem`
+
+            To use this parameter, configure `ServerProtocol` to `HTTPS`.
+
+            Updating this parameter doesn't interfere with tasks that you have in progress.
+        server-hostname: Specifies the domain name or IP address (IPv4 or IPv6) of the object storage server that your DataSync agent connects to.
+        server-port: Specifies the port that your object storage server accepts inbound network traffic on (for example, port 443).
+        server-protocol: Specifies the protocol that your object storage server uses to communicate.
+        subdirectory: Specifies the object prefix for your object storage server. If this is a source location, DataSync only copies objects with this prefix. If this is a destination location, DataSync writes all objects with this prefix.

@@ -1,0 +1,44 @@
+name: update-application
+description: Updates an existing Managed Service for Apache Flink application.
+flags:
+    --application-configuration-update=: Describes application configuration updates.
+    --application-name=!: The name of the application to update.
+    --cloud-watch-logging-option-updates=: Describes application Amazon CloudWatch logging option updates.
+    --conditional-token=: A value you use to implement strong concurrency for application updates.
+    --current-application-version-id=: The current application version ID.
+    --run-configuration-update=: Describes updates to the application's starting parameters.
+    --runtime-environment-update=: Updates the Managed Service for Apache Flink runtime environment used to run your code.
+    --service-execution-role-update=: Describes updates to the service execution role.
+completion:
+    flag:
+        runtime-environment-update:
+            - SQL-1_0
+            - FLINK-1_6
+            - FLINK-1_8
+            - ZEPPELIN-FLINK-1_0
+            - FLINK-1_11
+            - FLINK-1_13
+            - ZEPPELIN-FLINK-2_0
+            - FLINK-1_15
+            - ZEPPELIN-FLINK-3_0
+            - FLINK-1_18
+            - FLINK-1_19
+            - FLINK-1_20
+documentation:
+    command: |-
+        Updates an existing Managed Service for Apache Flink application. Using this operation, you can update application code, input configuration, and output configuration.
+
+        Managed Service for Apache Flink updates the `ApplicationVersionId` each time you update your application.
+    flag:
+        application-configuration-update: Describes application configuration updates.
+        application-name: The name of the application to update.
+        cloud-watch-logging-option-updates: Describes application Amazon CloudWatch logging option updates. You can only update existing CloudWatch logging options with this action. To add a new CloudWatch logging option, use [AddApplicationCloudWatchLoggingOption]().
+        conditional-token: A value you use to implement strong concurrency for application updates. You must provide the `CurrentApplicationVersionId` or the `ConditionalToken`. You get the application's current `ConditionalToken` using [DescribeApplication](). For better concurrency support, use the `ConditionalToken` parameter instead of `CurrentApplicationVersionId`.
+        current-application-version-id: The current application version ID. You must provide the `CurrentApplicationVersionId` or the `ConditionalToken`.You can retrieve the application version ID using [DescribeApplication](). For better concurrency support, use the `ConditionalToken` parameter instead of `CurrentApplicationVersionId`.
+        run-configuration-update: Describes updates to the application's starting parameters.
+        runtime-environment-update: |-
+            Updates the Managed Service for Apache Flink runtime environment used to run your code. To avoid issues you must:
+
+            - Ensure your new jar and dependencies are compatible with the new runtime selected.
+            - Ensure your new code's state is compatible with the snapshot from which your application will start
+        service-execution-role-update: Describes updates to the service execution role.

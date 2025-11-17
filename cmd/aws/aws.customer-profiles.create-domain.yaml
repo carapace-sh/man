@@ -1,0 +1,34 @@
+name: create-domain
+description: Creates a domain, which is a container for all customer data, such as customer profile attributes, object types, profile keys, and encryption keys.
+flags:
+    --dead-letter-queue-url=: The URL of the SQS dead letter queue, which is used for reporting errors associated with ingesting data from third party applications.
+    --default-encryption-key=: The default encryption key, which is an AWS managed key, is used when no specific type of encryption key is specified.
+    --default-expiration-days=!: The default number of days until the data within the domain expires.
+    --domain-name=!: The unique name of the domain.
+    --matching=: The process of matching duplicate profiles.
+    --rule-based-matching=: The process of matching duplicate profiles using the Rule-Based matching.
+    --tags=: The tags used to organize, track, or control access for this resource.
+documentation:
+    command: |-
+        Creates a domain, which is a container for all customer data, such as customer profile attributes, object types, profile keys, and encryption keys. You can create multiple domains, and each domain can have multiple third-party integrations.
+
+        Each Amazon Connect instance can be associated with only one domain. Multiple Amazon Connect instances can be associated with one domain.
+
+        Use this API or [UpdateDomain](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_UpdateDomain.html) to enable [identity resolution](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html): set `Matching` to true.
+
+        To prevent cross-service impersonation when you call this API, see [Cross-service confused deputy prevention](https://docs.aws.amazon.com/connect/latest/adminguide/cross-service-confused-deputy-prevention.html) for sample policies that you should apply.
+
+        It is not possible to associate a Customer Profiles domain with an Amazon Connect Instance directly from the API. If you would like to create a domain and associate a Customer Profiles domain, use the Amazon Connect admin website. For more information, see [Enable Customer Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/enable-customer-profiles.html#enable-customer-profiles-step1).
+
+        Each Amazon Connect instance can be associated with only one domain. Multiple Amazon Connect instances can be associated with one domain.
+    flag:
+        dead-letter-queue-url: The URL of the SQS dead letter queue, which is used for reporting errors associated with ingesting data from third party applications. You must set up a policy on the DeadLetterQueue for the SendMessage operation to enable Amazon Connect Customer Profiles to send messages to the DeadLetterQueue.
+        default-encryption-key: The default encryption key, which is an AWS managed key, is used when no specific type of encryption key is specified. It is used to encrypt all data before it is placed in permanent or semi-permanent storage.
+        default-expiration-days: The default number of days until the data within the domain expires.
+        domain-name: The unique name of the domain.
+        matching: |-
+            The process of matching duplicate profiles. If `Matching` = `true`, Amazon Connect Customer Profiles starts a weekly batch process called Identity Resolution Job. If you do not specify a date and time for Identity Resolution Job to run, by default it runs every Saturday at 12AM UTC to detect duplicate profiles in your domains.
+
+            After the Identity Resolution Job completes, use the [GetMatches](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html) API to return and review the results. Or, if you have configured `ExportingConfig` in the `MatchingRequest`, you can download the results from S3.
+        rule-based-matching: The process of matching duplicate profiles using the Rule-Based matching. If `RuleBasedMatching` = true, Amazon Connect Customer Profiles will start to match and merge your profiles according to your configuration in the `RuleBasedMatchingRequest`. You can use the `ListRuleBasedMatches` and `GetSimilarProfiles` API to return and review the results. Also, if you have configured `ExportingConfig` in the `RuleBasedMatchingRequest`, you can download the results from S3.
+        tags: The tags used to organize, track, or control access for this resource.

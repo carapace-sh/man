@@ -1,0 +1,25 @@
+name: import-phone-number
+description: Imports a claimed phone number from an external service, such as Amazon Web Services End User Messaging, into an Amazon Connect instance.
+flags:
+    --client-token=: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    --instance-id=!: The identifier of the Amazon Connect instance.
+    --phone-number-description=: The description of the phone number.
+    --source-phone-number-arn=!: The claimed phone number ARN being imported from the external service, such as Amazon Web Services End User Messaging.
+    --tags=: The tags used to organize, track, or control access for this resource.
+documentation:
+    command: |-
+        Imports a claimed phone number from an external service, such as Amazon Web Services End User Messaging, into an Amazon Connect instance. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance was created.
+
+        Call the [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) API to verify the status of a previous `ImportPhoneNumber` operation.
+
+        If you plan to claim or import numbers and then release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired.
+
+        By default you can claim or import and then release up to 200% of your maximum number of active phone numbers. If you claim or import and then release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming or importing any more numbers until 180 days past the oldest number released has expired.
+
+        For example, if you already have 99 claimed or imported numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services Support ticket.
+    flag:
+        client-token: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+        instance-id: The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+        phone-number-description: The description of the phone number.
+        source-phone-number-arn: The claimed phone number ARN being imported from the external service, such as Amazon Web Services End User Messaging. If it is from Amazon Web Services End User Messaging, it looks like the ARN of the phone number to import from Amazon Web Services End User Messaging.
+        tags: 'The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.'

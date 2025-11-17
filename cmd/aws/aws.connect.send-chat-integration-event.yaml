@@ -1,0 +1,27 @@
+name: send-chat-integration-event
+description: Processes chat integration events from Amazon Web Services or external integrations to Amazon Connect.
+flags:
+    --destination-id=!: Chat system identifier, used in part to uniquely identify chat.
+    --event=!: Chat integration event payload
+    --new-session-details=: Contact properties to apply when starting a new chat.
+    --source-id=!: External identifier of chat customer participant, used in part to uniquely identify a chat.
+    --subtype=: Classification of a channel.
+documentation:
+    command: |-
+        Processes chat integration events from Amazon Web Services or external integrations to Amazon Connect. A chat integration event includes:
+
+        - SourceId, DestinationId, and Subtype: a set of identifiers, uniquely representing a chat
+        - ChatEvent: details of the chat action to perform such as sending a message, event, or disconnecting from a chat
+
+        When a chat integration event is sent with chat identifiers that do not map to an active chat contact, a new chat contact is also created before handling chat action.
+
+        Access to this API is currently restricted to Amazon Web Services End User Messaging for supporting SMS integration.
+    flag:
+        destination-id: Chat system identifier, used in part to uniquely identify chat. This is associated with the Amazon Connect instance and flow to be used to start chats. For Server Migration Service, this is the phone number destination of inbound Server Migration Service messages represented by an Amazon Web Services End User Messaging phone number ARN.
+        event: Chat integration event payload
+        new-session-details: Contact properties to apply when starting a new chat. If the integration event is handled with an existing chat, this is ignored.
+        source-id: External identifier of chat customer participant, used in part to uniquely identify a chat. For SMS, this is the E164 phone number of the chat customer participant.
+        subtype: |-
+            Classification of a channel. This is used in part to uniquely identify chat.
+
+            Valid value: `["connect:sms", connect:"WhatsApp"]`

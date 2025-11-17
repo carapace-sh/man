@@ -1,0 +1,35 @@
+name: create-deployment-config
+description: Creates a deployment configuration.
+flags:
+    --compute-platform=: The destination platform type for the deployment (`Lambda`, `Server`, or `ECS`).
+    --deployment-config-name=!: The name of the deployment configuration to create.
+    --minimum-healthy-hosts=: The minimum number of healthy instances that should be available at any time during the deployment.
+    --traffic-routing-config=: The configuration that specifies how the deployment traffic is routed.
+    --zonal-config=: Configure the `ZonalConfig` object if you want CodeDeploy to deploy your application to one [Availability Zone](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-availability-zones) at a time, within an Amazon Web Services Region.
+completion:
+    flag:
+        compute-platform:
+            - Server
+            - Lambda
+            - ECS
+documentation:
+    command: Creates a deployment configuration.
+    flag:
+        compute-platform: The destination platform type for the deployment (`Lambda`, `Server`, or `ECS`).
+        deployment-config-name: The name of the deployment configuration to create.
+        minimum-healthy-hosts: |-
+            The minimum number of healthy instances that should be available at any time during the deployment. There are two parameters expected in the input: type and value.
+
+            The type parameter takes either of the following values:
+
+            - HOST\_COUNT: The value parameter represents the minimum number of healthy instances as an absolute value.
+            - FLEET\_PERCENT: The value parameter represents the minimum number of healthy instances as a percentage of the total number of instances in the deployment. If you specify FLEET\_PERCENT, at the start of the deployment, CodeDeploy converts the percentage to the equivalent number of instances and rounds up fractional instances.
+
+            The value parameter takes an integer.
+
+            For example, to set a minimum of 95% healthy instance, specify a type of FLEET\_PERCENT and a value of 95.
+        traffic-routing-config: The configuration that specifies how the deployment traffic is routed.
+        zonal-config: |-
+            Configure the `ZonalConfig` object if you want CodeDeploy to deploy your application to one [Availability Zone](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-availability-zones) at a time, within an Amazon Web Services Region.
+
+            For more information about the zonal configuration feature, see [zonal configuration](https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config) in the *CodeDeploy User Guide*.

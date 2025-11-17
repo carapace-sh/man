@@ -1,0 +1,42 @@
+name: create-workflow
+description: Create a new workflow or a new version of an existing workflow.
+flags:
+    --change-description=: Describes what change has been made in this version of the workflow, or what makes this version different from other versions of the workflow.
+    --client-token=!: Unique, case-sensitive identifier you provide to ensure idempotency of the request.
+    --data=: Contains the UTF-8 encoded YAML document content for the workflow.
+    --description=: Describes the workflow.
+    --kms-key-id=: The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt this workflow resource.
+    --name=!: The name of the workflow to create.
+    --semantic-version=!: The semantic version of this workflow resource.
+    --tags=: Tags that apply to the workflow resource.
+    --type=!: The phase in the image build process for which the workflow resource is responsible.
+    --uri=: The `uri` of a YAML component document file.
+completion:
+    flag:
+        type:
+            - BUILD
+            - TEST
+            - DISTRIBUTION
+documentation:
+    command: Create a new workflow or a new version of an existing workflow.
+    flag:
+        change-description: Describes what change has been made in this version of the workflow, or what makes this version different from other versions of the workflow.
+        client-token: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the *Amazon EC2 API Reference*.
+        data: Contains the UTF-8 encoded YAML document content for the workflow. Alternatively, you can specify the `uri` of a YAML document file stored in Amazon S3. However, you cannot specify both properties.
+        description: Describes the workflow.
+        kms-key-id: The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt this workflow resource. This can be either the Key ARN or the Alias ARN. For more information, see [Key identifiers (KeyId)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN) in the *Key Management Service Developer Guide*.
+        name: The name of the workflow to create.
+        semantic-version: |-
+            The semantic version of this workflow resource. The semantic version syntax adheres to the following rules.
+
+            The semantic version has four nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them.
+
+            **Assignment:** For the first three nodes you can assign any positive integer value, including zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the build number to the fourth node.
+
+            **Patterns:** You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01.
+        tags: Tags that apply to the workflow resource.
+        type: The phase in the image build process for which the workflow resource is responsible.
+        uri: |-
+            The `uri` of a YAML component document file. This must be an S3 URL (`s3://bucket/key`), and the requester must have permission to access the S3 bucket it points to. If you use Amazon S3, you can specify component content up to your service quota.
+
+            Alternatively, you can specify the YAML document inline, using the component `data` property. You cannot specify both properties.

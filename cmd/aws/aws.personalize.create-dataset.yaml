@@ -1,0 +1,50 @@
+name: create-dataset
+description: Creates an empty dataset and adds it to the specified dataset group.
+flags:
+    --dataset-group-arn=!: The Amazon Resource Name (ARN) of the dataset group to add the dataset to.
+    --dataset-type=!: The type of dataset.
+    --name=!: The name for the dataset.
+    --schema-arn=!: The ARN of the schema to associate with the dataset.
+    --tags=: A list of [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html) to apply to the dataset.
+documentation:
+    command: |-
+        Creates an empty dataset and adds it to the specified dataset group. Use [CreateDatasetImportJob](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetImportJob.html) to import your training data to a dataset.
+
+        There are 5 types of datasets:
+
+        - Item interactions
+        - Items
+        - Users
+        - Action interactions
+        - Actions
+
+        Each dataset type has an associated schema with required field types. Only the `Item interactions` dataset is required in order to train a model (also referred to as creating a solution).
+
+        A dataset can be in one of the following states:
+
+        - CREATE PENDING &gt; CREATE IN\_PROGRESS &gt; ACTIVE -or- CREATE FAILED
+        - DELETE PENDING &gt; DELETE IN\_PROGRESS
+
+        To get the status of the dataset, call [DescribeDataset](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDataset.html).
+
+        **Related APIs**
+
+        - [CreateDatasetGroup](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetGroup.html)
+        - [ListDatasets](https://docs.aws.amazon.com/personalize/latest/dg/API_ListDatasets.html)
+        - [DescribeDataset](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDataset.html)
+        - [DeleteDataset](https://docs.aws.amazon.com/personalize/latest/dg/API_DeleteDataset.html)
+    flag:
+        dataset-group-arn: The Amazon Resource Name (ARN) of the dataset group to add the dataset to.
+        dataset-type: |-
+            The type of dataset.
+
+            One of the following (case insensitive) values:
+
+            - Interactions
+            - Items
+            - Users
+            - Actions
+            - Action\_Interactions
+        name: The name for the dataset.
+        schema-arn: The ARN of the schema to associate with the dataset. The schema defines the dataset fields.
+        tags: A list of [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html) to apply to the dataset.

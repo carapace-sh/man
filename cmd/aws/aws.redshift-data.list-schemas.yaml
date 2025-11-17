@@ -1,0 +1,24 @@
+name: list-schemas
+description: Lists the schemas in a database.
+flags:
+    --cluster-identifier=: The cluster identifier.
+    --connected-database=: A database name.
+    --database=!: The name of the database that contains the schemas to list.
+    --db-user=: The database user name.
+    --max-results=: The maximum number of schemas to return in the response.
+    --next-token=: A value that indicates the starting point for the next set of response records in a subsequent request.
+    --schema-pattern=: A pattern to filter results by schema name.
+    --secret-arn=: The name or ARN of the secret that enables access to the database.
+    --workgroup-name=: The serverless workgroup name or Amazon Resource Name (ARN).
+documentation:
+    command: "Lists the schemas in a database. A token is returned to page through the schema list. Depending on the authorization method, use one of the following combinations of request parameters:\n\n- Secrets Manager - when connecting to a cluster, provide the `secret-arn` of a secret stored in Secrets Manager which has `username` and `password`. The specified secret contains credentials to connect to the `database` you specify. When you are connecting to a cluster, you also supply the database name, If you provide a cluster identifier (`dbClusterIdentifier`), it must match the cluster identifier stored in the secret. When you are connecting to a serverless workgroup, you also supply the database name.\n- Temporary credentials - when connecting to your data warehouse, choose one of the following options:\n  \n  - When connecting to a serverless workgroup, specify the workgroup name and database name. The database user name is derived from the IAM identity. For example, `arn:iam::123456789012:user:foo` has the database user name `IAM:foo`. Also, permission to call the `redshift-serverless:GetCredentials` operation is required.\n  - When connecting to a cluster as an IAM identity, specify the cluster identifier and the database name. The database user name is derived from the IAM identity. For example, `arn:iam::123456789012:user:foo` has the database user name `IAM:foo`. Also, permission to call the `redshift:GetClusterCredentialsWithIAM` operation is required.\n  - When connecting to a cluster as a database user, specify the cluster identifier, the database name, and the database user name. Also, permission to call the `redshift:GetClusterCredentials` operation is required.\n\nFor more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the *Amazon Redshift Management Guide*."
+    flag:
+        cluster-identifier: The cluster identifier. This parameter is required when connecting to a cluster and authenticating using either Secrets Manager or temporary credentials.
+        connected-database: A database name. The connected database is specified when you connect with your authentication credentials.
+        database: The name of the database that contains the schemas to list. If `ConnectedDatabase` is not specified, this is also the database to connect to with your authentication credentials.
+        db-user: The database user name. This parameter is required when connecting to a cluster as a database user and authenticating using temporary credentials.
+        max-results: The maximum number of schemas to return in the response. If more schemas exist than fit in one response, then `NextToken` is returned to page through the results.
+        next-token: A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned NextToken value in the next NextToken parameter and retrying the command. If the NextToken field is empty, all response records have been retrieved for the request.
+        schema-pattern: A pattern to filter results by schema name. Within a schema pattern, "%" means match any substring of 0 or more characters and "\_" means match any one character. Only schema name entries matching the search pattern are returned.
+        secret-arn: The name or ARN of the secret that enables access to the database. This parameter is required when authenticating using Secrets Manager.
+        workgroup-name: The serverless workgroup name or Amazon Resource Name (ARN). This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.

@@ -1,0 +1,49 @@
+name: list-utterance-metrics
+description: To use this API operation, your IAM role must have permissions to perform the [ListAggregatedUtterances](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListAggregatedUtterances.html) operation, which provides access to utterance-related analytics.
+flags:
+    --attributes=: A list containing attributes related to the utterance that you want the response to return.
+    --bin-by=: A list of objects, each of which contains specifications for organizing the results by time.
+    --bot-id=!: The identifier for the bot for which you want to retrieve utterance metrics.
+    --end-date-time=!: The date and time that marks the end of the range of time for which you want to see utterance metrics.
+    --filters=: A list of objects, each of which describes a condition by which you want to filter the results.
+    --group-by=: A list of objects, each of which specifies how to group the results.
+    --max-results=: The maximum number of results to return in each page of results.
+    --metrics=!: A list of objects, each of which contains a metric you want to list, the statistic for the metric you want to return, and the method by which to organize the results.
+    --next-token=: If the response from the ListUtteranceMetrics operation contains more results than specified in the maxResults parameter, a token is returned in the response.
+    --start-date-time=!: The date and time that marks the beginning of the range of time for which you want to see utterance metrics.
+documentation:
+    command: |-
+        To use this API operation, your IAM role must have permissions to perform the [ListAggregatedUtterances](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListAggregatedUtterances.html) operation, which provides access to utterance-related analytics. See [Viewing utterance statistics](https://docs.aws.amazon.com/lexv2/latest/dg/monitoring-utterances.html) for the IAM policy to apply to the IAM role.
+
+        Retrieves summary metrics for the utterances in your bot. The following fields are required:
+
+        - `metrics` – A list of [AnalyticsUtteranceMetric](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_AnalyticsUtteranceMetric.html) objects. In each object, use the `name` field to specify the metric to calculate, the `statistic` field to specify whether to calculate the `Sum`, `Average`, or `Max` number, and the `order` field to specify whether to sort the results in `Ascending` or `Descending` order.
+        - `startDateTime` and `endDateTime` – Define a time range for which you want to retrieve results.
+
+        Of the optional fields, you can organize the results in the following ways:
+
+        - Use the `filters` field to filter the results, the `groupBy` field to specify categories by which to group the results, and the `binBy` field to specify time intervals by which to group the results.
+        - Use the `maxResults` field to limit the number of results to return in a single response and the `nextToken` field to return the next batch of results if the response does not return the full set of results.
+
+        Note that an `order` field exists in both `binBy` and `metrics`. Currently, you can specify it in either field, but not in both.
+    flag:
+        attributes: |-
+            A list containing attributes related to the utterance that you want the response to return. The following attributes are possible:
+
+            - `LastUsedIntent` – The last used intent at the time of the utterance.
+        bin-by: A list of objects, each of which contains specifications for organizing the results by time.
+        bot-id: The identifier for the bot for which you want to retrieve utterance metrics.
+        end-date-time: The date and time that marks the end of the range of time for which you want to see utterance metrics.
+        filters: A list of objects, each of which describes a condition by which you want to filter the results.
+        group-by: |-
+            A list of objects, each of which specifies how to group the results. You can group by the following criteria:
+
+            - `UtteranceText` – The transcription of the utterance.
+            - `UtteranceState` – The state of the utterance. The possible states are detailed in [Key definitions](https://docs.aws.amazon.com/analytics-key-definitions-utterances) in the user guide.
+        max-results: The maximum number of results to return in each page of results. If there are fewer results than the maximum page size, only the actual number of results are returned.
+        metrics: A list of objects, each of which contains a metric you want to list, the statistic for the metric you want to return, and the method by which to organize the results.
+        next-token: |-
+            If the response from the ListUtteranceMetrics operation contains more results than specified in the maxResults parameter, a token is returned in the response.
+
+            Use the returned token in the nextToken parameter of a ListUtteranceMetrics request to return the next page of results. For a complete set of results, call the ListUtteranceMetrics operation until the nextToken returned in the response is null.
+        start-date-time: The date and time that marks the beginning of the range of time for which you want to see utterance metrics.

@@ -1,0 +1,38 @@
+name: update-endpoint-group
+description: Update an endpoint group.
+flags:
+    --endpoint-configurations=: The list of endpoint objects.
+    --endpoint-group-arn=!: The Amazon Resource Name (ARN) of the endpoint group.
+    --health-check-interval-seconds=: The time—10 seconds or 30 seconds—between each health check for an endpoint.
+    --health-check-path=: If the protocol is HTTP/S, then this specifies the path that is the destination for health check targets.
+    --health-check-port=: The port that Global Accelerator uses to check the health of endpoints that are part of this endpoint group.
+    --health-check-protocol=: The protocol that Global Accelerator uses to check the health of endpoints that are part of this endpoint group.
+    --port-overrides=: Override specific listener ports used to route traffic to endpoints that are part of this endpoint group.
+    --threshold-count=: The number of consecutive health checks required to set the state of a healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy.
+    --traffic-dial-percentage=: The percentage of traffic to send to an Amazon Web Services Region.
+completion:
+    flag:
+        health-check-protocol:
+            - TCP
+            - HTTP
+            - HTTPS
+documentation:
+    command: Update an endpoint group. A resource must be valid and active when you add it as an endpoint.
+    flag:
+        endpoint-configurations: The list of endpoint objects. A resource must be valid and active when you add it as an endpoint.
+        endpoint-group-arn: The Amazon Resource Name (ARN) of the endpoint group.
+        health-check-interval-seconds: The time—10 seconds or 30 seconds—between each health check for an endpoint. The default value is 30.
+        health-check-path: If the protocol is HTTP/S, then this specifies the path that is the destination for health check targets. The default value is slash (/).
+        health-check-port: The port that Global Accelerator uses to check the health of endpoints that are part of this endpoint group. The default port is the listener port that this endpoint group is associated with. If the listener port is a list of ports, Global Accelerator uses the first port in the list.
+        health-check-protocol: The protocol that Global Accelerator uses to check the health of endpoints that are part of this endpoint group. The default value is TCP.
+        port-overrides: |-
+            Override specific listener ports used to route traffic to endpoints that are part of this endpoint group. For example, you can create a port override in which the listener receives user traffic on ports 80 and 443, but your accelerator routes that traffic to ports 1080 and 1443, respectively, on the endpoints.
+
+            For more information, see [Overriding listener ports](https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoint-groups-port-override.html) in the *Global Accelerator Developer Guide*.
+        threshold-count: The number of consecutive health checks required to set the state of a healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy. The default value is 3.
+        traffic-dial-percentage: |-
+            The percentage of traffic to send to an Amazon Web Services Region. Additional traffic is distributed to other endpoint groups for this listener.
+
+            Use this action to increase (dial up) or decrease (dial down) traffic to a specific Region. The percentage is applied to the traffic that would otherwise have been routed to the Region based on optimal routing.
+
+            The default value is 100.

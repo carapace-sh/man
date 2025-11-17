@@ -1,0 +1,46 @@
+name: create-provisioned-product-plan
+description: Creates a plan.
+flags:
+    --accept-language=: The language code.
+    --idempotency-token=!: A unique identifier that you provide to ensure idempotency.
+    --notification-arns=: Passed to CloudFormation.
+    --path-id=: The path identifier of the product.
+    --plan-name=!: The name of the plan.
+    --plan-type=!: The plan type.
+    --product-id=!: The product identifier.
+    --provisioned-product-name=!: A user-friendly name for the provisioned product.
+    --provisioning-artifact-id=!: The identifier of the provisioning artifact.
+    --provisioning-parameters=: Parameters specified by the administrator that are required for provisioning the product.
+    --tags=: One or more tags.
+completion:
+    flag:
+        plan-type:
+            - CLOUDFORMATION
+documentation:
+    command: |-
+        Creates a plan.
+
+        A plan includes the list of resources to be created (when provisioning a new product) or modified (when updating a provisioned product) when the plan is executed.
+
+        You can create one plan for each provisioned product. To create a plan for an existing provisioned product, the product status must be AVAILABLE or TAINTED.
+
+        To view the resource changes in the change set, use [DescribeProvisionedProductPlan](). To create or modify the provisioned product, use [ExecuteProvisionedProductPlan]().
+    flag:
+        accept-language: |-
+            The language code.
+
+            - `jp` - Japanese
+            - `zh` - Chinese
+        idempotency-token: A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
+        notification-arns: Passed to CloudFormation. The SNS topic ARNs to which to publish stack-related events.
+        path-id: The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path. To list the paths for a product, use [ListLaunchPaths]().
+        plan-name: The name of the plan.
+        plan-type: The plan type.
+        product-id: The product identifier.
+        provisioned-product-name: A user-friendly name for the provisioned product. This value must be unique for the Amazon Web Services account and cannot be updated after the product is provisioned.
+        provisioning-artifact-id: The identifier of the provisioning artifact.
+        provisioning-parameters: Parameters specified by the administrator that are required for provisioning the product.
+        tags: |-
+            One or more tags.
+
+            If the plan is for an existing provisioned product, the product must have a `RESOURCE_UPDATE` constraint with `TagUpdatesOnProvisionedProduct` set to `ALLOWED` to allow tag updates.

@@ -1,0 +1,24 @@
+name: describe-dbinstance-automated-backups
+description: Displays backups for both current and deleted instances.
+flags:
+    --dbi-resource-id=: The resource ID of the DB instance that is the source of the automated backup.
+    --dbinstance-automated-backups-arn=: The Amazon Resource Name (ARN) of the replicated automated backups, for example, `arn:aws:rds:us-east-1:123456789012:auto-backup:ab-L2IJCEXJP7XQ7HOJ4SIEXAMPLE`.
+    --dbinstance-identifier=: (Optional) The user-supplied instance identifier.
+    --filters=: A filter that specifies which resources to return based on status.
+    --marker=: The pagination token provided in the previous request.
+    --max-records=: The maximum number of records to include in the response.
+documentation:
+    command: |-
+        Displays backups for both current and deleted instances. For example, use this operation to find details about automated backups for previously deleted instances. Current instances with retention periods greater than zero (0) are returned for both the `DescribeDBInstanceAutomatedBackups` and `DescribeDBInstances` operations.
+
+        All parameters are optional.
+    flag:
+        dbi-resource-id: The resource ID of the DB instance that is the source of the automated backup. This parameter isn't case-sensitive.
+        dbinstance-automated-backups-arn: |-
+            The Amazon Resource Name (ARN) of the replicated automated backups, for example, `arn:aws:rds:us-east-1:123456789012:auto-backup:ab-L2IJCEXJP7XQ7HOJ4SIEXAMPLE`.
+
+            This setting doesn't apply to RDS Custom.
+        dbinstance-identifier: (Optional) The user-supplied instance identifier. If this parameter is specified, it must match the identifier of an existing DB instance. It returns information from the specific DB instance's automated backup. This parameter isn't case-sensitive.
+        filters: "A filter that specifies which resources to return based on status.\n\nSupported filters are the following:\n\n- `status`\n  \n  - `active` - Automated backups for current instances.\n  - `creating` - Automated backups that are waiting for the first automated snapshot to be available.\n  - `retained` - Automated backups for deleted instances and after backup replication is stopped.\n- `db-instance-id` - Accepts DB instance identifiers and Amazon Resource Names (ARNs). The results list includes only information about the DB instance automated backups identified by these ARNs.\n- `dbi-resource-id` - Accepts DB resource identifiers and Amazon Resource Names (ARNs). The results list includes only information about the DB instance resources identified by these ARNs.\n\nReturns all resources by default. The status for each resource is specified in the response."
+        marker: The pagination token provided in the previous request. If this parameter is specified the response includes only records beyond the marker, up to `MaxRecords`.
+        max-records: The maximum number of records to include in the response. If more records exist than the specified `MaxRecords` value, a pagination token called a marker is included in the response so that you can retrieve the remaining results.

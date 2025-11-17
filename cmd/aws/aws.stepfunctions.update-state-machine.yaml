@@ -1,0 +1,25 @@
+name: update-state-machine
+description: Updates an existing state machine by modifying its `definition`, `roleArn`, `loggingConfiguration`, or `EncryptionConfiguration`.
+flags:
+    --definition=: The Amazon States Language definition of the state machine.
+    --encryption-configuration=: Settings to configure server-side encryption.
+    --logging-configuration=: Use the `LoggingConfiguration` data type to set CloudWatch Logs options.
+    --publish=: Specifies whether the state machine version is published.
+    --role-arn=: The Amazon Resource Name (ARN) of the IAM role of the state machine.
+    --state-machine-arn=!: The Amazon Resource Name (ARN) of the state machine.
+    --tracing-configuration=: Selects whether X-Ray tracing is enabled.
+    --version-description=: An optional description of the state machine version to publish.
+documentation:
+    command: "Updates an existing state machine by modifying its `definition`, `roleArn`, `loggingConfiguration`, or `EncryptionConfiguration`. Running executions will continue to use the previous `definition` and `roleArn`. You must include at least one of `definition` or `roleArn` or you will receive a `MissingRequiredParameter` error.\n\nA qualified state machine ARN refers to a *Distributed Map state* defined within a state machine. For example, the qualified state machine ARN `arn:partition:states:region:account-id:stateMachine:stateMachineName/mapStateLabel` refers to a *Distributed Map state* with a label `mapStateLabel` in the state machine named `stateMachineName`.\n\nA qualified state machine ARN can either refer to a *Distributed Map state* defined within a state machine, a version ARN, or an alias ARN.\n\nThe following are some examples of qualified and unqualified state machine ARNs:\n\n- The following qualified state machine ARN refers to a *Distributed Map state* with a label `mapStateLabel` in a state machine named `myStateMachine`.\n  \n  `arn:partition:states:region:account-id:stateMachine:myStateMachine/mapStateLabel`\n  \n  If you provide a qualified state machine ARN that refers to a *Distributed Map state*, the request fails with `ValidationException`.\n- The following qualified state machine ARN refers to an alias named `PROD`.\n  \n  `arn:<partition>:states:<region>:<account-id>:stateMachine:<myStateMachine:PROD>`\n  \n  If you provide a qualified state machine ARN that refers to a version ARN or an alias ARN, the request starts execution for that version or alias.\n- The following unqualified state machine ARN refers to a state machine named `myStateMachine`.\n  \n  `arn:<partition>:states:<region>:<account-id>:stateMachine:<myStateMachine>`\n\nAfter you update your state machine, you can set the `publish` parameter to `true` in the same action to publish a new [version](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html). This way, you can opt-in to strict versioning of your state machine.\n\nStep Functions assigns monotonically increasing integers for state machine versions, starting at version number 1.\n\nAll `StartExecution` calls within a few seconds use the updated `definition` and `roleArn`. Executions started immediately after you call `UpdateStateMachine` may use the previous state machine `definition` and `roleArn`."
+    flag:
+        definition: The Amazon States Language definition of the state machine. See [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html).
+        encryption-configuration: Settings to configure server-side encryption.
+        logging-configuration: Use the `LoggingConfiguration` data type to set CloudWatch Logs options.
+        publish: Specifies whether the state machine version is published. The default is `false`. To publish a version after updating the state machine, set `publish` to `true`.
+        role-arn: The Amazon Resource Name (ARN) of the IAM role of the state machine.
+        state-machine-arn: The Amazon Resource Name (ARN) of the state machine.
+        tracing-configuration: Selects whether X-Ray tracing is enabled.
+        version-description: |-
+            An optional description of the state machine version to publish.
+
+            You can only specify the `versionDescription` parameter if you've set `publish` to `true`.

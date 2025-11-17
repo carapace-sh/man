@@ -1,0 +1,17 @@
+name: delete-resource-policy
+description: Deletes the resource-based policy attached to the resource, which can be a table or stream.
+flags:
+    --expected-revision-id=: A string value that you can use to conditionally delete your policy.
+    --resource-arn=!: The Amazon Resource Name (ARN) of the DynamoDB resource from which the policy will be removed.
+documentation:
+    command: |-
+        Deletes the resource-based policy attached to the resource, which can be a table or stream.
+
+        `DeleteResourcePolicy` is an idempotent operation; running it multiple times on the same resource *doesn't* result in an error response, unless you specify an `ExpectedRevisionId`, which will then return a `PolicyNotFoundException`.
+
+        To make sure that you don't inadvertently lock yourself out of your own resources, the root principal in your Amazon Web Services account can perform `DeleteResourcePolicy` requests, even if your resource-based policy explicitly denies the root principal's access.
+
+        `DeleteResourcePolicy` is an asynchronous operation. If you issue a `GetResourcePolicy` request immediately after running the `DeleteResourcePolicy` request, DynamoDB might still return the deleted policy. This is because the policy for your resource might not have been deleted yet. Wait for a few seconds, and then try the `GetResourcePolicy` request again.
+    flag:
+        expected-revision-id: A string value that you can use to conditionally delete your policy. When you provide an expected revision ID, if the revision ID of the existing policy on the resource doesn't match or if there's no policy attached to the resource, the request will fail and return a `PolicyNotFoundException`.
+        resource-arn: The Amazon Resource Name (ARN) of the DynamoDB resource from which the policy will be removed. The resources you can specify include tables and streams. If you remove the policy of a table, it will also remove the permissions for the table's indexes defined in that policy document. This is because index permissions are defined in the table's policy.

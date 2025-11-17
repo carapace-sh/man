@@ -1,0 +1,34 @@
+name: translate-document
+description: Translates the input document from the source language to the target language.
+flags:
+    --document=!: The content and content type for the document to be translated.
+    --settings=: Settings to configure your translation output.
+    --source-language-code=!: The language code for the language of the source text.
+    --target-language-code=!: The language code requested for the translated document.
+    --terminology-names=: The name of a terminology list file to add to the translation job.
+documentation:
+    command: |-
+        Translates the input document from the source language to the target language. This synchronous operation supports text, HTML, or Word documents as the input document. `TranslateDocument` supports translations from English to any supported language, and from any supported language to English. Therefore, specify either the source language code or the target language code as “en” (English).
+
+        If you set the `Formality` parameter, the request will fail if the target language does not support formality. For a list of target languages that support formality, see [Setting formality](https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-formality.html).
+    flag:
+        document: The content and content type for the document to be translated. The document size must not exceed 100 KB.
+        settings: |-
+            Settings to configure your translation output. You can configure the following options:
+
+            - Brevity: not supported.
+            - Formality: sets the formality level of the output text.
+            - Profanity: masks profane words and phrases in your translation output.
+        source-language-code: |-
+            The language code for the language of the source text. For a list of supported language codes, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
+
+            To have Amazon Translate determine the source language of your text, you can specify `auto` in the `SourceLanguageCode` field. If you specify `auto`, Amazon Translate will call [Amazon Comprehend](https://docs.aws.amazon.com/comprehend/latest/dg/comprehend-general.html) to determine the source language.
+
+            If you specify `auto`, you must send the `TranslateDocument` request in a region that supports Amazon Comprehend. Otherwise, the request returns an error indicating that autodetect is not supported.
+        target-language-code: The language code requested for the translated document. For a list of supported language codes, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
+        terminology-names: |-
+            The name of a terminology list file to add to the translation job. This file provides source terms and the desired translation for each term. A terminology list can contain a maximum of 256 terms. You can use one custom terminology resource in your translation request.
+
+            Use the [ListTerminologies]() operation to get the available terminology lists.
+
+            For more information about custom terminology lists, see [Custom terminology](https://docs.aws.amazon.com/translate/latest/dg/how-custom-terminology.html).
