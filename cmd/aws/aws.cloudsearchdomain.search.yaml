@@ -13,8 +13,8 @@ flags:
     --partial: Enables partial results to be returned if one or more index partitions are unavailable.
     --query-options=: Configures options for the query parser specified in the `queryParser` parameter.
     --query-parser=: Specifies which query parser to use to process the request.
-    --query=!: Specifies the search criteria for the request.
     --return=: Specifies the field and expression values to include in the response.
+    --search-query=!: Specifies the search criteria for the request.
     --size=: Specifies the maximum number of search hits to include in the response.
     --sort=: Specifies the fields or custom expressions to use to sort the search results.
     --start=: Specifies the offset of the first search hit you want to return.
@@ -110,10 +110,6 @@ documentation:
 
             `{ "actors": {}, "title": {"format": "text","max_phrases": 2,"pre_tag": "","post_tag": ""} }`
         partial: Enables partial results to be returned if one or more index partitions are unavailable. When your search index is partitioned across multiple search instances, by default Amazon CloudSearch only returns results if every partition can be queried. This means that the failure of a single search instance can result in 5xx (internal server) errors. When you enable partial results, Amazon CloudSearch returns whatever results are available and includes the percentage of documents searched in the search results (percent-searched). This enables you to more gracefully degrade your users' search experience. For example, rather than displaying no results, you could display the partial results and a message indicating that the results might be incomplete due to a temporary system outage.
-        query: |-
-            Specifies the search criteria for the request. How you specify the search criteria depends on the query parser used for the request and the parser options specified in the `queryOptions` parameter. By default, the `simple` query parser is used to process requests. To use the `structured`, `lucene`, or `dismax` query parser, you must also specify the `queryParser` parameter.
-
-            For more information about specifying search criteria, see [Searching Your Data](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/searching.html) in the *Amazon CloudSearch Developer Guide*.
         query-options: |-
             Configures options for the query parser specified in the `queryParser` parameter. You specify the options in JSON using the following form `{"OPTION1":"VALUE1","OPTION2":VALUE2"..."OPTIONN":"VALUEN"}.`
 
@@ -136,6 +132,10 @@ documentation:
             - `lucene`: search using the Apache Lucene query parser syntax. For more information, see [Apache Lucene Query Parser Syntax](http://lucene.apache.org/core/4_6_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description).
             - `dismax`: search using the simplified subset of the Apache Lucene query parser syntax defined by the DisMax query parser. For more information, see [DisMax Query Parser Syntax](http://wiki.apache.org/solr/DisMaxQParserPlugin#Query_Syntax).
         return: Specifies the field and expression values to include in the response. Multiple fields or expressions are specified as a comma-separated list. By default, a search response includes all return enabled fields (`_all_fields`). To return only the document IDs for the matching documents, specify `_no_fields`. To retrieve the relevance score calculated for each document, specify `_score`.
+        search-query: |-
+            Specifies the search criteria for the request. How you specify the search criteria depends on the query parser used for the request and the parser options specified in the `queryOptions` parameter. By default, the `simple` query parser is used to process requests. To use the `structured`, `lucene`, or `dismax` query parser, you must also specify the `queryParser` parameter.
+
+            For more information about specifying search criteria, see [Searching Your Data](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/searching.html) in the *Amazon CloudSearch Developer Guide*.
         size: Specifies the maximum number of search hits to include in the response.
         sort: |-
             Specifies the fields or custom expressions to use to sort the search results. Multiple fields or expressions are specified as a comma-separated list. You must specify the sort direction (`asc` or `desc`) for each field; for example, `year desc,title asc`. To use a field to sort results, the field must be sort-enabled in the domain configuration. Array type fields cannot be used for sorting. If no `sort` parameter is specified, results are sorted by their default relevance scores in descending order: `_score desc`. You can also sort by document ID (`_id asc`) and version (`_version desc`).
