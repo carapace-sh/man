@@ -1,6 +1,9 @@
 name: publish
 description: Sends a message to an Amazon SNS topic, a text message (SMS message) directly to a phone number, or a message to a mobile platform endpoint (when you specify the `TargetArn`).
 flags:
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --message-attributes=: Message attributes for Publish action.
     --message-deduplication-id=: '- This parameter applies only to FIFO (first-in-first-out) topics.'
     --message-group-id=: The `MessageGroupId` can contain up to 128 alphanumeric characters `(a-z, A-Z, 0-9)` and punctuation ``(!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~)``.
@@ -24,6 +27,21 @@ documentation:
 
         You can publish messages only to topics and endpoints in the same Amazon Web Services Region.
     flag:
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         message: "The message you want to send.\n\nIf you are publishing to a topic and you want to send the same message to all transport protocols, include the text of the message as a String value. If you want to send different messages for each transport protocol, set the value of the `MessageStructure` parameter to `json` and use a JSON object for the `Message` parameter.\n\nConstraints:\n\n- With the exception of SMS, messages must be UTF-8 encoded strings and at most 256 KB in size (262,144 bytes, not 262,144 characters).\n- For SMS, each message can contain up to 140 characters. This character limit depends on the encoding schema. For example, an SMS message can contain 160 GSM characters, 140 ASCII characters, or 70 UCS-2 characters.\n  \n  If you publish a message that exceeds this size limit, Amazon SNS sends the message as multiple messages, each fitting within the size limit. Messages aren't truncated mid-word but are cut off at whole-word boundaries.\n  \n  The total size limit for a single SMS `Publish` action is 1,600 characters.\n\nJSON-specific constraints:\n\n- Keys in the JSON object that correspond to supported transport protocols must have simple JSON string values.\n- The values will be parsed (unescaped) before they are used in outgoing messages.\n- Outbound notifications are JSON encoded (meaning that the characters will be reescaped for sending).\n- Values have a minimum length of 0 (the empty string, \"\", is allowed).\n- Values have a maximum length bounded by the overall message size (so, including multiple protocols may limit message sizes).\n- Non-string values will cause the key to be ignored.\n- Keys that do not correspond to supported transport protocols are ignored.\n- Duplicate keys are not allowed.\n- Failure to parse or validate any key or value in the message will cause the `Publish` call to return an error (no partial delivery)."
         message-attributes: Message attributes for Publish action.
         message-deduplication-id: "- This parameter applies only to FIFO (first-in-first-out) topics. The `MessageDeduplicationId` can contain up to 128 alphanumeric characters `(a-z, A-Z, 0-9)` and punctuation ``(!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~)``.\n- Every message must have a unique `MessageDeduplicationId`, which is a token used for deduplication of sent messages within the 5 minute minimum deduplication interval.\n- The scope of deduplication depends on the `FifoThroughputScope` attribute, when set to `Topic` the message deduplication scope is across the entire topic, when set to `MessageGroup` the message deduplication scope is within each individual message group.\n- If a message with a particular `MessageDeduplicationId` is sent successfully, subsequent messages within the deduplication scope and interval, with the same `MessageDeduplicationId`, are accepted successfully but aren't delivered.\n- Every message must have a unique `MessageDeduplicationId`:\n  \n  - You may provide a `MessageDeduplicationId` explicitly.\n  - If you aren't able to provide a `MessageDeduplicationId` and you enable `ContentBasedDeduplication` for your topic, Amazon SNS uses a SHA-256 hash to generate the `MessageDeduplicationId` using the body of the message (but not the attributes of the message).\n  - If you don't provide a `MessageDeduplicationId` and the topic doesn't have `ContentBasedDeduplication` set, the action fails with an error.\n  - If the topic has a `ContentBasedDeduplication` set, your `MessageDeduplicationId` overrides the generated one.\n- When `ContentBasedDeduplication` is in effect, messages with identical content sent within the deduplication scope and interval are treated as duplicates and only one copy of the message is delivered.\n- If you send one message with `ContentBasedDeduplication` enabled, and then another message with a `MessageDeduplicationId` that is the same as the one generated for the first `MessageDeduplicationId`, the two messages are treated as duplicates, within the deduplication scope and interval, and only one copy of the message is delivered."

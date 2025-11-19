@@ -2,6 +2,8 @@ name: create-workflow
 description: Creates a private workflow.
 flags:
     --accelerators=: The computational accelerator specified to run the workflow.
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --container-registry-map-uri=: (Optional) URI of the S3 location for the registry mapping file.
     --container-registry-map=: (Optional) Use a container registry map to specify mappings between the ECR private repository and one or more upstream registries.
     --definition-repository=: The repository information for the workflow definition.
@@ -9,6 +11,7 @@ flags:
     --definition-zip=: A ZIP archive containing the main workflow definition file and dependencies that it imports for the workflow.
     --description=: A description for the workflow.
     --engine=: The workflow engine for the workflow.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --main=: The path of the main definition file for the workflow.
     --name=: Name (optional but highly recommended) for the workflow to locate relevant information in the CloudWatch logs and Amazon Web Services HealthOmics console.
     --parameter-template-path=: The path to the workflow parameter template JSON file within the repository.
@@ -29,14 +32,33 @@ completion:
             - WDL
             - NEXTFLOW
             - CWL
-            - WDL_LENIENT
         storage-type:
             - STATIC
             - DYNAMIC
 documentation:
-    command: "Creates a private workflow. Before you create a private workflow, you must create and configure these required resources:\n\n- *Workflow definition file:* A workflow definition file written in WDL, Nextflow, or CWL. The workflow definition specifies the inputs and outputs for runs that use the workflow. It also includes specifications for the runs and run tasks for your workflow, including compute and memory requirements. The workflow definition file must be in `.zip` format. For more information, see [Workflow definition files](https://docs.aws.amazon.com/omics/latest/dev/workflow-definition-files.html) in Amazon Web Services HealthOmics.\n  \n  - You can use Amazon Q CLI to build and validate your workflow definition files in WDL, Nextflow, and CWL. For more information, see [Example prompts for Amazon Q CLI](https://docs.aws.amazon.com/omics/latest/dev/getting-started.html#omics-q-prompts) and the [Amazon Web Services HealthOmics Agentic generative AI tutorial](https://github.com/aws-samples/aws-healthomics-tutorials/tree/main/generative-ai) on GitHub.\n- *(Optional) Parameter template file:* A parameter template file written in JSON. Create the file to define the run parameters, or Amazon Web Services HealthOmics generates the parameter template for you. For more information, see [Parameter template files for HealthOmics workflows](https://docs.aws.amazon.com/omics/latest/dev/parameter-templates.html).\n- *ECR container images:* Create container images for the workflow in a private ECR repository, or synchronize images from a supported upstream registry with your Amazon ECR private repository.\n- *(Optional) Sentieon licenses:* Request a Sentieon license to use the Sentieon software in private workflows.\n\nFor more information, see [Creating or updating a private workflow in Amazon Web Services HealthOmics](https://docs.aws.amazon.com/omics/latest/dev/creating-private-workflows.html) in the *Amazon Web Services HealthOmics User Guide*."
+    command: |-
+        Creates a private workflow. Before you create a private workflow, you must create and configure these required resources:
+
+        - *Workflow definition files*: Define your workflow in one or more workflow definition files, written in WDL, Nextflow, or CWL. The workflow definition specifies the inputs and outputs for runs that use the workflow. It also includes specifications for the runs and run tasks for your workflow, including compute and memory requirements. The workflow definition file must be in .zip format.
+        - (Optional) *Parameter template*: You can create a parameter template file that defines the run parameters, or Amazon Web Services HealthOmics can generate the parameter template for you.
+        - *ECR container images*: Create container images for the workflow in a private ECR repository, or synchronize images from a supported upstream registry with your Amazon ECR private repository.
+        - (Optional) *Sentieon licenses*: Request a Sentieon license if using the Sentieon software in a private workflow.
+
+        For more information, see [Creating or updating a private workflow in Amazon Web Services HealthOmics](https://docs.aws.amazon.com/omics/latest/dev/creating-private-workflows.html) in the *Amazon Web Services HealthOmics User Guide*.
     flag:
         accelerators: The computational accelerator specified to run the workflow.
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         container-registry-map: (Optional) Use a container registry map to specify mappings between the ECR private repository and one or more upstream registries. For more information, see [Container images](https://docs.aws.amazon.com/omics/latest/dev/workflows-ecr.html) in the *Amazon Web Services HealthOmics User Guide*.
         container-registry-map-uri: (Optional) URI of the S3 location for the registry mapping file.
         definition-repository: The repository information for the workflow definition. This allows you to source your workflow definition directly from a code repository.
@@ -44,6 +66,9 @@ documentation:
         definition-zip: A ZIP archive containing the main workflow definition file and dependencies that it imports for the workflow. You can use a file with a ://fileb prefix instead of the Base64 string. For more information, see [Workflow definition requirements](https://docs.aws.amazon.com/omics/latest/dev/workflow-defn-requirements.html) in the *Amazon Web Services HealthOmics User Guide*.
         description: A description for the workflow.
         engine: The workflow engine for the workflow. This is only required if you have workflow definition files from more than one engine in your zip file. Otherwise, the service can detect the engine automatically from your workflow definition.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         main: 'The path of the main definition file for the workflow. This parameter is not required if the ZIP archive contains only one workflow definition file, or if the main definition file is named “main”. An example path is: `workflow-definition/main-file.wdl`.'
         name: Name (optional but highly recommended) for the workflow to locate relevant information in the CloudWatch logs and Amazon Web Services HealthOmics console.
         parameter-template: A parameter template for the workflow. If this field is blank, Amazon Web Services HealthOmics will automatically parse the parameter template values from your workflow definition file. To override these service generated default values, provide a parameter template. To view an example of a parameter template, see [Parameter template files](https://docs.aws.amazon.com/omics/latest/dev/parameter-templates.html) in the *Amazon Web Services HealthOmics User Guide*.

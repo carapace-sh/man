@@ -1,8 +1,11 @@
 name: terminate-instances
-description: Terminates (deletes) the specified instances.
+description: Shuts down the specified instances.
 flags:
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --dry-run: Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response.
     --force: Forces the instances to terminate.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --instance-ids=!: The IDs of the instances.
     --no-dry-run: Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response.
     --no-force: Forces the instances to terminate.
@@ -10,13 +13,7 @@ flags:
     --skip-os-shutdown: Specifies whether to bypass the graceful OS shutdown process when the instance is terminated.
 documentation:
     command: |-
-        Terminates (deletes) the specified instances. This operation is [idempotent](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html); if you terminate an instance more than once, each call succeeds.
-
-        **Terminating an instance is permanent and irreversible.**
-
-        After you terminate an instance, you can no longer connect to it, and it can't be recovered. All attached Amazon EBS volumes that are configured to be deleted on termination are also permanently deleted and can't be recovered. All data stored on instance store volumes is permanently lost. For more information, see [How instance termination works](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/how-ec2-instance-termination-works.html).
-
-        Before you terminate an instance, ensure that you have backed up all data that you need to retain after the termination to persistent storage.
+        Shuts down the specified instances. This operation is [idempotent](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html); if you terminate an instance more than once, each call succeeds.
 
         If you specify multiple instances and the request fails (for example, because of a single incorrect instance ID), none of the instances are terminated.
 
@@ -47,8 +44,23 @@ documentation:
 
         When you terminate an instance, we attempt to terminate it forcibly after a short while. If your instance appears stuck in the shutting-down state after a period of time, there might be an issue with the underlying host computer. For more information about terminating and troubleshooting terminating your instances, see [Terminate Amazon EC2 instances](https://docs.aws.amazon.com/) and [Troubleshooting terminating your instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesShuttingDown.html) in the *Amazon EC2 User Guide*.
     flag:
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         dry-run: Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
         force: Forces the instances to terminate. The instance will first attempt a graceful shutdown, which includes flushing file system caches and metadata. If the graceful shutdown fails to complete within the timeout period, the instance shuts down forcibly without flushing the file system caches and metadata.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         instance-ids: |-
             The IDs of the instances.
 

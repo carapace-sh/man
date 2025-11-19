@@ -1,11 +1,17 @@
 name: search-all-related-items
 description: Searches for related items across all cases within a domain.
 flags:
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --domain-id=!: The unique identifier of the Cases domain.
     --filters=: The list of types of related items and their parameters to use for filtering.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
+    --max-items=: The  total number of items to return in the command's output.
     --max-results=: The maximum number of results to return per page.
     --next-token=: The token for the next set of results.
+    --page-size=: The size of each page to get in the AWS service call.
     --sorts=: A structured set of sort terms to specify the order in which related items should be returned.
+    --starting-token=: A token to specify where to start paginating.
 documentation:
     command: |-
         Searches for related items across all cases within a domain. This is a global search operation that returns related items from multiple cases, unlike the case-specific [SearchRelatedItems](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_SearchRelatedItems.html) API.
@@ -20,13 +26,47 @@ documentation:
 
         **Important things to know**
 
-        - This API returns case identifiers, not complete case objects. To retrieve full case details, you must make additional calls to the [GetCase](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_GetCase.html) API for each returned case ID.
+        - This API returns case IDs, not complete case objects. To retrieve full case details, you must make additional calls to the [GetCase](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_GetCase.html) API for each returned case ID.
         - This API searches across related items content, not case fields. Use the [SearchCases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_SearchCases.html) API to search within case field values.
 
         **Endpoints**: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
     flag:
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         domain-id: The unique identifier of the Cases domain.
         filters: 'The list of types of related items and their parameters to use for filtering. The filters work as an OR condition: caller gets back related items that match any of the specified filter types.'
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        max-items: |-
+            The total number of items to return in the command's output.
+            If the total number of items available is more than the value specified, a NextToken is provided in the command's output.
+            To resume pagination, provide the NextToken value in the starting-token argument of a subsequent  command.
+            Do not use the NextToken response element directly outside of the AWS CLI.
+
+            For usage examples, see Pagination in the AWS Command Line Interface User Guide.
         max-results: The maximum number of results to return per page.
         next-token: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        page-size: |-
+            The size of each page to get in the AWS service call.
+            This does not affect the number of items returned in the command's output.
+            Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call.
+            This can help prevent the AWS service calls from timing out.
+
+            For usage examples, see Pagination in the AWS Command Line Interface User Guide.
         sorts: 'A structured set of sort terms to specify the order in which related items should be returned. Supports sorting by association time or case ID. The sorts work in the order specified: first sort term takes precedence over subsequent terms.'
+        starting-token: |-
+            A token to specify where to start paginating.
+            This is the NextToken from a previously truncated response.
+
+            For usage examples, see Pagination in the AWS Command Line Interface User Guide.

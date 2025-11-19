@@ -1,14 +1,18 @@
 name: calculate-route-matrix
-description: This operation is no longer current and may be deprecated in the future.
+description: '[Calculates a route matrix](https://docs.aws.amazon.com/location/previous/developerguide/calculate-route-matrix.html) given the following required parameters: `DeparturePositions` and `DestinationPositions`.'
 flags:
     --calculator-name=!: The name of the route calculator resource that you want to use to calculate the route matrix.
     --car-mode-options=: Specifies route preferences when traveling by `Car`, such as avoiding routes that use ferries or tolls.
-    --depart-now=: Sets the time of departure as the current time.
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
+    --depart-now: Sets the time of departure as the current time.
     --departure-positions=!: The list of departure (origin) positions for the route matrix.
     --departure-time=: Specifies the desired time of departure.
     --destination-positions=!: The list of destination positions for the route matrix.
     --distance-unit=: Set the unit system to specify the distance.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --key=: The optional [API key](https://docs.aws.amazon.com/location/previous/developerguide/using-apikeys.html) to authorize the request.
+    --no-depart-now: Sets the time of departure as the current time.
     --travel-mode=: Specifies the mode of transport when calculating a route.
     --truck-mode-options=: Specifies route preferences when traveling by `Truck`, such as avoiding routes that use ferries or tolls, and truck specifications to consider when choosing an optimal road.
 completion:
@@ -23,13 +27,25 @@ completion:
             - Bicycle
             - Motorcycle
 documentation:
-    command: "This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the [V2 `CalculateRouteMatrix`](/location/latest/APIReference/API_CalculateRouteMatrix.html) unless you require Grab data.\n\n- This version of `CalculateRouteMatrix` is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2).\n- The version 2 `CalculateRouteMatrix` operation gives better results for matrix routing calculations.\n- If you are using an Amazon Web Services SDK or the Amazon Web Services CLI, note that the Routes API version 2 is found under `geo-routes` or `geo_routes`, not under `location`.\n- Since Grab is not yet fully supported in Routes API version 2, we recommend you continue using API version 1 when using Grab.\n- Start your version 2 API journey with the Routes V2 [API Reference](/location/latest/APIReference/API_Operations_Amazon_Location_Service_Routes_V2.html) or the [Developer Guide](/location/latest/developerguide/routes.html).\n\n[Calculates a route matrix](https://docs.aws.amazon.com/location/previous/developerguide/calculate-route-matrix.html) given the following required parameters: `DeparturePositions` and `DestinationPositions`. `CalculateRouteMatrix` calculates routes and returns the travel time and travel distance from each departure position to each destination position in the request. For example, given departure positions A and B, and destination positions X and Y, `CalculateRouteMatrix` will return time and distance for routes from A to X, A to Y, B to X, and B to Y (in that order). The number of results returned (and routes calculated) will be the number of `DeparturePositions` times the number of `DestinationPositions`.\n\nYour account is charged for each route calculated, not the number of requests.\n\nRequires that you first [create a route calculator resource](https://docs.aws.amazon.com/location-routes/latest/APIReference/API_CreateRouteCalculator.html).\n\nBy default, a request that doesn't specify a departure time uses the best time of day to travel with the best traffic conditions when calculating routes.\n\nAdditional options include:\n\n- [Specifying a departure time](https://docs.aws.amazon.com/location/previous/developerguide/departure-time.html) using either `DepartureTime` or `DepartNow`. This calculates routes based on predictive traffic data at the given time.\n  \n  You can't specify both `DepartureTime` and `DepartNow` in a single request. Specifying both parameters returns a validation error.\n- [Specifying a travel mode](https://docs.aws.amazon.com/location/previous/developerguide/travel-mode.html) using TravelMode sets the transportation mode used to calculate the routes. This also lets you specify additional route preferences in `CarModeOptions` if traveling by `Car`, or `TruckModeOptions` if traveling by `Truck`."
+    command: "[Calculates a route matrix](https://docs.aws.amazon.com/location/previous/developerguide/calculate-route-matrix.html) given the following required parameters: `DeparturePositions` and `DestinationPositions`. `CalculateRouteMatrix` calculates routes and returns the travel time and travel distance from each departure position to each destination position in the request. For example, given departure positions A and B, and destination positions X and Y, `CalculateRouteMatrix` will return time and distance for routes from A to X, A to Y, B to X, and B to Y (in that order). The number of results returned (and routes calculated) will be the number of `DeparturePositions` times the number of `DestinationPositions`.\n\nYour account is charged for each route calculated, not the number of requests.\n\nRequires that you first [create a route calculator resource](https://docs.aws.amazon.com/location-routes/latest/APIReference/API_CreateRouteCalculator.html).\n\nBy default, a request that doesn't specify a departure time uses the best time of day to travel with the best traffic conditions when calculating routes.\n\nAdditional options include:\n\n- [Specifying a departure time](https://docs.aws.amazon.com/location/previous/developerguide/departure-time.html) using either `DepartureTime` or `DepartNow`. This calculates routes based on predictive traffic data at the given time.\n  \n  You can't specify both `DepartureTime` and `DepartNow` in a single request. Specifying both parameters returns a validation error.\n- [Specifying a travel mode](https://docs.aws.amazon.com/location/previous/developerguide/travel-mode.html) using TravelMode sets the transportation mode used to calculate the routes. This also lets you specify additional route preferences in `CarModeOptions` if traveling by `Car`, or `TruckModeOptions` if traveling by `Truck`."
     flag:
         calculator-name: The name of the route calculator resource that you want to use to calculate the route matrix.
         car-mode-options: |-
             Specifies route preferences when traveling by `Car`, such as avoiding routes that use ferries or tolls.
 
             Requirements: `TravelMode` must be specified as `Car`.
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         depart-now: |-
             Sets the time of departure as the current time. Uses the current time to calculate the route matrix. You can't set both `DepartureTime` and `DepartNow`. If neither is set, the best time of day to travel with the best traffic conditions is used to calculate the route matrix.
 
@@ -62,6 +78,9 @@ documentation:
             Set the unit system to specify the distance.
 
             Default Value: `Kilometers`
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         key: The optional [API key](https://docs.aws.amazon.com/location/previous/developerguide/using-apikeys.html) to authorize the request.
         travel-mode: |-
             Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility.

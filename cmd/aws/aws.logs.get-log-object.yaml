@@ -1,10 +1,29 @@
 name: get-log-object
 description: Retrieves a large logging object (LLO) and streams it back.
 flags:
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --log-object-pointer=!: A pointer to the specific log object to retrieve.
-    --unmask=: A boolean flag that indicates whether to unmask sensitive log data.
+    --no-unmask: A boolean flag that indicates whether to unmask sensitive log data.
+    --unmask: A boolean flag that indicates whether to unmask sensitive log data.
 documentation:
     command: Retrieves a large logging object (LLO) and streams it back. This API is used to fetch the content of large portions of log events that have been ingested through the PutOpenTelemetryLogs API. When log events contain fields that would cause the total event size to exceed 1MB, CloudWatch Logs automatically processes up to 10 fields, starting with the largest fields. Each field is truncated as needed to keep the total event size as close to 1MB as possible. The excess portions are stored as Large Log Objects (LLOs) and these fields are processed separately and LLO reference system fields (in the format `@ptr.$[path.to.field]`) are added. The path in the reference field reflects the original JSON structure where the large field was located. For example, this could be `@ptr.$['input']['message']`, `@ptr.$['AAA']['BBB']['CCC']['DDD']`, `@ptr.$['AAA']`, or any other path matching your log structure.
     flag:
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         log-object-pointer: A pointer to the specific log object to retrieve. This is a required parameter that uniquely identifies the log object within CloudWatch Logs. The pointer is typically obtained from a previous query or filter operation.
         unmask: A boolean flag that indicates whether to unmask sensitive log data. When set to true, any masked or redacted data in the log object will be displayed in its original form. Default is false.

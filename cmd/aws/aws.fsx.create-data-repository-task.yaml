@@ -2,8 +2,11 @@ name: create-data-repository-task
 description: Creates an Amazon FSx for Lustre data repository task.
 flags:
     --capacity-to-release=: Specifies the amount of data to release, in GiB, by an Amazon File Cache `AUTO_RELEASE_DATA` task that automatically releases files from the cache.
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --client-request-token=: ""
     --file-system-id=!: ""
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --paths=: A list of paths for the data repository task to use when the task is processed.
     --release-configuration=: The configuration that specifies the last accessed time criteria for files that will be released from an Amazon FSx for Lustre file system.
     --report=!: Defines whether or not Amazon FSx provides a CompletionReport once the task has completed.
@@ -27,8 +30,23 @@ documentation:
         To learn more about data repository tasks, see [Data Repository Tasks](https://docs.aws.amazon.com/fsx/latest/LustreGuide/data-repository-tasks.html). To learn more about linking a data repository to your file system, see [Linking your file system to an S3 bucket](https://docs.aws.amazon.com/fsx/latest/LustreGuide/create-dra-linked-data-repo.html).
     flag:
         capacity-to-release: Specifies the amount of data to release, in GiB, by an Amazon File Cache `AUTO_RELEASE_DATA` task that automatically releases files from the cache.
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         client-request-token: ""
         file-system-id: ""
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         paths: "A list of paths for the data repository task to use when the task is processed. If a path that you provide isn't valid, the task fails. If you don't provide paths, the default behavior is to export all files to S3 (for export tasks), import all files from S3 (for import tasks), or release all exported files that meet the last accessed time criteria (for release tasks).\n\n- For export tasks, the list contains paths on the FSx for Lustre file system from which the files are exported to the Amazon S3 bucket. The default path is the file system root directory. The paths you provide need to be relative to the mount point of the file system. If the mount point is `/mnt/fsx` and `/mnt/fsx/path1` is a directory or file on the file system you want to export, then the path to provide is `path1`.\n- For import tasks, the list contains paths in the Amazon S3 bucket from which POSIX metadata changes are imported to the FSx for Lustre file system. The path can be an S3 bucket or prefix in the format `s3://bucket-name/prefix` (where `prefix` is optional).\n- For release tasks, the list contains directory or file paths on the FSx for Lustre file system from which to release exported files. If a directory is specified, files within the directory are released. If a file path is specified, only that file is released. To release all exported files in the file system, specify a forward slash (/) as the path.\n  \n  A file must also meet the last accessed time criteria specified in for the file to be released."
         release-configuration: The configuration that specifies the last accessed time criteria for files that will be released from an Amazon FSx for Lustre file system.
         report: Defines whether or not Amazon FSx provides a CompletionReport once the task has completed. A CompletionReport provides a detailed report on the files that Amazon FSx processed that meet the criteria specified by the `Scope` parameter. For more information, see [Working with Task Completion Reports](https://docs.aws.amazon.com/fsx/latest/LustreGuide/task-completion-report.html).

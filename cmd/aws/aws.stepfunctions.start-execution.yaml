@@ -1,6 +1,9 @@
 name: start-execution
 description: Starts a state machine execution.
 flags:
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --input=: 'The string that contains the JSON input data for the execution, for example:'
     --name=: Optional name of the execution.
     --state-machine-arn=!: The Amazon Resource Name (ARN) of the state machine to execute.
@@ -8,6 +11,21 @@ flags:
 documentation:
     command: "Starts a state machine execution.\n\nA qualified state machine ARN can either refer to a *Distributed Map state* defined within a state machine, a version ARN, or an alias ARN.\n\nThe following are some examples of qualified and unqualified state machine ARNs:\n\n- The following qualified state machine ARN refers to a *Distributed Map state* with a label `mapStateLabel` in a state machine named `myStateMachine`.\n  \n  `arn:partition:states:region:account-id:stateMachine:myStateMachine/mapStateLabel`\n  \n  If you provide a qualified state machine ARN that refers to a *Distributed Map state*, the request fails with `ValidationException`.\n- The following qualified state machine ARN refers to an alias named `PROD`.\n  \n  `arn:<partition>:states:<region>:<account-id>:stateMachine:<myStateMachine:PROD>`\n  \n  If you provide a qualified state machine ARN that refers to a version ARN or an alias ARN, the request starts execution for that version or alias.\n- The following unqualified state machine ARN refers to a state machine named `myStateMachine`.\n  \n  `arn:<partition>:states:<region>:<account-id>:stateMachine:<myStateMachine>`\n\nIf you start an execution with an unqualified state machine ARN, Step Functions uses the latest revision of the state machine for the execution.\n\nTo start executions of a state machine [version](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html), call `StartExecution` and provide the version ARN or the ARN of an [alias](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html) that points to the version.\n\n`StartExecution` is idempotent for `STANDARD` workflows. For a `STANDARD` workflow, if you call `StartExecution` with the same name and input as a running execution, the call succeeds and return the same response as the original request. If the execution is closed or if the input is different, it returns a `400 ExecutionAlreadyExists` error. You can reuse names after 90 days.\n\n`StartExecution` isn't idempotent for `EXPRESS` workflows."
     flag:
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         input: |-
             The string that contains the JSON input data for the execution, for example:
 

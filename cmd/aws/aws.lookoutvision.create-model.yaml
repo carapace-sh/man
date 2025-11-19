@@ -1,0 +1,50 @@
+name: create-model
+description: Creates a new version of a model within an an Amazon Lookout for Vision project.
+flags:
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
+    --client-token=: ClientToken is an idempotency token that ensures a call to `CreateModel` completes only once.
+    --description=: A description for the version of the model.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
+    --kms-key-id=: The identifier for your AWS KMS key.
+    --output-config=!: The location where Amazon Lookout for Vision saves the training results.
+    --project-name=!: The name of the project in which you want to create a model version.
+    --tags=: A set of tags (key-value pairs) that you want to attach to the model.
+documentation:
+    command: |-
+        Creates a new version of a model within an an Amazon Lookout for Vision project. `CreateModel` is an asynchronous operation in which Amazon Lookout for Vision trains, tests, and evaluates a new version of a model.
+
+        To get the current status, check the `Status` field returned in the response from [DescribeModel]().
+
+        If the project has a single dataset, Amazon Lookout for Vision internally splits the dataset to create a training and a test dataset. If the project has a training and a test dataset, Lookout for Vision uses the respective datasets to train and test the model.
+
+        After training completes, the evaluation metrics are stored at the location specified in `OutputConfig`.
+
+        This operation requires permissions to perform the `lookoutvision:CreateModel` operation. If you want to tag your model, you also require permission to the `lookoutvision:TagResource` operation.
+    flag:
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        client-token: |-
+            ClientToken is an idempotency token that ensures a call to `CreateModel` completes only once. You choose the value to pass. For example, An issue might prevent you from getting a response from `CreateModel`. In this case, safely retry your call to `CreateModel` by using the same `ClientToken` parameter value.
+
+            If you don't supply a value for `ClientToken`, the AWS SDK you are using inserts a value for you. This prevents retries after a network error from starting multiple training jobs. You'll need to provide your own value for other use cases.
+
+            An error occurs if the other input parameters are not the same as in the first request. Using a different value for `ClientToken` is considered a new call to `CreateModel`. An idempotency token is active for 8 hours.
+        description: A description for the version of the model.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        kms-key-id: The identifier for your AWS KMS key. The key is used to encrypt training and test images copied into the service for model training. Your source images are unaffected. If this parameter is not specified, the copied images are encrypted by a key that AWS owns and manages.
+        output-config: The location where Amazon Lookout for Vision saves the training results.
+        project-name: The name of the project in which you want to create a model version.
+        tags: A set of tags (key-value pairs) that you want to attach to the model.

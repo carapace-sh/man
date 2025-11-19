@@ -2,7 +2,10 @@ name: start-instance-refresh
 description: Starts an instance refresh.
 flags:
     --auto-scaling-group-name=!: The name of the Auto Scaling group.
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --desired-configuration=: The desired configuration.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --preferences=: Sets your preferences for the instance refresh so that it performs as expected when you start it.
     --strategy=: The strategy to use for the instance refresh.
 completion:
@@ -22,12 +25,27 @@ documentation:
         If you enable auto rollback, your Auto Scaling group will be rolled back automatically when the instance refresh fails. You can enable this feature before starting an instance refresh by specifying the `AutoRollback` property in the instance refresh preferences. Otherwise, to roll back an instance refresh before it finishes, use the [RollbackInstanceRefresh](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_RollbackInstanceRefresh.html) API.
     flag:
         auto-scaling-group-name: The name of the Auto Scaling group.
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         desired-configuration: |-
             The desired configuration. For example, the desired configuration can specify a new launch template or a new version of the current launch template.
 
             Once the instance refresh succeeds, Amazon EC2 Auto Scaling updates the settings of the Auto Scaling group to reflect the new desired configuration.
 
             When you specify a new launch template or a new version of the current launch template for your desired configuration, consider enabling the `SkipMatching` property in preferences. If it's enabled, Amazon EC2 Auto Scaling skips replacing instances that already use the specified launch template and instance types. This can help you reduce the number of replacements that are required to apply updates.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         preferences: |-
             Sets your preferences for the instance refresh so that it performs as expected when you start it. Includes the instance warmup time, the minimum and maximum healthy percentages, and the behaviors that you want Amazon EC2 Auto Scaling to use if instances that are in `Standby` state or protected from scale in are found. You can also choose to enable additional features, such as the following:
 

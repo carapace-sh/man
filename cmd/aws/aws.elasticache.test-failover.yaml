@@ -1,10 +1,28 @@
 name: test-failover
 description: Represents the input of a `TestFailover` operation which tests automatic failover on a specified node group (called shard in the console) in a replication group (called cluster in the console).
 flags:
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --node-group-id=!: The name of the node group (called shard in the console) in this replication group on which automatic failover is to be tested.
     --replication-group-id=!: 'The name of the replication group (console: cluster) whose automatic failover is being tested by this operation.'
 documentation:
     command: "Represents the input of a `TestFailover` operation which tests automatic failover on a specified node group (called shard in the console) in a replication group (called cluster in the console).\n\nThis API is designed for testing the behavior of your application in case of ElastiCache failover. It is not designed to be an operational tool for initiating a failover to overcome a problem you may have with the cluster. Moreover, in certain conditions such as large-scale operational events, Amazon may block this API.\n\n**Note the following**\n\n- A customer can use this operation to test automatic failover on up to 15 shards (called node groups in the ElastiCache API and Amazon CLI) in any rolling 24-hour period.\n- If calling this operation on shards in different clusters (called replication groups in the API and CLI), the calls can be made concurrently.\n- If calling this operation multiple times on different shards in the same Valkey or Redis OSS (cluster mode enabled) replication group, the first node replacement must complete before a subsequent call can be made.\n- To determine whether the node replacement is complete you can check Events using the Amazon ElastiCache console, the Amazon CLI, or the ElastiCache API. Look for the following automatic failover related events, listed here in order of occurrance:\n  \n  1. Replication group message: `Test Failover API called for node group <node-group-id>`\n  2. Cache cluster message: `Failover from primary node <primary-node-id> to replica node <node-id> completed`\n  3. Replication group message: `Failover from primary node <primary-node-id> to replica node <node-id> completed`\n  4. Cache cluster message: `Recovering cache nodes <node-id>`\n  5. Cache cluster message: `Finished recovery for cache nodes <node-id>`\n  \n  For more information see:\n  \n  - [Viewing ElastiCache Events](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/ECEvents.Viewing.html) in the *ElastiCache User Guide*\n  - [DescribeEvents](https://docs.aws.amazon.com/AmazonElastiCache/latest/APIReference/API_DescribeEvents.html) in the ElastiCache API Reference\n\nAlso see, [Testing Multi-AZ](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/AutoFailover.html#auto-failover-test) in the *ElastiCache User Guide*."
     flag:
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         node-group-id: The name of the node group (called shard in the console) in this replication group on which automatic failover is to be tested. You may test automatic failover on up to 15 node groups in any rolling 24-hour period.
         replication-group-id: 'The name of the replication group (console: cluster) whose automatic failover is being tested by this operation.'

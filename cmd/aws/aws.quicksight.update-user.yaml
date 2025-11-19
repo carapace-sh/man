@@ -1,17 +1,20 @@
 name: update-user
-description: Updates an Amazon Quick Sight user.
+description: Updates an Amazon QuickSight user.
 flags:
     --aws-account-id=!: The ID for the Amazon Web Services account that the user is in.
-    --custom-federation-provider-url=: The URL of the custom OpenID Connect (OIDC) provider that provides identity to let a user federate into Quick Sight with an associated Identity and Access Management(IAM) role.
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
+    --custom-federation-provider-url=: The URL of the custom OpenID Connect (OIDC) provider that provides identity to let a user federate into QuickSight with an associated Identity and Access Management(IAM) role.
     --custom-permissions-name=: (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user.
     --email=!: The email address of the user that you want to update.
-    --external-login-federation-provider-type=: The type of supported external login provider that provides identity to let a user federate into Quick Sight with an associated Identity and Access Management(IAM) role.
+    --external-login-federation-provider-type=: The type of supported external login provider that provides identity to let a user federate into QuickSight with an associated Identity and Access Management(IAM) role.
     --external-login-id=: The identity ID for a user in the external login provider.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --namespace=!: The namespace.
     --no-unapply-custom-permissions: A flag that you use to indicate that you want to remove all custom permissions from this user.
-    --role=!: The Amazon Quick Sight role of the user.
+    --role=!: The Amazon QuickSight role of the user.
     --unapply-custom-permissions: A flag that you use to indicate that you want to remove all custom permissions from this user.
-    --user-name=!: The Amazon Quick Sight user name that you want to update.
+    --user-name=!: The Amazon QuickSight user name that you want to update.
 completion:
     flag:
         role:
@@ -24,10 +27,22 @@ completion:
             - AUTHOR_PRO
             - READER_PRO
 documentation:
-    command: Updates an Amazon Quick Sight user.
+    command: Updates an Amazon QuickSight user.
     flag:
-        aws-account-id: The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
-        custom-federation-provider-url: The URL of the custom OpenID Connect (OIDC) provider that provides identity to let a user federate into Quick Sight with an associated Identity and Access Management(IAM) role. This parameter should only be used when `ExternalLoginFederationProviderType` parameter is set to `CUSTOM_OIDC`.
+        aws-account-id: The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        custom-federation-provider-url: The URL of the custom OpenID Connect (OIDC) provider that provides identity to let a user federate into QuickSight with an associated Identity and Access Management(IAM) role. This parameter should only be used when `ExternalLoginFederationProviderType` parameter is set to `CUSTOM_OIDC`.
         custom-permissions-name: |-
             (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:
 
@@ -36,30 +51,33 @@ documentation:
             - Create and update email reports
             - Subscribe to email reports
 
-            A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the Quick Sight console. Then, you use the `RegisterUser` API operation to assign the named set of permissions to a Quick Sight user.
+            A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the QuickSight console. Then, you use the `RegisterUser` API operation to assign the named set of permissions to a QuickSight user.
 
-            Quick Sight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning Quick Sight users to one of the default security cohorts in Quick Sight (admin, author, reader).
+            QuickSight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning QuickSight users to one of the default security cohorts in QuickSight (admin, author, reader).
 
-            This feature is available only to Quick Sight Enterprise edition subscriptions.
+            This feature is available only to QuickSight Enterprise edition subscriptions.
         email: The email address of the user that you want to update.
         external-login-federation-provider-type: |-
-            The type of supported external login provider that provides identity to let a user federate into Quick Sight with an associated Identity and Access Management(IAM) role. The type of supported external login provider can be one of the following.
+            The type of supported external login provider that provides identity to let a user federate into QuickSight with an associated Identity and Access Management(IAM) role. The type of supported external login provider can be one of the following.
 
             - `COGNITO`: Amazon Cognito. The provider URL is cognito-identity.amazonaws.com. When choosing the `COGNITO` provider type, don’t use the "CustomFederationProviderUrl" parameter which is only needed when the external provider is custom.
             - `CUSTOM_OIDC`: Custom OpenID Connect (OIDC) provider. When choosing `CUSTOM_OIDC` type, use the `CustomFederationProviderUrl` parameter to provide the custom OIDC provider URL.
             - `NONE`: This clears all the previously saved external login information for a user. Use the `DescribeUser` API operation to check the external login information.
         external-login-id: The identity ID for a user in the external login provider.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         namespace: The namespace. Currently, you should set this to `default`.
         role: |-
-            The Amazon Quick Sight role of the user. The role can be one of the following default security cohorts:
+            The Amazon QuickSight role of the user. The role can be one of the following default security cohorts:
 
             - `READER`: A user who has read-only access to dashboards.
             - `AUTHOR`: A user who can create data sources, datasets, analyses, and dashboards.
-            - `ADMIN`: A user who is an author, who can also manage Amazon Quick Sight settings.
-            - `READER_PRO`: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q in Quick Sight, can build stories with Amazon Q, and can generate executive summaries from dashboards.
+            - `ADMIN`: A user who is an author, who can also manage Amazon QuickSight settings.
+            - `READER_PRO`: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q in QuickSight, can build stories with Amazon Q, and can generate executive summaries from dashboards.
             - `AUTHOR_PRO`: Author Pro adds Generative BI capabilities to the Author role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&amp;A, and generate executive summaries from dashboards.
-            - `ADMIN_PRO`: Admin Pros are Author Pros who can also manage Amazon Quick Sight administrative settings. Admin Pro users are billed at Author Pro pricing.
+            - `ADMIN_PRO`: Admin Pros are Author Pros who can also manage Amazon QuickSight administrative settings. Admin Pro users are billed at Author Pro pricing.
 
-            The name of the Quick Sight role is invisible to the user except for the console screens dealing with permissions.
+            The name of the QuickSight role is invisible to the user except for the console screens dealing with permissions.
         unapply-custom-permissions: A flag that you use to indicate that you want to remove all custom permissions from this user. Using this parameter resets the user to the state it was in before a custom permissions profile was applied. This parameter defaults to NULL and it doesn't accept any other value.
-        user-name: The Amazon Quick Sight user name that you want to update.
+        user-name: The Amazon QuickSight user name that you want to update.

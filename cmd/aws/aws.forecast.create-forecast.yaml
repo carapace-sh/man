@@ -1,8 +1,11 @@
 name: create-forecast
 description: Creates a forecast for each item in the `TARGET_TIME_SERIES` dataset that was used to train the predictor.
 flags:
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --forecast-name=!: A name for the forecast.
     --forecast-types=: The quantiles at which probabilistic forecasts are generated.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --predictor-arn=!: The Amazon Resource Name (ARN) of the predictor to use to generate the forecast.
     --tags=: The optional metadata that you apply to the forecast to help you categorize and organize them.
     --time-series-selector=: Defines the set of time series that are used to create the forecasts in a `TimeSeriesIdentifiers` object.
@@ -22,11 +25,26 @@ documentation:
 
         By default, a forecast includes predictions for every item (`item_id`) in the dataset group that was used to train the predictor. However, you can use the `TimeSeriesSelector` object to generate a forecast on a subset of time series. Forecast creation is skipped for any time series that you specify that are not in the input dataset. The forecast export file will not contain these time series or their forecasted values.
     flag:
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         forecast-name: A name for the forecast.
         forecast-types: |-
             The quantiles at which probabilistic forecasts are generated. **You can currently specify up to 5 quantiles per forecast**. Accepted values include `0.01 to 0.99` (increments of .01 only) and `mean`. The mean forecast is different from the median (0.50) when the distribution is not symmetric (for example, Beta and Negative Binomial).
 
             The default quantiles are the quantiles you specified during predictor creation. If you didn't specify quantiles, the default values are `["0.1", "0.5", "0.9"]`.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         predictor-arn: The Amazon Resource Name (ARN) of the predictor to use to generate the forecast.
         tags: |-
             The optional metadata that you apply to the forecast to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define.

@@ -1,15 +1,43 @@
 name: list-repository-associations
 description: Returns a list of [RepositoryAssociationSummary](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociationSummary.html) objects that contain summary information about a repository association.
 flags:
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
+    --max-items=: The  total number of items to return in the command's output.
     --max-results=: The maximum number of repository association results returned by `ListRepositoryAssociations` in paginated output.
     --names=: List of repository names to use as a filter.
     --next-token=: The `nextToken` value returned from a previous paginated `ListRepositoryAssociations` request where `maxResults` was used and the results exceeded the value of that parameter.
     --owners=: List of owners to use as a filter.
+    --page-size=: The size of each page to get in the AWS service call.
     --provider-types=: List of provider types to use as a filter.
+    --starting-token=: A token to specify where to start paginating.
     --states=: List of repository association states to use as a filter.
 documentation:
     command: Returns a list of [RepositoryAssociationSummary](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociationSummary.html) objects that contain summary information about a repository association. You can filter the returned list by [ProviderType](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociationSummary.html#reviewer-Type-RepositoryAssociationSummary-ProviderType), [Name](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociationSummary.html#reviewer-Type-RepositoryAssociationSummary-Name), [State](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociationSummary.html#reviewer-Type-RepositoryAssociationSummary-State), and [Owner](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociationSummary.html#reviewer-Type-RepositoryAssociationSummary-Owner).
     flag:
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        max-items: |-
+            The total number of items to return in the command's output.
+            If the total number of items available is more than the value specified, a NextToken is provided in the command's output.
+            To resume pagination, provide the NextToken value in the starting-token argument of a subsequent  command.
+            Do not use the NextToken response element directly outside of the AWS CLI.
+
+            For usage examples, see Pagination in the AWS Command Line Interface User Guide.
         max-results: The maximum number of repository association results returned by `ListRepositoryAssociations` in paginated output. When this parameter is used, `ListRepositoryAssociations` only returns `maxResults` results in a single page with a `nextToken` response element. The remaining results of the initial request can be seen by sending another `ListRepositoryAssociations` request with the returned `nextToken` value. This value can be between 1 and 100. If this parameter is not used, `ListRepositoryAssociations` returns up to 100 results and a `nextToken` value if applicable.
         names: List of repository names to use as a filter.
         next-token: |-
@@ -17,5 +45,17 @@ documentation:
 
             Treat this token as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
         owners: List of owners to use as a filter. For Amazon Web Services CodeCommit, it is the name of the CodeCommit account that was used to associate the repository. For other repository source providers, such as Bitbucket and GitHub Enterprise Server, this is name of the account that was used to associate the repository.
+        page-size: |-
+            The size of each page to get in the AWS service call.
+            This does not affect the number of items returned in the command's output.
+            Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call.
+            This can help prevent the AWS service calls from timing out.
+
+            For usage examples, see Pagination in the AWS Command Line Interface User Guide.
         provider-types: List of provider types to use as a filter.
+        starting-token: |-
+            A token to specify where to start paginating.
+            This is the NextToken from a previously truncated response.
+
+            For usage examples, see Pagination in the AWS Command Line Interface User Guide.
         states: "List of repository association states to use as a filter.\n\nThe valid repository association states are:\n\n- **Associated**: The repository association is complete.\n- **Associating**: CodeGuru Reviewer is:\n  \n  - Setting up pull request notifications. This is required for pull requests to trigger a CodeGuru Reviewer review.\n    \n    If your repository `ProviderType` is `GitHub`, `GitHub Enterprise Server`, or `Bitbucket`, CodeGuru Reviewer creates webhooks in your repository to trigger CodeGuru Reviewer reviews. If you delete these webhooks, reviews of code in your repository cannot be triggered.\n  - Setting up source code access. This is required for CodeGuru Reviewer to securely clone code in your repository.\n- **Failed**: The repository failed to associate or disassociate.\n- **Disassociating**: CodeGuru Reviewer is removing the repository's pull request notifications and source code access.\n- **Disassociated**: CodeGuru Reviewer successfully disassociated the repository. You can create a new association with this repository if you want to review source code in it later. You can control access to code reviews created in anassociated repository with tags after it has been disassociated. For more information, see [Using tags to control access to associated repositories](https://docs.aws.amazon.com/codeguru/latest/reviewer-ug/auth-and-access-control-using-tags.html) in the *Amazon CodeGuru Reviewer User Guide*."

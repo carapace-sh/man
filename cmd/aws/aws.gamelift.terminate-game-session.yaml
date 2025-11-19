@@ -1,10 +1,10 @@
 name: terminate-game-session
-description: |-
-    **This API works with the following fleet types:** EC2, Anywhere, Container
-
-    Ends a game session that's currently in progress.
+description: Ends a game session that's currently in progress.
 flags:
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --game-session-id=!: A unique identifier for the game session to be terminated.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --termination-mode=!: The method to use to terminate the game session.
 completion:
     flag:
@@ -13,8 +13,6 @@ completion:
             - FORCE_TERMINATE
 documentation:
     command: |-
-        **This API works with the following fleet types:** EC2, Anywhere, Container
-
         Ends a game session that's currently in progress. Use this action to terminate any game session that isn't in `ERROR` status. Terminating a game session is the most efficient way to free up a server process when it's hosting a game session that's in a bad state or not ending properly. You can use this action to terminate a game session that's being hosted on any type of Amazon GameLift Servers fleet compute, including computes for managed EC2, managed container, and Anywhere fleets. The game server must be integrated with Amazon GameLift Servers server SDK 5.x or greater.
 
         **Request options**
@@ -34,5 +32,20 @@ documentation:
 
         Amazon GameLift Servers server SDK 5 reference guide for `OnProcessTerminate()` ([C++](https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-server-sdk5-cpp-initsdk.html)) ([C#](https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-server-sdk5-csharp-initsdk.html)) ([Unreal](https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-server-sdk5-unreal-initsdk.html)) ([Go](https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-server-sdk-go-initsdk.html))
     flag:
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         game-session-id: 'A unique identifier for the game session to be terminated. A game session ARN has the following format: `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<custom ID string or idempotency token>`.'
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         termination-mode: "The method to use to terminate the game session. Available methods include:\n\n- `TRIGGER_ON_PROCESS_TERMINATE` – Prompts the Amazon GameLift Servers service to send an `OnProcessTerminate()` callback to the server process and initiate the normal game session shutdown sequence. The `OnProcessTerminate` method, which is implemented in the game server code, must include a call to the server SDK action `ProcessEnding()`, which is how the server process signals to Amazon GameLift Servers that a game session is ending. If the server process doesn't call `ProcessEnding()`, the game session termination won't conclude successfully.\n- `FORCE_TERMINATE` – Prompts the Amazon GameLift Servers service to stop the server process immediately. Amazon GameLift Servers takes action (depending on the type of fleet) to shut down the server process without the normal game session shutdown sequence.\n  \n  This method is not available for game sessions that are running on Anywhere fleets unless the fleet is deployed with the Amazon GameLift Servers Agent. In this scenario, a force terminate request results in an invalid or bad request exception."

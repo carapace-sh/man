@@ -1,13 +1,18 @@
 name: create-key
 description: Creates a unique customer managed [KMS key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#kms-keys) in your Amazon Web Services account and Region.
 flags:
-    --bypass-policy-lockout-safety-check=: Skips ("bypasses") the key policy lockout safety check.
+    --bypass-policy-lockout-safety-check: Skips ("bypasses") the key policy lockout safety check.
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --custom-key-store-id=: Creates the KMS key in the specified [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/key-store-overview.html).
     --customer-master-key-spec=: Instead, use the `KeySpec` parameter.
     --description=: A description of the KMS key.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --key-spec=: Specifies the type of KMS key to create.
     --key-usage=: Determines the [cryptographic operations](https://docs.aws.amazon.com/kms/latest/developerguide/kms-cryptography.html#cryptographic-operations) for which you can use the KMS key.
-    --multi-region=: Creates a multi-Region primary key that you can replicate into other Amazon Web Services Regions.
+    --multi-region: Creates a multi-Region primary key that you can replicate into other Amazon Web Services Regions.
+    --no-bypass-policy-lockout-safety-check: Skips ("bypasses") the key policy lockout safety check.
+    --no-multi-region: Creates a multi-Region primary key that you can replicate into other Amazon Web Services Regions.
     --origin=: The source of the key material for the KMS key.
     --policy=: The key policy to attach to the KMS key.
     --tags=: Assigns one or more tags to the KMS key.
@@ -45,7 +50,6 @@ completion:
             - ML_DSA_44
             - ML_DSA_65
             - ML_DSA_87
-            - ECC_NIST_EDWARDS25519
         key-usage:
             - SIGN_VERIFY
             - ENCRYPT_DECRYPT
@@ -80,7 +84,7 @@ documentation:
 
         To create an asymmetric KMS key, use the `KeySpec` parameter to specify the type of key material in the KMS key. Then, use the `KeyUsage` parameter to determine whether the KMS key will be used to encrypt and decrypt or sign and verify. You can't change these properties after the KMS key is created.
 
-        Asymmetric KMS keys contain an RSA key pair, Elliptic Curve (ECC) key pair, ML-DSA key pair or an SM2 key pair (China Regions only). The private key in an asymmetric KMS key never leaves KMS unencrypted. However, you can use the [GetPublicKey]() operation to download the public key so it can be used outside of KMS. Each KMS key can have only one key usage. KMS keys with RSA key pairs can be used to encrypt and decrypt data or sign and verify messages (but not both). KMS keys with NIST-standard ECC key pairs can be used to sign and verify messages or derive shared secrets (but not both). KMS keys with `ECC_SECG_P256K1` can be used only to sign and verify messages. KMS keys with ML-DSA key pairs can be used to sign and verify messages. KMS keys with SM2 key pairs (China Regions only) can be used to either encrypt and decrypt data, sign and verify messages, or derive shared secrets (you must choose one key usage type). For information about asymmetric KMS keys, see [Asymmetric KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) in the *Key Management Service Developer Guide*.
+        Asymmetric KMS keys contain an RSA key pair, Elliptic Curve (ECC) key pair, ML-DSA key pair or an SM2 key pair (China Regions only). The private key in an asymmetric KMS key never leaves KMS unencrypted. However, you can use the [GetPublicKey]() operation to download the public key so it can be used outside of KMS. Each KMS key can have only one key usage. KMS keys with RSA key pairs can be used to encrypt and decrypt data or sign and verify messages (but not both). KMS keys with NIST-recommended ECC key pairs can be used to sign and verify messages or derive shared secrets (but not both). KMS keys with `ECC_SECG_P256K1` can be used only to sign and verify messages. KMS keys with ML-DSA key pairs can be used to sign and verify messages. KMS keys with SM2 key pairs (China Regions only) can be used to either encrypt and decrypt data, sign and verify messages, or derive shared secrets (you must choose one key usage type). For information about asymmetric KMS keys, see [Asymmetric KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) in the *Key Management Service Developer Guide*.
 
         HMAC KMS key
 
@@ -142,6 +146,18 @@ documentation:
             For more information, see [Default key policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-default.html#prevent-unmanageable-key) in the *Key Management Service Developer Guide*.
 
             Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent [PutKeyPolicy](https://docs.aws.amazon.com/kms/latest/APIReference/API_PutKeyPolicy.html) request on the KMS key.
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         custom-key-store-id: |-
             Creates the KMS key in the specified [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/key-store-overview.html). The `ConnectionState` of the custom key store must be `CONNECTED`. To find the CustomKeyStoreID and ConnectionState use the [DescribeCustomKeyStores]() operation.
 
@@ -158,7 +174,10 @@ documentation:
             Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.
 
             To set or change the description after the key is created, use [UpdateKeyDescription]().
-        key-spec: "Specifies the type of KMS key to create. The default value, `SYMMETRIC_DEFAULT`, creates a KMS key with a 256-bit AES-GCM key that is used for encryption and decryption, except in China Regions, where it creates a 128-bit symmetric key that uses SM4 encryption. For a detailed description of all supported key specs, see [Key spec reference](https://docs.aws.amazon.com/kms/latest/developerguide/symm-asymm-choose-key-spec.html) in the *Key Management Service Developer Guide* .\n\nThe `KeySpec` determines whether the KMS key contains a symmetric key or an asymmetric key pair. It also determines the algorithms that the KMS key supports. You can't change the `KeySpec` after the KMS key is created. To further restrict the algorithms that can be used with the KMS key, use a condition key in its key policy or IAM policy. For more information, see [kms:EncryptionAlgorithm](https://docs.aws.amazon.com/kms/latest/developerguide/conditions-kms.html#conditions-kms-encryption-algorithm), [kms:MacAlgorithm](https://docs.aws.amazon.com/kms/latest/developerguide/conditions-kms.html#conditions-kms-mac-algorithm), [kms:KeyAgreementAlgorithm](https://docs.aws.amazon.com/kms/latest/developerguide/conditions-kms.html#conditions-kms-key-agreement-algorithm), or [kms:SigningAlgorithm](https://docs.aws.amazon.com/kms/latest/developerguide/conditions-kms.html#conditions-kms-signing-algorithm) in the *Key Management Service Developer Guide* .\n\n[Amazon Web Services services that are integrated with KMS](http://aws.amazon.com/kms/features/#AWS_Service_Integration) use symmetric encryption KMS keys to protect your data. These services do not support asymmetric KMS keys or HMAC KMS keys.\n\nKMS supports the following key specs for KMS keys:\n\n- Symmetric encryption key (default)\n  \n  - `SYMMETRIC_DEFAULT`\n- HMAC keys (symmetric)\n  \n  - `HMAC_224`\n  - `HMAC_256`\n  - `HMAC_384`\n  - `HMAC_512`\n- Asymmetric RSA key pairs (encryption and decryption -or- signing and verification)\n  \n  - `RSA_2048`\n  - `RSA_3072`\n  - `RSA_4096`\n- Asymmetric NIST-standard elliptic curve key pairs (signing and verification -or- deriving shared secrets)\n  \n  - `ECC_NIST_P256` (secp256r1)\n  - `ECC_NIST_P384` (secp384r1)\n  - `ECC_NIST_P521` (secp521r1)\n  - `ECC_NIST_EDWARDS25519` (ed25519) - signing and verification only\n    \n    - **Note:** For ECC\\_NIST\\_EDWARDS25519 KMS keys, the ED25519\\_SHA\\_512 signing algorithm requires [`MessageType:RAW`](kms/latest/APIReference/API_Sign.html#KMS-Sign-request-MessageType) , while ED25519\\_PH\\_SHA\\_512 requires [`MessageType:DIGEST`](kms/latest/APIReference/API_Sign.html#KMS-Sign-request-MessageType) . These message types cannot be used interchangeably.\n- Other asymmetric elliptic curve key pairs (signing and verification)\n  \n  - `ECC_SECG_P256K1` (secp256k1), commonly used for cryptocurrencies.\n- Asymmetric ML-DSA key pairs (signing and verification)\n  \n  - `ML_DSA_44`\n  - `ML_DSA_65`\n  - `ML_DSA_87`\n- SM2 key pairs (encryption and decryption -or- signing and verification -or- deriving shared secrets)\n  \n  - `SM2` (China Regions only)"
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        key-spec: "Specifies the type of KMS key to create. The default value, `SYMMETRIC_DEFAULT`, creates a KMS key with a 256-bit AES-GCM key that is used for encryption and decryption, except in China Regions, where it creates a 128-bit symmetric key that uses SM4 encryption. For a detailed description of all supported key specs, see [Key spec reference](https://docs.aws.amazon.com/kms/latest/developerguide/symm-asymm-choose-key-spec.html) in the *Key Management Service Developer Guide* .\n\nThe `KeySpec` determines whether the KMS key contains a symmetric key or an asymmetric key pair. It also determines the algorithms that the KMS key supports. You can't change the `KeySpec` after the KMS key is created. To further restrict the algorithms that can be used with the KMS key, use a condition key in its key policy or IAM policy. For more information, see [kms:EncryptionAlgorithm](https://docs.aws.amazon.com/kms/latest/developerguide/conditions-kms.html#conditions-kms-encryption-algorithm), [kms:MacAlgorithm](https://docs.aws.amazon.com/kms/latest/developerguide/conditions-kms.html#conditions-kms-mac-algorithm), [kms:KeyAgreementAlgorithm](https://docs.aws.amazon.com/kms/latest/developerguide/conditions-kms.html#conditions-kms-key-agreement-algorithm), or [kms:SigningAlgorithm](https://docs.aws.amazon.com/kms/latest/developerguide/conditions-kms.html#conditions-kms-signing-algorithm) in the *Key Management Service Developer Guide* .\n\n[Amazon Web Services services that are integrated with KMS](http://aws.amazon.com/kms/features/#AWS_Service_Integration) use symmetric encryption KMS keys to protect your data. These services do not support asymmetric KMS keys or HMAC KMS keys.\n\nKMS supports the following key specs for KMS keys:\n\n- Symmetric encryption key (default)\n  \n  - `SYMMETRIC_DEFAULT`\n- HMAC keys (symmetric)\n  \n  - `HMAC_224`\n  - `HMAC_256`\n  - `HMAC_384`\n  - `HMAC_512`\n- Asymmetric RSA key pairs (encryption and decryption -or- signing and verification)\n  \n  - `RSA_2048`\n  - `RSA_3072`\n  - `RSA_4096`\n- Asymmetric NIST-recommended elliptic curve key pairs (signing and verification -or- deriving shared secrets)\n  \n  - `ECC_NIST_P256` (secp256r1)\n  - `ECC_NIST_P384` (secp384r1)\n  - `ECC_NIST_P521` (secp521r1)\n- Other asymmetric elliptic curve key pairs (signing and verification)\n  \n  - `ECC_SECG_P256K1` (secp256k1), commonly used for cryptocurrencies.\n- Asymmetric ML-DSA key pairs (signing and verification)\n  \n  - `ML_DSA_44`\n  - `ML_DSA_65`\n  - `ML_DSA_87`\n- SM2 key pairs (encryption and decryption -or- signing and verification -or- deriving shared secrets)\n  \n  - `SM2` (China Regions only)"
         key-usage: |-
             Determines the [cryptographic operations](https://docs.aws.amazon.com/kms/latest/developerguide/kms-cryptography.html#cryptographic-operations) for which you can use the KMS key. The default value is `ENCRYPT_DECRYPT`. This parameter is optional when you are creating a symmetric encryption KMS key; otherwise, it is required. You can't change the [`KeyUsage`](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html#key-usage) value after the KMS key is created. Each KMS key can have only one key usage. This follows key usage best practices according to [NIST SP 800-57 Recommendations for Key Management](https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final), section 5.2, Key usage.
 
@@ -167,7 +186,7 @@ documentation:
             - For symmetric encryption KMS keys, omit the parameter or specify `ENCRYPT_DECRYPT`.
             - For HMAC KMS keys (symmetric), specify `GENERATE_VERIFY_MAC`.
             - For asymmetric KMS keys with RSA key pairs, specify `ENCRYPT_DECRYPT` or `SIGN_VERIFY`.
-            - For asymmetric KMS keys with NIST-standard elliptic curve key pairs, specify `SIGN_VERIFY` or `KEY_AGREEMENT`.
+            - For asymmetric KMS keys with NIST-recommended elliptic curve key pairs, specify `SIGN_VERIFY` or `KEY_AGREEMENT`.
             - For asymmetric KMS keys with `ECC_SECG_P256K1` key pairs, specify `SIGN_VERIFY`.
             - For asymmetric KMS keys with ML-DSA key pairs, specify `SIGN_VERIFY`.
             - For asymmetric KMS keys with SM2 key pairs (China Regions only), specify `ENCRYPT_DECRYPT`, `SIGN_VERIFY`, or `KEY_AGREEMENT`.

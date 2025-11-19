@@ -1,9 +1,12 @@
 name: create-custom-key-store
 description: Creates a [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/key-store-overview.html) backed by a key store that you own and manage.
 flags:
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --cloud-hsm-cluster-id=: Identifies the CloudHSM cluster for an CloudHSM key store.
     --custom-key-store-name=!: Specifies a friendly name for the custom key store.
     --custom-key-store-type=: Specifies the type of custom key store.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --key-store-password=: Specifies the `kmsuser` password for an CloudHSM key store.
     --trust-anchor-certificate=: Specifies the certificate for an CloudHSM key store.
     --xks-proxy-authentication-credential=: Specifies an authentication credential for the external key store proxy (XKS proxy).
@@ -11,7 +14,6 @@ flags:
     --xks-proxy-uri-endpoint=: Specifies the endpoint that KMS uses to send requests to the external key store proxy (XKS proxy).
     --xks-proxy-uri-path=: Specifies the base path to the proxy APIs for this external key store.
     --xks-proxy-vpc-endpoint-service-name=: Specifies the name of the Amazon VPC endpoint service for interface endpoints that is used to communicate with your external key store proxy (XKS proxy).
-    --xks-proxy-vpc-endpoint-service-owner=: Specifies the Amazon Web Services account ID that owns the Amazon VPC service endpoint for the interface that is used to communicate with your external key store proxy (XKS proxy).
 completion:
     flag:
         custom-key-store-type:
@@ -55,6 +57,18 @@ documentation:
 
         **Eventual consistency**: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     flag:
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         cloud-hsm-cluster-id: |-
             Identifies the CloudHSM cluster for an CloudHSM key store. This parameter is required for custom key stores with `CustomKeyStoreType` of `AWS_CLOUDHSM`.
 
@@ -67,6 +81,9 @@ documentation:
             Specifies the type of custom key store. The default value is `AWS_CLOUDHSM`.
 
             For a custom key store backed by an CloudHSM cluster, omit the parameter or enter `AWS_CLOUDHSM`. For a custom key store backed by an external key manager outside of Amazon Web Services, enter `EXTERNAL_KEY_STORE`. You cannot change this property after the key store is created.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         key-store-password: |-
             Specifies the `kmsuser` password for an CloudHSM key store. This parameter is required for custom key stores with a `CustomKeyStoreType` of `AWS_CLOUDHSM`.
 
@@ -125,4 +142,3 @@ documentation:
             **Uniqueness requirements:**
 
             - External key stores with `VPC_ENDPOINT_SERVICE` connectivity can share an Amazon VPC, but each external key store must have its own VPC endpoint service and private DNS name.
-        xks-proxy-vpc-endpoint-service-owner: Specifies the Amazon Web Services account ID that owns the Amazon VPC service endpoint for the interface that is used to communicate with your external key store proxy (XKS proxy). This parameter is optional. If not provided, the Amazon Web Services account ID calling the action will be used.

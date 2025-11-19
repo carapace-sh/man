@@ -1,8 +1,11 @@
 name: start-query-execution
 description: Runs the SQL query statements contained in the `Query`.
 flags:
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --client-request-token=: A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once).
     --execution-parameters=: A list of values for the parameters in a query.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --query-execution-context=: The database within which the query executes.
     --query-string=!: The SQL query statements to be executed.
     --result-configuration=: Specifies information about where and how to save the results of the query execution.
@@ -11,11 +14,26 @@ flags:
 documentation:
     command: Runs the SQL query statements contained in the `Query`. Requires you to have access to the workgroup in which the query ran. Running queries against an external catalog requires [GetDataCatalog]() permission to the catalog. For code samples using the Amazon Web Services SDK for Java, see [Examples and Code Samples](http://docs.aws.amazon.com/athena/latest/ug/code-samples.html) in the *Amazon Athena User Guide*.
     flag:
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         client-request-token: |-
             A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another `StartQueryExecution` request is received, the same response is returned and another query is not created. An error is returned if a parameter, such as `QueryString`, has changed. A call to `StartQueryExecution` that uses a previous client request token returns the same `QueryExecutionId` even if the requester doesn't have permission on the tables specified in `QueryString`.
 
             This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
         execution-parameters: A list of values for the parameters in a query. The values are applied sequentially to the parameters in the query in the order in which the parameters occur.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         query-execution-context: The database within which the query executes.
         query-string: The SQL query statements to be executed.
         result-configuration: Specifies information about where and how to save the results of the query execution. If the query runs in a workgroup, then workgroup's settings may override query settings. This affects the query results location. The workgroup settings override is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See [WorkGroupConfiguration$EnforceWorkGroupConfiguration]().

@@ -2,9 +2,13 @@ name: update-pod-identity-association
 description: Updates a EKS Pod Identity association.
 flags:
     --association-id=!: The ID of the association to be updated.
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --client-request-token=: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     --cluster-name=!: The name of the cluster that you want to update the association in.
-    --disable-session-tags=: Disable the automatic sessions tags that are appended by EKS Pod Identity.
+    --disable-session-tags: Disable the automatic sessions tags that are appended by EKS Pod Identity.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
+    --no-disable-session-tags: Disable the automatic sessions tags that are appended by EKS Pod Identity.
     --role-arn=: The new IAM role to change in the association.
     --target-role-arn=: The Amazon Resource Name (ARN) of the target IAM role to associate with the service account.
 documentation:
@@ -16,6 +20,18 @@ documentation:
         You can set a *target IAM role* in the same or a different account for advanced scenarios. With a target role, EKS Pod Identity automatically performs two role assumptions in sequence: first assuming the role in the association that is in this account, then using those credentials to assume the target IAM role. This process provides your Pod with temporary credentials that have the permissions defined in the target role, allowing secure access to resources in another Amazon Web Services account.
     flag:
         association-id: The ID of the association to be updated.
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         client-request-token: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         cluster-name: The name of the cluster that you want to update the association in.
         disable-session-tags: |-
@@ -24,6 +40,9 @@ documentation:
             EKS Pod Identity adds a pre-defined set of session tags when it assumes the role. You can use these tags to author a single role that can work across resources by allowing access to Amazon Web Services resources based on matching tags. By default, EKS Pod Identity attaches six tags, including tags for cluster name, namespace, and service account name. For the list of tags added by EKS Pod Identity, see [List of session tags added by EKS Pod Identity](https://docs.aws.amazon.com/eks/latest/userguide/pod-id-abac.html#pod-id-abac-tags) in the *Amazon EKS User Guide*.
 
             Amazon Web Services compresses inline session policies, managed policy ARNs, and session tags into a packed binary format that has a separate limit. If you receive a `PackedPolicyTooLarge` error indicating the packed binary format has exceeded the size limit, you can attempt to reduce the size by disabling the session tags added by EKS Pod Identity.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         role-arn: The new IAM role to change in the association.
         target-role-arn: |-
             The Amazon Resource Name (ARN) of the target IAM role to associate with the service account. This role is assumed by using the EKS Pod Identity association role, then the credentials for this role are injected into the Pod.

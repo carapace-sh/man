@@ -1,16 +1,21 @@
 name: calculate-route
-description: This operation is no longer current and may be deprecated in the future.
+description: '[Calculates a route](https://docs.aws.amazon.com/location/previous/developerguide/calculate-route.html) given the following required parameters: `DeparturePosition` and `DestinationPosition`.'
 flags:
     --arrival-time=: Specifies the desired time of arrival.
     --calculator-name=!: The name of the route calculator resource that you want to use to calculate the route.
     --car-mode-options=: Specifies route preferences when traveling by `Car`, such as avoiding routes that use ferries or tolls.
-    --depart-now=: Sets the time of departure as the current time.
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
+    --depart-now: Sets the time of departure as the current time.
     --departure-position=!: The start position for the route.
     --departure-time=: Specifies the desired time of departure.
     --destination-position=!: The finish position for the route.
     --distance-unit=: Set the unit system to specify the distance.
-    --include-leg-geometry=: Set to include the geometry details in the result for each path between a pair of positions.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
+    --include-leg-geometry: Set to include the geometry details in the result for each path between a pair of positions.
     --key=: The optional [API key](https://docs.aws.amazon.com/location/previous/developerguide/using-apikeys.html) to authorize the request.
+    --no-depart-now: Sets the time of departure as the current time.
+    --no-include-leg-geometry: Set to include the geometry details in the result for each path between a pair of positions.
     --optimize-for=: Specifies the distance to optimize for when calculating a route.
     --travel-mode=: Specifies the mode of transport when calculating a route.
     --truck-mode-options=: Specifies route preferences when traveling by `Truck`, such as avoiding routes that use ferries or tolls, and truck specifications to consider when choosing an optimal road.
@@ -30,7 +35,7 @@ completion:
             - Bicycle
             - Motorcycle
 documentation:
-    command: "This operation is no longer current and may be deprecated in the future. We recommend you upgrade to [`CalculateRoutes`](/location/latest/APIReference/API_CalculateRoutes.html) or [`CalculateIsolines`](/location/latest/APIReference/API_CalculateIsolines.html) unless you require Grab data.\n\n- `CalculateRoute` is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2).\n- The version 2 `CalculateRoutes` operation gives better results for point-to-point routing, while the version 2 `CalculateIsolines` operation adds support for calculating service areas and travel time envelopes.\n- If you are using an Amazon Web Services SDK or the Amazon Web Services CLI, note that the Routes API version 2 is found under `geo-routes` or `geo_routes`, not under `location`.\n- Since Grab is not yet fully supported in Routes API version 2, we recommend you continue using API version 1 when using Grab.\n\n[Calculates a route](https://docs.aws.amazon.com/location/previous/developerguide/calculate-route.html) given the following required parameters: `DeparturePosition` and `DestinationPosition`. Requires that you first [create a route calculator resource](https://docs.aws.amazon.com/location-routes/latest/APIReference/API_CreateRouteCalculator.html).\n\nBy default, a request that doesn't specify a departure time uses the best time of day to travel with the best traffic conditions when calculating the route.\n\nAdditional options include:\n\n- [Specifying a departure time](https://docs.aws.amazon.com/location/previous/developerguide/departure-time.html) using either `DepartureTime` or `DepartNow`. This calculates a route based on predictive traffic data at the given time.\n  \n  You can't specify both `DepartureTime` and `DepartNow` in a single request. Specifying both parameters returns a validation error.\n- [Specifying a travel mode](https://docs.aws.amazon.com/location/previous/developerguide/travel-mode.html) using TravelMode sets the transportation mode used to calculate the routes. This also lets you specify additional route preferences in `CarModeOptions` if traveling by `Car`, or `TruckModeOptions` if traveling by `Truck`.\n  \n  If you specify `walking` for the travel mode and your data provider is Esri, the start and destination must be within 40km."
+    command: "[Calculates a route](https://docs.aws.amazon.com/location/previous/developerguide/calculate-route.html) given the following required parameters: `DeparturePosition` and `DestinationPosition`. Requires that you first [create a route calculator resource](https://docs.aws.amazon.com/location-routes/latest/APIReference/API_CreateRouteCalculator.html).\n\nBy default, a request that doesn't specify a departure time uses the best time of day to travel with the best traffic conditions when calculating the route.\n\nAdditional options include:\n\n- [Specifying a departure time](https://docs.aws.amazon.com/location/previous/developerguide/departure-time.html) using either `DepartureTime` or `DepartNow`. This calculates a route based on predictive traffic data at the given time.\n  \n  You can't specify both `DepartureTime` and `DepartNow` in a single request. Specifying both parameters returns a validation error.\n- [Specifying a travel mode](https://docs.aws.amazon.com/location/previous/developerguide/travel-mode.html) using TravelMode sets the transportation mode used to calculate the routes. This also lets you specify additional route preferences in `CarModeOptions` if traveling by `Car`, or `TruckModeOptions` if traveling by `Truck`.\n  \n  If you specify `walking` for the travel mode and your data provider is Esri, the start and destination must be within 40km."
     flag:
         arrival-time: |-
             Specifies the desired time of arrival. Uses the given time to calculate the route. Otherwise, the best time of day to travel with the best traffic conditions is used to calculate the route.
@@ -41,6 +46,18 @@ documentation:
             Specifies route preferences when traveling by `Car`, such as avoiding routes that use ferries or tolls.
 
             Requirements: `TravelMode` must be specified as `Car`.
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         depart-now: |-
             Sets the time of departure as the current time. Uses the current time to calculate a route. Otherwise, the best time of day to travel with the best traffic conditions is used to calculate the route.
 
@@ -71,6 +88,9 @@ documentation:
             Set the unit system to specify the distance.
 
             Default Value: `Kilometers`
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         include-leg-geometry: |-
             Set to include the geometry details in the result for each path between a pair of positions.
 

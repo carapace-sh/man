@@ -1,20 +1,35 @@
 name: search-game-sessions
-description: |-
-    **This API works with the following fleet types:** EC2, Anywhere, Container
-
-    Retrieves all active game sessions that match a set of search criteria and sorts them into a specified order.
+description: Retrieves all active game sessions that match a set of search criteria and sorts them into a specified order.
 flags:
     --alias-id=: A unique identifier for the alias associated with the fleet to search for active game sessions.
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --filter-expression=: String containing the search criteria for the session search.
     --fleet-id=: A unique identifier for the fleet to search for active game sessions.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --limit=: The maximum number of results to return.
     --location=: A fleet location to search for game sessions.
+    --max-items=: The  total number of items to return in the command's output.
     --next-token=: A token that indicates the start of the next sequential page of results.
+    --page-size=: The size of each page to get in the AWS service call.
     --sort-expression=: Instructions on how to sort the search results.
+    --starting-token=: A token to specify where to start paginating.
 documentation:
-    command: "**This API works with the following fleet types:** EC2, Anywhere, Container\n\nRetrieves all active game sessions that match a set of search criteria and sorts them into a specified order.\n\nThis operation is not designed to continually track game session status because that practice can cause you to exceed your API limit and generate errors. Instead, configure an Amazon Simple Notification Service (Amazon SNS) topic to receive notifications from a matchmaker or a game session placement queue.\n\nWhen searching for game sessions, you specify exactly where you want to search and provide a search filter expression, a sort expression, or both. A search request can search only one fleet, but it can search all of a fleet's locations.\n\nThis operation can be used in the following ways:\n\n- To search all game sessions that are currently running on all locations in a fleet, provide a fleet or alias ID. This approach returns game sessions in the fleet's home Region and all remote locations that fit the search criteria.\n- To search all game sessions that are currently running on a specific fleet location, provide a fleet or alias ID and a location name. For location, you can specify a fleet's home Region or any remote location.\n\nUse the pagination parameters to retrieve results as a set of sequential pages.\n\nIf successful, a `GameSession` object is returned for each game session that matches the request. Search finds game sessions that are in `ACTIVE` status only. To retrieve information on game sessions in other statuses, use [DescribeGameSessions](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeGameSessions.html).\n\nTo set search and sort criteria, create a filter expression using the following game session attributes. For game session search examples, see the Examples section of this topic.\n\n- **gameSessionId** -- A unique identifier for the game session. You can use either a `GameSessionId` or `GameSessionArn` value.\n- **gameSessionName** -- Name assigned to a game session. Game session names do not need to be unique to a game session.\n- **gameSessionProperties** -- A set of key-value pairs that can store custom data in a game session. For example: `{\"Key\": \"difficulty\", \"Value\": \"novice\"}`. The filter expression must specify the [https://docs.aws.amazon.com/gamelift/latest/apireference/API\\_GameProperty](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameProperty) -- a `Key` and a string `Value` to search for the game sessions.\n  \n  For example, to search for the above key-value pair, specify the following search filter: `gameSessionProperties.difficulty = \"novice\"`. All game property values are searched as strings.\n  \n  For examples of searching game sessions, see the ones below, and also see [Search game sessions by game property](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#game-properties-search).\n- **maximumSessions** -- Maximum number of player sessions allowed for a game session.\n- **creationTimeMillis** -- Value indicating when a game session was created. It is expressed in Unix time as milliseconds.\n- **playerSessionCount** -- Number of players currently connected to a game session. This value changes rapidly as players join the session or drop out.\n- **hasAvailablePlayerSessions** -- Boolean value indicating whether a game session has reached its maximum number of players. It is highly recommended that all search requests include this filter attribute to optimize search performance and return only sessions that players can join.\n\nReturned values for `playerSessionCount` and `hasAvailablePlayerSessions` change quickly as players join sessions and others drop out. Results should be considered a snapshot in time. Be sure to refresh search results often, and handle sessions that fill up before a player can join.\n\n[All APIs by task](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)"
+    command: "Retrieves all active game sessions that match a set of search criteria and sorts them into a specified order.\n\nThis operation is not designed to continually track game session status because that practice can cause you to exceed your API limit and generate errors. Instead, configure an Amazon Simple Notification Service (Amazon SNS) topic to receive notifications from a matchmaker or a game session placement queue.\n\nWhen searching for game sessions, you specify exactly where you want to search and provide a search filter expression, a sort expression, or both. A search request can search only one fleet, but it can search all of a fleet's locations.\n\nThis operation can be used in the following ways:\n\n- To search all game sessions that are currently running on all locations in a fleet, provide a fleet or alias ID. This approach returns game sessions in the fleet's home Region and all remote locations that fit the search criteria.\n- To search all game sessions that are currently running on a specific fleet location, provide a fleet or alias ID and a location name. For location, you can specify a fleet's home Region or any remote location.\n\nUse the pagination parameters to retrieve results as a set of sequential pages.\n\nIf successful, a `GameSession` object is returned for each game session that matches the request. Search finds game sessions that are in `ACTIVE` status only. To retrieve information on game sessions in other statuses, use [DescribeGameSessions](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeGameSessions.html).\n\nTo set search and sort criteria, create a filter expression using the following game session attributes. For game session search examples, see the Examples section of this topic.\n\n- **gameSessionId** -- A unique identifier for the game session. You can use either a `GameSessionId` or `GameSessionArn` value.\n- **gameSessionName** -- Name assigned to a game session. Game session names do not need to be unique to a game session.\n- **gameSessionProperties** -- A set of key-value pairs that can store custom data in a game session. For example: `{\"Key\": \"difficulty\", \"Value\": \"novice\"}`. The filter expression must specify the [https://docs.aws.amazon.com/gamelift/latest/apireference/API\\_GameProperty](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameProperty) -- a `Key` and a string `Value` to search for the game sessions.\n  \n  For example, to search for the above key-value pair, specify the following search filter: `gameSessionProperties.difficulty = \"novice\"`. All game property values are searched as strings.\n  \n  For examples of searching game sessions, see the ones below, and also see [Search game sessions by game property](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#game-properties-search).\n- **maximumSessions** -- Maximum number of player sessions allowed for a game session.\n- **creationTimeMillis** -- Value indicating when a game session was created. It is expressed in Unix time as milliseconds.\n- **playerSessionCount** -- Number of players currently connected to a game session. This value changes rapidly as players join the session or drop out.\n- **hasAvailablePlayerSessions** -- Boolean value indicating whether a game session has reached its maximum number of players. It is highly recommended that all search requests include this filter attribute to optimize search performance and return only sessions that players can join.\n\nReturned values for `playerSessionCount` and `hasAvailablePlayerSessions` change quickly as players join sessions and others drop out. Results should be considered a snapshot in time. Be sure to refresh search results often, and handle sessions that fill up before a player can join.\n\n[All APIs by task](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)"
     flag:
         alias-id: A unique identifier for the alias associated with the fleet to search for active game sessions. You can use either the alias ID or ARN value. Each request must reference either a fleet ID or alias ID, but not both.
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         filter-expression: |-
             String containing the search criteria for the session search. If no filter expression is included, the request returns results for all game sessions in the fleet that are in `ACTIVE` status.
 
@@ -36,9 +51,26 @@ documentation:
 
             For example, this filter expression retrieves game sessions hosting at least ten players that have an open player slot: `"maximumSessions>=10 AND hasAvailablePlayerSessions=true"`.
         fleet-id: A unique identifier for the fleet to search for active game sessions. You can use either the fleet ID or ARN value. Each request must reference either a fleet ID or alias ID, but not both.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         limit: The maximum number of results to return. Use this parameter with `NextToken` to get results as a set of sequential pages. The maximum number of results returned is 20, even if this value is not set or is set higher than 20.
         location: A fleet location to search for game sessions. You can specify a fleet's home Region or a remote location. Use the Amazon Web Services Region code format, such as `us-west-2`.
+        max-items: |-
+            The total number of items to return in the command's output.
+            If the total number of items available is more than the value specified, a NextToken is provided in the command's output.
+            To resume pagination, provide the NextToken value in the starting-token argument of a subsequent  command.
+            Do not use the NextToken response element directly outside of the AWS CLI.
+
+            For usage examples, see Pagination in the AWS Command Line Interface User Guide.
         next-token: A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
+        page-size: |-
+            The size of each page to get in the AWS service call.
+            This does not affect the number of items returned in the command's output.
+            Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call.
+            This can help prevent the AWS service calls from timing out.
+
+            For usage examples, see Pagination in the AWS Command Line Interface User Guide.
         sort-expression: |-
             Instructions on how to sort the search results. If no sort expression is included, the request returns results in random order. A sort expression consists of the following elements:
 
@@ -46,3 +78,8 @@ documentation:
             - **Order** -- Valid sort orders are `ASC` (ascending) and `DESC` (descending).
 
             For example, this sort expression returns the oldest active sessions first: `"SortExpression": "creationTimeMillis ASC"`. Results with a null value for the sort operand are returned at the end of the list.
+        starting-token: |-
+            A token to specify where to start paginating.
+            This is the NextToken from a previously truncated response.
+
+            For usage examples, see Pagination in the AWS Command Line Interface User Guide.

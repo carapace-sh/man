@@ -1,9 +1,12 @@
 name: update-trail
 description: Updates trail settings that control what events you are logging, and how to handle log files.
 flags:
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --cloud-watch-logs-log-group-arn=: Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs are delivered.
     --cloud-watch-logs-role-arn=: Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
     --enable-log-file-validation: Specifies whether log file validation is enabled.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --include-global-service-events: Specifies whether the trail is publishing events from global services such as IAM to the log files.
     --is-multi-region-trail: Specifies whether the trail applies only to the current Region or to all Regions.
     --is-organization-trail: Specifies whether the trail is applied to all accounts in an organization in Organizations, or only for the current Amazon Web Services account.
@@ -19,6 +22,18 @@ flags:
 documentation:
     command: Updates trail settings that control what events you are logging, and how to handle log files. Changes to a trail do not require stopping the CloudTrail service. Use this action to designate an existing bucket for log delivery. If the existing bucket has previously been a target for CloudTrail log files, an IAM policy exists for the bucket. `UpdateTrail` must be called from the Region in which the trail was created; otherwise, an `InvalidHomeRegionException` is thrown.
     flag:
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         cloud-watch-logs-log-group-arn: |-
             Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs are delivered. You must use a log group that exists in your account.
 
@@ -28,6 +43,9 @@ documentation:
             Specifies whether log file validation is enabled. The default is false.
 
             When you disable log file integrity validation, the chain of digest files is broken after one hour. CloudTrail does not create digest files for log files that were delivered during a period in which log file integrity validation was disabled. For example, if you enable log file integrity validation at noon on January 1, disable it at noon on January 2, and re-enable it at noon on January 10, digest files will not be created for the log files delivered from noon on January 2 to noon on January 10. The same applies whenever you stop CloudTrail logging or delete a trail.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         include-global-service-events: Specifies whether the trail is publishing events from global services such as IAM to the log files.
         is-multi-region-trail: Specifies whether the trail applies only to the current Region or to all Regions. The default is false. If the trail exists only in the current Region and this value is set to true, shadow trails (replications of the trail) will be created in the other Regions. If the trail exists in all Regions and this value is set to false, the trail will remain in the Region where it was created, and its shadow trails in other Regions will be deleted. As a best practice, consider using trails that log events in all Regions.
         is-organization-trail: |-
