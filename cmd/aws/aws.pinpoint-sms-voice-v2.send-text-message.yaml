@@ -1,16 +1,20 @@
 name: send-text-message
 description: Creates a new text message and sends it to a recipient's phone number.
 flags:
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --configuration-set-name=: The name of the configuration set to use.
     --context=: You can specify custom data in this field.
     --destination-country-parameters=: This field is used for any country-specific registration requirements.
     --destination-phone-number=!: The destination phone number in E.164 format.
-    --dry-run=: When set to true, the message is checked and validated, but isn't sent to the end recipient.
+    --dry-run: When set to true, the message is checked and validated, but isn't sent to the end recipient.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --keyword=: When you register a short code in the US, you must specify a program name.
     --max-price=: The maximum amount that you want to spend, in US dollars, per each text message.
     --message-body=: The body of the text message.
     --message-feedback-enabled: Set to true to enable message feedback for the message.
     --message-type=: The type of message.
+    --no-dry-run: When set to true, the message is checked and validated, but isn't sent to the end recipient.
     --no-message-feedback-enabled: Set to true to enable message feedback for the message.
     --origination-identity=: The origination identity of the message.
     --protect-configuration-id=: The unique identifier for the protect configuration.
@@ -24,8 +28,20 @@ documentation:
     command: |-
         Creates a new text message and sends it to a recipient's phone number. SendTextMessage only sends an SMS message to one recipient each time it is invoked.
 
-        SMS throughput limits are measured in Message Parts per Second (MPS). Your MPS limit depends on the destination country of your messages, as well as the type of phone number (origination number) that you use to send the message. For more information about MPS, see [Message Parts per Second (MPS) limits](https://docs.aws.amazon.com/sms-voice/latest/userguide/sms-limitations-mps.html) in the *End User MessagingSMS User Guide*.
+        SMS throughput limits are measured in Message Parts per Second (MPS). Your MPS limit depends on the destination country of your messages, as well as the type of phone number (origination number) that you use to send the message. For more information about MPS, see [Message Parts per Second (MPS) limits](https://docs.aws.amazon.com/sms-voice/latest/userguide/sms-limitations-mps.html) in the *AWS End User Messaging SMS User Guide*.
     flag:
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         configuration-set-name: The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn.
         context: You can specify custom data in this field. If you do, that data is logged to the event destination.
         destination-country-parameters: "This field is used for any country-specific registration requirements. Currently, this setting is only used when you send messages to recipients in India using a sender ID. For more information see [Special requirements for sending SMS messages to recipients in India](https://docs.aws.amazon.com/pinpoint/latest/userguide/channels-sms-senderid-india.html).\n\n- `IN_ENTITY_ID` The entity ID or Principal Entity (PE) ID that you received after completing the sender ID registration process.\n- `IN_TEMPLATE_ID` The template ID that you received after completing the sender ID registration process.\n  \n  Make sure that the Template ID that you specify matches your message template exactly. If your message doesn't match the template that you provided during the registration process, the mobile carriers might reject your message."
@@ -33,7 +49,10 @@ documentation:
         dry-run: |-
             When set to true, the message is checked and validated, but isn't sent to the end recipient. You are not charged for using `DryRun`.
 
-            The Message Parts per Second (MPS) limit when using `DryRun` is five. If your origination identity has a lower MPS limit then the lower MPS limit is used. For more information about MPS limits, see [Message Parts per Second (MPS) limits](https://docs.aws.amazon.com/sms-voice/latest/userguide/sms-limitations-mps.html) in the *End User MessagingSMS User Guide*..
+            The Message Parts per Second (MPS) limit when using `DryRun` is five. If your origination identity has a lower MPS limit then the lower MPS limit is used. For more information about MPS limits, see [Message Parts per Second (MPS) limits](https://docs.aws.amazon.com/sms-voice/latest/userguide/sms-limitations-mps.html) in the *AWS End User Messaging SMS User Guide*..
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         keyword: When you register a short code in the US, you must specify a program name. If you don’t have a US short code, omit this attribute.
         max-price: The maximum amount that you want to spend, in US dollars, per each text message. If the calculated amount to send the text message is greater than `MaxPrice`, the message is not sent and an error is returned.
         message-body: The body of the text message.
@@ -42,6 +61,6 @@ documentation:
         origination-identity: |-
             The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.
 
-            If you are using a shared End User MessagingSMS resource then you must use the full Amazon Resource Name(ARN).
+            If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         protect-configuration-id: The unique identifier for the protect configuration.
         time-to-live: How long the text message is valid for, in seconds. By default this is 72 hours. If the messages isn't handed off before the TTL expires we stop attempting to hand off the message and return `TTL_EXPIRED` event.

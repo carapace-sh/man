@@ -5,9 +5,12 @@ flags:
     --auto-deployment=: Describes whether StackSets automatically deploys to Organizations accounts that are added to the target organization or organizational unit (OU).
     --call-as=: Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account.
     --capabilities=: In some cases, you must explicitly acknowledge that your StackSet template contains certain capabilities in order for CloudFormation to create the StackSet and related stack instances.
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --client-request-token=: A unique identifier for this `CreateStackSet` request.
     --description=: A description of the StackSet.
     --execution-role-name=: The name of the IAM execution role to use to create the StackSet.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --managed-execution=: Describes whether CloudFormation performs non-conflicting operations concurrently and queues conflicting operations.
     --parameters=: The input parameters for the StackSet template.
     --permission-model=: Describes how the IAM roles required for StackSet operations are created.
@@ -39,6 +42,18 @@ documentation:
             Required if the permissions model is `SERVICE_MANAGED`. (Not used with self-managed permissions.)
         call-as: "Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account.\n\nBy default, `SELF` is specified. Use `SELF` for StackSets with self-managed permissions.\n\n- To create a StackSet with service-managed permissions while signed in to the management account, specify `SELF`.\n- To create a StackSet with service-managed permissions while signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.\n  \n  Your Amazon Web Services account must be registered as a delegated admin in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.\n\nStackSets with service-managed permissions are created in the management account, including StackSets that are created by delegated administrators.\n\nValid only if the permissions model is `SERVICE_MANAGED`."
         capabilities: "In some cases, you must explicitly acknowledge that your StackSet template contains certain capabilities in order for CloudFormation to create the StackSet and related stack instances.\n\n- `CAPABILITY_IAM` and `CAPABILITY_NAMED_IAM`\n  \n  Some stack templates might include resources that can affect permissions in your Amazon Web Services account; for example, by creating new IAM users. For those StackSets, you must explicitly acknowledge this by specifying one of these capabilities.\n  \n  The following IAM resources require you to specify either the `CAPABILITY_IAM` or `CAPABILITY_NAMED_IAM` capability.\n  \n  - If you have IAM resources, you can specify either capability.\n  - If you have IAM resources with custom names, you *must* specify `CAPABILITY_NAMED_IAM`.\n  - If you don't specify either of these capabilities, CloudFormation returns an `InsufficientCapabilities` error.\n  \n  If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.\n  \n  - [AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-accesskey.html)\n  - [AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-group.html)\n  - [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-instanceprofile.html)\n  - [AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-policy.html)\n  - [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-role.html)\n  - [AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-user.html)\n  - [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-usertogroupaddition.html)\n  \n  For more information, see [Acknowledging IAM resources in CloudFormation templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html#using-iam-capabilities).\n- `CAPABILITY_AUTO_EXPAND`\n  \n  Some templates reference macros. If your StackSet template references one or more macros, you must create the StackSet directly from the processed template, without first reviewing the resulting changes in a change set. To create the StackSet directly, you must acknowledge this capability. For more information, see [Perform custom processing on CloudFormation templates with template macros](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html).\n  \n  StackSets with service-managed permissions don't currently support the use of macros in templates. (This includes the [AWS::Include](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-include.html) and [AWS::Serverless](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html) transforms, which are macros hosted by CloudFormation.) Even if you specify this capability for a StackSet with service-managed permissions, if you reference a macro in your template the StackSet operation will fail."
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         client-request-token: |-
             A unique identifier for this `CreateStackSet` request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to create another StackSet with the same name. You might retry `CreateStackSet` requests to ensure that CloudFormation successfully received them.
 
@@ -50,6 +65,9 @@ documentation:
             Specify an IAM role only if you are using customized execution roles to control which stack resources users and groups can include in their StackSets.
 
             Valid only if the permissions model is `SELF_MANAGED`.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         managed-execution: Describes whether CloudFormation performs non-conflicting operations concurrently and queues conflicting operations.
         parameters: The input parameters for the StackSet template.
         permission-model: |-

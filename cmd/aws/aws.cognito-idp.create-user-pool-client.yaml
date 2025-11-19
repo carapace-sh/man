@@ -2,20 +2,27 @@ name: create-user-pool-client
 description: Creates an app client in a user pool.
 flags:
     --access-token-validity=: The access token time limit.
-    --allowed-oauth-flows-user-pool-client=: Set to `true` to use OAuth 2.0 authorization server features in your app client.
-    --allowed-oauth-flows=: The OAuth grant types that you want your app client to generate for clients in managed login authentication.
-    --allowed-oauth-scopes=: The OAuth, OpenID Connect (OIDC), and custom scopes that you want to permit your app client to authorize access with.
+    --allowed-o-auth-flows-user-pool-client: Set to `true` to use OAuth 2.0 authorization server features in your app client.
+    --allowed-o-auth-flows=: The OAuth grant types that you want your app client to generate for clients in managed login authentication.
+    --allowed-o-auth-scopes=: The OAuth, OpenID Connect (OIDC), and custom scopes that you want to permit your app client to authorize access with.
     --analytics-configuration=: The user pool analytics configuration for collecting metrics and sending them to your Amazon Pinpoint campaign.
     --auth-session-validity=: Amazon Cognito creates a session token for each API request in an authentication flow.
-    --callback-urls=: A list of allowed redirect, or callback, URLs for managed login authentication.
+    --callback-ur-ls=: A list of allowed redirect, or callback, URLs for managed login authentication.
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --client-name=!: A friendly name for the app client that you want to create.
     --default-redirect-uri=: The default redirect URI.
-    --enable-propagate-additional-user-context-data=: When `true`, your application can include additional `UserContextData` in authentication requests.
-    --enable-token-revocation=: Activates or deactivates [token revocation](https://docs.aws.amazon.com/cognito/latest/developerguide/token-revocation.html) in the target app client.
+    --enable-propagate-additional-user-context-data: When `true`, your application can include additional `UserContextData` in authentication requests.
+    --enable-token-revocation: Activates or deactivates [token revocation](https://docs.aws.amazon.com/cognito/latest/developerguide/token-revocation.html) in the target app client.
     --explicit-auth-flows=: The [authentication flows](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow-methods.html) that you want your user pool client to support.
-    --generate-secret=: When `true`, generates a client secret for the app client.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
+    --generate-secret: When `true`, generates a client secret for the app client.
     --id-token-validity=: The ID token time limit.
-    --logout-urls=: A list of allowed logout URLs for managed login authentication.
+    --logout-ur-ls=: A list of allowed logout URLs for managed login authentication.
+    --no-allowed-o-auth-flows-user-pool-client: Set to `true` to use OAuth 2.0 authorization server features in your app client.
+    --no-enable-propagate-additional-user-context-data: When `true`, your application can include additional `UserContextData` in authentication requests.
+    --no-enable-token-revocation: Activates or deactivates [token revocation](https://docs.aws.amazon.com/cognito/latest/developerguide/token-revocation.html) in the target app client.
+    --no-generate-secret: When `true`, generates a client secret for the app client.
     --prevent-user-existence-errors=: When `ENABLED`, suppresses messages that might indicate a valid user exists when someone attempts sign-in.
     --read-attributes=: The list of user attributes that you want your app client to have read access to.
     --refresh-token-rotation=: The configuration of your app client for refresh token rotation.
@@ -52,7 +59,7 @@ documentation:
             The default time unit for `AccessTokenValidity` in an API request is hours. *Valid range* is displayed below in seconds.
 
             If you don't specify otherwise in the configuration of your app client, your access tokens are valid for one hour.
-        allowed-oauth-flows: |-
+        allowed-o-auth-flows: |-
             The OAuth grant types that you want your app client to generate for clients in managed login authentication. To create an app client that generates client credentials grants, you must add `client_credentials` as the only allowed OAuth flow.
 
             code
@@ -66,7 +73,7 @@ documentation:
             client\_credentials
 
             Issue the access token from the `/oauth2/token` endpoint directly to a non-person user, authorized by a combination of the client ID and client secret.
-        allowed-oauth-flows-user-pool-client: |-
+        allowed-o-auth-flows-user-pool-client: |-
             Set to `true` to use OAuth 2.0 authorization server features in your app client.
 
             This parameter must have a value of `true` before you can configure the following features in your app client.
@@ -77,13 +84,13 @@ documentation:
             - `AllowedOAuthFlows`: Support for authorization code, implicit, and client credentials OAuth 2.0 grants.
 
             To use authorization server features, configure one of these features in the Amazon Cognito console or set `AllowedOAuthFlowsUserPoolClient` to `true` in a `CreateUserPoolClient` or `UpdateUserPoolClient` API request. If you don't set a value for `AllowedOAuthFlowsUserPoolClient` in a request with the CLI or SDKs, it defaults to `false`. When `false`, only SDK-based API sign-in is permitted.
-        allowed-oauth-scopes: The OAuth, OpenID Connect (OIDC), and custom scopes that you want to permit your app client to authorize access with. Scopes govern access control to user pool self-service API operations, user data from the `userInfo` endpoint, and third-party APIs. Scope values include `phone`, `email`, `openid`, and `profile`. The `aws.cognito.signin.user.admin` scope authorizes user self-service operations. Custom scopes with resource servers authorize access to external APIs.
+        allowed-o-auth-scopes: The OAuth, OpenID Connect (OIDC), and custom scopes that you want to permit your app client to authorize access with. Scopes govern access control to user pool self-service API operations, user data from the `userInfo` endpoint, and third-party APIs. Scope values include `phone`, `email`, `openid`, and `profile`. The `aws.cognito.signin.user.admin` scope authorizes user self-service operations. Custom scopes with resource servers authorize access to external APIs.
         analytics-configuration: |-
             The user pool analytics configuration for collecting metrics and sending them to your Amazon Pinpoint campaign.
 
             In Amazon Web Services Regions where Amazon Pinpoint isn't available, user pools might not have access to analytics or might be configurable with campaigns in the US East (N. Virginia) Region. For more information, see [Using Amazon Pinpoint analytics](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-pinpoint-integration.html).
         auth-session-validity: Amazon Cognito creates a session token for each API request in an authentication flow. `AuthSessionValidity` is the duration, in minutes, of that session token. Your user pool native user must respond to each authentication challenge before the session expires.
-        callback-urls: |-
+        callback-ur-ls: |-
             A list of allowed redirect, or callback, URLs for managed login authentication. These URLs are the paths where you want to send your users' browsers after they complete authentication with managed login or a third-party IdP. Typically, callback URLs are the home of an application that uses OAuth or OIDC libraries to process authentication outcomes.
 
             A redirect URI must meet the following requirements:
@@ -97,6 +104,18 @@ documentation:
             Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only.
 
             App callback URLs such as myapp://example are also supported.
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         client-name: A friendly name for the app client that you want to create.
         default-redirect-uri: The default redirect URI. In app clients with one assigned IdP, replaces `redirect_uri` in authentication requests. Must be in the `CallbackURLs` list.
         enable-propagate-additional-user-context-data: When `true`, your application can include additional `UserContextData` in authentication requests. This data includes the IP address, and contributes to analysis by threat protection features. For more information about propagation of user context data, see [Adding session data to API requests](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pool-settings-adaptive-authentication.html#user-pool-settings-adaptive-authentication-device-fingerprint). If you don’t include this parameter, you can't send the source IP address to Amazon Cognito threat protection features. You can only activate `EnablePropagateAdditionalUserContextData` in an app client that has a client secret.
@@ -105,6 +124,9 @@ documentation:
 
             If you don't include this parameter, token revocation is automatically activated for the new user pool client.
         explicit-auth-flows: "The [authentication flows](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow-methods.html) that you want your user pool client to support. For each app client in your user pool, you can sign in your users with any combination of one or more flows, including with a user name and Secure Remote Password (SRP), a user name and password, or a custom authentication process that you define with Lambda functions.\n\nIf you don't specify a value for `ExplicitAuthFlows`, your app client supports `ALLOW_REFRESH_TOKEN_AUTH`, `ALLOW_USER_SRP_AUTH`, and `ALLOW_CUSTOM_AUTH`.\n\nThe values for authentication flow options include the following.\n\n- `ALLOW_USER_AUTH`: Enable selection-based sign-in with `USER_AUTH`. This setting covers username-password, secure remote password (SRP), passwordless, and passkey authentication. This authentiation flow can do username-password and SRP authentication without other `ExplicitAuthFlows` permitting them. For example users can complete an SRP challenge through `USER_AUTH` without the flow `USER_SRP_AUTH` being active for the app client. This flow doesn't include `CUSTOM_AUTH`.\n  \n  To activate this setting, your user pool must be in the [Essentials tier](https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html) or higher.\n- `ALLOW_ADMIN_USER_PASSWORD_AUTH`: Enable admin based user password authentication flow `ADMIN_USER_PASSWORD_AUTH`. This setting replaces the `ADMIN_NO_SRP_AUTH` setting. With this authentication flow, your app passes a user name and password to Amazon Cognito in the request, instead of using the Secure Remote Password (SRP) protocol to securely transmit the password.\n- `ALLOW_CUSTOM_AUTH`: Enable Lambda trigger based authentication.\n- `ALLOW_USER_PASSWORD_AUTH`: Enable user password-based authentication. In this flow, Amazon Cognito receives the password in the request instead of using the SRP protocol to verify passwords.\n- `ALLOW_USER_SRP_AUTH`: Enable SRP-based authentication.\n- `ALLOW_REFRESH_TOKEN_AUTH`: Enable authflow to refresh tokens.\n\nIn some environments, you will see the values `ADMIN_NO_SRP_AUTH`, `CUSTOM_AUTH_FLOW_ONLY`, or `USER_PASSWORD_AUTH`. You can't assign these legacy `ExplicitAuthFlows` values to user pool clients at the same time as values that begin with `ALLOW_`, like `ALLOW_USER_SRP_AUTH`."
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         generate-secret: When `true`, generates a client secret for the app client. Client secrets are used with server-side and machine-to-machine applications. Client secrets are automatically generated; you can't specify a secret value. For more information, see [App client types](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-client-apps.html#user-pool-settings-client-app-client-types).
         id-token-validity: |-
             The ID token time limit. After this limit expires, your user can't use their ID token. To specify the time unit for `IdTokenValidity` as `seconds`, `minutes`, `hours`, or `days`, set a `TokenValidityUnits` value in your API request.
@@ -114,7 +136,7 @@ documentation:
             The default time unit for `IdTokenValidity` in an API request is hours. *Valid range* is displayed below in seconds.
 
             If you don't specify otherwise in the configuration of your app client, your ID tokens are valid for one hour.
-        logout-urls: A list of allowed logout URLs for managed login authentication. When you pass `logout_uri` and `client_id` parameters to `/logout`, Amazon Cognito signs out your user and redirects them to the logout URL. This parameter describes the URLs that you want to be the permitted targets of `logout_uri`. A typical use of these URLs is when a user selects "Sign out" and you redirect them to your public homepage. For more information, see [Logout endpoint](https://docs.aws.amazon.com/cognito/latest/developerguide/logout-endpoint.html).
+        logout-ur-ls: A list of allowed logout URLs for managed login authentication. When you pass `logout_uri` and `client_id` parameters to `/logout`, Amazon Cognito signs out your user and redirects them to the logout URL. This parameter describes the URLs that you want to be the permitted targets of `logout_uri`. A typical use of these URLs is when a user selects "Sign out" and you redirect them to your public homepage. For more information, see [Logout endpoint](https://docs.aws.amazon.com/cognito/latest/developerguide/logout-endpoint.html).
         prevent-user-existence-errors: |-
             When `ENABLED`, suppresses messages that might indicate a valid user exists when someone attempts sign-in. This parameters sets your preference for the errors and responses that you want Amazon Cognito APIs to return during authentication, account confirmation, and password recovery when the user doesn't exist in the user pool. When set to `ENABLED` and the user doesn't exist, authentication returns an error indicating either the username or password was incorrect. Account confirmation and password recovery return a response indicating a code was sent to a simulated destination. When set to `LEGACY`, those APIs return a `UserNotFoundException` exception if the user doesn't exist in the user pool.
 

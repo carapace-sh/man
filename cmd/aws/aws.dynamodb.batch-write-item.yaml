@@ -1,6 +1,9 @@
 name: batch-write-item
 description: The `BatchWriteItem` operation puts or deletes multiple items in one or more tables.
 flags:
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --request-items=!: A map of one or more table names or table ARNs and, for each table, a list of operations to be performed (`DeleteRequest` or `PutRequest`).
     --return-consumed-capacity=: ""
     --return-item-collection-metrics=: Determines whether item collection metrics are returned.
@@ -44,6 +47,21 @@ documentation:
         - The total request size exceeds 16 MB.
         - Any individual items with keys exceeding the key length limits. For a partition key, the limit is 2048 bytes and for a sort key, the limit is 1024 bytes.
     flag:
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         request-items: "A map of one or more table names or table ARNs and, for each table, a list of operations to be performed (`DeleteRequest` or `PutRequest`). Each element in the map consists of the following:\n\n- `DeleteRequest` - Perform a `DeleteItem` operation on the specified item. The item to be deleted is identified by a `Key` subelement:\n  \n  - `Key` - A map of primary key attribute values that uniquely identify the item. Each entry in this map consists of an attribute name and an attribute value. For each primary key, you must provide *all* of the key attributes. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide values for *both* the partition key and the sort key.\n- `PutRequest` - Perform a `PutItem` operation on the specified item. The item to be put is identified by an `Item` subelement:\n  \n  - `Item` - A map of attributes and their values. Each entry in this map consists of an attribute name and an attribute value. Attribute values must not be null; string and binary type attributes must have lengths greater than zero; and set type attributes must not be empty. Requests that contain empty values are rejected with a `ValidationException` exception.\n    \n    If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition."
         return-consumed-capacity: ""
         return-item-collection-metrics: Determines whether item collection metrics are returned. If set to `SIZE`, the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to `NONE` (the default), no statistics are returned.

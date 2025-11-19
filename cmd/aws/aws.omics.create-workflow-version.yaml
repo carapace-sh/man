@@ -2,6 +2,8 @@ name: create-workflow-version
 description: Creates a new workflow version for the workflow that you specify with the `workflowId` parameter.
 flags:
     --accelerators=: The computational accelerator for this workflow version.
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --container-registry-map-uri=: (Optional) URI of the S3 location for the registry mapping file.
     --container-registry-map=: (Optional) Use a container registry map to specify mappings between the ECR private repository and one or more upstream registries.
     --definition-repository=: The repository information for the workflow version definition.
@@ -9,6 +11,7 @@ flags:
     --definition-zip=: A ZIP archive containing the main workflow definition file and dependencies that it imports for this workflow version.
     --description=: A description for this workflow version.
     --engine=: The workflow engine for this workflow version.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --main=: The path of the main definition file for this workflow version.
     --parameter-template-path=: The path to the workflow version parameter template JSON file within the repository.
     --parameter-template=: A parameter template for this workflow version.
@@ -30,7 +33,6 @@ completion:
             - WDL
             - NEXTFLOW
             - CWL
-            - WDL_LENIENT
         storage-type:
             - STATIC
             - DYNAMIC
@@ -47,6 +49,18 @@ documentation:
         For more information, see [Workflow versioning in Amazon Web Services HealthOmics](https://docs.aws.amazon.com/omics/latest/dev/workflow-versions.html) in the *Amazon Web Services HealthOmics User Guide*.
     flag:
         accelerators: The computational accelerator for this workflow version.
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         container-registry-map: (Optional) Use a container registry map to specify mappings between the ECR private repository and one or more upstream registries. For more information, see [Container images](https://docs.aws.amazon.com/omics/latest/dev/workflows-ecr.html) in the *Amazon Web Services HealthOmics User Guide*.
         container-registry-map-uri: (Optional) URI of the S3 location for the registry mapping file.
         definition-repository: The repository information for the workflow version definition. This allows you to source your workflow version definition directly from a code repository.
@@ -54,6 +68,9 @@ documentation:
         definition-zip: A ZIP archive containing the main workflow definition file and dependencies that it imports for this workflow version. You can use a file with a ://fileb prefix instead of the Base64 string. For more information, see Workflow definition requirements in the *Amazon Web Services HealthOmics User Guide*.
         description: A description for this workflow version.
         engine: The workflow engine for this workflow version. This is only required if you have workflow definition files from more than one engine in your zip file. Otherwise, the service can detect the engine automatically from your workflow definition.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         main: 'The path of the main definition file for this workflow version. This parameter is not required if the ZIP archive contains only one workflow definition file, or if the main definition file is named “main”. An example path is: `workflow-definition/main-file.wdl`.'
         parameter-template: A parameter template for this workflow version. If this field is blank, Amazon Web Services HealthOmics will automatically parse the parameter template values from your workflow definition file. To override these service generated default values, provide a parameter template. To view an example of a parameter template, see [Parameter template files](https://docs.aws.amazon.com/omics/latest/dev/parameter-templates.html) in the *Amazon Web Services HealthOmics User Guide*.
         parameter-template-path: The path to the workflow version parameter template JSON file within the repository. This file defines the input parameters for runs that use this workflow version. If not specified, the workflow version will be created without a parameter template.

@@ -2,12 +2,18 @@ name: update-stack
 description: Updates a stack as specified in the template.
 flags:
     --capabilities=: In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order for CloudFormation to update the stack.
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --client-request-token=: A unique identifier for this `UpdateStack` request.
-    --disable-rollback=: Preserve the state of previously provisioned resources when an operation fails.
-    --notification-arns=: Amazon Simple Notification Service topic Amazon Resource Names (ARNs) that CloudFormation associates with the stack.
+    --disable-rollback: Preserve the state of previously provisioned resources when an operation fails.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
+    --no-disable-rollback: Preserve the state of previously provisioned resources when an operation fails.
+    --no-retain-except-on-create: When set to `true`, newly created resources are deleted when the operation rolls back.
+    --no-use-previous-template: Reuse the existing template that is associated with the stack that you are updating.
+    --notification-ar-ns=: Amazon Simple Notification Service topic Amazon Resource Names (ARNs) that CloudFormation associates with the stack.
     --parameters=: A list of `Parameter` structures that specify input parameters for the stack.
-    --resource-types=: Specifies which resource types you can work with, such as `AWS::EC2::Instance` or `Custom::MyCustomInstance`.
-    --retain-except-on-create=: When set to `true`, newly created resources are deleted when the operation rolls back.
+    --resource-types=: The template resource types that you have permissions to work with for this update stack action, such as `AWS::EC2::Instance`, `AWS::EC2::*`, or `Custom::MyCustomInstance`.
+    --retain-except-on-create: When set to `true`, newly created resources are deleted when the operation rolls back.
     --role-arn=: The Amazon Resource Name (ARN) of an IAM role that CloudFormation assumes to update the stack.
     --rollback-configuration=: The rollback triggers for CloudFormation to monitor during stack creation and updating operations, and for the specified monitoring period afterwards.
     --stack-name=!: The name or unique stack ID of the stack to update.
@@ -18,7 +24,7 @@ flags:
     --tags=: Key-value pairs to associate with this stack.
     --template-body=: Structure that contains the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes.
     --template-url=: The URL of a file that contains the template body.
-    --use-previous-template=: Reuse the existing template that is associated with the stack that you are updating.
+    --use-previous-template: Reuse the existing template that is associated with the stack that you are updating.
 documentation:
     command: |-
         Updates a stack as specified in the template. After the call completes successfully, the stack update starts. You can check the status of the stack through the [DescribeStacks]() action.
@@ -28,6 +34,18 @@ documentation:
         For more information about updating a stack and monitoring the progress of the update, see [Managing Amazon Web Services resources as a single unit with CloudFormation stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html) in the *CloudFormation User Guide*.
     flag:
         capabilities: "In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order for CloudFormation to update the stack.\n\n- `CAPABILITY_IAM` and `CAPABILITY_NAMED_IAM`\n  \n  Some stack templates might include resources that can affect permissions in your Amazon Web Services account, for example, by creating new IAM users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities.\n  \n  The following IAM resources require you to specify either the `CAPABILITY_IAM` or `CAPABILITY_NAMED_IAM` capability.\n  \n  - If you have IAM resources, you can specify either capability.\n  - If you have IAM resources with custom names, you *must* specify `CAPABILITY_NAMED_IAM`.\n  - If you don't specify either of these capabilities, CloudFormation returns an `InsufficientCapabilities` error.\n  \n  If your stack template contains these resources, we suggest that you review all permissions associated with them and edit their permissions if necessary.\n  \n  - [AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-accesskey.html)\n  - [AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-group.html)\n  - [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-instanceprofile.html)\n  - [AWS::IAM::ManagedPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-managedpolicy.html)\n  - [AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-policy.html)\n  - [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-role.html)\n  - [AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-user.html)\n  - [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-usertogroupaddition.html)\n  \n  For more information, see [Acknowledging IAM resources in CloudFormation templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html#using-iam-capabilities).\n- `CAPABILITY_AUTO_EXPAND`\n  \n  Some template contain macros. Macros perform custom processing on templates; this can include simple actions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typically create a change set from the processed template, so that they can review the changes resulting from the macros before actually updating the stack. If your stack template contains one or more macros, and you choose to update a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This includes the [AWS::Include](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-include.html) and [AWS::Serverless](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html) transforms, which are macros hosted by CloudFormation.\n  \n  If you want to update a stack from a stack template that contains macros *and* nested stacks, you must update the stack directly from the template using this capability.\n  \n  You should only update stacks directly from a stack template that contains macros if you know what processing the macro performs.\n  \n  Each macro relies on an underlying Lambda service function for processing stack templates. Be aware that the Lambda function owner can update the function operation without CloudFormation being notified.\n  \n  For more information, see [Perform custom processing on CloudFormation templates with template macros](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html).\n\nOnly one of the `Capabilities` and `ResourceType` parameters can be specified."
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         client-request-token: |-
             A unique identifier for this `UpdateStack` request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to update a stack with the same name. You might retry `UpdateStack` requests to ensure that CloudFormation successfully received them.
 
@@ -38,12 +56,15 @@ documentation:
             Preserve the state of previously provisioned resources when an operation fails.
 
             Default: `False`
-        notification-arns: Amazon Simple Notification Service topic Amazon Resource Names (ARNs) that CloudFormation associates with the stack. Specify an empty list to remove all notification topics.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        notification-ar-ns: Amazon Simple Notification Service topic Amazon Resource Names (ARNs) that CloudFormation associates with the stack. Specify an empty list to remove all notification topics.
         parameters: A list of `Parameter` structures that specify input parameters for the stack. For more information, see the [Parameter](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_Parameter.html) data type.
         resource-types: |-
-            Specifies which resource types you can work with, such as `AWS::EC2::Instance` or `Custom::MyCustomInstance`.
+            The template resource types that you have permissions to work with for this update stack action, such as `AWS::EC2::Instance`, `AWS::EC2::*`, or `Custom::MyCustomInstance`.
 
-            If the list of resource types doesn't include a resource that you're updating, the stack update fails. By default, CloudFormation grants permissions to all resource types. IAM uses this parameter for CloudFormation-specific condition keys in IAM policies. For more information, see [Control CloudFormation access with Identity and Access Management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html).
+            If the list of resource types doesn't include a resource that you're updating, the stack update fails. By default, CloudFormation grants permissions to all resource types. IAM uses this parameter for CloudFormation-specific condition keys in IAM policies. For more information, see [Control access with Identity and Access Management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html).
 
             Only one of the `Capabilities` and `ResourceType` parameters can be specified.
         retain-except-on-create: |-
@@ -90,7 +111,5 @@ documentation:
             Conditional: You must specify only one of the following parameters: `TemplateBody`, `TemplateURL`, or set the `UsePreviousTemplate` to `true`.
         use-previous-template: |-
             Reuse the existing template that is associated with the stack that you are updating.
-
-            When using templates with the `AWS::LanguageExtensions` transform, provide the template instead of using `UsePreviousTemplate` to ensure new parameter values and Systems Manager parameter updates are applied correctly. For more information, see [AWS::LanguageExtensions transform](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/transform-aws-languageextensions.html).
 
             Conditional: You must specify only one of the following parameters: `TemplateBody`, `TemplateURL`, or set the `UsePreviousTemplate` to `true`.

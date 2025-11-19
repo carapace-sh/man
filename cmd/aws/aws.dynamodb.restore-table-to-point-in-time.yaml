@@ -2,16 +2,20 @@ name: restore-table-to-point-in-time
 description: Restores the specified table to the specified point in time within `EarliestRestorableDateTime` and `LatestRestorableDateTime`.
 flags:
     --billing-mode-override=: The billing mode of the restored table.
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --global-secondary-index-override=: List of global secondary indexes for the restored table.
     --local-secondary-index-override=: List of local secondary indexes for the restored table.
+    --no-use-latest-restorable-time: Restore the table to the latest possible time.
     --on-demand-throughput-override=: ""
     --provisioned-throughput-override=: Provisioned throughput settings for the restored table.
     --restore-date-time=: Time in the past to restore the table to.
     --source-table-arn=: The DynamoDB table that will be restored.
     --source-table-name=: Name of the source table that is being restored.
-    --ssespecification-override=: The new server-side encryption settings for the restored table.
+    --sse-specification-override=: The new server-side encryption settings for the restored table.
     --target-table-name=!: The name of the new table to which it must be restored to.
-    --use-latest-restorable-time=: Restore the table to the latest possible time.
+    --use-latest-restorable-time: Restore the table to the latest possible time.
 completion:
     flag:
         billing-mode-override:
@@ -21,6 +25,21 @@ documentation:
     command: "Restores the specified table to the specified point in time within `EarliestRestorableDateTime` and `LatestRestorableDateTime`. You can restore your table to any point in time in the last 35 days. You can set the recovery period to any value between 1 and 35 days. Any number of users can execute up to 50 concurrent restores (any type of restore) in a given account.\n\nWhen you restore using point in time recovery, DynamoDB restores your table data to the state based on the selected date and time (day:hour:minute:second) to a new table.\n\nAlong with data, the following are also included on the new restored table using point in time recovery:\n\n- Global secondary indexes (GSIs)\n- Local secondary indexes (LSIs)\n- Provisioned read and write capacity\n- Encryption settings\n  \n  All these settings come from the current settings of the source table at the time of restore.\n\nYou must manually set up the following on the restored table:\n\n- Auto scaling policies\n- IAM policies\n- Amazon CloudWatch metrics and alarms\n- Tags\n- Stream settings\n- Time to Live (TTL) settings\n- Point in time recovery settings"
     flag:
         billing-mode-override: The billing mode of the restored table.
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         global-secondary-index-override: List of global secondary indexes for the restored table. The indexes provided should match existing secondary indexes. You can choose to exclude some or all of the indexes at the time of restore.
         local-secondary-index-override: List of local secondary indexes for the restored table. The indexes provided should match existing secondary indexes. You can choose to exclude some or all of the indexes at the time of restore.
         on-demand-throughput-override: ""
@@ -28,6 +47,6 @@ documentation:
         restore-date-time: Time in the past to restore the table to.
         source-table-arn: The DynamoDB table that will be restored. This value is an Amazon Resource Name (ARN).
         source-table-name: Name of the source table that is being restored.
-        ssespecification-override: The new server-side encryption settings for the restored table.
+        sse-specification-override: The new server-side encryption settings for the restored table.
         target-table-name: The name of the new table to which it must be restored to.
         use-latest-restorable-time: Restore the table to the latest possible time. `LatestRestorableDateTime` is typically 5 minutes before the current time.

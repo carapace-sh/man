@@ -1,17 +1,15 @@
 name: start-match-backfill
-description: |-
-    **This API works with the following fleet types:** EC2, Anywhere, Container
-
-    Finds new players to fill open slots in currently running game sessions.
+description: Finds new players to fill open slots in currently running game sessions.
 flags:
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --configuration-name=!: Name of the matchmaker to use for this request.
     --game-session-arn=: A unique identifier for the game session.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --players=!: Match information on all players that are currently assigned to the game session.
     --ticket-id=: A unique identifier for a matchmaking ticket.
 documentation:
     command: |-
-        **This API works with the following fleet types:** EC2, Anywhere, Container
-
         Finds new players to fill open slots in currently running game sessions. The backfill match process is essentially identical to the process of forming new matches. Backfill requests use the same matchmaker that was used to make the original match, and they provide matchmaking data for all players currently in the game session. FlexMatch uses this information to select new players so that backfilled match continues to meet the original match requirements.
 
         When using FlexMatch with Amazon GameLift Servers managed hosting, you can request a backfill match from a client service by calling this operation with a `GameSessions` ID. You also have the option of making backfill requests directly from your game server. In response to a request, FlexMatch creates player sessions for the new players, updates the `GameSession` resource, and sends updated matchmaking data to the game server. You can request a backfill match at any point after a game session is started. Each game session can have only one active backfill request at a time; a subsequent request automatically replaces the earlier request.
@@ -30,7 +28,22 @@ documentation:
 
         [How Amazon GameLift Servers FlexMatch works](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/gamelift-match.html)
     flag:
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         configuration-name: Name of the matchmaker to use for this request. You can use either the configuration name or ARN value. The ARN of the matchmaker that was used with the original game session is listed in the `GameSession` object, `MatchmakerData` property.
         game-session-arn: A unique identifier for the game session. Use the game session ID. When using FlexMatch as a standalone matchmaking solution, this parameter is not needed.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         players: "Match information on all players that are currently assigned to the game session. This information is used by the matchmaker to find new players and add them to the existing game.\n\nYou can include up to 199 `Players` in a `StartMatchBackfill` request.\n\n- PlayerID, PlayerAttributes, Team -- This information is maintained in the `GameSession` object, `MatchmakerData` property, for all players who are currently assigned to the game session. The matchmaker data is in JSON syntax, formatted as a string. For more details, see [Match Data](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-server.html#match-server-data).\n  \n  The backfill request must specify the team membership for every player. Do not specify team if you are not using backfill.\n- LatencyInMs -- If the matchmaker uses player latency, include a latency value, in milliseconds, for the Region that the game session is currently in. Do not include latency values for any other Region."
         ticket-id: A unique identifier for a matchmaking ticket. If no ticket ID is specified here, Amazon GameLift Servers will generate one in the form of a UUID. Use this identifier to track the match backfill ticket status and retrieve match results.

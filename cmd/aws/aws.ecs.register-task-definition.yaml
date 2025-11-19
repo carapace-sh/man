@@ -1,16 +1,20 @@
 name: register-task-definition
 description: Registers a new task definition from the supplied `family` and `containerDefinitions`.
 flags:
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --container-definitions=!: A list of container definitions in JSON format that describe the different containers that make up your task.
     --cpu=: The number of CPU units used by the task.
-    --enable-fault-injection=: Enables fault injection when you register your task definition and allows for fault injection requests to be accepted from the task's containers.
+    --enable-fault-injection: Enables fault injection when you register your task definition and allows for fault injection requests to be accepted from the task's containers.
     --ephemeral-storage=: The amount of ephemeral storage to allocate for the task.
     --execution-role-arn=: The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf.
     --family=!: You must specify a `family` for a task definition.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --inference-accelerators=: The Elastic Inference accelerators to use for the containers in the task.
     --ipc-mode=: The IPC resource namespace to use for the containers in the task.
     --memory=: The amount of memory (in MiB) used by the task.
     --network-mode=: The Docker networking mode to use for the containers in the task.
+    --no-enable-fault-injection: Enables fault injection when you register your task definition and allows for fault injection requests to be accepted from the task's containers.
     --pid-mode=: The process namespace to use for the containers in the task.
     --placement-constraints=: An array of placement constraint objects to use for the task.
     --proxy-configuration=: The configuration details for the App Mesh proxy.
@@ -41,6 +45,18 @@ documentation:
 
         You can specify a Docker networking mode for the containers in your task definition with the `networkMode` parameter. If you specify the `awsvpc` network mode, the task is allocated an elastic network interface, and you must specify a [NetworkConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_NetworkConfiguration.html) when you create a service or run a task with the task definition. For more information, see [Task Networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the *Amazon Elastic Container Service Developer Guide*.
     flag:
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         container-definitions: A list of container definitions in JSON format that describe the different containers that make up your task.
         cpu: |-
             The number of CPU units used by the task. It can be expressed as an integer using CPU units (for example, `1024`) or as a string using vCPUs (for example, `1 vCPU` or `1 vcpu`) in a task definition. String values are converted to an integer indicating the CPU units when the task definition is registered.
@@ -60,6 +76,9 @@ documentation:
             - Windows platform version `1.0.0` or later.
         execution-role-arn: The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf. For informationabout the required IAM roles for Amazon ECS, see [IAM roles for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/security-ecs-iam-role-overview.html) in the *Amazon Elastic Container Service Developer Guide*.
         family: You must specify a `family` for a task definition. You can use it track multiple versions of the same task definition. The `family` is used as a name for your task definition. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         inference-accelerators: The Elastic Inference accelerators to use for the containers in the task.
         ipc-mode: |-
             The IPC resource namespace to use for the containers in the task. The valid values are `host`, `task`, or `none`. If `host` is specified, then all containers within the tasks that specified the `host` IPC mode on the same container instance share the same IPC resources with the host Amazon EC2 instance. If `task` is specified, all containers within the specified task share the same IPC resources. If `none` is specified, then IPC resources within the containers of a task are private and not shared with other containers in a task or on the container instance. If no value is specified, then the IPC resource namespace sharing depends on the Docker daemon setting on the container instance.
@@ -92,7 +111,7 @@ documentation:
 
             If `task` is specified, all containers within the specified task share the same process namespace.
 
-            If no value is specified, the The default is a private namespace for each container.
+            If no value is specified, the default is a private namespace for each container.
 
             If the `host` PID mode is used, there's a heightened risk of undesired process namespace exposure.
 
@@ -105,7 +124,7 @@ documentation:
 
             For tasks hosted on Amazon EC2 instances, the container instances require at least version `1.26.0` of the container agent and at least version `1.26.0-1` of the `ecs-init` package to use a proxy configuration. If your container instances are launched from the Amazon ECS-optimized AMI version `20190301` or later, then they contain the required versions of the container agent and `ecs-init`. For more information, see [Amazon ECS-optimized AMI versions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-ami-versions.html) in the *Amazon Elastic Container Service Developer Guide*.
         requires-compatibilities: The task launch type that Amazon ECS validates the task definition against. A client exception is returned if the task definition doesn't validate against the compatibilities specified. If no value is specified, the parameter is omitted from the response.
-        runtime-platform: The operating system that your tasks definitions run on.
+        runtime-platform: The operating system that your tasks definitions run on. A platform family is specified only for tasks using the Fargate launch type.
         tags: |-
             The metadata that you apply to the task definition to help you categorize and organize them. Each tag consists of a key and an optional value. You define both of them.
 

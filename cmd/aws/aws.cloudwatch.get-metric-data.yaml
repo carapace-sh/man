@@ -1,13 +1,19 @@
 name: get-metric-data
 description: You can use the `GetMetricData` API to retrieve CloudWatch metric values.
 flags:
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --end-time=!: The time stamp indicating the latest data to be returned.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --label-options=: This structure includes the `Timezone` parameter, which you can use to specify your time zone so that the labels of returned data display the correct time for your time zone.
     --max-datapoints=: The maximum number of data points the request should return before paginating.
+    --max-items=: The  total number of items to return in the command's output.
     --metric-data-queries=!: The metric queries to be returned.
     --next-token=: Include this value, if it was returned by the previous `GetMetricData` operation, to get the next set of data points.
+    --page-size=: The size of each page to get in the AWS service call.
     --scan-by=: The order in which data points should be returned.
     --start-time=!: The time stamp indicating the earliest data to be returned.
+    --starting-token=: A token to specify where to start paginating.
 completion:
     flag:
         scan-by:
@@ -38,16 +44,45 @@ documentation:
 
         You can't mix a Metric Insights query and metric math syntax in the same expression, but you can reference results from a Metrics Insights query within other Metric math expressions. A Metrics Insights query without a **GROUP BY** clause returns a single time-series (TS), and can be used as input for a metric math expression that expects a single time series. A Metrics Insights query with a **GROUP BY** clause returns an array of time-series (TS\[]), and can be used as input for a metric math expression that expects an array of time series.
     flag:
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         end-time: |-
             The time stamp indicating the latest data to be returned.
 
             The value specified is exclusive; results include data points up to the specified time stamp.
 
             For better performance, specify `StartTime` and `EndTime` values that align with the value of the metric's `Period` and sync up with the beginning and end of an hour. For example, if the `Period` of a metric is 5 minutes, specifying 12:05 or 12:30 as `EndTime` can get a faster response from CloudWatch than setting 12:07 or 12:29 as the `EndTime`.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         label-options: This structure includes the `Timezone` parameter, which you can use to specify your time zone so that the labels of returned data display the correct time for your time zone.
         max-datapoints: The maximum number of data points the request should return before paginating. If you omit this, the default of 100,800 is used.
+        max-items: |-
+            The total number of items to return in the command's output.
+            If the total number of items available is more than the value specified, a NextToken is provided in the command's output.
+            To resume pagination, provide the NextToken value in the starting-token argument of a subsequent  command.
+            Do not use the NextToken response element directly outside of the AWS CLI.
+
+            For usage examples, see Pagination in the AWS Command Line Interface User Guide.
         metric-data-queries: The metric queries to be returned. A single `GetMetricData` call can include as many as 500 `MetricDataQuery` structures. Each of these structures can specify either a metric to retrieve, a Metrics Insights query, or a math expression to perform on retrieved data.
         next-token: Include this value, if it was returned by the previous `GetMetricData` operation, to get the next set of data points.
+        page-size: |-
+            The size of each page to get in the AWS service call.
+            This does not affect the number of items returned in the command's output.
+            Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call.
+            This can help prevent the AWS service calls from timing out.
+
+            For usage examples, see Pagination in the AWS Command Line Interface User Guide.
         scan-by: |-
             The order in which data points should be returned. `TimestampDescending` returns the newest data first and paginates when the `MaxDatapoints` limit is reached. `TimestampAscending` returns the oldest data first and paginates when the `MaxDatapoints` limit is reached.
 
@@ -66,3 +101,8 @@ documentation:
             If you set `Period` to 5, 10, 20, or 30, the start time of your request is rounded down to the nearest time that corresponds to even 5-, 10-, 20-, or 30-second divisions of a minute. For example, if you make a query at (HH:mm:ss) 01:05:23 for the previous 10-second period, the start time of your request is rounded down and you receive data from 01:05:10 to 01:05:20. If you make a query at 15:07:17 for the previous 5 minutes of data, using a period of 5 seconds, you receive data timestamped between 15:02:15 and 15:07:15.
 
             For better performance, specify `StartTime` and `EndTime` values that align with the value of the metric's `Period` and sync up with the beginning and end of an hour. For example, if the `Period` of a metric is 5 minutes, specifying 12:05 or 12:30 as `StartTime` can get a faster response from CloudWatch than setting 12:07 or 12:29 as the `StartTime`.
+        starting-token: |-
+            A token to specify where to start paginating.
+            This is the NextToken from a previously truncated response.
+
+            For usage examples, see Pagination in the AWS Command Line Interface User Guide.

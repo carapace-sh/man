@@ -2,8 +2,11 @@ name: start-workflow-execution
 description: Starts an execution of the workflow type in the specified domain using the provided `workflowId` and input data.
 flags:
     --child-policy=: If set, specifies the policy to use for the child workflow executions of this workflow execution if it is terminated, by calling the [TerminateWorkflowExecution]() action explicitly or due to an expired timeout.
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --domain=!: The name of the domain in which the workflow execution is created.
     --execution-start-to-close-timeout=: The total duration for this workflow execution.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --input=: The input for the workflow execution.
     --lambda-role=: The IAM role to attach to this workflow execution.
     --tag-list=: The list of tags to associate with the workflow execution.
@@ -31,6 +34,18 @@ documentation:
             - `ABANDON` – No action is taken. The child executions continue to run.
 
             A child policy for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default child policy was specified at registration time then a fault is returned.
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         domain: |-
             The name of the domain in which the workflow execution is created.
 
@@ -41,6 +56,9 @@ documentation:
             The duration is specified in seconds; an integer greater than or equal to `0`. Exceeding this limit causes the workflow execution to time out. Unlike some of the other timeout parameters in Amazon SWF, you cannot specify a value of "NONE" for this timeout; there is a one-year max limit on the time that a workflow execution can run.
 
             An execution start-to-close timeout must be specified either through this parameter or as a default when the workflow type is registered. If neither this parameter nor a default execution start-to-close timeout is specified, a fault is returned.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         input: The input for the workflow execution. This is a free form string which should be meaningful to the workflow you are starting. This `input` is made available to the new workflow execution in the `WorkflowExecutionStarted` history event.
         lambda-role: |-
             The IAM role to attach to this workflow execution.

@@ -1,8 +1,11 @@
 name: update-custom-key-store
 description: Changes the properties of a custom key store.
 flags:
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --cloud-hsm-cluster-id=: Associates the custom key store with a related CloudHSM cluster.
     --custom-key-store-id=!: Identifies the custom key store that you want to update.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --key-store-password=: Enter the current password of the `kmsuser` crypto user (CU) in the CloudHSM cluster that is associated with the custom key store.
     --new-custom-key-store-name=: Changes the friendly name of the custom key store to the value that you specify.
     --xks-proxy-authentication-credential=: Changes the credentials that KMS uses to sign requests to the external key store proxy (XKS proxy).
@@ -10,7 +13,6 @@ flags:
     --xks-proxy-uri-endpoint=: Changes the URI endpoint that KMS uses to connect to your external key store proxy (XKS proxy).
     --xks-proxy-uri-path=: Changes the base path to the proxy APIs for this external key store.
     --xks-proxy-vpc-endpoint-service-name=: Changes the name that KMS uses to identify the Amazon VPC endpoint service for your external key store proxy (XKS proxy).
-    --xks-proxy-vpc-endpoint-service-owner=: Changes the Amazon Web Services account ID that KMS uses to identify the Amazon VPC endpoint service for your external key store proxy (XKS proxy).
 completion:
     flag:
         xks-proxy-connectivity:
@@ -56,6 +58,18 @@ documentation:
 
         **Eventual consistency**: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     flag:
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         cloud-hsm-cluster-id: |-
             Associates the custom key store with a related CloudHSM cluster. This parameter is valid only for custom key stores with a `CustomKeyStoreType` of `AWS_CLOUDHSM`.
 
@@ -63,6 +77,9 @@ documentation:
 
             To change this value, the CloudHSM key store must be disconnected.
         custom-key-store-id: Identifies the custom key store that you want to update. Enter the ID of the custom key store. To find the ID of a custom key store, use the [DescribeCustomKeyStores]() operation.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         key-store-password: |-
             Enter the current password of the `kmsuser` crypto user (CU) in the CloudHSM cluster that is associated with the custom key store. This parameter is valid only for custom key stores with a `CustomKeyStoreType` of `AWS_CLOUDHSM`.
 
@@ -111,9 +128,5 @@ documentation:
             You can change this value when the external key store is connected or disconnected.
         xks-proxy-vpc-endpoint-service-name: |-
             Changes the name that KMS uses to identify the Amazon VPC endpoint service for your external key store proxy (XKS proxy). This parameter is valid when the `CustomKeyStoreType` is `EXTERNAL_KEY_STORE` and the `XksProxyConnectivity` is `VPC_ENDPOINT_SERVICE`.
-
-            To change this value, the external key store must be disconnected.
-        xks-proxy-vpc-endpoint-service-owner: |-
-            Changes the Amazon Web Services account ID that KMS uses to identify the Amazon VPC endpoint service for your external key store proxy (XKS proxy). This parameter is optional. If not specified, the current Amazon Web Services account ID for the VPC endpoint service will not be updated.
 
             To change this value, the external key store must be disconnected.

@@ -1,11 +1,14 @@
 name: create-tapes
 description: Creates one or more virtual tapes.
 flags:
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --client-token=!: A unique identifier that you use to retry a request.
     --gateway-arn=!: The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tapes with.
-    --kmsencrypted: Set to `true` to use Amazon S3 server-side encryption with your own KMS key, or `false` to use a key managed by Amazon S3.
-    --kmskey=: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption.
-    --no-kmsencrypted: Set to `true` to use Amazon S3 server-side encryption with your own KMS key, or `false` to use a key managed by Amazon S3.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
+    --kms-encrypted: Set to `true` to use Amazon S3 server-side encryption with your own KMS key, or `false` to use a key managed by Amazon S3.
+    --kms-key=: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption.
+    --no-kms-encrypted: Set to `true` to use Amazon S3 server-side encryption with your own KMS key, or `false` to use a key managed by Amazon S3.
     --no-worm: Set to `TRUE` if the tape you are creating is to be configured as a write-once-read-many (WORM) tape.
     --num-tapes-to-create=!: The number of virtual tapes that you want to create.
     --pool-id=: The ID of the pool that you want to add your tape to for archiving.
@@ -19,16 +22,31 @@ documentation:
 
         Cache storage must be allocated to the gateway before you can create virtual tapes. Use the [AddCache]() operation to add cache storage to a gateway.
     flag:
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         client-token: |-
             A unique identifier that you use to retry a request. If you retry a request, use the same `ClientToken` you specified in the initial request.
 
             Using the same `ClientToken` prevents creating the tape multiple times.
         gateway-arn: The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tapes with. Use the [ListGateways]() operation to return a list of gateways for your account and Amazon Web Services Region.
-        kmsencrypted: |-
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        kms-encrypted: |-
             Set to `true` to use Amazon S3 server-side encryption with your own KMS key, or `false` to use a key managed by Amazon S3. Optional.
 
             Valid Values: `true` | `false`
-        kmskey: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when `KMSEncrypted` is `true`. Optional.
+        kms-key: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when `KMSEncrypted` is `true`. Optional.
         num-tapes-to-create: The number of virtual tapes that you want to create.
         pool-id: The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool.
         tags: |-

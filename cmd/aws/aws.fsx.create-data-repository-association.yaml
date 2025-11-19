@@ -1,12 +1,16 @@
 name: create-data-repository-association
 description: Creates an Amazon FSx for Lustre data repository association (DRA).
 flags:
-    --batch-import-meta-data-on-create=: Set to `true` to run an import data repository task to import metadata from the data repository to the file system after the data repository association is created.
+    --batch-import-meta-data-on-create: Set to `true` to run an import data repository task to import metadata from the data repository to the file system after the data repository association is created.
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --client-request-token=: ""
     --data-repository-path=!: The path to the Amazon S3 data repository that will be linked to the file system.
     --file-system-id=!: ""
     --file-system-path=: A path on the file system that points to a high-level directory (such as `/ns1/`) or subdirectory (such as `/ns1/subdir/`) that will be mapped 1-1 with `DataRepositoryPath`.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --imported-file-chunk-size=: For files imported from a data repository, this value determines the stripe count and maximum amount of data per file (in MiB) stored on a single physical disk.
+    --no-batch-import-meta-data-on-create: Set to `true` to run an import data repository task to import metadata from the data repository to the file system after the data repository association is created.
     --s3=: The configuration for an Amazon S3 data repository linked to an Amazon FSx Lustre file system with a data repository association.
     --tags=: ""
 documentation:
@@ -18,6 +22,18 @@ documentation:
         `CreateDataRepositoryAssociation` isn't supported on Amazon File Cache resources. To create a DRA on Amazon File Cache, use the `CreateFileCache` operation.
     flag:
         batch-import-meta-data-on-create: Set to `true` to run an import data repository task to import metadata from the data repository to the file system after the data repository association is created. Default is `false`.
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         client-request-token: ""
         data-repository-path: The path to the Amazon S3 data repository that will be linked to the file system. The path can be an S3 bucket or prefix in the format `s3://bucket-name/prefix/` (where `prefix` is optional). This path specifies where in the S3 data repository files will be imported from or exported to.
         file-system-id: ""
@@ -27,6 +43,9 @@ documentation:
             This path specifies where in your file system files will be exported from or imported to. This file system directory can be linked to only one Amazon S3 bucket, and no other S3 bucket can be linked to the directory.
 
             If you specify only a forward slash (`/`) as the file system path, you can link only one data repository to the file system. You can only specify "/" as the file system path for the first data repository associated with a file system.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         imported-file-chunk-size: |-
             For files imported from a data repository, this value determines the stripe count and maximum amount of data per file (in MiB) stored on a single physical disk. The maximum number of disks that a single file can be striped across is limited by the total number of disks that make up the file system.
 

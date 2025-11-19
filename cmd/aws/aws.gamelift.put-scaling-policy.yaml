@@ -1,12 +1,12 @@
 name: put-scaling-policy
-description: |-
-    **This API works with the following fleet types:** EC2
-
-    Creates or updates a scaling policy for a fleet.
+description: Creates or updates a scaling policy for a fleet.
 flags:
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --comparison-operator=: Comparison operator to use when measuring the metric against the threshold value.
     --evaluation-periods=: Length of time (in minutes) the metric must be at or beyond the threshold before a scaling event is triggered.
     --fleet-id=!: A unique identifier for the fleet to apply this policy to.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --metric-name=!: Name of the Amazon GameLift Servers-defined metric that is used to trigger a scaling adjustment.
     --name=!: A descriptive label that is associated with a fleet's scaling policy.
     --policy-type=: The type of scaling policy to create.
@@ -43,8 +43,6 @@ completion:
             - PercentChangeInCapacity
 documentation:
     command: |-
-        **This API works with the following fleet types:** EC2
-
         Creates or updates a scaling policy for a fleet. Scaling policies are used to automatically scale a fleet's hosting capacity to meet player demand. An active scaling policy instructs Amazon GameLift Servers to track a fleet metric and automatically change the fleet's capacity when a certain threshold is reached. There are two types of scaling policies: target-based and rule-based. Use a target-based policy to quickly and efficiently manage fleet scaling; this option is the most commonly used. Use rule-based policies when you need to exert fine-grained control over auto-scaling.
 
         Fleets can have multiple scaling policies of each type in force at the same time; you can have one target-based policy, one or multiple rule-based scaling policies, or both. We recommend caution, however, because multiple auto-scaling policies can have unintended consequences.
@@ -75,9 +73,24 @@ documentation:
 
         To create or update a scaling policy, specify a unique combination of name and fleet ID, and set the policy type to "RuleBased". Specify the parameter values for a policy rule statement. On a successful request, the policy name is returned. Scaling policies are automatically in force as soon as they're successfully created. If the fleet's auto-scaling actions are temporarily suspended, the new policy will be in force once the fleet actions are restarted.
     flag:
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         comparison-operator: Comparison operator to use when measuring the metric against the threshold value.
         evaluation-periods: Length of time (in minutes) the metric must be at or beyond the threshold before a scaling event is triggered.
         fleet-id: 'A unique identifier for the fleet to apply this policy to. You can use either the fleet ID or ARN value. The fleet cannot be in any of the following statuses: ERROR or DELETING.'
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         metric-name: |-
             Name of the Amazon GameLift Servers-defined metric that is used to trigger a scaling adjustment. For detailed descriptions of fleet metrics, see [Monitor Amazon GameLift Servers with Amazon CloudWatch](https://docs.aws.amazon.com/gamelift/latest/developerguide/monitoring-cloudwatch.html).
 

@@ -3,16 +3,21 @@ description: Modifies the parameters of a service.
 flags:
     --availability-zone-rebalancing=: Indicates whether to use Availability Zone rebalancing for the service.
     --capacity-provider-strategy=: The details of a capacity provider strategy.
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --cluster=: The short name or full Amazon Resource Name (ARN) of the cluster that your service runs on.
     --deployment-configuration=: Optional deployment parameters that control how many tasks run during the deployment and the ordering of stopping and starting tasks.
     --deployment-controller=: ""
     --desired-count=: The number of instantiations of the task to place and keep running in your service.
-    --enable-ecsmanaged-tags=: Determines whether to turn on Amazon ECS managed tags for the tasks in the service.
-    --enable-execute-command=: If `true`, this enables execute command functionality on all task containers.
+    --enable-ecs-managed-tags: Determines whether to turn on Amazon ECS managed tags for the tasks in the service.
+    --enable-execute-command: If `true`, this enables execute command functionality on all task containers.
     --force-new-deployment: Determines whether to force a new deployment of the service.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --health-check-grace-period-seconds=: The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started.
     --load-balancers=: You must have a service-linked role when you update this property
     --network-configuration=: An object representing the network configuration for the service.
+    --no-enable-ecs-managed-tags: Determines whether to turn on Amazon ECS managed tags for the tasks in the service.
+    --no-enable-execute-command: If `true`, this enables execute command functionality on all task containers.
     --no-force-new-deployment: Determines whether to force a new deployment of the service.
     --placement-constraints=: An array of task placement constraint objects to update the service to use.
     --placement-strategy=: The task placement strategy objects to update the service to use.
@@ -47,7 +52,19 @@ documentation:
             - For update service requests, when no value is specified for `AvailabilityZoneRebalancing`, Amazon ECS defaults to the existing service’s `AvailabilityZoneRebalancing` value. If the service never had an `AvailabilityZoneRebalancing` value set, Amazon ECS treats this as `DISABLED`.
 
             This parameter doesn't trigger a new service deployment.
-        capacity-provider-strategy: "The details of a capacity provider strategy. You can set a capacity provider when you create a cluster, run a task, or update a service.\n\nIf you want to use Amazon ECS Managed Instances, you must use the `capacityProviderStrategy` request parameter.\n\nWhen you use Fargate, the capacity providers are `FARGATE` or `FARGATE_SPOT`.\n\nWhen you use Amazon EC2, the capacity providers are Auto Scaling groups.\n\nYou can change capacity providers for rolling deployments and blue/green deployments.\n\nThe following list provides the valid transitions:\n\n- Update the Fargate launch type to an Auto Scaling group capacity provider.\n- Update the Amazon EC2 launch type to a Fargate capacity provider.\n- Update the Fargate capacity provider to an Auto Scaling group capacity provider.\n- Update the Amazon EC2 capacity provider to a Fargate capacity provider.\n- Update the Auto Scaling group or Fargate capacity provider back to the launch type.\n  \n  Pass an empty list in the `capacityProviderStrategy` parameter.\n\nFor information about Amazon Web Services CDK considerations, see [Amazon Web Services CDK considerations](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/update-service-parameters.html).\n\nThis parameter doesn't trigger a new service deployment."
+        capacity-provider-strategy: "The details of a capacity provider strategy. You can set a capacity provider when you create a cluster, run a task, or update a service.\n\nWhen you use Fargate, the capacity providers are `FARGATE` or `FARGATE_SPOT`.\n\nWhen you use Amazon EC2, the capacity providers are Auto Scaling groups.\n\nYou can change capacity providers for rolling deployments and blue/green deployments.\n\nThe following list provides the valid transitions:\n\n- Update the Fargate launch type to an Auto Scaling group capacity provider.\n- Update the Amazon EC2 launch type to a Fargate capacity provider.\n- Update the Fargate capacity provider to an Auto Scaling group capacity provider.\n- Update the Amazon EC2 capacity provider to a Fargate capacity provider.\n- Update the Auto Scaling group or Fargate capacity provider back to the launch type.\n  \n  Pass an empty list in the `capacityProviderStrategy` parameter.\n\nFor information about Amazon Web Services CDK considerations, see [Amazon Web Services CDK considerations](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/update-service-parameters.html).\n\nThis parameter doesn't trigger a new service deployment."
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         cluster: |-
             The short name or full Amazon Resource Name (ARN) of the cluster that your service runs on. If you do not specify a cluster, the default cluster is assumed.
 
@@ -61,7 +78,7 @@ documentation:
             The number of instantiations of the task to place and keep running in your service.
 
             This parameter doesn't trigger a new service deployment.
-        enable-ecsmanaged-tags: |-
+        enable-ecs-managed-tags: |-
             Determines whether to turn on Amazon ECS managed tags for the tasks in the service. For more information, see [Tagging Your Amazon ECS Resources](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html) in the *Amazon Elastic Container Service Developer Guide*.
 
             Only tasks launched after the update will reflect the update. To update the tags on all tasks, set `forceNewDeployment` to `true`, so that Amazon ECS starts new tasks with the updated tags.
@@ -74,6 +91,9 @@ documentation:
 
             This parameter doesn't trigger a new service deployment.
         force-new-deployment: Determines whether to force a new deployment of the service. By default, deployments aren't forced. You can use this option to start a new deployment with no service definition changes. For example, you can update a service's tasks to use a newer Docker image with the same image/tag combination (`my_image:latest`) or to roll Fargate tasks onto a newer platform version.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         health-check-grace-period-seconds: |-
             The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If you don't specify a health check grace period value, the default value of `0` is used. If you don't use any of the health checks, then `healthCheckGracePeriodSeconds` is unused.
 

@@ -1,0 +1,83 @@
+name: create-custom-db-engine-version
+description: Creates a custom DB engine version (CEV).
+flags:
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
+    --database-installation-files-s3-bucket-name=: The name of an Amazon S3 bucket that contains database installation files for your CEV.
+    --database-installation-files-s3-prefix=: The Amazon S3 directory that contains the database installation files for your CEV.
+    --description=: An optional description of your CEV.
+    --engine-version=!: The name of your CEV.
+    --engine=!: The database engine.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
+    --image-id=: The ID of the Amazon Machine Image (AMI).
+    --kms-key-id=: The Amazon Web Services KMS key identifier for an encrypted CEV.
+    --manifest=: The CEV manifest, which is a JSON document that describes the installation .zip files stored in Amazon S3.
+    --no-use-aws-provided-latest-image: Specifies whether to use the latest service-provided Amazon Machine Image (AMI) for the CEV.
+    --source-custom-db-engine-version-identifier=: The ARN of a CEV to use as a source for creating a new CEV.
+    --tags=: ""
+    --use-aws-provided-latest-image: Specifies whether to use the latest service-provided Amazon Machine Image (AMI) for the CEV.
+documentation:
+    command: Creates a custom DB engine version (CEV).
+    flag:
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        database-installation-files-s3-bucket-name: The name of an Amazon S3 bucket that contains database installation files for your CEV. For example, a valid bucket name is `my-custom-installation-files`.
+        database-installation-files-s3-prefix: The Amazon S3 directory that contains the database installation files for your CEV. For example, a valid bucket name is `123456789012/cev1`. If this setting isn't specified, no prefix is assumed.
+        description: An optional description of your CEV.
+        engine: |-
+            The database engine. RDS Custom for Oracle supports the following values:
+
+            - `custom-oracle-ee`
+            - `custom-oracle-ee-cdb`
+            - `custom-oracle-se2`
+            - `custom-oracle-se2-cdb`
+        engine-version: The name of your CEV. The name format is 19.*customized\_string*. For example, a valid CEV name is `19.my_cev1`. This setting is required for RDS Custom for Oracle, but optional for Amazon RDS. The combination of `Engine` and `EngineVersion` is unique per customer per Region.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        image-id: The ID of the Amazon Machine Image (AMI). For RDS Custom for SQL Server, an AMI ID is required to create a CEV. For RDS Custom for Oracle, the default is the most recent AMI available, but you can specify an AMI ID that was used in a different Oracle CEV. Find the AMIs used by your CEVs by calling the [DescribeDBEngineVersions](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBEngineVersions.html) operation.
+        kms-key-id: |-
+            The Amazon Web Services KMS key identifier for an encrypted CEV. A symmetric encryption KMS key is required for RDS Custom, but optional for Amazon RDS.
+
+            If you have an existing symmetric encryption KMS key in your account, you can use it with RDS Custom. No further action is necessary. If you don't already have a symmetric encryption KMS key in your account, follow the instructions in [Creating a symmetric encryption KMS key](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html#create-symmetric-cmk) in the *Amazon Web Services Key Management Service Developer Guide*.
+
+            You can choose the same symmetric encryption key when you create a CEV and a DB instance, or choose different keys.
+        manifest: |-
+            The CEV manifest, which is a JSON document that describes the installation .zip files stored in Amazon S3. Specify the name/value pairs in a file or a quoted string. RDS Custom applies the patches in the order in which they are listed.
+
+            The following JSON fields are valid:
+
+            MediaImportTemplateVersion
+
+            Version of the CEV manifest. The date is in the format `YYYY-MM-DD`.
+
+            databaseInstallationFileNames
+
+            Ordered list of installation files for the CEV.
+
+            opatchFileNames
+
+            Ordered list of OPatch installers used for the Oracle DB engine.
+
+            psuRuPatchFileNames
+
+            The PSU and RU patches for this CEV.
+
+            OtherPatchFileNames
+
+            The patches that are not in the list of PSU and RU patches. Amazon RDS applies these patches after applying the PSU and RU patches.
+
+            For more information, see [Creating the CEV manifest](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.html#custom-cev.preparing.manifest) in the *Amazon RDS User Guide*.
+        source-custom-db-engine-version-identifier: The ARN of a CEV to use as a source for creating a new CEV. You can specify a different Amazon Machine Imagine (AMI) by using either `Source` or `UseAwsProvidedLatestImage`. You can't specify a different JSON manifest when you specify `SourceCustomDbEngineVersionIdentifier`.
+        tags: ""
+        use-aws-provided-latest-image: Specifies whether to use the latest service-provided Amazon Machine Image (AMI) for the CEV. If you specify `UseAwsProvidedLatestImage`, you can't also specify `ImageId`.

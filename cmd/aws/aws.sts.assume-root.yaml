@@ -1,28 +1,44 @@
 name: assume-root
 description: Returns a set of short term credentials you can use to perform privileged tasks on a member account in your organization.
 flags:
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --duration-seconds=: The duration, in seconds, of the privileged session.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --target-principal=!: The member account principal ARN or account ID.
     --task-policy-arn=!: The identity based policy that scopes the session to the privileged tasks that can be performed.
 documentation:
     command: |-
-        Returns a set of short term credentials you can use to perform privileged tasks on a member account in your organization. You must use credentials from an Organizations management account or a delegated administrator account for IAM to call `AssumeRoot`. You cannot use root user credentials to make this call.
+        Returns a set of short term credentials you can use to perform privileged tasks on a member account in your organization.
 
         Before you can launch a privileged session, you must have centralized root access in your organization. For steps to enable this feature, see [Centralize root access for member accounts](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-enable-root-access.html) in the *IAM User Guide*.
 
         The STS global endpoint is not supported for AssumeRoot. You must send this request to a Regional STS endpoint. For more information, see [Endpoints](https://docs.aws.amazon.com/STS/latest/APIReference/welcome.html#sts-endpoints).
 
         You can track AssumeRoot in CloudTrail logs to determine what actions were performed in a session. For more information, see [Track privileged tasks in CloudTrail](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-track-privileged-tasks.html) in the *IAM User Guide*.
-
-        When granting access to privileged tasks you should only grant the necessary permissions required to perform that task. For more information, see [Security best practices in IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html). In addition, you can use [service control policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html) (SCPs) to manage and limit permissions in your organization. See [General examples](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_examples_general.html) in the *Organizations User Guide* for more information on SCPs.
     flag:
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         duration-seconds: |-
             The duration, in seconds, of the privileged session. The value can range from 0 seconds up to the maximum session duration of 900 seconds (15 minutes). If you specify a value higher than this setting, the operation fails.
 
             By default, the value is set to `900` seconds.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         target-principal: The member account principal ARN or account ID.
         task-policy-arn: |-
-            The identity based policy that scopes the session to the privileged tasks that can be performed. You must use one of following Amazon Web Services managed policies to scope root session actions:
+            The identity based policy that scopes the session to the privileged tasks that can be performed. You can use one of following Amazon Web Services managed policies to scope root session actions.
 
             - [IAMAuditRootUserCredentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/security-iam-awsmanpol.html#security-iam-awsmanpol-IAMAuditRootUserCredentials)
             - [IAMCreateRootUserPassword](https://docs.aws.amazon.com/IAM/latest/UserGuide/security-iam-awsmanpol.html#security-iam-awsmanpol-IAMCreateRootUserPassword)

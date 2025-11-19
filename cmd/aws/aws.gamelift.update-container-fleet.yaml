@@ -1,15 +1,15 @@
 name: update-container-fleet
-description: |-
-    **This API works with the following fleet types:** Container
-
-    Updates the properties of a managed container fleet.
+description: Updates the properties of a managed container fleet.
 flags:
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --deployment-configuration=: Instructions for how to deploy updates to a container fleet, if the fleet update initiates a deployment.
     --description=: A meaningful description of the container fleet.
     --fleet-id=!: A unique identifier for the container fleet to update.
     --game-server-container-group-definition-name=: The name or ARN value of a new game server container group definition to deploy on the fleet.
     --game-server-container-groups-per-instance=: The number of times to replicate the game server container group on each fleet instance.
     --game-session-creation-limit-policy=: A policy that limits the number of game sessions that each individual player can create on instances in this fleet.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --instance-connection-port-range=: A revised set of port numbers to open on each fleet instance.
     --instance-inbound-permission-authorizations=: A set of ports to add to the container fleet's inbound permissions.
     --instance-inbound-permission-revocations=: A set of ports to remove from the container fleet's inbound permissions.
@@ -25,11 +25,7 @@ completion:
             - FullProtection
 documentation:
     command: |-
-        **This API works with the following fleet types:** Container
-
         Updates the properties of a managed container fleet. Depending on the properties being updated, this operation might initiate a fleet deployment. You can track deployments for a fleet using [https://docs.aws.amazon.com/gamelift/latest/apireference/API\_DescribeFleetDeployment.html](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetDeployment.html).
-
-        A managed fleet's runtime environment, which depends on the fleet's Amazon Machine Image {AMI} version, can't be updated. You must create a new fleet. As a best practice, we recommend replacing your managed fleets every 30 days to maintain a secure and up-to-date runtime environment for your hosted game servers. For guidance, see [Security best practices for Amazon GameLift Servers](https://docs.aws.amazon.com/gameliftservers/latest/developerguide/security-best-practices.html).
 
         **Request options**
 
@@ -53,6 +49,18 @@ documentation:
 
         You can have only one update deployment active at a time for a fleet. If a second update request initiates a deployment while another deployment is in progress, the first deployment is cancelled.
     flag:
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         deployment-configuration: Instructions for how to deploy updates to a container fleet, if the fleet update initiates a deployment. The deployment configuration lets you determine how to replace fleet instances and what actions to take if the deployment fails.
         description: A meaningful description of the container fleet.
         fleet-id: A unique identifier for the container fleet to update. You can use either the fleet ID or ARN value.
@@ -62,6 +70,9 @@ documentation:
             Update a container group definition by calling [UpdateContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateContainerGroupDefinition.html). This operation creates a [ContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html) resource with an incremented version.
         game-server-container-groups-per-instance: The number of times to replicate the game server container group on each fleet instance. By default, Amazon GameLift Servers calculates the maximum number of game server container groups that can fit on each instance. You can remove this property value to use the calculated value, or set it manually. If you set this number manually, Amazon GameLift Servers uses your value as long as it's less than the calculated maximum.
         game-session-creation-limit-policy: A policy that limits the number of game sessions that each individual player can create on instances in this fleet. The limit applies for a specified span of time.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         instance-connection-port-range: A revised set of port numbers to open on each fleet instance. By default, Amazon GameLift Servers calculates an optimal port range based on your fleet configuration. If you previously set this parameter manually, you can't reset this to use the calculated settings.
         instance-inbound-permission-authorizations: A set of ports to add to the container fleet's inbound permissions.
         instance-inbound-permission-revocations: A set of ports to remove from the container fleet's inbound permissions.

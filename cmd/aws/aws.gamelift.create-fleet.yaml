@@ -1,17 +1,17 @@
 name: create-fleet
-description: |-
-    **This API works with the following fleet types:** EC2, Anywhere, Container
-
-    Creates a fleet of compute resources to host your game servers.
+description: Creates a fleet of compute resources to host your game servers.
 flags:
     --anywhere-configuration=: Amazon GameLift Servers Anywhere configuration options.
     --build-id=: The unique identifier for a custom game server build to be deployed to a fleet with compute type `EC2`.
     --certificate-configuration=: Prompts Amazon GameLift Servers to generate a TLS/SSL certificate for the fleet.
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --compute-type=: The type of compute resource used to host your game servers.
     --description=: A description for the fleet.
-    --ec2-inbound-permissions=: The IP address ranges and port settings that allow inbound traffic to access game server processes and other processes on this fleet.
-    --ec2-instance-type=: The Amazon GameLift Servers-supported Amazon EC2 instance type to use with managed EC2 fleets.
+    --e-c2-inbound-permissions=: The IP address ranges and port settings that allow inbound traffic to access game server processes and other processes on this fleet.
+    --e-c2-instance-type=: The Amazon GameLift Servers-supported Amazon EC2 instance type to use with managed EC2 fleets.
     --fleet-type=: Indicates whether to use On-Demand or Spot instances for this fleet.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --instance-role-arn=: A unique identifier for an IAM role that manages access to your Amazon Web Services services.
     --instance-role-credentials-provider=: Prompts Amazon GameLift Servers to generate a shared credentials file for the IAM role that's defined in `InstanceRoleArn`.
     --locations=: A set of remote locations to deploy additional instances to and manage as a multi-location fleet.
@@ -32,7 +32,7 @@ completion:
         compute-type:
             - EC2
             - ANYWHERE
-        ec2-instance-type:
+        e-c2-instance-type:
             - t2.micro
             - t2.small
             - t2.medium
@@ -548,9 +548,7 @@ completion:
             - FullProtection
 documentation:
     command: |-
-        **This API works with the following fleet types:** EC2, Anywhere, Container
-
-        Creates a fleet of compute resources to host your game servers. Use this operation to set up a fleet for the following compute types:
+        Creates a fleet of compute resources to host your game servers. Use this operation to set up the following types of fleets based on compute type:
 
         **Managed EC2 fleet**
 
@@ -569,8 +567,6 @@ documentation:
         If successful, this operation creates a new fleet resource and places it in `NEW` status while Amazon GameLift Servers initiates the [fleet creation workflow](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-creating-all.html#fleets-creation-workflow). To debug your fleet, fetch logs, view performance metrics or other actions on the fleet, create a development fleet with port 22/3389 open. As a best practice, we recommend opening ports for remote access only when you need them and closing them when you're finished.
 
         When the fleet status is ACTIVE, you can adjust capacity settings and turn autoscaling on/off for each location.
-
-        A managed fleet's runtime environment depends on the Amazon Machine Image (AMI) version it uses. When a new fleet is created, Amazon GameLift Servers assigns the latest available AMI version to the fleet, and all compute instances in that fleet are deployed with that version. To update the AMI version, you must create a new fleet. As a best practice, we recommend replacing your managed fleets every 30 days to maintain a secure and up-to-date runtime environment for your hosted game servers. For guidance, see [Security best practices for Amazon GameLift Servers](https://docs.aws.amazon.com/gameliftservers/latest/developerguide/security-best-practices.html).
 
         **Anywhere fleet**
 
@@ -600,15 +596,30 @@ documentation:
             Certificate Manager (ACM) certificates expire after 13 months. Certificate expiration can cause fleets to fail, preventing players from connecting to instances in the fleet. We recommend you replace fleets before 13 months, consider using fleet aliases for a smooth transition.
 
             ACM isn't available in all Amazon Web Services regions. A fleet creation request with certificate generation enabled in an unsupported Region, fails with a 4xx error. For more information about the supported Regions, see [Supported Regions](https://docs.aws.amazon.com/acm/latest/userguide/acm-regions.html) in the *Certificate Manager User Guide*.
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         compute-type: |-
             The type of compute resource used to host your game servers.
 
             - `EC2` – The game server build is deployed to Amazon EC2 instances for cloud hosting. This is the default setting.
             - `ANYWHERE` – Game servers and supporting software are deployed to compute resources that you provide and manage. With this compute type, you can also set the `AnywhereConfiguration` parameter.
         description: A description for the fleet.
-        ec2-inbound-permissions: The IP address ranges and port settings that allow inbound traffic to access game server processes and other processes on this fleet. Set this parameter for managed EC2 fleets. You can leave this parameter empty when creating the fleet, but you must call [https://docs.aws.amazon.com/gamelift/latest/apireference/API\_UpdateFleetPortSettings](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateFleetPortSettings) to set it before players can connect to game sessions. As a best practice, we recommend opening ports for remote access only when you need them and closing them when you're finished. For Amazon GameLift Servers Realtime fleets, Amazon GameLift Servers automatically sets TCP and UDP ranges.
-        ec2-instance-type: The Amazon GameLift Servers-supported Amazon EC2 instance type to use with managed EC2 fleets. Instance type determines the computing resources that will be used to host your game servers, including CPU, memory, storage, and networking capacity. See [Amazon Elastic Compute Cloud Instance Types](http://aws.amazon.com/ec2/instance-types/) for detailed descriptions of Amazon EC2 instance types.
+        e-c2-inbound-permissions: The IP address ranges and port settings that allow inbound traffic to access game server processes and other processes on this fleet. Set this parameter for managed EC2 fleets. You can leave this parameter empty when creating the fleet, but you must call [https://docs.aws.amazon.com/gamelift/latest/apireference/API\_UpdateFleetPortSettings](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateFleetPortSettings) to set it before players can connect to game sessions. As a best practice, we recommend opening ports for remote access only when you need them and closing them when you're finished. For Amazon GameLift Servers Realtime fleets, Amazon GameLift Servers automatically sets TCP and UDP ranges.
+        e-c2-instance-type: The Amazon GameLift Servers-supported Amazon EC2 instance type to use with managed EC2 fleets. Instance type determines the computing resources that will be used to host your game servers, including CPU, memory, storage, and networking capacity. See [Amazon Elastic Compute Cloud Instance Types](http://aws.amazon.com/ec2/instance-types/) for detailed descriptions of Amazon EC2 instance types.
         fleet-type: Indicates whether to use On-Demand or Spot instances for this fleet. By default, this property is set to `ON_DEMAND`. Learn more about when to use [On-Demand versus Spot Instances](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-ec2-instances.html#gamelift-ec2-instances-spot). This fleet property can't be changed after the fleet is created.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         instance-role-arn: A unique identifier for an IAM role that manages access to your Amazon Web Services services. With an instance role ARN set, any application that runs on an instance in this fleet can assume the role, including install scripts, server processes, and daemons (background processes). Create a role or look up a role's ARN by using the [IAM dashboard](https://console.aws.amazon.com/iam/) in the Amazon Web Services Management Console. Learn more about using on-box credentials for your game servers at [Access external resources from a game server](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-resources.html). This fleet property can't be changed after the fleet is created.
         instance-role-credentials-provider: Prompts Amazon GameLift Servers to generate a shared credentials file for the IAM role that's defined in `InstanceRoleArn`. The shared credentials file is stored on each fleet instance and refreshed as needed. Use shared credentials for applications that are deployed along with the game server executable, if the game server is integrated with server SDK version 5.x. For more information about using shared credentials, see [Communicate with other Amazon Web Services resources from your fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-resources.html).
         locations: A set of remote locations to deploy additional instances to and manage as a multi-location fleet. Use this parameter when creating a fleet in Amazon Web Services Regions that support multiple locations. You can add any Amazon Web Services Region or Local Zone that's supported by Amazon GameLift Servers. Provide a list of one or more Amazon Web Services Region codes, such as `us-west-2`, or Local Zone names. When using this parameter, Amazon GameLift Servers requires you to include your home location in the request. For a list of supported Regions and Local Zones, see [Amazon GameLift Servers service locations](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html) for managed hosting.

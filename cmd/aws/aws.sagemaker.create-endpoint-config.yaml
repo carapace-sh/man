@@ -2,11 +2,14 @@ name: create-endpoint-config
 description: Creates an endpoint configuration that SageMaker hosting services uses to deploy models.
 flags:
     --async-inference-config=: Specifies configuration for how an endpoint performs asynchronous inference.
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
     --data-capture-config=: ""
     --enable-network-isolation: Sets whether all model containers deployed to the endpoint are isolated.
     --endpoint-config-name=!: The name of the endpoint configuration.
     --execution-role-arn=: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can assume to perform actions on your behalf.
     --explainer-config=: A member of `CreateEndpointConfig` that enables explainers.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --kms-key-id=: The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the endpoint.
     --no-enable-network-isolation: Sets whether all model containers deployed to the endpoint are isolated.
     --production-variants=!: An array of `ProductionVariant` objects, one for each model that you want to host at this endpoint.
@@ -26,6 +29,18 @@ documentation:
         When you call [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpoint.html), a load call is made to DynamoDB to verify that your endpoint configuration exists. When you read data from a DynamoDB table supporting [`Eventually Consistent Reads`](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html) , the response might not reflect the results of a recently completed write operation. The response might include some stale data. If the dependent entities are not yet in DynamoDB, this causes a validation error. If you repeat your read request after a short time, the response should return the latest data. So retry logic is recommended to handle these possible issues. We also recommend that customers call [DescribeEndpointConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeEndpointConfig.html) before calling [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpoint.html) to minimize the potential impact of a DynamoDB eventually consistent read.
     flag:
         async-inference-config: Specifies configuration for how an endpoint performs asynchronous inference. This is a required field in order for your Endpoint to be invoked using [InvokeEndpointAsync](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_runtime_InvokeEndpointAsync.html).
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         data-capture-config: ""
         enable-network-isolation: Sets whether all model containers deployed to the endpoint are isolated. If they are, no inbound or outbound network calls can be made to or from the model containers.
         endpoint-config-name: The name of the endpoint configuration. You specify this name in a [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpoint.html) request.
@@ -34,6 +49,9 @@ documentation:
 
             To be able to pass this role to Amazon SageMaker AI, the caller of this action must have the `iam:PassRole` permission.
         explainer-config: A member of `CreateEndpointConfig` that enables explainers.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
         kms-key-id: |-
             The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the endpoint.
 
