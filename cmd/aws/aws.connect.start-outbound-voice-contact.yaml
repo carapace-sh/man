@@ -13,9 +13,11 @@ flags:
     --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --instance-id=!: The identifier of the Amazon Connect instance.
     --name=: The name of a voice contact that is shown to an agent in the Contact Control Panel (CCP).
+    --outbound-strategy=: Information about the outbound strategy.
     --queue-id=: The queue for the call.
     --references=: A formatted URL that is shown to an agent in the Contact Control Panel (CCP).
     --related-contact-id=: The `contactId` that is related to this contact.
+    --ring-timeout-in-seconds=: The maximum time the outbound call will wait for the destination to answer the call, in seconds
     --source-phone-number=: The phone number associated with the Amazon Connect instance, in E.164 format.
     --traffic-type=: Denotes the class of traffic.
 completion:
@@ -29,11 +31,13 @@ documentation:
 
         Agents do not initiate the outbound API, which means that they do not dial the contact. If the flow places an outbound call to a contact, and then puts the contact in queue, the call is then routed to the agent, like any other inbound case.
 
-        There is a 60-second dialing timeout for this operation. If the call is not connected after 60 seconds, it fails.
+        Dialing timeout for this operation can be configured with the “RingTimeoutInSeconds” parameter. If not specified, the default dialing timeout will be 60 seconds which means if the call is not connected within 60 seconds, it fails.
 
         UK numbers with a 447 prefix are not allowed by default. Before you can dial these UK mobile numbers, you must submit a service quota increase request. For more information, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the *Amazon Connect Administrator Guide*.
 
         Campaign calls are not allowed by default. Before you can make a call with `TrafficType` = `CAMPAIGN`, you must submit a service quota increase request to the quota [Amazon Connect campaigns](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#outbound-communications-quotas).
+
+        For Preview dialing mode, only the Amazon Connect outbound campaigns service principal is allowed to assume a role in your account and call this API with OutboundStrategy.
     flag:
         answer-machine-detection-config: Configuration of the answering machine detection for this outbound call.
         attributes: |-
@@ -65,8 +69,10 @@ documentation:
             This may  not  be  specified  along with --cli-input-yaml.
         instance-id: The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
         name: The name of a voice contact that is shown to an agent in the Contact Control Panel (CCP).
+        outbound-strategy: Information about the outbound strategy.
         queue-id: The queue for the call. If you specify a queue, the phone displayed for caller ID is the phone number specified in the queue. If you do not specify a queue, the queue defined in the flow is used. If you do not specify a queue, you must specify a source phone number.
         references: 'A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Contacts can have the following reference types at the time of creation: `URL` | `NUMBER` | `STRING` | `DATE` | `EMAIL`. `ATTACHMENT` is not a supported reference type during voice contact creation.'
         related-contact-id: The `contactId` that is related to this contact. Linking voice, task, or chat by using `RelatedContactID` copies over contact attributes from the related contact to the new contact. All updates to user-defined attributes in the new contact are limited to the individual contact ID. There are no limits to the number of contacts that can be linked by using `RelatedContactId`.
+        ring-timeout-in-seconds: The maximum time the outbound call will wait for the destination to answer the call, in seconds
         source-phone-number: The phone number associated with the Amazon Connect instance, in E.164 format. If you do not specify a source phone number, you must specify a queue.
         traffic-type: Denotes the class of traffic. Calls with different traffic types are handled differently by Amazon Connect. The default value is `GENERAL`. Use `CAMPAIGN` if `EnableAnswerMachineDetection` is set to `true`. For all other cases, use `GENERAL`.

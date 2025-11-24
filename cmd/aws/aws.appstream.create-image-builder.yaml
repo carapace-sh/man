@@ -2,7 +2,7 @@ name: create-image-builder
 description: Creates an image builder.
 flags:
     --access-endpoints=: The list of interface VPC endpoint (interface endpoint) objects.
-    --appstream-agent-version=: The version of the AppStream 2.0 agent to use for this image builder.
+    --appstream-agent-version=: The version of the WorkSpaces Applications agent to use for this image builder.
     --cli-input-json=: Read arguments from the JSON string provided.
     --cli-input-yaml=: Read arguments from the YAML string provided.
     --description=: The description to display.
@@ -16,6 +16,9 @@ flags:
     --instance-type=!: The instance type to use when launching the image builder.
     --name=!: A unique name for the image builder.
     --no-enable-default-internet-access: Enables or disables default internet access for the image builder.
+    --root-volume-config=: The configuration for the root volume of the image builder.
+    --softwares-to-install=: The list of license included applications to install on the image builder during creation.
+    --softwares-to-uninstall=: The list of license included applications to uninstall from the image builder during creation.
     --tags=: The tags to associate with the image builder.
     --vpc-config=: The VPC configuration for the image builder.
 documentation:
@@ -25,7 +28,7 @@ documentation:
         The initial state of the builder is `PENDING`. When it is ready, the state is `RUNNING`.
     flag:
         access-endpoints: The list of interface VPC endpoint (interface endpoint) objects. Administrators can connect to the image builder only through the specified endpoints.
-        appstream-agent-version: The version of the AppStream 2.0 agent to use for this image builder. To use the latest version of the AppStream 2.0 agent, specify \[LATEST].
+        appstream-agent-version: The version of the WorkSpaces Applications agent to use for this image builder. To use the latest version of the WorkSpaces Applications agent, specify \[LATEST].
         cli-input-json: |-
             Reads arguments from the JSON string provided.
             The JSON string follows the  format  provided  by --generate-cli-skeleton.
@@ -46,9 +49,9 @@ documentation:
             If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
             This may  not  be  specified  along with --cli-input-yaml.
         iam-role-arn: |-
-            The Amazon Resource Name (ARN) of the IAM role to apply to the image builder. To assume a role, the image builder calls the AWS Security Token Service (STS) `AssumeRole` API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the **appstream\_machine\_role** credential profile on the instance.
+            The Amazon Resource Name (ARN) of the IAM role to apply to the image builder. To assume a role, the image builder calls the AWS Security Token Service (STS) `AssumeRole` API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. WorkSpaces Applications retrieves the temporary credentials and creates the **appstream\_machine\_role** credential profile on the instance.
 
-            For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html) in the *Amazon AppStream 2.0 Administration Guide*.
+            For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html) in the *Amazon WorkSpaces Applications Administration Guide*.
         image-arn: The ARN of the public, private, or shared image to use.
         image-name: The name of the image used to create the image builder.
         instance-type: |-
@@ -77,16 +80,12 @@ documentation:
             - stream.graphics-design.xlarge
             - stream.graphics-design.2xlarge
             - stream.graphics-design.4xlarge
-            - stream.graphics-desktop.2xlarge
             - stream.graphics.g4dn.xlarge
             - stream.graphics.g4dn.2xlarge
             - stream.graphics.g4dn.4xlarge
             - stream.graphics.g4dn.8xlarge
             - stream.graphics.g4dn.12xlarge
             - stream.graphics.g4dn.16xlarge
-            - stream.graphics-pro.4xlarge
-            - stream.graphics-pro.8xlarge
-            - stream.graphics-pro.16xlarge
             - stream.graphics.g5.xlarge
             - stream.graphics.g5.2xlarge
             - stream.graphics.g5.4xlarge
@@ -109,6 +108,65 @@ documentation:
             - stream.graphics.g6f.4xlarge
             - stream.graphics.gr6f.4xlarge
         name: A unique name for the image builder.
+        root-volume-config: The configuration for the root volume of the image builder. Use this to customize storage capacity from 200 GB up to 500 GB based on your application installation requirements.
+        softwares-to-install: |-
+            The list of license included applications to install on the image builder during creation.
+
+            Possible values include the following:
+
+            - Microsoft\_Office\_2021\_LTSC\_Professional\_Plus\_32Bit
+            - Microsoft\_Office\_2021\_LTSC\_Professional\_Plus\_64Bit
+            - Microsoft\_Office\_2024\_LTSC\_Professional\_Plus\_32Bit
+            - Microsoft\_Office\_2024\_LTSC\_Professional\_Plus\_64Bit
+            - Microsoft\_Visio\_2021\_LTSC\_Professional\_32Bit
+            - Microsoft\_Visio\_2021\_LTSC\_Professional\_64Bit
+            - Microsoft\_Visio\_2024\_LTSC\_Professional\_32Bit
+            - Microsoft\_Visio\_2024\_LTSC\_Professional\_64Bit
+            - Microsoft\_Project\_2021\_Professional\_32Bit
+            - Microsoft\_Project\_2021\_Professional\_64Bit
+            - Microsoft\_Project\_2024\_Professional\_32Bit
+            - Microsoft\_Project\_2024\_Professional\_64Bit
+            - Microsoft\_Office\_2021\_LTSC\_Standard\_32Bit
+            - Microsoft\_Office\_2021\_LTSC\_Standard\_64Bit
+            - Microsoft\_Office\_2024\_LTSC\_Standard\_32Bit
+            - Microsoft\_Office\_2024\_LTSC\_Standard\_64Bit
+            - Microsoft\_Visio\_2021\_LTSC\_Standard\_32Bit
+            - Microsoft\_Visio\_2021\_LTSC\_Standard\_64Bit
+            - Microsoft\_Visio\_2024\_LTSC\_Standard\_32Bit
+            - Microsoft\_Visio\_2024\_LTSC\_Standard\_64Bit
+            - Microsoft\_Project\_2021\_Standard\_32Bit
+            - Microsoft\_Project\_2021\_Standard\_64Bit
+            - Microsoft\_Project\_2024\_Standard\_32Bit
+            - Microsoft\_Project\_2024\_Standard\_64Bit
+        softwares-to-uninstall: |-
+            The list of license included applications to uninstall from the image builder during creation.
+
+            Possible values include the following:
+
+            - Microsoft\_Office\_2021\_LTSC\_Professional\_Plus\_32Bit
+            - Microsoft\_Office\_2021\_LTSC\_Professional\_Plus\_64Bit
+            - Microsoft\_Office\_2024\_LTSC\_Professional\_Plus\_32Bit
+            - Microsoft\_Office\_2024\_LTSC\_Professional\_Plus\_64Bit
+            - Microsoft\_Visio\_2021\_LTSC\_Professional\_32Bit
+            - Microsoft\_Visio\_2021\_LTSC\_Professional\_64Bit
+            - Microsoft\_Visio\_2024\_LTSC\_Professional\_32Bit
+            - Microsoft\_Visio\_2024\_LTSC\_Professional\_64Bit
+            - Microsoft\_Project\_2021\_Professional\_32Bit
+            - Microsoft\_Project\_2021\_Professional\_64Bit
+            - Microsoft\_Project\_2024\_Professional\_32Bit
+            - Microsoft\_Project\_2024\_Professional\_64Bit
+            - Microsoft\_Office\_2021\_LTSC\_Standard\_32Bit
+            - Microsoft\_Office\_2021\_LTSC\_Standard\_64Bit
+            - Microsoft\_Office\_2024\_LTSC\_Standard\_32Bit
+            - Microsoft\_Office\_2024\_LTSC\_Standard\_64Bit
+            - Microsoft\_Visio\_2021\_LTSC\_Standard\_32Bit
+            - Microsoft\_Visio\_2021\_LTSC\_Standard\_64Bit
+            - Microsoft\_Visio\_2024\_LTSC\_Standard\_32Bit
+            - Microsoft\_Visio\_2024\_LTSC\_Standard\_64Bit
+            - Microsoft\_Project\_2021\_Standard\_32Bit
+            - Microsoft\_Project\_2021\_Standard\_64Bit
+            - Microsoft\_Project\_2024\_Standard\_32Bit
+            - Microsoft\_Project\_2024\_Standard\_64Bit
         tags: |-
             The tags to associate with the image builder. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.
 
@@ -118,5 +176,5 @@ documentation:
 
             If you do not specify a value, the value is set to an empty string.
 
-            For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the *Amazon AppStream 2.0 Administration Guide*.
+            For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the *Amazon WorkSpaces Applications Administration Guide*.
         vpc-config: The VPC configuration for the image builder. You can specify only one subnet.

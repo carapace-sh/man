@@ -1,5 +1,5 @@
 name: put-resource-policy
-description: Creates or updates a resource policy allowing other Amazon Web Services services to put log events to this account, such as Amazon Route 53. An account can have up to 10 resource policies per Amazon Web Services Region.
+description: 'Creates or updates a resource policy allowing other Amazon Web Services services to put log events to this account, such as Amazon Route 53. This API has the following restrictions:'
 flags:
     --cli-input-json=: Read arguments from the JSON string provided.
     --cli-input-yaml=: Read arguments from the YAML string provided.
@@ -9,7 +9,14 @@ flags:
     --policy-name=: Name of the new policy.
     --resource-arn=: The ARN of the CloudWatch Logs resource to which the resource policy needs to be added or attached.
 documentation:
-    command: Creates or updates a resource policy allowing other Amazon Web Services services to put log events to this account, such as Amazon Route 53. An account can have up to 10 resource policies per Amazon Web Services Region.
+    command: |-
+        Creates or updates a resource policy allowing other Amazon Web Services services to put log events to this account, such as Amazon Route 53. This API has the following restrictions:
+
+        - **Supported actions** - Policy only supports `logs:PutLogEvents` and `logs:CreateLogStream` actions
+        - **Supported principals** - Policy only applies when operations are invoked by Amazon Web Services service principals (not IAM users, roles, or cross-account principals
+        - **Policy limits** - An account can have a maximum of 10 policies without resourceARN and one per LogGroup resourceARN
+
+        Resource policies with actions invoked by non-Amazon Web Services service principals (such as IAM users, roles, or other Amazon Web Services accounts) will not be enforced. For access control involving these principals, use the IAM policies.
     flag:
         cli-input-json: |-
             Reads arguments from the JSON string provided.

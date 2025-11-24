@@ -14,6 +14,7 @@ flags:
     --next-token=: Returned if all datapoints can't be returned in a single call.
     --period=: Granularity of data to retrieve, in seconds.
     --start-time=: Specifies, in UTC, the start time for time-series data.
+    --trail-name=: The Amazon Resource Name(ARN) or name of the trail for which you want to retrieve Insights metrics data.
 completion:
     flag:
         data-type:
@@ -34,7 +35,10 @@ documentation:
         - Data points with a period of 300 seconds (5-minute) are available for 63 days.
         - Data points with a period of 3600 seconds (1 hour) are available for 90 days.
 
-        Access to the `ListInsightsMetricData` API operation is linked to the `cloudtrail:LookupEvents` action. To use this operation, you must have permissions to perform the `cloudtrail:LookupEvents` action.
+        To use `ListInsightsMetricData` operation, you must have the following permissions:
+
+        - If `ListInsightsMetricData` is invoked with `TrailName` parameter, access to the `ListInsightsMetricData` API operation is linked to the `cloudtrail:LookupEvents` action and `cloudtrail:ListInsightsData`. To use this operation, you must have permissions to perform the `cloudtrail:LookupEvents` and `cloudtrail:ListInsightsData` action on the specific trail.
+        - If `ListInsightsMetricData` is invoked without `TrailName` parameter, access to the `ListInsightsMetricData` API operation is linked to the `cloudtrail:LookupEvents` action only. To use this operation, you must have permissions to perform the `cloudtrail:LookupEvents` action.
     flag:
         cli-input-json: |-
             Reads arguments from the JSON string provided.
@@ -73,3 +77,4 @@ documentation:
             Specifies, in UTC, the start time for time-series data. The value specified is inclusive; results include data points with the specified time stamp.
 
             The default is 90 days before the time of request.
+        trail-name: The Amazon Resource Name(ARN) or name of the trail for which you want to retrieve Insights metrics data. This parameter should only be provided to fetch Insights metrics data generated on trails logging data events. This parameter is not required for Insights metric data generated on trails logging management events.
