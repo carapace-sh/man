@@ -5,12 +5,13 @@ flags:
     --as2-config=: A structure that contains the parameters for an AS2 connector object.
     --cli-input-json=: Read arguments from the JSON string provided.
     --cli-input-yaml=: Read arguments from the YAML string provided.
+    --egress-config=: Specifies the egress configuration for the connector, which determines how traffic is routed from the connector to the SFTP server.
     --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --logging-role=: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events.
     --security-policy-name=: Specifies the name of the security policy for the connector.
     --sftp-config=: A structure that contains the parameters for an SFTP connector object.
     --tags=: Key-value pairs that can be used to group and search for connectors.
-    --url=!: The URL of the partner's AS2 or SFTP endpoint.
+    --url=: The URL of the partner's AS2 or SFTP endpoint.
 documentation:
     command: |-
         Creates the connector, which captures the parameters for a connection for the AS2 or SFTP protocol. For AS2, the connector is required for sending files to an externally hosted AS2 server. For SFTP, the connector is required when sending files to an SFTP server or receiving files from an SFTP server. For more details about connectors, see [Configure AS2 connectors](https://docs.aws.amazon.com/transfer/latest/userguide/configure-as2-connector.html) and [Create SFTP connectors](https://docs.aws.amazon.com/transfer/latest/userguide/configure-sftp-connector.html).
@@ -42,6 +43,7 @@ documentation:
             If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
             It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
             This may  not  be  specified  along with --cli-input-yaml.
+        egress-config: Specifies the egress configuration for the connector, which determines how traffic is routed from the connector to the SFTP server. When set to VPC, enables routing through customer VPCs using VPC\_LATTICE for private connectivity.
         generate-cli-skeleton: |-
             If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
             This may  not  be  specified  along with --cli-input-yaml.
@@ -49,4 +51,7 @@ documentation:
         security-policy-name: Specifies the name of the security policy for the connector.
         sftp-config: A structure that contains the parameters for an SFTP connector object.
         tags: Key-value pairs that can be used to group and search for connectors. Tags are metadata attached to connectors for any purpose.
-        url: The URL of the partner's AS2 or SFTP endpoint.
+        url: |-
+            The URL of the partner's AS2 or SFTP endpoint.
+
+            When creating AS2 connectors or service-managed SFTP connectors (connectors without egress configuration), you must provide a URL to specify the remote server endpoint. For VPC Lattice type connectors, the URL must be null.

@@ -2,6 +2,8 @@ name: associate-nat-gateway-address
 description: Associates Elastic IP addresses (EIPs) and private IPv4 addresses with a public NAT gateway.
 flags:
     --allocation-ids=!: The allocation IDs of EIPs that you want to associate with your NAT gateway.
+    --availability-zone-id=: 'For regional NAT gateways only: The ID of the Availability Zone where you want to associate an Elastic IP address (EIP).'
+    --availability-zone=: 'For regional NAT gateways only: The Availability Zone where you want to associate an Elastic IP address (EIP).'
     --cli-input-json=: Read arguments from the JSON string provided.
     --cli-input-yaml=: Read arguments from the YAML string provided.
     --dry-run: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response.
@@ -18,6 +20,14 @@ documentation:
         When you associate an EIP or secondary EIPs with a public NAT gateway, the network border group of the EIPs must match the network border group of the Availability Zone (AZ) that the public NAT gateway is in. If it's not the same, the EIP will fail to associate. You can see the network border group for the subnet's AZ by viewing the details of the subnet. Similarly, you can view the network border group of an EIP by viewing the details of the EIP address. For more information about network border groups and EIPs, see [Allocate an Elastic IP address](https://docs.aws.amazon.com/vpc/latest/userguide/WorkWithEIPs.html) in the *Amazon VPC User Guide*.
     flag:
         allocation-ids: The allocation IDs of EIPs that you want to associate with your NAT gateway.
+        availability-zone: |-
+            For regional NAT gateways only: The Availability Zone where you want to associate an Elastic IP address (EIP). The regional NAT gateway uses a separate EIP in each AZ to handle outbound NAT traffic from that AZ.
+
+            A regional NAT gateway is a single NAT Gateway that works across multiple availability zones (AZs) in your VPC, providing redundancy, scalability and availability across all the AZs in a Region.
+        availability-zone-id: |-
+            For regional NAT gateways only: The ID of the Availability Zone where you want to associate an Elastic IP address (EIP). The regional NAT gateway uses a separate EIP in each AZ to handle outbound NAT traffic from that AZ. Use this instead of AvailabilityZone for consistent identification of AZs across Amazon Web Services Regions.
+
+            A regional NAT gateway is a single NAT Gateway that works across multiple availability zones (AZs) in your VPC, providing redundancy, scalability and availability across all the AZs in a Region.
         cli-input-json: |-
             Reads arguments from the JSON string provided.
             The JSON string follows the  format  provided  by --generate-cli-skeleton.

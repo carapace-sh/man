@@ -8,7 +8,25 @@ flags:
     --instance-id=!: The identifier of the Amazon Connect instance.
     --user-id=!: The identifier for the user.
 documentation:
-    command: "Associates a queued contact with an agent.\n\n**Use cases**\n\nFollowing are common uses cases for this API:\n\n- Custom contact routing. You can build custom contact routing mechanisms beyond the default system routing in Amazon Connect. You can create tailored contact distribution logic that offers queued contacts directly to specific agents.\n- Manual contact assignment. You can programmatically assign queued contacts to available users. This provides flexibility to contact centers that require manual oversight or specialized routing workflows outside of standard queue management.\n  \n  For information about how manual contact assignment works in the agent workspace, see the [Access the Worklist app in the Amazon Connect agent workspace](https://docs.aws.amazon.com/connect/latest/adminguide/worklist-app.html) in the *Amazon Connect Administrator Guide*.\n\n**Important things to know**\n\n- Use this API chat/SMS, email, and task contacts. It does not support voice contacts.\n- Use it to associate contacts with users regardless of their current state, including custom states. Ensure your application logic accounts for user availability before making associations.\n- It honors the IAM context key `connect:PreferredUserArn` to prevent unauthorized contact associations.\n- It respects the IAM context key `connect:PreferredUserArn` to enforce authorization controls and prevent unauthorized contact associations. Verify that your IAM policies are properly configured to support your intended use cases.\n\n**Endpoints**: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html)."
+    command: |-
+        Associates a queued contact with an agent.
+
+        **Use cases**
+
+        Following are common uses cases for this API:
+
+        - Programmatically assign queued contacts to available users.
+        - Leverage the IAM context key `connect:PreferredUserArn` to restrict contact association to specific preferred user.
+
+        **Important things to know**
+
+        - Use this API with chat, email, and task contacts. It does not support voice contacts.
+        - Use it to associate contacts with users regardless of their current state, including custom states. Ensure your application logic accounts for user availability before making associations.
+        - It honors the IAM context key `connect:PreferredUserArn` to prevent unauthorized contact associations.
+        - It respects the IAM context key `connect:PreferredUserArn` to enforce authorization controls and prevent unauthorized contact associations. Verify that your IAM policies are properly configured to support your intended use cases.
+        - The service quota *Queues per routing profile per instance* applies to manually assigned queues, too. For more information about this quota, see [Amazon Connect quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#connect-quotas) in the *Amazon Connect Administrator Guide*.
+
+        **Endpoints**: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
     flag:
         cli-input-json: |-
             Reads arguments from the JSON string provided.

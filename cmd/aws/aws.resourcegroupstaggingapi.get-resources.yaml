@@ -27,6 +27,10 @@ documentation:
         - Information about compliance with the account's effective tag policy. For more information on tag policies, see [Tag Policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html) in the *Organizations User Guide.*
 
         This operation supports pagination, where the response can be sent in multiple pages. You should check the `PaginationToken` response parameter to determine if there are additional results available to return. Repeat the query, passing the `PaginationToken` response parameter value as an input to the next request until you recieve a `null` value. A null value for `PaginationToken` indicates that there are no more results waiting to be returned.
+
+        `GetResources` does not return untagged resources.
+
+        To find untagged resources in your account, use Amazon Web Services Resource Explorer with a query that uses `tag:none`. For more information, see [Search query syntax reference for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/using-search-query-syntax.html).
     flag:
         cli-input-json: |-
             Reads arguments from the JSON string provided.
@@ -64,15 +68,25 @@ documentation:
             For usage examples, see Pagination in the AWS Command Line Interface User Guide.
         pagination-token: Specifies a `PaginationToken` response value from a previous request to indicate that you want the next page of results. Leave this parameter empty in your initial request.
         resource-arn-list: |-
-            Specifies a list of ARNs of resources for which you want to retrieve tag data. You can't specify both this parameter and any of the pagination parameters (`ResourcesPerPage`, `TagsPerPage`, `PaginationToken`) in the same request. If you specify both, you get an `Invalid Parameter` exception.
+            Specifies a list of ARNs of resources for which you want to retrieve tag data.
+
+            You can't specify both this parameter and the `ResourceTypeFilters` parameter in the same request. If you do, you get an `Invalid Parameter` exception.
+
+            You can't specify both this parameter and the `TagFilters` parameter in the same request. If you do, you get an `Invalid Parameter` exception.
+
+            You can't specify both this parameter and any of the pagination parameters (`ResourcesPerPage`, `TagsPerPage`, `PaginationToken`) in the same request. If you do, you get an `Invalid Parameter` exception.
 
             If a resource specified by this parameter doesn't exist, it doesn't generate an error; it simply isn't included in the response.
 
             An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the *Amazon Web Services General Reference*.
         resource-type-filters: |-
-            Specifies the resource types that you want included in the response. The format of each resource type is `service[:resourceType]`. For example, specifying a resource type of `ec2` returns all Amazon EC2 resources (which includes EC2 instances). Specifying a resource type of `ec2:instance` returns only EC2 instances.
+            Specifies the resource types that you want included in the response. The format of each resource type is `service[:resourceType]`. For example, specifying a service of `ec2` returns all Amazon EC2 resources (which includes EC2 instances). Specifying a resource type of `ec2:instance` returns only EC2 instances.
 
-            The string for each service name and resource type is the same as that embedded in a resource's Amazon Resource Name (ARN). For the list of services whose resources you can use in this parameter, see [Services that support the Resource Groups Tagging API](https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/supported-services.html).
+            You can't specify both this parameter and the `ResourceArnList` parameter in the same request. If you do, you get an `Invalid Parameter` exception.
+
+            The string for each service name and resource type is the same as that embedded in a resource's Amazon Resource Name (ARN).
+
+            For the list of services whose resources you can tag using the Resource Groups Tagging API, see [Services that support the Resource Groups Tagging API](https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/supported-services.html). If an Amazon Web Services service isn't listed on that page, you might still be able to tag that service's resources by using that service's native tagging operations instead of using Resource Groups Tagging API operations. All tagged resources, whether the tagging used the Resource Groups Tagging API or not, are returned by the `Get*` operation.
 
             You can specify multiple resource types by using an array. The array can include up to 100 items. Note that the length constraint requirement applies to each resource type filter. For example, the following string would limit the response to only Amazon EC2 instances, Amazon S3 buckets, or any Audit Manager resource:
 
@@ -83,7 +97,7 @@ documentation:
             This is the NextToken from a previously truncated response.
 
             For usage examples, see Pagination in the AWS Command Line Interface User Guide.
-        tag-filters: "Specifies a list of TagFilters (keys and values) to restrict the output to only those resources that have tags with the specified keys and, if included, the specified values. Each `TagFilter` must contain a key with values optional. A request can include up to 50 keys, and each key can include up to 20 values.\n\nNote the following when deciding how to use TagFilters:\n\n- If you *don't* specify a `TagFilter`, the response includes all resources that are currently tagged or ever had a tag. Resources that currently don't have tags are shown with an empty tag set, like this: `\"Tags\": []`.\n- If you specify more than one filter in a single request, the response returns only those resources that satisfy all filters.\n- If you specify a filter that contains more than one value for a key, the response returns resources that match *any* of the specified values for that key.\n- If you don't specify a value for a key, the response returns all resources that are tagged with that key, with any or no value.\n  \n  For example, for the following filters: `filter1= {keyA,{value1}}`, `filter2={keyB,{value2,value3,value4}}`, `filter3= {keyC}`:\n  \n  - `GetResources({filter1})` returns resources tagged with `key1=value1`\n  - `GetResources({filter2})` returns resources tagged with `key2=value2` or `key2=value3` or `key2=value4`\n  - `GetResources({filter3})` returns resources tagged with any tag with the key `key3`, and with any or no value\n  - `GetResources({filter1,filter2,filter3})` returns resources tagged with `(key1=value1) and (key2=value2 or key2=value3 or key2=value4) and (key3, any or no value)`"
+        tag-filters: "Specifies a list of TagFilters (keys and values) to restrict the output to only those resources that have tags with the specified keys and, if included, the specified values. Each `TagFilter` must contain a key with values optional. A request can include up to 50 keys, and each key can include up to 20 values.\n\nYou can't specify both this parameter and the `ResourceArnList` parameter in the same request. If you do, you get an `Invalid Parameter` exception.\n\nNote the following when deciding how to use TagFilters:\n\n- If you *don't* specify a `TagFilter`, the response includes all resources that are currently tagged or ever had a tag. Resources that were previously tagged, *but do not currently* have tags, are shown with an empty tag set, like this: `\"Tags\": []`.\n- If you specify more than one filter in a single request, the response returns only those resources that satisfy all filters.\n- If you specify a filter that contains more than one value for a key, the response returns resources that match *any* of the specified values for that key.\n- If you don't specify a value for a key, the response returns all resources that are tagged with that key, with any or no value.\n  \n  For example, for the following filters: `filter1= {key1,{value1}}`, `filter2={key2,{value2,value3,value4}}`, `filter3= {key3}`:\n  \n  - `GetResources({filter1})` returns resources tagged with `key1=value1`\n  - `GetResources({filter2})` returns resources tagged with `key2=value2` or `key2=value3` or `key2=value4`\n  - `GetResources({filter3})` returns resources tagged with any tag with the key `key3`, and with any or no value\n  - `GetResources({filter1,filter2,filter3})` returns resources tagged with `(key1=value1) and (key2=value2 or key2=value3 or key2=value4) and (key3, any or no value)`"
         tags-per-page: |-
             Amazon Web Services recommends using `ResourcesPerPage` instead of this parameter.
 

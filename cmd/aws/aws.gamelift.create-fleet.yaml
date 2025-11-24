@@ -1,5 +1,5 @@
 name: create-fleet
-description: Creates a fleet of compute resources to host your game servers.
+description: '**This API works with the following fleet types:** EC2, Anywhere, Container'
 flags:
     --anywhere-configuration=: Amazon GameLift Servers Anywhere configuration options.
     --build-id=: The unique identifier for a custom game server build to be deployed to a fleet with compute type `EC2`.
@@ -8,8 +8,8 @@ flags:
     --cli-input-yaml=: Read arguments from the YAML string provided.
     --compute-type=: The type of compute resource used to host your game servers.
     --description=: A description for the fleet.
-    --e-c2-inbound-permissions=: The IP address ranges and port settings that allow inbound traffic to access game server processes and other processes on this fleet.
-    --e-c2-instance-type=: The Amazon GameLift Servers-supported Amazon EC2 instance type to use with managed EC2 fleets.
+    --ec2-inbound-permissions=: The IP address ranges and port settings that allow inbound traffic to access game server processes and other processes on this fleet.
+    --ec2-instance-type=: The Amazon GameLift Servers-supported Amazon EC2 instance type to use with managed EC2 fleets.
     --fleet-type=: Indicates whether to use On-Demand or Spot instances for this fleet.
     --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
     --instance-role-arn=: A unique identifier for an IAM role that manages access to your Amazon Web Services services.
@@ -32,7 +32,7 @@ completion:
         compute-type:
             - EC2
             - ANYWHERE
-        e-c2-instance-type:
+        ec2-instance-type:
             - t2.micro
             - t2.small
             - t2.medium
@@ -548,7 +548,9 @@ completion:
             - FullProtection
 documentation:
     command: |-
-        Creates a fleet of compute resources to host your game servers. Use this operation to set up the following types of fleets based on compute type:
+        **This API works with the following fleet types:** EC2, Anywhere, Container
+
+        Creates a fleet of compute resources to host your game servers. Use this operation to set up a fleet for the following compute types:
 
         **Managed EC2 fleet**
 
@@ -567,6 +569,8 @@ documentation:
         If successful, this operation creates a new fleet resource and places it in `NEW` status while Amazon GameLift Servers initiates the [fleet creation workflow](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-creating-all.html#fleets-creation-workflow). To debug your fleet, fetch logs, view performance metrics or other actions on the fleet, create a development fleet with port 22/3389 open. As a best practice, we recommend opening ports for remote access only when you need them and closing them when you're finished.
 
         When the fleet status is ACTIVE, you can adjust capacity settings and turn autoscaling on/off for each location.
+
+        A managed fleet's runtime environment depends on the Amazon Machine Image (AMI) version it uses. When a new fleet is created, Amazon GameLift Servers assigns the latest available AMI version to the fleet, and all compute instances in that fleet are deployed with that version. To update the AMI version, you must create a new fleet. As a best practice, we recommend replacing your managed fleets every 30 days to maintain a secure and up-to-date runtime environment for your hosted game servers. For guidance, see [Security best practices for Amazon GameLift Servers](https://docs.aws.amazon.com/gameliftservers/latest/developerguide/security-best-practices.html).
 
         **Anywhere fleet**
 
@@ -614,8 +618,8 @@ documentation:
             - `EC2` – The game server build is deployed to Amazon EC2 instances for cloud hosting. This is the default setting.
             - `ANYWHERE` – Game servers and supporting software are deployed to compute resources that you provide and manage. With this compute type, you can also set the `AnywhereConfiguration` parameter.
         description: A description for the fleet.
-        e-c2-inbound-permissions: The IP address ranges and port settings that allow inbound traffic to access game server processes and other processes on this fleet. Set this parameter for managed EC2 fleets. You can leave this parameter empty when creating the fleet, but you must call [https://docs.aws.amazon.com/gamelift/latest/apireference/API\_UpdateFleetPortSettings](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateFleetPortSettings) to set it before players can connect to game sessions. As a best practice, we recommend opening ports for remote access only when you need them and closing them when you're finished. For Amazon GameLift Servers Realtime fleets, Amazon GameLift Servers automatically sets TCP and UDP ranges.
-        e-c2-instance-type: The Amazon GameLift Servers-supported Amazon EC2 instance type to use with managed EC2 fleets. Instance type determines the computing resources that will be used to host your game servers, including CPU, memory, storage, and networking capacity. See [Amazon Elastic Compute Cloud Instance Types](http://aws.amazon.com/ec2/instance-types/) for detailed descriptions of Amazon EC2 instance types.
+        ec2-inbound-permissions: The IP address ranges and port settings that allow inbound traffic to access game server processes and other processes on this fleet. Set this parameter for managed EC2 fleets. You can leave this parameter empty when creating the fleet, but you must call [https://docs.aws.amazon.com/gamelift/latest/apireference/API\_UpdateFleetPortSettings](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateFleetPortSettings) to set it before players can connect to game sessions. As a best practice, we recommend opening ports for remote access only when you need them and closing them when you're finished. For Amazon GameLift Servers Realtime fleets, Amazon GameLift Servers automatically sets TCP and UDP ranges.
+        ec2-instance-type: The Amazon GameLift Servers-supported Amazon EC2 instance type to use with managed EC2 fleets. Instance type determines the computing resources that will be used to host your game servers, including CPU, memory, storage, and networking capacity. See [Amazon Elastic Compute Cloud Instance Types](http://aws.amazon.com/ec2/instance-types/) for detailed descriptions of Amazon EC2 instance types.
         fleet-type: Indicates whether to use On-Demand or Spot instances for this fleet. By default, this property is set to `ON_DEMAND`. Learn more about when to use [On-Demand versus Spot Instances](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-ec2-instances.html#gamelift-ec2-instances-spot). This fleet property can't be changed after the fleet is created.
         generate-cli-skeleton: |-
             If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
