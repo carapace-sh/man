@@ -6,12 +6,16 @@ flags:
     --constraints=: Specifies a grant constraint.
     --dry-run: Checks if your request will succeed.
     --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
-    --grant-tokens=: A list of grant tokens.
+    --grant-tokens=:
+        description: A list of grant tokens.
+        nargs: -1
     --grantee-principal=!: The identity that gets the permissions specified in the grant.
     --key-id=!: Identifies the KMS key for the grant.
     --name=: A friendly name for the grant.
     --no-dry-run: Checks if your request will succeed.
-    --operations=!: A list of operations that the grant permits.
+    --operations=!:
+        description: A list of operations that the grant permits.
+        nargs: -1
     --retiring-principal=: The principal that has permission to use the [RetireGrant]() operation to retire the grant.
 documentation:
     command: "Adds a grant to a KMS key.\n\nA *grant* is a policy instrument that allows Amazon Web Services principals to use KMS keys in cryptographic operations. It also can allow them to view a KMS key ([DescribeKey]()) and create and manage grants. When authorizing access to a KMS key, grants are considered along with key policies and IAM policies. Grants are often used for temporary permissions because you can create one, use its permissions, and delete it without changing your key policies or IAM policies.\n\nFor detailed information about grants, including grant terminology, see [Grants in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html) in the *Key Management Service Developer Guide* . For examples of creating grants in several programming languages, see [Use CreateGrant with an Amazon Web Services SDK or CLI](https://docs.aws.amazon.com/kms/latest/developerguide/example_kms_CreateGrant_section.html).\n\nThe `CreateGrant` operation returns a `GrantToken` and a `GrantId`.\n\n- When you create, retire, or revoke a grant, there might be a brief delay, usually less than five minutes, until the grant is available throughout KMS. This state is known as *eventual consistency*. Once the grant has achieved eventual consistency, the grantee principal can use the permissions in the grant without identifying the grant.\n  \n  However, to use the permissions in the grant immediately, use the `GrantToken` that `CreateGrant` returns. For details, see [Using a grant token](https://docs.aws.amazon.com/kms/latest/developerguide/using-grant-token.html) in the *Key Management Service Developer Guide* .\n- The `CreateGrant` operation also returns a `GrantId`. You can use the `GrantId` and a key identifier to identify the grant in the [RetireGrant]() and [RevokeGrant]() operations. To find the grant ID, use the [ListGrants]() or [ListRetirableGrants]() operations.\n\nThe KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the *Key Management Service Developer Guide*.\n\n**Cross-account use**: Yes. To perform this operation on a KMS key in a different Amazon Web Services account, specify the key ARN in the value of the `KeyId` parameter.\n\n**Required permissions**: [kms:CreateGrant](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy)\n\n**Related operations:**\n\n- [ListGrants]()\n- [ListRetirableGrants]()\n- [RetireGrant]()\n- [RevokeGrant]()\n\n**Eventual consistency**: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency)."

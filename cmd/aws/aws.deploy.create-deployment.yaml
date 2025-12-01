@@ -1,0 +1,76 @@
+name: create-deployment
+description: Deploys an application revision through the specified deployment group.
+flags:
+    --application-name=!: The name of an CodeDeploy application associated with the user or Amazon Web Services account.
+    --auto-rollback-configuration=: Configuration information for an automatic rollback that is added when a deployment is created.
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
+    --deployment-config-name=: The name of a deployment configuration associated with the user or Amazon Web Services account.
+    --deployment-group-name=: The name of the deployment group.
+    --description=: A comment about the deployment.
+    --file-exists-behavior=: Information about how CodeDeploy handles files that already exist in a deployment target location but weren't part of the previous successful deployment.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
+    --github-location=: Information about the location of the application revision in GitHub
+    --ignore-application-stop-failures: If true, then if an `ApplicationStop`, `BeforeBlockTraffic`, or `AfterBlockTraffic` deployment lifecycle event to an instance fails, then the deployment continues to the next deployment lifecycle event.
+    --no-ignore-application-stop-failures: If true, then if an `ApplicationStop`, `BeforeBlockTraffic`, or `AfterBlockTraffic` deployment lifecycle event to an instance fails, then the deployment continues to the next deployment lifecycle event.
+    --no-update-outdated-instances-only: Indicates whether to deploy to all instances or only to instances that are not running the latest application revision.
+    --override-alarm-configuration=: Allows you to specify information about alarms associated with a deployment.
+    --revision=: The type and location of the revision to deploy.
+    --s3-location=: Information about the location of the application revision in Amazon S3
+    --target-instances=: Information about the instances that belong to the replacement environment in a blue/green deployment.
+    --update-outdated-instances-only: Indicates whether to deploy to all instances or only to instances that are not running the latest application revision.
+completion:
+    flag:
+        file-exists-behavior:
+            - DISALLOW
+            - OVERWRITE
+            - RETAIN
+documentation:
+    command: Deploys an application revision through the specified deployment group.
+    flag:
+        application-name: The name of an CodeDeploy application associated with the user or Amazon Web Services account.
+        auto-rollback-configuration: Configuration information for an automatic rollback that is added when a deployment is created.
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        deployment-config-name: |-
+            The name of a deployment configuration associated with the user or Amazon Web Services account.
+
+            If not specified, the value configured in the deployment group is used as the default. If the deployment group does not have a deployment configuration associated with it, `CodeDeployDefault`.`OneAtATime` is used by default.
+        deployment-group-name: The name of the deployment group.
+        description: A comment about the deployment.
+        file-exists-behavior: |-
+            Information about how CodeDeploy handles files that already exist in a deployment target location but weren't part of the previous successful deployment.
+
+            The `fileExistsBehavior` parameter takes any of the following values:
+
+            - DISALLOW: The deployment fails. This is also the default behavior if no option is specified.
+            - OVERWRITE: The version of the file from the application revision currently being deployed replaces the version already on the instance.
+            - RETAIN: The version of the file already on the instance is kept and used as part of the new deployment.
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        ignore-application-stop-failures: |-
+            If true, then if an `ApplicationStop`, `BeforeBlockTraffic`, or `AfterBlockTraffic` deployment lifecycle event to an instance fails, then the deployment continues to the next deployment lifecycle event. For example, if `ApplicationStop` fails, the deployment continues with `DownloadBundle`. If `BeforeBlockTraffic` fails, the deployment continues with `BlockTraffic`. If `AfterBlockTraffic` fails, the deployment continues with `ApplicationStop`.
+
+            If false or not specified, then if a lifecycle event fails during a deployment to an instance, that deployment fails. If deployment to that instance is part of an overall deployment and the number of healthy hosts is not less than the minimum number of healthy hosts, then a deployment to the next instance is attempted.
+
+            During a deployment, the CodeDeploy agent runs the scripts specified for `ApplicationStop`, `BeforeBlockTraffic`, and `AfterBlockTraffic` in the AppSpec file from the previous successful deployment. (All other scripts are run from the AppSpec file in the current deployment.) If one of these scripts contains an error and does not run successfully, the deployment can fail.
+
+            If the cause of the failure is a script from the last successful deployment that will never run successfully, create a new deployment and use `ignoreApplicationStopFailures` to specify that the `ApplicationStop`, `BeforeBlockTraffic`, and `AfterBlockTraffic` failures should be ignored.
+        override-alarm-configuration: |-
+            Allows you to specify information about alarms associated with a deployment. The alarm configuration that you specify here will override the alarm configuration at the deployment group level. Consider overriding the alarm configuration if you have set up alarms at the deployment group level that are causing deployment failures. In this case, you would call `CreateDeployment` to create a new deployment that uses a previous application revision that is known to work, and set its alarm configuration to turn off alarm polling. Turning off alarm polling ensures that the new deployment proceeds without being blocked by the alarm that was generated by the previous, failed, deployment.
+
+            If you specify an `overrideAlarmConfiguration`, you need the `UpdateDeploymentGroup` IAM permission when calling `CreateDeployment`.
+        revision: The type and location of the revision to deploy.
+        target-instances: Information about the instances that belong to the replacement environment in a blue/green deployment.
+        update-outdated-instances-only: Indicates whether to deploy to all instances or only to instances that are not running the latest application revision.

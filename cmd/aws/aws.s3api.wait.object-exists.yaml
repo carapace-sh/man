@@ -1,0 +1,138 @@
+name: object-exists
+description: The `HEAD` operation retrieves metadata from an object without returning the object itself.
+flags:
+    --bucket=!: The name of the bucket that contains the object.
+    --checksum-mode=: To retrieve the checksum, this parameter must be enabled.
+    --cli-input-json=: Read arguments from the JSON string provided.
+    --cli-input-yaml=: Read arguments from the YAML string provided.
+    --expected-bucket-owner=: The account ID of the expected bucket owner.
+    --generate-cli-skeleton: Prints a JSON skeleton to standard output without sending an API request.
+    --if-match=: Return the object only if its entity tag (ETag) is the same as the one specified; otherwise, return a 412 (precondition failed) error.
+    --if-modified-since=: Return the object only if it has been modified since the specified time; otherwise, return a 304 (not modified) error.
+    --if-none-match=: Return the object only if its entity tag (ETag) is different from the one specified; otherwise, return a 304 (not modified) error.
+    --if-unmodified-since=: Return the object only if it has not been modified since the specified time; otherwise, return a 412 (precondition failed) error.
+    --key=!: The object key.
+    --part-number=: Part number of the object being read.
+    --range=: HeadObject returns only the metadata for an object.
+    --request-payer=: ""
+    --response-cache-control=: Sets the `Cache-Control` header of the response.
+    --response-content-disposition=: Sets the `Content-Disposition` header of the response.
+    --response-content-encoding=: Sets the `Content-Encoding` header of the response.
+    --response-content-language=: Sets the `Content-Language` header of the response.
+    --response-content-type=: Sets the `Content-Type` header of the response.
+    --response-expires=: Sets the `Expires` header of the response.
+    --sse-customer-algorithm=: Specifies the algorithm to use when encrypting the object (for example, AES256).
+    --sse-customer-key-md5=: Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
+    --sse-customer-key=: Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data.
+    --version-id=: Version ID used to reference a specific version of the object.
+completion:
+    flag:
+        checksum-mode:
+            - ENABLED
+        request-payer:
+            - requester
+documentation:
+    command: "The `HEAD` operation retrieves metadata from an object without returning the object itself. This operation is useful if you're interested only in an object's metadata.\n\nA `HEAD` request has the same options as a `GET` operation on an object. The response is identical to the `GET` response except that there is no response body. Because of this, if the `HEAD` request generates an error, it returns a generic code, such as `400 Bad Request`, `403 Forbidden`, `404 Not Found`, `405 Method Not Allowed`, `412 Precondition Failed`, or `304 Not Modified`. It's not possible to retrieve the exact exception of these error codes.\n\nRequest headers are limited to 8 KB in size. For more information, see [Common Request Headers](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTCommonRequestHeaders.html).\n\nPermissions\n\n- **General purpose bucket permissions** - To use `HEAD`, you must have the `s3:GetObject` permission. You need the relevant read object (or version) permission for this operation. For more information, see [Actions, resources, and condition keys for Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/dev/list_amazons3.html) in the *Amazon S3 User Guide*. For more information about the permissions to S3 API operations by S3 resource types, see [Required permissions for Amazon S3 API operations](/AmazonS3/latest/userguide/using-with-s3-policy-actions.html) in the *Amazon S3 User Guide*.\n  \n  If the object you request doesn't exist, the error that Amazon S3 returns depends on whether you also have the `s3:ListBucket` permission.\n  \n  - If you have the `s3:ListBucket` permission on the bucket, Amazon S3 returns an HTTP status code `404 Not Found` error.\n  - If you don’t have the `s3:ListBucket` permission, Amazon S3 returns an HTTP status code `403 Forbidden` error.\n- **Directory bucket permissions** - To grant access to this API operation on a directory bucket, we recommend that you use the [`CreateSession`](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html) API operation for session-based authorization. Specifically, you grant the `s3express:CreateSession` permission to the directory bucket in a bucket policy or an IAM identity-based policy. Then, you make the `CreateSession` API call on the bucket to obtain a session token. With the session token in your request header, you can make API requests to this operation. After the session token expires, you make another `CreateSession` API call to generate a new session token for use. Amazon Web Services CLI or SDKs create session and refresh the session token automatically to avoid service interruptions when a session expires. For more information about authorization, see [`CreateSession`](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html) .\n  \n  If you enable `x-amz-checksum-mode` in the request and the object is encrypted with Amazon Web Services Key Management Service (Amazon Web Services KMS), you must also have the `kms:GenerateDataKey` and `kms:Decrypt` permissions in IAM identity-based policies and KMS key policies for the KMS key to retrieve the checksum of the object.\n\nEncryption\n\nEncryption request headers, like `x-amz-server-side-encryption`, should not be sent for `HEAD` requests if your object uses server-side encryption with Key Management Service (KMS) keys (SSE-KMS), dual-layer server-side encryption with Amazon Web Services KMS keys (DSSE-KMS), or server-side encryption with Amazon S3 managed encryption keys (SSE-S3). The `x-amz-server-side-encryption` header is used when you `PUT` an object to S3 and want to specify the encryption method. If you include this header in a `HEAD` request for an object that uses these types of keys, you’ll get an HTTP `400 Bad Request` error. It's because the encryption method can't be changed when you retrieve the object.\n\nIf you encrypt an object by using server-side encryption with customer-provided encryption keys (SSE-C) when you store the object in Amazon S3, then when you retrieve the metadata from the object, you must use the following headers to provide the encryption key for the server to be able to retrieve the object's metadata. The headers are:\n\n- `x-amz-server-side-encryption-customer-algorithm`\n- `x-amz-server-side-encryption-customer-key`\n- `x-amz-server-side-encryption-customer-key-MD5`\n\nFor more information about SSE-C, see [Server-Side Encryption (Using Customer-Provided Encryption Keys)](https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html) in the *Amazon S3 User Guide*.\n\n**Directory bucket** - For directory buckets, there are only two supported options for server-side encryption: SSE-S3 and SSE-KMS. SSE-C isn't supported. For more information, see [Protecting data with server-side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-serv-side-encryption.html) in the *Amazon S3 User Guide*.\n\nVersioning\n\n- If the current version of the object is a delete marker, Amazon S3 behaves as if the object was deleted and includes `x-amz-delete-marker: true` in the response.\n- If the specified version is a delete marker, the response returns a `405 Method Not Allowed` error and the `Last-Modified: timestamp` response header.\n\n<!--THE END-->\n\n- **Directory buckets** - Delete marker is not supported for directory buckets.\n- **Directory buckets** - S3 Versioning isn't enabled and supported for directory buckets. For this API operation, only the `null` value of the version ID is supported by directory buckets. You can only specify `null` to the `versionId` query parameter in the request.\n\nHTTP Host header syntax\n\n**Directory buckets** - The HTTP Host header syntax is `Bucket-name.s3express-zone-id.region-code.amazonaws.com`.\n\nFor directory buckets, you must make requests for this API operation to the Zonal endpoint. These endpoints support virtual-hosted-style requests in the format `https://amzn-s3-demo-bucket.s3express-zone-id.region-code.amazonaws.com/key-name`. Path-style requests are not supported. For more information about endpoints in Availability Zones, see [Regional and Zonal endpoints for directory buckets in Availability Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html) in the *Amazon S3 User Guide*. For more information about endpoints in Local Zones, see [Concepts for directory buckets in Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html) in the *Amazon S3 User Guide*.\n\nThe following actions are related to `HeadObject`:\n\n- [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)\n- [GetObjectAttributes](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html)\n\nYou must URL encode any signed header values that contain spaces. For example, if your header value is `my file.txt`, containing two spaces after `my`, you must URL encode this value to `my%20%20file.txt`."
+    flag:
+        bucket: |-
+            The name of the bucket that contains the object.
+
+            **Directory buckets** - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format `Bucket-name.s3express-zone-id.region-code.amazonaws.com`. Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format `bucket-base-name--zone-id--x-s3` (for example, `amzn-s3-demo-bucket--usw2-az1--x-s3`). For information about bucket naming restrictions, see [Directory bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html) in the *Amazon S3 User Guide*.
+
+            **Access points** - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for directory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form *AccessPointName*-*AccountId*.s3-accesspoint.*Region*.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the *Amazon S3 User Guide*.
+
+            Object Lambda access points are not supported by directory buckets.
+
+            **S3 on Outposts** - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form `AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com`. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the *Amazon S3 User Guide*.
+        checksum-mode: |-
+            To retrieve the checksum, this parameter must be enabled.
+
+            **General purpose buckets** - If you enable checksum mode and the object is uploaded with a [checksum](https://docs.aws.amazon.com/AmazonS3/latest/API/API_Checksum.html) and encrypted with an Key Management Service (KMS) key, you must have permission to use the `kms:Decrypt` action to retrieve the checksum.
+
+            **Directory buckets** - If you enable `ChecksumMode` and the object is encrypted with Amazon Web Services Key Management Service (Amazon Web Services KMS), you must also have the `kms:GenerateDataKey` and `kms:Decrypt` permissions in IAM identity-based policies and KMS key policies for the KMS key to retrieve the checksum of the object.
+        cli-input-json: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        cli-input-yaml: |-
+            Reads arguments from the JSON string provided.
+            The JSON string follows the  format  provided  by --generate-cli-skeleton.
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values.
+            It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        expected-bucket-owner: The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code `403 Forbidden` (access denied).
+        generate-cli-skeleton: |-
+            If other arguments are provided on the command line,  those  values  will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally.
+            This may  not  be  specified  along with --cli-input-yaml.
+        if-match: |-
+            Return the object only if its entity tag (ETag) is the same as the one specified; otherwise, return a 412 (precondition failed) error.
+
+            If both of the `If-Match` and `If-Unmodified-Since` headers are present in the request as follows:
+
+            - `If-Match` condition evaluates to `true`, and;
+            - `If-Unmodified-Since` condition evaluates to `false`;
+
+            Then Amazon S3 returns `200 OK` and the data requested.
+
+            For more information about conditional requests, see [RFC 7232](https://tools.ietf.org/html/rfc7232).
+        if-modified-since: |-
+            Return the object only if it has been modified since the specified time; otherwise, return a 304 (not modified) error.
+
+            If both of the `If-None-Match` and `If-Modified-Since` headers are present in the request as follows:
+
+            - `If-None-Match` condition evaluates to `false`, and;
+            - `If-Modified-Since` condition evaluates to `true`;
+
+            Then Amazon S3 returns the `304 Not Modified` response code.
+
+            For more information about conditional requests, see [RFC 7232](https://tools.ietf.org/html/rfc7232).
+        if-none-match: |-
+            Return the object only if its entity tag (ETag) is different from the one specified; otherwise, return a 304 (not modified) error.
+
+            If both of the `If-None-Match` and `If-Modified-Since` headers are present in the request as follows:
+
+            - `If-None-Match` condition evaluates to `false`, and;
+            - `If-Modified-Since` condition evaluates to `true`;
+
+            Then Amazon S3 returns the `304 Not Modified` response code.
+
+            For more information about conditional requests, see [RFC 7232](https://tools.ietf.org/html/rfc7232).
+        if-unmodified-since: |-
+            Return the object only if it has not been modified since the specified time; otherwise, return a 412 (precondition failed) error.
+
+            If both of the `If-Match` and `If-Unmodified-Since` headers are present in the request as follows:
+
+            - `If-Match` condition evaluates to `true`, and;
+            - `If-Unmodified-Since` condition evaluates to `false`;
+
+            Then Amazon S3 returns `200 OK` and the data requested.
+
+            For more information about conditional requests, see [RFC 7232](https://tools.ietf.org/html/rfc7232).
+        key: The object key.
+        part-number: Part number of the object being read. This is a positive integer between 1 and 10,000. Effectively performs a 'ranged' HEAD request for the part specified. Useful querying about the size of the part and the number of parts in this object.
+        range: HeadObject returns only the metadata for an object. If the Range is satisfiable, only the `ContentLength` is affected in the response. If the Range is not satisfiable, S3 returns a `416 - Requested Range Not Satisfiable` error.
+        request-payer: ""
+        response-cache-control: Sets the `Cache-Control` header of the response.
+        response-content-disposition: Sets the `Content-Disposition` header of the response.
+        response-content-encoding: Sets the `Content-Encoding` header of the response.
+        response-content-language: Sets the `Content-Language` header of the response.
+        response-content-type: Sets the `Content-Type` header of the response.
+        response-expires: Sets the `Expires` header of the response.
+        sse-customer-algorithm: |-
+            Specifies the algorithm to use when encrypting the object (for example, AES256).
+
+            This functionality is not supported for directory buckets.
+        sse-customer-key: |-
+            Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the `x-amz-server-side-encryption-customer-algorithm` header.
+
+            This functionality is not supported for directory buckets.
+        sse-customer-key-md5: |-
+            Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
+
+            This functionality is not supported for directory buckets.
+        version-id: |-
+            Version ID used to reference a specific version of the object.
+
+            For directory buckets in this API operation, only the `null` value of the version ID is supported.
