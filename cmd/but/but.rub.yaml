@@ -1,8 +1,36 @@
-# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
 name: rub
-description: Combines two entities together to perform an operation
-group: editing commits
+description: Combines two entities together to perform an operation like amend, squash, assign, or move
 flags:
     -h, --help: Print help (see more with '--help')
 documentation:
-    command: The `rub` command is a versatile operation that combines two entities together to perform various operations depending on the types of entities provided.
+    command: |
+        Combines two entities together to perform an operation like amend, squash, assign, or move.
+
+        The rub command is a simple verb that helps you do a number of editing operations by doing combinations of two things.
+
+        For example, you can "rub" a file onto a branch to assign that file to the branch. You can also "rub" a commit onto another commit to squash them together. You can rub a commit onto a branch to move that commit. You can rub a file from one commit to another.
+
+        Non-exhaustive list of operations:
+
+                │Source     │Target
+          ──────┼───────────┼──────
+          Amend │File,Branch│Commit
+          Squash│Commit     │Commit
+          Assign│File,Branch│Branch
+          Move  │Commit     │Branch
+
+        Examples
+
+        Squashing two commits into one (combining the commit messages):
+
+          but rub 3868155 abe3f53f
+
+        Amending a commit with the contents of a modified file:
+
+          but rub README.md abe3f53f
+
+        Moving a commit from one branch to another:
+
+          but rub 3868155 feature-branch
+    flag:
+        help: Print help (see a summary with '-h')
