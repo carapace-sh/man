@@ -1,67 +1,117 @@
-# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
-name: diff [OPTIONS] [PATHS]...
+name: diff
+description: Compare file contents between two revisions
 flags:
     --color-words: Show a word-level diff with changes indicated only by color
-    --from=: Show changes from this revision
+    --context=: Number of lines of context to show
     --git: Show a Git-format diff
+    --name-only: For each path, show only its path
+    --revision=*&: Show changes in these revisions
     --stat: Show a histogram of the changes
-    --to=: Show changes to this revision
     --tool=: Generate diff by external command
     --types: For each path, show only its type before and after
+    -T, --template=: Render each file diff entry using the given template
+    -b, --ignore-space-change: Ignore changes in amount of whitespace when comparing lines
+    -f, --from=: Show changes from this revision
     -h, --help: Print help (see more with '--help')
-    -r, --revision=: Show changes in this revision, compared to its parent(s)
-    -s, --summary: For each path, show only whether it was modified, added, or removed
+    -r, --revisions=*: Show changes in these revisions
+    -s, --summary: For each path, show only whether it was modified, added, or deleted
+    -t, --to=: Show changes to this revision
+    -w, --ignore-all-space: Ignore whitespace when comparing lines
+completion:
+    flag:
+        color:
+            - always
+            - never
+            - debug
+            - auto
+        config-file:
+            - $files
+        repository:
+            - $directories
+    positionalany:
+        - $files
 documentation:
     command: |-
-        [AI] The `jj` command is not a standard Unix or Linux command. It appears to be specific to the Vim text editor's built-in diff mode for comparing and merging files.
+        Compare file contents between two revisions
 
-        When you run `:diff JJ` in Vim (where `JJ` can be any number), it opens a new window displaying the differences between the current file and another file (specified by its filename or buffer number). The changes are highlighted, and you can navigate through them using various commands.
+        With the `-r` option, shows the changes compared to the parent revision. If there are several parent revisions (i.e., the given revision is a merge), then they will be merged and the changes from the result to the given revision will be shown.
 
-        The `jj` part of the command is used to move between hunks (blocks) of changes in the diff window. Pressing `jj` will take you to the next hunk below the current one. This allows you to easily traverse through the differences in your files.
+        With the `--from` and/or `--to` options, shows the difference from/to the given revisions. If either is left out, it defaults to the working-copy commit. For example, `jj diff --from main` shows the changes from "main" (perhaps a bookmark name) to the working-copy commit.
+
+        If no option is specified, it defaults to `-r @`.
     flag:
-        color-words: |-
-            [AI] `jj` is not a flag but a command-line tool for interactive Git usage. The given command is actually a combination of `git` and `diff` commands with the option `--color-words`.
+        at-operation: |-
+            Operation to load the repo at
 
-            `git diff` compares the differences between commits or working directories, while `--color-words` adds syntax highlighting to make it easier to identify the context of changes, such as code changes (e.g., added, modified, deleted lines).
+            Operation to load the repo at. By default, Jujutsu loads the repo at the most recent operation, or at the merge of the divergent operations if any.
 
-            So, in summary, the command `jj diff --color-words` can be broken down into:
+            You can use `--at-op=<operation ID>` to see what the repo looked like at an earlier operation. For example `jj --at-op=<operation ID> st` will show you what `jj st` would have shown you when the given operation had just finished. `--at-op=@` is pretty much the same as the default except that divergent operations will never be merged.
 
-            1. Run Git diff command
-            2. Use the `--color-words` option to enable syntax highlighting for better visibility of changes.
-        from: '[AI] `jj diff --from` is a command used in the Jira Issue Navigator search interface to display the differences between two versions of a commit message or a text field in a Jira issue. The `--from` option specifies the revision or label of the previous version for comparison purposes. This command helps developers and other users to easily identify changes made between different revisions, facilitating effective collaboration and communication within a software development project using Jira.'
-        git: '[AI] The command `jj diff --git` is used in version control systems, specifically with Git, to display the differences between two file versions or directory branches in a git repository. The `--git` option instructs JDiff, which is a pager for Git''s diff output, to format the output as Git would by default. This allows users to see the differences in an easily understandable and Git-compatible way. The primary purpose of this command is to help review changes between different revisions or branches, making it useful for code reviews, merging changes, and understanding the history of a project.'
-        help: '[AI] `jj` is a popular Git alias or extension for interactive staging and easy committing in Git. The command `jj diff --help` displays the help message for the `diff` sub-command of `jj`. It describes how to use this command to view the differences between your current changes and the last commit, local file changes, or a staged file. It also explains options such as showing the differences in a patch format, using pager for large outputs, or merging differences when using three-way merge tools.'
-        revision: '[AI] `jj` is a popular Git extension for Vim that provides various useful features for working with Git repositories within Vim. The command `jj diff --revision <commit>` is used to open a diff view of the changes made in a specific Git commit, where `<commit>` is the hash or branch name of the desired commit. This allows you to compare and review the differences between your working directory and the selected commit, which can be helpful for merging changes, understanding what was modified, or resolving conflicts.'
-        stat: '[AI] `jj diff --stat` is a command used in Git or other version control systems to display a summary of changes between two commit versions, in a human-readable statistic format. The "--stat" option generates a detailed statistics output for each file showing additions (+), deletions (-), and modifications (M) made in each file during the commit. This command is often used for quick comparison of differences between commits and to understand what changes were made.'
-        summary: |-
-            [AI] `jj` is not a known flag for `diff`. The correct command to display a summary of changes between two files using `git diff` or `diff` utilities would be:
+            Use `jj op log` to find the operation ID you want. Any unambiguous prefix of the operation ID is enough.
 
-            * `git diff --summary <file1> <file2>` (for version control system `git`)
-            * `diff --summary <file1> <file2>` (for standard Unix `diff` utility)
+            When loading the repo at an earlier operation, the working copy will be ignored, as if `--ignore-working-copy` had been specified.
 
-            These commands display a brief summary of changes between the two specified files, including the number of added and deleted lines.
+            It is possible to run mutating commands when loading the repo at an earlier operation. Doing that is equivalent to having run concurrent commands starting at the earlier operation. There's rarely a reason to do that, but it is possible.
+        config: |-
+            Additional configuration options (can be repeated)
+
+            The name should be specified as TOML dotted keys. The value should be specified as a TOML expression. If string value isn't enclosed by any TOML constructs (such as array notation), quotes can be omitted.
+        from: |-
+            Show changes from this revision
+
+            If none of `-r`, `-f`, or `-t` is provided, then the default is `-r @`.
+        help: Print help (see a summary with '-h')
+        ignore-immutable: |-
+            Allow rewriting immutable commits
+
+            By default, Jujutsu prevents rewriting commits in the configured set of immutable commits. This option disables that check and lets you rewrite any commit but the root commit.
+
+            This option only affects the check. It does not affect the `immutable_heads()` revset or the `immutable` template keyword.
+        ignore-working-copy: |-
+            Don't snapshot the working copy, and don't update it
+
+            By default, Jujutsu snapshots the working copy at the beginning of every command. The working copy is also updated at the end of the command, if the command modified the working-copy commit (`@`). If you want to avoid snapshotting the working copy and instead see a possibly stale working-copy commit, you can use `--ignore-working-copy`. This may be useful e.g. in a command prompt, especially if you have another process that commits the working copy.
+
+            Loading the repository at a specific operation with `--at-operation` implies `--ignore-working-copy`.
+        name-only: |-
+            For each path, show only its path
+
+            Typically useful for shell commands like: `jj diff -r @- --name-only | xargs perl -pi -e's/OLD/NEW/g`
+        quiet: |-
+            Silence non-primary command output
+
+            For example, `jj file list` will still list files, but it won't tell you if the working copy was snapshotted or if descendants were rebased.
+
+            Warnings and errors will still be printed.
+        repository: |-
+            Path to repository to operate on
+
+            By default, Jujutsu searches for the closest .jj/ directory in an ancestor of the current working directory.
+        revisions: |-
+            Show changes in these revisions
+
+            If there are multiple revisions, then the total diff for all of them will be shown. For example, if you have a linear chain of revisions A..D, then `jj diff -r B::D` equals `jj diff --from A --to D`. Multiple heads and/or roots are supported, but gaps in the revset are not supported (e.g. `jj diff -r 'A|C'` in a linear chain A..C).
+
+            If a revision is a merge commit, this shows changes *from* the automatic merge of the contents of all of its parents *to* the contents of the revision itself.
+
+            If none of `-r`, `-f`, or `-t` is provided, then the default is `-r @`.
+        template: |-
+            Render each file diff entry using the given template
+
+            All 0-argument methods of the [`TreeDiffEntry` type] are available as keywords in the template expression. See [`jj help -k templates`] for more information.
+
+            [`TreeDiffEntry` type]: https://docs.jj-vcs.dev/latest/templates/#treediffentry-type
+
+            [`jj help -k templates`]: https://docs.jj-vcs.dev/latest/templates/
         to: |-
-            [AI] `jj` is not a standard flag for `diff`, which is a command-line utility for comparing and showing the differences between files or directories. The correct syntax for `diff` to display differences from one file to another is:
+            Show changes to this revision
 
-            ```bash
-            diff FILE1 FILE2
-            ```
+            If none of `-r`, `-f`, or `-t` is provided, then the default is `-r @`.
+        tool: |-
+            Generate diff by external command
 
-            If you want to compare the differences of a file with its previous version in the same directory using Git, you can use the following command instead:
-
-            ```bash
-            git diff HEAD~1 HEAD -- FILE_NAME
-            ```
-
-            However, if by "jj diff --to" you meant using `jj` as a Git extension for handling interactive rebase, then the correct usage would be:
-
-            ```bash
-            jj rebase --interactive <commit-hash>
-            ```
-
-            And during an interactive rebase session, use the command 'd' or 's' to edit specific files and then 'p' to stage the changes, effectively staging the differences between two commits. This is not a direct usage of `diff`, but rather using Git functionality with `jj`.
-        tool: '[AI] The `jj` command is a user-friendly Git interface for interactive rebasing and conflict resolution. The `diff --tool` flag that follows it is used to invoke an external tool for merging or comparing differences between branches or commits in an interactive and graphical way. Instead of using the default three-way merge strategy, the tool allows users to visually inspect and manually modify changes before they are committed. This can be particularly helpful when dealing with complex conflicts or merges.'
+            A builtin format can also be specified as `:<name>`. For example, `--tool=:git` is equivalent to `--git`.
         types: |-
-            [AI] The `jj diff --types` command is a part of JDiff, a text-based diff and merge tool for JSON data. This specific command is used to display only the types of changes between two JSON documents.
+            For each path, show only its type before and after
 
-            The output includes lines that begin with either '+' (for added), '-' (for deleted), or 'C' (for changed), followed by the type of JSON data that was modified. Types can include numbers, strings, booleans, null, arrays, and objects. This allows for a quick overview of the changes in a JSON document at a high level without having to dive into the specific values.
+            The diff is shown as two letters. The first letter indicates the type before and the second letter indicates the type after. '-' indicates that the path was not present, 'F' represents a regular file, `L' represents a symlink, 'C' represents a conflict, and 'G' represents a Git submodule.

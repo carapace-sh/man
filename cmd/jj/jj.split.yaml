@@ -1,19 +1,93 @@
-# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
-name: split [OPTIONS] [PATHS]...
+name: split
 description: Split a revision in two
 flags:
+    --after=*: The revision(s) to insert after (can be repeated to create a merge commit)
+    --before=*: The revision(s) to insert before (can be repeated to create a merge commit)
+    --destination=*&: The revision(s) to base the new revision onto (can be repeated to create a merge commit)
+    --editor: Open an editor to edit the change description
+    --tool=: Specify diff editor to be used (implies --interactive)
+    -A, --insert-after=*: The revision(s) to insert after (can be repeated to create a merge commit)
+    -B, --insert-before=*: The revision(s) to insert before (can be repeated to create a merge commit)
+    -d=*&: The revision(s) to base the new revision onto (can be repeated to create a merge commit)
     -h, --help: Print help (see more with '--help')
-    -i, --interactive: Interactively choose which parts to split. This is the default if no paths are provided
+    -i, --interactive: Interactively choose which parts to split
+    -m, --message=*: The change description to use (don't open editor)
+    -o, --onto=*: The revision(s) to base the new revision onto (can be repeated to create a merge commit)
+    -p, --parallel: Split the revision into two parallel revisions instead of a parent and child
     -r, --revision=: The revision to split
-documentation:
-    command: '[AI] The `jj split` command is a Vim plugin that allows you to easily navigate between split windows. It extends the native Vim `:split` command, which splits the window vertically or horizontally and opens a new file in it. With `jj`, you can quickly move between different splits by pressing `jj` followed by the number of the desired split window. For example, `jj 3` moves the focus to the third split window from the left. This plugin makes it easier to work with multiple files or panes in Vim.'
+completion:
     flag:
-        help: |-
-            [AI] The command `jj split --help` is used with the Jupyter-Jupyter tool, which is a plugin for Git that enables efficient Git workflows in Jupyter Notebooks and terminals. The `split` subcommand of this tool splits a Git repository into multiple repositories at a specified directory or file pattern.
+        color:
+            - always
+            - never
+            - debug
+            - auto
+        config-file:
+            - $files
+        repository:
+            - $directories
+    positionalany:
+        - $files
+documentation:
+    command: |-
+        Split a revision in two
 
-            The `--help` flag provides information about how to use the `split` command, including arguments to specify directories or file patterns to split, options for creating new Git repositories with different names or initial commit messages, and other relevant details.
+        Starts a [diff editor] on the changes in the revision. Edit the right side of the diff until it has the content you want in the new revision. Once you close the editor, your edited content will replace the previous revision. The remaining changes will be put in a new revision on top.
+
+        [diff editor]: https://docs.jj-vcs.dev/latest/config/#editing-diffs
+
+        If the change you split had a description, you will be asked to enter a change description for each commit. If the change did not have a description, the remaining changes will not get a description, and you will be asked for a description only for the selected changes.
+
+        Splitting an empty commit is not supported because the same effect can be achieved with `jj new`.
+    flag:
+        at-operation: |-
+            Operation to load the repo at
+
+            Operation to load the repo at. By default, Jujutsu loads the repo at the most recent operation, or at the merge of the divergent operations if any.
+
+            You can use `--at-op=<operation ID>` to see what the repo looked like at an earlier operation. For example `jj --at-op=<operation ID> st` will show you what `jj st` would have shown you when the given operation had just finished. `--at-op=@` is pretty much the same as the default except that divergent operations will never be merged.
+
+            Use `jj op log` to find the operation ID you want. Any unambiguous prefix of the operation ID is enough.
+
+            When loading the repo at an earlier operation, the working copy will be ignored, as if `--ignore-working-copy` had been specified.
+
+            It is possible to run mutating commands when loading the repo at an earlier operation. Doing that is equivalent to having run concurrent commands starting at the earlier operation. There's rarely a reason to do that, but it is possible.
+        config: |-
+            Additional configuration options (can be repeated)
+
+            The name should be specified as TOML dotted keys. The value should be specified as a TOML expression. If string value isn't enclosed by any TOML constructs (such as array notation), quotes can be omitted.
+        editor: |-
+            Open an editor to edit the change description
+
+            Forces an editor to open when using `--message` to allow the message to be edited afterwards.
+        help: Print help (see a summary with '-h')
+        ignore-immutable: |-
+            Allow rewriting immutable commits
+
+            By default, Jujutsu prevents rewriting commits in the configured set of immutable commits. This option disables that check and lets you rewrite any commit but the root commit.
+
+            This option only affects the check. It does not affect the `immutable_heads()` revset or the `immutable` template keyword.
+        ignore-working-copy: |-
+            Don't snapshot the working copy, and don't update it
+
+            By default, Jujutsu snapshots the working copy at the beginning of every command. The working copy is also updated at the end of the command, if the command modified the working-copy commit (`@`). If you want to avoid snapshotting the working copy and instead see a possibly stale working-copy commit, you can use `--ignore-working-copy`. This may be useful e.g. in a command prompt, especially if you have another process that commits the working copy.
+
+            Loading the repository at a specific operation with `--at-operation` implies `--ignore-working-copy`.
         interactive: |-
-            [AI] The `jj` command is an interactive text editor for JSON files, often used in conjunction with Git for editing and committing changes to JSON files. The `--interactive` flag is an option passed to `jj split`.
+            Interactively choose which parts to split
 
-            When you use `jj split --interactive`, it splits the active JSON document into two parts at the current cursor position. Each part becomes a separate file in the editor, allowing you to edit them individually. The new files are displayed side by side for easy comparison and editing. Once you have finished making changes to both parts, you can save and commit them separately using Git or any other version control system.
-        revision: '[AI] `jj split --revision` is a Git command used in the JupyterJupyter Notebook interface, provided by the Jupyter extension for Git (jj). This command splits an active notebook into two at the current location and creates two new branches based on the current HEAD commit. The `--revision` option allows specifying a specific revision instead of the current one to create the new branches from. This way, you can split your notebook at a specific point in its history.'
+            This is the default if no filesets are provided.
+        message: |-
+            The change description to use (don't open editor)
+
+            The description is used for the commit with the selected changes. The source commit description is kept unchanged.
+        quiet: |-
+            Silence non-primary command output
+
+            For example, `jj file list` will still list files, but it won't tell you if the working copy was snapshotted or if descendants were rebased.
+
+            Warnings and errors will still be printed.
+        repository: |-
+            Path to repository to operate on
+
+            By default, Jujutsu searches for the closest .jj/ directory in an ancestor of the current working directory.

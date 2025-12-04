@@ -1,27 +1,60 @@
-# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
-name: forget [OPTIONS] [WORKSPACES]...
+name: forget
 description: Stop tracking a workspace's working-copy commit in the repo
 flags:
     -h, --help: Print help (see more with '--help')
-documentation:
-    command: '[AI] The `jj workspace forget` command is used in the Jupyter Notebook interface for JetBrains projects (JetBrains Rider or PyCharm). It removes the current directory from the list of recognized JetBrains project workspaces, effectively forgetting that it was ever associated with a JetBrains project. This can be useful if you no longer want to manage the project as a JetBrains workspace within Jupyter Notebook.'
+completion:
     flag:
-        help: |-
-            [AI] The `jj workspace forget` command is a part of JetBrains Space, a collaboration and version control tool by JetBrains. This command is used to remove the current workspace from the list of workspaces associated with the local repository. When run with the `--help` flag, it displays detailed information about how to use this command effectively:
+        color:
+            - always
+            - never
+            - debug
+            - auto
+        config-file:
+            - $files
+        repository:
+            - $directories
+documentation:
+    command: |-
+        Stop tracking a workspace's working-copy commit in the repo
 
-            ```sh
-            jj workspace forget [WORKSPACE_NAME] --help
+        The workspace will not be touched on disk. It can be deleted from disk before or after running this command.
+    flag:
+        at-operation: |-
+            Operation to load the repo at
 
-            Forgets a workspace in Space, detaches it from a local VCS repository.
+            Operation to load the repo at. By default, Jujutsu loads the repo at the most recent operation, or at the merge of the divergent operations if any.
 
-            Usage: jj [options] workspace forget [WORKSPACE_NAME]
+            You can use `--at-op=<operation ID>` to see what the repo looked like at an earlier operation. For example `jj --at-op=<operation ID> st` will show you what `jj st` would have shown you when the given operation had just finished. `--at-op=@` is pretty much the same as the default except that divergent operations will never be merged.
 
-            Options:
-              --force         Forces the forget command to be executed even if there are uncommitted changes or conflicts in the workspace
-              --help          Display this help message and exit
+            Use `jj op log` to find the operation ID you want. Any unambiguous prefix of the operation ID is enough.
 
-            Arguments:
-              WORKSPACE_NAME  The name of the workspace to forget
-            ```
+            When loading the repo at an earlier operation, the working copy will be ignored, as if `--ignore-working-copy` had been specified.
 
-            This flag (`--help`) shows you how to use the command with various options, including `--force`, which can be used if you want to ignore any uncommitted changes or conflicts. It also shows you that the required argument is the name of the workspace you wish to forget.
+            It is possible to run mutating commands when loading the repo at an earlier operation. Doing that is equivalent to having run concurrent commands starting at the earlier operation. There's rarely a reason to do that, but it is possible.
+        config: |-
+            Additional configuration options (can be repeated)
+
+            The name should be specified as TOML dotted keys. The value should be specified as a TOML expression. If string value isn't enclosed by any TOML constructs (such as array notation), quotes can be omitted.
+        help: Print help (see a summary with '-h')
+        ignore-immutable: |-
+            Allow rewriting immutable commits
+
+            By default, Jujutsu prevents rewriting commits in the configured set of immutable commits. This option disables that check and lets you rewrite any commit but the root commit.
+
+            This option only affects the check. It does not affect the `immutable_heads()` revset or the `immutable` template keyword.
+        ignore-working-copy: |-
+            Don't snapshot the working copy, and don't update it
+
+            By default, Jujutsu snapshots the working copy at the beginning of every command. The working copy is also updated at the end of the command, if the command modified the working-copy commit (`@`). If you want to avoid snapshotting the working copy and instead see a possibly stale working-copy commit, you can use `--ignore-working-copy`. This may be useful e.g. in a command prompt, especially if you have another process that commits the working copy.
+
+            Loading the repository at a specific operation with `--at-operation` implies `--ignore-working-copy`.
+        quiet: |-
+            Silence non-primary command output
+
+            For example, `jj file list` will still list files, but it won't tell you if the working copy was snapshotted or if descendants were rebased.
+
+            Warnings and errors will still be printed.
+        repository: |-
+            Path to repository to operate on
+
+            By default, Jujutsu searches for the closest .jj/ directory in an ancestor of the current working directory.

@@ -1,13 +1,85 @@
-# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
-name: list [OPTIONS] [NAME]
+name: list
 aliases:
     - l
-description: List variables set in config file, along with their values
+description: List variables set in config files, along with their values
 flags:
     --include-defaults: Whether to explicitly include built-in default values in the list
+    --include-overridden: Allow printing overridden values
+    --repo: Target the repo-level config
+    --user: Target the user-level config
+    --workspace: Target the workspace-level config
+    -T, --template=: Render each variable using the given template
     -h, --help: Print help (see more with '--help')
-documentation:
-    command: '[AI] The `jj` command is a popular JavaScript and TypeScript linter, formatter, and code fixer. The `jj config list` command is used to display the list of available configuration files for `jj`. These files define the rules and settings used by `jj` while linting or formatting the code. By running this command, developers can identify which configurations are available and choose the one that best suits their project''s requirements.'
+completion:
     flag:
-        help: '[AI] `jj config list --help` is a command used in the Jupyter JavaTools (JJ) environment to display help information about the `config list` subcommand. This command lists out the user-specific configuration files and directories used by Jupyter Notebook and other Jupyter tools managed by JJ. By providing the `--help` flag, you will receive a concise explanation of the command''s purpose, usage syntax, and available options. The output typically includes information such as creating, deleting, or updating the configurations and any related flags that may modify the behavior of this command.'
-        include-defaults: '[AI] The `jj config list --include-defaults` command is used in the Jupyter-Jupyter (JJ) configuration management system to display a list of all configuration settings, including both user-defined and default settings. By including the `--include-defaults` option, the output will show the default values for each setting as well, providing a more comprehensive view of the configuration options.'
+        color:
+            - always
+            - never
+            - debug
+            - auto
+        config-file:
+            - $files
+        repository:
+            - $directories
+    positional:
+        - []
+documentation:
+    flag:
+        at-operation: |-
+            Operation to load the repo at
+
+            Operation to load the repo at. By default, Jujutsu loads the repo at the most recent operation, or at the merge of the divergent operations if any.
+
+            You can use `--at-op=<operation ID>` to see what the repo looked like at an earlier operation. For example `jj --at-op=<operation ID> st` will show you what `jj st` would have shown you when the given operation had just finished. `--at-op=@` is pretty much the same as the default except that divergent operations will never be merged.
+
+            Use `jj op log` to find the operation ID you want. Any unambiguous prefix of the operation ID is enough.
+
+            When loading the repo at an earlier operation, the working copy will be ignored, as if `--ignore-working-copy` had been specified.
+
+            It is possible to run mutating commands when loading the repo at an earlier operation. Doing that is equivalent to having run concurrent commands starting at the earlier operation. There's rarely a reason to do that, but it is possible.
+        config: |-
+            Additional configuration options (can be repeated)
+
+            The name should be specified as TOML dotted keys. The value should be specified as a TOML expression. If string value isn't enclosed by any TOML constructs (such as array notation), quotes can be omitted.
+        help: Print help (see a summary with '-h')
+        ignore-immutable: |-
+            Allow rewriting immutable commits
+
+            By default, Jujutsu prevents rewriting commits in the configured set of immutable commits. This option disables that check and lets you rewrite any commit but the root commit.
+
+            This option only affects the check. It does not affect the `immutable_heads()` revset or the `immutable` template keyword.
+        ignore-working-copy: |-
+            Don't snapshot the working copy, and don't update it
+
+            By default, Jujutsu snapshots the working copy at the beginning of every command. The working copy is also updated at the end of the command, if the command modified the working-copy commit (`@`). If you want to avoid snapshotting the working copy and instead see a possibly stale working-copy commit, you can use `--ignore-working-copy`. This may be useful e.g. in a command prompt, especially if you have another process that commits the working copy.
+
+            Loading the repository at a specific operation with `--at-operation` implies `--ignore-working-copy`.
+        quiet: |-
+            Silence non-primary command output
+
+            For example, `jj file list` will still list files, but it won't tell you if the working copy was snapshotted or if descendants were rebased.
+
+            Warnings and errors will still be printed.
+        repository: |-
+            Path to repository to operate on
+
+            By default, Jujutsu searches for the closest .jj/ directory in an ancestor of the current working directory.
+        template: |-
+            Render each variable using the given template
+
+            The following keywords are available in the template expression:
+
+            * `name: String`: Config name.
+            * `value: ConfigValue`: Value to be formatted in TOML syntax.
+            * `overridden: Boolean`: True if the value is shadowed by other.
+            * `source: String`: Source of the value.
+            * `path: String`: Path to the config file.
+
+            Can be overridden by the `templates.config_list` setting. To
+            see a detailed config list, use the `builtin_config_list_detailed`
+            template.
+
+            See [`jj help -k templates`] for more information.
+
+            [`jj help -k templates`]:
+                https://docs.jj-vcs.dev/latest/templates/

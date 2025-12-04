@@ -1,21 +1,58 @@
-# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
-name: remove [OPTIONS] <REMOTE>
-description: Remove a Git remote and forget its branches
+name: remove
+description: Remove a Git remote and forget its bookmarks
 flags:
     -h, --help: Print help (see more with '--help')
-documentation:
-    command: |-
-        [AI] The `jj` command is not a Git command by itself. However, there's a common typo where people might mean to use the `git` command `jg it remote remove`. Here's what that does:
-
-        `git remote remove` is a Git command used to remove an existing remote repository from your local Git configuration. When you run this command followed by the name of the remote (usually denoted as a shorthand like `origin`), Git will delete the URL for that remote, effectively disconnecting your local repository from it. This can be useful if you want to switch to a different remote or if you've accidentally pushed to the wrong repository.
+completion:
     flag:
-        help: |-
-            [AI] The `jj git remote remove` command is used to remove a previously added upstream Git remote repository from your local Git repository. The `--help` option displays detailed help information about this specific Git extension command, Jira JIRA Git Toolbox (jj), which extends Git with features for managing Jira issues and Git repositories.
+        color:
+            - always
+            - never
+            - debug
+            - auto
+        config-file:
+            - $files
+        repository:
+            - $directories
+    positional:
+        - []
+documentation:
+    flag:
+        at-operation: |-
+            Operation to load the repo at
 
-            Here's the concise explanation of the flags' functionality:
+            Operation to load the repo at. By default, Jujutsu loads the repo at the most recent operation, or at the merge of the divergent operations if any.
 
-            - `jj`: This is the name of the Git extension tool (Jira JIRA Git Toolbox) that you are using to run this command.
-            - `git`: This is the base Git command with which the 'jj' extension interacts. The remove command is an extension of the standard Git remote subcommand.
-            - `remote`: Specifies that this Git command relates to managing Git remotes, i.e., the URLs of repositories that you can fetch and push code from/to.
-            - `remove`: This action removes a named remote (a URL) from your local repository configuration.
-            - `--help`: Displays the detailed help information about this specific 'jj git remote remove' command, including usage examples, options, and their descriptions.
+            You can use `--at-op=<operation ID>` to see what the repo looked like at an earlier operation. For example `jj --at-op=<operation ID> st` will show you what `jj st` would have shown you when the given operation had just finished. `--at-op=@` is pretty much the same as the default except that divergent operations will never be merged.
+
+            Use `jj op log` to find the operation ID you want. Any unambiguous prefix of the operation ID is enough.
+
+            When loading the repo at an earlier operation, the working copy will be ignored, as if `--ignore-working-copy` had been specified.
+
+            It is possible to run mutating commands when loading the repo at an earlier operation. Doing that is equivalent to having run concurrent commands starting at the earlier operation. There's rarely a reason to do that, but it is possible.
+        config: |-
+            Additional configuration options (can be repeated)
+
+            The name should be specified as TOML dotted keys. The value should be specified as a TOML expression. If string value isn't enclosed by any TOML constructs (such as array notation), quotes can be omitted.
+        help: Print help (see a summary with '-h')
+        ignore-immutable: |-
+            Allow rewriting immutable commits
+
+            By default, Jujutsu prevents rewriting commits in the configured set of immutable commits. This option disables that check and lets you rewrite any commit but the root commit.
+
+            This option only affects the check. It does not affect the `immutable_heads()` revset or the `immutable` template keyword.
+        ignore-working-copy: |-
+            Don't snapshot the working copy, and don't update it
+
+            By default, Jujutsu snapshots the working copy at the beginning of every command. The working copy is also updated at the end of the command, if the command modified the working-copy commit (`@`). If you want to avoid snapshotting the working copy and instead see a possibly stale working-copy commit, you can use `--ignore-working-copy`. This may be useful e.g. in a command prompt, especially if you have another process that commits the working copy.
+
+            Loading the repository at a specific operation with `--at-operation` implies `--ignore-working-copy`.
+        quiet: |-
+            Silence non-primary command output
+
+            For example, `jj file list` will still list files, but it won't tell you if the working copy was snapshotted or if descendants were rebased.
+
+            Warnings and errors will still be printed.
+        repository: |-
+            Path to repository to operate on
+
+            By default, Jujutsu searches for the closest .jj/ directory in an ancestor of the current working directory.

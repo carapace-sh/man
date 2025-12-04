@@ -1,28 +1,79 @@
-# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
-name: add [OPTIONS] <DESTINATION>
+name: add
 description: Add a workspace
 flags:
     --name=: A name for the workspace
+    --sparse-patterns=: How to handle sparse patterns when creating a new workspace
     -h, --help: Print help (see more with '--help')
-    -r, --revision=: The revision that the workspace should be created at; a new working copy commit will be created on top of it
-documentation:
-    command: '[AI] `jj workspace add` is a command used in the Jira Java CLI (Command Line Interface) tool, also known as JJ. This command is used to create or update a new workspace, which represents a specific context for your Jira projects. When you run `jj workspace add`, you will be prompted to provide a name and an optional description for the new workspace. Jira will then save this information in your `.jj` configuration file, so that when you run `jj use <workspace-name>` in the future, JJ will load the specified projects and settings associated with that workspace.'
+    -r, --revision=*: A list of parent revisions for the working-copy commit of the newly created workspace. You may specify nothing, or any number of parents
+completion:
     flag:
-        help: |-
-            [AI] `jj workspace add` is a command provided by Jira Software's CLI (Command-Line Interface) tool, called Jira CLI or JJ. This command is used to create a new workspace in your Jira project. When you run `jj workspace add --help`, it displays the help information for this specific command. Here's what the help text provides:
+        color:
+            - always
+            - never
+            - debug
+            - auto
+        config-file:
+            - $files
+        repository:
+            - $directories
+        sparse-patterns:
+            - "copy\tCopy all sparse patterns from the current workspace"
+            - "full\tInclude all files in the new workspace"
+            - "empty\tClear all files from the workspace (it will be empty)"
+    positional:
+        - - $directories
+documentation:
+    command: |-
+        Add a workspace
 
-            - `--help`: This option prints the detailed help message of the command. It explains what the command does, how to use it, and what options are available.
+        By default, the new workspace inherits the sparse patterns of the current workspace. You can override this with the `--sparse-patterns` option.
+    flag:
+        at-operation: |-
+            Operation to load the repo at
 
-            Key points from the help message for `jj workspace add` include:
+            Operation to load the repo at. By default, Jujutsu loads the repo at the most recent operation, or at the merge of the divergent operations if any.
 
-            - Creates a new workspace in the current project.
-            - Usage: `jj workspace add [workspaceName]`
-            - Optional parameters: `--projectKey`, `--description`, `--type`
-            - Sets the name of the workspace with the `[workspaceName]` argument.
-            - Optionally, you can specify a project key using `--projectKey`.
-            - Provide a description for the workspace with the `--description` option.
-            - Set the type of the workspace using the `--type` option.
+            You can use `--at-op=<operation ID>` to see what the repo looked like at an earlier operation. For example `jj --at-op=<operation ID> st` will show you what `jj st` would have shown you when the given operation had just finished. `--at-op=@` is pretty much the same as the default except that divergent operations will never be merged.
 
-            In summary, `jj workspace add --help` explains how to create a new workspace in Jira using the CLI tool, and it provides details on available options to customize the workspace's name, project key, description, and type.
-        name: '[AI] The `jj workspace add` command is used in Jira and Jenkins projects managed by the Jira CLI (Command Line Interface) tool, JJ. The `--name` option sets a name for the new workspace that will be created. Workspaces are separate instances of a project, allowing users to work on different versions or branches without interfering with each other. This command creates a new workspace with the specified name and is typically used when you want to create an isolated environment for a specific project version or feature branch.'
-        revision: '[AI] `jj workspace add --revision` is a Git command used with the JJ CLI (Command Line Interface) tool for JavaScript projects. This command adds a new branch or revision to your JJ workspace, allowing you to work on multiple repositories concurrently. It takes the revision identifier as an argument, which can be a branch name, tag, or commit hash. The changes made in the added revision will be isolated from your current working directory until you merge or cherry-pick them into your main workspace.'
+            Use `jj op log` to find the operation ID you want. Any unambiguous prefix of the operation ID is enough.
+
+            When loading the repo at an earlier operation, the working copy will be ignored, as if `--ignore-working-copy` had been specified.
+
+            It is possible to run mutating commands when loading the repo at an earlier operation. Doing that is equivalent to having run concurrent commands starting at the earlier operation. There's rarely a reason to do that, but it is possible.
+        config: |-
+            Additional configuration options (can be repeated)
+
+            The name should be specified as TOML dotted keys. The value should be specified as a TOML expression. If string value isn't enclosed by any TOML constructs (such as array notation), quotes can be omitted.
+        help: Print help (see a summary with '-h')
+        ignore-immutable: |-
+            Allow rewriting immutable commits
+
+            By default, Jujutsu prevents rewriting commits in the configured set of immutable commits. This option disables that check and lets you rewrite any commit but the root commit.
+
+            This option only affects the check. It does not affect the `immutable_heads()` revset or the `immutable` template keyword.
+        ignore-working-copy: |-
+            Don't snapshot the working copy, and don't update it
+
+            By default, Jujutsu snapshots the working copy at the beginning of every command. The working copy is also updated at the end of the command, if the command modified the working-copy commit (`@`). If you want to avoid snapshotting the working copy and instead see a possibly stale working-copy commit, you can use `--ignore-working-copy`. This may be useful e.g. in a command prompt, especially if you have another process that commits the working copy.
+
+            Loading the repository at a specific operation with `--at-operation` implies `--ignore-working-copy`.
+        name: |-
+            A name for the workspace
+
+            To override the default, which is the basename of the destination directory.
+        quiet: |-
+            Silence non-primary command output
+
+            For example, `jj file list` will still list files, but it won't tell you if the working copy was snapshotted or if descendants were rebased.
+
+            Warnings and errors will still be printed.
+        repository: |-
+            Path to repository to operate on
+
+            By default, Jujutsu searches for the closest .jj/ directory in an ancestor of the current working directory.
+        revision: |-
+            A list of parent revisions for the working-copy commit of the newly created workspace. You may specify nothing, or any number of parents.
+
+            If no revisions are specified, the new workspace will be created, and its working-copy commit will exist on top of the parent(s) of the working-copy commit in the current workspace, i.e. they will share the same parent(s).
+
+            If any revisions are specified, the new workspace will be created, and the new working-copy commit will be created with all these revisions as parents, i.e. the working-copy commit will exist as if you had run `jj new r1 r2 r3 ...`.

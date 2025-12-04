@@ -1,15 +1,104 @@
-# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
 name: log
 description: Show the operation log
 flags:
-    --no-graph: Don't show the graph, show a flat list of operations
+    --color-words: Show a word-level diff with changes indicated only by color
+    --context=: Number of lines of context to show
+    --git: Show a Git-format diff
+    --ignore-all-space: Ignore whitespace when comparing lines
+    --ignore-space-change: Ignore changes in amount of whitespace when comparing lines
+    --name-only: For each path, show only its path
+    --reversed: Show operations in the opposite order (older operations first)
+    --stat: Show a histogram of the changes
+    --tool=: Generate diff by external command
+    --types: For each path, show only its type before and after
+    -G, --no-graph: Don't show the graph, show a flat list of operations
     -T, --template=: Render each operation using the given template
+    -d, --op-diff: Show changes to the repository at each operation
     -h, --help: Print help (see more with '--help')
-    -l, --limit=: Limit number of operations to show
-documentation:
-    command: '[AI] The `jj operation log` command is used in Jira, a project management tool, to view the log of all operations or changes made to an issue, including comments, worklog entries, transitions, and version changes. It helps in tracking the history of modifications for better understanding and accountability.'
+    -n, --limit=: Limit number of operations to show
+    -p, --patch: Show patch of modifications to changes (implies --op-diff)
+    -s, --summary: For each path, show only whether it was modified, added, or deleted
+completion:
     flag:
-        help: '[AI] The `jj` command with the option `operation log --help` displays the help information for the "operation log" sub-command of Jumpbox (jj), an open-source terminal session manager. This help text explains what the operation log feature does, how to use it, and provides examples and options for filtering and exporting the log data. It is used to view or manage a record of past operations, such as sessions, commands run, and configuration changes within Jumpbox.'
-        limit: '[AI] The `jj` command is a tool for filtering and managing logs in Kubernetes. The `--limit` option sets the maximum number of log entries to display when using the `operation log` subcommand. For example, `jj operation log --limit=100` will show the last 100 log entries for a specific resource or component.'
-        no-graph: '[AI] The `jj` command is a popular text editor used in Git for interactive rebase sessions. The option `--no-graph` passed to the `operation log` subcommand disables the display of a graphical representation of the commit history during the rebase process. Instead, only the textual output of the commits and their messages will be shown. This can be useful when working with complex or large repositories where the graphical representation may not load properly or take too long to render.'
-        template: '[AI] `jj` is a command-line tool for managing Kubernetes logs. The `operation log --template` subcommand generates JSON or YAML templates based on existing log queries. It allows users to save and reuse complex log query definitions as templates, making it easier to apply the same query across multiple logs or environments. Users can specify the output format (JSON or YAML), name the template file, and provide a context in which to evaluate Kubernetes query expressions, such as namespace or labels.'
+        color:
+            - always
+            - never
+            - debug
+            - auto
+        config-file:
+            - $files
+        repository:
+            - $directories
+documentation:
+    command: |-
+        Show the operation log
+
+        Like other commands, `jj op log` snapshots the current working-copy changes and reconciles divergent operations. Use `--at-op=@ --ignore-working-copy` to inspect the current state without mutation.
+    flag:
+        at-operation: |-
+            Operation to load the repo at
+
+            Operation to load the repo at. By default, Jujutsu loads the repo at the most recent operation, or at the merge of the divergent operations if any.
+
+            You can use `--at-op=<operation ID>` to see what the repo looked like at an earlier operation. For example `jj --at-op=<operation ID> st` will show you what `jj st` would have shown you when the given operation had just finished. `--at-op=@` is pretty much the same as the default except that divergent operations will never be merged.
+
+            Use `jj op log` to find the operation ID you want. Any unambiguous prefix of the operation ID is enough.
+
+            When loading the repo at an earlier operation, the working copy will be ignored, as if `--ignore-working-copy` had been specified.
+
+            It is possible to run mutating commands when loading the repo at an earlier operation. Doing that is equivalent to having run concurrent commands starting at the earlier operation. There's rarely a reason to do that, but it is possible.
+        config: |-
+            Additional configuration options (can be repeated)
+
+            The name should be specified as TOML dotted keys. The value should be specified as a TOML expression. If string value isn't enclosed by any TOML constructs (such as array notation), quotes can be omitted.
+        help: Print help (see a summary with '-h')
+        ignore-immutable: |-
+            Allow rewriting immutable commits
+
+            By default, Jujutsu prevents rewriting commits in the configured set of immutable commits. This option disables that check and lets you rewrite any commit but the root commit.
+
+            This option only affects the check. It does not affect the `immutable_heads()` revset or the `immutable` template keyword.
+        ignore-working-copy: |-
+            Don't snapshot the working copy, and don't update it
+
+            By default, Jujutsu snapshots the working copy at the beginning of every command. The working copy is also updated at the end of the command, if the command modified the working-copy commit (`@`). If you want to avoid snapshotting the working copy and instead see a possibly stale working-copy commit, you can use `--ignore-working-copy`. This may be useful e.g. in a command prompt, especially if you have another process that commits the working copy.
+
+            Loading the repository at a specific operation with `--at-operation` implies `--ignore-working-copy`.
+        limit: |-
+            Limit number of operations to show
+
+            Applied after operations are reordered topologically, but before being reversed.
+        name-only: |-
+            For each path, show only its path
+
+            Typically useful for shell commands like: `jj diff -r @- --name-only | xargs perl -pi -e's/OLD/NEW/g`
+        patch: |-
+            Show patch of modifications to changes (implies --op-diff)
+
+            If the previous version has different parents, it will be temporarily rebased to the parents of the new version, so the diff is not contaminated by unrelated changes.
+        quiet: |-
+            Silence non-primary command output
+
+            For example, `jj file list` will still list files, but it won't tell you if the working copy was snapshotted or if descendants were rebased.
+
+            Warnings and errors will still be printed.
+        repository: |-
+            Path to repository to operate on
+
+            By default, Jujutsu searches for the closest .jj/ directory in an ancestor of the current working directory.
+        template: |-
+            Render each operation using the given template
+
+            You can specify arbitrary template expressions using the [built-in keywords]. See [`jj help -k templates`] for more information.
+
+            [built-in keywords]: https://docs.jj-vcs.dev/latest/templates/#operation-keywords
+
+            [`jj help -k templates`]: https://docs.jj-vcs.dev/latest/templates/
+        tool: |-
+            Generate diff by external command
+
+            A builtin format can also be specified as `:<name>`. For example, `--tool=:git` is equivalent to `--git`.
+        types: |-
+            For each path, show only its type before and after
+
+            The diff is shown as two letters. The first letter indicates the type before and the second letter indicates the type after. '-' indicates that the path was not present, 'F' represents a regular file, `L' represents a symlink, 'C' represents a conflict, and 'G' represents a Git submodule.

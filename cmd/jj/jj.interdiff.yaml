@@ -1,40 +1,86 @@
-# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
-name: interdiff [OPTIONS] <--from <FROM>|--to <TO>> [PATHS]..
+name: interdiff
 description: Compare the changes of two commits
 flags:
     --color-words: Show a word-level diff with changes indicated only by color
-    --from=: Show changes from this revision
+    --context=: Number of lines of context to show
     --git: Show a Git-format diff
+    --name-only: For each path, show only its path
     --stat: Show a histogram of the changes
-    --to=: Show changes to this revision
     --tool=: Generate diff by external command
     --types: For each path, show only its type before and after
+    -b, --ignore-space-change: Ignore changes in amount of whitespace when comparing lines
+    -f, --from=: Show changes from this revision
     -h, --help: Print help (see more with '--help')
-    -s, --summary: For each path, show only whether it was modified, added, or removed
-documentation:
-    command: '[AI] The `jj` command with the `interdiff` argument is a Vim plugin that helps compare and merge changes between two text files. It sets up Vim to behave like the Unified Diff tool when editing files. When you open or split edit two files, Vim will show the differences in a side-by-side or context diff format, allowing you to navigate, copy, delete, or accept/reject changes using familiar Vim commands. To use it, ensure `jj` is installed and add `Plugin ''scrooloose/nerddiff''` to your Vim configuration file, then run `:JJInterDiffToggle` in Vim to start the comparison.'
+    -s, --summary: For each path, show only whether it was modified, added, or deleted
+    -t, --to=: Show changes to this revision
+    -w, --ignore-all-space: Ignore whitespace when comparing lines
+completion:
     flag:
-        color-words: '[AI] `jj interdiff` is a command used in the JavaScript coding environment, Jupyter Jupyter, for comparing and merging differences between two text files or buffers. The `--color-words` flag is an optional argument that enables the use of colored syntax highlighting for words added or removed during the diffing process. This can make it easier to visually identify and understand the changes being made.'
-        from: '[AI] The `jj interdiff` command is a tool used in the Jupyter Notebook environment for comparing differences between two versions of Jupyter notebooks or between a notebook and its corresponding Git repository. The option `--from` specifies the source of the comparison, indicating which version or commit should be considered as the base or reference. In other words, it tells `jj interdiff` to show the differences that have been made since the specified source.'
-        git: |-
-            [AI] The `jj interdiff --git` command is a feature of J ircle, a popular Git interface and plugin for the JetBrains IntelliJ IDEs. This command displays an interactive diff that shows the changes between two Git branches or commits in a more visual and user-friendly way than the standard Git diff tool.
+        color:
+            - always
+            - never
+            - debug
+            - auto
+        config-file:
+            - $files
+        repository:
+            - $directories
+    positionalany:
+        - $files
+documentation:
+    command: |-
+        Compare the changes of two commits
 
-            The `--git` option specifies that the difference should be calculated based on the differences in the Git repository, rather than from files stored locally in your project. The `interdiff` part of the command enables interactive navigation between the changeset and the context of the differences, allowing users to easily review and compare the modifications side by side.
-        help: '[AI] The command `jj interdiff --help` is related to JJ, a Git-like version control system for JavaScript projects developed by Microsoft. The `interdiff` subcommand is used to show the difference between two branches or commits in your JJ repository. The `--help` option displays detailed information about how to use this specific command, including any required arguments, optional flags, and their descriptions. It''s essentially a request for help on using the `jj interdiff` command effectively.'
-        stat: '[AI] The command `jj interdiff --stat` is used with the Jupyter Notebook editor, Jupyter-jupyter, to display a statistic comparison of two branches or commits of a Git repository in the Interactive Difference (interdiff) view. The output shows the number of added, modified, and deleted lines for each file within the difference. This information helps identify changes between versions at a glance.'
-        summary: |-
-            [AI] The `jj interdiff` command is a tool used for comparing and merging differences between JSON files or data structures in JavaScript. The option `--summary` generates a summary of the changes detected by the command without actually applying them.
+        This excludes changes from other commits by temporarily rebasing `--from` onto `--to`'s parents. If you wish to compare the same change across versions, consider `jj evolog -p` instead.
+    flag:
+        at-operation: |-
+            Operation to load the repo at
 
-            Here's a brief explanation:
+            Operation to load the repo at. By default, Jujutsu loads the repo at the most recent operation, or at the merge of the divergent operations if any.
 
-            1. `jj`: It refers to the Javascript-diff library, which is used for performing difference computations between two JavaScript objects or arrays.
-            2. `interdiff`: This is the specific command within the library that computes the differences between two JSON schemas (or data structures), instead of plain JSON data.
-            3. `--summary`: This option generates a succinct list of changes as output, instead of applying them and showing the resulting difference objects. It's helpful for understanding what changes need to be made without actually implementing them in code.
-        to: '[AI] The `jj interdiff --to` command is used in the Jupyter Notebook editor, Jupyter-joslyn, to compare and display the differences between two versions of a Jupyter notebook file. The `--to` option specifies the revision or commit identifier of the later version to be compared against the current working directory notebook. The tool highlights additions, deletions, and modifications in both files side by side, helping users identify changes made between the two versions.'
-        tool: '[AI] The `jj interdiff --tool` command is a part of Jupyter Jupyter''s `jj` toolkit for managing Jupyter Notebook projects. The `interdiff` subcommand compares and shows the differences between two versions of a Jupyter Notebook or a pair of cells within the same notebook. The `--tool` option specifies that this command should use an external diff tool, such as Unified Diff or Beyond Compare, to display the differences visually. This can be useful when comparing large or complex notebooks, where the visual representation of changes can aid in understanding and merging differences.'
+            You can use `--at-op=<operation ID>` to see what the repo looked like at an earlier operation. For example `jj --at-op=<operation ID> st` will show you what `jj st` would have shown you when the given operation had just finished. `--at-op=@` is pretty much the same as the default except that divergent operations will never be merged.
+
+            Use `jj op log` to find the operation ID you want. Any unambiguous prefix of the operation ID is enough.
+
+            When loading the repo at an earlier operation, the working copy will be ignored, as if `--ignore-working-copy` had been specified.
+
+            It is possible to run mutating commands when loading the repo at an earlier operation. Doing that is equivalent to having run concurrent commands starting at the earlier operation. There's rarely a reason to do that, but it is possible.
+        config: |-
+            Additional configuration options (can be repeated)
+
+            The name should be specified as TOML dotted keys. The value should be specified as a TOML expression. If string value isn't enclosed by any TOML constructs (such as array notation), quotes can be omitted.
+        help: Print help (see a summary with '-h')
+        ignore-immutable: |-
+            Allow rewriting immutable commits
+
+            By default, Jujutsu prevents rewriting commits in the configured set of immutable commits. This option disables that check and lets you rewrite any commit but the root commit.
+
+            This option only affects the check. It does not affect the `immutable_heads()` revset or the `immutable` template keyword.
+        ignore-working-copy: |-
+            Don't snapshot the working copy, and don't update it
+
+            By default, Jujutsu snapshots the working copy at the beginning of every command. The working copy is also updated at the end of the command, if the command modified the working-copy commit (`@`). If you want to avoid snapshotting the working copy and instead see a possibly stale working-copy commit, you can use `--ignore-working-copy`. This may be useful e.g. in a command prompt, especially if you have another process that commits the working copy.
+
+            Loading the repository at a specific operation with `--at-operation` implies `--ignore-working-copy`.
+        name-only: |-
+            For each path, show only its path
+
+            Typically useful for shell commands like: `jj diff -r @- --name-only | xargs perl -pi -e's/OLD/NEW/g`
+        quiet: |-
+            Silence non-primary command output
+
+            For example, `jj file list` will still list files, but it won't tell you if the working copy was snapshotted or if descendants were rebased.
+
+            Warnings and errors will still be printed.
+        repository: |-
+            Path to repository to operate on
+
+            By default, Jujutsu searches for the closest .jj/ directory in an ancestor of the current working directory.
+        tool: |-
+            Generate diff by external command
+
+            A builtin format can also be specified as `:<name>`. For example, `--tool=:git` is equivalent to `--git`.
         types: |-
-            [AI] The `jj interdiff --types` command is a part of Jupyter's Jupytertools library for comparing and merging differences between two or more Jupyter Notebook files.
+            For each path, show only its type before and after
 
-            The `--types` option specifies the types of differences to display: cells, metadata, or both. Cell differences include changes in code, markdown text, and input/output displays. Metadata differences encompass all non-cell information such as notebook properties, cell indexes, and header information.
-
-            For example, running `jj interdiff --types cells mynotebook1.ipynb mynotebook2.ipynb` will show only the differences in the contents of the cells between the two notebooks. Using `--types all` or simply omitting `--types` will display both cell and metadata differences.
+            The diff is shown as two letters. The first letter indicates the type before and the second letter indicates the type after. '-' indicates that the path was not present, 'F' represents a regular file, `L' represents a symlink, 'C' represents a conflict, and 'G' represents a Git submodule.

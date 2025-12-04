@@ -1,19 +1,95 @@
-# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
-name: describe [OPTIONS] [REVISION]
-aliases:
-    - desc
-description: Update the change description or other metadata
+name: describe
+description: 'Update the change description or other metadata [default alias: desc]'
 flags:
-    --no-edit: Don't open an editor
-    --reset-author: Reset the author to the configured user
+    --editor: Open an editor to edit the change description
     --stdin: Read the change description from stdin
     -h, --help: Print help (see more with '--help')
-    -m, --message*=: The change description to use (don't open editor)
-documentation:
-    command: '[AI] The `jj describe` command is used in Jupyter Notebook to display detailed metadata about a specific notebook cell or an entire notebook. It shows information such as the cell type, source code, output, and any attached tags or marks. When run without specifying a particular cell number, it describes the entire notebook.'
+    -m, --message=*: The change description to use (don't open editor)
+completion:
     flag:
-        help: '[AI] `jj describe --help` is a command used in the Jupyter Notebook interactive development environment. This command displays help information about the `describe` subcommand of the `jj` tool. The `describe` command provides statistics and other summary information about the dataframe or series in Jupyter Notebook cells, making it easier to understand their contents. The `--help` option shows a detailed explanation of how to use this command, including any available options or arguments.'
-        message: '[AI] The command `jj describe --message` is used in Jira, a popular project management tool, to update or create a new description for an issue. The "--message" option allows you to specify the text of the description. In essence, it enables you to provide detailed information about an issue, making it easier for team members to understand and work on it.'
-        no-edit: '[AI] `jj describe --no-edit` is a command in the Jupyter JavaScript Notebook interface (Jupyter Notebook for short, or just Jupyter when using the JavaScript version). The `describe` subcommand provides details about a specific notebook cell or a range of cells. When used with the `--no-edit` flag, it prevents the editor from opening after displaying the description of the selected cells. This means you can view the description without having to edit the cells if you don''t intend to make any changes.'
-        reset-author: '[AI] `jj describe --reset-author` is a Git command using the Jira Jira Software Command Line Interface (CLI) tool, `jj`. This command resets the author and committer information of the most recent commit in the current branch to match the latest associated Jira issue. The effect is that the last commit will be rewritten with a new author and committer name equal to the email and name configured for the currently authenticated user in Jira. It''s important to note that this operation can be risky, as it changes the commit history, so use it carefully and consider creating a backup before executing.'
-        stdin: '[AI] The command `jj describe --stdin` is used in Jupyter-JavaScript (JupyterJS), a project that aims to create a Jupyter notebook implementation in JavaScript. This specific command is not a flag for describing a file or a cell, but rather it''s a command to start an interactive description mode when piping input through the standard input stream (`--stdin`). In this context, the `jj describe` command allows users to interactively describe Jupyter Notebook cells in a terminal or command-line interface.'
+        color:
+            - always
+            - never
+            - debug
+            - auto
+        config-file:
+            - $files
+        repository:
+            - $directories
+documentation:
+    command: |-
+        Update the change description or other metadata [default alias: desc]
+
+        Starts an editor to let you edit the description of changes. The editor will be $EDITOR, or `nano` if that's not defined (`Notepad` on Windows).
+    flag:
+        at-operation: |-
+            Operation to load the repo at
+
+            Operation to load the repo at. By default, Jujutsu loads the repo at the most recent operation, or at the merge of the divergent operations if any.
+
+            You can use `--at-op=<operation ID>` to see what the repo looked like at an earlier operation. For example `jj --at-op=<operation ID> st` will show you what `jj st` would have shown you when the given operation had just finished. `--at-op=@` is pretty much the same as the default except that divergent operations will never be merged.
+
+            Use `jj op log` to find the operation ID you want. Any unambiguous prefix of the operation ID is enough.
+
+            When loading the repo at an earlier operation, the working copy will be ignored, as if `--ignore-working-copy` had been specified.
+
+            It is possible to run mutating commands when loading the repo at an earlier operation. Doing that is equivalent to having run concurrent commands starting at the earlier operation. There's rarely a reason to do that, but it is possible.
+        author: |-
+            Set author to the provided string
+
+            This changes author name and email while retaining author timestamp for non-discardable commits.
+        config: |-
+            Additional configuration options (can be repeated)
+
+            The name should be specified as TOML dotted keys. The value should be specified as a TOML expression. If string value isn't enclosed by any TOML constructs (such as array notation), quotes can be omitted.
+        edit: |-
+            Open an editor to edit the change description
+
+            Forces an editor to open when using `--stdin` or `--message` to allow the message to be edited afterwards.
+        editor: |-
+            Open an editor to edit the change description
+
+            Forces an editor to open when using `--stdin` or `--message` to allow the message to be edited afterwards.
+        help: Print help (see a summary with '-h')
+        ignore-immutable: |-
+            Allow rewriting immutable commits
+
+            By default, Jujutsu prevents rewriting commits in the configured set of immutable commits. This option disables that check and lets you rewrite any commit but the root commit.
+
+            This option only affects the check. It does not affect the `immutable_heads()` revset or the `immutable` template keyword.
+        ignore-working-copy: |-
+            Don't snapshot the working copy, and don't update it
+
+            By default, Jujutsu snapshots the working copy at the beginning of every command. The working copy is also updated at the end of the command, if the command modified the working-copy commit (`@`). If you want to avoid snapshotting the working copy and instead see a possibly stale working-copy commit, you can use `--ignore-working-copy`. This may be useful e.g. in a command prompt, especially if you have another process that commits the working copy.
+
+            Loading the repository at a specific operation with `--at-operation` implies `--ignore-working-copy`.
+        message: |-
+            The change description to use (don't open editor)
+
+            If multiple revisions are specified, the same description will be used for all of them.
+        no-edit: |-
+            Don't open an editor
+
+            This is mainly useful in combination with e.g. `--reset-author`.
+        quiet: |-
+            Silence non-primary command output
+
+            For example, `jj file list` will still list files, but it won't tell you if the working copy was snapshotted or if descendants were rebased.
+
+            Warnings and errors will still be printed.
+        repository: |-
+            Path to repository to operate on
+
+            By default, Jujutsu searches for the closest .jj/ directory in an ancestor of the current working directory.
+        reset-author: |-
+            Reset the author name, email, and timestamp
+
+            This resets the author name and email to the configured user and sets the author timestamp to the current time.
+
+            You can use it in combination with the JJ_USER and JJ_EMAIL environment variables to set a different author:
+
+            $ JJ_USER='Foo Bar' JJ_EMAIL=foo@bar.com jj describe --reset-author
+        stdin: |-
+            Read the change description from stdin
+
+            If multiple revisions are specified, the same description will be used for all of them.

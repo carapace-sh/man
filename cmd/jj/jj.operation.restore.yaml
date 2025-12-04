@@ -1,31 +1,70 @@
-# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
 name: restore
 description: Create a new operation that restores the repo to an earlier state
 flags:
-    --what*=: What portions of the local state to restore (can be repeated)
+    --what=*: What portions of the local state to restore (can be repeated)
     -h, --help: Print help (see more with '--help')
+completion:
+    flag:
+        color:
+            - always
+            - never
+            - debug
+            - auto
+        config-file:
+            - $files
+        repository:
+            - $directories
+        what:
+            - "repo\tThe jj repo state and local bookmarks"
+            - "remote-tracking\tThe remote-tracking bookmarks. Do not restore these if you'd like to push after the undo"
+    positional:
+        - []
 documentation:
     command: |-
-        [AI] The `jj` command is not a standard Unix or Linux command, so it's likely specific to certain software applications or tools. The term "operation restore" in this context isn't explicitly defined without additional information. However, I can make an educated guess based on common usage of similar terms:
+        Create a new operation that restores the repo to an earlier state
 
-        The `jj operation restore` command could be used to revert or rollback an action or a series of actions performed within the `jj` application or tool. Restore might mean recovering from a previous save point, undoing changes made in the latest session, or even restoring a deleted file/database record, depending on how `jj` is implemented.
-
-        Again, this explanation is based on speculation as the exact meaning of "jj operation restore" can only be known by consulting the documentation or help files for the specific implementation of the `jj` command.
+        This restores the repo to the state at the specified operation, effectively undoing all later operations. It does so by creating a new operation.
     flag:
-        help: |-
-            [AI] The `jj` command with the `operation restore --help` argument is a Jupyter Notebook tool used to restore a specific version or revision of a notebook from Git or another version control system.
+        at-operation: |-
+            Operation to load the repo at
 
-            The `--help` flag displays detailed information about how to use this particular operation, including its purpose, required arguments (if any), and optional flags that can modify its behavior. Here's a brief overview of the output:
+            Operation to load the repo at. By default, Jujutsu loads the repo at the most recent operation, or at the merge of the divergent operations if any.
 
-            - Purpose: Restore a specific revision or version of your Jupyter Notebook from Git or another version control system.
-            - Required Arguments: None for this particular operation, but other `jj` subcommands might require them.
-            - Optional Flags:
-              - `--git` or `--url <Git_URL>`: Specify the URL of your Git repository to restore a notebook from.
-              - `--revision <Revision>`: Restore a specific revision by its commit hash, tag, branch name, or other identifier.
-              - `--notebook-dir <Notebook_Directory>`: Set the local directory where you want to save the restored notebook. By default, it restores to your current working directory.
+            You can use `--at-op=<operation ID>` to see what the repo looked like at an earlier operation. For example `jj --at-op=<operation ID> st` will show you what `jj st` would have shown you when the given operation had just finished. `--at-op=@` is pretty much the same as the default except that divergent operations will never be merged.
 
-            Keep in mind that using this command with `--help` only shows information about the restore operation itself; other `jj` subcommands and their respective flags may be available for managing Jupyter Notebooks in different ways.
+            Use `jj op log` to find the operation ID you want. Any unambiguous prefix of the operation ID is enough.
+
+            When loading the repo at an earlier operation, the working copy will be ignored, as if `--ignore-working-copy` had been specified.
+
+            It is possible to run mutating commands when loading the repo at an earlier operation. Doing that is equivalent to having run concurrent commands starting at the earlier operation. There's rarely a reason to do that, but it is possible.
+        config: |-
+            Additional configuration options (can be repeated)
+
+            The name should be specified as TOML dotted keys. The value should be specified as a TOML expression. If string value isn't enclosed by any TOML constructs (such as array notation), quotes can be omitted.
+        help: Print help (see a summary with '-h')
+        ignore-immutable: |-
+            Allow rewriting immutable commits
+
+            By default, Jujutsu prevents rewriting commits in the configured set of immutable commits. This option disables that check and lets you rewrite any commit but the root commit.
+
+            This option only affects the check. It does not affect the `immutable_heads()` revset or the `immutable` template keyword.
+        ignore-working-copy: |-
+            Don't snapshot the working copy, and don't update it
+
+            By default, Jujutsu snapshots the working copy at the beginning of every command. The working copy is also updated at the end of the command, if the command modified the working-copy commit (`@`). If you want to avoid snapshotting the working copy and instead see a possibly stale working-copy commit, you can use `--ignore-working-copy`. This may be useful e.g. in a command prompt, especially if you have another process that commits the working copy.
+
+            Loading the repository at a specific operation with `--at-operation` implies `--ignore-working-copy`.
+        quiet: |-
+            Silence non-primary command output
+
+            For example, `jj file list` will still list files, but it won't tell you if the working copy was snapshotted or if descendants were rebased.
+
+            Warnings and errors will still be printed.
+        repository: |-
+            Path to repository to operate on
+
+            By default, Jujutsu searches for the closest .jj/ directory in an ancestor of the current working directory.
         what: |-
-            [AI] The `jj` command is a tool used in Git for managing jobs or workflows, specifically with GitLab CI/CD (Continuous Integration and Continuous Delivery). The `operation restore --what` subcommand is part of the `jj` operation to restore artifacts or cached data from a previous job or stage.
+            What portions of the local state to restore (can be repeated)
 
-            When you run this command, it will display a list of the specific artifacts or cached data that can be restored. This information helps you identify exactly what data will be retrieved when you execute the restore operation.
+            This option is EXPERIMENTAL.

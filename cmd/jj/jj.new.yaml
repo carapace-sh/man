@@ -1,18 +1,129 @@
-# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
-name: new [OPTIONS] [REVISIONS]...
-description: Create a new, empty change and edit it in the working copy
+name: new
+description: Create a new, empty change and (by default) edit it in the working copy
 flags:
-    -A, --insert-after: Insert the new change between the target commit(s) and their children
-    -B, --insert-before: Insert the new change between the target commit(s) and their parents
+    --after=*: Insert the new change after the given commit(s)
+    --before=*: Insert the new change before the given commit(s)
+    --no-edit: Do not edit the newly created change
+    -A, --insert-after=*: Insert the new change after the given commit(s)
+    -B, --insert-before=*: Insert the new change before the given commit(s)
     -h, --help: Print help (see more with '--help')
-    -m, --message*=: The change description to use
-documentation:
-    command: '[AI] The `jj new` command is used in JetBrains IntelliJ IDEs, such as IntelliJ IDEA or PyCharm. It creates a new project using a predefined template. This command automates the process of setting up a new project and initializing it with necessary files and configurations for the selected programming language or framework.'
+    -m, --message=*: The change description to use
+completion:
     flag:
-        help: |-
-            [AI] `jj new --help` is a command used in the Jupyter Notebook environment with Jupyter-JavaScript (JupyterJS) interface, such as JupyterLab or Jupyter Notebook web applications running in a Node.js environment.
+        color:
+            - always
+            - never
+            - debug
+            - auto
+        config-file:
+            - $files
+        repository:
+            - $directories
+documentation:
+    command: |-
+        Create a new, empty change and (by default) edit it in the working copy
 
-            This command displays detailed help information about creating a new notebook using the `jj` tool. It explains available options like the notebook type (e.g., Python, R, Markdown), language versions, and other useful flags to customize the new notebook's creation process.
-        insert-after: '[AI] The `--insert-after` option in Git, specifically when used with the `git jj` (interactive rebase) command, instructs Git to insert a new commit at the position right after the specified commit in the current branch''s history. This results in an interactive rebase session where you can edit and amend the commits before they are applied on top of the base branch.'
-        insert-before: '[AI] `git jj` is a Git extension for interactive rebasing, developed by Jeff King. The command `git jj new --insert-before <commit>` creates a new interactive rebase session and sets the stage to insert a new commit before the specified commit in the commit history. This allows users to modify or add new commits while maintaining the continuity of the existing branch.'
-        message: '[AI] The command `git flow jj new --message` is used to create a new branch in Git using the Git Flow extension named "Jumpstart" or "jj". The `--message` option allows you to specify a commit message for the initial commit on the new branch. This command creates the branch from the current branch and sets up tracking, ready for pushing to a remote repository.'
+        By default, `jj` will edit the new change, making the [working copy] represent the new commit. This can be avoided with `--no-edit`.
+
+        Note that you can create a merge commit by specifying multiple revisions as argument. For example, `jj new @ main` will create a new commit with the working copy and the `main` bookmark as parents.
+
+        [working copy]: https://docs.jj-vcs.dev/latest/working-copy/
+    flag:
+        at-operation: |-
+            Operation to load the repo at
+
+            Operation to load the repo at. By default, Jujutsu loads the repo at the most recent operation, or at the merge of the divergent operations if any.
+
+            You can use `--at-op=<operation ID>` to see what the repo looked like at an earlier operation. For example `jj --at-op=<operation ID> st` will show you what `jj st` would have shown you when the given operation had just finished. `--at-op=@` is pretty much the same as the default except that divergent operations will never be merged.
+
+            Use `jj op log` to find the operation ID you want. Any unambiguous prefix of the operation ID is enough.
+
+            When loading the repo at an earlier operation, the working copy will be ignored, as if `--ignore-working-copy` had been specified.
+
+            It is possible to run mutating commands when loading the repo at an earlier operation. Doing that is equivalent to having run concurrent commands starting at the earlier operation. There's rarely a reason to do that, but it is possible.
+        config: |-
+            Additional configuration options (can be repeated)
+
+            The name should be specified as TOML dotted keys. The value should be specified as a TOML expression. If string value isn't enclosed by any TOML constructs (such as array notation), quotes can be omitted.
+        help: Print help (see a summary with '-h')
+        ignore-immutable: |-
+            Allow rewriting immutable commits
+
+            By default, Jujutsu prevents rewriting commits in the configured set of immutable commits. This option disables that check and lets you rewrite any commit but the root commit.
+
+            This option only affects the check. It does not affect the `immutable_heads()` revset or the `immutable` template keyword.
+        ignore-working-copy: |-
+            Don't snapshot the working copy, and don't update it
+
+            By default, Jujutsu snapshots the working copy at the beginning of every command. The working copy is also updated at the end of the command, if the command modified the working-copy commit (`@`). If you want to avoid snapshotting the working copy and instead see a possibly stale working-copy commit, you can use `--ignore-working-copy`. This may be useful e.g. in a command prompt, especially if you have another process that commits the working copy.
+
+            Loading the repository at a specific operation with `--at-operation` implies `--ignore-working-copy`.
+        insert-after: |-
+            Insert the new change after the given commit(s)
+
+            Example: `jj new --insert-after A` creates a new change between `A` and
+            its children:
+
+            ```text
+                            B   C
+                             \ /
+                B   C   =>    @
+                 \ /          |
+                  A           A
+            ```
+
+            Specifying `--insert-after` multiple times will relocate all children of
+            the given commits.
+
+            Example: `jj new --insert-after A --insert-after X` creates a change
+            with `A` and `X` as parents, and rebases all children on top of the new
+            change:
+
+            ```text
+                            B   Y
+                             \ /
+                B  Y    =>    @
+                |  |         / \
+                A  X        A   X
+            ```
+        insert-before: |-
+            Insert the new change before the given commit(s)
+
+            Example: `jj new --insert-before C` creates a new change between `C` and
+            its parents:
+
+            ```text
+                               C
+                               |
+                  C     =>     @
+                 / \          / \
+                A   B        A   B
+            ```
+
+            `--insert-after` and `--insert-before` can be combined.
+
+            Example: `jj new --insert-after A --insert-before D`:
+
+            ```text
+
+                D            D
+                |           / \
+                C          |   C
+                |    =>    @   |
+                B          |   B
+                |           \ /
+                A            A
+            ```
+
+            Similar to `--insert-after`, you can specify `--insert-before` multiple
+            times.
+        quiet: |-
+            Silence non-primary command output
+
+            For example, `jj file list` will still list files, but it won't tell you if the working copy was snapshotted or if descendants were rebased.
+
+            Warnings and errors will still be printed.
+        repository: |-
+            Path to repository to operate on
+
+            By default, Jujutsu searches for the closest .jj/ directory in an ancestor of the current working directory.
