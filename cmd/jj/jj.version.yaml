@@ -1,24 +1,56 @@
-# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
 name: version
 description: Display version information
 flags:
     -h, --help: Print help (see more with '--help')
-documentation:
-    command: '[AI] The `jj version` command is used with Jupyter Jupyter Notebook or Jupyter Lab to check the current version of Jupyter and IPython installed in your system. It returns the major and minor versions of both software packages, ensuring that you have an up-to-date setup for optimal usage.'
+completion:
     flag:
-        help: |-
-            [AI] The `--help` option when used with the `jj version` command in Jira is intended to display detailed help information about that specific command. It provides a clear explanation of what the command does, how it should be used, and any available options or arguments.
+        color:
+            - always
+            - never
+            - debug
+            - auto
+        config-file:
+            - $files
+        repository:
+            - $directories
+documentation:
+    flag:
+        at-operation: |-
+            Operation to load the repo at
 
-            For instance, running `jj version --help` might output something like:
+            Operation to load the repo at. By default, Jujutsu loads the repo at the most recent operation, or at the merge of the divergent operations if any.
 
-            ```bash
-            Usage: jj version [OPTIONS]
+            You can use `--at-op=<operation ID>` to see what the repo looked like at an earlier operation. For example `jj --at-op=<operation ID> st` will show you what `jj st` would have shown you when the given operation had just finished. `--at-op=@` is pretty much the same as the default except that divergent operations will never be merged.
 
-            This command displays the current installed version of Jira CLI (JJ) and the Jira server connection it is connected to.
+            Use `jj op log` to find the operation ID you want. Any unambiguous prefix of the operation ID is enough.
 
-            Options:
-              --verbose          Be more verbose, print out detailed information about versions, connections etc.
-              -h, --help         Show this message and exit.
-            ```
+            When loading the repo at an earlier operation, the working copy will be ignored, as if `--ignore-working-copy` had been specified.
 
-            In summary, using `--help` with `jj version` will display the command's usage details, options, and any additional information needed to effectively utilize it.
+            It is possible to run mutating commands when loading the repo at an earlier operation. Doing that is equivalent to having run concurrent commands starting at the earlier operation. There's rarely a reason to do that, but it is possible.
+        config: |-
+            Additional configuration options (can be repeated)
+
+            The name should be specified as TOML dotted keys. The value should be specified as a TOML expression. If string value isn't enclosed by any TOML constructs (such as array notation), quotes can be omitted.
+        help: Print help (see a summary with '-h')
+        ignore-immutable: |-
+            Allow rewriting immutable commits
+
+            By default, Jujutsu prevents rewriting commits in the configured set of immutable commits. This option disables that check and lets you rewrite any commit but the root commit.
+
+            This option only affects the check. It does not affect the `immutable_heads()` revset or the `immutable` template keyword.
+        ignore-working-copy: |-
+            Don't snapshot the working copy, and don't update it
+
+            By default, Jujutsu snapshots the working copy at the beginning of every command. The working copy is also updated at the end of the command, if the command modified the working-copy commit (`@`). If you want to avoid snapshotting the working copy and instead see a possibly stale working-copy commit, you can use `--ignore-working-copy`. This may be useful e.g. in a command prompt, especially if you have another process that commits the working copy.
+
+            Loading the repository at a specific operation with `--at-operation` implies `--ignore-working-copy`.
+        quiet: |-
+            Silence non-primary command output
+
+            For example, `jj file list` will still list files, but it won't tell you if the working copy was snapshotted or if descendants were rebased.
+
+            Warnings and errors will still be printed.
+        repository: |-
+            Path to repository to operate on
+
+            By default, Jujutsu searches for the closest .jj/ directory in an ancestor of the current working directory.

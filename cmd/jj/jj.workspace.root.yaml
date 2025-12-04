@@ -1,12 +1,56 @@
-# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
 name: root
 description: Show the current workspace root directory
 flags:
     -h, --help: Print help (see more with '--help')
-documentation:
-    command: '[AI] The `jj workspace root` command is used in the Jupyter JupyterNotebook or JupyterLab environments to navigate to the root directory of the current Jupyter Notebook project. This command sets the working directory for the Jupyter kernel, allowing users to easily access and modify files in the project from their notebook cells without having to manually change directories each time.'
+completion:
     flag:
-        help: |-
-            [AI] The command `jj workspace root --help` is used with JJ, a development tool for JavaScript projects. This specific command displays help information about the `workspace root` sub-command under the `jj workspace` category.
+        color:
+            - always
+            - never
+            - debug
+            - auto
+        config-file:
+            - $files
+        repository:
+            - $directories
+documentation:
+    flag:
+        at-operation: |-
+            Operation to load the repo at
 
-            In simpler terms, this command provides detailed explanations and usage instructions for setting the root directory of a JJ workspace, which is essentially the main folder containing your project files. By knowing the root directory, JJ can effectively manage and handle your project's dependencies, build processes, and other development tasks.
+            Operation to load the repo at. By default, Jujutsu loads the repo at the most recent operation, or at the merge of the divergent operations if any.
+
+            You can use `--at-op=<operation ID>` to see what the repo looked like at an earlier operation. For example `jj --at-op=<operation ID> st` will show you what `jj st` would have shown you when the given operation had just finished. `--at-op=@` is pretty much the same as the default except that divergent operations will never be merged.
+
+            Use `jj op log` to find the operation ID you want. Any unambiguous prefix of the operation ID is enough.
+
+            When loading the repo at an earlier operation, the working copy will be ignored, as if `--ignore-working-copy` had been specified.
+
+            It is possible to run mutating commands when loading the repo at an earlier operation. Doing that is equivalent to having run concurrent commands starting at the earlier operation. There's rarely a reason to do that, but it is possible.
+        config: |-
+            Additional configuration options (can be repeated)
+
+            The name should be specified as TOML dotted keys. The value should be specified as a TOML expression. If string value isn't enclosed by any TOML constructs (such as array notation), quotes can be omitted.
+        help: Print help (see a summary with '-h')
+        ignore-immutable: |-
+            Allow rewriting immutable commits
+
+            By default, Jujutsu prevents rewriting commits in the configured set of immutable commits. This option disables that check and lets you rewrite any commit but the root commit.
+
+            This option only affects the check. It does not affect the `immutable_heads()` revset or the `immutable` template keyword.
+        ignore-working-copy: |-
+            Don't snapshot the working copy, and don't update it
+
+            By default, Jujutsu snapshots the working copy at the beginning of every command. The working copy is also updated at the end of the command, if the command modified the working-copy commit (`@`). If you want to avoid snapshotting the working copy and instead see a possibly stale working-copy commit, you can use `--ignore-working-copy`. This may be useful e.g. in a command prompt, especially if you have another process that commits the working copy.
+
+            Loading the repository at a specific operation with `--at-operation` implies `--ignore-working-copy`.
+        quiet: |-
+            Silence non-primary command output
+
+            For example, `jj file list` will still list files, but it won't tell you if the working copy was snapshotted or if descendants were rebased.
+
+            Warnings and errors will still be printed.
+        repository: |-
+            Path to repository to operate on
+
+            By default, Jujutsu searches for the closest .jj/ directory in an ancestor of the current working directory.

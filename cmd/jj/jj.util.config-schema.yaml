@@ -1,14 +1,56 @@
-# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
 name: config-schema
 description: Print the JSON schema for the jj TOML config format
 flags:
     -h, --help: Print help (see more with '--help')
-documentation:
-    command: '[AI] The `jj util config-schema` command is a Jupyter Notebook utility used to generate or update the schema file for JSON notebooks. This file defines the structure and types of keys in the metadata section of the notebook, allowing tools like Jupyter Notebook Viewer and nbformat to properly interpret and render the notebook. The schema file is saved as a `.json` file named `notebook.json` in the root directory of the notebook.'
+completion:
     flag:
-        help: |-
-            [AI] The command `jj util config-schema --help` is used with Jira JIRA Software's CLI (Command Line Interface) tool, specifically with its utility named `jj util`. This command is used to display the help and usage information for the `config-schema` sub-command.
+        color:
+            - always
+            - never
+            - debug
+            - auto
+        config-file:
+            - $files
+        repository:
+            - $directories
+documentation:
+    flag:
+        at-operation: |-
+            Operation to load the repo at
 
-            The purpose of `config-schema` is to generate a JSON schema file from an existing Jira configuration, making it easier to understand the structure and format of the configuration data. By adding the `--help` flag, you'll receive detailed information about how to use this command correctly, including any available options or arguments, examples, and usage scenarios.
+            Operation to load the repo at. By default, Jujutsu loads the repo at the most recent operation, or at the merge of the divergent operations if any.
 
-            In summary, this command helps you generate a JSON schema from your Jira configuration while providing contextual help to guide you through the process.
+            You can use `--at-op=<operation ID>` to see what the repo looked like at an earlier operation. For example `jj --at-op=<operation ID> st` will show you what `jj st` would have shown you when the given operation had just finished. `--at-op=@` is pretty much the same as the default except that divergent operations will never be merged.
+
+            Use `jj op log` to find the operation ID you want. Any unambiguous prefix of the operation ID is enough.
+
+            When loading the repo at an earlier operation, the working copy will be ignored, as if `--ignore-working-copy` had been specified.
+
+            It is possible to run mutating commands when loading the repo at an earlier operation. Doing that is equivalent to having run concurrent commands starting at the earlier operation. There's rarely a reason to do that, but it is possible.
+        config: |-
+            Additional configuration options (can be repeated)
+
+            The name should be specified as TOML dotted keys. The value should be specified as a TOML expression. If string value isn't enclosed by any TOML constructs (such as array notation), quotes can be omitted.
+        help: Print help (see a summary with '-h')
+        ignore-immutable: |-
+            Allow rewriting immutable commits
+
+            By default, Jujutsu prevents rewriting commits in the configured set of immutable commits. This option disables that check and lets you rewrite any commit but the root commit.
+
+            This option only affects the check. It does not affect the `immutable_heads()` revset or the `immutable` template keyword.
+        ignore-working-copy: |-
+            Don't snapshot the working copy, and don't update it
+
+            By default, Jujutsu snapshots the working copy at the beginning of every command. The working copy is also updated at the end of the command, if the command modified the working-copy commit (`@`). If you want to avoid snapshotting the working copy and instead see a possibly stale working-copy commit, you can use `--ignore-working-copy`. This may be useful e.g. in a command prompt, especially if you have another process that commits the working copy.
+
+            Loading the repository at a specific operation with `--at-operation` implies `--ignore-working-copy`.
+        quiet: |-
+            Silence non-primary command output
+
+            For example, `jj file list` will still list files, but it won't tell you if the working copy was snapshotted or if descendants were rebased.
+
+            Warnings and errors will still be printed.
+        repository: |-
+            Path to repository to operate on
+
+            By default, Jujutsu searches for the closest .jj/ directory in an ancestor of the current working directory.

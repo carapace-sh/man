@@ -1,24 +1,81 @@
-# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
 name: fetch
 description: Fetch from a Git remote
 flags:
     --all-remotes: Fetch from all remotes
-    --branch*=: Fetch only some of the branches
-    --remote*=: The remote to fetch from (only named remotes are supported, can be repeated)
+    --bookmark=*&: Fetch only some of the branches
+    --remote=*: The remote to fetch from (only named remotes are supported, can be repeated)
+    --tracked: Fetch only tracked bookmarks
+    -b, --branch=*: Fetch only some of the branches
     -h, --help: Print help (see more with '--help')
+completion:
+    flag:
+        color:
+            - always
+            - never
+            - debug
+            - auto
+        config-file:
+            - $files
+        repository:
+            - $directories
 documentation:
     command: |-
-        [AI] The `jj git fetch` command is a combination of two separate commands used in Git version control system.
+        Fetch from a Git remote
 
-        First, `git fetch` is used to retrieve and update your local repository with any new commits, files or branches from a remote repository without altering your current working directory or local commits. This command helps keep your local repository up-to-date with the latest changes from the remote.
-
-        Secondly, `jj` is an alias for `git config --global alias.jj 'joint'`. The `joint` command is a custom Git command created by some developers to automatically fetch and switch to a specific branch (usually a development or master branch) in one step. So when you use the command `jj git fetch`, it actually fetches new changes from the remote repository, and then switches your local repository to the latest version of the specified branch.
+        If a working-copy commit gets abandoned, it will be given a new, empty commit. This is true in general; it is not specific to this command.
     flag:
-        all-remotes: '[AI] The `git fetch --all-remotes` command is used in Git version control system to fetch all branches and commits from all remote repositories that are configured for the local repository. It does not merge or modify the local repository in any way, but only updates the local repository with the latest data from the remotes. This can be useful for keeping a local repository up-to-date with multiple remote origins or tracking branches.'
-        branch: |-
-            [AI] The command `git fetch --branch jj` does the following:
+        at-operation: |-
+            Operation to load the repo at
 
-            1. Fetch: This is a Git command that retrieves new data from a remote repository but doesn't merge or modify your local commits in any way.
-            2. `--branch jj`: This option tells Git to fetch not only the latest tips of all branches but also the entire branch named "jj" (including its history). The local repository won't have this branch yet, so this action prepares you for creating a new local tracking branch based on the fetched one.
-        help: '[AI] The command `git fetch --help` is used in Git version control system to display detailed help information about the `fetch` sub-command. `fetch` is a Git command that retrieves and updates local branches with new work from remote repositories without integrating or applying those changes to your local commits. By adding `--help`, you request Git to show the available options and their descriptions for this specific command, allowing users to understand how it works and what arguments they can use when employing it in various scenarios.'
-        remote: '[AI] The command `git fetch --remote` is used in Git version control system to retrieve new commits and updates from a remote repository that you have configured with a unique name using the `remote add` command. This action does not modify your local working directory or master branch, it just downloads the latest changes from the remote repository for you to merge or cherry-pick later. It''s important to note that this command updates your local Git repository with new information without affecting any of your local branches.'
+            Operation to load the repo at. By default, Jujutsu loads the repo at the most recent operation, or at the merge of the divergent operations if any.
+
+            You can use `--at-op=<operation ID>` to see what the repo looked like at an earlier operation. For example `jj --at-op=<operation ID> st` will show you what `jj st` would have shown you when the given operation had just finished. `--at-op=@` is pretty much the same as the default except that divergent operations will never be merged.
+
+            Use `jj op log` to find the operation ID you want. Any unambiguous prefix of the operation ID is enough.
+
+            When loading the repo at an earlier operation, the working copy will be ignored, as if `--ignore-working-copy` had been specified.
+
+            It is possible to run mutating commands when loading the repo at an earlier operation. Doing that is equivalent to having run concurrent commands starting at the earlier operation. There's rarely a reason to do that, but it is possible.
+        branch: |-
+            Fetch only some of the branches
+
+            By default, the specified name matches exactly. Use `glob:` prefix to expand `*` as a glob, e.g. `--branch 'glob:push-*'`. Other wildcard characters such as `?` are *not* supported. Can be repeated to specify multiple branches.
+        config: |-
+            Additional configuration options (can be repeated)
+
+            The name should be specified as TOML dotted keys. The value should be specified as a TOML expression. If string value isn't enclosed by any TOML constructs (such as array notation), quotes can be omitted.
+        help: Print help (see a summary with '-h')
+        ignore-immutable: |-
+            Allow rewriting immutable commits
+
+            By default, Jujutsu prevents rewriting commits in the configured set of immutable commits. This option disables that check and lets you rewrite any commit but the root commit.
+
+            This option only affects the check. It does not affect the `immutable_heads()` revset or the `immutable` template keyword.
+        ignore-working-copy: |-
+            Don't snapshot the working copy, and don't update it
+
+            By default, Jujutsu snapshots the working copy at the beginning of every command. The working copy is also updated at the end of the command, if the command modified the working-copy commit (`@`). If you want to avoid snapshotting the working copy and instead see a possibly stale working-copy commit, you can use `--ignore-working-copy`. This may be useful e.g. in a command prompt, especially if you have another process that commits the working copy.
+
+            Loading the repository at a specific operation with `--at-operation` implies `--ignore-working-copy`.
+        quiet: |-
+            Silence non-primary command output
+
+            For example, `jj file list` will still list files, but it won't tell you if the working copy was snapshotted or if descendants were rebased.
+
+            Warnings and errors will still be printed.
+        remote: |-
+            The remote to fetch from (only named remotes are supported, can be repeated)
+
+            This defaults to the `git.fetch` setting. If that is not configured, and if there are multiple remotes, the remote named "origin" will be used.
+
+            By default, the specified remote names matches exactly. Use a [string pattern], e.g. `--remote 'glob:*'`, to select remotes using patterns.
+
+            [string pattern]: https://docs.jj-vcs.dev/latest/revsets#string-patterns
+        repository: |-
+            Path to repository to operate on
+
+            By default, Jujutsu searches for the closest .jj/ directory in an ancestor of the current working directory.
+        tracked: |-
+            Fetch only tracked bookmarks
+
+            This fetches only bookmarks that are already tracked from the specified remote(s).

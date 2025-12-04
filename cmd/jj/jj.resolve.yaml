@@ -1,15 +1,71 @@
-# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
 name: resolve
-description: Resolve a conflicted file with an external merge tool
+description: Resolve conflicted files with an external merge tool
 flags:
+    --tool=: Specify 3-way merge tool to be used
     -h, --help: Print help (see more with '--help')
-    -l, --list: Instead of resolving one conflict, list all the conflicts
-    -q, --quiet: Do not print the list of remaining conflicts (if any) after resolving a conflict
+    -l, --list: Instead of resolving conflicts, list all the conflicts
     -r, --revision=: ""
-documentation:
-    command: '[AI] The `jj resolve` command is used in Jupyter Notebooks to download and install dependencies listed in a project''s `requirements.txt` or `environment.yml` file. It is part of the Jupyter Notebook extension called "Jupyterlab Extension for Conda". This command retrieves the necessary packages from Anaconda or other Conda repositories and creates a new environment with those dependencies.'
+completion:
     flag:
-        help: '[AI] `jj resolve --help` is a command used in Jira, specifically with the Jira CLI tool (Command Line Interface) named "jj". This command displays help information about the `resolve` sub-command, which is used for resolving issues in Jira projects. It provides detailed information on how to use this command with different options and arguments. It can help users understand what issues they can resolve, how to specify the issues, and other relevant details.'
-        list: '[AI] `jj resolve --list` is a command used with the Jira Java library (JJ) to interact with Jira repositories programmatically. This specific command displays a list of unresolved issues, i.e., issues that have not been linked or fixed yet in your project. By executing this command, you can obtain information about the IDs and other relevant details of these issues, helping you manage and prioritize your work more effectively.'
-        quiet: '[AI] The `jj resolve --quiet` command is used in Jira, a project management tool by Atlassian. It''s a quiet resolution of an issue, meaning it will attempt to automatically apply the next available resolution without displaying any dialog boxes or notifications that are usually shown during the process. This can be useful when you want to resolve issues programmatically or in large batches without manual intervention.'
-        revision: '[AI] `jj resolve --revision` is a command used in the JetBrains IntelliJ IDEA version control system integration, specifically with Git. This command resolves any merge conflicts that might have occurred during a Git commit or pull request by automatically merging the changes from the specified revision into your current branch. The `--revision` option specifies the exact Git commit hash or branch name to use for the merge resolution.'
+        color:
+            - always
+            - never
+            - debug
+            - auto
+        config-file:
+            - $files
+        repository:
+            - $directories
+    positionalany:
+        - $files
+documentation:
+    command: |-
+        Resolve conflicted files with an external merge tool
+
+        Only conflicts that can be resolved with a 3-way merge are supported. See docs for merge tool configuration instructions. External merge tools will be invoked for each conflicted file one-by-one until all conflicts are resolved. To stop resolving conflicts, exit the merge tool without making any changes.
+
+        Note that conflicts can also be resolved without using this command. You may edit the conflict markers in the conflicted file directly with a text editor.
+    flag:
+        at-operation: |-
+            Operation to load the repo at
+
+            Operation to load the repo at. By default, Jujutsu loads the repo at the most recent operation, or at the merge of the divergent operations if any.
+
+            You can use `--at-op=<operation ID>` to see what the repo looked like at an earlier operation. For example `jj --at-op=<operation ID> st` will show you what `jj st` would have shown you when the given operation had just finished. `--at-op=@` is pretty much the same as the default except that divergent operations will never be merged.
+
+            Use `jj op log` to find the operation ID you want. Any unambiguous prefix of the operation ID is enough.
+
+            When loading the repo at an earlier operation, the working copy will be ignored, as if `--ignore-working-copy` had been specified.
+
+            It is possible to run mutating commands when loading the repo at an earlier operation. Doing that is equivalent to having run concurrent commands starting at the earlier operation. There's rarely a reason to do that, but it is possible.
+        config: |-
+            Additional configuration options (can be repeated)
+
+            The name should be specified as TOML dotted keys. The value should be specified as a TOML expression. If string value isn't enclosed by any TOML constructs (such as array notation), quotes can be omitted.
+        help: Print help (see a summary with '-h')
+        ignore-immutable: |-
+            Allow rewriting immutable commits
+
+            By default, Jujutsu prevents rewriting commits in the configured set of immutable commits. This option disables that check and lets you rewrite any commit but the root commit.
+
+            This option only affects the check. It does not affect the `immutable_heads()` revset or the `immutable` template keyword.
+        ignore-working-copy: |-
+            Don't snapshot the working copy, and don't update it
+
+            By default, Jujutsu snapshots the working copy at the beginning of every command. The working copy is also updated at the end of the command, if the command modified the working-copy commit (`@`). If you want to avoid snapshotting the working copy and instead see a possibly stale working-copy commit, you can use `--ignore-working-copy`. This may be useful e.g. in a command prompt, especially if you have another process that commits the working copy.
+
+            Loading the repository at a specific operation with `--at-operation` implies `--ignore-working-copy`.
+        quiet: |-
+            Silence non-primary command output
+
+            For example, `jj file list` will still list files, but it won't tell you if the working copy was snapshotted or if descendants were rebased.
+
+            Warnings and errors will still be printed.
+        repository: |-
+            Path to repository to operate on
+
+            By default, Jujutsu searches for the closest .jj/ directory in an ancestor of the current working directory.
+        tool: |-
+            Specify 3-way merge tool to be used
+
+            The built-in merge tools `:ours` and `:theirs` can be used to choose side #1 and side #2 of the conflict respectively.

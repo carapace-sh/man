@@ -1,23 +1,62 @@
-# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
 name: import
 description: Update repo with changes made in the underlying Git repo
 flags:
     -h, --help: Print help (see more with '--help')
-documentation:
-    command: '[AI] The `jj git import` command is not a standard Git command, but rather a command specific to the Jira Java command-line interface (JJ-CLI) tool for managing Jira issues. It''s used to import Git repositories into Jira as linked repositories, enabling developers to view the commits and commit messages in the context of an issue. The Git repository URL is provided as a parameter, followed by optional flags for specifying a branch or commit ID. For example: `jj git import <Git_repository_URL> [<Branch_or_commit_ID>]`.'
+completion:
     flag:
-        help: |-
-            [AI] The `jj git import` command is a part of Jira Software's Git Integration for Jira. This command helps to import Git repositories into Jira as projects. Here's a brief explanation of the available options when using the help flag (--help):
+        color:
+            - always
+            - never
+            - debug
+            - auto
+        config-file:
+            - $files
+        repository:
+            - $directories
+documentation:
+    command: |-
+        Update repo with changes made in the underlying Git repo
 
-            - `jj git import [REPO_PATH] [PROJECT_KEY]`: Mandatory arguments. Replace [REPO_PATH] with the local path to the Git repository and [PROJECT_KEY] with the desired Jira project key for the new project.
+        If a working-copy commit gets abandoned, it will be given a new, empty commit. This is true in general; it is not specific to this command.
 
-            Options (can be provided using `--option value`):
+        There is no need to run this command if you're in colocated workspace because the import happens automatically there.
+    flag:
+        at-operation: |-
+            Operation to load the repo at
 
-            - `--project-name <Project Name>`: Define a custom name for the new Jira project.
-            - `--template <Template Key>`: Apply a specific project template to the imported project.
-            - `--skip-scm-setup`: Skip setting up SCM integration in Jira (default: false).
-            - `--interactive`: Interactively configure each import step (default: false).
-            - `--no-auto-transition`: Do not create an initial transition for the workflow (default: false).
-            - `--ignore-errors`: Continue with the import even if some errors occur during the process.
+            Operation to load the repo at. By default, Jujutsu loads the repo at the most recent operation, or at the merge of the divergent operations if any.
 
-            For more detailed information, you can refer to Jira's official documentation on Git Integration for Jira: https://confluence.atlassian.com/jirakb/git-integration-for-jira-784531926.html
+            You can use `--at-op=<operation ID>` to see what the repo looked like at an earlier operation. For example `jj --at-op=<operation ID> st` will show you what `jj st` would have shown you when the given operation had just finished. `--at-op=@` is pretty much the same as the default except that divergent operations will never be merged.
+
+            Use `jj op log` to find the operation ID you want. Any unambiguous prefix of the operation ID is enough.
+
+            When loading the repo at an earlier operation, the working copy will be ignored, as if `--ignore-working-copy` had been specified.
+
+            It is possible to run mutating commands when loading the repo at an earlier operation. Doing that is equivalent to having run concurrent commands starting at the earlier operation. There's rarely a reason to do that, but it is possible.
+        config: |-
+            Additional configuration options (can be repeated)
+
+            The name should be specified as TOML dotted keys. The value should be specified as a TOML expression. If string value isn't enclosed by any TOML constructs (such as array notation), quotes can be omitted.
+        help: Print help (see a summary with '-h')
+        ignore-immutable: |-
+            Allow rewriting immutable commits
+
+            By default, Jujutsu prevents rewriting commits in the configured set of immutable commits. This option disables that check and lets you rewrite any commit but the root commit.
+
+            This option only affects the check. It does not affect the `immutable_heads()` revset or the `immutable` template keyword.
+        ignore-working-copy: |-
+            Don't snapshot the working copy, and don't update it
+
+            By default, Jujutsu snapshots the working copy at the beginning of every command. The working copy is also updated at the end of the command, if the command modified the working-copy commit (`@`). If you want to avoid snapshotting the working copy and instead see a possibly stale working-copy commit, you can use `--ignore-working-copy`. This may be useful e.g. in a command prompt, especially if you have another process that commits the working copy.
+
+            Loading the repository at a specific operation with `--at-operation` implies `--ignore-working-copy`.
+        quiet: |-
+            Silence non-primary command output
+
+            For example, `jj file list` will still list files, but it won't tell you if the working copy was snapshotted or if descendants were rebased.
+
+            Warnings and errors will still be printed.
+        repository: |-
+            Path to repository to operate on
+
+            By default, Jujutsu searches for the closest .jj/ directory in an ancestor of the current working directory.

@@ -1,14 +1,98 @@
-# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
-name: clone [OPTIONS] <SOURCE> [DESTINATION]
+name: clone
 description: Create a new repo backed by a clone of a Git repo
 flags:
-    --colocate: Whether or not to colocate the Jujutsu repo with the git repo
+    --bookmark=*&: Name of the branch to fetch and use as the parent of the working-copy change
+    --colocate: Colocate the Jujutsu repo with the git repo
+    --depth=: Create a shallow clone of the given depth
+    --fetch-tags=: Configure when to fetch tags
+    --no-colocate: Disable colocation of the Jujutsu repo with the git repo
+    --remote=: Name of the newly created remote
+    -b, --branch=*: Name of the branch to fetch and use as the parent of the working-copy change
     -h, --help: Print help (see more with '--help')
-documentation:
-    command: |-
-        [AI] The `jj` command is not a standard Git command. It seems you might have meant to use `git`, which is a version control system, and `clone` is one of its commands used to make a local copy of an existing remote repository.
-
-        So, the correct command should be: `git clone [URL]`, where `[URL]` is the URL of the repository you want to clone. This command will create a new local directory with the repository's name and download all files and commits from the specified remote repository into that directory.
+completion:
     flag:
-        colocate: '[AI] `git clone --colocate` is a Git command used to create a new repository by cloning an existing one, while also sharing local directories between the source and the target repositories. This option is particularly useful when working on multiple related projects that share common subdirectories or files. It allows for better organization and reduced disk space usage by avoiding redundant copies of the same content. In summary, `git clone --colocate` creates a linked clone, which keeps the source and target repositories in sync regarding shared directories.'
-        help: '[AI] `jj git clone --help` is a command used with the Jira CLI (Command Line Interface) tool, JJ, which is an unofficial Git client for Jira. This command displays the help or usage information for the "git clone" sub-command of JJ. The "--help" option provides detailed information about how to use the "git clone" command correctly to create a new local Git repository from a remote repository in Jira. It shows options like specifying the repository URL, local directory path, and branch or commit to checkout.'
+        color:
+            - always
+            - never
+            - debug
+            - auto
+        config-file:
+            - $files
+        fetch-tags:
+            - "all\tAlways fetch all tags"
+            - "included\tOnly fetch tags that point to objects that are already being transmitted"
+            - "none\tDo not fetch any tags"
+        repository:
+            - $directories
+    positional:
+        - []
+        - - $directories
+documentation:
+    flag:
+        at-operation: |-
+            Operation to load the repo at
+
+            Operation to load the repo at. By default, Jujutsu loads the repo at the most recent operation, or at the merge of the divergent operations if any.
+
+            You can use `--at-op=<operation ID>` to see what the repo looked like at an earlier operation. For example `jj --at-op=<operation ID> st` will show you what `jj st` would have shown you when the given operation had just finished. `--at-op=@` is pretty much the same as the default except that divergent operations will never be merged.
+
+            Use `jj op log` to find the operation ID you want. Any unambiguous prefix of the operation ID is enough.
+
+            When loading the repo at an earlier operation, the working copy will be ignored, as if `--ignore-working-copy` had been specified.
+
+            It is possible to run mutating commands when loading the repo at an earlier operation. Doing that is equivalent to having run concurrent commands starting at the earlier operation. There's rarely a reason to do that, but it is possible.
+        branch: |-
+            Name of the branch to fetch and use as the parent of the working-copy change
+
+            If not present, all branches are fetched and the repository's default branch is used as parent of the working-copy change.
+
+            By default, the specified name matches exactly. Use `glob:` prefix to expand `*` as a glob, e.g. `--branch 'glob:push-*'`. Other wildcard characters such as `?` are *not* supported. Can be repeated to specify multiple branches, in which case the first exact branch name is used as the working-copy parent.
+        colocate: |-
+            Colocate the Jujutsu repo with the git repo
+
+            Specifies that the `jj` repo should also be a valid `git` repo, allowing the use of both `jj` and `git` commands in the same directory.
+
+            The repository will contain a `.git` dir in the top-level. Regular Git tools will be able to operate on the repo.
+
+            **This is the default**, and this option has no effect, unless the [git.colocate config] is set to `false`.
+
+            [git.colocate config]: https://docs.jj-vcs.dev/latest/config/#default-colocation
+        config: |-
+            Additional configuration options (can be repeated)
+
+            The name should be specified as TOML dotted keys. The value should be specified as a TOML expression. If string value isn't enclosed by any TOML constructs (such as array notation), quotes can be omitted.
+        fetch-tags: |-
+            Configure when to fetch tags
+
+            Unless otherwise specified, the initial clone will fetch all tags, while all subsequent fetches will only fetch included tags.
+        help: Print help (see a summary with '-h')
+        ignore-immutable: |-
+            Allow rewriting immutable commits
+
+            By default, Jujutsu prevents rewriting commits in the configured set of immutable commits. This option disables that check and lets you rewrite any commit but the root commit.
+
+            This option only affects the check. It does not affect the `immutable_heads()` revset or the `immutable` template keyword.
+        ignore-working-copy: |-
+            Don't snapshot the working copy, and don't update it
+
+            By default, Jujutsu snapshots the working copy at the beginning of every command. The working copy is also updated at the end of the command, if the command modified the working-copy commit (`@`). If you want to avoid snapshotting the working copy and instead see a possibly stale working-copy commit, you can use `--ignore-working-copy`. This may be useful e.g. in a command prompt, especially if you have another process that commits the working copy.
+
+            Loading the repository at a specific operation with `--at-operation` implies `--ignore-working-copy`.
+        no-colocate: |-
+            Disable colocation of the Jujutsu repo with the git repo
+
+            Prevent Git tools that are unaware of `jj` and regular Git commands from operating on the repo. The Git repository that stores most of the repo data will be hidden inside a sub-directory of the `.jj` directory.
+
+            See [colocation docs] for some minor advantages of non-colocated workspaces.
+
+            [colocation docs]: https://docs.jj-vcs.dev/latest/git-compatibility/#colocated-jujutsugit-repos
+        quiet: |-
+            Silence non-primary command output
+
+            For example, `jj file list` will still list files, but it won't tell you if the working copy was snapshotted or if descendants were rebased.
+
+            Warnings and errors will still be printed.
+        repository: |-
+            Path to repository to operate on
+
+            By default, Jujutsu searches for the closest .jj/ directory in an ancestor of the current working directory.

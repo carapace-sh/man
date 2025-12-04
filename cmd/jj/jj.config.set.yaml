@@ -1,39 +1,64 @@
-# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
-name: set [OPTIONS] <--user|--repo> <NAME> <VALUE>
+name: set
 aliases:
     - s
-description: Update config file to set the given option to a given value
+description: Update a config file to set the given option to a given value
 flags:
     --repo: Target the repo-level config
     --user: Target the user-level config
+    --workspace: Target the workspace-level config
     -h, --help: Print help (see more with '--help')
-documentation:
-    command: '[AI] The `jj` command is a tool for managing and executing JavaScript tests using Jest testing framework. The `jj config set` subcommand is used to configure Jest by setting key-value pairs in the `jest.config.js` file programmatically. For example, `jj config set verbose false` disables the verbose mode output during test execution. It''s a convenient way to modify configuration settings without editing the configuration file directly.'
+completion:
     flag:
-        help: |-
-            [AI] `jj` is a CLI (Command-Line Interface) tool used for managing and configuring JavaScript projects using Jest as the testing framework. The command `jj config set --help` displays help information about the `set` subcommand of the `jj config` command.
+        color:
+            - always
+            - never
+            - debug
+            - auto
+        config-file:
+            - $files
+        repository:
+            - $directories
+    positional:
+        - []
+        - []
+documentation:
+    flag:
+        at-operation: |-
+            Operation to load the repo at
 
-            This command allows users to configure specific settings for their Jest tests by setting key-value pairs in the project's Jest configuration file (`.jestrc.json`). The `--help` flag provides a description of all available options and arguments for this command, enabling users to understand how to properly configure their tests.
+            Operation to load the repo at. By default, Jujutsu loads the repo at the most recent operation, or at the merge of the divergent operations if any.
 
-            Here is an example usage:
-            ```
-            jj config set --global --key globalKey --value "globalValue" --help
-            ```
-            This command sets the value of the `globalKey` configuration option to `globalValue` for all Jest test runs globally, and displays help information about this command. The flags used in this example include:
+            You can use `--at-op=<operation ID>` to see what the repo looked like at an earlier operation. For example `jj --at-op=<operation ID> st` will show you what `jj st` would have shown you when the given operation had just finished. `--at-op=@` is pretty much the same as the default except that divergent operations will never be merged.
 
-            - `--global`: Sets the configuration change globally (across all projects).
-            - `--key`: Specifies the name of the configuration option to set.
-            - `--value`: Assigns a value to the specified configuration option.
-            - `--help`: Displays help information about the command.
-        repo: |-
-            [AI] The `jj` command is a Git client for Java developers, designed to simplify common Git operations. The specific command `jj config set --repo <repository-url>` is used to configure `jj` to work with a particular Git repository.
+            Use `jj op log` to find the operation ID you want. Any unambiguous prefix of the operation ID is enough.
 
-            Here's a brief explanation:
+            When loading the repo at an earlier operation, the working copy will be ignored, as if `--ignore-working-copy` had been specified.
 
-            1. `jj config`: This command sets the configuration options for `jj`.
-            2. `set`: This subcommand is used to set specific configuration variables.
-            3. `--repo`: This option is used to set the URL of the Git repository that `jj` will interact with.
-            4. `<repository-url>`: This is a required argument, which should be replaced by the actual URL of your Git repository.
+            It is possible to run mutating commands when loading the repo at an earlier operation. Doing that is equivalent to having run concurrent commands starting at the earlier operation. There's rarely a reason to do that, but it is possible.
+        config: |-
+            Additional configuration options (can be repeated)
 
-            So, in summary, the command `jj config set --repo <repository-url>` sets the Git repository URL for `jj`.
-        user: '[AI] The `jj config set --user` command is used with JJ (Jeet.js), a popular Node.js development tool for managing and automating JavaScript projects. This command sets the user configuration for JJ, which can include various settings such as project root directories, default tasks, and other customizable options. By modifying the user configuration, you can tailor JJ to fit your specific project requirements or personal preferences.'
+            The name should be specified as TOML dotted keys. The value should be specified as a TOML expression. If string value isn't enclosed by any TOML constructs (such as array notation), quotes can be omitted.
+        help: Print help (see a summary with '-h')
+        ignore-immutable: |-
+            Allow rewriting immutable commits
+
+            By default, Jujutsu prevents rewriting commits in the configured set of immutable commits. This option disables that check and lets you rewrite any commit but the root commit.
+
+            This option only affects the check. It does not affect the `immutable_heads()` revset or the `immutable` template keyword.
+        ignore-working-copy: |-
+            Don't snapshot the working copy, and don't update it
+
+            By default, Jujutsu snapshots the working copy at the beginning of every command. The working copy is also updated at the end of the command, if the command modified the working-copy commit (`@`). If you want to avoid snapshotting the working copy and instead see a possibly stale working-copy commit, you can use `--ignore-working-copy`. This may be useful e.g. in a command prompt, especially if you have another process that commits the working copy.
+
+            Loading the repository at a specific operation with `--at-operation` implies `--ignore-working-copy`.
+        quiet: |-
+            Silence non-primary command output
+
+            For example, `jj file list` will still list files, but it won't tell you if the working copy was snapshotted or if descendants were rebased.
+
+            Warnings and errors will still be printed.
+        repository: |-
+            Path to repository to operate on
+
+            By default, Jujutsu searches for the closest .jj/ directory in an ancestor of the current working directory.

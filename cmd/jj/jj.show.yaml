@@ -1,21 +1,90 @@
-# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
-name: show [OPTIONS] [REVISION]
+name: show
 description: Show commit description and changes in a revision
 flags:
     --color-words: Show a word-level diff with changes indicated only by color
+    --context=: Number of lines of context to show
     --git: Show a Git-format diff
+    --name-only: For each path, show only its path
+    --no-patch: Do not show the patch
     --stat: Show a histogram of the changes
     --tool=: Generate diff by external command
     --types: For each path, show only its type before and after
+    -T, --template=: Render a revision using the given template
+    -b, --ignore-space-change: Ignore changes in amount of whitespace when comparing lines
     -h, --help: Print help (see more with '--help')
-    -s, --summary: For each path, show only whether it was modified, added, or removed
-documentation:
-    command: '[AI] The `jj show` command is a part of the Jupyter Notebook Interactive Python REPL (REPL stands for Read-Evaluate-Print Loop), which is an alternative way to run Python code in Jupyter Notebook cells. This command is used to display the help or documentation for a specific Python module, function, class, or other object. When you type `jj show` followed by the name of what you want to see the documentation for (for example, `jj show numpy`), Jupyter will search for and display the corresponding documentation using an external documentation source like IPython''s `ipywidgets`, `ipydoc`, or `numpydoc`.'
+    -s, --summary: For each path, show only whether it was modified, added, or deleted
+    -w, --ignore-all-space: Ignore whitespace when comparing lines
+completion:
     flag:
-        color-words: '[AI] The `--color-words` option in the `jj` command is used to enable colored output for certain words or phrases during the search and replace process. This can make it easier to identify specific matches within large files or output streams. For instance, when performing a substitution operation, you can highlight errors, keys, or other significant parts of the text with distinct colors for better readability. It''s important to note that this option is typically used with terminal applications that support color displays.'
-        git: '[AI] The `jj show --git` command is used in Jira, a project management tool by Atlassian. It is not a standard Linux or Git command. This command is employed to display Git repository details of a specific Jira issue. When you run this command, Jira will fetch and present the associated Git repository URL, branch name, and commit message for the issue in question.'
-        help: '[AI] The command `jj show --help` is used with Jira JIRA CLI tool (Java-based) for managing and interacting with Jira projects programmatically. This specific command displays a help message detailing the options and usage of the ''show'' subcommand. It provides information on which project key, issue ID or JQL query should be used to fetch the data, as well as available output formats.'
-        stat: '[AI] The `jj show --stat` command is used in Jupyter Notebook to display detailed statistics about the execution time and memory usage of individual cells or all cells in a notebook. The `--stat` option enables the output of statistics, and the `show` command is used to display the results. It provides information such as the total time elapsed, CPU and IOP usage, and maximum memory consumption for each cell, allowing users to identify performance bottlenecks and optimize their code accordingly.'
-        summary: '[AI] `jj show --summary` is a command in Jupyter Journal''s (jj) CLI for displaying a summary of the available notebooks in a specific directory or project. It provides brief information about each notebook, including its name, last modified date, and status (e.g., saved or unsaved). This command can help users quickly identify and manage their Jupyter Notebooks.'
-        tool: '[AI] The `jj show --tool` command is a part of JJ (Just Java), an open-source Java development tool. It''s used to display the details of a specific Java tool or plugin installed in your JJ environment. This includes the name, version, and other relevant metadata about the tool.'
-        types: '[AI] The `jj show --types` command is used in Jupyter Jupyter''s text-based interface (jj) to display available cell types supported by Jupyter Notebooks. These include code cells for executing code, markdown cells for formatting text and adding media, and raw cells for inserting arbitrary data without interpretation. The output will list the different cell types with their corresponding mime types.'
+        color:
+            - always
+            - never
+            - debug
+            - auto
+        config-file:
+            - $files
+        repository:
+            - $directories
+    positional:
+        - []
+documentation:
+    flag:
+        at-operation: |-
+            Operation to load the repo at
+
+            Operation to load the repo at. By default, Jujutsu loads the repo at the most recent operation, or at the merge of the divergent operations if any.
+
+            You can use `--at-op=<operation ID>` to see what the repo looked like at an earlier operation. For example `jj --at-op=<operation ID> st` will show you what `jj st` would have shown you when the given operation had just finished. `--at-op=@` is pretty much the same as the default except that divergent operations will never be merged.
+
+            Use `jj op log` to find the operation ID you want. Any unambiguous prefix of the operation ID is enough.
+
+            When loading the repo at an earlier operation, the working copy will be ignored, as if `--ignore-working-copy` had been specified.
+
+            It is possible to run mutating commands when loading the repo at an earlier operation. Doing that is equivalent to having run concurrent commands starting at the earlier operation. There's rarely a reason to do that, but it is possible.
+        config: |-
+            Additional configuration options (can be repeated)
+
+            The name should be specified as TOML dotted keys. The value should be specified as a TOML expression. If string value isn't enclosed by any TOML constructs (such as array notation), quotes can be omitted.
+        help: Print help (see a summary with '-h')
+        ignore-immutable: |-
+            Allow rewriting immutable commits
+
+            By default, Jujutsu prevents rewriting commits in the configured set of immutable commits. This option disables that check and lets you rewrite any commit but the root commit.
+
+            This option only affects the check. It does not affect the `immutable_heads()` revset or the `immutable` template keyword.
+        ignore-working-copy: |-
+            Don't snapshot the working copy, and don't update it
+
+            By default, Jujutsu snapshots the working copy at the beginning of every command. The working copy is also updated at the end of the command, if the command modified the working-copy commit (`@`). If you want to avoid snapshotting the working copy and instead see a possibly stale working-copy commit, you can use `--ignore-working-copy`. This may be useful e.g. in a command prompt, especially if you have another process that commits the working copy.
+
+            Loading the repository at a specific operation with `--at-operation` implies `--ignore-working-copy`.
+        name-only: |-
+            For each path, show only its path
+
+            Typically useful for shell commands like: `jj diff -r @- --name-only | xargs perl -pi -e's/OLD/NEW/g`
+        quiet: |-
+            Silence non-primary command output
+
+            For example, `jj file list` will still list files, but it won't tell you if the working copy was snapshotted or if descendants were rebased.
+
+            Warnings and errors will still be printed.
+        repository: |-
+            Path to repository to operate on
+
+            By default, Jujutsu searches for the closest .jj/ directory in an ancestor of the current working directory.
+        template: |-
+            Render a revision using the given template
+
+            You can specify arbitrary template expressions using the [built-in keywords]. See [`jj help -k templates`] for more information.
+
+            [built-in keywords]: https://docs.jj-vcs.dev/latest/templates/#commit-keywords
+
+            [`jj help -k templates`]: https://docs.jj-vcs.dev/latest/templates/
+        tool: |-
+            Generate diff by external command
+
+            A builtin format can also be specified as `:<name>`. For example, `--tool=:git` is equivalent to `--git`.
+        types: |-
+            For each path, show only its type before and after
+
+            The diff is shown as two letters. The first letter indicates the type before and the second letter indicates the type after. '-' indicates that the path was not present, 'F' represents a regular file, `L' represents a symlink, 'C' represents a conflict, and 'G' represents a Git submodule.

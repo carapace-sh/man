@@ -1,22 +1,67 @@
-# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
 name: set
 description: Update the patterns that are present in the working copy
 flags:
-    --add*=: Patterns to add to the working copy
+    --add=*: Patterns to add to the working copy
     --clear: Include no files in the working copy (combine with --add)
-    --edit: Edit patterns with $EDITOR
-    --remove*=: Patterns to remove from the working copy
-    --reset: Include all files in the working copy
+    --remove=*: Patterns to remove from the working copy
     -h, --help: Print help (see more with '--help')
-documentation:
-    command: '[AI] The `jj sparse set` command is used in Jupyter Notebook''s interactive debugger, Jupyter''s JavaScript debugger (jj), to configure a data frame or a sparse matrix as a variable for debugging. When you encounter an issue with such an object in your code and want to inspect its values during the execution, use this command followed by the name of the variable. It sets up the variable for interactive inspection in the debugger.'
+completion:
     flag:
-        add: '[AI] The command `jj sparse set --add` is used in Jupyter Notebook to add a new sparse cell to the notebook. A sparse cell is a type of cell where only a portion of its content is saved, reducing the size of the notebook file. The `--add` option indicates that a new empty sparse cell will be created without any initial content.'
-        clear: |-
-            [AI] The `jj` command is a text editor for JSON files, developed by Jeff Bay and Jeremiah Lee. The `sparse set --clear` option is used to manage a list of keys in a JSON file that should be tracked by Git.
+        add:
+            - $files
+        color:
+            - always
+            - never
+            - debug
+            - auto
+        config-file:
+            - $files
+        remove:
+            - $files
+        repository:
+            - $directories
+documentation:
+    command: |-
+        Update the patterns that are present in the working copy
 
-            With `--clear`, this command will remove all the currently tracked keys from the sparse set, effectively unstaging all changes related to those keys. This can be useful when you want to reset your working directory to only track a specific subset of keys in the JSON file.
-        edit: '[AI] The `jj` command is a text editor for JSON data, and the `sparse set --edit` sub-command is used to edit a JSON file with sparse mode enabled. With this option, only the keys that have been modified or newly added will be written back to the file when saving changes. This can result in smaller and more efficient I/O operations compared to editing the entire file. The `--edit` flag initiates the text editor interface for making modifications.'
-        help: '[AI] The command `jj sparse set --help` is used with Jupyter''s jupytext editing tool to display help information about the `set` sub-command of the `jj sparse` feature. This command enables or disables sparse mode for Jupyter Notebooks, saving them with only the cells that have been modified instead of the entire notebook. Using this command with the `--help` flag will display detailed information about how to use it, including available options and their meanings.'
-        remove: '[AI] The `jj sparse set --remove` command is used in Apache Hadoop''s HDFS (Hadoop Distributed File System) to remove blocks marked as "sparse" from a file''s replication. Sparse files are those whose data is stored in a compressed, block-level format, resulting in fewer actual data blocks. By removing these sparse blocks, HDFS can save storage space and improve overall system performance. This command should be used with caution as it irreversibly removes the specified sparse blocks and cannot be undone.'
-        reset: '[AI] `jj` is a text editor for Vim with built-in jedi-vim plugin for autocompletion and snippets in Python programming. The command `jj sparse set --reset` resets all previously marked "sparse" positions in the source code. With this feature, you can mark specific locations in your code to jump back quickly instead of navigating through the entire file. After resetting, you will need to mark the positions again for this functionality to work.'
+        For example, if all you need is the `README.md` and the `lib/` directory, use `jj sparse set --clear --add README.md --add lib`. If you no longer need the `lib` directory, use `jj sparse set --remove lib`.
+    flag:
+        at-operation: |-
+            Operation to load the repo at
+
+            Operation to load the repo at. By default, Jujutsu loads the repo at the most recent operation, or at the merge of the divergent operations if any.
+
+            You can use `--at-op=<operation ID>` to see what the repo looked like at an earlier operation. For example `jj --at-op=<operation ID> st` will show you what `jj st` would have shown you when the given operation had just finished. `--at-op=@` is pretty much the same as the default except that divergent operations will never be merged.
+
+            Use `jj op log` to find the operation ID you want. Any unambiguous prefix of the operation ID is enough.
+
+            When loading the repo at an earlier operation, the working copy will be ignored, as if `--ignore-working-copy` had been specified.
+
+            It is possible to run mutating commands when loading the repo at an earlier operation. Doing that is equivalent to having run concurrent commands starting at the earlier operation. There's rarely a reason to do that, but it is possible.
+        config: |-
+            Additional configuration options (can be repeated)
+
+            The name should be specified as TOML dotted keys. The value should be specified as a TOML expression. If string value isn't enclosed by any TOML constructs (such as array notation), quotes can be omitted.
+        help: Print help (see a summary with '-h')
+        ignore-immutable: |-
+            Allow rewriting immutable commits
+
+            By default, Jujutsu prevents rewriting commits in the configured set of immutable commits. This option disables that check and lets you rewrite any commit but the root commit.
+
+            This option only affects the check. It does not affect the `immutable_heads()` revset or the `immutable` template keyword.
+        ignore-working-copy: |-
+            Don't snapshot the working copy, and don't update it
+
+            By default, Jujutsu snapshots the working copy at the beginning of every command. The working copy is also updated at the end of the command, if the command modified the working-copy commit (`@`). If you want to avoid snapshotting the working copy and instead see a possibly stale working-copy commit, you can use `--ignore-working-copy`. This may be useful e.g. in a command prompt, especially if you have another process that commits the working copy.
+
+            Loading the repository at a specific operation with `--at-operation` implies `--ignore-working-copy`.
+        quiet: |-
+            Silence non-primary command output
+
+            For example, `jj file list` will still list files, but it won't tell you if the working copy was snapshotted or if descendants were rebased.
+
+            Warnings and errors will still be printed.
+        repository: |-
+            Path to repository to operate on
+
+            By default, Jujutsu searches for the closest .jj/ directory in an ancestor of the current working directory.

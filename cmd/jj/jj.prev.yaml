@@ -1,16 +1,98 @@
-# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
 name: prev
-description: Move the working copy commit to the parent of the current revision.
+description: Change the working copy revision relative to the parent revision
 flags:
-    --edit: Edit the parent directly, instead of moving the working-copy commit
+    --conflict: Jump to the previous conflicted ancestor
+    -e, --edit: Edit the parent directly, instead of moving the working-copy commit
     -h, --help: Print help (see more with '--help')
-documentation:
-    command: '[AI] The command `jj prev` is used in Vim or other compatible text editors with the `jump-mode` plugin installed. It is a shortcut for moving the cursor one screen upward in the history buffer, which is a list of previously edited locations in the file. This can be useful for quickly navigating through your editing history.'
+    -n, --no-edit: The inverse of `--edit`
+completion:
     flag:
-        edit: |-
-            [AI] The command `jj prev --edit` is a combination of commands used in the Vim text editor.
+        color:
+            - always
+            - never
+            - debug
+            - auto
+        config-file:
+            - $files
+        repository:
+            - $directories
+    positional:
+        - []
+documentation:
+    command: |-
+        Change the working copy revision relative to the parent revision
 
-            * `jj`: This represents two keys pressed consecutively, specifically the 'J' key. It is often used as an abbreviation for moving down one and a half screen pages in Vim.
-            * `prev`: It is a command to go to the previous document or buffer in Vim. When editing multiple files, this can be useful to switch between them quickly.
-            * `--edit`: This option is used with some other commands to specify that you want to edit the selected file rather than just open it as a read-only view. In this context, it ensures that the previously opened buffer is edited instead of being replaced with a new one when using the 'prev' command.
-        help: '[AI] The command `jj prev --help` is used in Jupyter Notebook''s Jupyter-Jupyter (jj) tool for navigating between cells. The `prev` argument tells jj to move the selection to the previous cell, while `--help` displays the help information for that command. In summary, `jj prev --help` shows you how to use the ''prev'' command to navigate backward through your Jupyter Notebook cells with the jj tool.'
+        The command creates a new empty working copy revision that is the child of
+        an ancestor `offset` revisions behind the parent of the current working
+        copy.
+
+        For example, when the offset is 1:
+
+        ```text
+        D @      D
+        |/       |
+        A   =>   A @
+        |        |/
+        B        B
+        ```
+
+        If `--edit` is passed, the working copy revision is changed to the parent of
+        the current working copy revision.
+
+        ```text
+        D @      D
+        |/       |
+        C   =>   @
+        |        |
+        B        B
+        |        |
+        A        A
+        ```
+    flag:
+        at-operation: |-
+            Operation to load the repo at
+
+            Operation to load the repo at. By default, Jujutsu loads the repo at the most recent operation, or at the merge of the divergent operations if any.
+
+            You can use `--at-op=<operation ID>` to see what the repo looked like at an earlier operation. For example `jj --at-op=<operation ID> st` will show you what `jj st` would have shown you when the given operation had just finished. `--at-op=@` is pretty much the same as the default except that divergent operations will never be merged.
+
+            Use `jj op log` to find the operation ID you want. Any unambiguous prefix of the operation ID is enough.
+
+            When loading the repo at an earlier operation, the working copy will be ignored, as if `--ignore-working-copy` had been specified.
+
+            It is possible to run mutating commands when loading the repo at an earlier operation. Doing that is equivalent to having run concurrent commands starting at the earlier operation. There's rarely a reason to do that, but it is possible.
+        config: |-
+            Additional configuration options (can be repeated)
+
+            The name should be specified as TOML dotted keys. The value should be specified as a TOML expression. If string value isn't enclosed by any TOML constructs (such as array notation), quotes can be omitted.
+        edit: |-
+            Edit the parent directly, instead of moving the working-copy commit
+
+            Takes precedence over config in `ui.movement.edit`; i.e. will negate `ui.movement.edit = false`
+        help: Print help (see a summary with '-h')
+        ignore-immutable: |-
+            Allow rewriting immutable commits
+
+            By default, Jujutsu prevents rewriting commits in the configured set of immutable commits. This option disables that check and lets you rewrite any commit but the root commit.
+
+            This option only affects the check. It does not affect the `immutable_heads()` revset or the `immutable` template keyword.
+        ignore-working-copy: |-
+            Don't snapshot the working copy, and don't update it
+
+            By default, Jujutsu snapshots the working copy at the beginning of every command. The working copy is also updated at the end of the command, if the command modified the working-copy commit (`@`). If you want to avoid snapshotting the working copy and instead see a possibly stale working-copy commit, you can use `--ignore-working-copy`. This may be useful e.g. in a command prompt, especially if you have another process that commits the working copy.
+
+            Loading the repository at a specific operation with `--at-operation` implies `--ignore-working-copy`.
+        no-edit: |-
+            The inverse of `--edit`
+
+            Takes precedence over config in `ui.movement.edit`; i.e. will negate `ui.movement.edit = true`
+        quiet: |-
+            Silence non-primary command output
+
+            For example, `jj file list` will still list files, but it won't tell you if the working copy was snapshotted or if descendants were rebased.
+
+            Warnings and errors will still be printed.
+        repository: |-
+            Path to repository to operate on
+
+            By default, Jujutsu searches for the closest .jj/ directory in an ancestor of the current working directory.

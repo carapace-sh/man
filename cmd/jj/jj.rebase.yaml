@@ -1,50 +1,308 @@
-# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
-name: rebase [OPTIONS] --destination <DESTINATION>
+name: rebase
 description: Move revisions to different parent(s)
 flags:
-    -b, --branch*=: Rebase the whole branch relative to destination's ancestors (can be repeated)
-    -d, --destination!*=: The revision(s) to rebase onto (can be repeated to create a merge commit)
+    --after=*: The revision(s) to insert after (can be repeated to create a merge commit)
+    --before=*: The revision(s) to insert before (can be repeated to create a merge commit)
+    --destination=*&: The revision(s) to rebase onto (can be repeated to create a merge commit)
+    --keep-divergent: Keep divergent commits while rebasing
+    --skip-emptied: If true, when rebasing would produce an empty commit, the commit is abandoned. It will not be abandoned if it was already empty before the rebase. Will never skip merge commits with multiple non-empty parents
+    -A, --insert-after=*: The revision(s) to insert after (can be repeated to create a merge commit)
+    -B, --insert-before=*: The revision(s) to insert before (can be repeated to create a merge commit)
+    -b, --branch=*: Rebase the whole branch relative to destination's ancestors (can be repeated)
+    -d=*&: The revision(s) to rebase onto (can be repeated to create a merge commit)
     -h, --help: Print help (see more with '--help')
-    -r, --revision=: Rebase only this revision, rebasing descendants onto this revision's parent(s)
-    -s, --source*=: Rebase specified revision(s) together their tree of descendants (can be repeated)
-documentation:
-    command: '[AI] `jj rebase` is a command provided by the JJ (JOE''s Janus) Git GUI tool for handling Git rebasing interactively. It initiates an interactive rebase session where you can inspect and edit each commit message or make more complex changes, such as squashing or splitting commits, before continuing the rebase process. This command allows fine-grained control over a rebase operation.'
+    -o, --onto=*: The revision(s) to rebase onto (can be repeated to create a merge commit)
+    -r, --revisions=*: Rebase the given revisions, rebasing descendants onto this revision's parent(s)
+    -s, --source=*: Rebase specified revision(s) together with their trees of descendants (can be repeated)
+completion:
     flag:
+        color:
+            - always
+            - never
+            - debug
+            - auto
+        config-file:
+            - $files
+        repository:
+            - $directories
+documentation:
+    command: |-
+        Move revisions to different parent(s)
+
+        This command moves revisions to different parent(s) while preserving the
+        changes (diff) in the revisions.
+
+        There are three different ways of specifying which revisions to rebase:
+
+        * `--source/-s` to rebase a revision and its descendants
+        * `--branch/-b` to rebase a whole branch, relative to the destination
+        * `--revisions/-r` to rebase the specified revisions without their
+          descendants
+
+        If no option is specified, it defaults to `-b @`.
+
+        There are three different ways of specifying where the revisions should be
+        rebased to:
+
+        * `--onto/-o` to rebase the revisions onto the specified targets
+        * `--insert-after/-A` to rebase the revisions onto the specified targets and
+          to rebase the targets' descendants onto the rebased revisions
+        * `--insert-before/-B` to rebase the revisions onto the specified targets'
+          parents and to rebase the targets and their descendants onto the rebased
+          revisions
+
+        See the sections below for details about the different ways of specifying
+        which revisions to rebase where.
+
+        If a working-copy revision gets abandoned, it will be given a new, empty
+        revision. This is true in general; it is not specific to this command.
+
+        ### Specifying which revisions to rebase
+
+        With `--source/-s`, the command rebases the specified revision and its
+        descendants to the destination. For example, `jj rebase -s M -o O` would
+        transform your history like this (letters followed by an apostrophe are
+        post-rebase versions):
+
+        ```text
+        O           N'
+        |           |
+        | N         M'
+        | |         |
+        | M         O
+        | |    =>   |
+        | | L       | L
+        | |/        | |
+        | K         | K
+        |/          |/
+        J           J
+        ```
+
+        Each revision passed to `-s` will become a direct child of the destination,
+        so if you instead run `jj rebase -s M -s N -o O` (or `jj rebase -s 'M|N' -o
+        O`) in the example above, then N' would instead be a direct child of O.
+
+        With `--branch/-b`, the command rebases the whole "branch" containing the
+        specified revision. A "branch" is the set of revisions that includes:
+
+        * the specified revision and ancestors that are not also ancestors of the
+          destination
+        * all descendants of those revisions
+
+        In other words, `jj rebase -b X -o Y` rebases revisions in the revset
+        `(Y..X)::` (which is equivalent to `jj rebase -s 'roots(Y..X)' -o Y` for a
+        single root). For example, either `jj rebase -b L -o O` or `jj rebase -b M
+        -o O` would transform your history like this (because `L` and `M` are on the
+        same "branch", relative to the destination):
+
+        ```text
+        O           N'
+        |           |
+        | N         M'
+        | |         |
+        | M         | L'
+        | |    =>   |/
+        | | L       K'
+        | |/        |
+        | K         O
+        |/          |
+        J           J
+        ```
+
+        With `--revisions/-r`, the command rebases only the specified revisions to
+        the destination. Any "hole" left behind will be filled by rebasing
+        descendants onto the specified revisions' parent(s). For example,
+        `jj rebase -r K -o M` would transform your history like this:
+
+        ```text
+        M          K'
+        |          |
+        | L        M
+        | |   =>   |
+        | K        | L'
+        |/         |/
+        J          J
+        ```
+
+        Multiple revisions can be specified, and any dependencies (graph edges)
+        within the set will be preserved. For example, `jj rebase -r 'K|N' -o O`
+        would transform your history like this:
+
+        ```text
+        O           N'
+        |           |
+        | N         K'
+        | |         |
+        | M         O
+        | |    =>   |
+        | | L       | M'
+        | |/        |/
+        | K         | L'
+        |/          |/
+        J           J
+        ```
+
+        `jj rebase -s X` is similar to `jj rebase -r X::` and will behave the same
+        if X is a single revision. However, if X is a set of multiple revisions,
+        or if you passed multiple `-s` arguments, then `jj rebase -s` will make each
+        of the specified revisions an immediate child of the destination, while
+        `jj rebase -r` will preserve dependencies within the set.
+
+        Note that you can create a merge revision by repeating the `-o` argument.
+        For example, if you realize that revision L actually depends on revision M
+        in order to work (in addition to its current parent K), you can run `jj
+        rebase -s L -o K -o M`:
+
+        ```text
+        M          L'
+        |          |\
+        | L        M |
+        | |   =>   | |
+        | K        | K
+        |/         |/
+        J          J
+        ```
+
+        ### Specifying where to rebase the revisions
+
+        With `--onto/-o`, the command rebases the selected revisions onto the
+        targets. Existing descendants of the targets will not be affected. See
+        the section above for examples.
+
+        With `--insert-after/-A`, the selected revisions will be inserted after the
+        targets. This is similar to `-o`, but if the targets have any existing
+        descendants, then those will be rebased onto the rebased selected revisions.
+
+        For example, `jj rebase -r K -A L` will rewrite history like this:
+        ```text
+        N           N'
+        |           |
+        | M         | M'
+        |/          |/
+        L      =>   K'
+        |           |
+        | K         L
+        |/          |
+        J           J
+        ```
+
+        The `-A` (and `-B`) argument can also be used for reordering revisions. For
+        example, `jj rebase -r M -A J` will rewrite history like this:
+        ```text
+        M          L'
+        |          |
+        L          K'
+        |     =>   |
+        K          M'
+        |          |
+        J          J
+        ```
+
+        With `--insert-before/-B`, the selected revisions will be inserted before
+        the targets. This is achieved by rebasing the selected revisions onto the
+        target revisions' parents, and then rebasing the target revisions and their
+        descendants onto the rebased revisions.
+
+        For example, `jj rebase -r K -B L` will rewrite history like this:
+        ```text
+        N           N'
+        |           |
+        | M         | M'
+        |/          |/
+        L     =>    L'
+        |           |
+        | K         K'
+        |/          |
+        J           J
+        ```
+
+        The `-A` and `-B` arguments can also be combined, which can be useful around
+        merges. For example, you can use `jj rebase -r K -A J -B M` to create a new
+        merge (but `jj rebase -r M -o L -o K` might be simpler in this particular
+        case):
+        ```text
+        M           M'
+        |           |\
+        L           L |
+        |     =>    | |
+        | K         | K'
+        |/          |/
+        J           J
+        ```
+
+        To insert a commit inside an existing merge with `jj rebase -r O -A K -B M`:
+        ```text
+        O           N'
+        |           |\
+        N           | M'
+        |\          | |\
+        | M         | O'|
+        | |    =>   |/ /
+        | L         | L
+        | |         | |
+        K |         K |
+        |/          |/
+        J           J
+        ```
+    flag:
+        at-operation: |-
+            Operation to load the repo at
+
+            Operation to load the repo at. By default, Jujutsu loads the repo at the most recent operation, or at the merge of the divergent operations if any.
+
+            You can use `--at-op=<operation ID>` to see what the repo looked like at an earlier operation. For example `jj --at-op=<operation ID> st` will show you what `jj st` would have shown you when the given operation had just finished. `--at-op=@` is pretty much the same as the default except that divergent operations will never be merged.
+
+            Use `jj op log` to find the operation ID you want. Any unambiguous prefix of the operation ID is enough.
+
+            When loading the repo at an earlier operation, the working copy will be ignored, as if `--ignore-working-copy` had been specified.
+
+            It is possible to run mutating commands when loading the repo at an earlier operation. Doing that is equivalent to having run concurrent commands starting at the earlier operation. There's rarely a reason to do that, but it is possible.
         branch: |-
-            [AI] `git rebase --branch <new-branch-name>` is a Git command used for creating and switching to a new branch based on the current one, while rebasing the commits on top of it. This command performs the following actions:
+            Rebase the whole branch relative to destination's ancestors (can be repeated)
 
-            1. Creates a new branch with the given name `<new-branch-name>`.
-            2. Switches the active branch to the newly created branch.
-            3. Starts an interactive rebase of the current branch onto the new one, applying each commit one by one and squashing or editing commits as necessary.
-            4. Resolves any conflicts that may arise during the rebasing process.
-            5. Once the rebase is completed successfully, the new branch will contain all the commits from both the original and the new branch, but with a cleaner history if desired.
-        destination: '[AI] `git rebase --destination <new-branch>` is a Git command used for continuing a rebase that was previously initiated but interrupted or abandoned. The `--destination <new-branch>` option specifies the new branch that will be used as the upstream branch for the ongoing rebase. This allows you to resume the rebasing process with a different upstream branch than the one originally used. It''s important to note that force-pushing might be required to update the remote repository with your changes after the rebasing is completed.'
-        help: |-
-            [AI] `git jj rebase` is a command in Git using the "jobserver" (jj) tool to manage and process multiple rebases concurrently. The `--help` option provides information on how to use this command. Here's a brief summary:
+            `jj rebase -b=br -o=dst` is equivalent to `jj rebase '-s=roots(dst..br)' -o=dst`.
 
-            ```
-            git jj rebase [<branch1> <branch2> ...] --help
+            If none of `-b`, `-s`, or `-r` is provided, then the default is `-b @`.
+        config: |-
+            Additional configuration options (can be repeated)
 
-            Manages multiple rebases concurrently using Git jobserver (jj).
+            The name should be specified as TOML dotted keys. The value should be specified as a TOML expression. If string value isn't enclosed by any TOML constructs (such as array notation), quotes can be omitted.
+        help: Print help (see a summary with '-h')
+        ignore-immutable: |-
+            Allow rewriting immutable commits
 
-            USAGE:
-              git jj rebase [<opts>] [<branch1>] [<branch2> ...]
+            By default, Jujutsu prevents rewriting commits in the configured set of immutable commits. This option disables that check and lets you rewrite any commit but the root commit.
 
-             options:
-                --continue, -c       Continue a previously suspended rebase.
-                --abort, -a           Abort current rebase and restore working directory.
-                --interactive, -i     Interactively pick which commit to apply during rebase.
-                                      Use "git rebase --interactive <commit>" or "git rebase --interactive --root" to start an interactive rebase session.
-                --skip, -s            Skip the current commit and continue rebasing.
-                --rebase-merges       Perform merge commits instead of fast-forward merges during rebase.
-                --no-commit           Don't create new commits when applying or picking commits. Useful for testing your configuration or preparing a series of commits before rebasing.
-                --quit, -q            Quit the process once all tasks have been started.
-                --help               Show this help message and exit.
+            This option only affects the check. It does not affect the `immutable_heads()` revset or the `immutable` template keyword.
+        ignore-working-copy: |-
+            Don't snapshot the working copy, and don't update it
 
-            The `git jj rebase` command will create and manage jobs for each branch specified, allowing you to perform multiple concurrent rebases within a single Git workflow.
-            ```
-        revision: '[AI] `git rebase --rebase-interactive <commit>` is a Git command used to rewrite a specific commit''s history interactively. The `--rebase-interactive` option opens an editor with a list of commits between the current HEAD and the specified commit. You can then edit this list by removing, squashing or reordering commits before saving and continuing the rebasing process. This command does not create a new branch but instead modifies the current one in place.'
+            By default, Jujutsu snapshots the working copy at the beginning of every command. The working copy is also updated at the end of the command, if the command modified the working-copy commit (`@`). If you want to avoid snapshotting the working copy and instead see a possibly stale working-copy commit, you can use `--ignore-working-copy`. This may be useful e.g. in a command prompt, especially if you have another process that commits the working copy.
+
+            Loading the repository at a specific operation with `--at-operation` implies `--ignore-working-copy`.
+        keep-divergent: |-
+            Keep divergent commits while rebasing
+
+            Without this flag, divergent commits are abandoned while rebasing if another commit with the same change ID is already present in the destination with identical changes.
+        quiet: |-
+            Silence non-primary command output
+
+            For example, `jj file list` will still list files, but it won't tell you if the working copy was snapshotted or if descendants were rebased.
+
+            Warnings and errors will still be printed.
+        repository: |-
+            Path to repository to operate on
+
+            By default, Jujutsu searches for the closest .jj/ directory in an ancestor of the current working directory.
+        revisions: |-
+            Rebase the given revisions, rebasing descendants onto this revision's parent(s)
+
+            Unlike `-s` or `-b`, you may `jj rebase -r` a revision `A` onto a descendant of `A`.
+
+            If none of `-b`, `-s`, or `-r` is provided, then the default is `-b @`.
         source: |-
-            [AI] `git jj rebase --source` is a command used in the GitJupitzer tool, an extension of Git for JetBrains IDEs (IntelliJ IDEA, PyCharm, etc.). This command initiates a rebase process where the current branch will be updated to match the latest changes from another branch specified as the source. The `--source` option indicates which branch is the base or upstream branch for the rebasing process.
+            Rebase specified revision(s) together with their trees of descendants (can be repeated)
 
-            It allows developers to perform interactive rebases, which enables them to modify commits during the rebase process, squash commits, or even reword messages. By default, GitJupitzer will attempt an automatic rebase. If conflicts occur, they will be presented in your IDE for resolution.
+            Each specified revision will become a direct child of the destination revision(s), even if some of the source revisions are descendants of others.
+
+            If none of `-b`, `-s`, or `-r` is provided, then the default is `-b @`.

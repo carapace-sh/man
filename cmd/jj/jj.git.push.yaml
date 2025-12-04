@@ -1,53 +1,116 @@
-# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
 name: push
 description: Push to a Git remote
 flags:
-    --all: Push all branches (including deleted branches)
-    --deleted: Push all deleted branches
+    --all: Push all bookmarks (including new bookmarks)
+    --allow-empty-description: Allow pushing commits with empty descriptions
+    --allow-private: Allow pushing commits that are private
+    --branch=*&: Push only this bookmark, or bookmarks matching a pattern (can be repeated)
+    --deleted: Push all deleted bookmarks
     --dry-run: Only display what will change on the remote
+    --named=*: Specify a new bookmark name and a revision to push under that name, e.g. '--named myfeature=@'
     --remote=: The remote to push to (only named remotes are supported)
-    -b, --branch*=: Push only this branch (can be repeated)
-    -c, --change*=: Push this commit by creating a branch based on its change ID (can be repeated)
+    --tracked: Push all tracked bookmarks
+    -b, --bookmark=*: Push only this bookmark, or bookmarks matching a pattern (can be repeated)
+    -c, --change=*: Push this commit by creating a bookmark (can be repeated)
     -h, --help: Print help (see more with '--help')
-    -r, --revisions*=: Push branches pointing to these commits
+    -r, --revisions=*: Push bookmarks pointing to these commits (can be repeated)
+completion:
+    flag:
+        color:
+            - always
+            - never
+            - debug
+            - auto
+        config-file:
+            - $files
+        repository:
+            - $directories
 documentation:
     command: |-
-        [AI] The `jj` command is not a Git command in itself, but rather an alias or shorthand for common Git operations using the `jira` tool like JIRA CLI (Command Line Interface) or Jenkins Jira plugin. When you type `jj git push`, it's assumed that these tools are integrated with your local Git environment and that this command is configured to automatically perform certain actions before, during, or after a Git push.
+        Push to a Git remote
 
-        Here's a possible breakdown of what could happen:
+        By default, pushes tracking bookmarks pointing to `remote_bookmarks(remote=<remote>)..@`. Use `--bookmark` to push specific bookmarks. Use `--all` to push all bookmarks. Use `--change` to generate bookmark names based on the change IDs of specific commits.
 
-        1. You have made local changes and want to push them to the remote repository.
-        2. Typing `jj git push` triggers a sequence of events, such as:
-           - Your terminal checks for the availability of your Jira server and authenticates if necessary.
-           - It retrieves the current state of your Jira issues related to the files you've changed (e.g., associated with Git commit messages or issue keys in file comments).
-        3. Once the Git push is executed successfully, Jira might be configured to create a new version of a document linked to the issues or associate the commits with specific Jira issues automatically.
-        4. The operation could also include other functionality like automatic issue status updates based on the commit messages or code review feedback.
+        Unlike in Git, the remote to push to is not derived from the tracked remote bookmarks. Use `--remote` to select the remote Git repository by name. There is no option to push to multiple remotes.
 
-        In summary, `jj git push` is not a standalone Git command but rather a convenient shorthand for executing a series of related operations (Git push and Jira management) in one step.
+        Before the command actually moves, creates, or deletes a remote bookmark, it makes several [safety checks]. If there is a problem, you may need to run `jj git fetch --remote <remote name>` and/or resolve some [bookmark conflicts].
+
+        [safety checks]: https://docs.jj-vcs.dev/latest/bookmarks/#pushing-bookmarks-safety-checks
+
+        [bookmark conflicts]: https://docs.jj-vcs.dev/latest/bookmarks/#conflicts
     flag:
-        all: '[AI] The command `git push --all` is used to push all local branches in a Git repository to a remote repository. The `--all` option pushes for all branches, including those that may have been created locally but not yet pushed. This can be useful when setting up a new repository or synchronizing changes across multiple repositories. Note that you will need to have the necessary permissions on the remote repository in order to push changes.'
-        branch: '[AI] The command `jj git push --branch` is used in version control with Git and the Jira Java library, JJ, for Atlassian Jira Software. This command pushes a local branch to a remote repository and creates or updates a corresponding project branch in Jira if it does not already exist. It assumes that your local branch has been configured with a Jira connection and the necessary permissions.'
+        allow-new: |-
+            Allow pushing new bookmarks
+
+            Newly-created remote bookmarks will be tracked automatically.
+        allow-private: |-
+            Allow pushing commits that are private
+
+            The set of private commits can be configured by the `git.private-commits` setting. The default is `none()`, meaning all commits are eligible to be pushed.
+        at-operation: |-
+            Operation to load the repo at
+
+            Operation to load the repo at. By default, Jujutsu loads the repo at the most recent operation, or at the merge of the divergent operations if any.
+
+            You can use `--at-op=<operation ID>` to see what the repo looked like at an earlier operation. For example `jj --at-op=<operation ID> st` will show you what `jj st` would have shown you when the given operation had just finished. `--at-op=@` is pretty much the same as the default except that divergent operations will never be merged.
+
+            Use `jj op log` to find the operation ID you want. Any unambiguous prefix of the operation ID is enough.
+
+            When loading the repo at an earlier operation, the working copy will be ignored, as if `--ignore-working-copy` had been specified.
+
+            It is possible to run mutating commands when loading the repo at an earlier operation. Doing that is equivalent to having run concurrent commands starting at the earlier operation. There's rarely a reason to do that, but it is possible.
+        bookmark: |-
+            Push only this bookmark, or bookmarks matching a pattern (can be repeated)
+
+            By default, the specified name matches exactly. Use `glob:` prefix to select bookmarks by [wildcard pattern].
+
+            [wildcard pattern]: https://docs.jj-vcs.dev/latest/revsets#string-patterns
         change: |-
-            [AI] The `jj` command is not a standard Git command, but rather a shorthand for a specific workflow using Jira and JetBrains's Git toolbox, called "JetBrains Suite." The `git push --change` command is used to push local commits to the remote repository with changes that have been reviewed in Jira.
+            Push this commit by creating a bookmark (can be repeated)
 
-            With `jj`, you can create a pull request directly from your IDE (Integrated Development Environment), allowing team members to review and comment on your code before it's merged into the main branch. Once the review is complete, you use the `jj push --change` command to promote the changes from your local feature branch to the remote repository, preparing them for merging into the main branch.
+            The created bookmark will be tracked automatically. Use the `templates.git_push_bookmark` setting to customize the generated bookmark name. The default is `"push-" ++ change_id.short()`.
+        config: |-
+            Additional configuration options (can be repeated)
 
-            The `--change` flag in this context indicates that the commits being pushed are ready for further review and can be changed if needed before they're finally merged. It does not automatically merge the commits; instead, it sets them as change requests in the remote repository, enabling your team to continue the review process.
-        deleted: '[AI] The `git push --delegated` command is not a valid Git command. However, I assume you meant to write `git push --delete`. This command is used to delete branches that exist on a remote repository. When you make local changes and delete branches or commits in your local Git repository, those deletions are not automatically reflected in the remote repository until you use this command. By running `git push origin :<branch-name>` or `git push --delete origin <branch-name>`, you instruct Git to send a request to the remote repository to delete the specified branch. This can be useful when collaborating with others and need to clean up old branches that are no longer in use.'
-        dry-run: '[AI] `git push --dry-run` is a Git command used to simulate a push operation without actually updating the remote repository. The `--dry-run` option, also known as the `--no-threshold` or `--quiet` flag, performs a push simulation and displays what would have been sent to the server if the command was run without this flag. It helps in understanding the changes that will be pushed before executing an actual push, which can help prevent unintended consequences or errors.'
-        help: |-
-            [AI] The command `git push jj --help` is used with Git, a popular version control system. This specific command is used to obtain help information about the `jj` remote in relation to pushing changes.
+            The name should be specified as TOML dotted keys. The value should be specified as a TOML expression. If string value isn't enclosed by any TOML constructs (such as array notation), quotes can be omitted.
+        deleted: |-
+            Push all deleted bookmarks
 
-            When you run this command, Git displays detailed help information in your terminal. It explains various options and arguments that can be used when pushing commits to the specified remote named "jj". Some common options include:
+            Only tracked bookmarks can be successfully deleted on the remote. A warning will be printed if any untracked bookmarks on the remote correspond to missing local bookmarks.
+        help: Print help (see a summary with '-h')
+        ignore-immutable: |-
+            Allow rewriting immutable commits
 
-            - `<branch>`: The name of the branch to push (e.g., `<branch> = mybranch`).
-            - `--force` or `-f`: Force-push an existing branch, discarding local commits that aren't present on the remote branch (be cautious when using this option).
-            - `--tags`: Push any annotated tags that are present in your local repository to the remote repository.
-            - `--prune`: Delete remote branches that no longer exist locally, keeping your local list of remotes up-to-date.
+            By default, Jujutsu prevents rewriting commits in the configured set of immutable commits. This option disables that check and lets you rewrite any commit but the root commit.
 
-            The help information also includes detailed descriptions and examples for each option and argument. It's an essential tool for understanding how to use specific Git commands correctly.
-        remote: '[AI] The command `git push --remote jj` is used to push local Git repository changes to a remote repository named "jj". The `--remote` option specifies that the given name (in this case, "jj") should be treated as a remote repository and not a local branch. When you run this command, Git will fetch any new commits from the remote repository and then attempt to push your local commits on top of them. This can help ensure that your changes are merged with the latest changes in the remote repository.'
-        revisions: |-
-            [AI] The `git push --revisions` command in JFrog's Jenkins Job Builder or Shared Libraries plugin is used to push one or more specific Git commits, identified by their revision hashes, to a remote repository. By default, `git push` commands push the current head (latest commit) and any local changes.
+            This option only affects the check. It does not affect the `immutable_heads()` revset or the `immutable` template keyword.
+        ignore-working-copy: |-
+            Don't snapshot the working copy, and don't update it
 
-            The `--revisions` flag allows you to specify one or more revison hashes instead of the head, enabling you to push those specific commits to the remote repository. This can be useful when you want to share a particular branch or set of changes with another team or repository without having them merge your entire branch.
+            By default, Jujutsu snapshots the working copy at the beginning of every command. The working copy is also updated at the end of the command, if the command modified the working-copy commit (`@`). If you want to avoid snapshotting the working copy and instead see a possibly stale working-copy commit, you can use `--ignore-working-copy`. This may be useful e.g. in a command prompt, especially if you have another process that commits the working copy.
+
+            Loading the repository at a specific operation with `--at-operation` implies `--ignore-working-copy`.
+        named: |-
+            Specify a new bookmark name and a revision to push under that name, e.g. '--named myfeature=@'
+
+            Automatically tracks the bookmark if it is new.
+        quiet: |-
+            Silence non-primary command output
+
+            For example, `jj file list` will still list files, but it won't tell you if the working copy was snapshotted or if descendants were rebased.
+
+            Warnings and errors will still be printed.
+        remote: |-
+            The remote to push to (only named remotes are supported)
+
+            This defaults to the `git.push` setting. If that is not configured, and if there are multiple remotes, the remote named "origin" will be used.
+        repository: |-
+            Path to repository to operate on
+
+            By default, Jujutsu searches for the closest .jj/ directory in an ancestor of the current working directory.
+        tracked: |-
+            Push all tracked bookmarks
+
+            This usually means that the bookmark was already pushed to or fetched from the [relevant remote].
+
+            [relevant remote]: https://docs.jj-vcs.dev/latest/bookmarks#remotes-and-tracked-bookmarks

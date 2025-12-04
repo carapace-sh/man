@@ -1,24 +1,68 @@
-# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
-name: abandon [OPTIONS] [REVISIONS]...
+name: abandon
 description: Abandon a revision
 flags:
+    --restore-descendants: Do not modify the content of the children of the abandoned commits
+    --retain-bookmarks: Do not delete bookmarks pointing to the revisions to abandon
     -h, --help: Print help (see more with '--help')
-    -s, --summary: Do not print every abandoned commit on a separate line
-documentation:
-    command: '[AI] The `jj abandon` command is used in Git to discard all changes made in the current working directory and move back to the last commit without saving any modifications. Effectively, it resets the repository to its previous state.'
+completion:
     flag:
-        help: |-
-            [AI] The `jj abandon --help` command is used in Jupyter Notebook to abandon or discard changes made in a notebook without committing them to the version history. When run with the `--help` option, it displays detailed help information about this command, including its usage and available options.
+        color:
+            - always
+            - never
+            - debug
+            - auto
+        config-file:
+            - $files
+        repository:
+            - $directories
+documentation:
+    command: |-
+        Abandon a revision
 
-            Here's a brief explanation of the help output:
+        Abandon a revision, rebasing descendants onto its parent(s). The behavior is similar to `jj restore --changes-in`; the difference is that `jj abandon` gives you a new change, while `jj restore` updates the existing change.
 
-            - The command name is `jj abandon`.
-            - It is used to "abandon changes in cells".
-            - When run without any options, it will abandon changes in all cells of the current notebook.
-            - To abandon changes in specific cells, use the `--cell` option followed by the cell numbers or names (e.g., `--cell 1,3,5-7`).
-            - You can also abandon changes in a specified branch or commit using the `--commit` option and the commit hash or branch name.
-            - The command does not delete the notebook file; it only discards the local changes.
-            - To confirm the action, you'll be prompted for a confirmation message. If you provide one, it will be saved as a commit message.
+        If a working-copy commit gets abandoned, it will be given a new, empty commit. This is true in general; it is not specific to this command.
+    flag:
+        at-operation: |-
+            Operation to load the repo at
 
-            Overall, `jj abandon --help` is a useful command when you want to revert your notebook to an earlier state without losing your work permanently.
-        summary: '[AI] `jj abandon --summary` is a command used in the Jupyter Notebook interactive debugging tool, Jupyter''s JS Helper (jj), to give up debugging the current cell and display a summary of the changes made during the debugging session. No further code execution occurs. This command is helpful when you want to discard the changes made during the debugging session without applying them to the notebook.'
+            Operation to load the repo at. By default, Jujutsu loads the repo at the most recent operation, or at the merge of the divergent operations if any.
+
+            You can use `--at-op=<operation ID>` to see what the repo looked like at an earlier operation. For example `jj --at-op=<operation ID> st` will show you what `jj st` would have shown you when the given operation had just finished. `--at-op=@` is pretty much the same as the default except that divergent operations will never be merged.
+
+            Use `jj op log` to find the operation ID you want. Any unambiguous prefix of the operation ID is enough.
+
+            When loading the repo at an earlier operation, the working copy will be ignored, as if `--ignore-working-copy` had been specified.
+
+            It is possible to run mutating commands when loading the repo at an earlier operation. Doing that is equivalent to having run concurrent commands starting at the earlier operation. There's rarely a reason to do that, but it is possible.
+        config: |-
+            Additional configuration options (can be repeated)
+
+            The name should be specified as TOML dotted keys. The value should be specified as a TOML expression. If string value isn't enclosed by any TOML constructs (such as array notation), quotes can be omitted.
+        help: Print help (see a summary with '-h')
+        ignore-immutable: |-
+            Allow rewriting immutable commits
+
+            By default, Jujutsu prevents rewriting commits in the configured set of immutable commits. This option disables that check and lets you rewrite any commit but the root commit.
+
+            This option only affects the check. It does not affect the `immutable_heads()` revset or the `immutable` template keyword.
+        ignore-working-copy: |-
+            Don't snapshot the working copy, and don't update it
+
+            By default, Jujutsu snapshots the working copy at the beginning of every command. The working copy is also updated at the end of the command, if the command modified the working-copy commit (`@`). If you want to avoid snapshotting the working copy and instead see a possibly stale working-copy commit, you can use `--ignore-working-copy`. This may be useful e.g. in a command prompt, especially if you have another process that commits the working copy.
+
+            Loading the repository at a specific operation with `--at-operation` implies `--ignore-working-copy`.
+        quiet: |-
+            Silence non-primary command output
+
+            For example, `jj file list` will still list files, but it won't tell you if the working copy was snapshotted or if descendants were rebased.
+
+            Warnings and errors will still be printed.
+        repository: |-
+            Path to repository to operate on
+
+            By default, Jujutsu searches for the closest .jj/ directory in an ancestor of the current working directory.
+        retain-bookmarks: |-
+            Do not delete bookmarks pointing to the revisions to abandon
+
+            Bookmarks will be moved to the parent revisions instead.
