@@ -1,0 +1,47 @@
+name: update
+description: '*(BETA)*  '
+flags:
+    --basic-level-spec=: Path to a file containing a list of basic access level conditions.
+    --combine-function=: For a basic level, determines how conditions are combined.
+    --custom-level-spec=: Path to a file representing an expression for an access level.
+    --description=: Long-form description of access level.
+    --policy=: The ID of the access policy.
+    --title=: Short human-readable title of the access level.
+completion:
+    flag:
+        combine-function:
+            - and
+            - or
+documentation:
+    command: '*(BETA)*  '
+    flag:
+        basic-level-spec: |-
+            Path to a file containing a list of basic access level conditions.
+            +
+            An access level condition file is a YAML-formatted list of conditions,which are YAML objects representing a Condition as described in the API reference. For example:
+            +
+                ```
+                 - ipSubnetworks:
+                   - 162.222.181.197/24
+                   - 2001:db8::/48
+                 - members:
+                   - user:user@example.com
+                ```
+        combine-function: 'For a basic level, determines how conditions are combined. _COMBINE_FUNCTION_ must be one of: *and*, *or*.'
+        custom-level-spec: |-
+            Path to a file representing an expression for an access level.
+            +
+            The expression is in the Common Expression Langague (CEL) format.For example:
+            +
+                ```
+                 expression: "origin.region_code in ['US', 'CA']"
+                ```
+        description: Long-form description of access level.
+        policy: |-
+            The ID of the access policy.
+            +
+            To set the `policy` attribute:
+            * provide the argument `level` on the command line with a fully specified name;
+            * provide the argument `--policy` on the command line;
+            * set the property `access_context_manager/policy`.
+        title: Short human-readable title of the access level.

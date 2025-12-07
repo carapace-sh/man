@@ -1,0 +1,88 @@
+name: import
+description: '*(BETA)*  Import a version into an existing crypto key.'
+flags:
+    --algorithm=!: The algorithm to assign to the new key version.
+    --import-job=!: Name of the import job to import from.
+    --key=: The containing key to import into.
+    --keyring=: Key ring of the key.
+    --location=: Location of the keyring.
+    --public-key-file=: Path to the public key of the ImportJob, used to wrap the key for import.
+    --rsa-aes-wrapped-key-file=&: (DEPRECATED) Path to the wrapped RSA AES key file to import.
+    --target-key-file=: Path to the unwrapped target key to import into a Cloud KMS key version.
+    --wrapped-key-file=: Path to the RSA/RSA+AES wrapped key file to import.
+completion:
+    flag:
+        algorithm:
+            - aes-128-cbc
+            - aes-128-ctr
+            - aes-128-gcm
+            - aes-256-cbc
+            - aes-256-ctr
+            - aes-256-gcm
+            - ec-sign-ed25519
+            - ec-sign-p256-sha256
+            - ec-sign-p384-sha384
+            - ec-sign-secp256k1-sha256
+            - google-symmetric-encryption
+            - hmac-sha1
+            - hmac-sha224
+            - hmac-sha256
+            - hmac-sha384
+            - hmac-sha512
+            - kem-xwing
+            - ml-kem-1024
+            - ml-kem-768
+            - pq-sign-hash-slh-dsa-sha2-128s-sha256
+            - pq-sign-ml-dsa-65
+            - pq-sign-slh-dsa-sha2-128s
+            - rsa-decrypt-oaep-2048-sha1
+            - rsa-decrypt-oaep-2048-sha256
+            - rsa-decrypt-oaep-3072-sha1
+            - rsa-decrypt-oaep-3072-sha256
+            - rsa-decrypt-oaep-4096-sha1
+            - rsa-decrypt-oaep-4096-sha256
+            - rsa-decrypt-oaep-4096-sha512
+            - rsa-sign-pkcs1-2048-sha256
+            - rsa-sign-pkcs1-3072-sha256
+            - rsa-sign-pkcs1-4096-sha256
+            - rsa-sign-pkcs1-4096-sha512
+            - rsa-sign-pss-2048-sha256
+            - rsa-sign-pss-3072-sha256
+            - rsa-sign-pss-4096-sha256
+            - rsa-sign-pss-4096-sha512
+            - rsa-sign-raw-pkcs1-2048
+            - rsa-sign-raw-pkcs1-3072
+            - rsa-sign-raw-pkcs1-4096
+documentation:
+    command: |-
+        *(BETA)*  Imports wrapped key material into a new version within an existing crypto key
+        following the import procedure documented at
+        https://cloud.google.com/kms/docs/importing-a-key.
+
+        ## EXAMPLES
+
+        The following command will read the files 'path/to/ephemeral/key' and
+        'path/to/target/key' and use them to create a new version with algorithm
+        'google-symmetric-encryption'  within the 'frodo' crypto key, 'fellowship'
+        keyring, and 'us-central1' location using import job 'strider' to unwrap the
+        provided key material.
+
+          $ gcloud beta kms keys versions import --location=global \
+               --keyring=fellowship \
+               --key=frodo \
+               --import-job=strider \
+               --wrapped-key-file=path/to/target/key \
+               --algorithm=google-symmetric-encryption
+    flag:
+        algorithm: 'The algorithm to assign to the new key version. For more information about supported algorithms, see https://cloud.google.com/kms/docs/algorithms. _ALGORITHM_ must be one of: *aes-128-cbc*, *aes-128-ctr*, *aes-128-gcm*, *aes-256-cbc*, *aes-256-ctr*, *aes-256-gcm*, *ec-sign-ed25519*, *ec-sign-p256-sha256*, *ec-sign-p384-sha384*, *ec-sign-secp256k1-sha256*, *google-symmetric-encryption*, *hmac-sha1*, *hmac-sha224*, *hmac-sha256*, *hmac-sha384*, *hmac-sha512*, *kem-xwing*, *ml-kem-1024*, *ml-kem-768*, *pq-sign-hash-slh-dsa-sha2-128s-sha256*, *pq-sign-ml-dsa-65*, *pq-sign-slh-dsa-sha2-128s*, *rsa-decrypt-oaep-2048-sha1*, *rsa-decrypt-oaep-2048-sha256*, *rsa-decrypt-oaep-3072-sha1*, *rsa-decrypt-oaep-3072-sha256*, *rsa-decrypt-oaep-4096-sha1*, *rsa-decrypt-oaep-4096-sha256*, *rsa-decrypt-oaep-4096-sha512*, *rsa-sign-pkcs1-2048-sha256*, *rsa-sign-pkcs1-3072-sha256*, *rsa-sign-pkcs1-4096-sha256*, *rsa-sign-pkcs1-4096-sha512*, *rsa-sign-pss-2048-sha256*, *rsa-sign-pss-3072-sha256*, *rsa-sign-pss-4096-sha256*, *rsa-sign-pss-4096-sha512*, *rsa-sign-raw-pkcs1-2048*, *rsa-sign-raw-pkcs1-3072*, *rsa-sign-raw-pkcs1-4096*.'
+        import-job: Name of the import job to import from.
+        key: The containing key to import into.
+        keyring: Key ring of the key.
+        location: Location of the keyring.
+        public-key-file: Path to the public key of the ImportJob, used to wrap the key for import. If missing, the public key will be fetched on your behalf.
+        rsa-aes-wrapped-key-file: |-
+            (DEPRECATED) Path to the wrapped RSA AES key file to import.
+            +
+            The --rsa-aes-wrapped-key-file flag is deprecated but will continue to be supported. Prefer to use the --wrapped-key-file flag instead.
+        target-key-file: Path to the unwrapped target key to import into a Cloud KMS key version. If specified, the key will be securely wrapped before transmission to Google.
+        wrapped-key-file: Path to the RSA/RSA+AES wrapped key file to import.

@@ -1,0 +1,121 @@
+name: dns
+description: Configure DNS settings of a Cloud Domains registration.
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --cloud-dns-zone=: The name of the Cloud DNS managed-zone to set as the name server for the domain.
+    --disable-dnssec: Use this flag to disable DNSSEC, or to skip enabling it when switching
+    --dns-settings-from-file=: A YAML file containing the required DNS settings.
+    --name-servers=: List of DNS name servers for the domain.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-disable-dnssec&: Use this flag to disable DNSSEC, or to skip enabling it when switching
+    --no-unsafe-dns-update&: (DEPRECATED) Use this flag to allow DNS changes that may make your domain stop serving.
+    --no-use-google-domains-dns&: (DEPRECATED) Use free name servers provided by Google Domains.
+    --no-validate-only&: Don't actually configure DNS settings of the registration.
+    --unsafe-dns-update: (DEPRECATED) Use this flag to allow DNS changes that may make your domain stop serving.
+    --use-google-domains-dns: (DEPRECATED) Use free name servers provided by Google Domains.
+    --validate-only: Don't actually configure DNS settings of the registration.
+documentation:
+    command: |-
+        Configure DNS settings of a Cloud Domains registration.
+
+        In most cases, this command is used for changing the authoritative name
+        servers and DNSSEC options for the given domain. However, advanced options
+        like glue records are available.
+
+        ## EXAMPLES
+
+        To start an interactive flow to configure DNS settings for ``example.com'',
+        run:
+
+          $ gcloud domains registrations configure dns example.com
+
+        To use Cloud DNS managed-zone ``example-zone'' for ``example.com'', run:
+
+          $ gcloud domains registrations configure dns example.com --cloud-dns-zone=example-zone
+
+        DNSSEC will not be enabled as it may not be safe to enable it (e.g. when the
+        Cloud DNS managed-zone was signed less than 24h ago).
+
+        To use a signed Cloud DNS managed-zone ``example-zone'' for ``example.com''
+        and enable DNSSEC, run:
+
+          $ gcloud domains registrations configure dns example.com --cloud-dns-zone=example-zone --no-disable-dnssec
+
+        To change DNS settings for ``example.com'' according to information from a
+        YAML file ``dns_settings.yaml'', run:
+
+          $ gcloud domains registrations configure dns example.com --dns-settings-from-file=dns_settings.yaml
+
+        To disable DNSSEC, run:
+
+          $ gcloud domains registrations configure dns example.com --disable-dnssec
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        cloud-dns-zone: |-
+            The name of the Cloud DNS managed-zone to set as the name server for the domain.
+            If it's in the same project, you can use short name. If not, use the full resource name, e.g.: --cloud-dns-zone=projects/example-project/managedZones/example-zone.
+        disable-dnssec: |-
+            Use this flag to disable DNSSEC, or to skip enabling it when switching
+            to a Cloud DNS Zone or Google Domains nameservers.
+        dns-settings-from-file: |-
+            A YAML file containing the required DNS settings.
+            If specified, its content will replace the values currently used in the
+            registration resource. If the file is missing some of the dns_settings
+            fields, those fields will be cleared.
+            +
+            Examples of file contents:
+            +
+            ```
+            googleDomainsDns:
+              dsState: DS_RECORDS_PUBLISHED
+            glueRecords:
+            - hostName: ns1.example.com
+              ipv4Addresses:
+              - 8.8.8.8
+            - hostName: ns2.example.com
+              ipv4Addresses:
+              - 8.8.8.8
+            ```
+            +
+            ```
+            customDns:
+              nameServers:
+              - new.ns1.com
+              - new.ns2.com
+              dsRecords:
+              - keyTag: 24
+                algorithm: RSASHA1
+                digestType: SHA256
+                digest: 2e1cfa82b035c26cbbbdae632cea070514eb8b773f616aaeaf668e2f0be8f10d
+              - keyTag: 42
+                algorithm: RSASHA1
+                digestType: SHA256
+                digest: 2e1cfa82bf35c26cbbbdae632cea070514eb8b773f616aaeaf668e2f0be8f10d
+            ```
+        name-servers: List of DNS name servers for the domain.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-disable-dnssec: |
+            Use this flag to disable DNSSEC, or to skip enabling it when switching
+            to a Cloud DNS Zone or Google Domains nameservers.
+        no-unsafe-dns-update: |-
+            (DEPRECATED) Use this flag to allow DNS changes that may make your domain stop serving.
+            +
+            The --unsafe-dns-update option is deprecated. To complete an unsafe DNS operation first disable DNSSEC, then change name servers, then (optionally) enable DNSSEC.
+        no-use-google-domains-dns: |-
+            (DEPRECATED) Use free name servers provided by Google Domains.
+            +
+            The --use-google-domains-dns option is deprecated; See https://cloud.google.com/domains/docs/deprecations/feature-deprecations.
+        no-validate-only: Don't actually configure DNS settings of the registration. Only validate arguments.
+        unsafe-dns-update: |-
+            (DEPRECATED) Use this flag to allow DNS changes that may make your domain stop serving.
+            +
+            The --unsafe-dns-update option is deprecated. To complete an unsafe DNS operation first disable DNSSEC, then change name servers, then (optionally) enable DNSSEC.
+        use-google-domains-dns: |-
+            (DEPRECATED) Use free name servers provided by Google Domains.
+            +
+            The --use-google-domains-dns option is deprecated; See https://cloud.google.com/domains/docs/deprecations/feature-deprecations.
+        validate-only: Don't actually configure DNS settings of the registration. Only validate arguments.

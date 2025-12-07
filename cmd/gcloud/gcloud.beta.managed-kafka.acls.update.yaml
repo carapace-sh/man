@@ -1,0 +1,55 @@
+name: update
+description: '*(BETA)*  Update a Managed Service for Apache Kafka acl.'
+flags:
+    --acl-entries-from-file=: Path to a JSON or YAML file containing the acl entries to use in the acl.
+    --acl-entry=: An acl entry that configures access for a principal, for a specific operation on the acl's
+    --cluster=: The cluster name.
+    --etag=!: etag returned in the response to a previous create or describe
+    --location=: ID of the location of the Managed Service for Apache Kafka resource.
+documentation:
+    command: |
+        *(BETA)*  Update a Managed Service for Apache Kafka acl.
+
+        NOTE: update performs a FULL REPLACEMENT of acl entries. For incremental
+        updates, use add-acl-entry and remove-acl-entry commands.
+    flag:
+        acl-entries-from-file: Path to a JSON or YAML file containing the acl entries to use in the acl. Use a full or relative path to a local file containing the value of acl_entries.
+        acl-entry: |-
+            An acl entry that configures access for a principal, for a specific operation on the acl's
+            resource pattern. This flag can be repeated.
+            +
+            ``PRINCIPAL'' is the principal. Specified as Google Cloud account, with the Kafka StandardAuthorizer prefix
+            "User:". For example: "User:admin@project.iam.gserviceaccount.com".
+            Can be the wildcard "User:```*```" to refer to all users.
+            +
+            ``OPERATION'' is the operation type. Allowed values are: ALL, READ, WRITE,
+            CREATE, DELETE, ALTER, DESCRIBE, CLUSTER_ACTION, DESCRIBE_CONFIGS, ALTER_CONFIGS,
+            IDEMPOTENT_WRITE.
+            +
+            ``PERMISSION-TYPE'' is the permission type. Allowed values are: ALLOW, DENY.
+            +
+            ``HOST'' is the host. Must be set to "```*```" for Managed Service for Apache Kafka.
+            +
+            Example acl-entry:
+              "principal=User:admin@project.iam.gserviceaccount.com,operation=ALL,permission-type=ALLOW,host=```*```"
+        cluster: |-
+            The cluster name.
+            +
+
+            To set the `cluster` attribute:
+            * provide the argument `acl` on the command line with a fully specified name;
+            * provide the argument `--cluster` on the command line.
+        etag: |-
+            etag returned in the response to a previous create or describe
+            command. The etag is used for concurrency control, to ensure that the
+            client and server agree on the current set of acl entries in the Kafka
+            cluster, before full replacement in the update command.
+        location: |-
+            ID of the location of the Managed Service for Apache Kafka resource. See
+            https://cloud.google.com/managed-service-for-apache-kafka/docs/locations for a list of supported
+            locations.
+            +
+
+            To set the `location` attribute:
+            * provide the argument `acl` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line.

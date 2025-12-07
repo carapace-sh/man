@@ -1,0 +1,92 @@
+name: update
+description: '*(BETA)*  Update a policy orchestrator.'
+flags:
+    --action=: Action to be taken on policy.
+    --async: Return immediately, without waiting for the operation in progress to
+    --clear-folders: Clears included folders from policy orchestrator selectors.
+    --clear-locations: Clears included locations from policy orchestrator selectors.
+    --clear-projects: Clears included projects from policy orchestrator selectors.
+    --folder=: Folder of the policy_orchestrator.
+    --include-folders=: Applies policy to selected folders only.
+    --include-locations=: Applies policy to selected locations only.
+    --include-projects=: Applies policy to selected projects only.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-clear-folders&: Clears included folders from policy orchestrator selectors.
+    --no-clear-locations&: Clears included locations from policy orchestrator selectors.
+    --no-clear-projects&: Clears included projects from policy orchestrator selectors.
+    --organization=: Organization of the policy_orchestrator.
+    --policy-file=: Absolute path to the OS policy assignment file on your local client.
+    --policy-id=: Policy id.
+    --state=: State of the policy orchestrator.
+completion:
+    flag:
+        action:
+            - delete
+            - upsert
+        state:
+            - active
+            - stopped
+documentation:
+    command: |
+        *(BETA)*  Update a policy orchestrator.
+        ## EXAMPLES
+
+        To update an policy orchestrator `my-orchestrator` in folder `123456` with config file
+        `/path/to/file/config.yaml`, run:
+
+          $ gcloud beta compute os-config policy-orchestrators update my-orchestrator --folder=123456 --policy-file=/path/to/file/config.yaml
+
+        To update an policy orchestrator `my-orchestrator` in folder `123456` with state STOPPED, run:
+
+          $ gcloud beta compute os-config policy-orchestrators update my-orchestrator --folder=123456 --state=stopped
+    flag:
+        action: |-
+            Action to be taken on policy. _ACTION_ must be one of:
+            +
+            *delete*::: Delete a policy with a given name. `policy-id` must be specified.
+            *upsert*::: Create or update a policy. `policy-file` must be specified.
+            :::
+            +
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        clear-folders: Clears included folders from policy orchestrator selectors.
+        clear-locations: Clears included locations from policy orchestrator selectors.
+        clear-projects: Clears included projects from policy orchestrator selectors.
+        folder: |-
+            Folder of the policy_orchestrator.
+            +
+
+            To set the `folder` attribute:
+            * provide the argument `policy_orchestrator` on the command line with a fully specified name;
+            * provide the argument `--folder` on the command line. Must be specified for resource of type [policy_orchestrator_folder].
+        include-folders: Applies policy to selected folders only.
+        include-locations: Applies policy to selected locations only.
+        include-projects: Applies policy to selected projects only.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-clear-folders: Clears included folders from policy orchestrator selectors.
+        no-clear-locations: Clears included locations from policy orchestrator selectors.
+        no-clear-projects: Clears included projects from policy orchestrator selectors.
+        organization: |-
+            Organization of the policy_orchestrator.
+            +
+
+            To set the `organization` attribute:
+            * provide the argument `policy_orchestrator` on the command line with a fully specified name;
+            * provide the argument `--organization` on the command line. Must be specified for resource of type [policy_orchestrator_organization].
+        policy-file: |-
+            Absolute path to the OS policy assignment file on your local client. File must be in either JSON
+            or YAML format. This file defines the OS policies that you want to apply to your VMs, the target
+            VMs that you want to apply the policies to, and the rollout rate at which to apply the OS
+            policies on a zonal level. For more information about this resource and sample OS policy
+            assignment files, see https://cloud.google.com/compute/docs/os-configuration-management/working-with-os-policies#os-policy-assignment.
+        policy-id: Policy id. Must be specified for `DELETE` action.
+        state: |-
+            State of the policy orchestrator. _STATE_ must be one of:
+            +
+            *active*::: Updates the policy orchestrator to `ACTIVE` state.
+            *stopped*::: Updates the policy orchestrator to `STOPPED` state.
+            :::
+            +

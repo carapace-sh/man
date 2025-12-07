@@ -1,0 +1,44 @@
+name: suspend-instances
+description: Suspend instances owned by a managed instance group.
+flags:
+    --force: Immediately suspend the specified instances, skipping the initial
+    --instances=!: Names of instances to suspend.
+    --no-force&: ""
+    --region=: Region of the managed instance group to operate on.
+    --zone=: Zone of the managed instance group to operate on.
+documentation:
+    command: |4
+                *gcloud compute instance-groups managed suspend-instances* suspends one or more instances from a managed instance
+        group, thereby reducing the targetSize and increasing the targetSuspendedSize
+        of the group.
+
+        The command returns the operation status per instance, which might be ``FAIL'',
+        ``SUCCESS'', or ``MEMBER_NOT_FOUND''. ``MEMBER_NOT_FOUND'' is returned only for
+        regional groups when the gcloud command-line tool wasn't able to resolve the
+        zone from the instance name.
+    flag:
+        force: |-
+            Immediately suspend the specified instances, skipping the initial
+            delay, if one is specified in the standby policy.
+        instances: Names of instances to suspend.
+        no-force: |-
+            Immediately suspend the specified instances, skipping the initial
+            delay, if one is specified in the standby policy.
+        region: |-
+            Region of the managed instance group to operate on. If not specified, you might be prompted to select a region (interactive mode
+            only).
+            +
+            A list of regions can be fetched by running:
+            +
+              $ gcloud compute regions list
+            +
+            Overrides the default *compute/region* property value for this command invocation.
+        zone: |-
+            Zone of the managed instance group to operate on. If not specified, you might be prompted to select a zone (interactive mode
+            only).
+            +
+            A list of zones can be fetched by running:
+            +
+              $ gcloud compute zones list
+            +
+            Overrides the default *compute/zone* property value for this command invocation.

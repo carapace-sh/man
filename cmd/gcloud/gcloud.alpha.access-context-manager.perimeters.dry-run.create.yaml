@@ -1,0 +1,135 @@
+name: create
+description: '*(ALPHA)*  Create a dry-run mode configuration for a new or existing Service         Perimeter.'
+flags:
+    --access-levels=: Comma-separated list of IDs for access levels (in the same policy)
+    --async: Return immediately, without waiting for the operation in
+    --egress-policies=: Path to a file containing a list of Egress Policies.
+    --enable-vpc-accessible-services: Whether to restrict API calls within the perimeter to those in the
+    --ingress-policies=: Path to a file containing a list of Ingress Policies.
+    --no-async&: Return immediately, without waiting for the operation in
+    --no-enable-vpc-accessible-services&: Whether to restrict API calls within the perimeter to those in the
+    --no-perimeter-enable-vpc-accessible-services&: Whether to restrict API calls within the perimeter to those in the
+    --perimeter-access-levels=: Comma-separated list of IDs for access levels (in the same policy)
+    --perimeter-description=: Long-form description of Service Perimeter.
+    --perimeter-egress-policies=: Path to a file containing a list of Egress Policies.
+    --perimeter-enable-vpc-accessible-services: Whether to restrict API calls within the perimeter to those in the
+    --perimeter-ingress-policies=: Path to a file containing a list of Ingress Policies.
+    --perimeter-resources=: Comma-separated list of resources (currently only projects, in the
+    --perimeter-restricted-services=: Comma-separated list of services to which the perimeter boundary
+    --perimeter-title=!: Short human-readable title for the Service Perimeter.
+    --perimeter-type=!: Type of the perimeter.
+    --perimeter-vpc-accessible-services=: Path to a YAML file containing a VpcAccessibleServices object.
+    --perimeter-vpc-allowed-services=: Comma-separated list of APIs accessible from within the Service
+    --policy=: The ID of the access policy.
+    --resources=: Comma-separated list of resources (currently only projects, in the
+    --restricted-services=: Comma-separated list of services to which the perimeter boundary
+    --vpc-accessible-services=: Path to a YAML file containing a VpcAccessibleServices object.
+    --vpc-allowed-services=: Comma-separated list of APIs accessible from within the Service
+documentation:
+    command: |-
+        *(ALPHA)*  When a Service Perimeter with the specified name does not exist, a new Service Perimeter will be created. In this case, the newly created Service Perimeter will not have any enforcement mode configuration, and, therefore, all policy violations will be logged.
+
+        When a perimeter with the specified name does exist, a dry-run mode configuration will be created for it. The behavior of the enforcement mode configuration, if present, will not be impacted in this case. Requests that violate the existing enforcement mode configuration of the Service Perimeter will continue being denied. Requests that only violate the policy in the dry-run mode configuration will be logged but will not be denied.
+    flag:
+        access-levels: |-
+            Comma-separated list of IDs for access levels (in the same policy)
+                          that an intra-perimeter request must satisfy to be allowed.
+        async: |-
+            Return immediately, without waiting for the operation in
+                            progress to complete.
+        egress-policies: |-
+            Path to a file containing a list of Egress Policies.
+                          This file contains a list of YAML-compliant objects representing
+                          Egress Policies described in the API reference.
+                          For more information about the alpha version, see:
+                          https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.servicePerimeters
+                          For more information about non-alpha versions, see:
+                          https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.servicePerimeters
+        enable-vpc-accessible-services: |-
+            Whether to restrict API calls within the perimeter to those in the
+                          `vpc-allowed-services` list.
+        ingress-policies: |-
+            Path to a file containing a list of Ingress Policies.
+                          This file contains a list of YAML-compliant objects representing
+                          Ingress Policies described in the API reference.
+                          For more information about the alpha version, see:
+                          https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.servicePerimeters
+                          For more information about non-alpha versions, see:
+                          https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.servicePerimeters
+        no-async: |-
+            Return immediately, without waiting for the operation in
+                            progress to complete.
+        no-enable-vpc-accessible-services: |-
+            Whether to restrict API calls within the perimeter to those in the
+                          `vpc-allowed-services` list.
+        no-perimeter-enable-vpc-accessible-services: |-
+            Whether to restrict API calls within the perimeter to those in the
+                          `vpc-allowed-services` list.
+        perimeter-access-levels: |-
+            Comma-separated list of IDs for access levels (in the same policy)
+                          that an intra-perimeter request must satisfy to be allowed.
+        perimeter-description: Long-form description of Service Perimeter.
+        perimeter-egress-policies: |-
+            Path to a file containing a list of Egress Policies.
+                          This file contains a list of YAML-compliant objects representing
+                          Egress Policies described in the API reference.
+                          For more information about the alpha version, see:
+                          https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.servicePerimeters
+                          For more information about non-alpha versions, see:
+                          https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.servicePerimeters
+        perimeter-enable-vpc-accessible-services: |-
+            Whether to restrict API calls within the perimeter to those in the
+                          `vpc-allowed-services` list.
+        perimeter-ingress-policies: |-
+            Path to a file containing a list of Ingress Policies.
+                          This file contains a list of YAML-compliant objects representing
+                          Ingress Policies described in the API reference.
+                          For more information about the alpha version, see:
+                          https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.servicePerimeters
+                          For more information about non-alpha versions, see:
+                          https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.servicePerimeters
+        perimeter-resources: |-
+            Comma-separated list of resources (currently only projects, in the
+                          form `projects/<projectnumber>`) in this perimeter.
+        perimeter-restricted-services: |-
+            Comma-separated list of services to which the perimeter boundary
+                          *does* apply (for example, `storage.googleapis.com`).
+        perimeter-title: Short human-readable title for the Service Perimeter.
+        perimeter-type: |-
+            Type of the perimeter.
+            +
+                        A *regular* perimeter allows resources within this service perimeter
+                        to import and export data amongst themselves. A project may belong
+                        to at most one regular service perimeter.
+            +
+                        A *bridge* perimeter allows resources in different regular service
+                        perimeters to import and export data between each other. A project
+                        may belong to multiple bridge service perimeters (only if it also
+                        belongs to a regular service perimeter). Both restricted and
+                        unrestricted service lists, as well as access level lists, must be
+                        empty.
+        perimeter-vpc-accessible-services: Path to a YAML file containing a VpcAccessibleServices object.
+        perimeter-vpc-allowed-services: |-
+            Comma-separated list of APIs accessible from within the Service
+                          Perimeter. In order to include all restricted services, use
+                          reference "RESTRICTED-SERVICES". Requires vpc-accessible-services
+                          be enabled.
+        policy: |-
+            The ID of the access policy.
+            +
+            To set the `policy` attribute:
+            * provide the argument `perimeter` on the command line with a fully specified name;
+            * provide the argument `--policy` on the command line;
+            * set the property `access_context_manager/policy`.
+        resources: |-
+            Comma-separated list of resources (currently only projects, in the
+                          form `projects/<projectnumber>`) in this perimeter.
+        restricted-services: |-
+            Comma-separated list of services to which the perimeter boundary
+                          *does* apply (for example, `storage.googleapis.com`).
+        vpc-accessible-services: Path to a YAML file containing a VpcAccessibleServices object.
+        vpc-allowed-services: |-
+            Comma-separated list of APIs accessible from within the Service
+                          Perimeter. In order to include all restricted services, use
+                          reference "RESTRICTED-SERVICES". Requires vpc-accessible-services
+                          be enabled.

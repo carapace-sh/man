@@ -1,0 +1,214 @@
+name: update
+description: '*(ALPHA)*  Update labels and/or the number of worker nodes in a cluster.'
+flags:
+    --add-user-mappings=: List of user-to-service-account mappings to add to current mappings.
+    --async: Return immediately, without waiting for the operation in progress to
+    --autoscaling-policy=!: ID of the autoscaling policy or fully qualified identifier for the autoscaling policy.
+    --clear-labels: Remove all labels.
+    --delete-expiration-time=: The time when the cluster will be auto-deleted, such as
+    --delete-max-age=: The lifespan of the cluster with auto-deletion upon completion,
+    --delete-max-idle=: The duration after the last job completes to auto-delete the cluster,
+    --disable-autoscaling: Disable autoscaling, if it is enabled.
+    --expiration-time=&: The time when the cluster will be auto-deleted, such as
+    --graceful-decommission-timeout=: The graceful decommission timeout for decommissioning Node Managers
+    --identity-config-file=: Path to a YAML (or JSON) file that contains the configuration for [Secure Multi-Tenancy](/dataproc/docs/concepts/iam/sa-multi-tenancy)
+    --max-age=&: The lifespan of the cluster, with auto-deletion upon completion,
+    --max-idle=&: The duration after the last job completes to auto-delete the cluster,
+    --min-secondary-worker-fraction=: Minimum fraction of new secondary worker nodes added in a scale up update operation, required to update the cluster.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-clear-labels&: Remove all labels.
+    --no-delete-max-age: Cancels the cluster auto-deletion by maximum cluster age (configured
+    --no-delete-max-idle: Cancels the cluster auto-deletion by cluster idle duration (configured
+    --no-disable-autoscaling&: Disable autoscaling, if it is enabled.
+    --no-max-age&: Cancels the cluster auto-deletion by maximum cluster age (configured by
+    --no-max-idle&: Cancels the cluster auto-deletion by cluster idle duration (configured
+    --no-stop-max-age: Cancels the cluster auto-stop by maximum cluster age (configured by
+    --no-stop-max-idle: Cancels the cluster auto-stop by cluster idle duration (configured
+    --num-preemptible-workers=&: (DEPRECATED) The new number of preemptible worker nodes in the cluster.
+    --num-secondary-workers=: The new number of secondary worker nodes in the cluster.
+    --num-workers=: The new number of worker nodes in the cluster.
+    --region=: Dataproc region for the cluster.
+    --remove-labels=: List of label keys to remove.
+    --remove-user-mappings=: List of user-to-service-account mappings to remove from the
+    --secondary-worker-standard-capacity-base=: The number of standard VMs in the Spot and Standard Mix
+    --stop-expiration-time=: The time when the cluster will be auto-stopped, such as
+    --stop-max-age=: The lifespan of the cluster, with auto-stop upon completion,
+    --stop-max-idle=: The duration after the last job completes to auto-stop the cluster,
+    --timeout=&: Client side timeout on how long to wait for Dataproc operations.
+    --update-labels=: List of label KEY=VALUE pairs to update.
+documentation:
+    command: |-
+        *(ALPHA)*  Update the number of worker nodes and/or the labels in a cluster.
+
+        ## EXAMPLES
+
+        To resize a cluster, run:
+
+          $ gcloud alpha dataproc clusters update my-cluster --region=us-central1 --num-workers=5
+
+        To change the number preemptible workers in a cluster, run:
+
+          $ gcloud alpha dataproc clusters update my-cluster --region=us-central1 --num-preemptible-workers=5
+
+        To add the label 'customer=acme' to a cluster, run:
+
+          $ gcloud alpha dataproc clusters update my-cluster --region=us-central1 --update-labels=customer=acme
+
+        To update the label 'customer=ackme' to 'customer=acme', run:
+
+          $ gcloud alpha dataproc clusters update my-cluster --region=us-central1 --update-labels=customer=acme
+
+        To remove the label whose key is 'customer', run:
+
+          $ gcloud alpha dataproc clusters update my-cluster --region=us-central1 --remove-labels=customer
+    flag:
+        add-user-mappings: |-
+            List of user-to-service-account mappings to add to current mappings.
+            If a mapping exists, its value is modified; otherwise, the new
+            mapping is added.
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        autoscaling-policy: |-
+            ID of the autoscaling policy or fully qualified identifier for the autoscaling policy.
+            +
+            To set the `autoscaling_policy` attribute:
+            * provide the argument `--autoscaling-policy` on the command line.
+        clear-labels: |-
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} --clear-labels
+            +
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        delete-expiration-time: |-
+            The time when the cluster will be auto-deleted, such as
+            "2017-08-29T18:52:51.142Z". See $ gcloud topic datetimes for
+            information on time formats.
+        delete-max-age: |-
+            The lifespan of the cluster with auto-deletion upon completion,
+            such as "2h" or "1d".
+            See $ gcloud topic datetimes for information on duration formats.
+        delete-max-idle: |-
+            The duration after the last job completes to auto-delete the cluster,
+            such as "2h" or "1d".
+            See $ gcloud topic datetimes for information on duration formats.
+        disable-autoscaling: |-
+            Disable autoscaling, if it is enabled. This is an alias for passing the
+            empty string to --autoscaling-policy'.
+        expiration-time: |
+            The time when the cluster will be auto-deleted, such as
+            "2017-08-29T18:52:51.142Z". See $ gcloud topic datetimes for
+            information on time formats.
+        graceful-decommission-timeout: |-
+            The graceful decommission timeout for decommissioning Node Managers
+            in the cluster, used when removing nodes. Graceful decommissioning
+            allows removing nodes from the cluster without interrupting jobs in
+            progress. Timeout specifies how long to wait for jobs in progress to
+            finish before forcefully removing nodes (and potentially
+            interrupting jobs). Timeout defaults to 0 if not set (for forceful
+            decommission), and the maximum allowed timeout is 1 day.
+            See $ gcloud topic datetimes for information on duration formats.
+        identity-config-file: |-
+            Path to a YAML (or JSON) file that contains the configuration for [Secure Multi-Tenancy](/dataproc/docs/concepts/iam/sa-multi-tenancy)
+            on the cluster. The path can be a Cloud Storage URL (example: 'gs://path/to/file')
+            or a local filesystem path. The mappings provided in the file will overwrite existing mappings.
+            +
+            The YAML file is formatted as follows:
+            +
+            ```
+              # Mapping header (first line) required.
+              user_service_account_mapping:
+                bob@company.com: service-account-bob@project.iam.gserviceaccount.com
+                alice@company.com: service-account-alice@project.iam.gserviceaccount.com
+            ```
+        max-age: |
+            The lifespan of the cluster, with auto-deletion upon completion,
+            "2h" or "1d".
+            See $ gcloud topic datetimes for information on duration formats.
+        max-idle: |
+            The duration after the last job completes to auto-delete the cluster,
+            such as "2h" or "1d".
+            See $ gcloud topic datetimes for information on duration formats.
+        min-secondary-worker-fraction: Minimum fraction of new secondary worker nodes added in a scale up update operation, required to update the cluster. If it is not met, cluster updation will rollback the addition of secondary workers. Must be a decimal value between 0 and 1. Defaults to 0.0001.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-clear-labels: |
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} --clear-labels
+
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        no-delete-max-age: |-
+            Cancels the cluster auto-deletion by maximum cluster age (configured
+            by --delete-max-age or --delete-expiration-time flags)
+        no-delete-max-idle: |-
+            Cancels the cluster auto-deletion by cluster idle duration (configured
+            by --delete-max-idle flag)
+        no-disable-autoscaling: |
+            Disable autoscaling, if it is enabled. This is an alias for passing the
+            empty string to --autoscaling-policy'.
+        no-max-age: |
+            Cancels the cluster auto-deletion by maximum cluster age (configured by
+             --max-age or --expiration-time flags)
+        no-max-idle: |
+            Cancels the cluster auto-deletion by cluster idle duration (configured
+             by --max-idle flag)
+        no-stop-max-age: |-
+            Cancels the cluster auto-stop by maximum cluster age (configured by
+            --stop-max-age or --stop-expiration-time flags)
+        no-stop-max-idle: |-
+            Cancels the cluster auto-stop by cluster idle duration (configured
+            by --stop-max-idle flag)
+        num-preemptible-workers: |-
+            (DEPRECATED) The new number of preemptible worker nodes in the cluster.
+            +
+            The `--num-preemptible-workers` flag is deprecated. Use the `--num-secondary-workers` flag instead.
+        num-secondary-workers: The new number of secondary worker nodes in the cluster.
+        num-workers: The new number of worker nodes in the cluster.
+        region: |-
+            Dataproc region for the cluster. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. Overrides the default `dataproc/region` property value for this command invocation.
+            +
+            To set the `region` attribute:
+            * provide the argument `cluster` on the command line with a fully specified name;
+            * provide the argument `--region` on the command line;
+            * set the property `dataproc/region`.
+        remove-labels: |-
+            List of label keys to remove. If a label does not exist it is
+            silently ignored. If `--update-labels` is also specified then
+            `--update-labels` is applied first.
+        remove-user-mappings: |-
+            List of user-to-service-account mappings to remove from the
+            current mappings. If a mapping does not exist, it is ignored.
+        secondary-worker-standard-capacity-base: |-
+            The number of standard VMs in the Spot and Standard Mix
+            feature.
+        stop-expiration-time: |-
+            The time when the cluster will be auto-stopped, such as
+            "2017-08-29T18:52:51.142Z". See $ gcloud topic datetimes for
+            information on time formats.
+        stop-max-age: |-
+            The lifespan of the cluster, with auto-stop upon completion,
+            such as "2h" or "1d".
+            See $ gcloud topic datetimes for information on duration formats.
+        stop-max-idle: |-
+            The duration after the last job completes to auto-stop the cluster,
+            such as "2h" or "1d".
+            See $ gcloud topic datetimes for information on duration formats.
+        timeout: Client side timeout on how long to wait for Dataproc operations. See $ gcloud topic datetimes for information on duration formats.
+        update-labels: |-
+            List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.

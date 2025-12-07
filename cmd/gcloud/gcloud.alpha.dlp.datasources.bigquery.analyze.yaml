@@ -1,0 +1,45 @@
+name: analyze
+description: '*(ALPHA)*  Schedule a risk analysis job for content in a BigQuery table.'
+flags:
+    --categorical-stat-field=: An individual column to compute numerical stats on, including number
+    --job-id=: Optional job ID to use for the created job.
+    --numerical-stat-field=: Individual column to compute numerical stats on.
+    --output-table=: Publishes results of a Cloud DLP job to a BigQuery table.
+    --output-topics=: Publishes the results of a Cloud DLP job to one or more Cloud Pub/Sub
+    --quasi-ids=!: A set of quasi-identifiers indicating how equivalence classes are
+    --sensitive-attribute=: Sensitive field for computing the l-diversity value.
+documentation:
+    command: |
+        *(ALPHA)*  Schedules a job to compute risk analysis metrics on content in a
+        BigQuery table.
+    flag:
+        categorical-stat-field: |-
+            An individual column to compute numerical stats on, including number
+            of distinct values and value count distribution.
+        job-id: |-
+            Optional job ID to use for the created job. If not provided, a job
+            ID will automatically be generated. Must be unique within the project.
+            The job ID can contain uppercase and lowercase letters, numbers, and
+            hyphens; that is, it must match the regular expression:
+            `[a-zA-Z\\d-]+`. The maximum length is 100 characters. Can be empty to
+            allow the system to generate one.
+        numerical-stat-field: |-
+            Individual column to compute numerical stats on. Supported types are
+            integer, float, date, datetime, timestamp, time.
+        output-table: |-
+            Publishes results of a Cloud DLP job to a BigQuery table.
+            BigQuery tables are uniquely identified by their project_id,
+            dataset_id, and table_id in the format
+            `<project_id>.<dataset_id>.<table_id>`. If no table_id is specified,
+            DLP will create a new table.
+        output-topics: |-
+            Publishes the results of a Cloud DLP job to one or more Cloud Pub/Sub
+            topics.
+            +
+            Note: The topic must have given publishing access rights to the DLP
+            API service account executing the Cloud DLP job.
+        quasi-ids: |-
+            A set of quasi-identifiers indicating how equivalence classes are
+            defined for the l-diversity computation. When multiple fields are
+            specified, they are considered a single composite key.
+        sensitive-attribute: Sensitive field for computing the l-diversity value.

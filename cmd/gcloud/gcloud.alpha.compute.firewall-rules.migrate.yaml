@@ -1,0 +1,57 @@
+name: migrate
+description: '*(ALPHA)*  Create a new Network Firewall Policy and move all customer defined firewall rules there.'
+flags:
+    --bind-tags-to-instances: If set, migration tool will bind secure tags to the instances with the
+    --exclusion-patterns-file=: Path to a file with exclusion patterns used for VPC Firewall filtering.
+    --export-exclusion-patterns: If set, migration tool will dump list of regexes used to filter VPC Firewall out of migration.
+    --export-tag-mapping: If set, migration tool will inspect all VPC Firewalls attached to
+    --export-terraform-script: If set, migration tool will output a terraform script to create a Firewall Policy with migrated rules.
+    --force: If set, migration will succeed even if the tool detects that original rule evaluation order cannot be preserved.
+    --no-bind-tags-to-instances&: If set, migration tool will bind secure tags to the instances with the
+    --no-export-exclusion-patterns&: If set, migration tool will dump list of regexes used to filter VPC Firewall out of migration.
+    --no-export-tag-mapping&: If set, migration tool will inspect all VPC Firewalls attached to
+    --no-export-terraform-script&: If set, migration tool will output a terraform script to create a Firewall Policy with migrated rules.
+    --no-force&: If set, migration will succeed even if the tool detects that original rule evaluation order cannot be preserved.
+    --no-skip-migrate-target-service-accounts-to-tags&: If set, migration will keep target service accounts as they are and will not try to replace them with secure tags.
+    --skip-migrate-target-service-accounts-to-tags: If set, migration will keep target service accounts as they are and will not try to replace them with secure tags.
+    --source-network=!: The VPC Network for which the migration should be performed.
+    --tag-mapping-file=: Path to a JSON file with legacy tags and service accounts to secure tags mapping.
+    --target-firewall-policy=: Name of the new Network Firewall Policy used to store the migration
+    --terraform-script-output-file=: Path to a file where to store generated Terraform script.
+documentation:
+    command: |
+        *(ALPHA)*  *gcloud alpha compute firewall-rules migrate* is used to create a new Network Firewall Policy that contain
+        all rules defined in already existing Network Firewall Policy associated with
+        the given VPC Network and all customer defined VPC Firewall Rules attached to
+        that VPC Network.
+    flag:
+        bind-tags-to-instances: |-
+            If set, migration tool will bind secure tags to the instances with the
+            network tags which match secure tags from the tag mapping file.
+        exclusion-patterns-file: Path to a file with exclusion patterns used for VPC Firewall filtering. Each regular expression describing a single firewall naming pattern must be placed in a single line. No leading or tailing whitespaces.
+        export-exclusion-patterns: If set, migration tool will dump list of regexes used to filter VPC Firewall out of migration.
+        export-tag-mapping: |-
+            If set, migration tool will inspect all VPC Firewalls attached to
+            SOURCE_NETWORK, collect all source and target tags, and store them in
+            TAG_MAPPING_FILE.
+        export-terraform-script: If set, migration tool will output a terraform script to create a Firewall Policy with migrated rules.
+        force: If set, migration will succeed even if the tool detects that original rule evaluation order cannot be preserved.
+        no-bind-tags-to-instances: |
+            If set, migration tool will bind secure tags to the instances with the
+            network tags which match secure tags from the tag mapping file.
+        no-export-exclusion-patterns: |
+            If set, migration tool will dump list of regexes used to filter VPC Firewall out of migration.
+        no-export-tag-mapping: |
+            If set, migration tool will inspect all VPC Firewalls attached to
+            SOURCE_NETWORK, collect all source and target tags, and store them in
+            TAG_MAPPING_FILE.
+        no-export-terraform-script: If set, migration tool will output a terraform script to create a Firewall Policy with migrated rules.
+        no-force: If set, migration will succeed even if the tool detects that original rule evaluation order cannot be preserved.
+        no-skip-migrate-target-service-accounts-to-tags: If set, migration will keep target service accounts as they are and will not try to replace them with secure tags.
+        skip-migrate-target-service-accounts-to-tags: If set, migration will keep target service accounts as they are and will not try to replace them with secure tags.
+        source-network: The VPC Network for which the migration should be performed.
+        tag-mapping-file: Path to a JSON file with legacy tags and service accounts to secure tags mapping.
+        target-firewall-policy: |-
+            Name of the new Network Firewall Policy used to store the migration
+            result.
+        terraform-script-output-file: Path to a file where to store generated Terraform script.

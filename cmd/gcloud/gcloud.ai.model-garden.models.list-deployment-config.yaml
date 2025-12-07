@@ -1,0 +1,36 @@
+name: list-deployment-config
+description: List the machine specifications supported by and verified for a model in Model Garden.
+flags:
+    --filter=: Apply a Boolean filter _EXPRESSION_ to each resource item to be listed.
+    --hugging-face-access-token=: The access token from Hugging Face needed to read the model artifacts of gated models in order to generate the deployment configs.
+    --model=!: The model to be deployed.
+    --sort-by=: Comma-separated list of resource field key names to sort by.
+documentation:
+    command: |-
+        ## EXAMPLES
+
+        To list the supported machine specifications for `google/gemma2@gemma-2-9b`,
+        run:
+
+          $ gcloud ai model-garden models list-deployment-config
+          --model=google/gemma2@gemma-2-9b
+
+        To list the supported machine specifications for a Hugging Face model
+        `meta-llama/Meta-Llama-3-8B`, run:
+
+          $ gcloud ai model-garden models list-deployment-config
+          --model=meta-llama/Meta-Llama-3-8B
+    flag:
+        filter: |-
+            Apply a Boolean filter _EXPRESSION_ to each resource item to be listed.
+            If the expression evaluates `True`, then that item is listed. For more
+            details and examples of filter expressions, run $ gcloud topic filters. This
+            flag interacts with other flags that are applied in this order: *--flatten*,
+            *--sort-by*, *--filter*, *--limit*.
+        hugging-face-access-token: The access token from Hugging Face needed to read the model artifacts of gated models in order to generate the deployment configs. It is only needed when the Hugging Face model to deploy is gated and not verified by Model Garden. You can use the `gcloud ai alpha/beta model-garden models list` command to find out which ones are verified by Model Garden.
+        model: The model to be deployed. If it is a Model Garden model, it should be in the format of `{publisher_name}/{model_name}@{model_version_name}, e.g. `google/gemma2@gemma-2-2b`. If it is a Hugging Face model, it should be in the convention of Hugging Face models, e.g. `meta-llama/Meta-Llama-3-8B`.
+        sort-by: |-
+            Comma-separated list of resource field key names to sort by. The
+            default order is ascending. Prefix a field with ``~'' for descending
+            order on that field. This flag interacts with other flags that are applied
+            in this order: *--flatten*, *--sort-by*, *--filter*, *--limit*.

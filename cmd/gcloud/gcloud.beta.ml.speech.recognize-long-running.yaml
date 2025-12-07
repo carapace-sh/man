@@ -1,0 +1,119 @@
+name: recognize-long-running
+description: '*(BETA)*  Get transcripts of longer audio from an audio file.'
+flags:
+    --additional-language-codes=: The BCP-47 language tags of other languages that the speech may be in.
+    --async: Return immediately, without waiting for the operation in progress to
+    --audio-channel-count=!: The number of channels in the input audio data.
+    --diarization-speaker-count=&: (DEPRECATED) Estimated number of speakers in the conversation being recognized.
+    --enable-automatic-punctuation: Adds punctuation to recognition result hypotheses.
+    --enable-speaker-diarization!: Enable speaker detection for each recognized word in the top alternative of the recognition result using an integer speaker_tag provided in the WordInfo.
+    --encoding=: The type of encoding of the file.
+    --filter-profanity: If True, the server will attempt to filter out profanities, replacing all but the initial character in each filtered word with asterisks, e.g. ```f***```.
+    --hints=: A list of strings containing word and phrase "hints" so that the speech recognition is more likely to recognize them.
+    --include-word-confidence: Include a list of words and the confidence for those words in the top result.
+    --include-word-time-offsets: If True, the top result includes a list of words with the start and end time offsets (timestamps) for those words.
+    --language-code=: The language of the supplied audio as a BCP-47 (https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tag.
+    --language=&: (DEPRECATED) The language of the supplied audio as a BCP-47 (https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tag.
+    --max-alternatives=: Maximum number of recognition hypotheses to be returned.
+    --max-diarization-speaker-count=: Maximum estimated number of speakers in the conversation being recognized.
+    --min-diarization-speaker-count=: Minimum estimated number of speakers in the conversation being recognized.
+    --model=: Select the model best suited to your domain to get best results.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-enable-automatic-punctuation&: Adds punctuation to recognition result hypotheses.
+    --no-enable-speaker-diarization!&: Enable speaker detection for each recognized word in the top alternative of the recognition result using an integer speaker_tag provided in the WordInfo.
+    --no-filter-profanity&: If True, the server will attempt to filter out profanities, replacing all but the initial character in each filtered word with asterisks, e.g. ```f***```.
+    --no-include-word-confidence&: Include a list of words and the confidence for those words in the top result.
+    --no-include-word-time-offsets&: If True, the top result includes a list of words with the start and end time offsets (timestamps) for those words.
+    --no-separate-channel-recognition!&: Recognition result will contain a `channel_tag` field to state which channel that result belongs to.
+    --output-uri=: Location to which the results should be written.
+    --sample-rate=: The sample rate in Hertz.
+    --separate-channel-recognition!: Recognition result will contain a `channel_tag` field to state which channel that result belongs to.
+completion:
+    flag:
+        encoding:
+            - alaw
+            - amr
+            - amr-wb
+            - encoding-unspecified
+            - flac
+            - linear16
+            - mp3
+            - mulaw
+            - ogg-opus
+            - speex-with-header-byte
+            - webm-opus
+        model:
+            - command_and_search
+            - default
+            - latest_long
+            - latest_short
+            - medical_conversation
+            - medical_dictation
+            - phone_call
+            - phone_call_enhanced
+            - telephony
+            - telephony_short
+            - video_enhanced
+documentation:
+    command: |
+        *(BETA)*  Get a transcript of audio up to 80 minutes in length. If the audio is
+        under 60 seconds, you may also use `gcloud beta ml speech recognize` to
+        analyze it.
+    flag:
+        additional-language-codes: |-
+            The BCP-47 language tags of other languages that the speech may be in.
+            Up to 3 can be provided.
+            +
+            If alternative languages are listed, recognition result will contain recognition
+            in the most likely language detected including the main language-code.
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        audio-channel-count: 'The number of channels in the input audio data.  Set this for separate-channel-recognition. Valid values are: 1)LINEAR16 and FLAC are 1-8 2)OGG_OPUS are 1-254 3) MULAW, AMR, AMR_WB and SPEEX_WITH_HEADER_BYTE is only `1`.'
+        diarization-speaker-count: |-
+            (DEPRECATED) Estimated number of speakers in the conversation being recognized.
+            +
+            The `--diarization-speaker-count` flag is deprecated. Use the `--min-diarization-speaker-count` and/or `--max-diarization-speaker-count` flag instead.
+        enable-automatic-punctuation: Adds punctuation to recognition result hypotheses.
+        enable-speaker-diarization: Enable speaker detection for each recognized word in the top alternative of the recognition result using an integer speaker_tag provided in the WordInfo.
+        encoding: 'The type of encoding of the file. Required if the file format is not WAV or FLAC. _ENCODING_ must be one of: *alaw*, *amr*, *amr-wb*, *encoding-unspecified*, *flac*, *linear16*, *mp3*, *mulaw*, *ogg-opus*, *speex-with-header-byte*, *webm-opus*.'
+        filter-profanity: If True, the server will attempt to filter out profanities, replacing all but the initial character in each filtered word with asterisks, e.g. ```f***```.
+        hints: A list of strings containing word and phrase "hints" so that the speech recognition is more likely to recognize them. This can be used to improve the accuracy for specific words and phrases, for example, if specific commands are typically spoken by the user. This can also be used to add additional words to the vocabulary of the recognizer. See https://cloud.google.com/speech/limits#content.
+        include-word-confidence: Include a list of words and the confidence for those words in the top result.
+        include-word-time-offsets: If True, the top result includes a list of words with the start and end time offsets (timestamps) for those words. If False, no word-level time offset information is returned.
+        language: |-
+            (DEPRECATED) The language of the supplied audio as a BCP-47 (https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tag. Example: "en-US". See https://cloud.google.com/speech/docs/languages for a list of the currently supported language codes.
+            +
+            The `--language` flag is deprecated. Use the `--language-code` flag instead.
+        language-code: 'The language of the supplied audio as a BCP-47 (https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tag. Example: "en-US". See https://cloud.google.com/speech/docs/languages for a list of the currently supported language codes.'
+        max-alternatives: Maximum number of recognition hypotheses to be returned. The server may return fewer than max_alternatives. Valid values are 0-30. A value of 0 or 1 will return a maximum of one.
+        max-diarization-speaker-count: Maximum estimated number of speakers in the conversation being recognized.
+        min-diarization-speaker-count: Minimum estimated number of speakers in the conversation being recognized.
+        model: |-
+            Select the model best suited to your domain to get best results. If you do not explicitly specify a model, Speech-to-Text will auto-select a model based on your other specified parameters. Some models are premium and cost more than standard models (although you can reduce the price by opting into https://cloud.google.com/speech-to-text/docs/data-logging). _MODEL_ must be one of:
+            +
+            *command_and_search*::: short queries such as voice commands or voice search.
+            *default*::: audio that is not one of the specific audio models. For example, long-form audio. Ideally the audio is high-fidelity, recorded at a 16khz or greater sampling rate.
+            *latest_long*::: Use this model for any kind of long form content such as media or spontaneous speech and conversations. Consider using this model in place of the video model, especially if the video model is not available in your target language. You can also use this in place of the default model.
+            *latest_short*::: Use this model for short utterances that are a few seconds in length. It is useful for trying to capture commands or other single shot directed speech use cases. Consider using this model instead of the command and search model.
+            *medical_conversation*::: Best for audio that originated from a conversation between a medical provider and patient.
+            *medical_dictation*::: Best for audio that originated from dictation notes by a medical provider.
+            *phone_call*::: audio that originated from a phone call (typically recorded at an 8khz sampling rate).
+            *phone_call_enhanced*::: audio that originated from a phone call (typically recorded at an 8khz sampling rate). This is a premium model and can produce better results but costs more than the standard rate.
+            *telephony*::: Improved version of the "phone_call" model, best for audio that originated from a phone call, typically recorded at an 8kHz sampling rate.
+            *telephony_short*::: Dedicated version of the modern "telephony" model for short or even single-word utterances for audio that originated from a phone call, typically recorded at an 8kHz sampling rate.
+            *video_enhanced*::: audio that originated from video or includes multiple speakers. Ideally the audio is recorded at a 16khz or greater sampling rate. This is a premium model that costs more than the standard rate.
+            :::
+            +
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-enable-automatic-punctuation: Adds punctuation to recognition result hypotheses.
+        no-enable-speaker-diarization: Enable speaker detection for each recognized word in the top alternative of the recognition result using an integer speaker_tag provided in the WordInfo.
+        no-filter-profanity: If True, the server will attempt to filter out profanities, replacing all but the initial character in each filtered word with asterisks, e.g. ```f***```.
+        no-include-word-confidence: Include a list of words and the confidence for those words in the top result.
+        no-include-word-time-offsets: If True, the top result includes a list of words with the start and end time offsets (timestamps) for those words. If False, no word-level time offset information is returned.
+        no-separate-channel-recognition: Recognition result will contain a `channel_tag` field to state which channel that result belongs to. If this is not true, only the first channel will be recognized.
+        output-uri: Location to which the results should be written. Must be a Google Cloud Storage URI.
+        sample-rate: The sample rate in Hertz. For best results, set the sampling rate of the audio source to 16000 Hz. If that's not possible, use the native sample rate of the audio source (instead of re-sampling).
+        separate-channel-recognition: Recognition result will contain a `channel_tag` field to state which channel that result belongs to. If this is not true, only the first channel will be recognized.

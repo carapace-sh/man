@@ -1,0 +1,73 @@
+name: update
+description: Update an existing subordinate certificate authority.
+flags:
+    --clear-labels: Remove all labels.
+    --location=: The location of the CERTIFICATE_AUTHORITY.
+    --no-clear-labels&: Remove all labels.
+    --pem-chain=: A file containing a list of PEM-encoded certificates that represent the issuing chain of this CA.
+    --pool=: The parent CA Pool of the CERTIFICATE_AUTHORITY.
+    --remove-labels=: List of label keys to remove.
+    --update-labels=: List of label KEY=VALUE pairs to update.
+documentation:
+    command: |-
+        ## EXAMPLES
+          To update labels on a subordinate CA:
+
+            $ gcloud privateca subordinates update server-tls-1 \
+              --pool=my-pool \
+              --location=us-west1 \
+              --update-labels=foo=bar
+
+          To update the CA certificate chain for a subordinate CA:
+
+            $ gcloud privateca subordinates update server-tls-1 \
+              --pool=my-pool \
+              --location=us-west1 \
+              --pem-chain=pem_chain.txt
+    flag:
+        clear-labels: |-
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} --clear-labels
+            +
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        location: |-
+            The location of the CERTIFICATE_AUTHORITY.
+            +
+            To set the `location` attribute:
+            * provide the argument `CERTIFICATE_AUTHORITY` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `privateca/location`.
+        no-clear-labels: |
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} --clear-labels
+
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        pem-chain: A file containing a list of PEM-encoded certificates that represent the issuing chain of this CA. Please note that the certificate corresponding to this specific CA should be excluded.
+        pool: |-
+            The parent CA Pool of the CERTIFICATE_AUTHORITY.
+            +
+            To set the `pool` attribute:
+            * provide the argument `CERTIFICATE_AUTHORITY` on the command line with a fully specified name;
+            * provide the argument `--pool` on the command line.
+        remove-labels: |-
+            List of label keys to remove. If a label does not exist it is
+            silently ignored. If `--update-labels` is also specified then
+            `--update-labels` is applied first.
+        update-labels: |-
+            List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.

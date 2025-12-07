@@ -1,0 +1,124 @@
+name: local-run
+description: Run a custom training locally.
+flags:
+    --docker-run-options=&: ""
+    --executor-image-uri=!: URI or ID of the container image in either the Container Registry or local
+    --extra-dirs=: Extra directories under the working directory to include, besides the one
+    --extra-packages=: Local paths to Python archives used as training dependencies in the image
+    --gpu: Enable to use GPU.
+    --local-package-path=: local path of the directory where the python-module or script exists.
+    --no-gpu&: Enable to use GPU.
+    --output-image-uri=: Uri of the custom container image to be built with the your application
+    --python-module=: Name of the python module to execute, in 'trainer.train' or 'train'
+    --requirements=: Python dependencies from PyPI to be used when running the application.
+    --script=: The relative path of the file to execute.
+    --service-account-key-file=: The JSON file of a Google Cloud service account private key.
+documentation:
+    command: |
+        Packages your training code into a Docker image and executes it locally.
+
+        You should execute this command in the top folder which includes all
+        the code and resources you want to pack and run, or specify the
+        'work-dir' flag to point to it. Any other path you specified via flags
+        should be a relative path to the work-dir and under it; otherwise it
+        will be unaccessible.
+
+        Supposing your directories are like the following structures:
+
+          /root
+            - my_project
+                - my_training
+                    - task.py
+                    - util.py
+                    - setup.py
+                - other_modules
+                    - some_module.py
+                - dataset
+                    - small.dat
+                    - large.dat
+                - config
+                - dep
+                    - foo.tar.gz
+                - bar.whl
+                - requirements.txt
+            - another_project
+                - something
+
+        If you set 'my_project' as the package, then you should
+        execute the task.py by specifying "--script=my_training/task.py" or
+        "--python-module=my_training.task", the 'requirements.txt' will be
+        processed. And you will also be able to install extra packages by,
+        e.g. specifying "--extra-packages=dep/foo.tar.gz,bar.whl" or include
+        extra directories, e.g. specifying "--extra-dirs=dataset,config".
+
+        If you set 'my_training' as the package, then you should
+        execute the task.py by specifying "--script=task.py" or
+        "--python-module=task", the 'setup.py' will be processed. However, you
+        won't be able to access any other files or directories that are not in
+        'my_training' folder.
+
+        See more details in the HELP info of the corresponding flags.
+    flag:
+        docker-run-options: |
+            Custom Docker run options to pass to image during execution.
+            For example, '--no-healthcheck, -a stdin'.
+
+            See https://docs.docker.com/engine/reference/commandline/run/#options for
+            more details.
+        executor-image-uri: |-
+            URI or ID of the container image in either the Container Registry or local
+            that will run the application.
+            See https://cloud.google.com/vertex-ai/docs/training/pre-built-containers
+            for available pre-built container images provided by Vertex AI for training.
+        extra-dirs: |-
+            Extra directories under the working directory to include, besides the one
+            that contains the main executable.
+            +
+            By default, only the parent directory of the main script or python module
+            is copied to the container.
+            For example, if the module is "training.task" or the script is
+            "training/task.py", the whole "training" directory, including its
+            sub-directories, will always be copied to the container. You may specify
+            this flag to also copy other directories if necessary.
+            +
+            Note: if no parent is specified in 'python_module' or 'scirpt', the whole
+            working directory is copied, then you don't need to specify this flag.
+        extra-packages: |-
+            Local paths to Python archives used as training dependencies in the image
+            container.
+            These can be absolute or relative paths. However, they have to be under
+            the work_dir; Otherwise, this tool will not be able to access it.
+            +
+            Example:
+            'dep1.tar.gz, ./downloads/dep2.whl'
+        gpu: Enable to use GPU.
+        local-package-path: |-
+            local path of the directory where the python-module or script exists.
+            If not specified, it use the directory where you run the this command.
+            +
+            Only the contents of this directory will be accessible to the built
+            container image.
+        no-gpu: Enable to use GPU.
+        output-image-uri: |-
+            Uri of the custom container image to be built with the your application
+            packed in.
+        python-module: |-
+            Name of the python module to execute, in 'trainer.train' or 'train'
+            format. Its path should be relative to the `work_dir`.
+        requirements: |-
+            Python dependencies from PyPI to be used when running the application.
+            If this is not specified, and there is no "setup.py" or "requirements.txt"
+            in the working directory, your application will only have access to what
+            exists in the base image with on other dependencies.
+            +
+            Example:
+            'tensorflow-cpu, pandas==1.2.0, matplotlib>=3.0.2'
+        script: |-
+            The relative path of the file to execute. Accepets a Python file or an
+            arbitrary bash script. This path should be relative to the `work_dir`.
+        service-account-key-file: |-
+            The JSON file of a Google Cloud service account private key.
+            When specified, the corresponding service account will be used to
+            authenticate the local container to access Google Cloud services.
+            Note that the key file won't be copied to the container, it will be
+            mounted during running time.

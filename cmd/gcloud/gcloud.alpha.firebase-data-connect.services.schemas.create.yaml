@@ -1,0 +1,261 @@
+name: create
+description: '*(ALPHA)*  Creates Firebase Data Connect service schema.'
+hidden: true
+flags:
+    --annotations=: Stores small amounts of arbitrary data.
+    --async: Return immediately, without waiting for the operation in progress to
+    --datasources=!: Required, The data sources linked in the schema.
+    --display-name=: Mutable human-readable name.
+    --labels=: Labels as key value pairs.
+    --location=: The location id of the schema resource.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-postgresql-unlinked&: No Postgres data source is linked.
+    --no-validate-only&: If set, validate the request and preview the Schema, but do not actually
+    --postgresql-cloud-sql-instance=!: 'Name of the CloudSQL instance, in the format: `projects/{project}/locations/{location}/instances/{instance}`.'
+    --postgresql-database=!: Name of the PostgreSQL database.
+    --postgresql-schema-migration=: Configure how to perform Postgresql schema migration.
+    --postgresql-schema-validation=: Configure how much Postgresql schema validation to perform.
+    --postgresql-unlinked: No Postgres data source is linked.
+    --request-id=: An optional request ID to identify requests.
+    --service=: The service id of the schema resource.
+    --source-files=!: Required, The files that comprise the source set.
+    --validate-only: If set, validate the request and preview the Schema, but do not actually
+completion:
+    flag:
+        postgresql-schema-migration:
+            - migrate-compatible
+        postgresql-schema-validation:
+            - compatible
+            - none
+            - strict
+documentation:
+    command: |
+        *(ALPHA)*  Creates Firebase Data Connect service schema. Note only `schemas/main` is supported.
+    flag:
+        annotations: |-
+            Stores small amounts of arbitrary data.
+            +
+            *KEY*:::
+            Sets `KEY` value.
+            +
+            *VALUE*:::
+            Sets `VALUE` value.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --annotations=string=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --annotations='{"string": "string"}'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --annotations=path_to_file.(yaml|json)
+            +
+            ```
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        datasources: |-
+            Required, The data sources linked in the schema.
+            +
+            *postgresql*:::
+            PostgreSQL configurations.
+            +
+            *cloudSql*::::
+            Cloud SQL configurations.
+            +
+            *instance*:::::
+            Name of the CloudSQL instance, in the format: `projects/{project}/locations/{location}/instances/{instance}`.
+            +
+            *database*::::
+            Name of the PostgreSQL database.
+            +
+            *schemaMigration*::::
+            Configure how to perform Postgresql schema migration.
+            +
+            *schemaValidation*::::
+            Configure how much Postgresql schema validation to perform.
+            +
+            *unlinked*::::
+            No Postgres data source is linked.
+            If set, don't allow `database` and `schema_validation` to be configured.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --datasources=postgresql={cloudSql={instance=string},database=string,schemaMigration=string,schemaValidation=string,unlinked=boolean} --datasources=postgresql={cloudSql={instance=string},database=string,schemaMigration=string,schemaValidation=string,unlinked=boolean}
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --datasources='[{"postgresql": {"cloudSql": {"instance": "string"}, "database": "string", "schemaMigration": "string", "schemaValidation": "string", "unlinked": boolean}}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --datasources=path_to_file.(yaml|json)
+            +
+            ```
+        display-name: Mutable human-readable name. 63 character limit.
+        labels: |-
+            Labels as key value pairs.
+            +
+            *KEY*:::
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+            +
+            *VALUE*:::
+            Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --labels=string=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --labels='{"string": "string"}'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --labels=path_to_file.(yaml|json)
+            +
+            ```
+        location: |-
+            The location id of the schema resource.
+            +
+            To set the `location` attribute:
+            * provide the argument `schema` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-postgresql-unlinked: |-
+            No Postgres data source is linked.
+            If set, don't allow `database` and `schema_validation` to be configured.
+        no-validate-only: |-
+            If set, validate the request and preview the Schema, but do not actually
+            update it.
+        postgresql-cloud-sql-instance: 'Name of the CloudSQL instance, in the format: `projects/{project}/locations/{location}/instances/{instance}`.'
+        postgresql-database: Name of the PostgreSQL database.
+        postgresql-schema-migration: |-
+            Configure how to perform Postgresql schema migration. _POSTGRESQL_SCHEMA_MIGRATION_ must be (only one value is supported):
+            +
+            *migrate-compatible*::: Connect to the SQL database and identify any missing SQL resources used
+            in the given Firebase Data Connect Schema.
+            Automatically create necessary SQL resources (SQL table, column, etc)
+            before deploying the schema.
+            During migration steps, the SQL Schema must comply with the previous
+            before_deploy setting in case the migration is interrupted.
+            Therefore, the previous before_deploy setting must not be
+            `schema_validation=STRICT`.
+            :::
+            +
+        postgresql-schema-validation: |-
+            Configure how much Postgresql schema validation to perform. _POSTGRESQL_SCHEMA_VALIDATION_ must be one of:
+            +
+            *compatible*::: Connect to the SQL database and validate that the SQL DDL has all the SQL
+            resources used in the given Firebase Data Connect Schema. Surface any
+            missing resources as `FAILED_PRECONDITION` with an
+            `IncompatibleSqlSchemaError` error detail. Succeed even if there are
+            unknown tables and columns.
+            *none*::: Skip no SQL schema validation. Use it with extreme caution.
+            CreateSchema or UpdateSchema will succeed even if SQL database is
+            unavailable or SQL schema is incompatible.
+            Generated SQL may fail at execution time.
+            *strict*::: Connect to the SQL database and validate that the SQL DDL matches the
+            schema exactly. Surface any discrepancies as `FAILED_PRECONDITION` with an
+            `IncompatibleSqlSchemaError` error detail.
+            :::
+            +
+        postgresql-unlinked: |-
+            No Postgres data source is linked.
+            If set, don't allow `database` and `schema_validation` to be configured.
+        request-id: |-
+            An optional request ID to identify requests. Specify a unique request ID
+            so that if you must retry your request, the server will know to ignore
+            the request if it has already been completed. The server will guarantee
+            that for at least 60 minutes since the first request.
+            +
+            For example, consider a situation where you make an initial request and the
+            request times out. If you make the request again with the same request
+            ID, the server can check if original operation with the same request ID
+            was received, and if so, will ignore the second request. This prevents
+            clients from accidentally creating duplicate commitments.
+            +
+            The request ID must be a valid UUID with the exception that zero UUID is
+            not supported (00000000-0000-0000-0000-000000000000).
+        service: |-
+            The service id of the schema resource.
+            +
+            To set the `service` attribute:
+            * provide the argument `schema` on the command line with a fully specified name;
+            * provide the argument `--service` on the command line.
+        source-files: |-
+            Required, The files that comprise the source set.
+            +
+            *contentFromFile*:::
+            The file's textual content. Use a full or relative path to a local file containing the value of contentFromFile.
+            +
+            *path*:::
+            The file name including folder path, if applicable. The path should be
+            relative to a local workspace (e.g. dataconnect/(schema|connector)/*.gql)
+            and not an absolute path (e.g. /absolute/path/(schema|connector)/*.gql).
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --source-files=contentFromFile=path_to_file,path=string --source-files=contentFromFile=path_to_file,path=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --source-files='[{"contentFromFile": path_to_file, "path": "string"}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --source-files=path_to_file.(yaml|json)
+            +
+            ```
+        validate-only: |-
+            If set, validate the request and preview the Schema, but do not actually
+            update it.

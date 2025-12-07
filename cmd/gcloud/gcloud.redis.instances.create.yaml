@@ -1,0 +1,201 @@
+name: create
+description: Create a Memorystore Redis instance.
+flags:
+    --alternative-zone=: A secondary zone for the Redis instance.
+    --async: Return immediately, without waiting for the operation in progress to
+    --connect-mode=: Network connection mode used by instances.
+    --customer-managed-key=: The KMS key reference that you want to use to encrypt the data at rest for this Redis
+    --display-name=: A human-readable name for the instance.
+    --enable-auth: Enables Redis AUTH for the instance.
+    --labels=: List of label KEY=VALUE pairs to add.
+    --maintenance-window-day=: Day of week for maintenance window, in UTC time zone.
+    --maintenance-window-hour=: Hour of day (0 to 23) for maintenance window, in UTC time zone.
+    --network=: The name of the Google Compute Engine network to which the instance
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-enable-auth&: Enables Redis AUTH for the instance.
+    --persistence-mode=: Operation mode for automated persistence.
+    --rdb-snapshot-period=: Attempted period between RDB snapshots.
+    --rdb-snapshot-start-time=: Date and time of the first snapshot in the ISO 1801 format, and alignment time for future snapshots.
+    --read-replicas-mode=: Read replicas mode used by the instance.
+    --redis-config=: A list of Redis config KEY=VALUE pairs to set on the instance
+    --redis-version=: The version of Redis software.
+    --region=: The name of the Redis region of the instance.
+    --replica-count=: The replica count of the instance.
+    --reserved-ip-range=: For DIRECT_PEERING mode, the CIDR range of internal addresses that are reserved for this
+    --size=: The memory size of the instance in GiB.
+    --tags=&: List of tag KEY=VALUE pairs to add.
+    --tier=: The service tier of the instance.
+    --transit-encryption-mode=: Transit encryption mode used by the instance.
+    --zone=: The zone of the Redis instance.
+completion:
+    flag:
+        connect-mode:
+            - connect-mode-unspecified
+            - direct-peering
+            - private-service-access
+        maintenance-window-day:
+            - day-of-week-unspecified
+            - friday
+            - monday
+            - saturday
+            - sunday
+            - thursday
+            - tuesday
+            - wednesday
+        persistence-mode:
+            - disabled
+            - rdb
+        rdb-snapshot-period:
+            - 12h
+            - 1h
+            - 24h
+            - 6h
+        read-replicas-mode:
+            - read-replicas-disabled
+            - read-replicas-enabled
+        redis-version:
+            - redis_3_2
+            - redis_4_0
+            - redis_5_0
+            - redis_6_x
+            - redis_7_0
+            - redis_7_2
+        tier:
+            - basic
+            - standard
+        transit-encryption-mode:
+            - disabled
+            - server-authentication
+documentation:
+    command: |
+        Create a new Redis instance.
+
+        This command can fail for the following reasons:
+          * An instance with the same name already exists.
+          * The active account does not have permission to create instances.
+    flag:
+        alternative-zone: |-
+            A secondary zone for the Redis instance. Only applicable to
+            the standard tier. This protects the instance against zonal failures
+            by provisioning it across two zones. If provided, alternative zone
+            must be a different zone from the one provided through `--zone`.
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        connect-mode: 'Network connection mode used by instances. _CONNECT_MODE_ must be one of: *connect-mode-unspecified*, *direct-peering*, *private-service-access*.'
+        customer-managed-key: |-
+            The KMS key reference that you want to use to encrypt the data at rest for this Redis
+            instance. If this is provided, CMEK is enabled.
+        display-name: A human-readable name for the instance.
+        enable-auth: Enables Redis AUTH for the instance. If omitted AUTH is disabled.
+        labels: |-
+            List of label KEY=VALUE pairs to add.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+        maintenance-window-day: |-
+            Day of week for maintenance window, in UTC time zone.
+            MAINTENANCE_WINDOW_DAY must be one of: SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY. _MAINTENANCE_WINDOW_DAY_ must be one of: *day-of-week-unspecified*, *friday*, *monday*, *saturday*, *sunday*, *thursday*, *tuesday*, *wednesday*.
+        maintenance-window-hour: Hour of day (0 to 23) for maintenance window, in UTC time zone.
+        network: |-
+            The name of the Google Compute Engine network to which the instance
+            will be connected. If left unspecified, the default network will be
+            used.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-enable-auth: |
+            Enables Redis AUTH for the instance. If omitted AUTH is disabled.
+        persistence-mode: |-
+            Operation mode for automated persistence. _PERSISTENCE_MODE_ must be one of:
+            +
+            *disabled*::: RDB mode is disabled
+            *rdb*::: Automatic RDB persistence
+            :::
+            +
+        rdb-snapshot-period: |-
+            Attempted period between RDB snapshots. _RDB_SNAPSHOT_PERIOD_ must be one of:
+            +
+            *12h*::: 12 hours
+            *1h*::: 1 hour
+            *24h*::: 24 hours
+            *6h*::: 6 hours
+            :::
+            +
+        rdb-snapshot-start-time: Date and time of the first snapshot in the ISO 1801 format, and alignment time for future snapshots. For example, 2022-11-02T03:00:00Z.
+        read-replicas-mode: |-
+            Read replicas mode used by the instance. Only works against standard tier instances with 5GB
+            and above provisioned capacity. _READ_REPLICAS_MODE_ must be one of:
+            +
+            *read-replicas-disabled*::: Read replica is disabled for the instance. Read endpoint will not
+            be provided and the instance cannot scale up or down the number of
+            replicas.
+            +
+            *read-replicas-enabled*::: Read replica is enabled for the instance. Read endpoint will be
+            provided and the instance can scale up and down the number of
+            replicas.
+            +
+            :::
+            +
+        redis-config: |-
+            A list of Redis config KEY=VALUE pairs to set on the instance
+            according to http://redis.io/topics/config. Currently, the only
+            supported parameters are:
+            +
+            Redis version 3.2 and newer: maxmemory-policy, notify-keyspace-events, timeout, databases.
+            +
+            Redis version 4.0 and newer: activedefrag, lfu-decay-time, lfu-log-factor, maxmemory-gb.
+            +
+            Redis version 5.0 and newer: stream-node-max-bytes, stream-node-max-entries.
+        redis-version: |-
+            The version of Redis software. _VERSION_ must be one of:
+            +
+            *redis_3_2*::: Redis 3.2 compatibility
+            *redis_4_0*::: Redis 4.0 compatibility
+            *redis_5_0*::: Redis 5.0 compatibility
+            *redis_6_x*::: Redis 6.x compatibility
+            *redis_7_0*::: Redis 7.0 compatibility
+            *redis_7_2*::: Redis 7.2 compatibility
+            :::
+            +
+        region: |-
+            The name of the Redis region of the instance. Overrides the default
+            redis/region property value for this command invocation.
+            +
+
+            To set the `region` attribute:
+            * provide the argument `instance` on the command line with a fully specified name;
+            * provide the argument `--region` on the command line;
+            * set the property `redis/region`.
+        replica-count: The replica count of the instance.
+        reserved-ip-range: |-
+            For DIRECT_PEERING mode, the CIDR range of internal addresses that are reserved for this
+            instance. Range must be unique and non-overlapping with existing subnets in an authorized
+            network. For PRIVATE_SERVICE_ACCESS mode, the name of an IP address range allocated for the
+            private service access connection. If not provided, the service will choose an unused /29
+            block, for example, 10.0.0.0/29 or 192.168.0.0/29. If READ_REPLICAS_ENABLED is used for the
+            --read-replicas-mode flag, then the block size required for this flag is /28.
+        size: |-
+            The memory size of the instance in GiB. If not provided, size of 1 GiB
+            will be used.
+        tags: |
+            List of tag KEY=VALUE pairs to add.
+        tier: |-
+            The service tier of the instance. _TIER_ must be one of:
+            +
+            *basic*::: Basic Redis instance with no replication
+            *standard*::: Standard high-availability Redis instance with replication
+            :::
+            +
+        transit-encryption-mode: |-
+            Transit encryption mode used by the instance. _TRANSIT_ENCRYPTION_MODE_ must be one of:
+            +
+            *disabled*::: Transit encryption is disabled for the instance.
+            *server-authentication*::: Client to Server traffic encryption enabled with server authentication.
+            :::
+            +
+        zone: |-
+            The zone of the Redis instance. If not provided the service
+            will pick a random zone in the region. For the standard tier, instances
+            will be created across two zones for protection against zonal
+            failures. So if --alternative-zone is also provided, it must be
+            different from --zone.

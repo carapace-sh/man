@@ -1,0 +1,79 @@
+name: create
+description: '*(ALPHA)*  Create a Rollout Kind.'
+hidden: true
+flags:
+    --error-budget-allowed-count=: The maximum number of failed units allowed in a location without pausing
+    --error-budget-allowed-percentage=: The maximum percentage of units allowed to fail (0, 100] within a location
+    --labels=: The labels on the resource, which can be used for categorization.
+    --location=: For resources [rollout_kind, unit-kind], provides fallback value for resource location attribute.
+    --rollout-orchestration-strategy=: The strategy to use for executing rollouts.
+    --unit-filter=: CEL(https://github.com/google/cel-spec) formatted filter string against Unit.
+    --unit-kind=!: ID of the unitKind or fully qualified identifier for the unitKind.
+    --update-unit-kind-strategy=: The config for updating the unit kind.
+completion:
+    flag:
+        update-unit-kind-strategy:
+            - never
+            - on-start
+documentation:
+    command: '*(ALPHA)*  Create a Rollout Kind'
+    flag:
+        error-budget-allowed-count: |-
+            The maximum number of failed units allowed in a location without pausing
+            the rollout.
+        error-budget-allowed-percentage: |-
+            The maximum percentage of units allowed to fail (0, 100] within a location
+            without pausing the rollout.
+        labels: |-
+            The labels on the resource, which can be used for categorization.
+            similar to Kubernetes resource labels.
+            +
+            *KEY*:::
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+            +
+            *VALUE*:::
+            Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --labels=string=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --labels='{"string": "string"}'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --labels=path_to_file.(yaml|json)
+            +
+            ```
+        location: For resources [rollout_kind, unit-kind], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
+        rollout-orchestration-strategy: The strategy to use for executing rollouts.
+        unit-filter: |-
+            CEL(https://github.com/google/cel-spec) formatted filter string against Unit. The filter
+            will be applied to determine the eligible unit population. This filter can only reduce, but
+            not expand the scope of the rollout.
+        unit-kind: |-
+            ID of the unitKind or fully qualified identifier for the unitKind.
+            +
+            To set the `unit_kind` attribute:
+            * provide the argument `--unit-kind` on the command line.
+        update-unit-kind-strategy: |-
+            The config for updating the unit kind. By default, the unit kind will be
+            updated on the rollout start. _UPDATE_UNIT_KIND_STRATEGY_ must be one of:
+            +
+            *never*::: Never update the unit kind.
+            *on-start*::: Update the unit kind strategy on the rollout start.
+            :::
+            +

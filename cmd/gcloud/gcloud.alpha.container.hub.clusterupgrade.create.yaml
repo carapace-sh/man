@@ -1,0 +1,45 @@
+name: create
+description: '*(ALPHA)*  Create the clusterupgrade feature for a fleet within a given project.'
+flags:
+    --add-upgrade-soaking-override=!: Overrides the soaking time for a particular upgrade name and version
+    --default-upgrade-soaking=: 'Note: This flag only applies to Rollout Sequencing v1, not Rollout'
+    --upgrade-selector=!: Name and version of the upgrade to be overridden where version is a
+    --upstream-fleet=: The upstream fleet.
+documentation:
+    command: '*(ALPHA)*  Create the clusterupgrade feature for a fleet within a given project.'
+    flag:
+        add-upgrade-soaking-override: |-
+            Overrides the soaking time for a particular upgrade name and version
+            propagating through the current fleet. Set soaking to 0 days to bypass
+            soaking and fast-forward the upgrade to the downstream fleet.
+            +
+            See `$ gcloud topic datetimes` for information on duration formats.
+        default-upgrade-soaking: |-
+            Note: This flag only applies to Rollout Sequencing v1, not Rollout
+            Sequencing v2 (which uses custom stages). If using Rollout
+            Sequencing v1 and this flag is not provided, a default value of 7
+            days will be used.
+            +
+            Configures the default soaking duration for each upgrade propagating
+            through the current fleet to become "COMPLETE". Soaking begins after
+            all clusters in the fleet are on the target version, or after 30 days
+            if all cluster upgrades are not complete. Once an upgrade state becomes
+            "COMPLETE", it will automatically be propagated to the downstream
+            fleet. Max is 30 days.
+            +
+            To configure Rollout Sequencing for a fleet, this attribute must be
+            set. To do this while specifying a default soaking duration of 7 days,
+            run:
+            +
+              $ {command} --default-upgrade-soaking=7d
+        upgrade-selector: |-
+            Name and version of the upgrade to be overridden where version is a
+            full GKE version. Currently, name can be either `k8s_control_plane` or
+            `k8s_node`.
+        upstream-fleet: |-
+            The upstream fleet. GKE will finish upgrades on the upstream fleet
+            before applying the same upgrades to the current fleet.
+            +
+            To configure the upstream fleet, run:
+            +
+            $ {command}             --upstream-fleet={upstream_fleet}

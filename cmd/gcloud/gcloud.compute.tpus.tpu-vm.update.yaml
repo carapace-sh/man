@@ -1,0 +1,164 @@
+name: update
+description: Update a Cloud TPU VM node.
+flags:
+    --add-tags=: Tags to add to the TPU Node.
+    --async: Return immediately, without waiting for the operation in progress to
+    --attach-disk=: Attach a data disk to the TPU VM.
+    --clear-labels: Remove all labels.
+    --clear-metadata: Remove all metadata.
+    --clear-tags: Remove all tags.
+    --description=: Text description of the TPU.
+    --detach-disk=: Detach a data disk from the TPU VM.
+    --internal-ips: Indicate that the IP addresses for the node should be internal.
+    --metadata-from-file=: Same as `--metadata` except the value for the entry will be read from a local file.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-clear-labels&: Remove all labels.
+    --no-clear-metadata&: Remove all metadata.
+    --no-clear-tags&: Remove all tags.
+    --no-internal-ips&: Indicate that the IP addresses for the node should be internal.
+    --remove-labels=: List of label keys to remove.
+    --remove-metadata=: List of comma-separated metadata keys to remove.
+    --remove-tags=: List of tags to remove.
+    --update-labels=: Resource labels to update that represent user-provided metadata.
+    --update-metadata=: List of comma-separated metadata key-value pairs for the Cloud TPU VM node.
+    --zone=: Zone of the Cloud TPU.
+documentation:
+    command: Update a Cloud TPU VM node.
+    flag:
+        add-tags: |-
+            Tags to add to the TPU Node. Tags are used to identify valid sources or
+            targets for network firewalls. See https://cloud.google.com/vpc/docs/add-remove-network-tags for
+            more details.
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        attach-disk: |-
+            Attach a data disk to the TPU VM. For example,
+            +
+              $ {command} example-tpu --attach-disk source=projects/my-project/zones/us-central1-c/disks/my-disk,mode=read-only --zone=us-central1-c
+            +
+            attaches the disk named 'projects/my-project/zones/us-central1-c/disks/my-disk' to a TPU VM named
+            'example-tpu' in read-only mode in zone `us-central1-c`.
+            +
+            The following keys are allowed:
+            +
+            *source*::: Specify the full path to an existing disk. Required. The disk must be in the same zone.
+            +
+            *mode*::: Specify the mode in which to attach this disk. Valid options are 'read-write',
+            'read-only'. If not specified, the default is 'read-write'.
+        clear-labels: |-
+            Remove all labels. If `--update-labels` is also specified then `--clear-labels` is applied
+            first.
+            +
+            For example, to remove all labels:
+            +
+              $ {command} --clear-labels
+            +
+            To remove all existing labels and create two new labels, 'foo' and 'baz':
+            +
+              $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        clear-metadata: |-
+            Remove all metadata. If `--update-metadata` is also specified then `--clear-metadata` is applied
+            first.
+            +
+            For example, to remove all metadata:
+            +
+              $ {command} --clear-metadata
+            +
+            To remove all existing metadata and create two new metadata key-value pairs, 'foo=bar' and
+            'baz=qux':
+            +
+              $ {command} --clear-metadata --update-metadata foo=bar,baz=qux
+        clear-tags: |-
+            Remove all tags. If `--add-tags` is also specified then `--clear-tags` is applied
+            first.
+            +
+            For example, to remove all tags:
+            +
+              $ {command} --clear-tags
+            +
+            To remove all existing tags and create two new tags, 'foo' and 'bar':
+            +
+              $ {command} --clear-tags --add-tags foo,bar
+        description: Text description of the TPU.
+        detach-disk: |-
+            Detach a data disk from the TPU VM. For example,
+            +
+            This flag must be repeated to provide multiple data disks. For example:
+            +
+              $ {command} example-tpu --detach-disk=projects/my-project/zones/us-central1-c/disks/my-disk --zone=us-central1-c
+            +
+            detaches the disk named 'projects/my-project/zones/us-central1-c/disks/my-disk' from a TPU VM
+            named 'example-tpu' in zone `us-central1-c`.
+        internal-ips: |-
+            Indicate that the IP addresses for the node should be internal. The default is that external IP
+            addresses will be associated with the TPU workers.
+        metadata-from-file: |-
+            Same as `--metadata` except the value for the entry will be read from a local file.
+            Example: `--metadata-from-file='key1=value1.txt'`
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-clear-labels: |
+            Remove all labels. If `--update-labels` is also specified then `--clear-labels` is applied
+            first.
+
+            For example, to remove all labels:
+
+              $ {command} --clear-labels
+
+            To remove all existing labels and create two new labels, 'foo' and 'baz':
+
+              $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        no-clear-metadata: |
+            Remove all metadata. If `--update-metadata` is also specified then `--clear-metadata` is applied
+            first.
+
+            For example, to remove all metadata:
+
+              $ {command} --clear-metadata
+
+            To remove all existing metadata and create two new metadata key-value pairs, 'foo=bar' and
+            'baz=qux':
+
+              $ {command} --clear-metadata --update-metadata foo=bar,baz=qux
+        no-clear-tags: |
+            Remove all tags. If `--add-tags` is also specified then `--clear-tags` is applied
+            first.
+
+            For example, to remove all tags:
+
+              $ {command} --clear-tags
+
+            To remove all existing tags and create two new tags, 'foo' and 'bar':
+
+              $ {command} --clear-tags --add-tags foo,bar
+        no-internal-ips: |
+            Indicate that the IP addresses for the node should be internal. The default is that external IP
+            addresses will be associated with the TPU workers.
+        remove-labels: |-
+            List of label keys to remove. If a label does not exist it is silently ignored. If
+            `--update-labels` is also specified then `--update-labels` is applied first.
+        remove-metadata: |-
+            List of comma-separated metadata keys to remove. If a key does not exist it is silently ignored.
+            If `--update-metadata` is also specified then `--update-metadata` is applied first.
+        remove-tags: |-
+            List of tags to remove. If a tag does not exist it is silently ignored. If
+            `--add-tags` is also specified then `--add-tags` is applied first.
+        update-labels: |-
+            Resource labels to update that represent user-provided metadata. If a label exists, its value is
+            modified. Otherwise, a new label is created.
+            See https://cloud.google.com/compute/docs/labeling-resources for details.
+        update-metadata: |-
+            List of comma-separated metadata key-value pairs for the Cloud TPU VM node. If a key exists, its
+            value is modified. Otherwise, a new key-value pair is created.
+        zone: |-
+            Zone of the Cloud TPU.
+            +
+            If not specified, will use `default` compute/zone.
+            +
+
+            To set the `zone` attribute:
+            * provide the argument `tpu` on the command line with a fully specified name;
+            * provide the argument `--zone` on the command line;
+            * set the property `compute/zone`.

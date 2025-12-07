@@ -1,0 +1,70 @@
+name: set-machine-type
+description: '*(BETA)*  Set machine type for Compute Engine virtual machines.'
+flags:
+    --custom-cpu=!: A whole number value specifying the number of cores that are needed in
+    --custom-extensions: Use the extended custom machine type.
+    --custom-memory=!: A whole number value indicating how much memory is desired in the custom
+    --custom-vm-type=: Specifies a custom machine type.
+    --machine-type=: Specifies the machine type used for the instances.
+    --no-custom-extensions&: Use the extended custom machine type.
+    --zone=: Zone of the instance to operate on.
+documentation:
+    command: |
+        *(BETA)*  ``gcloud beta compute instances set-machine-type'' lets you change the machine type of a virtual machine
+        in the *TERMINATED* state (that is, a virtual machine instance that
+        has been stopped).
+
+        For example, if ``example-instance'' is a ``g1-small'' virtual machine
+        currently in the *TERMINATED* state, running:
+
+          $ gcloud beta compute instances set-machine-type example-instance --zone us-central1-b --machine-type n1-standard-4
+
+        will change the machine type to ``n1-standard-4'', so that when you
+        next start ``example-instance'', it will be provisioned as an
+        ``n1-standard-4'' instead of a ``g1-small''.
+
+        See [](https://cloud.google.com/compute/docs/machine-types) for more
+        information on machine types.
+    flag:
+        custom-cpu: |-
+            A whole number value specifying the number of cores that are needed in
+            the custom machine type.
+            +
+            For some machine types, shared-core values can also be used. For
+            example, for E2 machine types, you can specify `micro`, `small`, or
+            `medium`.
+        custom-extensions: Use the extended custom machine type.
+        custom-memory: |-
+            A whole number value indicating how much memory is desired in the custom
+            machine type. A size unit should be provided (eg. 3072MB or 9GB) - if no
+            units are specified, GB is assumed.
+        custom-vm-type: |-
+            Specifies a custom machine type. The default is `n1`. For more information about custom machine types, see:
+            https://cloud.google.com/compute/docs/general-purpose-machines#custom_machine_types
+        machine-type: |-
+            Specifies the machine type used for the instances. To get a
+            list of available machine types, run 'gcloud compute
+            machine-types list'. Either this flag, --custom-cpu, or --custom-memory must be specified.
+        no-custom-extensions: Use the extended custom machine type.
+        zone: |-
+            Zone of the instance to operate on. If not specified, you might be prompted to select a zone (interactive mode
+            only). `gcloud` attempts to identify the appropriate zone by searching for
+            resources in your currently active project. If the zone cannot be determined,
+            `gcloud` prompts you for a selection with all available Google Cloud Platform
+            zones.
+            +
+            To avoid prompting when this flag is omitted, the user can set the
+            ``compute/zone'' property:
+            +
+              $ gcloud config set compute/zone ZONE
+            +
+            A list of zones can be fetched by running:
+            +
+              $ gcloud compute zones list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/zone
+            +
+            Alternatively, the zone can be stored in the environment variable
+            ``CLOUDSDK_COMPUTE_ZONE''.

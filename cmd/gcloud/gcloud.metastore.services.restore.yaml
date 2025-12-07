@@ -1,0 +1,57 @@
+name: restore
+description: Restore a Dataproc Metastore service.
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --backup-location=: The location of the backup artifacts to restore from.
+    --backup=: The backup resource to restore from.
+    --location=: The location of the Dataproc Metastore service.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --restore-type=: The type of restore to perform.
+completion:
+    flag:
+        restore-type:
+            - full
+            - metadata-only
+documentation:
+    command: |
+        Restore a Dataproc Metastore service from the given backup or backup-location
+
+        If run asynchronously with `--async`, exits after printing
+        an operation name that can be used to poll the status of the
+        creation via:
+
+          {top_command} metastore operations describe
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        backup: |-
+            The backup resource to restore from.
+            This can be the backup's ID, fully-qualified URL, or relative name in the form
+            `projects/{project_id}/locations/{location_id}/services/{service_id}/backups/{backup_id}`.
+        backup-location: |-
+            The location of the backup artifacts to restore from.
+            This should be a Cloud Storage URI, contains backup avro files under "avro/",
+            backup_metastore.json and service.json, in the form `gs://<path_to_backup>`.
+        location: |-
+            The location of the Dataproc Metastore service.
+            +
+            If not specified, will use `default` metastore/location.
+            +
+
+            To set the `location` attribute:
+            * provide the argument `service` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `metastore/location`.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        restore-type: |-
+            The type of restore to perform. _RESTORE_TYPE_ must be one of:
+            +
+            *full*::: The service's metadata and configuration are restored.
+            +
+            *metadata-only*::: Only the service's metadata is restored.
+            +
+            :::
+            +

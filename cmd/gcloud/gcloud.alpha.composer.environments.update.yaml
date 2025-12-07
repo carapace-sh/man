@@ -1,0 +1,434 @@
+name: update
+description: '*(ALPHA)*  Update properties of a Cloud Composer environment.'
+flags:
+    --airflow-database-retention-days=: The number of days for the Airflow database retention period.
+    --airflow-version=: Upgrade the environment to a later Apache Airflow version in-place.
+    --async: Return immediately, without waiting for the operation in progress to
+    --clear-airflow-configs: Removes all Airflow config overrides from the environment.
+    --clear-env-variables: Removes all environment variables from the environment.
+    --clear-labels: Remove all labels.
+    --clear-maintenance-window: Clears the maintenance window settings.
+    --clear-pypi-packages: Removes all PyPI packages from the environment.
+    --cloud-sql-machine-type=: Cloud SQL machine type used by the Airflow database.
+    --dag-processor-count=: Number of dag processors, supported in Composer 3 environments or greater.
+    --dag-processor-cpu=: CPU allocated to Airflow dag processor, supported in Composer 3
+    --dag-processor-memory=: Memory allocated to Airflow dag processor, ex.
+    --dag-processor-storage=: Storage allocated to Airflow dag processor, ex.
+    --disable-cloud-data-lineage-integration: Disable Cloud Data Lineage integration, supported for Composer 2 Environments.
+    --disable-high-resilience: Disable high resilience, supported for Composer 2 Environments.
+    --disable-logs-in-cloud-logging-only: Disable logs in cloud logging only, supported for Composer 2 Environments.
+    --disable-master-authorized-networks: Disable Master Authorized Networks feature
+    --disable-private-builds-only: Builds performed during operations that install Python
+    --disable-private-environment: Enable internet connection from any Composer component,
+    --disable-scheduled-snapshot-creation: Disables automated snapshots creation.
+    --disable-triggerer: (DEPRECATED)     Disable a triggerer, supported in the Environments with Composer 2.0.31 and Airflow 2.2.5 and greater.
+    --disable-vpc-connectivity: Disable connectivity with a user's VPC network,
+    --enable-cloud-data-lineage-integration: Enable Cloud Data Lineage integration, supported for Composer 2 Environments.
+    --enable-high-resilience: Enable high resilience, supported for Composer 2 Environments.
+    --enable-logs-in-cloud-logging-only: Enable logs in cloud logging only, supported for Composer 2 Environments.
+    --enable-master-authorized-networks: Enable Master Authorized Networks feature
+    --enable-private-builds-only: Builds performed during operations that install Python
+    --enable-private-environment: Disable internet connection from any Composer component,
+    --enable-scheduled-snapshot-creation!: When specified, snapshots of the environment will be created according to a schedule.
+    --enable-triggerer: (DEPRECATED)     Enable use of a triggerer, supported in the Environments with Composer 2.0.31 and Airflow 2.2.5 and greater.
+    --environment-size=: Size of the environment.
+    --image-version=: Upgrade the environment to a later version in-place.
+    --location=: Region where Composer environment runs or in which to create the environment.
+    --maintenance-window-end=!: End time of the mantenance window in the form of the full date.
+    --maintenance-window-recurrence=!: An RFC 5545 RRULE, specifying how the maintenance window will recur.
+    --maintenance-window-start=!: Start time of the mantenance window in the form of the full date.
+    --master-authorized-networks=: Comma separated Master Authorized Networks specified in CIDR notation.
+    --max-workers=: Maximum number of workers in the Environment.
+    --min-workers=: Minimum number of workers in the Environment.
+    --network-attachment=: Cloud Composer Network Attachment, which provides connectivity with a user's VPC network,
+    --network=!: The Compute Engine Network to which the environment will be connected.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-clear-airflow-configs&: Removes all Airflow config overrides from the environment.
+    --no-clear-env-variables&: Removes all environment variables from the environment.
+    --no-clear-labels&: Remove all labels.
+    --no-clear-maintenance-window&: Clears the maintenance window settings.
+    --no-clear-pypi-packages&: Removes all PyPI packages from the environment.
+    --no-disable-cloud-data-lineage-integration&: Disable Cloud Data Lineage integration, supported for Composer 2 Environments.
+    --no-disable-master-authorized-networks&: Disable Master Authorized Networks feature
+    --no-disable-private-environment&: Enable internet connection from any Composer component,
+    --no-enable-cloud-data-lineage-integration&: Enable Cloud Data Lineage integration, supported for Composer 2 Environments.
+    --no-enable-master-authorized-networks&: Enable Master Authorized Networks feature
+    --no-enable-private-environment&: Disable internet connection from any Composer component,
+    --no-support-web-server-plugins&: Enable the support for web server plugins, supported in Composer 3
+    --no-web-server-allow-all&: Allows all IP addresses to access the Airflow web server.
+    --no-web-server-deny-all&: Denies all incoming traffic to the Airflow web server.
+    --node-count=: The new number of nodes running the environment.
+    --remove-airflow-configs=: A list of Airflow config override keys to remove.
+    --remove-env-variables=: A list of environment variables to remove.
+    --remove-labels=: List of label keys to remove.
+    --remove-pypi-packages=: A list of PyPI package names to remove.
+    --scheduler-count=: Number of schedulers, supported in the Environments with Airflow 2.0.1 and later.
+    --scheduler-cpu=: CPU allocated to Airflow scheduler.
+    --scheduler-memory=: Memory allocated to Airflow scheduler, ex.
+    --scheduler-storage=: Storage allocated to Airflow scheduler, ex.
+    --snapshot-creation-schedule=!: Cron expression specifying when snapshots of the environment should be created.
+    --snapshot-location=!: The Cloud Storage location for storing automatically created snapshots.
+    --snapshot-schedule-timezone=!: Timezone that sets the context to interpret snapshot_creation_schedule.
+    --subnetwork=: The Compute Engine Subnetwork (https://cloud.google.com/compute/docs/subnetworks) to which the environment will be connected.
+    --support-web-server-plugins: Enable the support for web server plugins, supported in Composer 3
+    --triggerer-count=: Number of triggerers, supported in the Environments with Composer 2.0.31 and Airflow 2.2.5 and greater.
+    --triggerer-cpu=: CPU allocated to Airflow triggerer.
+    --triggerer-memory=: Memory allocated to Airflow triggerer, ex.
+    --update-airflow-configs=: A list of Airflow config override KEY=VALUE pairs to set.
+    --update-env-variables=: A list of environment variable NAME=VALUE pairs to set and provide to the
+    --update-labels=: List of label KEY=VALUE pairs to update.
+    --update-pypi-package=: A PyPI package to add to the environment.
+    --update-pypi-packages-from-file=: The path to a file containing a list of PyPI packages to install in
+    --update-web-server-allow-ip=: Specifies a list of IPv4 or IPv6 ranges that will be allowed to access the
+    --web-server-allow-all: Allows all IP addresses to access the Airflow web server.
+    --web-server-cpu=: CPU allocated to each Airflow web server
+    --web-server-deny-all: Denies all incoming traffic to the Airflow web server.
+    --web-server-machine-type=: machine type used by the Airflow web server.
+    --web-server-memory=: Memory allocated to Airflow web server, ex.
+    --web-server-storage=: Storage allocated to Airflow web server, ex.
+    --worker-cpu=: CPU allocated to each Airflow worker
+    --worker-memory=: Memory allocated to Airflow worker, ex.
+    --worker-storage=: Storage allocated to Airflow worker, ex.
+completion:
+    flag:
+        environment-size:
+            - extra-large
+            - large
+            - medium
+            - small
+            - unspecified
+documentation:
+    command: '*(ALPHA)*  Update properties of a Cloud Composer environment.'
+    flag:
+        airflow-database-retention-days: |-
+            The number of days for the Airflow database retention period.
+              If set to 0, the Airflow database retention mechanism will be disabled.
+        airflow-version: |-
+            Upgrade the environment to a later Apache Airflow version in-place.
+            +
+            Must be of the form `X[.Y[.Z]]`, where `[]` denotes optional fragments.
+            Examples: `2`, `2.3`, `2.3.4`.
+            +
+            The Apache Airflow version is a semantic version or an alias in the form of
+            major or major.minor version numbers, resolved to the latest matching Apache
+            Airflow version supported in the current Cloud Composer version. The
+            resolved version is stored in the upgraded environment.
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        clear-airflow-configs: Removes all Airflow config overrides from the environment.
+        clear-env-variables: |-
+            Removes all environment variables from the environment.
+            +
+            Environment variables that have system-provided defaults cannot be unset
+            with the `--remove-env-variables` or `--clear-env-variables` flags; only
+            the user-supplied overrides will be removed.
+        clear-labels: |-
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} --clear-labels
+            +
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        clear-maintenance-window: |-
+            Clears the maintenance window settings.
+            Can be specified for Composer 3 or greater.
+        clear-pypi-packages: |-
+            Removes all PyPI packages from the environment.
+            +
+            PyPI packages that are required by the environment's core software
+            cannot be uninstalled with the `--remove-pypi-packages` or
+            `--clear-pypi-packages` flags.
+        cloud-sql-machine-type: |-
+            Cloud SQL machine type used by the Airflow database. The list of available
+            machine types is available here: https://cloud.google.com/composer/pricing#db-machine-types.
+        dag-processor-count: Number of dag processors, supported in Composer 3 environments or greater.
+        dag-processor-cpu: |-
+            CPU allocated to Airflow dag processor, supported in Composer 3
+            environments or greater.
+        dag-processor-memory: |-
+            Memory allocated to Airflow dag processor, ex. 1GB, 3GB, 2. If units are not provided,
+            defaults to GB, supported in Composer 3 environments or greater.
+        dag-processor-storage: |-
+            Storage allocated to Airflow dag processor, ex. 600MB, 3GB, 2. If units are not provided,
+            defaults to GB, supported in Composer 3 environments or greater.
+        disable-cloud-data-lineage-integration: Disable Cloud Data Lineage integration, supported for Composer 2 Environments.
+        disable-high-resilience: Disable high resilience, supported for Composer 2 Environments.
+        disable-logs-in-cloud-logging-only: Disable logs in cloud logging only, supported for Composer 2 Environments.
+        disable-master-authorized-networks: |-
+            Disable Master Authorized Networks feature
+            (https://cloud.google.com/kubernetes-engine/docs/how-to/authorized-networks/)
+            in the Composer Environment's GKE cluster.
+        disable-private-builds-only: |-
+            Builds performed during operations that install Python
+            packages have an access to the internet, supported in Composer 3 or greater.
+        disable-private-environment: |-
+            Enable internet connection from any Composer component,
+            supported in Composer 3 environments or greater.
+        disable-scheduled-snapshot-creation: |-
+            Disables automated snapshots creation.
+            Can be specified for Composer 2.0.32 or greater.
+        disable-triggerer: |-
+            (DEPRECATED)     Disable a triggerer, supported in the Environments with Composer 2.0.31 and Airflow 2.2.5 and greater.
+            +
+            This flag is deprecated. Use --triggerer-count 0 instead.
+        disable-vpc-connectivity: |-
+            Disable connectivity with a user's VPC network,
+            supported in Composer 3 environments or greater.
+        enable-cloud-data-lineage-integration: Enable Cloud Data Lineage integration, supported for Composer 2 Environments.
+        enable-high-resilience: Enable high resilience, supported for Composer 2 Environments.
+        enable-logs-in-cloud-logging-only: Enable logs in cloud logging only, supported for Composer 2 Environments.
+        enable-master-authorized-networks: |-
+            Enable Master Authorized Networks feature
+            (https://cloud.google.com/kubernetes-engine/docs/how-to/authorized-networks/)
+            in the Composer Environment's GKE cluster.
+        enable-private-builds-only: |-
+            Builds performed during operations that install Python
+            packages have only private connectivity to Google services,
+            supported in Composer 3 or greater.
+        enable-private-environment: |-
+            Disable internet connection from any Composer component,
+            supported in Composer 3 environments or greater.
+        enable-scheduled-snapshot-creation: |-
+            When specified, snapshots of the environment will be created according to a schedule.
+            Can be specified for Composer 2.0.32 or greater.
+        enable-triggerer: |-
+            (DEPRECATED)     Enable use of a triggerer, supported in the Environments with Composer 2.0.31 and Airflow 2.2.5 and greater.
+            +
+            This flag is deprecated. Use --triggerer-count instead.
+        environment-size: 'Size of the environment. Unspecified means that the default option will be chosen. _ENVIRONMENT_SIZE_ must be one of: *extra-large*, *large*, *medium*, *small*, *unspecified*.'
+        image-version: |-
+            Upgrade the environment to a later version in-place.
+            +
+            The image version encapsulates the versions of both Cloud Composer and
+            Apache Airflow. Must be of the form
+            `composer-A[.B.C[-D.E]]-airflow-X[.Y[.Z]]`, where `[]` denotes optional
+            fragments.
+            +
+            Examples: `composer-2-airflow-2`, `composer-2-airflow-2.2`,
+            `composer-2.1.2-airflow-2.3.4`.
+            +
+            The Cloud Composer portion of the image version is a semantic version or
+            an alias in the form of major version number or `latest`, resolved to the
+            current Cloud Composer version. The Apache Airflow portion of the image
+            version is a semantic version or an alias in the form of major or
+            major.minor version numbers, resolved to the latest matching Apache Airflow
+            version supported in the given Cloud Composer version. The resolved versions
+            are stored in the upgraded environment.
+        location: |-
+            Region where Composer environment runs or in which to create the environment.
+            +
+            To set the `location` attribute:
+            * provide the argument `environment` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `composer/location`.
+        maintenance-window-end: |-
+            End time of the mantenance window in the form of the full date. Only the
+            time of the day is used as a reference for an ending time of the window
+            with a provided recurrence. Specified date must take place after the one
+            specified as a start date, the difference between will be used as a length
+            of a single maintenance window.
+            See $ gcloud topic datetimes for information on time formats.
+        maintenance-window-recurrence: |-
+            An RFC 5545 RRULE, specifying how the maintenance window will recur. The
+            minimum requirement for the length of the maintenance window is 12 hours a
+            week. Only FREQ=DAILY and FREQ=WEEKLY rules are supported.
+        maintenance-window-start: |-
+            Start time of the mantenance window in the form of the full date. Only the
+            time of the day is used as a reference for a starting time of the window
+            with a provided recurrence.
+            See $ gcloud topic datetimes for information on time formats.
+        master-authorized-networks: |-
+            Comma separated Master Authorized Networks specified in CIDR notation.
+            +
+            Cannot be specified unless `--enable-master-authorized-networks` is also specified.
+        max-workers: Maximum number of workers in the Environment.
+        min-workers: Minimum number of workers in the Environment.
+        network: The Compute Engine Network to which the environment will be connected. If a 'Custom Subnet Network' is provided, `--subnetwork` must be specified as well.
+        network-attachment: |-
+            Cloud Composer Network Attachment, which provides connectivity with a user's VPC network,
+            supported in Composer 3 environments or greater.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-clear-airflow-configs: |
+            Removes all Airflow config overrides from the environment.
+        no-clear-env-variables: |
+            Removes all environment variables from the environment.
+
+            Environment variables that have system-provided defaults cannot be unset
+            with the `--remove-env-variables` or `--clear-env-variables` flags; only
+            the user-supplied overrides will be removed.
+        no-clear-labels: |
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} --clear-labels
+
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        no-clear-maintenance-window: |
+            Clears the maintenance window settings.
+            Can be specified for Composer 3 or greater.
+        no-clear-pypi-packages: |
+            Removes all PyPI packages from the environment.
+
+            PyPI packages that are required by the environment's core software
+            cannot be uninstalled with the `--remove-pypi-packages` or
+            `--clear-pypi-packages` flags.
+        no-disable-cloud-data-lineage-integration: |
+            Disable Cloud Data Lineage integration, supported for Composer 2 Environments.
+        no-disable-master-authorized-networks: |
+            Disable Master Authorized Networks feature
+            (https://cloud.google.com/kubernetes-engine/docs/how-to/authorized-networks/)
+            in the Composer Environment's GKE cluster.
+        no-disable-private-environment: |
+            Enable internet connection from any Composer component,
+            supported in Composer 3 environments or greater.
+        no-enable-cloud-data-lineage-integration: |
+            Enable Cloud Data Lineage integration, supported for Composer 2 Environments.
+        no-enable-master-authorized-networks: |
+            Enable Master Authorized Networks feature
+            (https://cloud.google.com/kubernetes-engine/docs/how-to/authorized-networks/)
+            in the Composer Environment's GKE cluster.
+        no-enable-private-environment: |
+            Disable internet connection from any Composer component,
+            supported in Composer 3 environments or greater.
+        no-support-web-server-plugins: |
+            Enable the support for web server plugins, supported in Composer 3
+            or greater.
+        no-web-server-allow-all: |
+            Allows all IP addresses to access the Airflow web server.
+        no-web-server-deny-all: |
+            Denies all incoming traffic to the Airflow web server.
+        node-count: The new number of nodes running the environment. Must be >= 3.
+        remove-airflow-configs: A list of Airflow config override keys to remove.
+        remove-env-variables: |-
+            A list of environment variables to remove.
+            +
+            Environment variables that have system-provided defaults cannot be unset
+            with the `--remove-env-variables` or `--clear-env-variables` flags; only
+            the user-supplied overrides will be removed.
+        remove-labels: |-
+            List of label keys to remove. If a label does not exist it is
+            silently ignored. If `--update-labels` is also specified then
+            `--update-labels` is applied first.
+        remove-pypi-packages: |-
+            A list of PyPI package names to remove.
+            +
+            PyPI packages that are required by the environment's core software
+            cannot be uninstalled with the `--remove-pypi-packages` or
+            `--clear-pypi-packages` flags.
+        scheduler-count: Number of schedulers, supported in the Environments with Airflow 2.0.1 and later.
+        scheduler-cpu: CPU allocated to Airflow scheduler.
+        scheduler-memory: |-
+            Memory allocated to Airflow scheduler, ex. 600MB, 3GB, 2. If units are not provided,
+            defaults to GB.
+        scheduler-storage: |-
+            Storage allocated to Airflow scheduler, ex. 600MB, 3GB, 2. If units are not provided,
+            defaults to GB.
+        snapshot-creation-schedule: |-
+            Cron expression specifying when snapshots of the environment should be created.
+            Can be specified for Composer 2.0.32 or greater.
+        snapshot-location: |-
+            The Cloud Storage location for storing automatically created snapshots.
+            Can be specified for Composer 2.0.32 or greater.
+        snapshot-schedule-timezone: |-
+            Timezone that sets the context to interpret snapshot_creation_schedule.
+            Can be specified for Composer 2.0.32 or greater.
+        subnetwork: The Compute Engine Subnetwork (https://cloud.google.com/compute/docs/subnetworks) to which the environment will be connected.
+        support-web-server-plugins: |-
+            Enable the support for web server plugins, supported in Composer 3
+            or greater.
+        triggerer-count: Number of triggerers, supported in the Environments with Composer 2.0.31 and Airflow 2.2.5 and greater.
+        triggerer-cpu: CPU allocated to Airflow triggerer. Supported in the Environments with Composer 2.0.31 and Airflow 2.2.5 and greater.
+        triggerer-memory: |-
+            Memory allocated to Airflow triggerer, ex. 512MB, 3GB, 2. If units are not provided,
+            defaults to GB. Supported in the Environments with Composer 2.0.31 and Airflow 2.2.5 and greater.
+        update-airflow-configs: |-
+            A list of Airflow config override KEY=VALUE pairs to set. If a config
+            override exists, its value is updated; otherwise, a new config override
+            is created.
+            +
+            KEYs should specify the configuration section and property name,
+            separated by a hyphen, for example `core-print_stats_interval`. The
+            section may not contain a closing square brace or period. The property
+            name must be non-empty and may not contain an equals sign, semicolon,
+            or period. By convention, property names are spelled with
+            `snake_case.` VALUEs may contain any character.
+        update-env-variables: |-
+            A list of environment variable NAME=VALUE pairs to set and provide to the
+            Airflow scheduler, worker, and webserver processes. If an environment
+            variable exists, its value is updated; otherwise, a new environment
+            variable is created.
+            +
+            NAMEs are the environment variable names and may contain upper and
+            lowercase letters, digits, and underscores; they must not begin with a
+            digit.
+            +
+            User-specified environment variables should not be used to set Airflow
+            configuration properties. Instead use the `--update-airflow-configs` flag.
+        update-labels: |-
+            List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+        update-pypi-package: |-
+            A PyPI package to add to the environment. If a package exists, its
+            value is updated; otherwise, a new package is installed.
+            +
+            The value takes the form of: `PACKAGE[EXTRAS_LIST]VERSION_SPECIFIER`,
+            as one would specify in a pip requirements file.
+            +
+            PACKAGE is specified as a package name, such as `numpy.` EXTRAS_LIST is
+            a comma-delimited list of PEP 508 distribution extras that may be
+            empty, in which case the enclosing square brackets may be omitted.
+            VERSION_SPECIFIER is an optional PEP 440 version specifier. If both
+            EXTRAS_LIST and VERSION_SPECIFIER are omitted, the `=` and
+            everything to the right may be left empty.
+            +
+            This is a repeated argument that can be specified multiple times to
+            update multiple packages. If PACKAGE appears more than once, the last
+            value will be used.
+        update-pypi-packages-from-file: |-
+            The path to a file containing a list of PyPI packages to install in
+            the environment. Each line in the file should contain a package
+            specification in the format of the update-pypi-package argument
+            defined above. The path can be a local file path or a Google Cloud Storage
+            file path (Cloud Storage file path starts with 'gs://').
+        update-web-server-allow-ip: |-
+            Specifies a list of IPv4 or IPv6 ranges that will be allowed to access the
+            Airflow web server. By default, all IPs are allowed to access the web
+            server.
+            +
+            *ip_range*::: IPv4 or IPv6 range of addresses allowed to access the Airflow
+            web server.
+            +
+            *description*::: An optional description of the IP range.
+        web-server-allow-all: Allows all IP addresses to access the Airflow web server.
+        web-server-cpu: CPU allocated to each Airflow web server
+        web-server-deny-all: Denies all incoming traffic to the Airflow web server.
+        web-server-machine-type: |-
+            machine type used by the Airflow web server. The list of available machine
+            types is available here: https://cloud.google.com/composer/pricing.
+        web-server-memory: |-
+            Memory allocated to Airflow web server, ex. 600MB, 3GB, 2. If units are not provided,
+            defaults to GB.
+        web-server-storage: |-
+            Storage allocated to Airflow web server, ex. 600MB, 3GB, 2. If units are not provided,
+            defaults to GB.
+        worker-cpu: CPU allocated to each Airflow worker
+        worker-memory: |-
+            Memory allocated to Airflow worker, ex. 600MB, 3GB, 2. If units are not provided,
+            defaults to GB.
+        worker-storage: |-
+            Storage allocated to Airflow worker, ex. 600MB, 3GB, 2. If units are not provided,
+            defaults to GB.

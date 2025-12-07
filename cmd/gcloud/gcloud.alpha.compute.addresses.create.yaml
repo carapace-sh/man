@@ -1,0 +1,143 @@
+name: create
+description: '*(ALPHA)*  Reserve IP addresses.'
+flags:
+    --addresses=: Ephemeral IP addresses to promote to reserved status.
+    --description=: An optional textual description for the addresses.
+    --endpoint-type=: The endpoint type of the external IPv6 address to be reserved.
+    --global: If set, the addresses are global.
+    --ip-collection-region=&: 'Region of the ipCollection to operate on. '
+    --ip-collection=: If specified, the public delegated prefix (PDP) from which to allocate the BYOIP IP address.
+    --ip-version=: Version of the IP address to be allocated and reserved.
+    --network-tier=: The network tier to assign to the reserved IP addresses.
+    --network=: If specified, the network resource in which the address(es) should be
+    --no-global&: If set, the addresses are global.
+    --prefix-length=: The prefix length of the IP range.
+    --purpose=: The purpose of the address resource.
+    --region=: Region of the addresses to create.
+    --subnet-region=&: 'Region of the subnet to operate on. '
+    --subnet=: If specified, the subnet name in which the address(es) should be reserved.
+completion:
+    flag:
+        endpoint-type:
+            - VM
+            - NETLB
+        ip-version:
+            - IPV4
+            - IPV6
+        purpose:
+            - VPC_PEERING
+            - SHARED_LOADBALANCER_VIP
+            - GCE_ENDPOINT
+            - IPSEC_INTERCONNECT
+            - PRIVATE_SERVICE_CONNECT
+documentation:
+    command: |-
+        *(ALPHA)*  *gcloud alpha compute addresses create* is used to reserve one or more IP addresses. Once an IP address
+        is reserved, it will be associated with the project until it is released
+        using 'gcloud compute addresses delete'. Ephemeral IP addresses that are in
+        use by resources in the project can be reserved using the '--addresses' flag.
+
+        ## EXAMPLES
+        To reserve three IP addresses in the 'us-central1' region, run:
+
+          $ gcloud alpha compute addresses create address-1 address-2 address-3 --region=us-central1
+
+        To reserve ephemeral IP addresses '162.222.181.198' and '23.251.146.189' which
+        are being used by virtual machine instances in the 'us-central1' region, run:
+
+          $ gcloud alpha compute addresses create --addresses=162.222.181.198,23.251.146.189 --region=us-central1
+
+        In the above invocation, the two addresses will be assigned random names.
+
+        To reserve an IP address named subnet-address-1 from the subnet 'default' in
+        the 'us-central1' region, run:
+
+          $ gcloud alpha compute addresses create subnet-address-1 --region=us-central1 --subnet=default
+
+        To reserve an IP address that can be used by multiple internal load balancers
+        from the subnet 'default' in the 'us-central1' region, run:
+
+          $ gcloud alpha compute addresses create shared-address-1 --region=us-central1 --subnet=default \
+            --purpose=SHARED_LOADBALANCER_VIP
+
+        To reserve an IP range '10.110.0.0/16' from the network 'default' for
+        'VPC_PEERING', run:
+
+          $ gcloud alpha compute addresses create ip-range-1 --global --addresses=10.110.0.0 --prefix-length=16 \
+            --purpose=VPC_PEERING --network=default
+
+        To reserve any IP range with prefix length '16' from the network 'default' for
+        'VPC_PEERING', run:
+
+          $ gcloud alpha compute addresses create ip-range-1 --global --prefix-length=16 --purpose=VPC_PEERING \
+            --network=default
+
+        To reserve an address from network 'default' for PRIVATE_SERVICE_CONNECT, run:
+
+          $ gcloud alpha compute addresses create psc-address-1 --global --addresses=10.110.0.10 \
+            --purpose=PRIVATE_SERVICE_CONNECT --network=default
+    flag:
+        addresses: |-
+            Ephemeral IP addresses to promote to reserved status. Only addresses
+            that are being used by resources in the project can be promoted. When
+            providing this flag, a parallel list of names for the addresses can
+            be provided. For example,
+            +
+                $ {command} ADDRESS-1 ADDRESS-2             --addresses 162.222.181.197,162.222.181.198             --region us-central1
+            +
+            will result in 162.222.181.197 being reserved as
+            'ADDRESS-1' and 162.222.181.198 as 'ADDRESS-2'. If
+            no names are given, server-generated names will be assigned
+            to the IP addresses.
+        description: An optional textual description for the addresses.
+        endpoint-type: 'The endpoint type of the external IPv6 address to be reserved. _ENDPOINT_TYPE_ must be one of: *VM*, *NETLB*.'
+        global: If set, the addresses are global.
+        ip-collection: If specified, the public delegated prefix (PDP) from which to allocate the BYOIP IP address. The PDP must support enhanced IPv4 allocations. If not specified, the address will be allocated from the Google-owned IP pool.
+        ip-collection-region: 'Region of the ipCollection to operate on. '
+        ip-version: |-
+            Version of the IP address to be allocated and reserved.
+            The default is IPV4.
+            +
+            IP version can only be specified for global addresses that are generated
+            automatically (i.e., along with
+            the `--global` flag, given `--addresses` is not specified) and if the
+            `--network-tier` is `PREMIUM`.
+            +
+            _IP_VERSION_ must be one of: *IPV4*, *IPV6*.
+        network: |-
+            If specified, the network resource in which the address(es) should be
+            reserved.
+            +
+            This is only available for global internal address, which represents
+            an internal IP range reservation from within the network.
+        network-tier: |-
+            The network tier to assign to the reserved IP addresses. ``NETWORK_TIER''
+            must be one of: `PREMIUM`, `STANDARD`. The default value is `PREMIUM`.
+            +
+            While regional external addresses (`--region` specified, `--subnet`
+            omitted) can use either `PREMIUM` or `STANDARD`, global external
+            addresses (`--global` specified, `--subnet` omitted) can only use
+            `PREMIUM`. Internal addresses can only use `PREMIUM`.
+        no-global: If set, the addresses are global.
+        prefix-length: |-
+            The prefix length of the IP range. If the address is an IPv4 address, it
+            must be a value between 8 and 30 inclusive. If the address is an IPv6
+            address, the only allowed value is 96. If not present, it means the
+            address field is a single IP address.
+            +
+            This field is not applicable to external IPv4 addresses or global IPv6
+            addresses.
+        purpose: |-
+            The purpose of the address resource. This field is not applicable to
+            external addresses. _PURPOSE_ must be one of: *VPC_PEERING*, *SHARED_LOADBALANCER_VIP*, *GCE_ENDPOINT*, *IPSEC_INTERCONNECT*, *PRIVATE_SERVICE_CONNECT*.
+        region: Region of the addresses to create. Overrides the default *compute/region* property value for this command invocation.
+        subnet: |-
+            If specified, the subnet name in which the address(es) should be reserved.
+            The subnet must be in the same region as the address.
+            +
+            The address will represent an internal IP reservation from within the
+            subnet. If --address is specified, it must be within the subnet's
+            IP range.
+            +
+            May not be specified with --global.
+        subnet-region: 'Region of the subnet to operate on. '

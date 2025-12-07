@@ -1,0 +1,54 @@
+name: report-subblock-as-faulty
+description: '*(BETA)*  Report a sub-block within a reservation as faulty.'
+flags:
+    --block-name=!: The name of the reservation block.
+    --disruption-schedule=!: The disruption schedule for the sub-block.
+    --failure-component=!: The component that experienced the fault.
+    --fault-reasons=!: The reasons for reporting the sub-block as faulty.
+    --sub-block-name=!: The name of the reservation sub block.
+    --zone=: Zone of the reservation to report-subblock-as-faulty.
+completion:
+    flag:
+        disruption-schedule:
+            - IMMEDIATE
+        failure-component:
+            - MULTIPLE_FAULTY_HOSTS
+            - NVLINK_SWITCH
+documentation:
+    command: '*(BETA)*  Report a sub-block within a reservation as faulty.'
+    flag:
+        block-name: The name of the reservation block.
+        disruption-schedule: |-
+            The disruption schedule for the sub-block. _DISRUPTION_SCHEDULE_ must be (only one value is supported):
+            +
+            *IMMEDIATE*::: All VMs are immediately disrupted.
+            :::
+            +
+        failure-component: |-
+            The component that experienced the fault. _FAILURE_COMPONENT_ must be one of:
+            +
+            *MULTIPLE_FAULTY_HOSTS*::: Multiple hosts experienced the fault.
+            *NVLINK_SWITCH*::: The NVLink switch experienced the fault.
+            :::
+            +
+        fault-reasons: 'The reasons for reporting the sub-block as faulty. You can repeat this flag. Each flag must specify a "behavior" attribute and can optionally include a "description" attribute. The possible values for "behavior" are: PERFORMANCE, SWITCH_FAILURE, GPU_ERROR.'
+        sub-block-name: The name of the reservation sub block.
+        zone: |-
+            Zone of the reservation to report-subblock-as-faulty. If not specified and the ``compute/zone'' property isn't set, you
+            might be prompted to select a zone (interactive mode only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/zone'' property:
+            +
+              $ gcloud config set compute/zone ZONE
+            +
+            A list of zones can be fetched by running:
+            +
+              $ gcloud compute zones list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/zone
+            +
+            Alternatively, the zone can be stored in the environment variable
+            ``CLOUDSDK_COMPUTE_ZONE''.

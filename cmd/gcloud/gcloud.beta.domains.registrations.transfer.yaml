@@ -1,0 +1,175 @@
+name: transfer
+description: '*(BETA)*  *(REMOVED)*  Transfer a domain from another registrar.'
+hidden: true
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --authorization-code-from-file=: A file containing the authorizaton code.
+    --cloud-dns-zone=: The name of the Cloud DNS managed-zone to set as the name server for the domain.
+    --contact-data-from-file=: 'A YAML file containing the contact data for the domain''s three contacts:'
+    --contact-privacy=: The contact privacy mode to use.
+    --keep-dns-settings: Keep the domain's current DNS configuration from its current registrar.
+    --labels=: List of label KEY=VALUE pairs to add.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-keep-dns-settings&: Keep the domain's current DNS configuration from its current registrar.
+    --no-use-google-domains-dns&: (DEPRECATED) Use free name servers provided by Google Domains.
+    --no-validate-only&: Don't actually transfer domain.
+    --notices=: Notices about special properties of certain domains or contacts.
+    --use-google-domains-dns: (DEPRECATED) Use free name servers provided by Google Domains.
+    --validate-only: Don't actually transfer domain.
+    --yearly-price=: Accept the domain's yearly price in the interactive flow or by using this flag.
+completion:
+    flag:
+        contact-privacy:
+            - private-contact-data
+            - public-contact-data
+            - redacted-contact-data
+documentation:
+    command: |-
+        *(BETA)*  *(REMOVED)*  Transfer a domain from another registrar.
+
+        This command has been removed. See https://cloud.google.com/domains/docs/deprecations/feature-deprecations.
+
+        Create a new Cloud Domains registration resource by transferring an existing
+        domain from another registrar.
+        The new resource's ID will be equal to the domain name.
+
+        After this command executes, the resource will be in state
+        TRANSFER_PENDING. To complete the transfer, the registrant may need to approve
+        the transfer through an email sent by the current registrar. Domain transfers
+        can take 5-7 days to complete. After the transfer is completed, the resource
+        transitions to state ACTIVE, indicating that the transfer was successful. If
+        the transfer is rejected or the request expires without being approved, the
+        resource ends up in state TRANSFER_FAILED. If the transfer fails, you can
+        safely delete the resource and retry the transfer. Transfers in state
+        TRANSFER_PENDING can also be cancelled with the delete command.
+
+        ## EXAMPLES
+
+        To transfer ``example.com'' interactively, run:
+
+          $ gcloud beta domains registrations transfer example.com
+
+        To transfer ``example.com'' using contact data from a YAML file
+        ``contacts.yaml'', run:
+
+          $ gcloud beta domains registrations transfer example.com --contact-data-from-file=contacts.yaml
+
+        To transfer ``example.com'' with interactive prompts disabled, provide
+        --authorization-code-from-file, --contact-data-from-file, --contact-privacy,
+        --yearly-price flags and one of the flags for setting authoritative name
+        servers. Sometimes also --notices flag is required.
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        authorization-code-from-file: |-
+            A file containing the authorizaton code. In most cases, you must provide an
+            authorization code from the domain's current registrar to transfer the
+            domain.
+            +
+            Examples of file contents:
+            +
+            ```
+            5YcCd!X&W@q0Xozj
+            ```
+        cloud-dns-zone: |-
+            The name of the Cloud DNS managed-zone to set as the name server for the domain.
+            If it's in the same project, you can use short name. If not, use the full resource name, e.g.: --cloud-dns-zone=projects/example-project/managedZones/example-zone. To avoid downtime following transfer, make sure the zone is configured correctly before proceeding.
+            DNSSEC will be disabled and will need to be enabled after the transfer completes, if desired.
+        contact-data-from-file: |-
+            A YAML file containing the contact data for the domain's three contacts:
+            registrant, admin, and technical.
+            +
+            The file can either specify a single set of contact data with label
+            'allContacts', or three separate sets of contact data with labels
+            'adminContact' and 'technicalContact'.
+            +
+            Each contact data must contain values for all required fields: email,
+            phoneNumber and postalAddress in google.type.PostalAddress format.
+            +
+            For more guidance on how to specify postalAddress, please see:
+            https://support.google.com/business/answer/6397478
+            +
+            Examples of file contents:
+            +
+            ```
+            allContacts:
+              email: 'example@example.com'
+              phoneNumber: '+1.8005550123'
+              postalAddress:
+                regionCode: 'US'
+                postalCode: '94043'
+                administrativeArea: 'CA'
+                locality: 'Mountain View'
+                addressLines: ['1600 Amphitheatre Pkwy']
+                recipients: ['Jane Doe']
+            ```
+            +
+            ```
+            registrantContact:
+              email: 'registrant@example.com'
+              phoneNumber: '+1.8005550123'
+              postalAddress:
+                regionCode: 'US'
+                postalCode: '94043'
+                administrativeArea: 'CA'
+                locality: 'Mountain View'
+                addressLines: ['1600 Amphitheatre Pkwy']
+                recipients: ['Registrant Jane Doe']
+            adminContact:
+              email: 'admin@example.com'
+              phoneNumber: '+1.8005550123'
+              postalAddress:
+                regionCode: 'US'
+                postalCode: '94043'
+                administrativeArea: 'CA'
+                locality: 'Mountain View'
+                addressLines: ['1600 Amphitheatre Pkwy']
+                recipients: ['Admin Jane Doe']
+            technicalContact:
+              email: 'technical@example.com'
+              phoneNumber: '+1.8005550123'
+              postalAddress:
+                regionCode: 'US'
+                postalCode: '94043'
+                administrativeArea: 'CA'
+                locality: 'Mountain View'
+                addressLines: ['1600 Amphitheatre Pkwy']
+                recipients: ['Technic Jane Doe']
+            ```
+        contact-privacy: |-
+            The contact privacy mode to use. Supported privacy modes depend on the domain. _CONTACT_PRIVACY_ must be one of:
+            +
+            *private-contact-data*::: (DEPRECATED) Your contact info won't be available to the public. To help protect your info and prevent spam, a third party provides alternate (proxy) contact info for your domain in the public directory at no extra cost. They will forward received messages to you. The private-contact-data option is deprecated; See https://cloud.google.com/domains/docs/deprecations/feature-deprecations.
+            *public-contact-data*::: All the data from contact config is publicly available. To set this value, you must also pass the --notices flag with value public-contact-data-acknowledgement or agree to the notice interactively.
+            *redacted-contact-data*::: Limited personal information will be available to the public. The actual information redacted depends on the domain. For more information see https://support.google.com/domains/answer/3251242.
+            :::
+            +
+        keep-dns-settings: Keep the domain's current DNS configuration from its current registrar. Use this option only if you are sure that the domain's current DNS service will not cease upon transfer, as is often the case for DNS services provided for free by the registrar.
+        labels: |-
+            List of label KEY=VALUE pairs to add.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-keep-dns-settings: Keep the domain's current DNS configuration from its current registrar. Use this option only if you are sure that the domain's current DNS service will not cease upon transfer, as is often the case for DNS services provided for free by the registrar.
+        no-use-google-domains-dns: |-
+            (DEPRECATED) Use free name servers provided by Google Domains. This blank-slate option cannot be configured before transfer.
+            DNSSEC will be disabled and will need to be enabled after the transfer completes, if desired.
+            +
+            The --use-google-domains-dns option is deprecated; See https://cloud.google.com/domains/docs/deprecations/feature-deprecations.
+        no-validate-only: Don't actually transfer domain. Only validate arguments.
+        notices: |-
+            Notices about special properties of certain domains or contacts. _NOTICE_ must be (only one value is supported):
+            +
+            *public-contact-data-acknowledgement*::: By sending this notice you acknowledge that using public-contact-data contact privacy makes all the data from contact config publicly available.
+            :::
+            +
+        use-google-domains-dns: |-
+            (DEPRECATED) Use free name servers provided by Google Domains. This blank-slate option cannot be configured before transfer.
+            DNSSEC will be disabled and will need to be enabled after the transfer completes, if desired.
+            +
+            The --use-google-domains-dns option is deprecated; See https://cloud.google.com/domains/docs/deprecations/feature-deprecations.
+        validate-only: Don't actually transfer domain. Only validate arguments.
+        yearly-price: Accept the domain's yearly price in the interactive flow or by using this flag. Use a number followed by a currency code, for example, "12.00 USD". Get the price using the get-transfer-parameters command.

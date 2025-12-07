@@ -1,0 +1,162 @@
+name: update
+description: '*(ALPHA)*  Update a Rollout.'
+hidden: true
+flags:
+    --clear-control: Set rollout.control back to default value.
+    --clear-labels: Clear labels value and set to empty map.
+    --control-action=: Action to be performed on the Rollout.
+    --labels=: Set labels to new value.
+    --location=: Location ID
+    --no-clear-control&: Set rollout.control back to default value.
+    --no-clear-labels&: Clear labels value and set to empty map.
+    --no-retry-failed-operations&: If true, the rollout will retry failed operations when resumed.
+    --remove-labels=: Remove existing value from map labels.
+    --retry-failed-operations: If true, the rollout will retry failed operations when resumed.
+    --rollout-orchestration-strategy=: The strategy to use for executing this rollout.
+    --unit-filter=: CEL(https://github.com/google/cel-spec) formatted filter string against
+    --update-labels=: Update labels value or add key value pair.
+completion:
+    flag:
+        control-action:
+            - cancel
+            - pause
+            - run
+documentation:
+    command: '*(ALPHA)*  Update a Rollout'
+    flag:
+        clear-control: Set rollout.control back to default value.
+        clear-labels: Clear labels value and set to empty map.
+        control-action: |-
+            Action to be performed on the Rollout.
+            The default behavior is to run the rollout until it naturally reaches a
+            terminal state. _CONTROL_ACTION_ must be one of:
+            +
+            *cancel*::: Cancel the Rollout permanently.
+            *pause*::: Pause the Rollout until it is resumed (i.e. RUN is requested).
+            *run*::: Run the Rollout until it naturally reaches a terminal state.
+            A rollout requested to run will progress through all natural Rollout
+            States (such as RUNNING -> SUCCEEDED or RUNNING -> FAILED).
+            If retriable errors are encountered during the rollout, the rollout
+            will paused by default and can be resumed by re-requesting this RUN
+            action.
+            :::
+            +
+        labels: |-
+            Set labels to new value. The labels on the resource, which can be used for categorization.
+            similar to Kubernetes resource labels.
+            +
+            *KEY*:::
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+            +
+            *VALUE*:::
+            Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --labels=string=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --labels='{"string": "string"}'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --labels=path_to_file.(yaml|json)
+            +
+            ```
+        location: |-
+            Location ID
+            +
+            To set the `location` attribute:
+            * provide the argument `rollout` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line.
+        no-clear-control: Set rollout.control back to default value.
+        no-clear-labels: Clear labels value and set to empty map.
+        no-retry-failed-operations: |-
+            If true, the rollout will retry failed operations when resumed.
+            This is applicable only the current state of the Rollout is PAUSED and
+            the requested action is RUN.
+        remove-labels: |-
+            Remove existing value from map labels. Sets `remove_labels` value.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --remove-labels=string,string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --remove-labels=["string"]
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --remove-labels=path_to_file.(yaml|json)
+            +
+            ```
+        retry-failed-operations: |-
+            If true, the rollout will retry failed operations when resumed.
+            This is applicable only the current state of the Rollout is PAUSED and
+            the requested action is RUN. Use *--retry-failed-operations* to enable and *--no-retry-failed-operations* to disable.
+        rollout-orchestration-strategy: |-
+            The strategy to use for executing this rollout. If not provided, the
+            strategy from Rollout Type will be used.
+        unit-filter: |-
+            CEL(https://github.com/google/cel-spec) formatted filter string against
+            Unit. The filter will be applied to determine the eligible unit population.
+            This filter can only reduce, but not expand the scope of the rollout. If
+            not provided, the unit_filter from the RolloutType will be used.
+        update-labels: |-
+            Update labels value or add key value pair. The labels on the resource, which can be used for categorization.
+            similar to Kubernetes resource labels.
+            +
+            *KEY*:::
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+            +
+            *VALUE*:::
+            Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --update-labels=string=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --update-labels='{"string": "string"}'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --update-labels=path_to_file.(yaml|json)
+            +
+            ```

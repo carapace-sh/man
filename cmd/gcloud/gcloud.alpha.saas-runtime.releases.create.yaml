@@ -1,0 +1,95 @@
+name: create
+description: '*(ALPHA)*  Create a Release.'
+hidden: true
+flags:
+    --blueprint-package=!: URI to a blueprint used by the Unit.
+    --input-variable-defaults=: Mapping of input variables to default values.
+    --labels=: The labels on the resource, which can be used for categorization.
+    --location=: For resources [release, unit-kind], provides fallback value for resource location attribute.
+    --unit-kind=!: ID of the unitKind or fully qualified identifier for the unitKind.
+    --upgradeable-from-releases=: A list of releases from which a unit can be upgraded to this one
+documentation:
+    command: '*(ALPHA)*  Create a Release'
+    flag:
+        blueprint-package: URI to a blueprint used by the Unit.
+        input-variable-defaults: |-
+            Mapping of input variables to default values. Maximum 100.
+            +
+            *type*:::
+            Name of a supported variable type. Supported types are string, int, bool.
+            +
+            *value*:::
+            String encoded value for the variable.
+            +
+            *variable*:::
+            Name of the variable from actuation configs.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --input-variable-defaults=type=string,value=string,variable=string --input-variable-defaults=type=string,value=string,variable=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --input-variable-defaults='[{"type": "string", "value": "string", "variable": "string"}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --input-variable-defaults=path_to_file.(yaml|json)
+            +
+            ```
+        labels: |-
+            The labels on the resource, which can be used for categorization.
+            similar to Kubernetes resource labels.
+            +
+            *KEY*:::
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+            +
+            *VALUE*:::
+            Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --labels=string=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --labels='{"string": "string"}'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --labels=path_to_file.(yaml|json)
+            +
+            ```
+        location: For resources [release, unit-kind], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
+        unit-kind: |-
+            ID of the unitKind or fully qualified identifier for the unitKind.
+            +
+            To set the `unit-kind` attribute:
+            * provide the argument `--unit-kind` on the command line.
+        upgradeable-from-releases: |-
+            A list of releases from which a unit can be upgraded to this one
+            (optional). If left empty no constraints will be applied. When provided,
+            unit upgrade requests to this release will check and enforce this
+            constraint.

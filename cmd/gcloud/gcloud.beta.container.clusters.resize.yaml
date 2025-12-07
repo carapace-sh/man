@@ -1,0 +1,53 @@
+name: resize
+description: '*(BETA)*  Resizes an existing cluster for running containers.'
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --location=: Compute zone or region (e.g. us-central1-a or us-central1) for the cluster.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --node-pool=: The node pool to resize.
+    --num-nodes=: Target number of nodes in the cluster.
+    --region=: Compute region (e.g. us-central1) for a regional cluster.
+    --size=: (DEPRECATED) Target number of nodes in the cluster.
+    --zone=: Compute zone (e.g. us-central1-a) for a zonal cluster.
+documentation:
+    command: |4
+                *(BETA)*  Resize an existing cluster to a provided size.
+
+        If you have multiple node pools, you must specify which node pool to resize by
+        using the --node-pool flag. You are not required to use the flag if you have
+        a single node pool.
+
+        When increasing the size of a container cluster, the new instances are created
+        with the same configuration as the existing instances.
+        Existing pods are not moved onto the new instances,
+        but new pods (such as those created by resizing a replication controller)
+        will be scheduled onto the new instances.
+
+        When decreasing a cluster, the nodes are drained. As a result, the pods running
+        on these nodes are gracefully terminated. If your pods are being managed by a
+        workload controller, the controller will attempt to reschedule them onto the
+        remaining instances. If your pods are not managed by a workload controller,
+        they will not be restarted.
+        Note that when resizing down, instances running pods and instances without pods
+        are not differentiated. Resize will pick instances to remove at random.
+
+        When you resize a node pool that spans multiple zones, the new size represents
+        the number of nodes in the node pool per zone. For example, if you have a node
+        pool of size 2 spanning two zones, the total node count is 4. If you resize the
+        node pool with `--num-nodes=4`, the total node count becomes 8.
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        location: Compute zone or region (e.g. us-central1-a or us-central1) for the cluster. Overrides the default compute/region or compute/zone value for this command invocation. Prefer using this flag over the --region or --zone flags.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        node-pool: The node pool to resize.
+        num-nodes: Target number of nodes in the cluster.
+        region: Compute region (e.g. us-central1) for a regional cluster. Overrides the default compute/region property value for this command invocation.
+        size: |-
+            (DEPRECATED) Target number of nodes in the cluster.
+            +
+            The --size flag is now deprecated. Please use `--num-nodes` instead.
+        zone: Compute zone (e.g. us-central1-a) for a zonal cluster. Overrides the default compute/zone property value for this command invocation.

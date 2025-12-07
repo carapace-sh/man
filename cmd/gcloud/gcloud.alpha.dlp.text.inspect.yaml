@@ -1,0 +1,59 @@
+name: inspect
+description: '*(ALPHA)*  Find potentially sensitive data in text content.'
+flags:
+    --content-file=: Text file to inspect for sensitive data.
+    --content=: Text content to inspect for sensitive data.
+    --exclude-info-types: Whether or not to exclude type information of the findings.
+    --include-quote: If True, a contextual quote from the data that triggered a
+    --info-types=: Which infoTypes to scan input for.
+    --max-findings=: Maximum number of findings that will be returned per execution.
+    --min-likelihood=: Only return findings equal to or above this threshold.
+    --no-exclude-info-types&: Whether or not to exclude type information of the findings.
+    --no-include-quote&: If True, a contextual quote from the data that triggered a
+completion:
+    flag:
+        min-likelihood:
+            - likely
+            - possible
+            - unlikely
+            - very-likely
+            - very-unlikely
+documentation:
+    command: |
+        *(ALPHA)*  Find potentially sensitive data in text content.
+    flag:
+        content: Text content to inspect for sensitive data.
+        content-file: |-
+            Text file to inspect for sensitive data. Can also be a CSV
+            file specifying tabular data. For CSV files, up to 50,000 values
+            per request are allowed. To read from stdin pass '-' as the file
+            name. Use a full or relative path to a local file containing the value of content_file.
+        exclude-info-types: |-
+            Whether or not to exclude type information of the findings.
+            Type information is included by default.
+        include-quote: |-
+            If True, a contextual quote from the data that triggered a
+            finding is included in the response. Even if the content is not
+            text, it may be converted to a textual representation in the
+            response. For example, given the input value 'My phone number is
+            (415) 555-0890' and a search for the infoType PHONE_NUMBER, the
+            contextual quote would be '(415) 555-0890.'
+        info-types: |-
+            Which infoTypes to scan input for. The values must correspond to
+            infoType values found in documentation. For more information about
+            valid infoTypes, see [infoTypes Reference](https://cloud.google.com/dlp/docs/infotypes-reference)
+        max-findings: |-
+            Maximum number of findings that will be returned per execution.
+            +
+            If not specified, no limits are applied.
+        min-likelihood: 'Only return findings equal to or above this threshold. _MIN_LIKELIHOOD_ must be one of: *likely*, *possible*, *unlikely*, *very-likely*, *very-unlikely*.'
+        no-exclude-info-types: |
+            Whether or not to exclude type information of the findings.
+            Type information is included by default.
+        no-include-quote: |
+            If True, a contextual quote from the data that triggered a
+            finding is included in the response. Even if the content is not
+            text, it may be converted to a textual representation in the
+            response. For example, given the input value 'My phone number is
+            (415) 555-0890' and a search for the infoType PHONE_NUMBER, the
+            contextual quote would be '(415) 555-0890.'

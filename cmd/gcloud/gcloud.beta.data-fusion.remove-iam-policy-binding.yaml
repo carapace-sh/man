@@ -1,0 +1,50 @@
+name: remove-iam-policy-binding
+description: '*(BETA)*  Removes an IAM policy binding to a Cloud Data Fusion instance.'
+flags:
+    --location=: Compute Engine region in which to create the instance.
+    --member=!: The principal to remove the binding for.
+    --namespace=: CDAP Namespace whose IAM policy we wish to remove.
+    --role=!: The role to remove the principal from.
+documentation:
+    command: |-
+        ## EXAMPLES
+
+        To set someone@example.com to have `roles/datafusion.admin` permission for
+        instance `my-instance` in project `my-project`, location in `my-location`,
+        run:
+
+        $ gcloud beta data-fusion remove-iam-policy-binding my-instance --location=my-location \
+          --member=user:someone@example.com --role=roles/datafusion.admin
+
+        To run the same command for a specific namespace on the instance, run:
+
+        $ gcloud beta data-fusion remove-iam-policy-binding my-instance --location=my-location \
+          --member=user:someone@example.com --role=roles/datafusion.admin \
+          --namespace=my-namespace
+    flag:
+        location: |-
+            Compute Engine region in which to create the instance.
+            +
+            To set the `location` attribute:
+            * provide the argument `instance` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `datafusion/location`.
+        member: |-
+            The principal to remove the binding for. Should be of the form `user|group|serviceAccount:email` or
+            `domain:domain`.
+            +
+            Examples: `user:test-user@gmail.com`, `group:admins@example.com`,
+            `serviceAccount:test123@example.domain.com`, or
+            `domain:example.domain.com`.
+            +
+            Deleted principals have an additional `deleted:` prefix and a `?uid=UID` suffix,
+            where ``UID'' is a unique identifier for the principal. Example:
+            `deleted:user:test-user@gmail.com?uid=123456789012345678901`.
+            +
+            Some resources also accept the following special values:
+            * `allUsers` - Special identifier that represents anyone who is on the internet,
+               with or without a Google account.
+            * `allAuthenticatedUsers` - Special identifier that represents anyone who is
+               authenticated with a Google account or a service account.
+        namespace: 'CDAP Namespace whose IAM policy we wish to remove. For example: `--namespace=my-namespace`.'
+        role: The role to remove the principal from.

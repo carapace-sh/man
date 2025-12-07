@@ -1,0 +1,54 @@
+name: deploy
+description: '*(BETA)*  Deploys a service configuration for the given service name.'
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --force: Force the deployment even if any hazardous changes to the service configuration are detected.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-force&: Force the deployment even if any hazardous changes to the service configuration are detected.
+    --no-validate-only&: If included, the command validates the service configuration(s), but does not deploy them.
+    --validate-only: If included, the command validates the service configuration(s), but does not deploy them.
+documentation:
+    command: |-
+        *(BETA)*  This command is used to deploy a service configuration for a service
+        to Google Service Management. As input, it takes one or more paths
+        to service configurations that should be uploaded. These configuration
+        files can be Proto Descriptors, Open API (Swagger) specifications,
+        or Google Service Configuration files in JSON or YAML formats.
+
+        If a service name is present in multiple configuration files (given
+        in the `host` field in OpenAPI specifications or the `name` field in
+        Google Service Configuration files), the first one will take precedence.
+
+        When deploying a new service configuration to an already-existing
+        service, some safety checks will be made comparing the new configuration
+        to the active configuration. If any actionable advice is provided, it
+        will be printed out to the log, and the deployment will be halted. It is
+        recommended that these warnings be addressed before proceeding, but they
+        can be overridden with the --force flag.
+
+        This command will block until deployment is complete unless the
+        `--async` flag is passed.
+
+        ## EXAMPLES
+        To deploy a single Open API service configuration, run:
+
+          $ gcloud beta endpoints services deploy ~/my_app/openapi.json
+
+        To run the deployment asynchronously (non-blocking), run:
+
+          $ gcloud beta endpoints services deploy ~/my_app/openapi.json --async
+
+        To deploy a service config with a Proto, run:
+
+          $ gcloud beta endpoints services deploy ~/my_app/service-config.yaml ~/my_app/service-protos.pb
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        force: Force the deployment even if any hazardous changes to the service configuration are detected.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-force: Force the deployment even if any hazardous changes to the service configuration are detected.
+        no-validate-only: If included, the command validates the service configuration(s), but does not deploy them. The service must exist in order to validate the configuration(s).
+        validate-only: If included, the command validates the service configuration(s), but does not deploy them. The service must exist in order to validate the configuration(s).

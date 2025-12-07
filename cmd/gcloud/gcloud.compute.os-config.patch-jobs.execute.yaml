@@ -1,0 +1,294 @@
+name: execute
+description: Execute an OS patch on the specified VM instances.
+flags:
+    --apt-dist: If specified, machines running Apt use the `apt-get dist-upgrade` command;
+    --apt-excludes=: List of packages to exclude from update.
+    --apt-exclusive-packages=: An exclusive list of packages to be updated.
+    --async: Return immediately, without waiting for the operation in progress to
+    --description=: Textual description of the patch job.
+    --display-name=: Display name for this patch job.
+    --dry-run: Whether to execute this patch job as a dry run.
+    --duration=: Total duration in which the patch job must complete.
+    --instance-filter-all: A filter that targets all instances in the project.
+    --instance-filter-group-labels=: A filter that represents a label set.
+    --instance-filter-name-prefixes=: A filter that targets instances whose name starts with one of these
+    --instance-filter-names=: A filter that targets instances of any of the specified names.
+    --instance-filter-zones=: A filter that targets instances in any of the specified zones.
+    --mig-instances-allowed: If set, patching of VMs that are part of a managed instance group (MIG) is allowed.
+    --no-apt-dist&: If specified, machines running Apt use the `apt-get dist-upgrade` command;
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-dry-run&: Whether to execute this patch job as a dry run.
+    --no-instance-filter-all&: A filter that targets all instances in the project.
+    --no-mig-instances-allowed&: If set, patching of VMs that are part of a managed instance group (MIG) is allowed.
+    --no-skip-unpatchable-vms&: 'If set, enables enhanced reporting for the patch job:'
+    --no-yum-minimal&: If specified, machines running Yum use the command `yum update-minimal`;
+    --no-yum-security&: If specified, machines running Yum append the `--security` flag to the
+    --no-zypper-with-optional&: If specified, machines running Zypper add the `--with-optional` flag to
+    --no-zypper-with-update&: If specified, machines running Zypper add the `--with-update` flag to
+    --post-patch-linux-executable=: A set of commands to run on a Linux machine after an OS patch completes.
+    --post-patch-linux-success-codes=: Additional exit codes that the executable can return to indicate a
+    --post-patch-windows-executable=: A set of commands to run on a Windows machine after an OS patch completes.
+    --post-patch-windows-success-codes=: Additional exit codes that the executable can return to indicate a
+    --pre-patch-linux-executable=: A set of commands to run on a Linux machine before an OS patch begins.
+    --pre-patch-linux-success-codes=: Additional exit codes that the executable can return to indicate a
+    --pre-patch-windows-executable=: A set of commands to run on a Windows machine before an OS patch begins.
+    --pre-patch-windows-success-codes=: Additional exit codes that the executable can return to indicate a
+    --reboot-config=: Post-patch reboot settings.
+    --rollout-disruption-budget-percent=: Percentage of VMs per zone to disrupt at any given moment.
+    --rollout-disruption-budget=: Number of VMs per zone to disrupt at any given moment.
+    --rollout-mode=: Mode of the rollout.
+    --skip-unpatchable-vms: 'If set, enables enhanced reporting for the patch job:'
+    --windows-classifications=: List of classifications to use to restrict the Windows update.
+    --windows-excludes=: Optional list of Knowledge Base (KB) IDs to exclude from the
+    --windows-exclusive-patches=: An exclusive list of Knowledge Base (KB) IDs to be updated.
+    --yum-excludes=: Optional list of packages to exclude from updating.
+    --yum-exclusive-packages=: An exclusive list of packages to be updated.
+    --yum-minimal: If specified, machines running Yum use the command `yum update-minimal`;
+    --yum-security: If specified, machines running Yum append the `--security` flag to the
+    --zypper-categories=: If specified, machines running Zypper install only patches with the
+    --zypper-excludes=: List of Zypper patches to exclude from the patch job.
+    --zypper-exclusive-patches=: An exclusive list of patches to be updated.
+    --zypper-severities=: If specified, machines running Zypper install only patch with the
+    --zypper-with-optional: If specified, machines running Zypper add the `--with-optional` flag to
+    --zypper-with-update: If specified, machines running Zypper add the `--with-update` flag to
+completion:
+    flag:
+        reboot-config:
+            - always
+            - default
+            - never
+        rollout-mode:
+            - concurrent-zones
+            - zone-by-zone
+documentation:
+    command: Execute an OS patch on the specified VM instances.
+    flag:
+        apt-dist: |-
+            If specified, machines running Apt use the `apt-get dist-upgrade` command;
+            otherwise the `apt-get upgrade` command is used.
+        apt-excludes: List of packages to exclude from update.
+        apt-exclusive-packages: |-
+            An exclusive list of packages to be updated. These are the only packages
+            that will be updated. If these packages are not installed, they will be
+            ignored.
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        description: Textual description of the patch job.
+        display-name: Display name for this patch job. This does not have to be unique.
+        dry-run: |-
+            Whether to execute this patch job as a dry run. If this patch job is a dry
+            run, instances are contacted, but the patch is not run.
+        duration: |-
+            Total duration in which the patch job must complete. If the patch does not
+            complete in this time, the process times out. While some instances might
+            still be running the patch, they will not continue to work after
+            completing the current step. See $ gcloud topic datetimes for information
+            on specifying absolute time durations.
+            +
+            If unspecified, the job stays active until all instances complete the
+            patch.
+        instance-filter-all: A filter that targets all instances in the project.
+        instance-filter-group-labels: |-
+            A filter that represents a label set. Targeted instances must have all
+            specified labels in this set. For example, "env=prod and app=web".
+            +
+            This flag can be repeated. Targeted instances must have at least one of
+            these label sets. This allows targeting of disparate groups, for example,
+            "(env=prod and app=web) or (env=staging and app=web)".
+        instance-filter-name-prefixes: |-
+            A filter that targets instances whose name starts with one of these
+            prefixes. For example, "prod-".
+        instance-filter-names: |-
+            A filter that targets instances of any of the specified names. Instances
+            are specified by the URI in the form
+            "zones/<ZONE>/instances/<INSTANCE_NAME>",
+            "projects/<PROJECT_ID>/zones/<ZONE>/instances/<INSTANCE_NAME>", or
+            "https://www.googleapis.com/compute/v1/projects/<PROJECT_ID>/zones/<ZONE>/instances/<INSTANCE_NAME>".
+        instance-filter-zones: |-
+            A filter that targets instances in any of the specified zones. Leave empty
+            to target instances in any zone.
+        mig-instances-allowed: If set, patching of VMs that are part of a managed instance group (MIG) is allowed.
+        no-apt-dist: |-
+            If specified, machines running Apt use the `apt-get dist-upgrade` command;
+            otherwise the `apt-get upgrade` command is used.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-dry-run: |-
+            Whether to execute this patch job as a dry run. If this patch job is a dry
+            run, instances are contacted, but the patch is not run.
+        no-instance-filter-all: A filter that targets all instances in the project.
+        no-mig-instances-allowed: If set, patching of VMs that are part of a managed instance group (MIG) is allowed.
+        no-skip-unpatchable-vms: |
+            If set, enables enhanced reporting for the patch job:
+
+            1. Allows the patch job to skip unpatchable instances, reporting them as
+            SKIPPED. An instance can be unpatchable for two reasons:
+
+              a. The instance runs Container-Optimized OS (COS), which cannot be
+              patched.
+
+              b. The instance is part of a managed instance group (MIG), and
+              patching MIG instances is disabled in the patch job's configuration
+              (`--mig-instances-allowed` flag is not set).
+
+            2. Reports the patch job as SUCCEEDED if it completes without errors,
+            even if some instances were SKIPPED.
+
+            3. Reports the patch job as COMPLETED_WITH_INACTIVE_VMS if it completes
+            without errors, but some instances were INACTIVE and were not patched.
+        no-yum-minimal: |-
+            If specified, machines running Yum use the command `yum update-minimal`;
+            otherwise the patch uses `yum-update`.
+        no-yum-security: |-
+            If specified, machines running Yum append the `--security` flag to the
+            patch command.
+        no-zypper-with-optional: |-
+            If specified, machines running Zypper add the `--with-optional` flag to
+            `zypper patch`.
+        no-zypper-with-update: |-
+            If specified, machines running Zypper add the `--with-update` flag to
+            `zypper patch`.
+        post-patch-linux-executable: |-
+            A set of commands to run on a Linux machine after an OS patch completes.
+            Commands must be supplied in a file. If the file contains a shell script,
+            include the shebang line.
+            +
+            The path to the file must be supplied in one of the following formats:
+            +
+            An absolute path of the file on the local filesystem.
+            +
+            A URI for a Google Cloud Storage object with a generation number.
+        post-patch-linux-success-codes: |-
+            Additional exit codes that the executable can return to indicate a
+            successful run. The default exit code for success is 0.
+        post-patch-windows-executable: |-
+            A set of commands to run on a Windows machine after an OS patch completes.
+            Commands must be supplied in a file. If the file contains a PowerShell
+            script, include the .ps1 file extension. The PowerShell script executes
+            with flags `-NonInteractive`, `-NoProfile`, and `-ExecutionPolicy Bypass`.
+            +
+            The path to the file must be supplied in one of the following formats:
+            +
+            An absolute path of the file on the local filesystem.
+            +
+            A URI for a Google Cloud Storage object with a generation number.
+        post-patch-windows-success-codes: |-
+            Additional exit codes that the executable can return to indicate a
+            successful run. The default exit code for success is 0.
+        pre-patch-linux-executable: |-
+            A set of commands to run on a Linux machine before an OS patch begins.
+            Commands must be supplied in a file. If the file contains a shell script,
+            include the shebang line.
+            +
+            The path to the file must be supplied in one of the following formats:
+            +
+            An absolute path of the file on the local filesystem.
+            +
+            A URI for a Google Cloud Storage object with a generation number.
+        pre-patch-linux-success-codes: |-
+            Additional exit codes that the executable can return to indicate a
+            successful run. The default exit code for success is 0.
+        pre-patch-windows-executable: |-
+            A set of commands to run on a Windows machine before an OS patch begins.
+            Commands must be supplied in a file. If the file contains a PowerShell
+            script, include the .ps1 file extension. The PowerShell script executes
+            with flags `-NonInteractive`, `-NoProfile`, and `-ExecutionPolicy Bypass`.
+            +
+            The path to the file must be supplied in one of the following formats:
+            +
+            An absolute path of the file on the local filesystem.
+            +
+            A URI for a Google Cloud Storage object with a generation number.
+        pre-patch-windows-success-codes: |-
+            Additional exit codes that the executable can return to indicate a
+            successful run. The default exit code for success is 0.
+        reboot-config: |-
+            Post-patch reboot settings. _REBOOT_CONFIG_ must be one of:
+            +
+            *always*::: Always reboot the machine after the update completes.
+            *default*::: The agent decides if a reboot is necessary by checking signals such as
+            registry keys or '/var/run/reboot-required'.
+            *never*::: Never reboot the machine after the update completes.
+            :::
+            +
+        rollout-disruption-budget: Number of VMs per zone to disrupt at any given moment.
+        rollout-disruption-budget-percent: |-
+            Percentage of VMs per zone to disrupt at any given moment. The number
+            of VMs calculated from multiplying the percentage by the total number
+            of VMs in a zone is rounded up.
+        rollout-mode: |-
+            Mode of the rollout. _ROLLOUT_MODE_ must be one of:
+            +
+            *concurrent-zones*::: Patches are applied to VMs in all zones at the same time.
+            *zone-by-zone*::: Patches are applied one zone at a time. The patch job begins in
+            the region with the lowest number of targeted VMs. Within the
+            region, patching begins in the zone with the lowest number of
+            targeted VMs. If multiple regions (or zones within a region) have
+            the same number of targeted VMs, a tie-breaker is achieved by
+            sorting the regions or zones in alphabetical order.
+            :::
+            +
+        skip-unpatchable-vms: |-
+            If set, enables enhanced reporting for the patch job:
+            +
+            1. Allows the patch job to skip unpatchable instances, reporting them as
+            SKIPPED. An instance can be unpatchable for two reasons:
+            +
+              a. The instance runs Container-Optimized OS (COS), which cannot be
+              patched.
+            +
+              b. The instance is part of a managed instance group (MIG), and
+              patching MIG instances is disabled in the patch job's configuration
+              (`--mig-instances-allowed` flag is not set).
+            +
+            2. Reports the patch job as SUCCEEDED if it completes without errors,
+            even if some instances were SKIPPED.
+            +
+            3. Reports the patch job as COMPLETED_WITH_INACTIVE_VMS if it completes
+            without errors, but some instances were INACTIVE and were not patched.
+        windows-classifications: |-
+            List of classifications to use to restrict the Windows update. Only
+            patches of the given classifications are applied. If omitted, a default
+            Windows update is performed. For more information on classifications,
+            see: https://support.microsoft.com/en-us/help/824684. _WINDOWS_CLASSIFICATIONS_ must be one of: *critical*, *security*, *definition*, *driver*, *feature-pack*, *service-pack*, *tool*, *update-rollup*, *update*.
+        windows-excludes: |-
+            Optional list of Knowledge Base (KB) IDs to exclude from the
+                  update operation.
+        windows-exclusive-patches: |-
+            An exclusive list of Knowledge Base (KB) IDs to be updated. These are the
+            only patches that will be updated.
+        yum-excludes: |-
+            Optional list of packages to exclude from updating. If this argument is
+            specified, machines running Yum exclude the given list of packages using
+            the Yum `--exclude` flag.
+        yum-exclusive-packages: |-
+            An exclusive list of packages to be updated. These are the only packages
+            that will be updated. If these packages are not installed, they will be
+            ignored.
+        yum-minimal: |-
+            If specified, machines running Yum use the command `yum update-minimal`;
+            otherwise the patch uses `yum-update`.
+        yum-security: |-
+            If specified, machines running Yum append the `--security` flag to the
+            patch command.
+        zypper-categories: |-
+            If specified, machines running Zypper install only patches with the
+            specified categories. Categories include security, recommended, and
+            feature.
+        zypper-excludes: List of Zypper patches to exclude from the patch job.
+        zypper-exclusive-patches: |-
+            An exclusive list of patches to be updated. These are the only patches
+            that will be installed using the 'zypper patch patch:<patch_name>'
+            command.
+        zypper-severities: |-
+            If specified, machines running Zypper install only patch with the
+            specified severities. Severities include critical, important, moderate,
+            and low.
+        zypper-with-optional: |-
+            If specified, machines running Zypper add the `--with-optional` flag to
+            `zypper patch`.
+        zypper-with-update: |-
+            If specified, machines running Zypper add the `--with-update` flag to
+            `zypper patch`.

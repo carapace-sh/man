@@ -1,0 +1,39 @@
+name: asymmetric-decrypt
+description: Decrypt an input file using an asymmetric-encryption key version.
+flags:
+    --ciphertext-file=!: File path of the ciphertext file to decrypt.
+    --key=: to use for asymmetric-decryption.
+    --keyring=: Key ring of the key.
+    --location=: Location of the keyring.
+    --no-skip-integrity-verification&: Skip integrity verification on request and response API fields.
+    --plaintext-file=!: File path of the plaintext file to output.
+    --skip-integrity-verification: Skip integrity verification on request and response API fields.
+documentation:
+    command: |-
+        Decrypts the given ciphertext file using the provided asymmetric-encryption
+        key version and saves the decrypted data to the plaintext file.
+
+        By default, the command performs integrity verification on data sent to and
+        received from Cloud KMS. Use `--skip-integrity-verification` to disable
+        integrity verification.
+
+        ## EXAMPLES
+        The following command will read the file '/tmp/my/secret.file.enc', decrypt it
+        using the asymmetric CryptoKey `dont-panic` Version 3 and write the plaintext
+        to '/tmp/my/secret.file.dec'.
+
+          $ gcloud kms asymmetric-decrypt \
+          --location=us-central1 \
+          --keyring=hitchhiker \
+          --key=dont-panic \
+          --version=3 \
+          --ciphertext-file=/tmp/my/secret.file.enc \
+          --plaintext-file=/tmp/my/secret.file.dec
+    flag:
+        ciphertext-file: File path of the ciphertext file to decrypt.
+        key: to use for asymmetric-decryption.
+        keyring: Key ring of the key.
+        location: Location of the keyring.
+        no-skip-integrity-verification: Skip integrity verification on request and response API fields.
+        plaintext-file: File path of the plaintext file to output.
+        skip-integrity-verification: Skip integrity verification on request and response API fields.

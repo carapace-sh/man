@@ -1,0 +1,47 @@
+name: connection-string
+description: Prints the mongo connection string for the given Firestore database.
+flags:
+    --auth=: The auth configuration for the connection string.
+    --database=!: The database to operate on.
+    --validate=: Validate the specified connection string for the current database.
+completion:
+    flag:
+        auth:
+            - none
+            - gce-vm
+            - access-token
+            - scram-sha-256
+documentation:
+    command: |-
+        ## EXAMPLES
+
+        To get the connection string for a Firestore database with a databaseId
+        `testdb` without auth configuration.
+
+            $ gcloud firestore databases connection-string --database=testdb --auth=none
+
+        To get the connection string for a Firestore database with a databaseId
+        `testdb` with Google Compute Engine VM auth.
+
+            $ gcloud firestore databases connection-string --database=testdb --auth=gce-vm
+    flag:
+        auth: |-
+            The auth configuration for the connection string.
+            +
+            If connecting from a Google Compute Engine VM, use `gce-vm`. For short
+            term access using the gcloud CLI's access token, use `access-token`.
+            For password auth use scram-sha-256. Otherwise, use `none` and configure
+            auth manually.
+            +
+            _AUTH_ must be one of: *none*, *gce-vm*, *access-token*, *scram-sha-256*.
+        database: |-
+            The database to operate on.
+            +
+            For example, to operate on database `foo`:
+            +
+              $ {command} --database='foo'
+        validate: |-
+            Validate the specified connection string for the current database. This
+            command checks that the connection string is well formed, contains the
+            required parameters, and specifies correct configuration values for the
+            current database.

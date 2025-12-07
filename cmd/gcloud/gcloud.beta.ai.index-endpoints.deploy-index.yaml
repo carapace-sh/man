@@ -1,0 +1,73 @@
+name: deploy-index
+description: '*(BETA)*  Deploy an index to a Vertex AI index endpoint.'
+flags:
+    --allowed-issuers=: List of allowed JWT issuers for a deployed index.
+    --audiences=: List of JWT audiences that are allowed to access a deployed index.
+    --deployed-index-id=!: Id of the deployed index.
+    --deployment-group=: Deployment group can be no longer than 64 characters (eg:`test`, `prod`).
+    --display-name=!: Display name of the deployed index.
+    --enable-access-logging: If true, online prediction access logs are sent to Cloud Logging.
+    --index=!: ID of the index.
+    --machine-type=: The machine resources to be used for each node of this deployment.
+    --max-replica-count=: Maximum number of machine replicas the deployed index will be always deployed on.
+    --min-replica-count=: Minimum number of machine replicas the deployed index will be always deployed
+    --no-enable-access-logging&: If true, online prediction access logs are sent to Cloud Logging.
+    --psc-automation-configs=: A pair of `project-id` and `network` the PSC index will be deployed to.
+    --region=: Cloud region for the index_endpoint.
+    --reserved-ip-ranges=: List of reserved IP ranges deployed index will be deployed to.
+documentation:
+    command: '*(BETA)*  Deploy an index to a Vertex AI index endpoint.'
+    flag:
+        allowed-issuers: |-
+            List of allowed JWT issuers for a deployed index.
+            +
+            Each entry must be a valid Google service account, in the following format:
+            `service-account-name@project-id.iam.gserviceaccount.com`
+        audiences: |-
+            List of JWT audiences that are allowed to access a deployed index.
+            +
+            JWT containing any of these audiences
+            (https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32#section -4.1.3)
+            will be accepted.
+        deployed-index-id: Id of the deployed index.
+        deployment-group: |-
+            Deployment group can be no longer than 64 characters (eg:`test`, `prod`).
+            If not set, we will use the `default` deployment group.
+            +
+            Creating deployment_groups with `reserved_ip_ranges` is a recommended practice
+            when the peered network has multiple peering ranges.This creates your
+            deployments from predictable IP spaces for easier traffic administration.
+        display-name: Display name of the deployed index.
+        enable-access-logging: |-
+            If true, online prediction access logs are sent to Cloud Logging.
+            +
+            These logs are standard server access logs, containing information like
+            timestamp and latency for each prediction request.
+        index: ID of the index.
+        machine-type: |-
+            The machine resources to be used for each node of this deployment.
+            For available machine types, see
+            https://cloud.google.com/ai-platform-unified/docs/predictions/machine-types.
+        max-replica-count: Maximum number of machine replicas the deployed index will be always deployed on.
+        min-replica-count: |-
+            Minimum number of machine replicas the deployed index will be always deployed
+            on. If specified, the value must be equal to or larger than 1.
+        no-enable-access-logging: |
+            If true, online prediction access logs are sent to Cloud Logging.
+
+            These logs are standard server access logs, containing information like
+            timestamp and latency for each prediction request.
+        psc-automation-configs: |-
+            A pair of `project-id` and `network` the PSC index will be deployed to. For
+            example: `--psc-automation-configs=project-id=my-project,network=my-network`.
+            For multiple networks, this flag can be repeated:
+            `--psc-automation-configs=project-id=my-project,network=my-network --psc-automation-configs=project-id=my-project2,network=my-network2`
+        region: |-
+            Cloud region for the index_endpoint.
+            +
+            To set the `region` attribute:
+            * provide the argument `index_endpoint` on the command line with a fully specified name;
+            * provide the argument `--region` on the command line;
+            * set the property `ai/region`;
+            * choose one from the prompted list of available regions.
+        reserved-ip-ranges: List of reserved IP ranges deployed index will be deployed to.

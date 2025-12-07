@@ -1,0 +1,41 @@
+name: predict
+description: Run Vertex AI online prediction.
+flags:
+    --json-request=!: Path to a local file containing the body of a JSON request.
+    --region=: Cloud region for the endpoint.
+documentation:
+    command: |-
+        `gcloud ai endpoints predict` sends a prediction request to Vertex AI endpoint for the
+           given instances. This command will read up to 100 instances, though the
+           service itself will accept instances up to the payload limit size
+           (currently, 1.5MB).
+
+        ## EXAMPLES
+
+        To predict against an endpoint ``123'' under project ``example'' in region
+        ``us-central1'', run:
+
+          $ gcloud ai endpoints predict 123 --project=example --region=us-central1
+          --json-request=input.json
+    flag:
+        json-request: |-
+            Path to a local file containing the body of a JSON request.
+            +
+            An example of a JSON request:
+            +
+                {
+                  "instances": [
+                    {"x": [1, 2], "y": [3, 4]},
+                    {"x": [-1, -2], "y": [-3, -4]}
+                  ]
+                }
+            +
+            This flag accepts "-" for stdin.
+        region: |-
+            Cloud region for the endpoint.
+            +
+            To set the `region` attribute:
+            * provide the argument `endpoint` on the command line with a fully specified name;
+            * provide the argument `--region` on the command line;
+            * set the property `ai/region`;
+            * choose one from the prompted list of available regions.

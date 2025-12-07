@@ -1,0 +1,156 @@
+name: update
+description: '*(BETA)*  Update a scope.'
+flags:
+    --add-upgrade-soaking-override=!: Overrides the soaking time for a particular upgrade name and version propagating through the
+    --clear-labels: Remove all labels.
+    --clear-namespace-labels: Remove all scope-level labels from the cluster namespace.
+    --default-upgrade-soaking=: Configures the default soaking duration for each upgrade propagating through the current scope
+    --location=: The location name.
+    --no-clear-labels&: Remove all labels.
+    --no-clear-namespace-labels&: Remove all scope-level labels from the cluster namespace.
+    --no-remove-upgrade-soaking-overrides&: Removes soaking time overrides for all upgrades propagating through the current
+    --no-reset-upstream-scope&: Clears the relationship between the current scope and its upstream scope in the
+    --remove-labels=: List of label keys to remove.
+    --remove-namespace-labels=: List of scope-level label keys to remove in the cluster namespace.
+    --remove-upgrade-soaking-overrides: Removes soaking time overrides for all upgrades propagating through the current
+    --reset-upstream-scope: Clears the relationship between the current scope and its upstream scope in the
+    --update-labels=: List of label KEY=VALUE pairs to update.
+    --update-namespace-labels=: List of scope-level label KEY=VALUE pairs to update in the cluster namespace.
+    --upgrade-selector=!: Name and version of the upgrade to be overridden where version is a full GKE version.
+    --upstream-scope=: Full resource name of the upstream scope in the format of
+documentation:
+    command: '*(BETA)*  Update an existing Fleet Scope.'
+    flag:
+        add-upgrade-soaking-override: |-
+            Overrides the soaking time for a particular upgrade name and version propagating through the
+            current scope. Set soaking to 0 days to bypass soaking and fast-forward the upgrade to the
+            downstream scope.
+            +
+            See `$ gcloud topic datetimes` for information on duration formats.
+        clear-labels: |-
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} --clear-labels
+            +
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        clear-namespace-labels: |-
+            Remove all scope-level labels from the cluster namespace. If `--update-namespace-labels` is also specified then
+            `--clear-namespace-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} scope_name --clear-namespace-labels
+            +
+            To remove all existing scope-level labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} scope_name --clear-namespace-labels --update-namespace-labels foo=bar,baz=qux
+        default-upgrade-soaking: |-
+            Configures the default soaking duration for each upgrade propagating through the current scope
+            to become "COMPLETE". Soaking begins after all clusters in the scope are on the target version,
+            or after 30 days if all cluster upgrades are not complete. Once an upgrade state becomes
+            "COMPLETE", it will automatically be propagated to the downstream scope. Max is 30 days.
+            +
+            See `$ gcloud topic datetimes` for information on duration formats.
+            +
+            To configure Rollout Sequencing for a given scope, ``SCOPE_NAME'', this attribute must be set.
+            To do this while specifying a default soaking duration of 7 days, run:
+            +
+              $ {command} SCOPE_NAME default-upgrade-soaking=7d
+        location: |-
+            The location name.
+            +
+            To set the `location` attribute:
+            * provide the argument `scope` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * global is the only supported location.
+        no-clear-labels: |
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} --clear-labels
+
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        no-clear-namespace-labels: |
+            Remove all scope-level labels from the cluster namespace. If `--update-namespace-labels` is also specified then
+            `--clear-namespace-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} scope_name --clear-namespace-labels
+
+            To remove all existing scope-level labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} scope_name --clear-namespace-labels --update-namespace-labels foo=bar,baz=qux
+        no-remove-upgrade-soaking-overrides: |
+            Removes soaking time overrides for all upgrades propagating through the current
+            scope. Consequently, all upgrades will follow the soak time configured by
+            `--default-upgrade-soaking` until new overrides are configured with
+            `--add_upgrade_soaking_override` and `--upgrade_selector`.
+
+            To remove all soaking time overrides configured for ``SCOPE_NAME'', run:
+
+              $ {command} SCOPE_NAME --remove-upgrade-soaking-overrides
+        no-reset-upstream-scope: |
+            Clears the relationship between the current scope and its upstream scope in the
+            rollout sequence.
+
+            To remove the link between ``SCOPE_NAME'' and its upstream scope, run:
+
+              $ {command} SCOPE_NAME --reset-upstream-scope
+        remove-labels: |-
+            List of label keys to remove. If a label does not exist it is
+            silently ignored. If `--update-labels` is also specified then
+            `--update-labels` is applied first.
+        remove-namespace-labels: |-
+            List of scope-level label keys to remove in the cluster namespace. If a label does not exist it is
+            silently ignored. If `--update-namespace-labels` is also specified then
+            `--update-namespace-labels` is applied first.
+        remove-upgrade-soaking-overrides: |-
+            Removes soaking time overrides for all upgrades propagating through the current
+            scope. Consequently, all upgrades will follow the soak time configured by
+            `--default-upgrade-soaking` until new overrides are configured with
+            `--add_upgrade_soaking_override` and `--upgrade_selector`.
+            +
+            To remove all soaking time overrides configured for ``SCOPE_NAME'', run:
+            +
+              $ {command} SCOPE_NAME --remove-upgrade-soaking-overrides
+        reset-upstream-scope: |-
+            Clears the relationship between the current scope and its upstream scope in the
+            rollout sequence.
+            +
+            To remove the link between ``SCOPE_NAME'' and its upstream scope, run:
+            +
+              $ {command} SCOPE_NAME --reset-upstream-scope
+        update-labels: |-
+            List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+        update-namespace-labels: |-
+            List of scope-level label KEY=VALUE pairs to update in the cluster namespace. If a
+            label exists, its value is modified. Otherwise, a new label is'
+            created.
+        upgrade-selector: |-
+            Name and version of the upgrade to be overridden where version is a full GKE version. Currently,
+            name can be either `k8s_control_plane` or `k8s_node`.
+        upstream-scope: |-
+            Full resource name of the upstream scope in the format of
+            projects/{project}/locations/{location}/scopes/{scope}. GKE will finish upgrades on the upstream
+            scope before applying the same upgrades to the current scope.
+            +
+            To configure the upstream scope for ``SCOPE_NAME'', run:
+            +
+              $ {command} SCOPE_NAME \
+                --upstream-scope=projects/{upstream_project}/locations/global/scopes/{upstream_scope}

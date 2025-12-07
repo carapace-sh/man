@@ -1,0 +1,91 @@
+name: update
+description: '*(BETA)*  Update an existing Cloud Bigtable table.'
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --automated-backup-retention-period=: The retention period of automated backup in the format of `30d` for 30 days.
+    --change-stream-retention-period=: The length of time to retain change stream data for the table, in the range of [1 day, 7 days].
+    --clear-change-stream-retention-period: This disables the change stream and eventually removes the change stream data.
+    --clear-row-key-schema: Whether to clear the row key schema in the updated table.
+    --clear-tiered-storage-config: Disables the tiered storage config.
+    --deletion-protection: Once specified, the table is deletion protected.
+    --disable-automated-backup: Once set, disables automated backup policy for the table.
+    --enable-automated-backup: Once set, enables the default automated backup policy (retention_period=7d, frequency=1d) for the table.
+    --instance=: Name of the Bigtable instance.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-clear-row-key-schema&: Whether to clear the row key schema in the updated table.
+    --no-deletion-protection&: Once specified, the table is deletion protected.
+    --no-row-key-schema-pre-encoded-bytes&: By default, Base64 encoding is applied to all binary fields in the YAML/JSON file (for example,
+    --row-key-schema-definition-file=: The row key schema for the table.
+    --row-key-schema-pre-encoded-bytes: By default, Base64 encoding is applied to all binary fields in the YAML/JSON file (for example,
+    --tiered-storage-infrequent-access-older-than=: The age at which data should be moved to infrequent access storage.
+documentation:
+    command: '*(BETA)*  Update an existing new Cloud Bigtable table with the specified configuration.'
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        automated-backup-retention-period: The retention period of automated backup in the format of `30d` for 30 days. Min retention period is `3d` and max is `90d`. Setting this flag will enable automated backup for the table.
+        change-stream-retention-period: 'The length of time to retain change stream data for the table, in the range of [1 day, 7 days]. Acceptable units are days (d), hours (h), minutes (m), and seconds (s). If not already specified, enables a change stream for the table. Examples: `5d` or `48h`.'
+        clear-change-stream-retention-period: This disables the change stream and eventually removes the change stream data.
+        clear-row-key-schema: Whether to clear the row key schema in the updated table.
+        clear-tiered-storage-config: Disables the tiered storage config.
+        deletion-protection: Once specified, the table is deletion protected.
+        disable-automated-backup: Once set, disables automated backup policy for the table.
+        enable-automated-backup: 'Once set, enables the default automated backup policy (retention_period=7d, frequency=1d) for the table. Note: If a table has automated backup enabled, this flag resets it to the default policy.'
+        instance: |-
+            Name of the Bigtable instance.
+            +
+            To set the `instance` attribute:
+            * provide the argument `table` on the command line with a fully specified name;
+            * provide the argument `--instance` on the command line.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-clear-row-key-schema: |
+            Whether to clear the row key schema in the updated table.
+        no-deletion-protection: |
+            Once specified, the table is deletion protected.
+        no-row-key-schema-pre-encoded-bytes: |
+            By default, Base64 encoding is applied to all binary fields in the YAML/JSON file (for example,
+            `encoding.delimitedBytes.delimiter`).
+
+            Use this to indicate that all binary fields are already encoded in the YAML/JSON file and
+            should not be encoded again.
+
+            This field is only used when `row-key-schema-definition-file` is set. It is ignored if
+            `clear-row-key-schema` is set.
+        row-key-schema-definition-file: |-
+            The row key schema for the table. The schema is defined in a YAML or JSON file, equivalent
+            to the StructType protobuf message.
+            +
+            Example YAML:
+            +
+            ```yaml
+            encoding:
+              delimitedBytes:
+                delimiter: '#'
+            fields:
+            - fieldName: field1
+              type:
+                bytesType:
+                  encoding:
+                    raw: {}
+            - fieldName: field2
+              type:
+                bytesType:
+                  encoding:
+                    raw: {}
+            ```
+        row-key-schema-pre-encoded-bytes: |-
+            By default, Base64 encoding is applied to all binary fields in the YAML/JSON file (for example,
+            `encoding.delimitedBytes.delimiter`).
+            +
+            Use this to indicate that all binary fields are already encoded in the YAML/JSON file and
+            should not be encoded again.
+            +
+            This field is only used when `row-key-schema-definition-file` is set. It is ignored if
+            `clear-row-key-schema` is set.
+        tiered-storage-infrequent-access-older-than: |-
+            The age at which data should be moved to infrequent access storage.
+            +
+            See `$ gcloud topic datetimes` for information on absolute duration formats.

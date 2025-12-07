@@ -1,0 +1,143 @@
+name: update
+description: Update a Database Migration Service connection profile.
+flags:
+    --alloydb-cluster=: If the destination is an AlloyDB cluster, use this field to provide the
+    --ca-certificate=: x509 PEM-encoded certificate of the CA that signed the database
+    --clear-labels: Remove all labels.
+    --client-certificate=: x509 PEM-encoded certificate that will be used by the replica to
+    --cloudsql-instance=: If the source or destination is a Cloud SQL database, then use this field
+    --cloudsql-project-id=: The project id of the Cloud SQL instance.
+    --database-service=: database service for the oracle connection profile.
+    --database=: The name of the specific database within the host.
+    --dbm-port=&: The Database Mirroring (DBM) port.
+    --disable-iam-authentication&: Use IAM database authentication to connect to the database.
+    --display-name=: A user-friendly name for the connection profile.
+    --enable-iam-authentication&: Use IAM database authentication to connect to the database.
+    --gcs-bucket=!: Cloud Storage bucket for the source SQL Server connection profile where the backups are stored.
+    --gcs-prefix=: Cloud Storage prefix path within the bucket for the source SQL Server connection profile where the backups are stored.
+    --host=: IP or hostname of the database.
+    --no-clear-labels&: Remove all labels.
+    --no-prompt-for-password&: Prompt for the password used to connect to the database.
+    --password=: Password for the user that Database Migration Service uses to
+    --port=: Network port of the database.
+    --private-key=: Unencrypted PKCS#1 or PKCS#8 PEM-encoded private key associated with
+    --prompt-for-password: Prompt for the password used to connect to the database.
+    --region=: The Cloud region for the connection_profile.
+    --remove-labels=: List of label keys to remove.
+    --ssl-type=: The type of SSL configuration.
+    --update-labels=: List of label KEY=VALUE pairs to update.
+    --username=: Username that Database Migration Service uses to connect to
+completion:
+    flag:
+        ssl-type:
+            - SERVER_ONLY
+            - SERVER_CLIENT
+            - REQUIRED
+            - NONE
+documentation:
+    command: |
+        Update a Database Migration Service connection profile.
+        - Draft connection profile: the user can update all flags available in
+        `connection-profiles create` command.
+        - Existing connection profile: the user can update a limited list of
+        flags, see `connection-profiles update` Synopsis.
+        - If a migration job is using the connection profile, then updates to
+        fields `host`, `port`, `username`, and `password` will propagate to the
+        destination instance.
+    flag:
+        alloydb-cluster: |-
+            If the destination is an AlloyDB cluster, use this field to provide the
+            AlloyDB cluster ID.
+        ca-certificate: |-
+            x509 PEM-encoded certificate of the CA that signed the database
+            server's certificate. The value for this flag needs to
+            be the content of the certificate file, not the path to the file.
+            For example, on a Linux machine you can use command substitution:
+            <code>--ca-certificate=$(</path/to/certificate_file.pem)</code>.
+            Database Migration Service will use this certificate to verify
+            it's connecting to the correct host. Database Migration Service encrypts the
+            value when storing it.
+        clear-labels: |-
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} --clear-labels
+            +
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        client-certificate: |-
+            x509 PEM-encoded certificate that will be used by the replica to
+            authenticate against the database server.  The value for this flag needs to
+            be the content of the certificate file, not the path to the file.
+            For example, on a Linux machine you can use command substitution:
+            <code>--ca-certificate=$(</path/to/certificate_file.pem)</code>.
+            Database Migration Service encrypts the value when storing it.
+        cloudsql-instance: |-
+            If the source or destination is a Cloud SQL database, then use this field
+            to provide the respective Cloud SQL instance ID.
+        cloudsql-project-id: The project id of the Cloud SQL instance. Only needed if the Cloud SQL instance is in a different project than the connection profile. This is only supported for source connection profiles for SQL Server.
+        database: The name of the specific database within the host.
+        database-service: database service for the oracle connection profile.
+        dbm-port: |
+            The Database Mirroring (DBM) port.
+        disable-iam-authentication: Use IAM database authentication to connect to the database. The username will be overridden by the DMS service agent principal. This flag is only supported for PostgreSQL Destinations.
+        display-name: |-
+            A user-friendly name for the connection profile. The display name can
+            include letters, numbers, spaces, and hyphens, and must start with a letter.
+        enable-iam-authentication: Use IAM database authentication to connect to the database. The username will be overridden by the DMS service agent principal. This flag is only supported for PostgreSQL Destinations.
+        gcs-bucket: Cloud Storage bucket for the source SQL Server connection profile where the backups are stored. This flag is used only for SQL Server to Cloud SQL migrations.
+        gcs-prefix: Cloud Storage prefix path within the bucket for the source SQL Server connection profile where the backups are stored. This flag is used only for SQL Server to Cloud SQL migrations.
+        host: |-
+            IP or hostname of the database.
+            When `--psc-service-attachment` is also specified, this field value should be:
+            1. For Cloud SQL PSC enabled instance - the dns_name field (e.g <uid>.<region>.sql.goog.).
+            2. For Cloud SQL PSA instance (vpc peering) - the private ip of the instance.
+        no-clear-labels: |
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} --clear-labels
+
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        no-prompt-for-password: Prompt for the password used to connect to the database.
+        password: |-
+            Password for the user that Database Migration Service uses to
+            connect to the database. Database Migration Service encrypts
+            the value when storing it, and the field is not returned on request.
+        port: Network port of the database.
+        private-key: |-
+            Unencrypted PKCS#1 or PKCS#8 PEM-encoded private key associated with
+            the Client Certificate.  The value for this flag needs to
+            be the content of the certificate file, not the path to the file.
+            For example, on a Linux machine you can use command substitution:
+            <code>--ca-certificate=$(</path/to/certificate_file.pem)</code>.
+            Database Migration Service encrypts the value when storing it.
+        prompt-for-password: Prompt for the password used to connect to the database.
+        region: |-
+            The Cloud region for the connection_profile.
+            +
+            To set the `region` attribute:
+            * provide the argument `connection_profile` on the command line with a fully specified name;
+            * provide the argument `--region` on the command line.
+        remove-labels: |-
+            List of label keys to remove. If a label does not exist it is
+            silently ignored. If `--update-labels` is also specified then
+            `--update-labels` is applied first.
+        ssl-type: 'The type of SSL configuration. _SSL_TYPE_ must be one of: *SERVER_ONLY*, *SERVER_CLIENT*, *REQUIRED*, *NONE*.'
+        update-labels: |-
+            List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+        username: |-
+            Username that Database Migration Service uses to connect to
+            the database. Database Migration Service encrypts the value when storing
+            it.

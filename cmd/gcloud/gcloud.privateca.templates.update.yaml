@@ -1,0 +1,74 @@
+name: update
+description: Update a certificate template.
+flags:
+    --clear-labels: Remove all labels.
+    --copy-all-requested-extensions: If this is set, all extensions, whether known or specified by OID, that are specified in the certificate request will be copied into the signed certificate.
+    --copy-extensions-by-oid=: If this is set, then extensions with the given OIDs will be copied from the certificate request into the signed certificate.
+    --copy-known-extensions=: If this is set, then the given extensions will be copied from the certificate request into the signed certificate.
+    --copy-sans: If this is specified, the Subject Alternative Name extension from the certificate request will be copied into the signed certificate.
+    --copy-subject: If this is specified, the Subject from the certificate request will be copied into the signed certificate.
+    --description=: A text description for the Certificate Template.
+    --drop-known-extensions: If this is set, then all known extensions will be removed from the template, prohibiting any known x509 extensions to be specified by the requester.
+    --drop-oid-extensions: If this is set, then all existing OID extensions will be removed from the template, prohibiting any extensions specified by OIDs to be specified by the requester.
+    --identity-cel-expression=: A CEL expression that will be evaluated against the identity in the certificate before it is issued, and returns a boolean signifying whether the request should be allowed.
+    --location=: The location of the CERTIFICATE_TEMPLATE.
+    --no-clear-labels&: Remove all labels.
+    --no-copy-sans&: If this is specified, the Subject Alternative Name extension from the certificate request will be copied into the signed certificate.
+    --no-copy-subject&: If this is specified, the Subject from the certificate request will be copied into the signed certificate.
+    --predefined-values-file=: A YAML file describing any predefined X.509 values set by this template.
+    --remove-labels=: List of label keys to remove.
+    --update-labels=: List of label KEY=VALUE pairs to update.
+documentation:
+    command: Update a certificate template.
+    flag:
+        clear-labels: |-
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} --clear-labels
+            +
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        copy-all-requested-extensions: If this is set, all extensions, whether known or specified by OID, that are specified in the certificate request will be copied into the signed certificate.
+        copy-extensions-by-oid: If this is set, then extensions with the given OIDs will be copied from the certificate request into the signed certificate.
+        copy-known-extensions: 'If this is set, then the given extensions will be copied from the certificate request into the signed certificate. _KNOWN_EXTENSIONS_ must be one of: *base-key-usage*, *extended-key-usage*, *ca-options*, *policy-ids*, *aia-ocsp-servers*.'
+        copy-sans: If this is specified, the Subject Alternative Name extension from the certificate request will be copied into the signed certificate. Specify --no-copy-sans to drop any caller-specified SANs in the certificate request.
+        copy-subject: If this is specified, the Subject from the certificate request will be copied into the signed certificate. Specify --no-copy-subject to drop any caller-specified subjects from the certificate request.
+        description: A text description for the Certificate Template.
+        drop-known-extensions: If this is set, then all known extensions will be removed from the template, prohibiting any known x509 extensions to be specified by the requester.
+        drop-oid-extensions: If this is set, then all existing OID extensions will be removed from the template, prohibiting any extensions specified by OIDs to be specified by the requester.
+        identity-cel-expression: A CEL expression that will be evaluated against the identity in the certificate before it is issued, and returns a boolean signifying whether the request should be allowed.
+        location: |-
+            The location of the CERTIFICATE_TEMPLATE.
+            +
+            To set the `location` attribute:
+            * provide the argument `CERTIFICATE_TEMPLATE` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `privateca/location`.
+        no-clear-labels: |
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} --clear-labels
+
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        no-copy-sans: If this is specified, the Subject Alternative Name extension from the certificate request will be copied into the signed certificate. Specify --no-copy-sans to drop any caller-specified SANs in the certificate request.
+        no-copy-subject: If this is specified, the Subject from the certificate request will be copied into the signed certificate. Specify --no-copy-subject to drop any caller-specified subjects from the certificate request.
+        predefined-values-file: 'A YAML file describing any predefined X.509 values set by this template. The provided extensions will be copied over to any certificate requests that use this template, taking precedent over any allowed extensions in the certificate request. The format of this file should be a YAML representation of the X509Parameters message, which is defined here: https://cloud.google.com/certificate-authority-service/docs/reference/rest/v1/X509Parameters. Some examples can be found here: https://cloud.google.com/certificate-authority-service/docs/creating-certificate-template'
+        remove-labels: |-
+            List of label keys to remove. If a label does not exist it is
+            silently ignored. If `--update-labels` is also specified then
+            `--update-labels` is applied first.
+        update-labels: |-
+            List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.

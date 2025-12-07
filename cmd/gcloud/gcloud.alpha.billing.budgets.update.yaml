@@ -1,0 +1,145 @@
+name: update
+description: '*(ALPHA)*  Update a budget.'
+flags:
+    --add-threshold-rule=: Rule that triggers alerts (notifications of thresholds being crossed) when spend
+    --all-updates-rule-monitoring-notification-channels=: Targets to send notifications to when a threshold is exceeded.
+    --all-updates-rule-pubsub-topic=: Name of the Cloud Pub/Sub topic where budget related messages will be published, in
+    --billing-account=: The billing account.
+    --budget-amount=: Specify the amount of the budget.
+    --calendar-period=: Specified to track usage over recurring calendar period.
+    --clear-threshold-rules: Removes all threshold rules from the budget.
+    --credit-types-treatment=: Whether to include all credit types when calculating the actual spend against the budget.
+    --disable-default-iam-recipients: When set to true, disables default notifications sent when a threshold is exceeded.
+    --display-name=: User data for display name in UI.
+    --end-date=: Specified to track usage before any end date.
+    --filter-credit-types=: Set of credit types, specifying that usage from only this set of credits should be included
+    --filter-labels=: Single label and value pair specifying that usage from only this set of labeled resources
+    --filter-projects=: Set of projects in the form `projects/{project_id}`, specifying that usage from only this
+    --filter-resource-ancestors=: A set of folder and organization names of the form `folders/{folderId}` or
+    --filter-services=: Set of services of the form `services/{service_id}`, specifying that usage from only this
+    --filter-subaccounts=: Set of subaccounts of the form `billingAccounts/{account_id}`, specifying that usage from
+    --last-period-amount: Use the amount of last period's budget.
+    --no-clear-threshold-rules&: Removes all threshold rules from the budget.
+    --no-disable-default-iam-recipients&: When set to true, disables default notifications sent when a threshold is exceeded.
+    --no-last-period-amount&: Use the amount of last period's budget.
+    --ownership-scope=: Sets the ownership scope of the budget.
+    --start-date=!: Specified to track usage after any start date.
+    --threshold-rules-from-file=: Import a file with the updated threshold rules.
+completion:
+    flag:
+        calendar-period:
+            - calendar-period-unspecified
+            - month
+            - quarter
+            - year
+        credit-types-treatment:
+            - credit-types-treatment-unspecified
+            - exclude-all-credits
+            - include-all-credits
+            - include-specified-credits
+        ownership-scope:
+            - all-users
+            - billing-account
+            - ownership-scope-unspecified
+documentation:
+    command: '*(ALPHA)*  Update a budget.'
+    flag:
+        add-threshold-rule: |-
+            Rule that triggers alerts (notifications of thresholds being crossed) when spend
+            exceeds the specified percentages of the budget. This flag can be repeated to
+            provide multiple thresholds above which an alert is sent.
+            +
+            *percent*::: Integer between 0 and 100 above which an alert is sent.
+            +
+            *basis*::: Type of basis used to determine if spend has passed the threshold. Must
+            be one of: 'current-spend' or 'forecasted-spend'. Behavior defaults to
+            'current-spend' if not set.
+        all-updates-rule-monitoring-notification-channels: |-
+            Targets to send notifications to when a threshold is exceeded. This is in addition to
+            default recipients who have billing account roles. The value is the full REST resource name
+            of a monitoring notification channel in the form
+            `projects/{project_id}/notificationChannels/{channel_id}`. A maximum of 5 channels is
+            allowed. See https://cloud.google.com/billing/docs/how-to/budgets-notification-recipients
+            for more details.
+        all-updates-rule-pubsub-topic: |-
+            Name of the Cloud Pub/Sub topic where budget related messages will be published, in
+            the form `projects/{project_id}/topics/{topic_id}`.
+        billing-account: |-
+            The billing account.
+            +
+
+            To set the `billing-account` attribute:
+            * provide the argument `budget` on the command line with a fully specified name;
+            * provide the argument `--billing-account` on the command line.
+        budget-amount: |-
+            Specify the amount of the budget. If a currency type is included, it must be the
+            existing currency associated with the budget.
+        calendar-period: 'Specified to track usage over recurring calendar period. If you''re creating a budget with a custom time period, omit this flag. _CALENDAR_PERIOD_ must be one of: *calendar-period-unspecified*, *month*, *quarter*, *year*.'
+        clear-threshold-rules: Removes all threshold rules from the budget.
+        credit-types-treatment: |-
+            Whether to include all credit types when calculating the actual spend against the budget. If
+            this is not specified, then all credit types are used in the calculation. If this is set to
+            include-specified-credits, then --filter-credit-types must be specified with a nonempty list
+            of credits. _CREDIT_TYPES_TREATMENT_ must be one of: *credit-types-treatment-unspecified*, *exclude-all-credits*, *include-all-credits*, *include-specified-credits*.
+        disable-default-iam-recipients: |-
+            When set to true, disables default notifications sent when a threshold is exceeded. Default
+            notifications are sent to those with Billing Account Administrator and Billing Account User
+            IAM roles for the target account.
+        display-name: User data for display name in UI. Must be less than or equal to 60 characters.
+        end-date: |-
+            Specified to track usage before any end date. This time period is static, it does not
+            recur. If specified, --start-date must also be specified.
+        filter-credit-types: |-
+            Set of credit types, specifying that usage from only this set of credits should be included
+            in the budget. If a nonempty list is specified, then --credit-types-treatment must be
+            include-specified-credits.
+        filter-labels: |-
+            Single label and value pair specifying that usage from only this set of labeled resources
+            should be included in the budget. Currently, multiple entries or multiple values per entry
+            are not allowed. If omitted, the report will include all labeled and unlabeled usage.
+        filter-projects: |-
+            Set of projects in the form `projects/{project_id}`, specifying that usage from only this
+            set of projects should be included in the budget. If omitted, all projects will be included.
+        filter-resource-ancestors: |-
+            A set of folder and organization names of the form `folders/{folderId}` or
+            `organizations/{organizationId}`, specifying that usage from only this set of folders and
+            organizations should be included in the budget. If omitted, the budget includes all usage
+            that the billing account pays for. If the folder or organization contains projects that are
+            paid for by a different Cloud Billing account, the budget doesn't apply to those projects.
+        filter-services: |-
+            Set of services of the form `services/{service_id}`, specifying that usage from only this
+            set of services should be included in the budget. If omitted, the report will include usage
+            for all services. The service names are available through the Catalog API:
+            https://cloud.google.com/billing/v1/how-tos/catalog-api.
+        filter-subaccounts: |-
+            Set of subaccounts of the form `billingAccounts/{account_id}`, specifying that usage from
+            only this set of subaccounts should be included in the budget. If a subaccount is set to the
+            name of the parent account, usage from the parent account will be included. If omitted, the
+            report will include usage from the parent account and all subaccounts, if they exist.
+        last-period-amount: Use the amount of last period's budget.
+        no-clear-threshold-rules: |
+            Removes all threshold rules from the budget.
+        no-disable-default-iam-recipients: |
+            When set to true, disables default notifications sent when a threshold is exceeded. Default
+            notifications are sent to those with Billing Account Administrator and Billing Account User
+            IAM roles for the target account.
+        no-last-period-amount: |
+            Use the amount of last period's budget.
+        ownership-scope: |-
+            Sets the ownership scope of the budget. The ownership scope and users' IAM permissions
+            determine who has full access to the budget's data.
+            +
+            Must be one of: 'ALL_USERS' or 'BILLING_ACCOUNT'. Use 'ALL_USERS' to allow billing account-
+            level users and project-level users to have full access to the budget (if the users have
+            the required IAM permissions). Use 'BILLING_ACCOUNT' to allow only billing account-level
+            users to have full access to the budget. Project-level users will have read-only access,
+            even if they have the required IAM permissions.
+            +
+            _OWNERSHIP_SCOPE_ must be one of: *all-users*, *billing-account*, *ownership-scope-unspecified*.
+        start-date: |-
+            Specified to track usage after any start date. This time period is static, it does not
+            recur.
+        threshold-rules-from-file: |-
+            Import a file with the updated threshold rules. The threshold rules in the file will
+            replace the rules in the budget. This can be used to add or remove specific
+            threshold rules. Use a full or relative path to a local file containing the value of threshold_rules.

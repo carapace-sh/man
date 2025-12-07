@@ -1,0 +1,134 @@
+name: remove-preconfig-waf-exclusion
+description: Remove an exclusion configuration for preconfigured WAF evaluation from a security policy rule.
+flags:
+    --region=: Region of the security policy to remove the exclusion configuration for preconfigured WAF evaluation.
+    --request-cookie-to-exclude=: Removes a request cookie from the existing request field exclusions associated
+    --request-header-to-exclude=: Removes a request header from the existing request field exclusions associated
+    --request-query-param-to-exclude=: Removes a request query parameter from the existing request field exclusions
+    --request-uri-to-exclude=: Removes a request URI from the existing request field exclusions associated with
+    --security-policy=: The security policy that this rule belongs to.
+    --target-rule-ids=: A comma-separated list of target rule IDs under the WAF rule set from where to
+    --target-rule-set=!: Target WAF rule set from where to remove the request field exclusions.
+documentation:
+    command: |-
+        *gcloud compute security-policies rules remove-preconfig-waf-exclusion* is used to remove an exclusion configuration for preconfigured WAF
+        evaluation from a security policy rule.
+
+        Note that request field exclusions are associated with a target, which can be
+        a single rule set, or a rule set plus a list of rule IDs under the rule set.
+
+        It is possible to remove request field exclusions at 3 levels:
+        - Remove specific request field exclusions that are associated with a matching
+          target.
+        - Remove all the request field exclusions that are associated with a matching
+          target.
+        - Remove all the request field exclusions that are configured under the
+          security policy rule, regardless of the target.
+
+        ## EXAMPLES
+
+        To remove specific request field exclusions that are associated with the
+        target of 'sqli-stable': ['owasp-crs-v030001-id942110-sqli',
+        'owasp-crs-v030001-id942120-sqli'], run:
+
+          $ gcloud compute security-policies rules remove-preconfig-waf-exclusion 1000 \
+             --security-policy=my-policy \
+             --target-rule-set=sqli-stable \
+             --target-rule-ids=owasp-crs-v030001-id942110-sqli,owasp-crs-v030001-id942120-sqli
+             \
+             --request-header-to-exclude=op=EQUALS,val=abc \
+             --request-header-to-exclude=op=STARTS_WITH,val=xyz \
+             --request-uri-to-exclude=op=EQUALS_ANY
+
+        To remove all the request field exclusions that are associated with the target
+        of 'sqli-stable': ['owasp-crs-v030001-id942110-sqli',
+        'owasp-crs-v030001-id942120-sqli'], run:
+
+          $ gcloud compute security-policies rules remove-preconfig-waf-exclusion 1000 \
+             --security-policy=my-policy \
+             --target-rule-set=sqli-stable \
+             --target-rule-ids=owasp-crs-v030001-id942110-sqli,owasp-crs-v030001-id942120-sqli
+
+        To remove all the request field exclusions that are associated with the target
+        of 'sqli-stable': [], run:
+
+          $ gcloud compute security-policies rules remove-preconfig-waf-exclusion 1000 \
+             --security-policy=my-policy \
+             --target-rule-set=sqli-stable
+
+        To remove all the request field exclusions that are configured under the
+        security policy rule, regardless of the target, run:
+
+          $ gcloud compute security-policies rules remove-preconfig-waf-exclusion 1000 \
+             --security-policy=my-policy \
+             --target-rule-set=*
+    flag:
+        region: |-
+            Region of the security policy to remove the exclusion configuration for preconfigured WAF evaluation. If not specified, you might be prompted to select a region (interactive mode
+            only).
+            +
+            A list of regions can be fetched by running:
+            +
+              $ gcloud compute regions list
+            +
+            Overrides the default *compute/region* property value for this command invocation.
+        request-cookie-to-exclude: |-
+            Removes a request cookie from the existing request field exclusions associated
+            with the rule set and rule IDs (if given).
+            +
+            You can specify an exact match or a partial match by using a field operator and
+            a field value. Available field operators are:
+            - ``EQUALS'': the operator matches if the field value equals the specified
+                          value.
+            - ``STARTS_WITH'': the operator matches if the field value starts with the
+                               specified value.
+            - ``ENDS_WITH'': the operator matches if the field value ends with the specified
+                             value.
+            - ``CONTAINS'': the operator matches if the field value contains the specified
+                            value.
+            - ``EQUALS_ANY'': the operator matches if the field value is any value.
+            +
+            A field value must be given if the field operator is not ``EQUALS_ANY'', and
+            cannot be given if the field operator is ``EQUALS_ANY''. For example,
+            `--request-header-to-exclude op=EQUALS,val=abc` or
+            `--request-header-to-exclude op=EQUALS_ANY`.
+            +
+            This flag can be repeated to specify multiple request headers to exclude. For
+            example,
+            `--request-header-to-exclude op=EQUALS,val=abc --request-header-to-exclude op=STARTS_WITH,val=xyz`.
+        request-header-to-exclude: |-
+            Removes a request header from the existing request field exclusions associated
+            with the rule set and rule IDs (if given).
+            +
+            Refer to the syntax under `--request-cookie-to-exclude`.
+            +
+            This flag can be repeated to specify multiple request headers.
+        request-query-param-to-exclude: |-
+            Removes a request query parameter from the existing request field exclusions
+            associated with the rule set and rule IDs (if given).
+            +
+            Refer to the syntax under `--request-cookie-to-exclude`.
+            +
+            This flag can be repeated to specify multiple request query parameters.
+        request-uri-to-exclude: |-
+            Removes a request URI from the existing request field exclusions associated with
+            the rule set and rule IDs (if given).
+            +
+            Refer to the syntax under `--request-cookie-to-exclude`.
+            +
+            This flag can be repeated to specify multiple request URIs.
+        security-policy: The security policy that this rule belongs to.
+        target-rule-ids: |-
+            A comma-separated list of target rule IDs under the WAF rule set from where to
+            remove the request field exclusions. If omitted, the removal of request field
+            exclusions is restricted to those associated with the rule set only, without
+            specific rule IDs.
+        target-rule-set: |-
+            Target WAF rule set from where to remove the request field exclusions.
+            +
+            This, together with the target rule IDs (if given), determines the target for
+            associating request field exclusions. See `--target-rule-ids`.
+            +
+            Note that the removal of request field exclusions is restricted to those
+            associated with a matching target. Set this flag to * if you want to remove
+            request field exclusions regardless of the target.

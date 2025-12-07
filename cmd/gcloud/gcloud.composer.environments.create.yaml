@@ -1,0 +1,526 @@
+name: create
+description: Create and initialize a Cloud Composer environment.
+flags:
+    --airflow-configs=: A list of Airflow software configuration override KEY=VALUE pairs to set.
+    --airflow-database-retention-days=: The number of days for the Airflow database retention period.
+    --airflow-version=: Version of Apache Airflow to run in the environment.
+    --async: Return immediately, without waiting for the operation in progress to
+    --cloud-sql-ipv4-cidr=: IPv4 CIDR range to use for the Cloud SQL network.
+    --cloud-sql-machine-type=: Cloud SQL machine type used by the Airflow database.
+    --cloud-sql-preferred-zone=: Select cloud sql preferred zone, supported for Composer 2 Environments.
+    --cluster-ipv4-cidr=: IP address range for the pods in this cluster in CIDR notation
+    --cluster-secondary-range-name=: Secondary range to be used as the source for pod IPs.
+    --composer-internal-ipv4-cidr-block=: The IP range in CIDR notation to use internally by Cloud Composer.
+    --composer-network-ipv4-cidr=: IPv4 CIDR range to use for the Composer network.
+    --connection-subnetwork=: Subnetwork from which an IP address for internal communications will be
+    --connection-type=: Mode of internal communication within the Composer environment.
+    --dag-processor-count=: Number of dag processors, supported in Composer 3 environments or greater.
+    --dag-processor-cpu=: CPU allocated to Airflow dag processor, supported in Composer 3
+    --dag-processor-memory=: Memory allocated to Airflow dag processor, ex.
+    --dag-processor-storage=: Storage allocated to Airflow dag processor, ex.
+    --disable-cloud-data-lineage-integration: Disable Cloud Data Lineage integration, supported for Composer 2 Environments.
+    --disable-logs-in-cloud-logging-only: Disable logs in cloud logging only, supported for Composer 2 Environments.
+    --disable-private-builds-only: Builds performed during operations that install Python
+    --disable-private-environment: Enables internet connection for Composer components.
+    --disk-size=: The disk size for each VM node in the environment.
+    --enable-cloud-data-lineage-integration: Enable Cloud Data Lineage integration, supported for Composer 2 Environments.
+    --enable-high-resilience: Enable high resilience, supported for Composer 2 Environments.
+    --enable-ip-alias: Enable use of alias IPs (https://cloud.google.com/compute/docs/alias-ip/)
+    --enable-ip-masq-agent: When enabled, the IP Masquarade Agent
+    --enable-logs-in-cloud-logging-only: Enable logs in cloud logging only, supported for Composer 2 Environments.
+    --enable-master-authorized-networks: Enable Master Authorized Networks feature
+    --enable-private-builds-only: Builds performed during operations that install Python
+    --enable-private-endpoint: Environment cluster is managed using the private IP address of the master
+    --enable-private-environment: Disables internet connection from any Composer component.
+    --enable-privately-used-public-ips: When enabled GKE pods and services may use public(non-RFC1918) IP ranges
+    --enable-scheduled-snapshot-creation!: When specified, snapshots of the environment will be created according to a schedule.
+    --enable-triggerer: (DEPRECATED)     Enable use of a triggerer, supported in the Environments with Composer 2.0.31 and Airflow 2.2.5 and greater.
+    --env-variables=: A comma-delimited list of environment variable `NAME=VALUE` pairs to provide to the Airflow scheduler, worker, and webserver processes.
+    --environment-size=: Size of the environment.
+    --image-version=: Version of the image to run in the environment.
+    --kms-key=!: ID of the key or fully qualified identifier for the key.
+    --kms-keyring=: The KMS keyring of the key.
+    --kms-location=: The Google Cloud location for the key.
+    --kms-project=: The Google Cloud project for the key.
+    --labels=: List of label KEY=VALUE pairs to add.
+    --location=: Region where Composer environment runs or in which to create the environment.
+    --machine-type=: The Compute Engine machine type (https://cloud.google.com/compute/docs/machine-types) to use for nodes.
+    --maintenance-window-end=!: End time of the mantenance window in the form of the full date.
+    --maintenance-window-recurrence=!: An RFC 5545 RRULE, specifying how the maintenance window will recur.
+    --maintenance-window-start=!: Start time of the mantenance window in the form of the full date.
+    --master-authorized-networks=: Comma separated Master Authorized Networks specified in CIDR notation.
+    --master-ipv4-cidr=: IPv4 CIDR range to use for the cluster master network.
+    --max-workers=: Maximum number of workers in the Environment.
+    --min-workers=: Minimum number of workers in the Environment.
+    --network-attachment=: Cloud Composer Network Attachment, which provides connectivity with a user's VPC network,
+    --network=!: The Compute Engine Network to which the environment will be connected.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-disable-cloud-data-lineage-integration&: Disable Cloud Data Lineage integration, supported for Composer 2 Environments.
+    --no-disable-private-environment&: Enables internet connection for Composer components.
+    --no-enable-cloud-data-lineage-integration&: Enable Cloud Data Lineage integration, supported for Composer 2 Environments.
+    --no-enable-ip-alias&: Enable use of alias IPs (https://cloud.google.com/compute/docs/alias-ip/)
+    --no-enable-ip-masq-agent&: When enabled, the IP Masquarade Agent
+    --no-enable-master-authorized-networks&: Enable Master Authorized Networks feature
+    --no-enable-private-endpoint&: Environment cluster is managed using the private IP address of the master
+    --no-enable-private-environment&: Disables internet connection from any Composer component.
+    --no-enable-privately-used-public-ips&: When enabled GKE pods and services may use public(non-RFC1918) IP ranges
+    --no-support-web-server-plugins&: Enable the support for web server plugins, supported in Composer 3
+    --no-web-server-allow-all&: Allows all IP addresses to access the Airflow web server.
+    --no-web-server-deny-all&: Denies all incoming traffic to the Airflow web server.
+    --node-count=: The number of nodes to create to run the environment.
+    --oauth-scopes=: The set of Google API scopes to be made available on all of the node VMs.
+    --python-version=: The Python version to be used within the created environment.
+    --scheduler-count=: Number of schedulers, supported in the Environments with Airflow 2.0.1 and later.
+    --scheduler-cpu=: CPU allocated to Airflow scheduler.
+    --scheduler-memory=: Memory allocated to Airflow scheduler, ex.
+    --scheduler-storage=: Storage allocated to Airflow scheduler, ex.
+    --service-account=: The Google Cloud Platform service account to be used by the node VMs.
+    --services-ipv4-cidr=: IP range for the services IPs.
+    --services-secondary-range-name=: Secondary range to be used for services (e.g. ClusterIPs).
+    --snapshot-creation-schedule=!: Cron expression specifying when snapshots of the environment should be created.
+    --snapshot-location=!: The Cloud Storage location for storing automatically created snapshots.
+    --snapshot-schedule-timezone=!: Timezone that sets the context to interpret snapshot_creation_schedule.
+    --storage-bucket=: Name of an exisiting Cloud Storage bucket to be used by the environment.
+    --subnetwork=: The Compute Engine Subnetwork (https://cloud.google.com/compute/docs/subnetworks) to which the environment will be connected.
+    --support-web-server-plugins: Enable the support for web server plugins, supported in Composer 3
+    --tags=: The set of instance tags applied to all node VMs.
+    --triggerer-count=: Number of triggerers, supported in the Environments with Composer 2.0.31 and Airflow 2.2.5 and greater.
+    --triggerer-cpu=: CPU allocated to Airflow triggerer.
+    --triggerer-memory=: Memory allocated to Airflow triggerer, ex.
+    --web-server-allow-all: Allows all IP addresses to access the Airflow web server.
+    --web-server-allow-ip=: Specifies a list of IPv4 or IPv6 ranges that will be allowed to access the
+    --web-server-cpu=: CPU allocated to each Airflow web server
+    --web-server-deny-all: Denies all incoming traffic to the Airflow web server.
+    --web-server-ipv4-cidr=: IPv4 CIDR range to use for the Airflow web server network.
+    --web-server-machine-type=: machine type used by the Airflow web server.
+    --web-server-memory=: Memory allocated to Airflow web server, ex.
+    --web-server-storage=: Storage allocated to Airflow web server, ex.
+    --worker-cpu=: CPU allocated to each Airflow worker
+    --worker-memory=: Memory allocated to Airflow worker, ex.
+    --worker-storage=: Storage allocated to Airflow worker, ex.
+    --zone=: The Compute Engine zone in which the environment will be created.
+completion:
+    flag:
+        connection-type:
+            - connection-type-unspecified
+            - private-service-connect
+            - vpc-peering
+        environment-size:
+            - extra-large
+            - large
+            - medium
+            - small
+            - unspecified
+        python-version:
+            - "2"
+            - "3"
+documentation:
+    command: |-
+        If run asynchronously with `--async`, exits after printing an operation
+        that can be used to poll the status of the creation operation via:
+
+          {top_command} composer operations describe
+    flag:
+        airflow-configs: |-
+            A list of Airflow software configuration override KEY=VALUE pairs to set. For
+            information on how to structure KEYs and VALUEs, run
+            `$ {top_command} help composer environments update`.
+        airflow-database-retention-days: |-
+            The number of days for the Airflow database retention period.
+              If set to 0, the Airflow database retention mechanism will be disabled.
+        airflow-version: |-
+            Version of Apache Airflow to run in the environment.
+            +
+                  Must be of the form `X[.Y[.Z]]`, where `[]` denotes optional fragments.
+                  Examples: `2`, `2.3`, `2.3.4`.
+            +
+                  The current Cloud Composer version will be used within the created
+                  environment. The Apache Airflow version is a semantic version or an alias
+                  in the form of major or major.minor version numbers, resolved to the
+                  latest matching Apache Airflow version supported in the current Cloud
+                  Composer version. The resolved version is stored in the created
+                  environment.
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        cloud-sql-ipv4-cidr: |-
+            IPv4 CIDR range to use for the Cloud SQL network. This should have a size
+            of the netmask not greater than 24.
+            +
+            Cannot be specified unless `--enable-private-environment` is also
+            specified.
+        cloud-sql-machine-type: |-
+            Cloud SQL machine type used by the Airflow database. The list of available
+            machine types is available here: https://cloud.google.com/composer/pricing#db-machine-types.
+        cloud-sql-preferred-zone: Select cloud sql preferred zone, supported for Composer 2 Environments.
+        cluster-ipv4-cidr: |-
+            IP address range for the pods in this cluster in CIDR notation
+            (e.g. 10.0.0.0/14).
+            +
+            When used with Composer 1.x, cannot be specified unless `--enable-ip-alias`
+            is also specified.
+        cluster-secondary-range-name: |-
+            Secondary range to be used as the source for pod IPs. Alias ranges will be
+            allocated from this secondary range. NAME must be the name of an existing
+            secondary range in the cluster subnetwork.
+            +
+            When used with Composer 1.x, cannot be specified unless `--enable-ip-alias`
+            is also specified.
+        composer-internal-ipv4-cidr-block: |-
+            The IP range in CIDR notation to use internally by Cloud Composer.
+            This should have a netmask length of 20.
+            Can be specified for Composer 3 or greater.
+        composer-network-ipv4-cidr: |-
+            IPv4 CIDR range to use for the Composer network. This must have
+            a size of the netmask between 24 and 29.
+            +
+            Can be specified for Composer 2.X or greater. Cannot be specified
+            unless `--enable-private-environment` is also specified.
+        connection-subnetwork: |-
+            Subnetwork from which an IP address for internal communications will be
+            reserved. Needs to belong to the Compute network to which the environment is
+            connected. Can be the same subnetwork as the one to which the environment is
+            connected.
+            +
+            Can be specified for Composer 2.X or greater. Cannot be specified
+            unless `--enable-private-environment` is also specified.
+        connection-type: |-
+            Mode of internal communication within the Composer environment. Must be one
+            of `VPC_PEERING` or `PRIVATE_SERVICE_CONNECT`.
+            +
+            Can be specified for Composer 2.X or greater. Cannot be specified
+            unless `--enable-private-environment` is also specified. Cannot be set to
+            `VPC_PEERING` if `--connection-subnetwork` is also specified.
+            +
+            _CONNECTION_TYPE_ must be one of: *connection-type-unspecified*, *private-service-connect*, *vpc-peering*.
+        dag-processor-count: Number of dag processors, supported in Composer 3 environments or greater.
+        dag-processor-cpu: |-
+            CPU allocated to Airflow dag processor, supported in Composer 3
+            environments or greater.
+        dag-processor-memory: |-
+            Memory allocated to Airflow dag processor, ex. 1GB, 3GB, 2. If units are not provided,
+            defaults to GB, supported in Composer 3 environments or greater.
+        dag-processor-storage: |-
+            Storage allocated to Airflow dag processor, ex. 600MB, 3GB, 2. If units are not provided,
+            defaults to GB, supported in Composer 3 environments or greater.
+        disable-cloud-data-lineage-integration: Disable Cloud Data Lineage integration, supported for Composer 2 Environments.
+        disable-logs-in-cloud-logging-only: Disable logs in cloud logging only, supported for Composer 2 Environments.
+        disable-private-builds-only: |-
+            Builds performed during operations that install Python
+            packages have an access to the internet, supported in Composer 3 or greater.
+        disable-private-environment: |-
+            Enables internet connection for Composer components.
+            +
+            When used with Composer 2, this means the environment cluster is
+            created with public IP addresses on the cluster nodes.
+        disk-size: The disk size for each VM node in the environment. The minimum size is 20GB, and the maximum is 64TB. Specified value must be an integer multiple of gigabytes. Cannot be updated after the environment has been created. If units are not provided, defaults to GB.
+        enable-cloud-data-lineage-integration: Enable Cloud Data Lineage integration, supported for Composer 2 Environments.
+        enable-high-resilience: Enable high resilience, supported for Composer 2 Environments.
+        enable-ip-alias: |-
+            Enable use of alias IPs (https://cloud.google.com/compute/docs/alias-ip/)
+            for Pod IPs. This will require at least two secondary ranges in the
+            subnetwork, one for the pod IPs and another to reserve space for the
+            services range.
+        enable-ip-masq-agent: |-
+            When enabled, the IP Masquarade Agent
+            (https://cloud.google.com/composer/docs/enable-ip-masquerade-agent)
+            is deployed to your environment's cluster.
+            It performs many-to-one IP address translations to hide a pod's IP address
+            behind the cluster node's IP address. This is done when sending traffic to
+            destinations outside the cluster's pod CIDR range.
+            +
+            When used with Composer 1.x, cannot be specified unless `--enable-ip-alias`
+            is also specified.
+        enable-logs-in-cloud-logging-only: Enable logs in cloud logging only, supported for Composer 2 Environments.
+        enable-master-authorized-networks: |-
+            Enable Master Authorized Networks feature
+            (https://cloud.google.com/kubernetes-engine/docs/how-to/authorized-networks/)
+            in the Composer Environment's GKE cluster.
+        enable-private-builds-only: |-
+            Builds performed during operations that install Python
+            packages have only private connectivity to Google services,
+            supported in Composer 3 or greater.
+        enable-private-endpoint: |-
+            Environment cluster is managed using the private IP address of the master
+            API endpoint. Therefore access to the master endpoint must be from
+            internal IP addresses.
+            +
+            If not specified, the master API endpoint will be accessible by its public
+            IP address.
+            +
+            Cannot be specified unless `--enable-private-environment` is also
+            specified.
+        enable-private-environment: |-
+            Disables internet connection from any Composer component.
+            +
+            When used with Composer 2, the environment cluster is created with
+            no public IP addresses on the cluster nodes. If not specified,
+            cluster nodes will be assigned public IP addresses.
+            +
+            When used with Composer 1.x, cannot be specified unless `--enable-ip-alias`
+            is also specified.
+        enable-privately-used-public-ips: |-
+            When enabled GKE pods and services may use public(non-RFC1918) IP ranges
+            privately. The ranges are specified by '--cluster-ipv4-cidr' and
+            `--services-ipv4-cidr` flags.
+            +
+            Cannot be specified unless `--enable-private-environment` is also
+            specified.
+        enable-scheduled-snapshot-creation: |-
+            When specified, snapshots of the environment will be created according to a schedule.
+            Can be specified for Composer 2.0.32 or greater.
+        enable-triggerer: |-
+            (DEPRECATED)     Enable use of a triggerer, supported in the Environments with Composer 2.0.31 and Airflow 2.2.5 and greater.
+            +
+            This flag is deprecated. Use --triggerer-count instead.
+        env-variables: A comma-delimited list of environment variable `NAME=VALUE` pairs to provide to the Airflow scheduler, worker, and webserver processes. NAME may contain upper and lowercase letters, digits, and underscores, but they may not begin with a digit. To include commas as part of a `VALUE`, see `{top_command} topic escaping` for information about overriding the delimiter.
+        environment-size: 'Size of the environment. Unspecified means that the default option will be chosen. _ENVIRONMENT_SIZE_ must be one of: *large*, *medium*, *small*, *unspecified*.'
+        image-version: |-
+            Version of the image to run in the environment.
+            +
+                  The image version encapsulates the versions of both Cloud Composer
+                  and Apache Airflow. Must be of the form
+                  `composer-A[.B.C[-D.E]]-airflow-X[.Y[.Z]]`, where `[]` denotes optional
+                  fragments.
+            +
+                  Examples: `composer-2-airflow-2`, `composer-2-airflow-2.2`,
+                  `composer-2.1.2-airflow-2.3.4`.
+            +
+                  The Cloud Composer portion of the image version is a semantic version or
+                  an alias in the form of major version number or `latest`, resolved to the
+                  current Cloud Composer version. The Apache Airflow portion of the image
+                  version is a semantic version or an alias in the form of major or
+                  major.minor version numbers, resolved to the latest matching Apache
+                  Airflow version supported in the given Cloud Composer version. The
+                  resolved versions are stored in the created environment.
+        kms-key: |-
+            ID of the key or fully qualified identifier for the key.
+            +
+            To set the `kms-key` attribute:
+            * provide the argument `--kms-key` on the command line.
+        kms-keyring: |-
+            The KMS keyring of the key.
+            +
+            To set the `kms-keyring` attribute:
+            * provide the argument `--kms-key` on the command line with a fully specified name;
+            * provide the argument `--kms-keyring` on the command line.
+        kms-location: |-
+            The Google Cloud location for the key.
+            +
+            To set the `kms-location` attribute:
+            * provide the argument `--kms-key` on the command line with a fully specified name;
+            * provide the argument `--kms-location` on the command line.
+        kms-project: |-
+            The Google Cloud project for the key.
+            +
+            To set the `kms-project` attribute:
+            * provide the argument `--kms-key` on the command line with a fully specified name;
+            * provide the argument `--kms-project` on the command line;
+            * set the property `core/project`.
+        labels: |-
+            List of label KEY=VALUE pairs to add.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+        location: |-
+            Region where Composer environment runs or in which to create the environment.
+            +
+            To set the `location` attribute:
+            * provide the argument `environment` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `composer/location`.
+        machine-type: The Compute Engine machine type (https://cloud.google.com/compute/docs/machine-types) to use for nodes. For example `--machine-type=n1-standard-1`.
+        maintenance-window-end: |-
+            End time of the mantenance window in the form of the full date. Only the
+            time of the day is used as a reference for an ending time of the window
+            with a provided recurrence. Specified date must take place after the one
+            specified as a start date, the difference between will be used as a length
+            of a single maintenance window.
+            See $ gcloud topic datetimes for information on time formats.
+        maintenance-window-recurrence: |-
+            An RFC 5545 RRULE, specifying how the maintenance window will recur. The
+            minimum requirement for the length of the maintenance window is 12 hours a
+            week. Only FREQ=DAILY and FREQ=WEEKLY rules are supported.
+        maintenance-window-start: |-
+            Start time of the mantenance window in the form of the full date. Only the
+            time of the day is used as a reference for a starting time of the window
+            with a provided recurrence.
+            See $ gcloud topic datetimes for information on time formats.
+        master-authorized-networks: |-
+            Comma separated Master Authorized Networks specified in CIDR notation.
+            +
+            Cannot be specified unless `--enable-master-authorized-networks` is also specified.
+        master-ipv4-cidr: |-
+            IPv4 CIDR range to use for the cluster master network. This should have a
+            size of the netmask between 23 and 28.
+            +
+            Cannot be specified unless `--enable-private-environment` is also
+            specified.
+        max-workers: Maximum number of workers in the Environment.
+        min-workers: Minimum number of workers in the Environment.
+        network: The Compute Engine Network to which the environment will be connected. If a 'Custom Subnet Network' is provided, `--subnetwork` must be specified as well.
+        network-attachment: |-
+            Cloud Composer Network Attachment, which provides connectivity with a user's VPC network,
+            supported in Composer 3 environments or greater.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-disable-cloud-data-lineage-integration: |
+            Disable Cloud Data Lineage integration, supported for Composer 2 Environments.
+        no-disable-private-environment: |+
+            Enables internet connection for Composer components.
+
+            When used with Composer 2, this means the environment cluster is
+            created with public IP addresses on the cluster nodes.
+
+        no-enable-cloud-data-lineage-integration: |
+            Enable Cloud Data Lineage integration, supported for Composer 2 Environments.
+        no-enable-ip-alias: |
+            Enable use of alias IPs (https://cloud.google.com/compute/docs/alias-ip/)
+            for Pod IPs. This will require at least two secondary ranges in the
+            subnetwork, one for the pod IPs and another to reserve space for the
+            services range.
+        no-enable-ip-masq-agent: |
+            When enabled, the IP Masquarade Agent
+            (https://cloud.google.com/composer/docs/enable-ip-masquerade-agent)
+            is deployed to your environment's cluster.
+            It performs many-to-one IP address translations to hide a pod's IP address
+            behind the cluster node's IP address. This is done when sending traffic to
+            destinations outside the cluster's pod CIDR range.
+
+            When used with Composer 1.x, cannot be specified unless `--enable-ip-alias`
+            is also specified.
+        no-enable-master-authorized-networks: |
+            Enable Master Authorized Networks feature
+            (https://cloud.google.com/kubernetes-engine/docs/how-to/authorized-networks/)
+            in the Composer Environment's GKE cluster.
+        no-enable-private-endpoint: |
+            Environment cluster is managed using the private IP address of the master
+            API endpoint. Therefore access to the master endpoint must be from
+            internal IP addresses.
+
+            If not specified, the master API endpoint will be accessible by its public
+            IP address.
+
+            Cannot be specified unless `--enable-private-environment` is also
+            specified.
+        no-enable-private-environment: |
+            Disables internet connection from any Composer component.
+
+            When used with Composer 2, the environment cluster is created with
+            no public IP addresses on the cluster nodes. If not specified,
+            cluster nodes will be assigned public IP addresses.
+
+            When used with Composer 1.x, cannot be specified unless `--enable-ip-alias`
+            is also specified.
+        no-enable-privately-used-public-ips: |
+            When enabled GKE pods and services may use public(non-RFC1918) IP ranges
+            privately. The ranges are specified by '--cluster-ipv4-cidr' and
+            `--services-ipv4-cidr` flags.
+
+            Cannot be specified unless `--enable-private-environment` is also
+            specified.
+        no-support-web-server-plugins: |
+            Enable the support for web server plugins, supported in Composer 3
+            or greater.
+        no-web-server-allow-all: |
+            Allows all IP addresses to access the Airflow web server.
+        no-web-server-deny-all: |
+            Denies all incoming traffic to the Airflow web server.
+        node-count: The number of nodes to create to run the environment.
+        oauth-scopes: The set of Google API scopes to be made available on all of the node VMs. Defaults to ['https://www.googleapis.com/auth/cloud-platform']. Cannot be updated.
+        python-version: |-
+            The Python version to be used within the created environment. Supplied value should represent the desired major Python version. Cannot be updated. _PYTHON_VERSION_ must be one of:
+            +
+            *2*::: Created environment will use Python 2
+            *3*::: Created environment will use Python 3
+            :::
+            +
+        scheduler-count: Number of schedulers, supported in the Environments with Airflow 2.0.1 and later.
+        scheduler-cpu: CPU allocated to Airflow scheduler.
+        scheduler-memory: |-
+            Memory allocated to Airflow scheduler, ex. 600MB, 3GB, 2. If units are not provided,
+            defaults to GB.
+        scheduler-storage: |-
+            Storage allocated to Airflow scheduler, ex. 600MB, 3GB, 2. If units are not provided,
+            defaults to GB.
+        service-account: The Google Cloud Platform service account to be used by the node VMs. You must explicitly specify a service account. Cannot be updated.
+        services-ipv4-cidr: |-
+            IP range for the services IPs.
+            +
+            Can be specified as a netmask size (e.g. '/20') or as in CIDR notion
+            (e.g. '10.100.0.0/20'). If given as a netmask size, the IP range will
+            be chosen automatically from the available space in the network.
+            +
+            If unspecified, the services CIDR range will be chosen with a default
+            mask size.
+            +
+            When used with Composer 1.x, cannot be specified unless `--enable-ip-alias`
+            is also specified.
+        services-secondary-range-name: |-
+            Secondary range to be used for services (e.g. ClusterIPs). NAME must be the
+            name of an existing secondary range in the cluster subnetwork.
+            +
+            When used with Composer 1.x, cannot be specified unless `--enable-ip-alias`
+            is also specified.
+        snapshot-creation-schedule: |-
+            Cron expression specifying when snapshots of the environment should be created.
+            Can be specified for Composer 2.0.32 or greater.
+        snapshot-location: |-
+            The Cloud Storage location for storing automatically created snapshots.
+            Can be specified for Composer 2.0.32 or greater.
+        snapshot-schedule-timezone: |-
+            Timezone that sets the context to interpret snapshot_creation_schedule.
+            Can be specified for Composer 2.0.32 or greater.
+        storage-bucket: |-
+            Name of an exisiting Cloud Storage bucket to be used by the environment.
+            Supported only for Composer 2.4.X and above.
+        subnetwork: The Compute Engine Subnetwork (https://cloud.google.com/compute/docs/subnetworks) to which the environment will be connected.
+        support-web-server-plugins: |-
+            Enable the support for web server plugins, supported in Composer 3
+            or greater.
+        tags: The set of instance tags applied to all node VMs. Tags are used to identify valid sources or targets for network firewalls. Each tag within the list must comply with RFC 1035. Cannot be updated.
+        triggerer-count: Number of triggerers, supported in the Environments with Composer 2.0.31 and Airflow 2.2.5 and greater.
+        triggerer-cpu: CPU allocated to Airflow triggerer. Supported in the Environments with Composer 2.0.31 and Airflow 2.2.5 and greater.
+        triggerer-memory: |-
+            Memory allocated to Airflow triggerer, ex. 512MB, 3GB, 2. If units are not provided,
+            defaults to GB. Supported in the Environments with Composer 2.0.31 and Airflow 2.2.5 and greater.
+        web-server-allow-all: Allows all IP addresses to access the Airflow web server.
+        web-server-allow-ip: |-
+            Specifies a list of IPv4 or IPv6 ranges that will be allowed to access the
+            Airflow web server. By default, all IPs are allowed to access the web
+            server.
+            +
+            This is a repeated argument that can be specified multiple times to specify
+            multiple IP ranges.
+            (e.g. `--web-server-allow-ip=ip_range=130.211.160.0/28,description="office network"`
+            `--web-server-allow-ip=ip_range=130.211.114.0/28,description="legacy network"`)
+            +
+            *ip_range*::: IPv4 or IPv6 range of addresses allowed to access the Airflow
+            web server.
+            +
+            *description*::: An optional description of the IP range.
+        web-server-cpu: CPU allocated to each Airflow web server
+        web-server-deny-all: Denies all incoming traffic to the Airflow web server.
+        web-server-ipv4-cidr: |-
+            IPv4 CIDR range to use for the Airflow web server network. This should have
+            a size of the netmask between 24 and 29.
+            +
+            Cannot be specified unless `--enable-private-environment` is also
+            specified.
+        web-server-machine-type: |-
+            machine type used by the Airflow web server. The list of available machine
+            types is available here: https://cloud.google.com/composer/pricing.
+        web-server-memory: |-
+            Memory allocated to Airflow web server, ex. 600MB, 3GB, 2. If units are not provided,
+            defaults to GB.
+        web-server-storage: |-
+            Storage allocated to Airflow web server, ex. 600MB, 3GB, 2. If units are not provided,
+            defaults to GB.
+        worker-cpu: CPU allocated to each Airflow worker
+        worker-memory: |-
+            Memory allocated to Airflow worker, ex. 600MB, 3GB, 2. If units are not provided,
+            defaults to GB.
+        worker-storage: |-
+            Storage allocated to Airflow worker, ex. 600MB, 3GB, 2. If units are not provided,
+            defaults to GB.
+        zone: The Compute Engine zone in which the environment will be created. For example `--zone=us-central1-a`.

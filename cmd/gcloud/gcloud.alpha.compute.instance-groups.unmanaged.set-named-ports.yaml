@@ -1,0 +1,46 @@
+name: set-named-ports
+description: '*(ALPHA)*  Sets the list of named ports for an instance group.'
+flags:
+    --named-ports=!: The comma-separated list of key:value pairs representing
+    --zone=: Zone of the instance group to operate on.
+documentation:
+    command: |
+        *(ALPHA)*  Named ports are key:value pairs metadata representing
+        the service name and the port that it's running on. Named ports
+        can be assigned to an instance group, which
+        indicates that the service is available on all instances in the
+        group. This information is used by Application Load Balancers
+        and proxy Network Load Balancers.
+
+        *gcloud alpha compute instance-groups unmanaged set-named-ports* sets the list of named ports for all instances
+        in an instance group.
+
+        Note: Running this command will clear all existing named ports.
+    flag:
+        named-ports: |-
+            The comma-separated list of key:value pairs representing
+            the service name and the port that it is running on.
+            +
+            To clear the list of named ports pass empty list as flag value.
+            For example:
+            +
+              $ {command} example-instance-group --named-ports ""
+        zone: |-
+            Zone of the instance group to operate on. If not specified and the ``compute/zone'' property isn't set, you
+            might be prompted to select a zone (interactive mode only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/zone'' property:
+            +
+              $ gcloud config set compute/zone ZONE
+            +
+            A list of zones can be fetched by running:
+            +
+              $ gcloud compute zones list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/zone
+            +
+            Alternatively, the zone can be stored in the environment variable
+            ``CLOUDSDK_COMPUTE_ZONE''.

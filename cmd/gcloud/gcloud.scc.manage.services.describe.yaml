@@ -1,0 +1,53 @@
+name: describe
+description: Get the details of a Security Command Center service.
+flags:
+    --filter-modules=: If provided, only prints module information for modules specified
+    --folder=: Folder associated with the custom module.
+    --organization=: Organization associated with the custom module.
+    --parent=: Parent associated with the custom module.
+documentation:
+    command: |-
+        Get the details of a Security Command Center service. It
+        resolves INHERITED enablement states
+        to ENABLED or DISABLED for services at ancestor levels. For example, if
+        the service is enabled
+        at the ancestor level, services for all child resources will have the
+        enablement state set to
+        ENABLED.
+
+        ## EXAMPLES
+
+        To get the details of a Security Command Center service with name
+        `sha` for organization `123`, run:
+
+          $ gcloud scc manage services describe sha --organization=123
+
+        To get the details of a Security Command Center service with name
+        `sha` for folder `456`, run:
+
+          $ gcloud scc manage services describe sha --folder=456
+
+        To get the details of a Security Command Center service with ID
+        `sha` for project `789`, run:
+
+          $ gcloud scc manage services describe sha --project=789
+
+        You can also specify the parent more generally:
+
+          $ gcloud scc manage services describe sha --parent=organizations/123
+
+        To get the details of modules, `[ABC, DEF]` of a Security Command
+        Center service with name `sha` for organization `123`, run:
+
+          $ gcloud scc manage services describe sha --module-list=[ABC, DEF] --organization=123
+    flag:
+        filter-modules: |-
+            If provided, only prints module information for modules specified
+                  in the list. Provided as a comma separated list of module names in
+                  SCREAMING_SNAKE_CASE format (e.g. WEB_UI_ENABLED, API_KEY_NOT_ROTATED).
+                  A single module name is also valid.
+        folder: Folder associated with the custom module.
+        organization: Organization associated with the custom module.
+        parent: |-
+            Parent associated with the custom module. Can be one of
+                          organizations/<id>, projects/<id or name>, folders/<id>

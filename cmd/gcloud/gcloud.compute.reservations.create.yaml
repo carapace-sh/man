@@ -1,0 +1,113 @@
+name: create
+description: Create a Compute Engine reservation.
+flags:
+    --accelerator=: Manage the configuration of the type and number of accelerator cards attached.
+    --description=: An optional description of the reservation to create.
+    --local-ssd=: Manage the size and the interface of local SSD to use.
+    --location-hint=&: Used by internal tools to control sub-zone location of the instance.
+    --machine-type=!: The type of machine (name only) that has a fixed number of vCPUs and a fixed
+    --min-cpu-platform=: Optional minimum CPU platform of the reservation to create.
+    --no-require-specific-reservation&: Indicates whether the reservation can be consumed by VMs with "any reservation"
+    --require-specific-reservation: Indicates whether the reservation can be consumed by VMs with "any reservation"
+    --reservation-sharing-policy=: The reservation sharing policy to use for this reservation.
+    --resource-policies=: The resource policies to include in this reservation.
+    --share-setting=: The projects that can use the reservation.
+    --share-with=: If this reservation is shared (--share-setting=projects), then specify a
+    --source-instance-template=: The url of the instance template that will be used to populate the fields of
+    --vm-count=!: The number of VM instances that are allocated to this reservation.
+    --zone=: Zone of the reservation to create.
+completion:
+    flag:
+        reservation-sharing-policy:
+            - ALLOW_ALL
+            - DISALLOW_ALL
+        share-setting:
+            - local
+            - projects
+documentation:
+    command: Create a Compute Engine reservation.
+    flag:
+        accelerator: |-
+            Manage the configuration of the type and number of accelerator cards attached.
+            *count*::: The number of accelerators to attach to each instance in the reservation.
+            *type*::: The specific type (e.g. `nvidia-tesla-k80` for nVidia Tesla K80) of
+            accelerator to attach to instances in the reservation. Use `gcloud compute accelerator-types list`
+            to learn about all available accelerator types.
+        description: An optional description of the reservation to create.
+        local-ssd: |-
+            Manage the size and the interface of local SSD to use. See
+            https://cloud.google.com/compute/docs/disks/local-ssd for more information.
+            *interface*::: The kind of disk interface exposed to the VM for this SSD. Valid
+            values are `scsi` and `nvme`. SCSI is the default and is supported by more
+            guest operating systems. NVME may provide higher performance.
+            *size*::: The size of the local SSD in base-2 GB.
+            *count*::: The number of local SSD to use per VM. If you don't specify this
+            argument, then the default value is 1.
+        location-hint: |
+            Used by internal tools to control sub-zone location of the instance.
+        machine-type: |-
+            The type of machine (name only) that has a fixed number of vCPUs and a fixed
+            amount of memory. You can also specify a custom machine type by using the
+            pattern `custom-number_of_CPUs-amount_of_memory`-for example,
+            `custom-32-29440`.
+        min-cpu-platform: Optional minimum CPU platform of the reservation to create.
+        no-require-specific-reservation: |
+            Indicates whether the reservation can be consumed by VMs with "any reservation"
+            defined. If enabled, then only VMs that target this reservation by name using
+            `--reservation-affinity=specific` can consume from this reservation.
+        require-specific-reservation: |-
+            Indicates whether the reservation can be consumed by VMs with "any reservation"
+            defined. If enabled, then only VMs that target this reservation by name using
+            `--reservation-affinity=specific` can consume from this reservation.
+        reservation-sharing-policy: |-
+            The reservation sharing policy to use for this reservation. _RESERVATION_SHARING_POLICY_ must be one of:
+            +
+            *ALLOW_ALL*::: The reservation can be shared with Google Cloud services.
+            *DISALLOW_ALL*::: The reservation won't be shared with Google Cloud services. If you omit this flag during creation, the default value is DISALLOW_ALL.
+            :::
+            +
+        resource-policies: |-
+            The resource policies to include in this reservation. If you omit this flag,
+            no resource policies are added. You can specify any string as the key, and
+            specify the name of a resource policy as the value.
+        share-setting: |-
+            The projects that can use the reservation. _SHARE_SETTING_ must be one of:
+            +
+            *local*::: Only your project can use the reservation. This is the default value.
+            *projects*::: Your project and up to 100 other projects within your
+            project's organization can use the reservation. If you specify
+            this value, then you must also include the --share-with flag in
+            the command.
+            +
+            :::
+            +
+        share-with: |-
+            If this reservation is shared (--share-setting=projects), then specify a
+            comma-separated list of projects to share the reservation with. List
+            projects using project IDs or project numbers.
+        source-instance-template: |-
+            The url of the instance template that will be used to populate the fields of
+            the reservation. Instance properties can not be defined in addition to source
+            instance template.
+        vm-count: |-
+            The number of VM instances that are allocated to this reservation.
+            The value of this field must be an int in the range [1, 1000].
+        zone: |-
+            Zone of the reservation to create. If not specified and the ``compute/zone'' property isn't set, you
+            might be prompted to select a zone (interactive mode only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/zone'' property:
+            +
+              $ gcloud config set compute/zone ZONE
+            +
+            A list of zones can be fetched by running:
+            +
+              $ gcloud compute zones list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/zone
+            +
+            Alternatively, the zone can be stored in the environment variable
+            ``CLOUDSDK_COMPUTE_ZONE''.

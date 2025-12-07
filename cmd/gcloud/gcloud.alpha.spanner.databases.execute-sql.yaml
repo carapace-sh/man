@@ -1,0 +1,56 @@
+name: execute-sql
+description: '*(ALPHA)*  Executes a SQL query against a Cloud Spanner database.'
+flags:
+    --database-role=: Database role user assumes while accessing the database.
+    --enable-partitioned-dml: Execute DML statement using Partitioned DML
+    --instance=: The Cloud Spanner instance for the database.
+    --no-enable-partitioned-dml&: Execute DML statement using Partitioned DML
+    --no-strong&: Perform a strong query.
+    --priority=: The priority for the execute SQL request.
+    --query-mode=: Mode in which the query must be processed.
+    --read-timestamp=: Perform a query at the given timestamp.
+    --sql=!: The SQL query to issue to the database.
+    --strong: Perform a strong query.
+    --timeout=: Maximum time to wait for the SQL query to complete.
+completion:
+    flag:
+        priority:
+            - high
+            - low
+            - medium
+            - unspecified
+        query-mode:
+            - NORMAL
+            - PLAN
+            - PROFILE
+            - WITH_PLAN_AND_STATS
+            - WITH_STATS
+documentation:
+    command: '*(ALPHA)*  Executes a SQL query against a Cloud Spanner database.'
+    flag:
+        database-role: Database role user assumes while accessing the database.
+        enable-partitioned-dml: Execute DML statement using Partitioned DML
+        instance: |-
+            The Cloud Spanner instance for the database.
+            +
+            To set the `instance` attribute:
+            * provide the argument `database` on the command line with a fully specified name;
+            * provide the argument `--instance` on the command line;
+            * set the property `spanner/instance`.
+        no-enable-partitioned-dml: Execute DML statement using Partitioned DML
+        no-strong: Perform a strong query.
+        priority: 'The priority for the execute SQL request. _PRIORITY_ must be one of: *high*, *low*, *medium*, *unspecified*.'
+        query-mode: |-
+            Mode in which the query must be processed. _QUERY_MODE_ must be one of:
+            +
+            *NORMAL*::: Returns only the query result, without any information about the query plan.
+            *PLAN*::: Returns only the query plan, without any result rows or execution statistics information.
+            *PROFILE*::: Returns the query plan, overall execution statistics, operator-level execution statistics, along with the result rows.
+            *WITH_PLAN_AND_STATS*::: Returns the query plan, overall (but not operator-level) execution statistics, along with the results.
+            *WITH_STATS*::: Returns the overall (but not operator-level) execution statistics along with the results.
+            :::
+            +
+        read-timestamp: Perform a query at the given timestamp.
+        sql: The SQL query to issue to the database. Cloud Spanner SQL is described at https://cloud.google.com/spanner/docs/query-syntax
+        strong: Perform a strong query.
+        timeout: Maximum time to wait for the SQL query to complete. See $ gcloud topic datetimes for information on duration formats.

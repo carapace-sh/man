@@ -1,0 +1,127 @@
+name: create
+description: '*(ALPHA)*  Create a new composite index.'
+flags:
+    --api-scope=: Api scope the index applies to.
+    --async: Return immediately, without waiting for the operation in progress to
+    --collection-group=!: ID of the collection group or fully qualified identifier for the collection group.
+    --database=: Database of the collection group.
+    --density=: Density of the index.
+    --field-config=!: Required, Configuration for an index field.
+    --multikey: Optional.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-multikey&: Optional.
+    --no-unique&: Optional.
+    --query-scope=: Query scope the index applies to.
+    --unique: Optional.
+completion:
+    flag:
+        api-scope:
+            - any-api
+            - datastore-mode-api
+            - mongodb-compatible-api
+        density:
+            - dense
+            - density-unspecified
+            - sparse-all
+            - sparse-any
+        query-scope:
+            - collection
+            - collection-group
+            - collection-recursive
+documentation:
+    command: '*(ALPHA)*  Create a new composite index.'
+    flag:
+        api-scope: 'Api scope the index applies to. _API_SCOPE_ must be one of: *any-api*, *datastore-mode-api*, *mongodb-compatible-api*.'
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        collection-group: |-
+            ID of the collection group or fully qualified identifier for the collection group.
+            +
+            To set the `collection-group` attribute:
+            * provide the argument `--collection-group` on the command line.
+        database: |-
+            Database of the collection group.
+            +
+
+            To set the `database` attribute:
+            * provide the argument `--collection-group` on the command line with a fully specified name;
+            * provide the argument `--database` on the command line;
+            * the default value of argument [--database] is `(default)`.
+        density: 'Density of the index. _DENSITY_ must be one of: *dense*, *density-unspecified*, *sparse-all*, *sparse-any*.'
+        field-config: |-
+            Required, Configuration for an index field.
+            +
+            *array-config*:::
+            Specifies the configuration for an array field. The only valid option
+            is 'contains'. Exactly one of 'order', 'array-config', or
+            'vector-config' must be specified.
+            +
+            *field-path*:::
+            Specifies the field path (e.g. 'address.city'). This is required.
+            +
+            *order*:::
+            Specifies the order. Valid options are 'ascending', 'descending'.
+            Exactly one of 'order', 'array-config', or 'vector-config' must be
+            specified.
+            +
+            *vector-config*:::
+            Specifies the configuration for a vector field. Exactly one of
+            'order', 'array-config', or 'vector-config' must be specified.
+            +
+            *dimension*::::
+            Sets `dimension` value.
+            +
+            *flat*::::
+            Sets `flat` value.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --field-config=array-config=string,field-path=string,order=string,vector-config={dimension=int,flat} --field-config=array-config=string,field-path=string,order=string,vector-config={dimension=int,flat}
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --field-config='[{"array-config": "string", "field-path": "string", "order": "string", "vector-config": {"dimension": int, "flat": {}}}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --field-config=path_to_file.(yaml|json)
+            +
+            ```
+        multikey: |-
+            Optional. Whether the index is multikey. By default, the index
+            is not multikey. For non-multikey indexes, none of the paths in the
+            index definition reach or traverse an array, except via an explicit
+            array index. For multikey indexes, at most one of the paths in the index
+            definition reach or traverse an array, except via an explicit array
+            index. Violations will result in errors. Note this field only applies to
+            index with MONGODB_COMPATIBLE_API ApiScope.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-multikey: |
+            Optional. Whether the index is multikey. By default, the index
+            is not multikey. For non-multikey indexes, none of the paths in the
+            index definition reach or traverse an array, except via an explicit
+            array index. For multikey indexes, at most one of the paths in the index
+            definition reach or traverse an array, except via an explicit array
+            index. Violations will result in errors. Note this field only applies to
+            index with MONGODB_COMPATIBLE_API ApiScope.
+        no-unique: |
+            Optional. Whether it is an unique index. Unique index ensures all values for
+            the indexed field(s) are unique across documents.
+        query-scope: 'Query scope the index applies to. _QUERY_SCOPE_ must be one of: *collection*, *collection-group*, *collection-recursive*.'
+        unique: |-
+            Optional. Whether it is an unique index. Unique index ensures all values for
+            the indexed field(s) are unique across documents.

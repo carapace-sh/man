@@ -1,0 +1,48 @@
+name: group-placement
+description: Create a Compute Engine group placement resource policy.
+flags:
+    --availability-domain-count=: Number of availability domain in the group placement policy.
+    --collocation=: Collocation specifies whether to place VMs inside the sameavailability domain on the same low-latency network.
+    --description=: An optional, textual description for the backend.
+    --gpu-topology=: Specifies the shape of the GPU slice, in slice based GPU families eg.
+    --region=: Region of the resource policy to operate on.
+    --vm-count=: Number of instances targeted by the group placement policy.
+completion:
+    flag:
+        collocation:
+            - collocated
+            - unspecified-collocation
+documentation:
+    command: |
+        Create a Compute Engine Group Placement Resource Policy.
+    flag:
+        availability-domain-count: Number of availability domain in the group placement policy.
+        collocation: |-
+            Collocation specifies whether to place VMs inside the sameavailability domain on the same low-latency network. _COLLOCATION_ must be one of:
+            +
+            *collocated*::: Low network latency between more VMs placed on the same availability domain.
+            *unspecified-collocation*::: Unspecified network latency between VMs placed on the same availability domain. This is the default behavior.
+            :::
+            +
+        description: An optional, textual description for the backend.
+        gpu-topology: Specifies the shape of the GPU slice, in slice based GPU families eg. A4X.
+        region: |-
+            Region of the resource policy to operate on. If not specified, you might be prompted to select a region (interactive mode
+            only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/region'' property:
+            +
+              $ gcloud config set compute/region REGION
+            +
+            A list of regions can be fetched by running:
+            +
+              $ gcloud compute regions list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/region
+            +
+            Alternatively, the region can be stored in the environment
+            variable ``CLOUDSDK_COMPUTE_REGION''.
+        vm-count: Number of instances targeted by the group placement policy. Google does not recommend that you use this flag unless you use a compact policy and you want your policy to work only if it contains this exact number of VMs.

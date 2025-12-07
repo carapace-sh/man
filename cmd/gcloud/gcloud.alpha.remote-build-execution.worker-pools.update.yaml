@@ -1,0 +1,197 @@
+name: update
+description: '*(ALPHA)*  Update a Remote Build Execution worker pool.'
+hidden: true
+flags:
+    --accelerator-count=!: Number of the guest accelerator cards attached to each VM in the pool.
+    --accelerator-type=!: Type of accelerator to attach to each VM in the pool, e.g.
+    --async: Return immediately, without waiting for the operation in progress to
+    --autoscale-max-size=!: The maximal number of autoscale workers.
+    --autoscale-min-idle-workers=: The minimum number of idle workers.
+    --autoscale-min-size=!: The minimal number of autoscale workers.
+    --channel=: The release channel of the worker pool.
+    --clear-accelerator-config: Remove all accelerators from the VMs in the worker pool.
+    --clear-autoscale: Remove the autoscale settings.
+    --clear-docker-root-disk-config: Remove the user-provided disk for docker root from the VMs in the worker pool and
+    --clear-labels: Remove all labels.
+    --clear-network-allowlist: Clear the network allowlist mode.
+    --disk-size=: Size of the disk, in Gb, for each worker.
+    --disk-type=: Type of persistent disk the worker VMs will use.
+    --docker-root-disk-image=!: The source image to use for the user-provided docker root disk.
+    --docker-root-disk-size=!: Size of the user-provided docker root disk, in Gb.
+    --docker-root-disk-type=!: The disk type to use for the user-provided docker root disk.
+    --host-os=: OS type of the worker pool.
+    --instance=: Instance name.
+    --machine-type=: The type of VM to use for each worker.
+    --max-concurrent-actions=: Maximum actions each worker VM can run concurrently.
+    --min-cpu-platform=: Minimum CPU platform for the workers.
+    --network-access=: Level of network access available to the pool.
+    --network-allowlist=: The network allowlist mode for the worker pool.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-clear-accelerator-config&: Remove all accelerators from the VMs in the worker pool.
+    --no-clear-autoscale&: Remove the autoscale settings.
+    --no-clear-docker-root-disk-config&: Remove the user-provided disk for docker root from the VMs in the worker pool and
+    --no-clear-labels&: Remove all labels.
+    --no-clear-network-allowlist&: Clear the network allowlist mode.
+    --no-reserved&: Determines the type of VM to use.
+    --remove-labels=: List of label keys to remove.
+    --reserved: Determines the type of VM to use.
+    --sole-tenant-node-type=: Type of sole-tenant node to be used for sole-tenancy.
+    --update-labels=: List of label KEY=VALUE pairs to update.
+    --user-service-accounts=: A chain of user service accounts, the last of which will be the service account that user
+    --vm-image=: The VM image used by RBE workers.
+    --worker-count=: Number of workers that should be in the worker pool.
+    --zones=: List of zones where the workers should be located.
+completion:
+    flag:
+        disk-type:
+            - pd-ssd
+            - pd-standard
+        docker-root-disk-type:
+            - pd-ssd
+            - pd-standard
+        network-access:
+            - private
+            - public
+            - restricted-private
+documentation:
+    command: |
+        *(ALPHA)*  Updates the configuration of a Remote Build Execution worker pool.  This can be used to
+        change the size of the worker pool, change the type of machine, or adjust the disk size of the
+        worker VMs.
+    flag:
+        accelerator-count: Number of the guest accelerator cards attached to each VM in the pool.
+        accelerator-type: |-
+            Type of accelerator to attach to each VM in the pool, e.g.
+            'nvidia-tesla-k80' for nVidia Tesla K80. Run `gcloud compute accelerator-types list`
+            to learn about all available accelerator types.
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        autoscale-max-size: |-
+            The maximal number of autoscale workers. Must be equal to or greater than
+            autoscale-min-size.
+        autoscale-min-idle-workers: The minimum number of idle workers. Must be equal to or greater than 0.
+        autoscale-min-size: The minimal number of autoscale workers. Must be greater than 0.
+        channel: The release channel of the worker pool.
+        clear-accelerator-config: Remove all accelerators from the VMs in the worker pool.
+        clear-autoscale: Remove the autoscale settings.
+        clear-docker-root-disk-config: |-
+            Remove the user-provided disk for docker root from the VMs in the worker pool and
+            use the boot disk instead.
+        clear-labels: |-
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} --clear-labels
+            +
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        clear-network-allowlist: Clear the network allowlist mode.
+        disk-size: Size of the disk, in Gb, for each worker.  Defaults to 200Gb.
+        disk-type: |-
+            Type of persistent disk the worker VMs will use. Default is pd-standard. _DISK_TYPE_ must be one of:
+            +
+            *pd-ssd*::: SSD persistent disk.
+            +
+            *pd-standard*::: Standard persistent disk.
+            +
+            :::
+            +
+        docker-root-disk-image: The source image to use for the user-provided docker root disk.
+        docker-root-disk-size: Size of the user-provided docker root disk, in Gb.
+        docker-root-disk-type: |-
+            The disk type to use for the user-provided docker root disk. Must be one of
+            pd-ssd and pd-standard. _DOCKER_ROOT_DISK_TYPE_ must be one of:
+            +
+            *pd-ssd*::: SSD persistent disk.
+            +
+            *pd-standard*::: Standard persistent disk.
+            +
+            :::
+            +
+        host-os: OS type of the worker pool.
+        instance: |-
+            Instance name.
+            +
+
+            To set the `instance` attribute:
+            * provide the argument `workerpool` on the command line with a fully specified name;
+            * provide the argument `--instance` on the command line.
+        machine-type: |-
+            The type of VM to use for each worker.  To get a list of valid machine types, use the
+            following command:
+            +
+            $ gcloud compute machine-types list
+        max-concurrent-actions: Maximum actions each worker VM can run concurrently.
+        min-cpu-platform: |-
+            Minimum CPU platform for the workers.  For more information see
+            https://cloud.google.com/compute/docs/cpu-platforms.
+        network-access: |-
+            Level of network access available to the pool. _NETWORK_ACCESS_ must be one of:
+            +
+            *private*::: Workers can only connect to Google APIs and services.
+            +
+            *public*::: Workers can connect to the public internet.
+            +
+            *restricted-private*::: Workers can only connect to Google APIs that are
+            reachable through `restricted.googleapis.com` (`199.36.153.4/30`).
+            +
+            :::
+            +
+        network-allowlist: The network allowlist mode for the worker pool. If per_action, the network allowlist will be applied per action.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-clear-accelerator-config: |
+            Remove all accelerators from the VMs in the worker pool.
+        no-clear-autoscale: |
+            Remove the autoscale settings.
+        no-clear-docker-root-disk-config: |
+            Remove the user-provided disk for docker root from the VMs in the worker pool and
+            use the boot disk instead.
+        no-clear-labels: |
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} --clear-labels
+
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        no-clear-network-allowlist: |
+            Clear the network allowlist mode.
+        no-reserved: |
+            Determines the type of VM to use.  If set then reserved VMs are used, otherwise preemptable
+            VMs are used.
+        remove-labels: |-
+            List of label keys to remove. If a label does not exist it is
+            silently ignored. If `--update-labels` is also specified then
+            `--update-labels` is applied first.
+        reserved: |-
+            Determines the type of VM to use.  If set then reserved VMs are used, otherwise preemptable
+            VMs are used.
+        sole-tenant-node-type: Type of sole-tenant node to be used for sole-tenancy.
+        update-labels: |-
+            List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+        user-service-accounts: |-
+            A chain of user service accounts, the last of which will be the service account that user
+            code running on workers will authenticate as. The VM's service account (typically
+            "service-<consumer-project-num>@remotebuildexecution.iam.gserviceaccount.com") should be
+            granted roles/iam.serviceAccountTokenCreator on the first user account in the chain, the
+            first user account in the chain should be granted roles/iam.serviceAccountTokenCreator on
+            the second user account in the chain, and so on. If user service account is empty then the
+            user code will use the VM's service account.
+        vm-image: The VM image used by RBE workers. This field should only be set when channel is set to manual.
+        worker-count: Number of workers that should be in the worker pool.
+        zones: |-
+            List of zones where the workers should be located. If empty, workers
+            will be located in all zones in the region.

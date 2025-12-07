@@ -1,0 +1,42 @@
+name: detect-product
+description: '*(BETA)*  detect products within an image.'
+flags:
+    --bounding-polygon=: Bounding polygon around the areas of interest in the image.
+    --category=!: Product category to search in.
+    --filter=: Filter expression to restrict search results based on product labels.
+    --max-results=: Maximum number of results to be provided.
+    --product-set-location=: The location of the product set.
+    --product-set=!: ID of the product set or fully qualified identifier for the product set.
+documentation:
+    command: |
+        *(BETA)*  detect products within an image
+    flag:
+        bounding-polygon: |-
+            Bounding polygon around the areas of interest in the image. If it is not specified, system
+            discretion will be applied. A bounding polygon can be specified by a list of vertices or
+            normalized vertices. A vertex (x, y) represents a 2D point in the image. x, y are integers
+            and are in the same scale as the original image. The normalized vertex coordinates are
+            relative to orginal image and range from 0 to 1. For example,
+            --bounding-polygon=0.,0.,0.,0.3,0.3,0.,0.3,0.3 specifies a polygon with 4 normalized
+            vertices - (0., 0.), (0., 0.3), (0.3, 0.), (0.3, 0.3). Notice that the decimal point is
+            needed for normalized vertex coordindates.
+        category: 'Product category to search in. _CATEGORY_ must be one of: *apparel*, *homegoods*, *toys*.'
+        filter: |-
+            Filter expression to restrict search results based on product labels. ANDs of ORs of
+            key-value expressions are supported, where expressions within an OR must
+            have the same key. Expressions separated by AND must have different keys.
+            An '=' should be used to connect the key and value. For example,
+            '(color = red OR color = blue) AND brand = Google' is acceptable, but not
+            '(color = red OR brand = Google)' or 'color: red'.
+        max-results: Maximum number of results to be provided.
+        product-set: |-
+            ID of the product set or fully qualified identifier for the product set.
+            +
+            To set the `product-set` attribute:
+            * provide the argument `--product-set` on the command line.
+        product-set-location: |-
+            The location of the product set.
+            +
+            To set the `location` attribute:
+            * provide the argument `--product-set` on the command line with a fully specified name;
+            * provide the argument `--product-set-location` on the command line.

@@ -1,0 +1,110 @@
+name: manual
+description: Updates a manual trigger used by Cloud Build.
+flags:
+    --clear-substitutions: Clear existing substitutions.
+    --description=: Build trigger description.
+    --dockerfile-dir=: Location of the directory containing the Dockerfile in the repository.
+    --dockerfile-image=: Docker image name to build.
+    --dockerfile=!: Path of Dockerfile to use for builds in the repository.
+    --git-file-source-branch=: The branch of the repository to clone when trigger is invoked.
+    --git-file-source-github-enterprise-config=: The resource name of the GitHub Enterprise config that should be applied to this source.
+    --git-file-source-path=: The file in the repository to clone when trigger is invoked.
+    --git-file-source-repo-type=!: The type of the repository to clone when trigger is invoked.
+    --git-file-source-repository=&: Repository resource (2nd gen) to use, in the format "projects/*/locations/*/connections/*/repositories/*".
+    --git-file-source-tag=: The tag of the repository to clone when trigger is invoked.
+    --git-file-source-uri=!: The URI of the repository to clone when trigger is invoked.
+    --inline-config=: Local path to a YAML or JSON file containing a build configuration.
+    --no-clear-substitutions&: Clear existing substitutions.
+    --no-require-approval&: Require manual approval for triggered builds.
+    --region=: The Cloud location for the trigger.
+    --remove-substitutions=: Remove existing substitutions if present.
+    --require-approval: Require manual approval for triggered builds.
+    --service-account=: The service account used for all user-controlled operations including UpdateBuildTrigger, RunBuildTrigger, CreateBuild, and CancelBuild.
+    --source-to-build-branch=: Branch to build.
+    --source-to-build-github-enterprise-config=: The resource name of the GitHub Enterprise config that should be applied to
+    --source-to-build-repo-type=!: Type of the repository (1st gen).
+    --source-to-build-repository=&: Repository resource (2nd gen) to use, in the format "projects/*/locations/*/connections/*/repositories/*".
+    --source-to-build-tag=: Tag to build.
+    --source-to-build-uri=!: The URI of the repository that should be applied to this source (1st gen).
+    --trigger-config=: Path to Build Trigger config file (JSON or YAML format).
+    --update-substitutions=: Update or add to existing substitutions.
+documentation:
+    command: Updates a manual trigger used by Cloud Build.
+    flag:
+        clear-substitutions: Clear existing substitutions.
+        description: Build trigger description.
+        dockerfile: |-
+            Path of Dockerfile to use for builds in the repository.
+            +
+            If specified, a build config will be generated to run docker
+            build using the specified file.
+            +
+            The filename is relative to the Dockerfile directory.
+        dockerfile-dir: |-
+            Location of the directory containing the Dockerfile in the repository.
+            +
+            The directory will also be used as the Docker build context.
+        dockerfile-image: |-
+            Docker image name to build.
+            +
+            If not specified, gcr.io/PROJECT/github.com/REPO_OWNER/REPO_NAME:$COMMIT_SHA will be used.
+            +
+            Use a build configuration (cloudbuild.yaml) file for building multiple images in a single trigger.
+        git-file-source-branch: The branch of the repository to clone when trigger is invoked.
+        git-file-source-github-enterprise-config: The resource name of the GitHub Enterprise config that should be applied to this source.
+        git-file-source-path: The file in the repository to clone when trigger is invoked.
+        git-file-source-repo-type: The type of the repository to clone when trigger is invoked.
+        git-file-source-repository: |
+            Repository resource (2nd gen) to use, in the format "projects/*/locations/*/connections/*/repositories/*".
+        git-file-source-tag: The tag of the repository to clone when trigger is invoked.
+        git-file-source-uri: The URI of the repository to clone when trigger is invoked.
+        inline-config: Local path to a YAML or JSON file containing a build configuration.
+        no-clear-substitutions: Clear existing substitutions.
+        no-require-approval: Require manual approval for triggered builds.
+        region: |-
+            The Cloud location for the trigger.
+            +
+            To set the `region` attribute:
+            * provide the argument `TRIGGER` on the command line with a fully specified name;
+            * provide the argument `--region` on the command line;
+            * set the property `builds/region`.
+        remove-substitutions: Remove existing substitutions if present.
+        require-approval: Require manual approval for triggered builds. Use *--require-approval* to enable and *--no-require-approval* to disable.
+        service-account: 'The service account used for all user-controlled operations including UpdateBuildTrigger, RunBuildTrigger, CreateBuild, and CancelBuild. If no service account is set, then the standard Cloud Build service account ([PROJECT_NUM]@system.gserviceaccount.com) is used instead. Format: `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT_ID_OR_EMAIL}`.'
+        source-to-build-branch: Branch to build.
+        source-to-build-github-enterprise-config: |-
+            The resource name of the GitHub Enterprise config that should be applied to
+            this source (1st gen).
+            Format: projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}
+            or projects/{project}/githubEnterpriseConfigs/{id}
+        source-to-build-repo-type: |-
+            Type of the repository (1st gen). Currently only GitHub and Cloud Source
+            Repository types are supported.
+        source-to-build-repository: |
+            Repository resource (2nd gen) to use, in the format "projects/*/locations/*/connections/*/repositories/*".
+        source-to-build-tag: Tag to build.
+        source-to-build-uri: The URI of the repository that should be applied to this source (1st gen).
+        trigger-config: |-
+            Path to Build Trigger config file (JSON or YAML format). For more details, see
+            https://cloud.google.com/cloud-build/docs/api/reference/rest/v1/projects.triggers#BuildTrigger
+        update-substitutions: |-
+            Update or add to existing substitutions.
+            Substitutions are parameters to be substituted or add in the build specification.
+            +
+            For example (using some nonsensical substitution keys; all keys must begin with
+            an underscore):
+            +
+              $ gcloud builds triggers update ...
+                  --update-substitutions _FAVORITE_COLOR=blue,_NUM_CANDIES=10
+            +
+            This will add the provided substitutions to the existing substitutions and
+            results in a build where every occurrence of ```${_FAVORITE_COLOR}```
+            in certain fields is replaced by "blue", and similarly for ```${_NUM_CANDIES}```
+            and "10".
+            +
+            Only the following built-in variables can be specified with the
+            `--substitutions` flag: REPO_NAME, BRANCH_NAME, TAG_NAME, REVISION_ID,
+            COMMIT_SHA, SHORT_SHA.
+            +
+            For more details, see:
+            https://cloud.google.com/build/docs/build-config-file-schema#substitutions

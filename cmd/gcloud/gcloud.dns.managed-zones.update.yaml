@@ -1,0 +1,125 @@
+name: update
+description: Update an existing Cloud DNS managed-zone.
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --clear-labels: Remove all labels.
+    --denial-of-existence=: Requires DNSSEC enabled.
+    --description=: Short description for the managed zone.
+    --dnssec-state=: The DNSSEC state for this managed zone.
+    --forwarding-targets=: List of IPv4/IPv6 addresses or one domain name of the target name server that the zone will forward queries to.
+    --gkeclusters=: List of GKE clusters that the zone should be visible in if the zone visibility is [private].
+    --ksk-algorithm=: String mnemonic specifying the DNSSEC algorithm of the key-signing key.
+    --ksk-key-length=: Length of the key-signing key in bits.
+    --location=: Specifies the desired service location the request is sent to.
+    --log-dns-queries: Specifies whether to enable query logging.
+    --managed-reverse-lookup: Specifies whether this zone is a managed reverse lookup zone, required for Cloud DNS to correctly resolve Non-RFC1918 PTR records.
+    --networks=: List of networks that the zone should be visible in if the zone visibility is [private].
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-clear-labels&: Remove all labels.
+    --no-log-dns-queries&: Specifies whether to enable query logging.
+    --no-managed-reverse-lookup&: Specifies whether this zone is a managed reverse lookup zone, required for Cloud DNS to correctly resolve Non-RFC1918 PTR records.
+    --private-forwarding-targets=: List of IPv4/IPv6 addresses or one domain name of the target name server that the zone will forward queries to.
+    --remove-labels=: List of label keys to remove.
+    --target-network=!: Network ID of the Google Compute Engine private network to forward queries to.
+    --target-project=!: Project ID of the Google Compute Engine private network to forward queries to.
+    --update-labels=: List of label KEY=VALUE pairs to update.
+    --zsk-algorithm=: String mnemonic specifying the DNSSEC algorithm of the key-signing key.
+    --zsk-key-length=: Length of the zone-signing key in bits.
+completion:
+    flag:
+        denial-of-existence:
+            - nsec
+            - nsec3
+        dnssec-state:
+            - "off"
+            - "on"
+            - transfer
+        ksk-algorithm:
+            - ecdsap256sha256
+            - ecdsap384sha384
+            - rsasha1
+            - rsasha256
+            - rsasha512
+        zsk-algorithm:
+            - ecdsap256sha256
+            - ecdsap384sha384
+            - rsasha1
+            - rsasha256
+            - rsasha512
+documentation:
+    command: |-
+        Update an existing Cloud DNS managed-zone.
+
+        ## EXAMPLES
+
+        To change the description of a managed-zone, run:
+
+          $ gcloud dns managed-zones update my-zone --description="Hello, world!"
+
+        To change the description of a zonal managed-zone in us-east1-a, run:
+
+          $ gcloud dns managed-zones update my-zone --description="Hello, world!" --location=us-east1-a
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        clear-labels: |-
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} --clear-labels
+            +
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        denial-of-existence: 'Requires DNSSEC enabled. _DENIAL_OF_EXISTENCE_ must be one of: *nsec*, *nsec3*.'
+        description: Short description for the managed zone.
+        dnssec-state: |-
+            The DNSSEC state for this managed zone. _DNSSEC_STATE_ must be one of:
+            +
+            *off*::: Disable DNSSEC for the managed zone.
+            *on*::: Enable DNSSEC for the managed zone.
+            *transfer*::: Enable DNSSEC and allow transferring a signed zone in or out.
+            :::
+            +
+        forwarding-targets: List of IPv4/IPv6 addresses or one domain name of the target name server that the zone will forward queries to. Ignored for `public` visibility. Non-RFC1918 addresses will forward to the target through the Internet. RFC1918 addresses will forward through the VPC.
+        gkeclusters: List of GKE clusters that the zone should be visible in if the zone visibility is [private].
+        ksk-algorithm: 'String mnemonic specifying the DNSSEC algorithm of the key-signing key. Requires DNSSEC enabled. _KSK_ALGORITHM_ must be one of: *ecdsap256sha256*, *ecdsap384sha384*, *rsasha1*, *rsasha256*, *rsasha512*.'
+        ksk-key-length: Length of the key-signing key in bits. Requires DNSSEC enabled.
+        location: Specifies the desired service location the request is sent to. Defaults to Cloud DNS global service. Use --location=global if you want to target the global service.
+        log-dns-queries: Specifies whether to enable query logging. Defaults to False. Use *--log-dns-queries* to enable and *--no-log-dns-queries* to disable.
+        managed-reverse-lookup: Specifies whether this zone is a managed reverse lookup zone, required for Cloud DNS to correctly resolve Non-RFC1918 PTR records.
+        networks: List of networks that the zone should be visible in if the zone visibility is [private].
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-clear-labels: |
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} --clear-labels
+
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        no-log-dns-queries: Specifies whether to enable query logging. Defaults to False.
+        no-managed-reverse-lookup: Specifies whether this zone is a managed reverse lookup zone, required for Cloud DNS to correctly resolve Non-RFC1918 PTR records.
+        private-forwarding-targets: List of IPv4/IPv6 addresses or one domain name of the target name server that the zone will forward queries to. Ignored for `public` visibility. All addresses specified for this parameter will be reached through the VPC.
+        remove-labels: |-
+            List of label keys to remove. If a label does not exist it is
+            silently ignored. If `--update-labels` is also specified then
+            `--update-labels` is applied first.
+        target-network: Network ID of the Google Compute Engine private network to forward queries to.
+        target-project: Project ID of the Google Compute Engine private network to forward queries to.
+        update-labels: |-
+            List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+        zsk-algorithm: 'String mnemonic specifying the DNSSEC algorithm of the key-signing key. Requires DNSSEC enabled. _ZSK_ALGORITHM_ must be one of: *ecdsap256sha256*, *ecdsap384sha384*, *rsasha1*, *rsasha256*, *rsasha512*.'
+        zsk-key-length: Length of the zone-signing key in bits. Requires DNSSEC enabled.

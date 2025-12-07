@@ -1,0 +1,146 @@
+name: create
+description: '*(ALPHA)*  Create an order for a transfer appliance.'
+flags:
+    --address=: Address where the appliance will be shipped.
+    --clone-region=: The region affiliated with the order.
+    --clone=!: ID of the order or fully qualified identifier for the order.
+    --cmek=: Customer-managed key which will add additional layer of security.
+    --country=!: Country where the appliance will be shipped.
+    --delivery-notes=: Add any additional details about your order, such as site details and a preference date when the appliance should be delivered.
+    --display-name=: A mutable, user-settable name for both the appliance and the order.
+    --internet-enabled: Gives the option to put the appliance into online mode, allowing it to transfer data and/or remotely report progress to the cloud over the network.
+    --model=!: Model of the appliance to order.
+    --no-internet-enabled&: Gives the option to put the appliance into online mode, allowing it to transfer data and/or remotely report progress to the cloud over the network.
+    --no-submit&: When specified the order will be submitted immediately.
+    --offline-export=: Configuration for an offline export transfer, where data is downloaded onto
+    --offline-import=: Destination for a offline import, where data is loaded onto the appliance at the customer site and ingested at Google.
+    --online-import=: Destination for a online import, where data is loaded onto the appliance and automatically transferred to Cloud Storage whenever it has an internet connection.
+    --order-contact=: '*business*::: Name of the business, if applicable.'
+    --shipping-contact=: '*business*::: Name of the business, if applicable.'
+    --submit: When specified the order will be submitted immediately.
+completion:
+    flag:
+        country:
+            - US
+            - AT
+            - BE
+            - BG
+            - HR
+            - CY
+            - CZ
+            - DK
+            - EE
+            - FI
+            - FR
+            - DE
+            - GR
+            - HU
+            - IE
+            - IT
+            - LV
+            - LT
+            - LU
+            - MT
+            - NL
+            - PL
+            - PT
+            - RO
+            - SK
+            - SI
+            - ES
+            - SE
+            - GB
+            - CA
+            - "NO"
+            - CH
+            - SG
+        model:
+            - TA40_RACKABLE
+            - TA40_STANDALONE
+            - TA300_RACKABLE
+            - TA300_STANDALONE
+            - TA7
+            - EA_STORAGE_7
+            - EA_GPU_T4
+documentation:
+    command: |
+        *(ALPHA)*  *gcloud alpha transfer appliances orders create* facilitates the creation of Transfer Appliance orders.
+        When an order is created, an appliance record is created as well.
+    flag:
+        address: |-
+            Address where the appliance will be shipped. All fields (or list items)
+            have a maximum of 80 characters. For more information see
+            https://support.google.com/business/answer/6397478.
+            +
+            *lines*::: Line of the postal address that doesn't fit in the other
+            fields. For most countries/regions, the first line will include a street
+            number and street name. You can have up to 5 address lines.
+            +
+            *locality*::: Generally refers to the city/town portion of the address.
+            +
+            *administrative_area*::: The state or province where the business is
+            located. Enter the full name (e.g. "California"), common postal
+            abbreviation (e.g. "CA"), or subdivision (ISO 3166-2) code
+            (e.g. "US-CA").
+            +
+            *postal_code*::: The postal code of the address.
+        clone: |-
+            ID of the order or fully qualified identifier for the order.
+            +
+            To set the `order` attribute:
+            * provide the argument `--clone` on the command line.
+        clone-region: |-
+            The region affiliated with the order.
+            +
+            To set the `region` attribute:
+            * provide the argument `--clone` on the command line with a fully specified name;
+            * provide the argument `--clone-region` on the command line;
+            * provide the argument `--region` on the command line.
+        cmek: Customer-managed key which will add additional layer of security. By default data is encrypted with a Google-managed key.
+        country: 'Country where the appliance will be shipped. Note that this cannot be changed. To ship the appliance to a different country, clone the order instead and set a different country and delivery  address. To view a complete list of country codes and names see https://support.google.com/business/answer/6270107. _COUNTRY_ must be one of: *US*, *AT*, *BE*, *BG*, *HR*, *CY*, *CZ*, *DK*, *EE*, *FI*, *FR*, *DE*, *GR*, *HU*, *IE*, *IT*, *LV*, *LT*, *LU*, *MT*, *NL*, *PL*, *PT*, *RO*, *SK*, *SI*, *ES*, *SE*, *GB*, *CA*, *NO*, *CH*, *SG*.'
+        delivery-notes: Add any additional details about your order, such as site details and a preference date when the appliance should be delivered.
+        display-name: A mutable, user-settable name for both the appliance and the order.
+        internet-enabled: Gives the option to put the appliance into online mode, allowing it to transfer data and/or remotely report progress to the cloud over the network. When disabled only offline transfers are possible.
+        model: 'Model of the appliance to order. _MODEL_ must be one of: *TA40_RACKABLE*, *TA40_STANDALONE*, *TA300_RACKABLE*, *TA300_STANDALONE*, *TA7*, *EA_STORAGE_7*, *EA_GPU_T4*.'
+        no-internet-enabled: Gives the option to put the appliance into online mode, allowing it to transfer data and/or remotely report progress to the cloud over the network. When disabled only offline transfers are possible.
+        no-submit: When specified the order will be submitted immediately. By default, orders are created in a draft state. Use `{parent_command} update --submit` to submit the order later.
+        offline-export: |-
+            Configuration for an offline export transfer, where data is downloaded onto
+            the appliance at Google and copied from the appliance at the customer site.
+            +
+            *source*::: The Cloud Storage bucket or folder where the data is located,
+            in the form of `gs://my-bucket/path/to/folder/`.
+            +
+            *manifest*::: Specifies the path to the manifest in Cloud Storage.
+            An example path is `gs://bucket_name/path/manifest.csv`. The paths in
+            the manifest file are relative to bucketname. For example, to export
+            `SOURCE_PATH/object1.pdf`, manifest will have `object1.pdf` in the first
+            column, followed by object version (optional). For more information see
+            https://cloud.google.com/storage-transfer/docs/manifest#object_storage_transfers.
+        offline-import: Destination for a offline import, where data is loaded onto the appliance at the customer site and ingested at Google. Should be in the form of `gs://my-bucket/path/to/folder/`.
+        online-import: Destination for a online import, where data is loaded onto the appliance and automatically transferred to Cloud Storage whenever it has an internet connection. Should be in the form of `gs://my-bucket/path/to/folder/`.
+        order-contact: |-
+            *business*::: Name of the business, if applicable.
+            +
+            *name*::: Name of the primary contact.
+            +
+            *phone*::: The phone number of the primary contact. Should be given in E.164
+            format consisting of the country calling code (1 to 3 digits) and the
+            subscriber number, with no additional spaces or formatting, e.g.
+            `15552220123`.
+            +
+            *emails*::: The email of the primary contact along with any additional email
+            addresses to include with all correspondence.
+        shipping-contact: |-
+            *business*::: Name of the business, if applicable.
+            +
+            *name*::: Name of the primary contact.
+            +
+            *phone*::: The phone number of the primary contact. Should be given in E.164
+            format consisting of the country calling code (1 to 3 digits) and the
+            subscriber number, with no additional spaces or formatting, e.g.
+            `15552220123`.
+            +
+            *emails*::: The email of the primary contact along with any additional email
+            addresses to include with all correspondence.
+        submit: When specified the order will be submitted immediately. By default, orders are created in a draft state. Use `{parent_command} update --submit` to submit the order later.

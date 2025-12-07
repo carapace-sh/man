@@ -1,0 +1,120 @@
+name: disk
+description: Restores a Compute Disk Backup.
+flags:
+    --access-mode=: Specifies how VMs attached to the disk can access the data on the disk.
+    --architecture=: Specifies the architecture or processor type that this disk can support.
+    --async: Return immediately, without waiting for the operation in progress to
+    --backup-vault=: The ID of the Backup Vault.
+    --clear-encryption-key: The restored disk reverts to GMEK (CMEK is disabled).
+    --confidential-compute: Creates the disk with confidential compute mode enabled.
+    --data-source=: The ID of the Data Source.
+    --description=: Specifies a textual description of the restored disk.
+    --guest-os-features=: Enables one or more features for VM instances that use the image for their boot disks.
+    --kms-key=: The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk
+    --labels=: List of label KEY=VALUE pairs to add.
+    --licenses=: A list of URIs to license resources.
+    --location=: The location of the Backup.
+    --name=!: Name of the restored Disk.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-clear-encryption-key&: The restored disk reverts to GMEK (CMEK is disabled).
+    --no-confidential-compute&: ""
+    --provisioned-iops=: Provisioned IOPS of disk to create.
+    --provisioned-throughput=: Provisioned throughput of disk to create.
+    --replica-zones=: A comma-separated list of exactly 2 URLs of the zones where the disk should be replicated to.
+    --resource-policies=: A list of resource policy names to be added to the disk.
+    --size=: Size of the disk in GB.
+    --storage-pool=: Specifies the URI of the storage pool in which the disk is created.
+    --target-project=!: Project where the restore should happen.
+    --target-region=: Region where the target disk is restored.
+    --target-zone=: Zone where the target disk is restored.
+    --type=: URL of the disk type describing which disk type to use to restore the disk.
+completion:
+    flag:
+        access-mode:
+            - READ_ONLY_MANY
+            - READ_WRITE_MANY
+            - READ_WRITE_SINGLE
+        architecture:
+            - ARM64
+            - X86_64
+documentation:
+    command: Restores a Compute Disk Backup.
+    flag:
+        access-mode: |-
+            Specifies how VMs attached to the disk can access the data on the disk. To grant read-only access to multiple VMs attached to the disk, set access-mode to READ_ONLY_MANY. To grant read-write access to only one VM attached to the disk, use READ_WRITE_SINGLE. READ_WRITE_SINGLE is used if omitted. ACCESS_MODE must be one of: READ_ONLY_MANY, READ_WRITE_MANY, READ_WRITE_SINGLE. _ACCESS_MODE_ must be one of:
+            +
+            *READ_ONLY_MANY*::: The AccessMode means the disk can be attached to multiple instances in RW mode.
+            *READ_WRITE_MANY*::: The AccessMode means the disk can be attached to multiple instances in RO mode.
+            *READ_WRITE_SINGLE*::: The default AccessMode, means the disk can be attached to single instance in RW mode.
+            :::
+            +
+        architecture: |-
+            Specifies the architecture or processor type that this disk can support. For available processor types on Compute Engine, see https://cloud.google.com/compute/docs/cpu-platforms. ARCHITECTURE must be one of: ARM64, X86_64. _ARCHITECTURE_ must be one of:
+            +
+            *ARM64*::: The disk can only be used with ARM64 machines.
+            *X86_64*::: The disk can only be used with x86_64 machines.
+            :::
+            +
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete. The default is *True*. Enabled by default, use *--no-async* to disable.
+        backup-vault: |-
+            The ID of the Backup Vault.
+            +
+            To set the `backup-vault` attribute:
+            * provide the argument `backup` on the command line with a fully specified name;
+            * provide the argument `--backup-vault` on the command line.
+        clear-encryption-key: The restored disk reverts to GMEK (CMEK is disabled).
+        confidential-compute: Creates the disk with confidential compute mode enabled. Encryption with a Cloud KMS key is required to enable this option.
+        data-source: |-
+            The ID of the Data Source.
+            +
+            To set the `data-source` attribute:
+            * provide the argument `backup` on the command line with a fully specified name;
+            * provide the argument `--data-source` on the command line.
+        description: Specifies a textual description of the restored disk.
+        guest-os-features: 'Enables one or more features for VM instances that use the image for their boot disks. See the descriptions of supported features at: https://cloud.google.com/compute/docs/images/create-delete-deprecate-private-images#guest-os-features. GUEST_OS_FEATURE must be one of: VIRTIO_SCSI_MULTIQUEUE, WINDOWS, MULTI_IP_SUBNET, UEFI_COMPATIBLE, SEV_CAPABLE, SEV_LIVE_MIGRATABLE, SEV_LIVE_MIGRATABLE_V2, SEV_SNP_CAPABLE, GVNIC, IDPF, TDX_CAPABLE, SUSPEND_RESUME_COMPATIBLE.'
+        kms-key: |-
+            The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk
+            Provide the full resource name of the cryptokey in the format:
+            projects/<project>/locations/<location>/keyRings/<key-ring>/cryptoKeys/<key>
+        labels: |-
+            List of label KEY=VALUE pairs to add.
+            +
+            Keys must start with a lowercase character and contain only hyphens (-),
+            underscores (_), lowercase characters, and numbers. Values must contain
+            only hyphens (-), underscores (_), lowercase characters, and numbers.
+        licenses: A list of URIs to license resources. The provided licenses will be added onto the created disks to indicate the licensing and billing policies.
+        location: |-
+            The location of the Backup.
+            +
+            To set the `location` attribute:
+            * provide the argument `backup` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line.
+        name: Name of the restored Disk.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-clear-encryption-key: |
+            The restored disk reverts to GMEK (CMEK is disabled).
+        no-confidential-compute: |
+            Creates the disk with confidential compute mode enabled. Encryption with a Cloud KMS key is required to enable this option.
+        provisioned-iops: Provisioned IOPS of disk to create. Only for use with disks of type pd-extreme and hyperdisk-extreme.
+        provisioned-throughput: Provisioned throughput of disk to create. The throughput unit is  MB per sec.  Only for use with disks of type hyperdisk-throughput.
+        replica-zones: A comma-separated list of exactly 2 URLs of the zones where the disk should be replicated to. Required when restoring to a regional disk. The zones must be in the same region as specified in the --target-region flag. See available zones with gcloud compute zones list.
+        resource-policies: |-
+            A list of resource policy names to be added to the disk.
+            The policies must exist in the same region as the disk.
+        size: |-
+            Size of the disk in GB.
+            Disk size must be a multiple of 1 GB. If disk size is not specified,
+            the default size of 500GB for pd-standard disks, 100GB for
+            pd-balanced disks, 100GB for pd-ssd disks, and 1000GB for pd-extreme disks
+            will be used.
+            For details about disk size limits,
+            refer to: https://cloud.google.com/compute/docs/disks
+        storage-pool: Specifies the URI of the storage pool in which the disk is created.
+        target-project: Project where the restore should happen.
+        target-region: Region where the target disk is restored. This flag is mutually exclusive with --target-zone.
+        target-zone: Zone where the target disk is restored. This flag is mutually exclusive with --target-region.
+        type: 'URL of the disk type describing which disk type to use to restore the disk. For example: projects/project/zones/zone/diskTypes/pd-ssd. To get a list of available disk types, run gcloud compute disk-types list. The default disk type is pd-standard.'

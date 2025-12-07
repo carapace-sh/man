@@ -1,0 +1,860 @@
+name: create
+description: '*(ALPHA)*  Create a cluster.'
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --auto-zone-exclude-zones=&: ""
+    --autoscaling-policy=!: ID of the autoscaling policy or fully qualified identifier for the autoscaling policy.
+    --bigquery-metastore: Indicates that BigQuery metastore is to be used.
+    --bigquery-metastore-database-location=: Location of the  BigQuery metastore database to be used as an external metastore.
+    --bigquery-metastore-project-id=: The project ID of the  BigQuery metastore database to be used as an external metastore.
+    --bucket=: The Google Cloud Storage bucket to use by default to stage job
+    --cluster-type=: The type of cluster.
+    --dataproc-metastore=: Specify the name of a Dataproc Metastore service to be used as an
+    --delete-expiration-time=: The time when the cluster will be auto-deleted, such as
+    --delete-max-age=: The lifespan of the cluster, with auto-deletion upon completion,
+    --delete-max-idle=: The duration after the last job completes to auto-delete the
+    --driver-pool-accelerator=: Attaches accelerators, such as GPUs, to the driver-pool
+    --driver-pool-boot-disk-size=: The size of the boot disk.
+    --driver-pool-boot-disk-type=: The type of the boot disk.
+    --driver-pool-id=: Custom identifier for the DRIVER Node Group being created.
+    --driver-pool-local-ssd-interface=: Interface to use to attach local SSDs to cluster driver pool node(s).
+    --driver-pool-machine-type=: The type of machine to use for the cluster driver pool nodes.
+    --driver-pool-min-cpu-platform=: When specified, the VM is scheduled on the host with a specified CPU
+    --driver-pool-size=: The size of the cluster driver pool.
+    --enable-component-gateway: Enable access to the web UIs of selected components on the cluster through the component gateway.
+    --enable-kerberos: Enable Kerberos on the cluster.
+    --enable-node-groups=&: Create cluster nodes using Dataproc NodeGroups.
+    --expiration-time=&: The time when the cluster will be auto-deleted, such as
+    --gce-pd-kms-key-keyring=: The KMS keyring of the key.
+    --gce-pd-kms-key-location=: The Google Cloud location for the key.
+    --gce-pd-kms-key-project=: The Google Cloud project for the key.
+    --gce-pd-kms-key=!: ID of the key or fully qualified identifier for the key.
+    --gke-cluster-namespace=&: Optional.
+    --gke-cluster=&: Required for GKE-based clusters.
+    --image-version=: The image version to use for the cluster.
+    --image=: The custom image used to create the cluster.
+    --initialization-action-timeout=: The maximum duration of each initialization action.
+    --initialization-actions=: A list of Google Cloud Storage URIs of executables to run on each node in the cluster.
+    --kerberos-config-file=: Path to a YAML (or JSON) file containing the configuration for Kerberos on the
+    --kerberos-kms-key-keyring=: The KMS keyring of the key.
+    --kerberos-kms-key-location=: The Google Cloud location for the key.
+    --kerberos-kms-key-project=: The Google Cloud project for the key.
+    --kerberos-kms-key=!: ID of the key or fully qualified identifier for the key.
+    --kerberos-root-principal-password-uri=: Google Cloud Storage URI of a KMS encrypted file containing the root
+    --kms-key=!: ID of the key or fully qualified identifier for the key.
+    --kms-keyring=: The KMS keyring of the key.
+    --kms-location=: The Google Cloud location for the key.
+    --kms-project=: The Google Cloud project for the key.
+    --labels=: List of label KEY=VALUE pairs to add.
+    --master-accelerator=: Attaches accelerators, such as GPUs, to the master
+    --master-attached-disks=&: A list of disk configurations to attach to nodes.
+    --master-boot-disk-provisioned-iops=: Indicates the [IOPS](https://cloud.google.com/compute/docs/disks/hyperdisks#iops)
+    --master-boot-disk-provisioned-throughput=: Indicates the [throughput](https://cloud.google.com/compute/docs/disks/hyperdisks#throughput)
+    --master-boot-disk-size-gb=&: (DEPRECATED) Use `--master-boot-disk-size` flag with "GB" after value.
+    --master-boot-disk-size=: The size of the boot disk.
+    --master-boot-disk-type=: The type of the boot disk.
+    --master-local-ssd-interface=: Interface to use to attach local SSDs to master node(s) in a cluster.
+    --master-machine-type=: The type of machine to use for the master.
+    --master-machine-types=&: Types of machines with optional rank for master nodes to use.
+    --master-min-cpu-platform=: When specified, the VM is scheduled on the host with a specified CPU
+    --max-age=&: The lifespan of the cluster, with auto-deletion upon completion,
+    --max-idle=&: The duration after the last job completes to autto-delete the
+    --metadata=: Metadata to be made available to the guest operating system running on the instances
+    --min-num-workers=: Minimum number of primary worker nodes to provision for cluster creation to succeed.
+    --min-secondary-worker-fraction=: Minimum fraction of secondary worker nodes required to create the cluster.
+    --min-worker-fraction=&: Minimum fraction of worker nodes required to create the cluster.
+    --network=: The Compute Engine network that the VM instances of the cluster will be
+    --no-address: If provided, the instances in the cluster will not be assigned external
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-bigquery-metastore&: Indicates that BigQuery metastore is to be used.
+    --no-enable-component-gateway&: Enable access to the web UIs of selected components on the cluster through the component gateway.
+    --no-enable-kerberos&: Enable Kerberos on the cluster.
+    --no-public-ip-address&: If provided, cluster instances are assigned external IP addresses.
+    --no-shielded-integrity-monitoring&: Enables monitoring and attestation of the boot integrity of the
+    --no-shielded-secure-boot&: The cluster's VMs will boot with secure boot enabled.
+    --no-shielded-vtpm&: The cluster's VMs will boot with the TPM (Trusted Platform Module) enabled.
+    --no-single-node&: Create a single node cluster.
+    --node-group=: The name of the sole-tenant node group to create the cluster on.
+    --num-driver-pool-local-ssds=: The number of local SSDs to attach to each cluster driver pool node.
+    --num-master-local-ssds=: The number of local SSDs to attach to the master in a cluster.
+    --num-masters=: The number of master nodes in the cluster.
+    --num-preemptible-worker-local-ssds=&: (DEPRECATED)       The number of local SSDs to attach to each secondary worker in
+    --num-preemptible-workers=&: (DEPRECATED) The number of preemptible worker nodes in the cluster.
+    --num-secondary-worker-local-ssds=: The number of local SSDs to attach to each preemptible worker in
+    --num-secondary-workers=: The number of secondary worker nodes in the cluster.
+    --num-worker-local-ssds=: The number of local SSDs to attach to each worker in a cluster.
+    --num-workers=: The number of worker nodes in the cluster.
+    --optional-components=: List of optional components to be installed on cluster machines.
+    --preemptible-worker-accelerator=&: (DEPRECATED)       Attaches accelerators, such as GPUs, to the preemptible-worker
+    --preemptible-worker-boot-disk-size=&: (DEPRECATED)       The size of the boot disk.
+    --preemptible-worker-boot-disk-type=&: (DEPRECATED)       The type of the boot disk.
+    --private-ipv6-google-access-type=: The private IPv6 Google access type for the cluster.
+    --properties=: Specifies configuration properties for installed packages, such as Hadoop
+    --public-ip-address: If provided, cluster instances are assigned external IP addresses.
+    --region=: Dataproc region for the cluster.
+    --reservation-affinity=: The type of reservation for the instance.
+    --reservation=: The name of the reservation, required when `--reservation-affinity=specific`.
+    --resource-manager-tags=: Specifies a list of resource manager tags to apply to each cluster node (master and worker nodes).
+    --scopes=: Specifies scopes for the node instances.
+    --secondary-worker-accelerator=: Attaches accelerators, such as GPUs, to the secondary-worker
+    --secondary-worker-attached-disks=&: A list of disk configurations to attach to nodes.
+    --secondary-worker-boot-disk-provisioned-iops=&: Indicates the [IOPS](https://cloud.google.com/compute/docs/disks/hyperdisks#iops)
+    --secondary-worker-boot-disk-provisioned-throughput=&: Indicates the [throughput](https://cloud.google.com/compute/docs/disks/hyperdisks#throughput)
+    --secondary-worker-boot-disk-size=: The size of the boot disk.
+    --secondary-worker-boot-disk-type=: The type of the boot disk.
+    --secondary-worker-local-ssd-interface=: Interface to use to attach local SSDs to each secondary worker
+    --secondary-worker-machine-types=: Types of machines with optional rank for secondary workers to use.
+    --secondary-worker-standard-capacity-base=: This flag sets the base number of Standard VMs to use for [secondary workers](https://cloud.google.com/dataproc/docs/concepts/compute/secondary-vms#preemptible_and_non-preemptible_secondary_workers). Dataproc will create only standard VMs until it reaches this number, then it will mix Spot and Standard VMs according to ``SECONDARY_WORKER_STANDARD_CAPACITY_PERCENT_ABOVE_BASE''.
+    --secondary-worker-standard-capacity-percent-above-base=: When combining Standard and Spot VMs for [secondary-workers](https://cloud.google.com/dataproc/docs/concepts/compute/secondary-vms#preemptible_and_non-preemptible_secondary_workers) once the number of Standard VMs specified by ``SECONDARY_WORKER_STANDARD_CAPACITY_BASE'' has been used, this flag specifies the percentage of the total number of additional Standard VMs secondary workers will use.
+    --secondary-worker-type=: The type of the secondary worker group.
+    --service-account=: The Google Cloud IAM service account to be authenticated as.
+    --shielded-integrity-monitoring: Enables monitoring and attestation of the boot integrity of the
+    --shielded-secure-boot: The cluster's VMs will boot with secure boot enabled.
+    --shielded-vtpm: The cluster's VMs will boot with the TPM (Trusted Platform Module) enabled.
+    --single-node: Create a single node cluster.
+    --stop-expiration-time=: The time when the cluster will be auto-stopped, such as
+    --stop-max-age=: The lifespan of the cluster, with auto-stop upon completion,
+    --stop-max-idle=: The duration after the last job completes to auto-stop the cluster,
+    --subnet=: Specifies the subnet that the cluster will be part of.
+    --tags=: Specifies a list of tags to apply to the instance.
+    --temp-bucket=: The Google Cloud Storage bucket to use by default to store
+    --tier=: Cluster tier.
+    --timeout=&: Client side timeout on how long to wait for Dataproc operations.
+    --worker-accelerator=: Attaches accelerators, such as GPUs, to the worker
+    --worker-attached-disks=&: A list of disk configurations to attach to nodes.
+    --worker-boot-disk-provisioned-iops=: Indicates the [IOPS](https://cloud.google.com/compute/docs/disks/hyperdisks#iops)
+    --worker-boot-disk-provisioned-throughput=: Indicates the [throughput](https://cloud.google.com/compute/docs/disks/hyperdisks#throughput)
+    --worker-boot-disk-size-gb=&: (DEPRECATED) Use `--worker-boot-disk-size` flag with "GB" after value.
+    --worker-boot-disk-size=: The size of the boot disk.
+    --worker-boot-disk-type=: The type of the boot disk.
+    --worker-local-ssd-interface=: Interface to use to attach local SSDs to each worker in a cluster.
+    --worker-machine-type=: The type of machine to use for primary workers.
+    --worker-machine-types=: '[Machine types](https://cloud.google.com/dataproc/docs/concepts/compute/supported-machine-types) for primary worker nodes to use with optional rank.'
+    --worker-min-cpu-platform=: When specified, the VM is scheduled on the host with a specified CPU
+    --zone=: The compute zone (e.g. us-central1-a) for the cluster.
+completion:
+    flag:
+        cluster-type:
+            - standard
+            - single-node
+            - zero-scale
+        private-ipv6-google-access-type:
+            - inherit-subnetwork
+            - outbound
+            - bidirectional
+        reservation-affinity:
+            - any
+            - none
+            - specific
+        secondary-worker-type:
+            - preemptible
+            - non-preemptible
+            - spot
+        tier:
+            - premium
+            - standard
+documentation:
+    command: '*(ALPHA)*  Create a cluster.'
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        auto-zone-exclude-zones: |
+            A comma-separated list of compute zones (e.g. us-central1-a) to
+            exclude when picking the zone for the cluster.
+        autoscaling-policy: |-
+            ID of the autoscaling policy or fully qualified identifier for the autoscaling policy.
+            +
+            To set the `autoscaling_policy` attribute:
+            * provide the argument `--autoscaling-policy` on the command line.
+        bigquery-metastore: Indicates that BigQuery metastore is to be used.
+        bigquery-metastore-database-location: Location of the  BigQuery metastore database to be used as an external metastore.
+        bigquery-metastore-project-id: The project ID of the  BigQuery metastore database to be used as an external metastore.
+        bucket: |-
+            The Google Cloud Storage bucket to use by default to stage job
+            dependencies, miscellaneous config files, and job driver console output
+            when using this cluster.
+        cluster-type: 'The type of cluster. _TYPE_ must be one of: *standard*, *single-node*, *zero-scale*.'
+        dataproc-metastore: |-
+            Specify the name of a Dataproc Metastore service to be used as an
+            external metastore in the format:
+            "projects/{project-id}/locations/{region}/services/{service-name}".
+        delete-expiration-time: |-
+            The time when the cluster will be auto-deleted, such as
+            "2017-08-29T18:52:51.142Z."
+            See $ gcloud topic datetimes for information on time formats.
+        delete-max-age: |-
+            The lifespan of the cluster, with auto-deletion upon completion,
+            such as "2h" or "1d".
+            See $ gcloud topic datetimes for information on duration formats.
+        delete-max-idle: |-
+            The duration after the last job completes to auto-delete the
+            cluster, such as "2h" or "1d".
+            See $ gcloud topic datetimes for information on duration formats.
+        driver-pool-accelerator: |-
+            Attaches accelerators, such as GPUs, to the driver-pool
+            instance(s).
+            +
+            *type*::: The specific type of accelerator to attach to the instances,
+            such as `nvidia-tesla-t4` for NVIDIA T4. Use `gcloud compute
+            accelerator-types list` to display available accelerator types.
+            +
+            *count*::: The number of accelerators to attach to each instance. The default value is 1.
+        driver-pool-boot-disk-size: |-
+            The size of the boot disk. The value must be a
+            whole number followed by a size unit of ``KB'' for kilobyte, ``MB''
+            for megabyte, ``GB'' for gigabyte, or ``TB'' for terabyte. For example,
+            ``10GB'' will produce a 10 gigabyte disk. The minimum size a boot disk
+            can have is 10 GB. Disk size must be a multiple of 1 GB.
+        driver-pool-boot-disk-type: |-
+            The type of the boot disk. The value must be `pd-balanced`,
+            `pd-ssd`, or `pd-standard`.
+        driver-pool-id: |-
+            Custom identifier for the DRIVER Node Group being created. If not
+            provided, a random string is generated.
+        driver-pool-local-ssd-interface: Interface to use to attach local SSDs to cluster driver pool node(s).
+        driver-pool-machine-type: The type of machine to use for the cluster driver pool nodes. Defaults to server-specified.
+        driver-pool-min-cpu-platform: |-
+            When specified, the VM is scheduled on the host with a specified CPU
+            architecture or a more recent CPU platform that's available in that
+            zone. To list available CPU platforms in a zone, run:
+            +
+                $ gcloud compute zones describe ZONE
+            +
+            CPU platform selection may not be available in a zone. Zones
+            that support CPU platform selection provide an `availableCpuPlatforms`
+            field, which contains the list of available CPU platforms in the zone
+            (see [Availability of CPU platforms](/compute/docs/instances/specify-min-cpu-platform#availablezones)
+            for more information).
+        driver-pool-size: The size of the cluster driver pool.
+        enable-component-gateway: Enable access to the web UIs of selected components on the cluster through the component gateway.
+        enable-kerberos: Enable Kerberos on the cluster.
+        enable-node-groups: |
+            Create cluster nodes using Dataproc NodeGroups. All the required VMs will be created using GCE MIG.
+        expiration-time: |
+            The time when the cluster will be auto-deleted, such as
+            "2017-08-29T18:52:51.142Z." See $ gcloud topic datetimes for
+            information on time formats.
+        gce-pd-kms-key: |-
+            ID of the key or fully qualified identifier for the key.
+            +
+            To set the `kms-key` attribute:
+            * provide the argument `--gce-pd-kms-key` on the command line.
+        gce-pd-kms-key-keyring: |-
+            The KMS keyring of the key.
+            +
+            To set the `kms-keyring` attribute:
+            * provide the argument `--gce-pd-kms-key` on the command line with a fully specified name;
+            * provide the argument `--gce-pd-kms-key-keyring` on the command line.
+        gce-pd-kms-key-location: |-
+            The Google Cloud location for the key.
+            +
+            To set the `kms-location` attribute:
+            * provide the argument `--gce-pd-kms-key` on the command line with a fully specified name;
+            * provide the argument `--gce-pd-kms-key-location` on the command line.
+        gce-pd-kms-key-project: |-
+            The Google Cloud project for the key.
+            +
+            To set the `kms-project` attribute:
+            * provide the argument `--gce-pd-kms-key` on the command line with a fully specified name;
+            * provide the argument `--gce-pd-kms-key-project` on the command line;
+            * set the property `core/project`.
+        gke-cluster: |
+            Required for GKE-based clusters. Specify the name of the GKE cluster to
+            deploy this GKE-based Dataproc cluster to. This should be the short name
+            and not the full path name.
+        gke-cluster-namespace: |
+            Optional. Specify the name of the namespace to deploy Dataproc system
+            components into. This namespace does not need to already exist.
+        image: The custom image used to create the cluster. It can be the image name, the image URI, or the image family URI, which selects the latest image from the family.
+        image-version: The image version to use for the cluster. Defaults to the latest version.
+        initialization-action-timeout: The maximum duration of each initialization action. See $ gcloud topic datetimes for information on duration formats.
+        initialization-actions: A list of Google Cloud Storage URIs of executables to run on each node in the cluster.
+        kerberos-config-file: |-
+            Path to a YAML (or JSON) file containing the configuration for Kerberos on the
+            cluster. If you pass `-` as the value of the flag the file content will be read
+            from stdin.
+            +
+            The YAML file is formatted as follows:
+            +
+            ```
+              # Optional. Flag to indicate whether to Kerberize the cluster.
+              # The default value is true.
+              enable_kerberos: true
+            +
+              # Optional. The Google Cloud Storage URI of a KMS encrypted file
+              # containing the root principal password.
+              root_principal_password_uri: gs://bucket/password.encrypted
+            +
+              # Optional. The URI of the Cloud KMS key used to encrypt
+              # sensitive files.
+              kms_key_uri:
+                projects/myproject/locations/global/keyRings/mykeyring/cryptoKeys/my-key
+            +
+              # Configuration of SSL encryption. If specified, all sub-fields
+              # are required. Otherwise, Dataproc will provide a self-signed
+              # certificate and generate the passwords.
+              ssl:
+                # Optional. The Google Cloud Storage URI of the keystore file.
+                keystore_uri: gs://bucket/keystore.jks
+            +
+                # Optional. The Google Cloud Storage URI of a KMS encrypted
+                # file containing the password to the keystore.
+                keystore_password_uri: gs://bucket/keystore_password.encrypted
+            +
+                # Optional. The Google Cloud Storage URI of a KMS encrypted
+                # file containing the password to the user provided key.
+                key_password_uri: gs://bucket/key_password.encrypted
+            +
+                # Optional. The Google Cloud Storage URI of the truststore
+                # file.
+                truststore_uri: gs://bucket/truststore.jks
+            +
+                # Optional. The Google Cloud Storage URI of a KMS encrypted
+                # file containing the password to the user provided
+                # truststore.
+                truststore_password_uri:
+                  gs://bucket/truststore_password.encrypted
+            +
+              # Configuration of cross realm trust.
+              cross_realm_trust:
+                # Optional. The remote realm the Dataproc on-cluster KDC will
+                # trust, should the user enable cross realm trust.
+                realm: REMOTE.REALM
+            +
+                # Optional. The KDC (IP or hostname) for the remote trusted
+                # realm in a cross realm trust relationship.
+                kdc: kdc.remote.realm
+            +
+                # Optional. The admin server (IP or hostname) for the remote
+                # trusted realm in a cross realm trust relationship.
+                admin_server: admin-server.remote.realm
+            +
+                # Optional. The Google Cloud Storage URI of a KMS encrypted
+                # file containing the shared password between the on-cluster
+                # Kerberos realm and the remote trusted realm, in a cross
+                # realm trust relationship.
+                shared_password_uri:
+                  gs://bucket/cross-realm.password.encrypted
+            +
+              # Optional. The Google Cloud Storage URI of a KMS encrypted file
+              # containing the master key of the KDC database.
+              kdc_db_key_uri: gs://bucket/kdc_db_key.encrypted
+            +
+              # Optional. The lifetime of the ticket granting ticket, in
+              # hours. If not specified, or user specifies 0, then default
+              # value 10 will be used.
+              tgt_lifetime_hours: 1
+            +
+              # Optional. The name of the Kerberos realm. If not specified,
+              # the uppercased domain name of the cluster will be used.
+              realm: REALM.NAME
+            ```
+        kerberos-kms-key: |-
+            ID of the key or fully qualified identifier for the key.
+            +
+            To set the `kms-key` attribute:
+            * provide the argument `--kerberos-kms-key` on the command line.
+        kerberos-kms-key-keyring: |-
+            The KMS keyring of the key.
+            +
+            To set the `kms-keyring` attribute:
+            * provide the argument `--kerberos-kms-key` on the command line with a fully specified name;
+            * provide the argument `--kerberos-kms-key-keyring` on the command line.
+        kerberos-kms-key-location: |-
+            The Google Cloud location for the key.
+            +
+            To set the `kms-location` attribute:
+            * provide the argument `--kerberos-kms-key` on the command line with a fully specified name;
+            * provide the argument `--kerberos-kms-key-location` on the command line.
+        kerberos-kms-key-project: |-
+            The Google Cloud project for the key.
+            +
+            To set the `kms-project` attribute:
+            * provide the argument `--kerberos-kms-key` on the command line with a fully specified name;
+            * provide the argument `--kerberos-kms-key-project` on the command line;
+            * set the property `core/project`.
+        kerberos-root-principal-password-uri: |-
+            Google Cloud Storage URI of a KMS encrypted file containing the root
+            principal password. Must be a Cloud Storage URL beginning with 'gs://'.
+        kms-key: |-
+            ID of the key or fully qualified identifier for the key.
+            +
+            To set the `kms-key` attribute:
+            * provide the argument `--kms-key` on the command line.
+        kms-keyring: |-
+            The KMS keyring of the key.
+            +
+            To set the `kms-keyring` attribute:
+            * provide the argument `--kms-key` on the command line with a fully specified name;
+            * provide the argument `--kms-keyring` on the command line.
+        kms-location: |-
+            The Google Cloud location for the key.
+            +
+            To set the `kms-location` attribute:
+            * provide the argument `--kms-key` on the command line with a fully specified name;
+            * provide the argument `--kms-location` on the command line.
+        kms-project: |-
+            The Google Cloud project for the key.
+            +
+            To set the `kms-project` attribute:
+            * provide the argument `--kms-key` on the command line with a fully specified name;
+            * provide the argument `--kms-project` on the command line;
+            * set the property `core/project`.
+        labels: |-
+            List of label KEY=VALUE pairs to add.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+        master-accelerator: |-
+            Attaches accelerators, such as GPUs, to the master
+            instance(s).
+            +
+            *type*::: The specific type of accelerator to attach to the instances,
+            such as `nvidia-tesla-t4` for NVIDIA T4. Use `gcloud compute
+            accelerator-types list` to display available accelerator types.
+            +
+            *count*::: The number of accelerators to attach to each instance. The default value is 1.
+        master-attached-disks: |
+            A list of disk configurations to attach to nodes.
+            Each configuration should be a string with the format:
+            type=<disk_type>,(optional)size=<size>,(optional)iops=<iops>,
+            (optional)throughput=<throughput>, separated by semicolon.
+
+            Allowed disk types are: hyperdisk-balanced, hyperdisk-extreme,
+            hyperdisk-ml, hyperdisk-throughput.
+
+            Example:
+            type=hyperdisk-balanced,iops=1000,throughput=500,size=100G;type=hyperdisk-throughput,size=2000G'
+        master-boot-disk-provisioned-iops: |-
+            Indicates the [IOPS](https://cloud.google.com/compute/docs/disks/hyperdisks#iops)
+            to provision for the disk. This sets the limit for disk I/O operations per
+            second. This is only supported if the bootdisk type is
+            [hyperdisk-balanced](https://cloud.google.com/compute/docs/disks/hyperdisks).
+        master-boot-disk-provisioned-throughput: |-
+            Indicates the [throughput](https://cloud.google.com/compute/docs/disks/hyperdisks#throughput)
+            to provision for the disk. This sets the limit for throughput in MiB per
+            second. This is only supported if the bootdisk type is
+            [hyperdisk-balanced](https://cloud.google.com/compute/docs/disks/hyperdisks).
+        master-boot-disk-size: |-
+            The size of the boot disk. The value must be a
+            whole number followed by a size unit of ``KB'' for kilobyte, ``MB''
+            for megabyte, ``GB'' for gigabyte, or ``TB'' for terabyte. For example,
+            ``10GB'' will produce a 10 gigabyte disk. The minimum size a boot disk
+            can have is 10 GB. Disk size must be a multiple of 1 GB.
+        master-boot-disk-size-gb: |-
+            (DEPRECATED) Use `--master-boot-disk-size` flag with "GB" after value.
+            +
+            The `--master-boot-disk-size-gb` flag is deprecated. Use `--master-boot-disk-size` flag with "GB" after value.
+        master-boot-disk-type: |-
+            The type of the boot disk. The value must be `pd-balanced`,
+            `pd-ssd`, or `pd-standard`.
+        master-local-ssd-interface: Interface to use to attach local SSDs to master node(s) in a cluster.
+        master-machine-type: The type of machine to use for the master. Defaults to server-specified.
+        master-machine-types: Types of machines with optional rank for master nodes to use. Defaults to server-specified.eg. --master-machine-types="type=e2-standard-8,type=t2d-standard-8,rank=0"
+        master-min-cpu-platform: |-
+            When specified, the VM is scheduled on the host with a specified CPU
+            architecture or a more recent CPU platform that's available in that
+            zone. To list available CPU platforms in a zone, run:
+            +
+                $ gcloud compute zones describe ZONE
+            +
+            CPU platform selection may not be available in a zone. Zones
+            that support CPU platform selection provide an `availableCpuPlatforms`
+            field, which contains the list of available CPU platforms in the zone
+            (see [Availability of CPU platforms](/compute/docs/instances/specify-min-cpu-platform#availablezones)
+            for more information).
+        max-age: |
+            The lifespan of the cluster, with auto-deletion upon completion,
+            such as "2h" or "1d".
+            See $ gcloud topic datetimes for information on duration formats.
+        max-idle: |
+            The duration after the last job completes to autto-delete the
+            cluster, such as "2h" or "1d".
+            See $ gcloud topic datetimes for information on duration formats.
+        metadata: Metadata to be made available to the guest operating system running on the instances
+        min-num-workers: Minimum number of primary worker nodes to provision for cluster creation to succeed.
+        min-secondary-worker-fraction: Minimum fraction of secondary worker nodes required to create the cluster. If it is not met, cluster creation will fail. Must be a decimal value between 0 and 1. The number of required secondary workers is calculated by ceil(min-secondary-worker-fraction * num_secondary_workers). Defaults to 0.0001.
+        min-worker-fraction: Minimum fraction of worker nodes required to create the cluster. If it is not met, cluster creation will fail. Must be a decimal value between 0 and 1. The number of required workers will be calculated by ceil(min-worker-fraction * num_workers).
+        network: |-
+            The Compute Engine network that the VM instances of the cluster will be
+            part of. This is mutually exclusive with --subnet. If neither is
+            specified, this defaults to the "default" network.
+        no-address: |-
+            If provided, the instances in the cluster will not be assigned external
+            IP addresses.
+            +
+            If omitted, then the Dataproc service will apply a default policy to determine if each instance in the cluster gets an external IP address or not.
+            +
+            Note: Dataproc VMs need access to the Dataproc API. This can be achieved
+            without external IP addresses using Private Google Access
+            (https://cloud.google.com/compute/docs/private-google-access).
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-bigquery-metastore: |
+            Indicates that BigQuery metastore is to be used.
+        no-enable-component-gateway: Enable access to the web UIs of selected components on the cluster through the component gateway.
+        no-enable-kerberos: |
+            Enable Kerberos on the cluster.
+        no-public-ip-address: |
+            If provided, cluster instances are assigned external IP addresses.
+
+            If omitted, the Dataproc service applies a default policy to determine
+            whether or not each instance in the cluster gets an external IP address.
+
+            Note: Dataproc VMs need access to the Dataproc API. This can be achieved
+            without external IP addresses using Private Google Access
+            (https://cloud.google.com/compute/docs/private-google-access).
+        no-shielded-integrity-monitoring: |
+            Enables monitoring and attestation of the boot integrity of the
+            cluster's VMs. vTPM (virtual Trusted Platform Module) must also be
+            enabled. A TPM is a hardware module that can be used for different
+            security operations, such as remote attestation, encryption, and sealing
+            of keys.
+        no-shielded-secure-boot: |
+            The cluster's VMs will boot with secure boot enabled.
+        no-shielded-vtpm: |
+            The cluster's VMs will boot with the TPM (Trusted Platform Module) enabled.
+            A TPM is a hardware module that can be used for different security
+            operations, such as remote attestation, encryption, and sealing of keys.
+        no-single-node: |
+            Create a single node cluster.
+
+            A single node cluster has all master and worker components.
+            It cannot have any separate worker nodes. If this flag is not
+            specified, a cluster with separate workers is created.
+        node-group: |-
+            The name of the sole-tenant node group to create the cluster on. Can be
+            a short name ("node-group-name") or in the format
+            "projects/{project-id}/zones/{zone}/nodeGroups/{node-group-name}".
+        num-driver-pool-local-ssds: The number of local SSDs to attach to each cluster driver pool node.
+        num-master-local-ssds: The number of local SSDs to attach to the master in a cluster.
+        num-masters: |-
+            The number of master nodes in the cluster.
+            +
+            Number of Masters | Cluster Mode
+            --- | ---
+            1 | Standard
+            3 | High Availability
+        num-preemptible-worker-local-ssds: |-
+            (DEPRECATED)       The number of local SSDs to attach to each secondary worker in
+                  a cluster.
+            +
+            The `--num-preemptible-worker-local-ssds` flag is deprecated. Use the `--num-secondary-worker-local-ssds` flag instead.
+        num-preemptible-workers: |-
+            (DEPRECATED) The number of preemptible worker nodes in the cluster.
+            +
+            The `--num-preemptible-workers` flag is deprecated. Use the `--num-secondary-workers` flag instead.
+        num-secondary-worker-local-ssds: |-
+            The number of local SSDs to attach to each preemptible worker in
+            a cluster.
+        num-secondary-workers: The number of secondary worker nodes in the cluster.
+        num-worker-local-ssds: The number of local SSDs to attach to each worker in a cluster.
+        num-workers: The number of worker nodes in the cluster. Defaults to server-specified.
+        optional-components: |-
+            List of optional components to be installed on cluster machines.
+            +
+            The following page documents the optional components that can be
+            installed:
+            https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/optional-components.
+        preemptible-worker-accelerator: |-
+            (DEPRECATED)       Attaches accelerators, such as GPUs, to the preemptible-worker
+                  instance(s).
+
+                  *type*::: The specific type of accelerator to attach to the instances,
+                  such as `nvidia-tesla-t4` for NVIDIA T4. Use `gcloud compute
+                  accelerator-types list` to display available accelerator types.
+
+                  *count*::: The number of accelerators to attach to each instance. The default value is 1.
+            +
+            The `--preemptible-worker-accelerator` flag is deprecated. Use the `--secondary-worker-accelerator` flag instead.
+        preemptible-worker-boot-disk-size: |-
+            (DEPRECATED)       The size of the boot disk. The value must be a
+                  whole number followed by a size unit of ``KB'' for kilobyte, ``MB''
+                  for megabyte, ``GB'' for gigabyte, or ``TB'' for terabyte. For example,
+                  ``10GB'' will produce a 10 gigabyte disk. The minimum size a boot disk
+                  can have is 10 GB. Disk size must be a multiple of 1 GB.
+            +
+            The `--preemptible-worker-boot-disk-size` flag is deprecated. Use the `--secondary-worker-boot-disk-size` flag instead.
+        preemptible-worker-boot-disk-type: |-
+            (DEPRECATED)       The type of the boot disk. The value must be `pd-balanced`,
+                  `pd-ssd`, or `pd-standard`.
+            +
+            The `--preemptible-worker-boot-disk-type` flag is deprecated. Use the `--secondary-worker-boot-disk-type` flag instead.
+        private-ipv6-google-access-type: 'The private IPv6 Google access type for the cluster. _PRIVATE_IPV6_GOOGLE_ACCESS_TYPE_ must be one of: *inherit-subnetwork*, *outbound*, *bidirectional*.'
+        properties: |-
+            Specifies configuration properties for installed packages, such as Hadoop
+            and Spark.
+            +
+            Properties are mapped to configuration files by specifying a prefix, such as
+            "core:io.serializations". The following are supported prefixes and their
+            mappings:
+            +
+            Prefix | File | Purpose of file
+            --- | --- | ---
+            capacity-scheduler | capacity-scheduler.xml | Hadoop YARN Capacity Scheduler configuration
+            core | core-site.xml | Hadoop general configuration
+            distcp | distcp-default.xml | Hadoop Distributed Copy configuration
+            hadoop-env | hadoop-env.sh | Hadoop specific environment variables
+            hdfs | hdfs-site.xml | Hadoop HDFS configuration
+            hive | hive-site.xml | Hive configuration
+            mapred | mapred-site.xml | Hadoop MapReduce configuration
+            mapred-env | mapred-env.sh | Hadoop MapReduce specific environment variables
+            pig | pig.properties | Pig configuration
+            spark | spark-defaults.conf | Spark configuration
+            spark-env | spark-env.sh | Spark specific environment variables
+            yarn | yarn-site.xml | Hadoop YARN configuration
+            yarn-env | yarn-env.sh | Hadoop YARN specific environment variables
+            +
+            See https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/cluster-properties
+            for more information.
+        public-ip-address: |-
+            If provided, cluster instances are assigned external IP addresses.
+            +
+            If omitted, the Dataproc service applies a default policy to determine
+            whether or not each instance in the cluster gets an external IP address.
+            +
+            Note: Dataproc VMs need access to the Dataproc API. This can be achieved
+            without external IP addresses using Private Google Access
+            (https://cloud.google.com/compute/docs/private-google-access).
+        region: |-
+            Dataproc region for the cluster. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. Overrides the default `dataproc/region` property value for this command invocation.
+            +
+            To set the `region` attribute:
+            * provide the argument `cluster` on the command line with a fully specified name;
+            * provide the argument `--region` on the command line;
+            * set the property `dataproc/region`.
+        reservation: The name of the reservation, required when `--reservation-affinity=specific`.
+        reservation-affinity: 'The type of reservation for the instance. _RESERVATION_AFFINITY_ must be one of: *any*, *none*, *specific*.'
+        resource-manager-tags: Specifies a list of resource manager tags to apply to each cluster node (master and worker nodes).
+        scopes: |-
+            Specifies scopes for the node instances. Multiple SCOPEs can be specified,
+            separated by commas.
+            Examples:
+            +
+              $ {command} example-cluster --scopes https://www.googleapis.com/auth/bigtable.admin
+            +
+              $ {command} example-cluster --scopes sqlservice,bigquery
+            +
+            The following *minimum scopes* are necessary for the cluster to function
+            properly and are always added, even if not explicitly specified:
+            +
+              https://www.googleapis.com/auth/devstorage.read_write
+              https://www.googleapis.com/auth/logging.write
+            +
+            If the `--scopes` flag is not specified, the following *default scopes*
+            are also included:
+            +
+              https://www.googleapis.com/auth/bigquery
+              https://www.googleapis.com/auth/bigtable.admin.table
+              https://www.googleapis.com/auth/bigtable.data
+              https://www.googleapis.com/auth/devstorage.full_control
+            +
+            If you want to enable all scopes use the 'cloud-platform' scope.
+            +
+            SCOPE can be either the full URI of the scope or an alias. *Default* scopes are
+            assigned to all instances. Available aliases are:
+            +
+            Alias | URI
+            --- | ---
+            bigquery | https://www.googleapis.com/auth/bigquery
+            cloud-platform | https://www.googleapis.com/auth/cloud-platform
+            cloud-source-repos | https://www.googleapis.com/auth/source.full_control
+            cloud-source-repos-ro | https://www.googleapis.com/auth/source.read_only
+            compute-ro | https://www.googleapis.com/auth/compute.readonly
+            compute-rw | https://www.googleapis.com/auth/compute
+            datastore | https://www.googleapis.com/auth/datastore
+            default | https://www.googleapis.com/auth/devstorage.read_only
+            | https://www.googleapis.com/auth/logging.write
+            | https://www.googleapis.com/auth/monitoring.write
+            | https://www.googleapis.com/auth/pubsub
+            | https://www.googleapis.com/auth/service.management.readonly
+            | https://www.googleapis.com/auth/servicecontrol
+            | https://www.googleapis.com/auth/trace.append
+            gke-default | https://www.googleapis.com/auth/devstorage.read_only
+            | https://www.googleapis.com/auth/logging.write
+            | https://www.googleapis.com/auth/monitoring
+            | https://www.googleapis.com/auth/service.management.readonly
+            | https://www.googleapis.com/auth/servicecontrol
+            | https://www.googleapis.com/auth/trace.append
+            logging-write | https://www.googleapis.com/auth/logging.write
+            monitoring | https://www.googleapis.com/auth/monitoring
+            monitoring-read | https://www.googleapis.com/auth/monitoring.read
+            monitoring-write | https://www.googleapis.com/auth/monitoring.write
+            pubsub | https://www.googleapis.com/auth/pubsub
+            service-control | https://www.googleapis.com/auth/servicecontrol
+            service-management | https://www.googleapis.com/auth/service.management.readonly
+            sql (deprecated) | https://www.googleapis.com/auth/sqlservice
+            sql-admin | https://www.googleapis.com/auth/sqlservice.admin
+            storage-full | https://www.googleapis.com/auth/devstorage.full_control
+            storage-ro | https://www.googleapis.com/auth/devstorage.read_only
+            storage-rw | https://www.googleapis.com/auth/devstorage.read_write
+            taskqueue | https://www.googleapis.com/auth/taskqueue
+            trace | https://www.googleapis.com/auth/trace.append
+            userinfo-email | https://www.googleapis.com/auth/userinfo.email
+            +
+            DEPRECATION WARNING: https://www.googleapis.com/auth/sqlservice account scope
+            and `sql` alias do not provide SQL instance management capabilities and have
+            been deprecated. Please, use https://www.googleapis.com/auth/sqlservice.admin
+            or `sql-admin` to manage your Google SQL Service instances.
+        secondary-worker-accelerator: |-
+            Attaches accelerators, such as GPUs, to the secondary-worker
+            instance(s).
+            +
+            *type*::: The specific type of accelerator to attach to the instances,
+            such as `nvidia-tesla-t4` for NVIDIA T4. Use `gcloud compute
+            accelerator-types list` to display available accelerator types.
+            +
+            *count*::: The number of accelerators to attach to each instance. The default value is 1.
+        secondary-worker-attached-disks: |
+            A list of disk configurations to attach to nodes.
+            Each configuration should be a string with the format:
+            type=<disk_type>,(optional)size=<size>,(optional)iops=<iops>,
+            (optional)throughput=<throughput>, separated by semicolon.
+
+            Allowed disk types are: hyperdisk-balanced, hyperdisk-extreme,
+            hyperdisk-ml, hyperdisk-throughput.
+
+            Example:
+            type=hyperdisk-balanced,iops=1000,throughput=500,size=100G;type=hyperdisk-throughput,size=2000G'
+        secondary-worker-boot-disk-provisioned-iops: |
+            Indicates the [IOPS](https://cloud.google.com/compute/docs/disks/hyperdisks#iops)
+            to provision for the disk. This sets the limit for disk I/O operations per
+            second. This is only supported if the bootdisk type is
+            [hyperdisk-balanced](https://cloud.google.com/compute/docs/disks/hyperdisks).
+        secondary-worker-boot-disk-provisioned-throughput: |
+            Indicates the [throughput](https://cloud.google.com/compute/docs/disks/hyperdisks#throughput)
+            to provision for the disk. This sets the limit for throughput in MiB per
+            second. This is only supported if the bootdisk type is
+            [hyperdisk-balanced](https://cloud.google.com/compute/docs/disks/hyperdisks).
+        secondary-worker-boot-disk-size: |-
+            The size of the boot disk. The value must be a
+            whole number followed by a size unit of ``KB'' for kilobyte, ``MB''
+            for megabyte, ``GB'' for gigabyte, or ``TB'' for terabyte. For example,
+            ``10GB'' will produce a 10 gigabyte disk. The minimum size a boot disk
+            can have is 10 GB. Disk size must be a multiple of 1 GB.
+        secondary-worker-boot-disk-type: |-
+            The type of the boot disk. The value must be `pd-balanced`,
+            `pd-ssd`, or `pd-standard`.
+        secondary-worker-local-ssd-interface: |-
+            Interface to use to attach local SSDs to each secondary worker
+            in a cluster.
+        secondary-worker-machine-types: Types of machines with optional rank for secondary workers to use. Defaults to server-specified.eg. --secondary-worker-machine-types="type=e2-standard-8,type=t2d-standard-8,rank=0"
+        secondary-worker-standard-capacity-base: This flag sets the base number of Standard VMs to use for [secondary workers](https://cloud.google.com/dataproc/docs/concepts/compute/secondary-vms#preemptible_and_non-preemptible_secondary_workers). Dataproc will create only standard VMs until it reaches this number, then it will mix Spot and Standard VMs according to ``SECONDARY_WORKER_STANDARD_CAPACITY_PERCENT_ABOVE_BASE''.
+        secondary-worker-standard-capacity-percent-above-base: When combining Standard and Spot VMs for [secondary-workers](https://cloud.google.com/dataproc/docs/concepts/compute/secondary-vms#preemptible_and_non-preemptible_secondary_workers) once the number of Standard VMs specified by ``SECONDARY_WORKER_STANDARD_CAPACITY_BASE'' has been used, this flag specifies the percentage of the total number of additional Standard VMs secondary workers will use. Spot VMs will be used for the remaining percentage.
+        secondary-worker-type: 'The type of the secondary worker group. _TYPE_ must be one of: *preemptible*, *non-preemptible*, *spot*.'
+        service-account: The Google Cloud IAM service account to be authenticated as.
+        shielded-integrity-monitoring: |-
+            Enables monitoring and attestation of the boot integrity of the
+            cluster's VMs. vTPM (virtual Trusted Platform Module) must also be
+            enabled. A TPM is a hardware module that can be used for different
+            security operations, such as remote attestation, encryption, and sealing
+            of keys.
+        shielded-secure-boot: The cluster's VMs will boot with secure boot enabled.
+        shielded-vtpm: |-
+            The cluster's VMs will boot with the TPM (Trusted Platform Module) enabled.
+            A TPM is a hardware module that can be used for different security
+            operations, such as remote attestation, encryption, and sealing of keys.
+        single-node: |-
+            Create a single node cluster.
+            +
+            A single node cluster has all master and worker components.
+            It cannot have any separate worker nodes. If this flag is not
+            specified, a cluster with separate workers is created.
+        stop-expiration-time: |-
+            The time when the cluster will be auto-stopped, such as
+            "2017-08-29T18:52:51.142Z."
+            See $ gcloud topic datetimes for information on time formats.
+        stop-max-age: |-
+            The lifespan of the cluster, with auto-stop upon completion,
+            such as "2h" or "1d".
+            See $ gcloud topic datetimes for information on duration formats.
+        stop-max-idle: |-
+            The duration after the last job completes to auto-stop the cluster,
+            such as "2h" or "1d".
+            See $ gcloud topic datetimes for information on duration formats.
+        subnet: |-
+            Specifies the subnet that the cluster will be part of. This is mutally
+            exclusive with --network.
+        tags: |-
+            Specifies a list of tags to apply to the instance. These tags allow
+            network firewall rules and routes to be applied to specified VM instances.
+            See gcloud_compute_firewall-rules_create(1) for more details.
+            +
+            To read more about configuring network tags, read this guide:
+            https://cloud.google.com/vpc/docs/add-remove-network-tags
+            +
+            To list instances with their respective status and tags, run:
+            +
+              $ gcloud compute instances list --format='table(name,status,tags.list())'
+            +
+            To list instances tagged with a specific tag, `tag1`, run:
+            +
+              $ gcloud compute instances list --filter='tags:tag1'
+        temp-bucket: |-
+            The Google Cloud Storage bucket to use by default to store
+            ephemeral cluster and jobs data, such as Spark and MapReduce history files.
+        tier: 'Cluster tier. _TIER_ must be one of: *premium*, *standard*.'
+        timeout: Client side timeout on how long to wait for Dataproc operations. See $ gcloud topic datetimes for information on duration formats.
+        worker-accelerator: |-
+            Attaches accelerators, such as GPUs, to the worker
+            instance(s).
+            +
+            *type*::: The specific type of accelerator to attach to the instances,
+            such as `nvidia-tesla-t4` for NVIDIA T4. Use `gcloud compute
+            accelerator-types list` to display available accelerator types.
+            +
+            *count*::: The number of accelerators to attach to each instance. The default value is 1.
+        worker-attached-disks: |
+            A list of disk configurations to attach to nodes.
+            Each configuration should be a string with the format:
+            type=<disk_type>,(optional)size=<size>,(optional)iops=<iops>,
+            (optional)throughput=<throughput>, separated by semicolon.
+
+            Allowed disk types are: hyperdisk-balanced, hyperdisk-extreme,
+            hyperdisk-ml, hyperdisk-throughput.
+
+            Example:
+            type=hyperdisk-balanced,iops=1000,throughput=500,size=100G;type=hyperdisk-throughput,size=2000G'
+        worker-boot-disk-provisioned-iops: |-
+            Indicates the [IOPS](https://cloud.google.com/compute/docs/disks/hyperdisks#iops)
+            to provision for the disk. This sets the limit for disk I/O operations per
+            second. This is only supported if the bootdisk type is
+            [hyperdisk-balanced](https://cloud.google.com/compute/docs/disks/hyperdisks).
+        worker-boot-disk-provisioned-throughput: |-
+            Indicates the [throughput](https://cloud.google.com/compute/docs/disks/hyperdisks#throughput)
+            to provision for the disk. This sets the limit for throughput in MiB per
+            second. This is only supported if the bootdisk type is
+            [hyperdisk-balanced](https://cloud.google.com/compute/docs/disks/hyperdisks).
+        worker-boot-disk-size: |-
+            The size of the boot disk. The value must be a
+            whole number followed by a size unit of ``KB'' for kilobyte, ``MB''
+            for megabyte, ``GB'' for gigabyte, or ``TB'' for terabyte. For example,
+            ``10GB'' will produce a 10 gigabyte disk. The minimum size a boot disk
+            can have is 10 GB. Disk size must be a multiple of 1 GB.
+        worker-boot-disk-size-gb: |-
+            (DEPRECATED) Use `--worker-boot-disk-size` flag with "GB" after value.
+            +
+            The `--worker-boot-disk-size-gb` flag is deprecated. Use `--worker-boot-disk-size` flag with "GB" after value.
+        worker-boot-disk-type: |-
+            The type of the boot disk. The value must be `pd-balanced`,
+            `pd-ssd`, or `pd-standard`.
+        worker-local-ssd-interface: Interface to use to attach local SSDs to each worker in a cluster.
+        worker-machine-type: The type of machine to use for primary workers. Defaults to server-specified.
+        worker-machine-types: '[Machine types](https://cloud.google.com/dataproc/docs/concepts/compute/supported-machine-types) for primary worker nodes to use with optional rank. A lower rank number is given higher preference. Based on availablilty, Dataproc tries to create primary worker VMs using the worker machine type with the lowest rank, and then tries to use machine types with higher ranks as necessary. Machine types with the same rank are given the same preference. Example use: --worker-machine-types="type=e2-standard-8,type=n2-standard-8,rank=0". For more information, see [Dataproc Flexible VMs](https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/flexible-vms)'
+        worker-min-cpu-platform: |-
+            When specified, the VM is scheduled on the host with a specified CPU
+            architecture or a more recent CPU platform that's available in that
+            zone. To list available CPU platforms in a zone, run:
+            +
+                $ gcloud compute zones describe ZONE
+            +
+            CPU platform selection may not be available in a zone. Zones
+            that support CPU platform selection provide an `availableCpuPlatforms`
+            field, which contains the list of available CPU platforms in the zone
+            (see [Availability of CPU platforms](/compute/docs/instances/specify-min-cpu-platform#availablezones)
+            for more information).
+        zone: |-
+            The compute zone (e.g. us-central1-a) for the cluster. If empty
+            and --region is set to a value other than `global`, the server will
+            pick a zone in the region. Overrides the default *compute/zone* property value for this command invocation.

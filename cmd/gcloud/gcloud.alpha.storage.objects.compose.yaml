@@ -1,0 +1,60 @@
+name: compose
+description: '*(ALPHA)*  Concatenate a sequence of objects into a new composite object.'
+flags:
+    --additional-headers=: Includes arbitrary headers in storage API calls.
+    --custom-contexts-file=: Path to a local JSON or YAML file containing custom contexts one wants to set on
+    --custom-contexts=: Sets custom contexts on objects.
+    --decryption-keys=&: A comma-separated list of customer-supplied encryption keys (RFC 4648 section 4 base64-encoded AES256 strings) that will be used to decrypt Cloud Storage objects.
+    --encryption-key=&: The encryption key to use for encrypting target objects.
+    --if-generation-match=: Execute only if the generation matches the generation of the requested object.
+    --if-metageneration-match=: Execute only if the metageneration matches the metageneration of the requested object.
+    --retain-until=: Ensures the destination object is retained until the specified time in RFC 3339 format.
+    --retention-mode=: Sets the destination object retention mode to either "Locked" or "Unlocked".
+completion:
+    flag:
+        retention-mode:
+            - Locked
+            - Unlocked
+documentation:
+    command: |
+        *(ALPHA)*  gcloud alpha storage objects compose creates a new object whose content is the concatenation
+        of a given sequence of source objects in the same bucket.
+        For more information, please see:
+        [composite objects documentation](https://cloud.google.com/storage/docs/composite-objects).
+
+        There is a limit (currently 32) to the number of components
+        that can be composed in a single operation.
+    flag:
+        additional-headers: Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. `header1=value1,header2=value2`. Overrides the default *storage/additional_headers* property value for this command invocation.
+        custom-contexts: Sets custom contexts on objects. The existing custom contexts (if any) would be overwritten.
+        custom-contexts-file: |-
+            Path to a local JSON or YAML file containing custom contexts one wants to set on
+            an object. For example:
+            +
+            1. The following JSON document shows two key value
+            pairs, i.e. (key1, value1) and (key2, value2):
+            +
+              ```
+                {
+                  "key1": {"value": "value1"},
+                  "key2": {"value": "value2"}
+                }
+              ```
+            +
+            2. The following YAML document shows two key value
+            pairs, i.e. (key1, value1) and (key2, value2):
+            +
+              ```
+                key1:
+                  value: value1
+                key2:
+                  value: value2
+              ```
+            +
+            Note: Currently object contexts only supports string format for values.
+        decryption-keys: A comma-separated list of customer-supplied encryption keys (RFC 4648 section 4 base64-encoded AES256 strings) that will be used to decrypt Cloud Storage objects. Data encrypted with a customer-managed encryption key (CMEK) is decrypted automatically, so CMEKs do not need to be listed here.
+        encryption-key: The encryption key to use for encrypting target objects. The specified encryption key can be a customer-supplied encryption key (An RFC 4648 section 4 base64-encoded AES256 string), or a customer-managed encryption key of the form `projects/{project}/locations/{location}/keyRings/{key-ring}/cryptoKeys/{crypto-key}`. The specified key also acts as a decryption key, which is useful when copying or moving encrypted data to a new location. Using this flag in an `objects update` command triggers a rewrite of target objects.
+        if-generation-match: Execute only if the generation matches the generation of the requested object.
+        if-metageneration-match: Execute only if the metageneration matches the metageneration of the requested object.
+        retain-until: Ensures the destination object is retained until the specified time in RFC 3339 format.
+        retention-mode: 'Sets the destination object retention mode to either "Locked" or "Unlocked". When retention mode is "Locked", the retain until time can only be increased. _RETENTION_MODE_ must be one of: *Locked*, *Unlocked*.'

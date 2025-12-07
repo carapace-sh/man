@@ -1,0 +1,70 @@
+name: describe
+description: '*(ALPHA)*  Describe the Config Management feature.'
+flags:
+    --filter=: Apply a Boolean filter _EXPRESSION_ to each resource item to be listed.
+    --location=: Location for the memberships.
+    --memberships=!: IDs of the memberships or fully qualified identifiers for the memberships.
+    --sort-by=: Comma-separated list of resource field key names to sort by.
+    --view=!: View of the feature.
+completion:
+    flag:
+        view:
+            - full
+            - list
+documentation:
+    command: '*(ALPHA)*  Describe the Config Management feature.'
+    flag:
+        filter: |-
+            Apply a Boolean filter _EXPRESSION_ to each resource item to be listed.
+                If the expression evaluates `True`, then that item is listed. For more
+                details and examples of filter expressions, run $ gcloud topic filters. This
+                flag interacts with other flags that are applied in this order: *--flatten*,
+                *--sort-by*, *--filter*, *--limit*.
+            +
+            To filter for memberships with an overall status of `ERROR`, use the
+            ``COLUMN~VALUE'' pattern and run:
+            +
+              $ {command} --view=list --filter=STATUS~ERROR
+            +
+            To filter for memberships that are synced to the
+            fleet-default membership configuration, run:
+            +
+              $ {command} --view=list --filter="spec.origin.type.synced_to_fleet_default()~YES"
+            +
+            `SYNCED_TO_FLEET_DEFAULT` is the only column that requires filtering on the
+            underlying configuration field instead of the column name. An alternative is to
+            `--sort-by=SYNCED_TO_FLEET_DEFAULT` and filter by eye.
+            +
+            To filter on a configuration field not in the table summary, in this case the
+            Config Sync repo, run:
+            +
+              $ {command} --view=list --format=yaml --filter="spec.configmanagement.configSync.git.syncRepo~https://github.com/GoogleCloudPlatform/anthos-config-management-samples.git"
+        location: |-
+            Location for the memberships.
+            +
+            To set the `location` attribute:
+            * provide the argument `--memberships` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `gkehub/location`.
+        memberships: |-
+            IDs of the memberships or fully qualified identifiers for the memberships.
+            +
+            To set the `memberships` attribute:
+            * provide the argument `--memberships` on the command line.
+        sort-by: |-
+            Comma-separated list of resource field key names to sort by. The
+                default order is ascending. Prefix a field with ``~'' for descending
+                order on that field. This flag interacts with other flags that are applied
+                in this order: *--flatten*, *--sort-by*, *--filter*, *--limit*.
+            +
+            The default table summary sorts by `LOCATION` then `MEMBERSHIP`.
+            +
+            To sort the table by `VERSION` instead, run:
+            +
+              $ {command} --view=list --sort-by=VERSION
+            +
+            To sort by a configuration field not in the table summary, in this case the
+            Config Sync repo, and print its values in a table, run:
+            +
+              $ {command} --view=list --sort-by="spec.configmanagement.configSync.git.syncRepo" --format="table(MEMBERSHIP,LOCATION,spec.configmanagement.configSync.git.syncRepo:label=REPO)"
+        view: "View of the feature. _VIEW_ must be one of:\n+\n*full*::: Default view. Prints the entire feature.\n*list*::: \nList of membership configurations. Default format is a table summary.\n+\nThe `SYNCED_TO_FLEET_DEFAULT` column may display `UNKNOWN` for any membership\nwhose configuration has not been updated since the\n[fleet-default membership configuration](https://cloud.google.com/kubernetes-engine/fleet-management/docs/manage-features)\nenablement.\n+\nTo view the underlying configurations instead of the table summary for select\nmemberships, run:\n+\n  $ {command} --view=list --format=yaml --memberships=example-membership-1,example-membership-2\n+\n:::\n+"

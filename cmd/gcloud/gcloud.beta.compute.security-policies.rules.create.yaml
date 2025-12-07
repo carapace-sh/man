@@ -1,0 +1,241 @@
+name: create
+description: '*(BETA)*  Create a Compute Engine security policy rule.'
+flags:
+    --action=!: The action to take if the request matches the match condition.
+    --ban-duration-sec=: Can only be specified if the action for the rule is
+    --ban-threshold-count=: Number of HTTP(S) requests for calculating the threshold for
+    --ban-threshold-interval-sec=: Interval over which the threshold for banning requests is
+    --conform-action=: Action to take when requests are under the given threshold.
+    --description=: An optional, textual description for the rule.
+    --enforce-on-key-configs=: Specify up to 3 key type/name pairs to rate limit.
+    --enforce-on-key-name=: Determines the key name for the rate limit key.
+    --enforce-on-key=: 'Different key types available to enforce the rate limit threshold limit on:'
+    --exceed-action=: Action to take when requests are above the given threshold.
+    --exceed-redirect-target=: URL target for the redirect action that is configured as the exceed
+    --exceed-redirect-type=: Type for the redirect action that is configured as the exceed action.
+    --expression=: The Cloud Armor rules language expression to match for this rule.
+    --network-dest-ip-ranges=: The destination IPs/IP ranges to match for this rule.
+    --network-dest-ports=: The destination ports to match for this rule.
+    --network-ip-protocols=: The IP protocols to match for this rule.
+    --network-src-asns=: BGP Autonomous System Number associated with the source IP address to match for this rule.
+    --network-src-ip-ranges=: The source IPs/IP ranges to match for this rule.
+    --network-src-ports=: The source ports to match for this rule.
+    --network-src-region-codes=: The two letter ISO 3166-1 alpha-2 country code associated with the source IP address to match for this rule.
+    --network-user-defined-fields=: Each element names a defined field and lists the matching values for that field.
+    --no-preview&: If specified, the action will not be enforced.
+    --preview: If specified, the action will not be enforced.
+    --rate-limit-threshold-count=: Number of HTTP(S) requests for calculating the threshold for rate limiting requests.
+    --rate-limit-threshold-interval-sec=: Interval over which the threshold for rate limiting requests is computed.
+    --recaptcha-action-site-keys=: A comma-separated list of site keys to be used during the validation of
+    --recaptcha-session-site-keys=: A comma-separated list of site keys to be used during the validation of
+    --redirect-target=: URL target for the redirect action.
+    --redirect-type=: Type for the redirect action.
+    --region=: Region of the security policy to add.
+    --request-headers-to-add=: A comma-separated list of header names and header values to add to
+    --security-policy=: The security policy that this rule belongs to.
+    --src-ip-ranges=: The source IPs/IP ranges to match for this rule.
+completion:
+    flag:
+        action:
+            - allow
+            - deny
+            - deny-403
+            - deny-404
+            - deny-502
+            - fairshare
+            - rate-based-ban
+            - redirect
+            - redirect-to-recaptcha
+            - throttle
+        conform-action:
+            - allow
+        enforce-on-key:
+            - ip
+            - all
+            - http-header
+            - xff-ip
+            - http-cookie
+            - http-path
+            - sni
+            - region-code
+            - tls-ja3-fingerprint
+            - user-ip
+            - tls-ja4-fingerprint
+        exceed-action:
+            - deny-403
+            - deny-404
+            - deny-429
+            - deny-502
+            - deny
+            - redirect
+        exceed-redirect-type:
+            - google-recaptcha
+            - external-302
+        redirect-type:
+            - google-recaptcha
+            - external-302
+documentation:
+    command: |-
+        *(BETA)*  *gcloud beta compute security-policies rules create* is used to create security policy rules.
+
+        ## EXAMPLES
+
+        To create a rule at priority 1000 to block the IP range
+        1.2.3.0/24, run:
+
+          $ gcloud beta compute security-policies rules create 1000 \
+             --action=deny-403 \
+             --security-policy=my-policy \
+             --description="block 1.2.3.0/24" \
+             --src-ip-ranges=1.2.3.0/24
+    flag:
+        action: |-
+            The action to take if the request matches the match condition. _ACTION_ must be one of:
+            +
+            *allow*::: Allows the request from HTTP(S) Load Balancing.
+            *deny*::: Denies the request from TCP/SSL Proxy and Network Load Balancing.
+            *deny-403*::: Denies the request from HTTP(S) Load Balancing, with an HTTP response status code of 403.
+            *deny-404*::: Denies the request from HTTP(S) Load Balancing, with an HTTP response status code of 404.
+            *deny-502*::: Denies the request from HTTP(S) Load Balancing, with an HTTP response status code of 502.
+            *fairshare*::: When traffic reaches the threshold limit, requests from the clients matching this rule begin to be rate-limited using the Fair Share algorithm.
+            *rate-based-ban*::: Enforces rate-based ban action from HTTP(S) Load Balancing, based on rate limit options.
+            *redirect*::: Redirects the request from HTTP(S) Load Balancing, based on redirect options.
+            *redirect-to-recaptcha*::: (DEPRECATED) Redirects the request from HTTP(S) Load Balancing, for reCAPTCHA Enterprise assessment. This flag choice is deprecated. Use --action=redirect and --redirect-type=google-recaptcha instead.
+            *throttle*::: Enforces throttle action from HTTP(S) Load Balancing, based on rate limit options.
+            :::
+            +
+        ban-duration-sec: |-
+            Can only be specified if the action for the rule is
+            ``rate-based-ban''. If specified, determines the time (in seconds)
+            the traffic will continue to be banned by the rate limit after
+            the rate falls below the threshold.
+        ban-threshold-count: |-
+            Number of HTTP(S) requests for calculating the threshold for
+            banning requests. Can only be specified if the action for the
+            rule is ``rate-based-ban''. If specified, the key will be banned
+            for the configured ``BAN_DURATION_SEC'' when the number of requests
+            that exceed the ``RATE_LIMIT_THRESHOLD_COUNT'' also exceed this
+            ``BAN_THRESHOLD_COUNT''.
+        ban-threshold-interval-sec: |-
+            Interval over which the threshold for banning requests is
+            computed. Can only be specified if the action for the rule is
+            ``rate-based-ban''. If specified, the key will be banned for the
+            configured ``BAN_DURATION_SEC'' when the number of requests that
+            exceed the ``RATE_LIMIT_THRESHOLD_COUNT'' also exceed this
+            ``BAN_THRESHOLD_COUNT''.
+        conform-action: 'Action to take when requests are under the given threshold. When requests are throttled, this is also the action for all requests which are not dropped. _CONFORM_ACTION_ must be (only one value is supported): *allow*.'
+        description: An optional, textual description for the rule.
+        enforce-on-key: |-
+            Different key types available to enforce the rate limit threshold limit on:
+            - ``ip'': each client IP address has this limit enforced separately
+            - ``all'': a single limit is applied to all requests matching this rule
+            - ``http-header'': key type takes the value of the HTTP header configured
+                               in enforce-on-key-name as the key value
+            - ``xff-ip'': takes the original IP address specified in the X-Forwarded-For
+                          header as the key
+            - ``http-cookie'': key type takes the value of the HTTP cookie configured
+                               in enforce-on-key-name as the key value
+            - ``http-path'': key type takes the value of the URL path in the request
+            - ``sni'': key type takes the value of the server name indication from the
+                        TLS session of the HTTPS request
+            - ``region-code'': key type takes the value of the region code from which
+                               the request originates
+            - ``tls-ja3-fingerprint'': key type takes the value of JA3 TLS/SSL
+                                       fingerprint if the client connects using HTTPS,
+                                       HTTP/2 or HTTP/3
+            - ``user-ip'': key type takes the IP address of the originating client,
+                           which is resolved based on user-ip-request-headers
+                           configured with the security policy
+            - ``tls-ja4-fingerprint'': key type takes the value of JA4 TLS/SSL
+                                       fingerprint if the client connects using HTTPS,
+                                       HTTP/2 or HTTP/3
+            +
+            _ENFORCE_ON_KEY_ must be one of: *ip*, *all*, *http-header*, *xff-ip*, *http-cookie*, *http-path*, *sni*, *region-code*, *tls-ja3-fingerprint*, *user-ip*, *tls-ja4-fingerprint*.
+        enforce-on-key-configs: |-
+            Specify up to 3 key type/name pairs to rate limit.
+              Valid key types are:
+            +
+              - ``ip'': each client IP address has this limit enforced separately
+              - ``all'': a single limit is applied to all requests matching this rule
+              - ``http-header'': key type takes the value of the HTTP header configured
+                                 in enforce-on-key-name as the key value
+              - ``xff-ip'': takes the original IP address specified in the X-Forwarded-For
+                            header as the key
+              - ``http-cookie'': key type takes the value of the HTTP cookie configured
+                                 in enforce-on-key-name as the key value
+              - ``http-path'': key type takes the value of the URL path in the request
+              - ``sni'': key type takes the value of the server name indication from the
+                          TLS session of the HTTPS request
+              - ``region-code'': key type takes the value of the region code from which
+                                 the request originates
+              - ``tls-ja3-fingerprint'': key type takes the value of JA3 TLS/SSL
+                                         fingerprint if the client connects using HTTPS,
+                                         HTTP/2 or HTTP/3
+              - ``user-ip'': key type takes the IP address of the originating client,
+                             which is resolved based on user-ip-request-headers
+                             configured with the security policy
+              - ``tls-ja4-fingerprint'': key type takes the value of JA4 TLS/SSL
+                                         fingerprint if the client connects using HTTPS,
+                                         HTTP/2 or HTTP/3
+            +
+            Key names are only applicable to the following key types:
+            - http-header: The name of the HTTP header whose value is taken as the key value.
+            - http-cookie: The name of the HTTP cookie whose value is taken as the key value.
+        enforce-on-key-name: |-
+            Determines the key name for the rate limit key. Applicable only for the
+            following rate limit key types:
+            - http-header: The name of the HTTP header whose value is taken as the key
+            value.
+            - http-cookie: The name of the HTTP cookie whose value is taken as the key
+            value.
+        exceed-action: |-
+            Action to take when requests are above the given threshold. When a request
+            is denied, return the specified HTTP response code. When a request is
+            redirected, use the redirect options based on --exceed-redirect-type and
+            --exceed-redirect-target below. _EXCEED_ACTION_ must be one of: *deny-403*, *deny-404*, *deny-429*, *deny-502*, *deny*, *redirect*.
+        exceed-redirect-target: |-
+            URL target for the redirect action that is configured as the exceed
+            action when the redirect type is ``external-302''.
+        exceed-redirect-type: 'Type for the redirect action that is configured as the exceed action. _EXCEED_REDIRECT_TYPE_ must be one of: *google-recaptcha*, *external-302*.'
+        expression: The Cloud Armor rules language expression to match for this rule.
+        network-dest-ip-ranges: The destination IPs/IP ranges to match for this rule. To match all IPs specify *.
+        network-dest-ports: The destination ports to match for this rule. Each element can be an 16-bit unsigned decimal number (e.g. "80") or range (e.g."0-1023"), To match all destination ports specify *.
+        network-ip-protocols: 'The IP protocols to match for this rule. Each element can be an 8-bit unsigned decimal number (e.g. "6"), range (e.g."253-254"), or one of the following protocol names: "tcp", "udp", "icmp", "esp", "ah", "ipip", or "sctp". To match all protocols specify *.'
+        network-src-asns: BGP Autonomous System Number associated with the source IP address to match for this rule.
+        network-src-ip-ranges: The source IPs/IP ranges to match for this rule. To match all IPs specify *.
+        network-src-ports: The source ports to match for this rule. Each element can be an 16-bit unsigned decimal number (e.g. "80") or range (e.g."0-1023"), To match all source ports specify *.
+        network-src-region-codes: The two letter ISO 3166-1 alpha-2 country code associated with the source IP address to match for this rule. To match all region codes specify *.
+        network-user-defined-fields: Each element names a defined field and lists the matching values for that field.
+        no-preview: If specified, the action will not be enforced.
+        preview: If specified, the action will not be enforced.
+        rate-limit-threshold-count: Number of HTTP(S) requests for calculating the threshold for rate limiting requests.
+        rate-limit-threshold-interval-sec: Interval over which the threshold for rate limiting requests is computed.
+        recaptcha-action-site-keys: |-
+            A comma-separated list of site keys to be used during the validation of
+            reCAPTCHA action-tokens. The provided site keys need to be created from
+            the reCAPTCHA API under the same project where the security policy is created.
+        recaptcha-session-site-keys: |-
+            A comma-separated list of site keys to be used during the validation of
+            reCAPTCHA session-tokens. The provided site keys need to be created from
+            the reCAPTCHA API under the same project where the security policy is created.
+        redirect-target: |-
+            URL target for the redirect action. Must be specified if the redirect
+            type is ``external-302''. Cannot be specified if the redirect type is
+            ``google-recaptcha''.
+        redirect-type: |-
+            Type for the redirect action. Default to ``external-302'' if unspecified
+            while --redirect-target is given. _REDIRECT_TYPE_ must be one of: *google-recaptcha*, *external-302*.
+        region: |-
+            Region of the security policy to add. If not specified, you might be prompted to select a region (interactive mode
+            only).
+            +
+            A list of regions can be fetched by running:
+            +
+              $ gcloud compute regions list
+            +
+            Overrides the default *compute/region* property value for this command invocation.
+        request-headers-to-add: |-
+            A comma-separated list of header names and header values to add to
+            requests that match this rule.
+        security-policy: The security policy that this rule belongs to.
+        src-ip-ranges: The source IPs/IP ranges to match for this rule. To match all IPs specify *.

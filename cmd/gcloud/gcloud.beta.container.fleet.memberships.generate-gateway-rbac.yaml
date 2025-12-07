@@ -1,0 +1,122 @@
+name: generate-gateway-rbac
+description: '*(BETA)*  Generate RBAC policy files for connected clusters by the user.'
+flags:
+    --anthos-support: If specified, this command will generate RBAC policy
+    --apply: If specified, this command will generate RBAC policy and apply to the
+    --context=: The cluster context as it appears in the kubeconfig file.
+    --groups=: Group email address or third-party IAM group principal.
+    --kubeconfig=: The kubeconfig file containing an entry for the cluster.
+    --membership=: Membership name to assign RBAC policy with.
+    --no-anthos-support&: If specified, this command will generate RBAC policy
+    --no-apply&: If specified, this command will generate RBAC policy and apply to the
+    --no-revoke&: If specified, this command will revoke the RBAC policy for the
+    --rbac-output-file=: If specified, this command will execute in dry run mode and write to
+    --revoke: If specified, this command will revoke the RBAC policy for the
+    --role=: Namespace scoped role or cluster role.
+    --users=: User's email address, service account email address, or third-party IAM subject principal.
+documentation:
+    command: |-
+        *(BETA)*  gcloud beta container fleet memberships generate-gateway-rbac generates RBAC policies to be used by Connect Gateway API.
+
+        Upon success, this command will write the output RBAC policy to the designated
+        local file in dry run mode.
+
+        Override RBAC policy: Y to override previous RBAC policy, N to stop. If
+        overriding the --role, Y will clean up the previous RBAC policy and then apply
+        the new one.
+
+        ## EXAMPLES
+          The current implementation supports multiple modes:
+
+          Dry run mode to generate the RBAC policy file, and write to local directory:
+
+            $ gcloud beta container fleet memberships generate-gateway-rbac --membership=my-cluster
+            --users=foo@example.com,test-acct@test-project.iam.gserviceaccount.com
+            --role=clusterrole/cluster-admin --rbac-output-file=./rbac.yaml
+
+          Dry run mode to generate the RBAC policy, and print on screen:
+
+            $ gcloud beta container fleet memberships generate-gateway-rbac --membership=my-cluster
+            --users=foo@example.com,test-acct@test-project.iam.gserviceaccount.com
+            --role=clusterrole/cluster-admin
+
+          Anthos support mode, generate the RBAC policy file with read-only permission
+          for TSE/Eng to debug customers' clusters:
+
+            $ gcloud beta container fleet memberships generate-gateway-rbac --membership=my-cluster --anthos-support
+
+          Apply mode, generate the RBAC policy and apply it to the specified cluster:
+
+            $ gcloud beta container fleet memberships generate-gateway-rbac --membership=my-cluster
+            --users=foo@example.com,test-acct@test-project.iam.gserviceaccount.com
+            --role=clusterrole/cluster-admin --context=my-cluster-context
+            --kubeconfig=/home/user/custom_kubeconfig --apply
+
+          Revoke mode, revoke the RBAC policy for the specified users:
+
+            $ gcloud beta container fleet memberships generate-gateway-rbac --membership=my-cluster
+            --users=foo@example.com,test-acct@test-project.iam.gserviceaccount.com
+            --role=clusterrole/cluster-admin --context=my-cluster-context
+            --kubeconfig=/home/user/custom_kubeconfig --revoke
+
+          The role to be granted to the users can either be cluster-scoped or
+          namespace-scoped. To grant a namespace-scoped role to the users in dry run
+          mode, run:
+
+            $ gcloud beta container fleet memberships generate-gateway-rbac --membership=my-cluster
+            --users=foo@example.com,test-acct@test-project.iam.gserviceaccount.com
+            --role=role/mynamespace/namespace-reader
+
+          The users provided can be using a Google identity (only email) or using
+          external identity providers (starting with
+          "principal://iam.googleapis.com"):
+
+            $ gcloud beta container fleet memberships generate-gateway-rbac --membership=my-cluster
+            --users=foo@example.com,principal://iam.googleapis.com/locations/global/workforcePools/pool/subject/user
+            --role=clusterrole/cluster-admin --context=my-cluster-context
+            --kubeconfig=/home/user/custom_kubeconfig --apply
+
+          The groups can be provided as a Google identity (only email) or an
+          external identity (starting with
+          "principalSet://iam.googleapis.com"):
+
+            $ gcloud beta container fleet memberships generate-gateway-rbac --membership=my-cluster
+            --groups=group@example.com,principalSet://iam.googleapis.com/locations/global/workforcePools/pool/group/ExampleGroup
+            --role=clusterrole/cluster-admin --context=my-cluster-context
+            --kubeconfig=/home/user/custom_kubeconfig --apply
+    flag:
+        anthos-support: |-
+            If specified, this command will generate RBAC policy
+            file for anthos support.
+        apply: |-
+            If specified, this command will generate RBAC policy and apply to the
+            specified cluster.
+        context: |-
+            The cluster context as it appears in the kubeconfig file. You can get
+            this value from the command line by running command:
+            `kubectl config current-context`.
+        groups: Group email address or third-party IAM group principal.
+        kubeconfig: |-
+            The kubeconfig file containing an entry for the cluster. Defaults to
+            $KUBECONFIG if it is set in the environment, otherwise defaults to
+            $HOME/.kube/config.
+        membership: Membership name to assign RBAC policy with.
+        no-anthos-support: |
+            If specified, this command will generate RBAC policy
+            file for anthos support.
+        no-apply: |
+            If specified, this command will generate RBAC policy and apply to the
+            specified cluster.
+        no-revoke: |
+            If specified, this command will revoke the RBAC policy for the
+            specified users.
+        rbac-output-file: |-
+            If specified, this command will execute in dry run mode and write to
+            the file specified with this flag: the generated RBAC policy will not
+            be applied to Kubernetes clusters,instead it will be written to the
+            designated local file.
+        revoke: |-
+            If specified, this command will revoke the RBAC policy for the
+            specified users.
+        role: Namespace scoped role or cluster role.
+        users: User's email address, service account email address, or third-party IAM subject principal.

@@ -1,0 +1,235 @@
+name: update
+description: '*(BETA)*  Update an Anthos cluster on VMware.'
+flags:
+    --add-annotations=: Add the given key-value pairs to the current annotations, or update its value if the key already exists.
+    --admin-users=: Users that will be granted the cluster-admin role on the cluster, providing full access to the cluster.
+    --allow-missing&: If set, and the Anthos cluster on VMware is not found, the update request will try to create a new cluster with the provided configuration.
+    --async: Return immediately, without waiting for the operation in progress to
+    --clear-annotations&: Clear all the current annotations
+    --cpus=: Number of CPUs for each admin cluster node that serve as control planes for this VMware user cluster.
+    --description=: Description for the resource.
+    --disable-aag-config: If set, spread nodes across at least three physical hosts (requires at least three hosts).
+    --disable-auto-repair: If set, disables auto repair.
+    --disable-auto-resize: Disable controle plane node auto resize.
+    --disable-vsphere-csi: If set, vSphere CSI components are not deployed in the VMware User Cluster.
+    --enable-aag-config: If set, enable anti-affinity group config.
+    --enable-auto-repair: If set, deploy the cluster-health-controller.
+    --enable-auto-resize: Enable controle plane node auto resize.
+    --enable-vsphere-csi: If set, vSphere CSI components are deployed in the VMware User Cluster.
+    --location=: Google Cloud location for the cluster.
+    --memory=: 'Megabytes of memory for each admin cluster node that serves as a control plane for this VMware User Cluster (default: 8192 MB memory).'
+    --metal-lb-config-address-pools=: MetalLB load balancer configurations.
+    --metal-lb-config-from-file=&: ""
+    --no-allow-missing&: If set, and the Anthos cluster on VMware is not found, the update request will try to create a new cluster with the provided configuration.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-clear-annotations&: Clear all the current annotations
+    --no-disable-aag-config&: If set, spread nodes across at least three physical hosts (requires at least three hosts).
+    --no-disable-auto-repair&: If set, disables auto repair.
+    --no-disable-auto-resize&: Disable controle plane node auto resize.
+    --no-disable-vsphere-csi&: If set, vSphere CSI components are not deployed in the VMware User Cluster.
+    --no-enable-aag-config&: If set, enable anti-affinity group config.
+    --no-enable-auto-repair&: If set, deploy the cluster-health-controller.
+    --no-enable-auto-resize&: Enable controle plane node auto resize.
+    --no-enable-vsphere-csi&: If set, vSphere CSI components are deployed in the VMware User Cluster.
+    --no-validate-only&: If set, only validate the request, but do not actually perform the operation.
+    --remove-annotations=: Remove annotations of the given keys.
+    --set-annotations=&: Replace all the current annotations
+    --static-ip-config-from-file=&: ""
+    --static-ip-config-ip-blocks=: Static IP configurations.
+    --upgrade-policy=: If not specified, control-plane-only is set to False.
+    --validate-only: If set, only validate the request, but do not actually perform the operation.
+documentation:
+    command: '*(BETA)*  Update an Anthos cluster on VMware.'
+    flag:
+        add-annotations: Add the given key-value pairs to the current annotations, or update its value if the key already exists.
+        admin-users: |-
+            Users that will be granted the cluster-admin role on the cluster, providing full access to the cluster.
+            +
+            To add multiple users, specify one in each flag. When updating, the update command overwrites the whole grant list. Specify all existing and new users that you want to be cluster administrators.
+            +
+            Examples:
+            +
+              $ {command}
+                  --admin-users alice@example.com
+                  --admin-users bob@example.com
+        allow-missing: If set, and the Anthos cluster on VMware is not found, the update request will try to create a new cluster with the provided configuration.
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        clear-annotations: Clear all the current annotations
+        cpus: 'Number of CPUs for each admin cluster node that serve as control planes for this VMware user cluster. (default: 4 CPUs)'
+        description: Description for the resource.
+        disable-aag-config: If set, spread nodes across at least three physical hosts (requires at least three hosts). Enabled by default.
+        disable-auto-repair: If set, disables auto repair.
+        disable-auto-resize: Disable controle plane node auto resize.
+        disable-vsphere-csi: If set, vSphere CSI components are not deployed in the VMware User Cluster. Enabled by default.
+        enable-aag-config: If set, enable anti-affinity group config.
+        enable-auto-repair: If set, deploy the cluster-health-controller.
+        enable-auto-resize: Enable controle plane node auto resize.
+        enable-vsphere-csi: If set, vSphere CSI components are deployed in the VMware User Cluster.
+        location: |-
+            Google Cloud location for the cluster.
+            +
+            To set the `location` attribute:
+            * provide the argument `cluster` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `container_vmware/location`.
+        memory: 'Megabytes of memory for each admin cluster node that serves as a control plane for this VMware User Cluster (default: 8192 MB memory).'
+        metal-lb-config-address-pools: |-
+            MetalLB load balancer configurations.
+            +
+            Examples:
+            +
+            To specify MetalLB load balancer configurations for two address pools `pool1` and `pool2`,
+            +
+            ```
+            $ gcloud {command}
+                --metal-lb-config-address-pools 'pool=pool1,avoid-buggy-ips=True,manual-assign=True,addresses=192.168.1.1/32;192.168.1.2-192.168.1.3'
+                --metal-lb-config-address-pools 'pool=pool2,avoid-buggy-ips=False,manual-assign=False,addresses=192.168.2.1/32;192.168.2.2-192.168.2.3'
+            ```
+            +
+            Use quote around the flag value to escape semicolon in the terminal.
+        metal-lb-config-from-file: |+
+            Path of the YAML/JSON file that contains the MetalLB configurations.
+
+            Examples:
+
+              metalLBConfig:
+                addressPools:
+                - pool: lb-test-ip
+                  addresses:
+                  - 10.251.133.79/32
+                  - 10.251.133.80/32
+                  avoidBuggyIPs: True
+                  manualAssign: False
+                - pool: ingress-ip
+                  addresses:
+                  - 10.251.133.70/32
+                  avoidBuggyIPs: False
+                  manualAssign: True
+
+            List of supported fields in `metalLBConfig`
+
+            KEY           | VALUE                     | NOTE
+            --------------|---------------------------|------------------
+            addressPools  | one or more addressPools  | required, mutable
+
+            List of supported fields in `addressPools`
+
+            KEY           | VALUE                 | NOTE
+            --------------|-----------------------|---------------------------
+            pool          | string                | required, mutable
+            addresses     | one or more IP ranges | required, mutable
+            avoidBuggyIPs | bool                  | optional, mutable, defaults to False
+            manualAssign  | bool                  | optional, mutable, defaults to False
+
+        no-allow-missing: If set, and the Anthos cluster on VMware is not found, the update request will try to create a new cluster with the provided configuration.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-clear-annotations: Clear all the current annotations
+        no-disable-aag-config: If set, spread nodes across at least three physical hosts (requires at least three hosts). Enabled by default.
+        no-disable-auto-repair: If set, disables auto repair.
+        no-disable-auto-resize: Disable controle plane node auto resize.
+        no-disable-vsphere-csi: If set, vSphere CSI components are not deployed in the VMware User Cluster. Enabled by default.
+        no-enable-aag-config: If set, enable anti-affinity group config.
+        no-enable-auto-repair: If set, deploy the cluster-health-controller.
+        no-enable-auto-resize: Enable controle plane node auto resize.
+        no-enable-vsphere-csi: If set, vSphere CSI components are deployed in the VMware User Cluster.
+        no-validate-only: If set, only validate the request, but do not actually perform the operation.
+        remove-annotations: Remove annotations of the given keys.
+        set-annotations: Replace all the current annotations
+        static-ip-config-from-file: |
+            Path of the YAML/JSON file that contains the static IP configurations, used by Anthos on VMware user cluster node pools.
+
+            Examples:
+
+                staticIPConfig:
+                  ipBlocks:
+                  - gateway: 10.251.31.254
+                    netmask: 255.255.252.0
+                    ips:
+                    - hostname: hostname-1
+                      ip: 1.1.1.1
+                    - hostname: hostname-2
+                      ip: 2.2.2.2
+                    - hostname: hostname-3
+                      ip: 3.3.3.3
+                    - hostname: hostname-4
+                      ip: 4.4.4.4
+
+            List of supported fields in `staticIPConfig`
+
+            KEY       | VALUE                 | NOTE
+            --------- | --------------------  | -----------------
+            ipBlocks  | one or more ipBlocks  | required, mutable
+
+            List of supported fields in `ipBlocks`
+
+            KEY     | VALUE           | NOTE
+            ------- | --------------- | -------------------
+            gateway | IP address      | required, immutable
+            netmask | IP address      | required, immutable
+            ips     | one or more ips | required, mutable
+
+            List of supported fields in `ips`
+
+            KEY       | VALUE       | NOTE
+            --------- | ----------- | -------------------
+            hostname  | string      | optional, immutable
+            ip        | IP address  | required, immutable
+
+            New `ips` fields can be added, existing `ips` fields cannot be removed or updated.
+        static-ip-config-ip-blocks: |-
+            Static IP configurations.
+            +
+            Expect an individual IP address, an individual IP address with an optional hostname, or a CIDR block.
+            +
+            Example:
+            +
+            To specify two Static IP blocks,
+            +
+            ```
+            $ gcloud {command}
+                --static-ip-config-ip-blocks 'gateway=192.168.0.1,netmask=255.255.255.0,ips=192.168.1.1;0.0.0.0 localhost;192.168.1.2/16'
+                --static-ip-config-ip-blocks 'gateway=192.168.1.1,netmask=255.255.0.0,ips=8.8.8.8;4.4.4.4'
+            ```
+            +
+            Use quote around the flag value to escape semicolon in the terminal.
+        upgrade-policy: |-
+            If not specified, control-plane-only is set to False. In the next upgrade operation, all worker node pools will be upgraded together with the control plane.
+            +
+            Example:
+            +
+              To upgrade the control plane only and keep worker node pools version unchanged, first specify the policy:
+            +
+                ```shell
+                $ {command} CLUSTER --upgrade-policy control-plane-only=True
+                ```
+            +
+              Then to start the upgrade operation using the specified policy, run:
+            +
+                ```shell
+                $ {parent_command} upgrade CLUSTER --version=VERSION
+                ```
+            +
+              After upgrading only the cluster control plane, to upgrade an individual node pool, run:
+            +
+                ```shell
+                $ {grandparent_command} node-pools update NODE_POOL --version=VERSION
+                ```
+            +
+            Example:
+            +
+              Alternatively, to upgrade both the control plane and all worker node pools, first specify the policy:
+            +
+                ```shell
+                $ {command} CLUSTER --upgrade-policy control-plane-only=False
+                ```
+            +
+              Then to start the upgrade operation using the specified policy, run:
+            +
+                ```shell
+                $ {parent_command} upgrade CLUSTER --version=VERSION
+                ```
+        validate-only: If set, only validate the request, but do not actually perform the operation.

@@ -1,0 +1,121 @@
+name: sqlserver
+description: Create a Database Migration Service connection profile for SQL Server.
+flags:
+    --ca-certificate=: x509 PEM-encoded certificate of the CA that signed the database
+    --cloudsql-instance=: If the source or destination is a Cloud SQL database, then use this field
+    --cloudsql-project-id=: The project id of the Cloud SQL instance.
+    --database=: The name of the specific database within the host.
+    --dbm-port=&: The Database Mirroring (DBM) port.
+    --display-name=: A user-friendly name for the connection profile.
+    --forward-ssh-hostname=!: Hostname for the SSH tunnel.
+    --forward-ssh-password=: SSH password.
+    --forward-ssh-port=: Port for the SSH tunnel, default value is 22.
+    --forward-ssh-private-key=: SSH private key..
+    --forward-ssh-username=!: Username for the SSH tunnel.
+    --gcs-bucket=!: Cloud Storage bucket for the source SQL Server connection profile where the backups are stored.
+    --gcs-prefix=: Cloud Storage prefix path within the bucket for the source SQL Server connection profile where the backups are stored.
+    --host=!: IP or hostname of the database.
+    --labels=: List of label KEY=VALUE pairs to add.
+    --no-async: Waits for the operation in progress to complete before returning.
+    --no-prompt-for-password&: Prompt for the password used to connect to the database.
+    --no-static-ip-connectivity&: use static ip connectivity
+    --password=: Password for the user that Database Migration Service uses to
+    --port=!: Network port of the database.
+    --private-connection=!: ID of the private_connection or fully qualified identifier for the private_connection.
+    --prompt-for-password: Prompt for the password used to connect to the database.
+    --provider=: Database provider, for managed databases.
+    --psc-service-attachment=&: ID of the service_attachment or fully qualified identifier for the service_attachment.
+    --region=: The Cloud region for the connection_profile.
+    --role=: The role of the connection profile.
+    --ssl-flags=: Comma-separated list of SSL flags used for establishing SSL connection to
+    --ssl-type=: The type of SSL configuration.
+    --static-ip-connectivity: use static ip connectivity
+    --username=!: Username that Database Migration Service uses to connect to the
+completion:
+    flag:
+        provider:
+            - CLOUDSQL
+            - RDS
+        role:
+            - SOURCE
+            - DESTINATION
+        ssl-type:
+            - SERVER_ONLY
+            - REQUIRED
+            - NONE
+documentation:
+    command: Create a Database Migration Service connection profile for SQL Server.
+    flag:
+        ca-certificate: |-
+            x509 PEM-encoded certificate of the CA that signed the database
+            server's certificate. The value for this flag needs to
+            be the content of the certificate file, not the path to the file.
+            For example, on a Linux machine you can use command substitution:
+            <code>--ca-certificate=$(</path/to/certificate_file.pem)</code>.
+            Database Migration Service will use this certificate to verify
+            it's connecting to the correct host. Database Migration Service encrypts the
+            value when storing it.
+        cloudsql-instance: |-
+            If the source or destination is a Cloud SQL database, then use this field
+            to provide the respective Cloud SQL instance ID.
+        cloudsql-project-id: The project id of the Cloud SQL instance. Only needed if the Cloud SQL instance is in a different project than the connection profile. This is only supported for source connection profiles for SQL Server.
+        database: The name of the specific database within the host.
+        dbm-port: |
+            The Database Mirroring (DBM) port.
+        display-name: |-
+            A user-friendly name for the connection profile. The display name can
+            include letters, numbers, spaces, and hyphens, and must start with a letter.
+        forward-ssh-hostname: Hostname for the SSH tunnel.
+        forward-ssh-password: SSH password.
+        forward-ssh-port: Port for the SSH tunnel, default value is 22.
+        forward-ssh-private-key: SSH private key..
+        forward-ssh-username: Username for the SSH tunnel.
+        gcs-bucket: Cloud Storage bucket for the source SQL Server connection profile where the backups are stored. This flag is used only for SQL Server to Cloud SQL migrations.
+        gcs-prefix: Cloud Storage prefix path within the bucket for the source SQL Server connection profile where the backups are stored. This flag is used only for SQL Server to Cloud SQL migrations.
+        host: |-
+            IP or hostname of the database.
+            When `--psc-service-attachment` is also specified, this field value should be:
+            1. For Cloud SQL PSC enabled instance - the dns_name field (e.g <uid>.<region>.sql.goog.).
+            2. For Cloud SQL PSA instance (vpc peering) - the private ip of the instance.
+        labels: |-
+            List of label KEY=VALUE pairs to add.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+        no-async: Waits for the operation in progress to complete before returning.
+        no-prompt-for-password: Prompt for the password used to connect to the database.
+        no-static-ip-connectivity: use static ip connectivity
+        password: |-
+            Password for the user that Database Migration Service uses to
+            connect to the database. Database Migration Service encrypts
+            the value when storing it, and the field is not returned on request.
+        port: Network port of the database.
+        private-connection: |-
+            ID of the private_connection or fully qualified identifier for the private_connection.
+            +
+            To set the `private_connection` attribute:
+            * provide the argument `--private-connection` on the command line.
+        prompt-for-password: Prompt for the password used to connect to the database.
+        provider: 'Database provider, for managed databases. _PROVIDER_ must be one of: *CLOUDSQL*, *RDS*.'
+        psc-service-attachment: |-
+            ID of the service_attachment or fully qualified identifier for the service_attachment.
+
+            To set the `service_attachment` attribute:
+            * provide the argument `--psc-service-attachment` on the command line.
+        region: |-
+            The Cloud region for the connection_profile.
+            +
+            To set the `region` attribute:
+            * provide the argument `connection_profile` on the command line with a fully specified name;
+            * provide the argument `--region` on the command line.
+        role: 'The role of the connection profile. _ROLE_ must be one of: *SOURCE*, *DESTINATION*.'
+        ssl-flags: |-
+            Comma-separated list of SSL flags used for establishing SSL connection to
+            the database. Use an equals sign to separate the flag name and value.
+            Example: `--ssl-flags ssl_mode=enable,server_certificate_hostname=server.com`.
+        ssl-type: 'The type of SSL configuration. _SSL_TYPE_ must be one of: *SERVER_ONLY*, *REQUIRED*, *NONE*.'
+        static-ip-connectivity: use static ip connectivity
+        username: |-
+            Username that Database Migration Service uses to connect to the
+            database for metrics and observability. We highly recommend that you
+            use the sqlserver user for this. Database Migration Service encrypts
+            the value when storing it.

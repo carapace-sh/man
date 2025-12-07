@@ -1,0 +1,78 @@
+name: update
+description: Update an Eventarc message bus.
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --clear-crypto-key: Remove the previously configured crypto key.
+    --clear-labels: Remove all labels.
+    --crypto-key=: Fully qualified name of the crypto key to use for customer-managed encryption.
+    --location=: The location for the Eventarc message bus, which should be one of the supported regions.
+    --logging-config=: The logging config of the message bus.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-clear-crypto-key&: Remove the previously configured crypto key.
+    --no-clear-labels&: Remove all labels.
+    --remove-labels=: List of label keys to remove.
+    --update-labels=: List of label KEY=VALUE pairs to update.
+completion:
+    flag:
+        logging-config:
+            - NONE
+            - DEBUG
+            - INFO
+            - NOTICE
+            - WARNING
+            - ERROR
+            - CRITICAL
+            - ALERT
+            - EMERGENCY
+documentation:
+    command: Update an Eventarc message bus.
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        clear-crypto-key: Remove the previously configured crypto key. The channel will continue to be encrypted using Google-managed keys.
+        clear-labels: |-
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} --clear-labels
+            +
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        crypto-key: Fully qualified name of the crypto key to use for customer-managed encryption. If this is unspecified, Google-managed keys will be used for encryption.
+        location: |-
+            The location for the Eventarc message bus, which should be one of the supported regions. Alternatively, set the [eventarc/location] property.
+            +
+            To set the `location` attribute:
+            * provide the argument `message_bus` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `eventarc/location`.
+        logging-config: 'The logging config of the message bus. _LOGGING_CONFIG_ must be one of: *NONE*, *DEBUG*, *INFO*, *NOTICE*, *WARNING*, *ERROR*, *CRITICAL*, *ALERT*, *EMERGENCY*.'
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-clear-crypto-key: Remove the previously configured crypto key. The channel will continue to be encrypted using Google-managed keys.
+        no-clear-labels: |
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} --clear-labels
+
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        remove-labels: |-
+            List of label keys to remove. If a label does not exist it is
+            silently ignored. If `--update-labels` is also specified then
+            `--update-labels` is applied first.
+        update-labels: |-
+            List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.

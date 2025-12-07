@@ -1,0 +1,151 @@
+name: contacts
+description: '*(ALPHA)*  Configure contact settings of a Cloud Domains registration.'
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --contact-data-from-file=: 'A YAML file containing the contact data for the domain''s three contacts:'
+    --contact-privacy=: The contact privacy mode to use.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-validate-only&: Don't actually configure contact settings of the registration.
+    --notices=: Notices about special properties of contacts.
+    --validate-only: Don't actually configure contact settings of the registration.
+completion:
+    flag:
+        contact-privacy:
+            - private-contact-data
+            - public-contact-data
+            - redacted-contact-data
+documentation:
+    command: |-
+        *(ALPHA)*  Configure registration's contact settings: email, phone number, postal
+        address and also contact privacy.
+
+        In some cases such changes have to be confirmed through an email sent to
+        the registrant before they take effect. In order to resend the email, execute
+        this command again.
+
+        NOTE: Please consider carefully any changes to contact privacy settings when
+        changing from "redacted-contact-data" to "public-contact-data."
+        There may be a delay in reflecting updates you make to registrant
+        contact information such that any changes you make to contact privacy
+        (including from "redacted-contact-data" to "public-contact-data")
+        will be applied without delay but changes to registrant contact
+        information may take a limited time to be publicized. This means that
+        changes to contact privacy from "redacted-contact-data" to
+        "public-contact-data" may make the previous registrant contact
+        data public until the modified registrant contact details are published.
+
+        ## EXAMPLES
+
+        To start an interactive flow to configure contact settings for
+        ``example.com'', run:
+
+          $ gcloud alpha domains registrations configure contacts example.com
+
+        To enable contact privacy for ``example.com'', run:
+
+          $ gcloud alpha domains registrations configure contacts example.com --contact-privacy=private-contact-data
+
+        To change contact data for ``example.com'' according to information from a
+        YAML file ``contacts.yaml'', run:
+
+          $ gcloud alpha domains registrations configure contacts example.com --contact-data-from-file=contacts.yaml
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        contact-data-from-file: |-
+            A YAML file containing the contact data for the domain's three contacts:
+            registrant, admin, and technical.
+            +
+            The file can either specify a single set of contact data with label
+            'allContacts', or three separate sets of contact data with labels
+            'adminContact' and 'technicalContact'.
+            +
+            If 'registrantContact', 'adminContact' or 'technicalContact' labels are used
+            then only the specified contacts are updated.
+            +
+            Each contact data must contain values for all required fields: email,
+            phoneNumber and postalAddress in google.type.PostalAddress format.
+            +
+            For more guidance on how to specify postalAddress, please see:
+            https://support.google.com/business/answer/6397478
+            +
+            Examples of file contents:
+            +
+            ```
+            allContacts:
+              email: 'example@example.com'
+              phoneNumber: '+1.8005550123'
+              postalAddress:
+                regionCode: 'US'
+                postalCode: '94043'
+                administrativeArea: 'CA'
+                locality: 'Mountain View'
+                addressLines: ['1600 Amphitheatre Pkwy']
+                recipients: ['Jane Doe']
+            ```
+            +
+            ```
+            adminContact:
+              email: 'admin@example.com'
+              phoneNumber: '+1.8005550123'
+              postalAddress:
+                regionCode: 'US'
+                postalCode: '94043'
+                administrativeArea: 'CA'
+                locality: 'Mountain View'
+                addressLines: ['1600 Amphitheatre Pkwy']
+                recipients: ['Admin Jane Doe']
+            ```
+            +
+            ```
+            registrantContact:
+              email: 'registrant@example.com'
+              phoneNumber: '+1.8005550123'
+              postalAddress:
+                regionCode: 'US'
+                postalCode: '94043'
+                administrativeArea: 'CA'
+                locality: 'Mountain View'
+                addressLines: ['1600 Amphitheatre Pkwy']
+                recipients: ['Registrant Jane Doe']
+            adminContact:
+              email: 'admin@example.com'
+              phoneNumber: '+1.8005550123'
+              postalAddress:
+                regionCode: 'US'
+                postalCode: '94043'
+                administrativeArea: 'CA'
+                locality: 'Mountain View'
+                addressLines: ['1600 Amphitheatre Pkwy']
+                recipients: ['Admin Jane Doe']
+            technicalContact:
+              email: 'technical@example.com'
+              phoneNumber: '+1.8005550123'
+              postalAddress:
+                regionCode: 'US'
+                postalCode: '94043'
+                administrativeArea: 'CA'
+                locality: 'Mountain View'
+                addressLines: ['1600 Amphitheatre Pkwy']
+                recipients: ['Technic Jane Doe']
+            ```
+        contact-privacy: |-
+            The contact privacy mode to use. Supported privacy modes depend on the domain. _CONTACT_PRIVACY_ must be one of:
+            +
+            *private-contact-data*::: (DEPRECATED) Your contact info won't be available to the public. To help protect your info and prevent spam, a third party provides alternate (proxy) contact info for your domain in the public directory at no extra cost. They will forward received messages to you. The private-contact-data option is deprecated; See https://cloud.google.com/domains/docs/deprecations/feature-deprecations.
+            *public-contact-data*::: All the data from contact config is publicly available. To set this value, you must also pass the --notices flag with value public-contact-data-acknowledgement or agree to the notice interactively.
+            *redacted-contact-data*::: Limited personal information will be available to the public. The actual information redacted depends on the domain. For more information see https://support.google.com/domains/answer/3251242.
+            :::
+            +
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-validate-only: Don't actually configure contact settings of the registration. Only validate arguments.
+        notices: |-
+            Notices about special properties of contacts. _NOTICE_ must be (only one value is supported):
+            +
+            *public-contact-data-acknowledgement*::: By sending this notice you acknowledge that using public-contact-data contact privacy makes all the data from contact config publicly available.
+            :::
+            +
+        validate-only: Don't actually configure contact settings of the registration. Only validate arguments.

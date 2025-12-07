@@ -1,0 +1,130 @@
+name: update
+description: Update an Artifact Registry repository.
+flags:
+    --allow-sbom-generation&: Allow SBOM generation on the repository.
+    --allow-vulnerability-scanning: Allow vulnerability scanning on the repository.
+    --alternative-hostname-default&: Whether this is the default repository for the alternative hostname if no repository matches the path prefix.
+    --alternative-hostname-path-prefix=&: An alternative hostname path prefix that a repository can be accessed through.
+    --alternative-hostname=&: An alternative hostname that a repository can be accessed through.
+    --clear-labels: Remove all labels.
+    --description=: Description for the repository.
+    --disable-remote-validation: Do not make an HTTP request to validate the remote upstream.
+    --disable-sbom-generation&: Disable SBOM generation on the repository.
+    --disable-vulnerability-scanning: Disable vulnerability scanning on the repository.
+    --enable-ingestion-attestation&: Enable generating attestation with verifiable signature on imported files in remote repositories.
+    --immutable-tags: (Docker only) Prevent changes to tagged images in the repository.
+    --location=: Location of the repository.
+    --no-allow-sbom-generation&: Allow SBOM generation on the repository.
+    --no-allow-vulnerability-scanning&: Allow vulnerability scanning on the repository.
+    --no-alternative-hostname-default&: Whether this is the default repository for the alternative hostname if no repository matches the path prefix.
+    --no-clear-labels&: Remove all labels.
+    --no-disable-remote-validation&: Do not make an HTTP request to validate the remote upstream.
+    --no-disable-sbom-generation&: Disable SBOM generation on the repository.
+    --no-disable-vulnerability-scanning&: Disable vulnerability scanning on the repository.
+    --no-enable-ingestion-attestation&: Enable generating attestation with verifiable signature on imported files in remote repositories.
+    --no-immutable-tags&: (Docker only) Prevent changes to tagged images in the repository.
+    --remote-password-secret-version=: Secret Manager secret version that contains password for the remote repository upstream.
+    --remote-username=: Remote Repository upstream registry username.
+    --remove-labels=: List of label keys to remove.
+    --update-labels=: List of label KEY=VALUE pairs to update.
+    --upstream-policy-file=: (Virtual Repositories only) is the upstreams for the Virtual Repository.
+documentation:
+    command: |
+        Update the description or labels for an Artifact Registry repository.
+
+        This command can fail for the following reasons:
+          * A repository with this name does not exist.
+          * The active account does not have permission to update repositories.
+    flag:
+        allow-sbom-generation: |
+            Allow SBOM generation on the repository.
+        allow-vulnerability-scanning: Allow vulnerability scanning on the repository.
+        alternative-hostname: |
+            An alternative hostname that a repository can be accessed through.
+        alternative-hostname-default: |
+            Whether this is the default repository for the alternative hostname if no repository matches the path prefix.
+        alternative-hostname-path-prefix: |
+            An alternative hostname path prefix that a repository can be accessed through.
+        clear-labels: |-
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} --clear-labels
+            +
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        description: Description for the repository.
+        disable-remote-validation: Do not make an HTTP request to validate the remote upstream. Not recommended when setting a custom remote upstream unless you are absolutely sure your upstream URI and any auth is valid.
+        disable-sbom-generation: |
+            Disable SBOM generation on the repository.
+        disable-vulnerability-scanning: Disable vulnerability scanning on the repository.
+        enable-ingestion-attestation: |
+            Enable generating attestation with verifiable signature on imported files in remote repositories.
+        immutable-tags: (Docker only) Prevent changes to tagged images in the repository. Tags cannot be deleted or moved to a different image digest, and tagged images cannot be deleted.
+        location: |-
+            Location of the repository. Overrides the default artifacts/location property value
+            for this command invocation. To configure the default location, use the command:
+            gcloud config set artifacts/location.
+            +
+
+            To set the `location` attribute:
+            * provide the argument `repository` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `artifacts/location`.
+        no-allow-sbom-generation: |
+            Allow SBOM generation on the repository.
+        no-allow-vulnerability-scanning: |
+            Allow vulnerability scanning on the repository.
+        no-alternative-hostname-default: |
+            Whether this is the default repository for the alternative hostname if no repository matches the path prefix.
+        no-clear-labels: |
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} --clear-labels
+
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        no-disable-remote-validation: |
+            Do not make an HTTP request to validate the remote upstream. Not recommended when setting a custom remote upstream unless you are absolutely sure your upstream URI and any auth is valid.
+        no-disable-sbom-generation: |
+            Disable SBOM generation on the repository.
+        no-disable-vulnerability-scanning: |
+            Disable vulnerability scanning on the repository.
+        no-enable-ingestion-attestation: |
+            Enable generating attestation with verifiable signature on imported files in remote repositories.
+        no-immutable-tags: |
+            (Docker only) Prevent changes to tagged images in the repository. Tags cannot be deleted or moved to a different image digest, and tagged images cannot be deleted.
+        remote-password-secret-version: Secret Manager secret version that contains password for the remote repository upstream.
+        remote-username: Remote Repository upstream registry username.
+        remove-labels: |-
+            List of label keys to remove. If a label does not exist it is
+            silently ignored. If `--update-labels` is also specified then
+            `--update-labels` is applied first.
+        update-labels: |-
+            List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+        upstream-policy-file: |-
+            (Virtual Repositories only) is the upstreams for the Virtual Repository.
+            Example of the file contents:
+            [
+              {
+                "id": "test1",
+                "repository": "projects/p1/locations/us-central1/repositories/repo1",
+                "priority": 1
+              },
+              {
+                "id": "test2",
+                "repository": "projects/p2/locations/us-west2/repositories/repo2",
+                "priority": 2
+              }
+            ]

@@ -1,0 +1,67 @@
+name: create
+description: Create a Pub/Sub Lite subscription.
+flags:
+    --delivery-requirement=: When this subscription should send messages to subscribers relative to
+    --event-time=: The event time to which you seek a subscription.
+    --export-dead-letter-topic=: The name of the Pub/Sub Lite topic to write messages that cannot be exported.
+    --export-desired-state=: The desired state of the export.
+    --export-pubsub-topic=!: The name of the destination Pub/Sub topic to which messages are exported.
+    --location=: ID of the location or fully qualified identifier for the location.
+    --publish-time=: The publish time to which you seek a subscription.
+    --starting-offset=: The offset at which a newly created or seeked subscription starts receiving messages.
+    --topic=!: Topic ID associated with the subscription.
+    --zone=&: (DEPRECATED) ID of the location of the Pub/Sub Lite resource.
+completion:
+    flag:
+        delivery-requirement:
+            - deliver-after-stored
+            - deliver-immediately
+        export-desired-state:
+            - active
+            - paused
+        starting-offset:
+            - beginning
+            - end
+documentation:
+    command: Create a Pub/Sub Lite subscription.
+    flag:
+        delivery-requirement: |-
+            When this subscription should send messages to subscribers relative to
+            messages persistence in storage.
+            See https://cloud.google.com/pubsub/lite/docs/subscriptions#creating_lite_subscriptions
+            for more info. _DELIVERY_REQUIREMENT_ must be one of: *deliver-after-stored*, *deliver-immediately*.
+        event-time: |-
+            The event time to which you seek a subscription. The subscription seeks to the first message
+            with event time greater than or equal to the specified event time. Messages missing an event
+            time use publish time as a fallback. As event times are user supplied, subsequent messages may
+            have event times less than the specified event time and must be filtered by the client, if
+            necessary.
+            Run $ gcloud topic datetimes for information on time formats.
+        export-dead-letter-topic: |-
+            The name of the Pub/Sub Lite topic to write messages that cannot be exported. Must be in the
+            same project and location as the subscription to be created. Note that this is a Lite topic.
+        export-desired-state: |-
+            The desired state of the export. Process messages by setting the value to ACTIVE or pause
+            message processing by setting the value to PAUSED. _EXPORT_DESIRED_STATE_ must be one of: *active*, *paused*.
+        export-pubsub-topic: |-
+            The name of the destination Pub/Sub topic to which messages are exported. Must be the topic's
+            fully specified path if it is not in the same project as the subscription to be created.
+        location: |-
+            ID of the location or fully qualified identifier for the location.
+            +
+            To set the `location` attribute:
+            * provide the argument `--location` on the command line;
+            * provide the argument `--zone` on the command line.
+        publish-time: |-
+            The publish time to which you seek a subscription. Messages with publish time greater than or
+            equal to the specified time are delivered after the seek operation.
+            Run $ gcloud topic datetimes for information on time formats.
+        starting-offset: |-
+            The offset at which a newly created or seeked subscription starts receiving messages. A
+            subscription can be initialized at the offset of the oldest retained message (`beginning`), or
+            at the current HEAD offset (`end`). _STARTING_OFFSET_ must be one of: *beginning*, *end*.
+        topic: Topic ID associated with the subscription.
+        zone: |
+            (DEPRECATED) ID of the location of the Pub/Sub Lite resource.
+            +
+            zone is deprecated and will be removed in an upcoming release. Please use --location instead.

@@ -1,0 +1,71 @@
+name: create
+description: '*(ALPHA)*  Create a bucket.'
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --cmek-kms-key-name=: A valid `kms_key_name` will enable CMEK for the bucket.
+    --description=: A textual description for the bucket.
+    --enable-analytics: Whether to opt the bucket into Log Analytics.
+    --index=: Specify an index to be added to the log bucket.
+    --location=!: Location in which to create the bucket.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-enable-analytics&: Whether to opt the bucket into Log Analytics.
+    --restricted-fields=: Comma-separated list of field paths that require permission checks in this bucket.
+    --retention-days=: The period logs will be retained, after which logs will automatically be deleted.
+    --tags=&: List of tags KEY=VALUE pairs to bind.
+documentation:
+    command: |-
+        *(ALPHA)*  After creating a bucket, use a log sink to route logs into the bucket.
+
+        ## EXAMPLES
+
+        To create a bucket 'my-bucket' in location 'global', run:
+
+          $ gcloud alpha logging buckets create my-bucket --location=global --description="my custom bucket"
+
+        To create a bucket with extended retention, run:
+
+          $ gcloud alpha logging buckets create my-bucket --location=global --retention-days=365
+
+        To create a bucket in cloud region 'us-central1', run:
+
+          $ gcloud alpha logging buckets create my-bucket --location=us-central1
+
+        To create a bucket with custom index of 'jsonPayload.foo', run:
+
+          $ gcloud alpha logging buckets create my-bucket
+            --index=fieldPath=jsonPayload.foo,type=INDEX_TYPE_STRING
+
+        To create a bucket with custom CMEK, run:
+
+          $ gcloud alpha logging buckets create my-bucket --location=us-central1
+            --cmek-kms-key-name=CMEK_KMS_KEY_NAME
+
+        To asynchronously create a bucket enrolled into Log Analytics, run:
+
+          $ gcloud alpha logging buckets create my-bucket --location=global --async --enable-analytics
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        cmek-kms-key-name: A valid `kms_key_name` will enable CMEK for the bucket.
+        description: A textual description for the bucket.
+        enable-analytics: Whether to opt the bucket into Log Analytics. Once opted in, the bucket cannot be opted out of Log Analytics.
+        index: |-
+            Specify an index to be added to the log bucket. This flag can be repeated. The ``fieldPath'' and ``type'' attributes are required. For example:  --index=fieldPath=jsonPayload.foo,type=INDEX_TYPE_STRING. The following keys are accepted:
+            +
+            *fieldPath*::: The LogEntry field path to index. For example: jsonPayload.request.status. Paths are limited to 800 characters and can include only letters, digits, underscores, hyphens, and periods.
+            +
+            *type*::: The type of data in this index. For example: INDEX_TYPE_STRING Supported types are INDEX_TYPE_STRING and INDEX_TYPE_INTEGER.
+        location: Location in which to create the bucket. Once the bucket is created, the location cannot be changed.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-enable-analytics: Whether to opt the bucket into Log Analytics. Once opted in, the bucket cannot be opted out of Log Analytics.
+        restricted-fields: 'Comma-separated list of field paths that require permission checks in this bucket. The following fields and their children are eligible: textPayload, jsonPayload, protoPayload, httpRequest, labels, sourceLocation.'
+        retention-days: The period logs will be retained, after which logs will automatically be deleted. The default is 30 days.
+        tags: |
+            List of tags KEY=VALUE pairs to bind.
+            Each item must be expressed as
+            `<tag-key-namespaced-name>=<tag-value-short-name>`.
+
+            Example: `123/environment=production,123/costCenter=marketing`

@@ -1,0 +1,47 @@
+name: create
+description: '*(ALPHA)*  Create a new Data Catalog crawler.'
+flags:
+    --buckets=: A list of buckets to crawl.
+    --bundle-specs=: A list of bundling specifications for the crawler.
+    --crawl-scope=!: Scope of the crawler.
+    --description=: Textual description of the crawler.
+    --display-name=: Human-readable display name for the crawler.
+    --run-option=!: Run option of the crawler.
+    --run-schedule=: Schedule for the crawler run.
+completion:
+    flag:
+        crawl-scope:
+            - bucket
+            - organization
+            - project
+        run-option:
+            - manual
+            - scheduled
+        run-schedule:
+            - daily
+            - weekly
+documentation:
+    command: '*(ALPHA)*  Create a new Data Catalog crawler.'
+    flag:
+        buckets: A list of buckets to crawl. This argument should be provided if and only if `--crawl-scope=BUCKET` was specified.
+        bundle-specs: |-
+            A list of bundling specifications for the crawler. Bundling specifications direct the crawler
+            to bundle files into filesets based on the patterns provided.
+        crawl-scope: |-
+            Scope of the crawler. _CRAWL_SCOPE_ must be one of:
+            +
+            *bucket*::: Directs the crawler to crawl specific buckets within the project that owns the crawler.
+            *organization*::: Directs the crawler to crawl all the buckets of the projects in the organization that owns the crawler.
+            *project*::: Directs the crawler to crawl all the buckets of the project that owns the crawler.
+            :::
+            +
+        description: Textual description of the crawler.
+        display-name: Human-readable display name for the crawler.
+        run-option: |-
+            Run option of the crawler. _RUN_OPTION_ must be one of:
+            +
+            *manual*::: The crawler run will have to be triggered manually.
+            *scheduled*::: The crawler will run automatically on a schedule.
+            :::
+            +
+        run-schedule: 'Schedule for the crawler run. This argument should be provided if and only if `--run-option=SCHEDULED` was specified. _RUN_SCHEDULE_ must be one of: *daily*, *weekly*.'

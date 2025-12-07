@@ -1,0 +1,146 @@
+name: create
+description: '*(ALPHA)*  Creates a new release, delivery pipeline qualified.'
+flags:
+    --annotations=: Annotations to apply to the release.
+    --build-artifacts=: Reference to a Skaffold build artifacts output file from skaffold build --file-output=BUILD_ARTIFACTS.
+    --delivery-pipeline=: The delivery pipeline associated with the release.
+    --deploy-parameters=: Deployment parameters to apply to the release.
+    --description=: Description of the release.
+    --disable-initial-rollout: Skips creating a rollout in the first target defined in the delivery pipeline.
+    --docker-version=: Version of the Docker binary.
+    --enable-initial-rollout: Creates a rollout in the first target defined in the delivery pipeline.
+    --from-k8s-manifest=: The path to a Kubernetes manifest, which Cloud Deploy will use to generate a skaffold.yaml file for you (for example, foo/bar/k8.yaml).
+    --from-run-manifest=: The path to a Cloud Run manifest, which Cloud Deploy will use to generate a skaffold.yaml file for you (for example, foo/bar/service.yaml).
+    --gcs-source-staging-dir=: A directory in Google Cloud Storage to copy the source used for staging the build.
+    --helm-version=: Version of the Helm binary.
+    --ignore-file=: Override the `.gcloudignore` file and use the specified file instead.
+    --images=: Reference to a collection of individual image name to image full path replacements.
+    --initial-rollout-annotations=: Annotations to apply to the initial rollout when creating the release.
+    --initial-rollout-labels=: Labels to apply to the initial rollout when creating the release.
+    --initial-rollout-phase-id=: The phase to start the initial rollout at when creating the release.
+    --kpt-version=: Version of the Kpt binary.
+    --kubectl-version=: Version of the Kubectl binary.
+    --kustomize-version=: Version of the Kustomize binary.
+    --labels=: Labels to apply to the release.
+    --override-deploy-policies=: Deploy policies to override
+    --region=: The Cloud region for the release.
+    --skaffold-file=: Path of the skaffold file absolute or relative to the source directory.
+    --skaffold-version=: Version of the Skaffold binary.
+    --source=: The location of the source that contains skaffold.yaml.
+    --to-target=: Specifies a target to deliver into upon release creation
+documentation:
+    command: '*(ALPHA)*  Creates a new release, delivery pipeline qualified.'
+    flag:
+        annotations: |-
+            Annotations to apply to the release. Annotations take the form of key/value string pairs.
+            +
+            Examples:
+            +
+            Add annotations:
+            +
+              $ {command} --annotations="from_target=test,status=stable"
+        build-artifacts: Reference to a Skaffold build artifacts output file from skaffold build --file-output=BUILD_ARTIFACTS. If you aren't using Skaffold, use the --images flag below to specify the image-names-to-tagged-image references.
+        delivery-pipeline: |-
+            The delivery pipeline associated with the release.  Alternatively, set the property [deploy/delivery-pipeline].
+            +
+            To set the `delivery-pipeline` attribute:
+            * provide the argument `release` on the command line with a fully specified name;
+            * provide the argument `--delivery-pipeline` on the command line;
+            * set the property `deploy/delivery_pipeline`.
+        deploy-parameters: |-
+            Deployment parameters to apply to the release. Deployment parameters take the form of key/value string pairs.
+            +
+            Examples:
+            +
+            Add deployment parameters:
+            +
+              $ {command} --deploy-parameters="key1=value1,key2=value2"
+        description: Description of the release.
+        disable-initial-rollout: Skips creating a rollout in the first target defined in the delivery pipeline.
+        docker-version: Version of the Docker binary.
+        enable-initial-rollout: Creates a rollout in the first target defined in the delivery pipeline. This is the default behavior.
+        from-k8s-manifest: The path to a Kubernetes manifest, which Cloud Deploy will use to generate a skaffold.yaml file for you (for example, foo/bar/k8.yaml). The generated Skaffold file will be available in the Google Cloud Storage source staging directory (see --gcs-source-staging-dir flag) after the release is complete.
+        from-run-manifest: The path to a Cloud Run manifest, which Cloud Deploy will use to generate a skaffold.yaml file for you (for example, foo/bar/service.yaml). The generated Skaffold file will be available in the Google Cloud Storage source staging directory (see --gcs-source-staging-dir flag) after the release is complete.
+        gcs-source-staging-dir: A directory in Google Cloud Storage to copy the source used for staging the build. If the specified bucket does not exist, Cloud Deploy will create one. If you don't set this field, ```gs://[DELIVERY_PIPELINE_ID]_clouddeploy/source``` is used.
+        helm-version: Version of the Helm binary.
+        ignore-file: Override the `.gcloudignore` file and use the specified file instead.
+        images: |-
+            Reference to a collection of individual image name to image full path replacements.
+            +
+            For example:
+            +
+                $ gcloud deploy releases create foo \
+                    --images image1=path/to/image1:v1@sha256:45db24
+        initial-rollout-annotations: |-
+            Annotations to apply to the initial rollout when creating the release.
+            Annotations take the form of key/value string pairs.
+            +
+            Examples:
+            +
+            Add annotations:
+            +
+              $ {command} --initial-rollout-annotations="from_target=test,status=stable"
+        initial-rollout-labels: |-
+            Labels to apply to the initial rollout when creating the release. Labels take
+            the form of key/value string pairs.
+            +
+            Examples:
+            +
+            Add labels:
+            +
+              $ {command} initial-rollout-labels="commit=abc123,author=foo"
+        initial-rollout-phase-id: |-
+            The phase to start the initial rollout at when creating the release.
+            The phase ID must be a valid phase on the rollout. If not specified, then the
+            rollout will start at the first phase.
+            +
+            Examples:
+            +
+            Start rollout at `stable` phase:
+            +
+              $ {command} --initial-rollout-phase-id=stable
+        kpt-version: Version of the Kpt binary.
+        kubectl-version: Version of the Kubectl binary.
+        kustomize-version: Version of the Kustomize binary.
+        labels: |-
+            Labels to apply to the release. Labels take the form of key/value string pairs.
+            +
+            Examples:
+            +
+            Add labels:
+            +
+              $ {command} --labels="commit=abc123,author=foo"
+        override-deploy-policies: Deploy policies to override
+        region: |-
+            The Cloud region for the release.  Alternatively, set the property [deploy/region].
+            +
+            To set the `region` attribute:
+            * provide the argument `release` on the command line with a fully specified name;
+            * provide the argument `--region` on the command line;
+            * set the property `deploy/region`.
+        skaffold-file: |-
+            Path of the skaffold file absolute or relative to the source directory.
+            +
+            Examples:
+            +
+            Use Skaffold file with relative path:
+            The current working directory is expected to be some part of the skaffold path (e.g. the current working directory could be /home/user)
+            +
+              $ {command} --source=/home/user/source --skaffold-file=config/skaffold.yaml
+            +
+            The skaffold file absolute file path is expected to be:
+            /home/user/source/config/skaffold.yaml
+            +
+
+            Use Skaffold file with absolute path and with or without source argument:
+            +
+
+              $ {command} --source=/home/user/source --skaffold-file=/home/user/source/config/skaffold.yaml
+            +
+              $ {command} --skaffold-file=/home/user/source/config/skaffold.yaml
+        skaffold-version: Version of the Skaffold binary.
+        source: |-
+            The location of the source that contains skaffold.yaml. The location can be a directory on a local disk or a gzipped archive file (.tar.gz) in Google Cloud Storage.
+             If the source is a local directory, this command skips the files specified in the --ignore-file. If --ignore-file is not specified, use.gcloudignore file. If a .gcloudignore file is absent and a .gitignore file is present in the local source directory, gcloud will use a generated Git-compatible .gcloudignore file that respects your .gitignored files.
+             The global .gitignore is not respected. For more information on .gcloudignore, see gcloud topic gcloudignore.
+        to-target: Specifies a target to deliver into upon release creation

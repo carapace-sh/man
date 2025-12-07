@@ -1,0 +1,63 @@
+name: update
+description: '*(ALPHA)*  Update the name and/or labels of a project.'
+flags:
+    --clear-labels: Remove all labels.
+    --name=: New name for the project.
+    --no-clear-labels&: Remove all labels.
+    --remove-labels=: List of label keys to remove.
+    --update-labels=: List of label KEY=VALUE pairs to update.
+documentation:
+    command: |-
+        *(ALPHA)*  Update the name and/or labels of the given project.
+
+        This command can fail for the following reasons:
+        * There is no project with the given ID.
+        * The active account does not have Owner or Editor permissions for the
+          given project.
+
+        ## EXAMPLES
+
+        The following command updates a project with the ID
+        `example-foo-bar-1` to have the name `Foo Bar & Grill` and removes the
+        label `dive`:
+
+          $ gcloud alpha projects update example-foo-bar-1 --name="Foo Bar & Grill" --remove-labels=dive
+
+        The following command updates a project with the ID `example-foo-bar-1` to
+        have labels `foo` and `bar` with values of `abc` and `def`, respectively:
+
+          $ gcloud alpha projects update example-foo-bar-1 --update-labels="foo=abc,bar=def"
+    flag:
+        clear-labels: |-
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} --clear-labels
+            +
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        name: New name for the project.
+        no-clear-labels: |
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} --clear-labels
+
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        remove-labels: |-
+            List of label keys to remove. If a label does not exist it is
+            silently ignored. If `--update-labels` is also specified then
+            `--update-labels` is applied first.
+        update-labels: |-
+            List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.

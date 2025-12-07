@@ -1,0 +1,36 @@
+name: delete
+description: Delete an Artifact Registry container image.
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --delete-tags: If specified, all tags associated with the image are deleted.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-delete-tags&: If specified, all tags associated with the image are deleted.
+documentation:
+    command: |-
+        A valid container image has the format of
+
+          LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY-ID/IMAGE
+
+        A valid container image that can be referenced by tag or digest, has the
+        format of
+
+          LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY-ID/IMAGE:tag
+          LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY-ID/IMAGE@sha256:digest
+
+        This command can fail for the following reasons:
+          * Trying to delete an image by digest when the image is still tagged. Add
+          --delete-tags to delete the digest and the tags.
+          * Trying to delete an image by tag when the image has other tags. Add
+          --delete-tags to delete all tags.
+          * A valid repository format was not provided.
+          * The specified image does not exist.
+          * The active account does not have permission to delete images.
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        delete-tags: If specified, all tags associated with the image are deleted.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-delete-tags: If specified, all tags associated with the image are deleted.

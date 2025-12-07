@@ -1,0 +1,147 @@
+name: create
+description: '*(BETA)*  Create a VPN tunnel.'
+flags:
+    --description=: An optional, textual description for the VPN tunnel.
+    --ike-networks=&: THIS ARGUMENT NEEDS HELP TEXT.
+    --ike-version=: Internet Key Exchange protocol version number.
+    --interface=: Numeric interface ID of the VPN gateway with which this VPN tunnel
+    --local-traffic-selector=: Traffic selector is an agreement between IKE peers to permit traffic
+    --peer-address=: Valid IPV4 address representing the remote tunnel endpoint, the peer address must be specified when creating Classic VPN tunnels from Classic Target VPN gateway
+    --peer-external-gateway-interface=: Interface ID of the external VPN gateway to which this VPN tunnel
+    --peer-external-gateway=: Peer side external VPN gateway representing the remote tunnel endpoint, this flag is used when creating HA VPN tunnels from Google Cloud to your external VPN gateway.Either --peer-external-gateway or --peer-gcp-gateway must be specified when creating VPN tunnels from High Available VPN gateway.
+    --peer-gcp-gateway-region=: Region of the VPN Gateway to operate on.
+    --peer-gcp-gateway=: Reference to the peer side Highly Available VPN gateway.
+    --phase1-dh=: Phase 1 Diffie-Hellman groups.
+    --phase1-encryption=: Phase 1 encryption algorithms.
+    --phase1-integrity=: Phase 1 integrity algorithms.
+    --phase1-prf=: Phase 1 pseudorandom functions.
+    --phase2-encryption=: Phase 2 encryption algorithms.
+    --phase2-integrity=: Phase 2 integrity algorithms.
+    --phase2-pfs=: Phase 2 perfect forward secerecy algorithms.
+    --region=: Region of the VPN Tunnel to create.
+    --remote-traffic-selector=: Traffic selector is an agreement between IKE peers to permit traffic
+    --router-region=: Region of the router to operate on.
+    --router=: Router to use for dynamic routing.
+    --shared-secret=!: Shared secret consisting of printable characters.
+    --target-vpn-gateway-region=: Region of the Target VPN Gateway to operate on.
+    --target-vpn-gateway=: A reference to a Cloud VPN Classic Target VPN Gateway.
+    --vpn-gateway-region=: Region of the VPN Gateway to operate on.
+    --vpn-gateway=: Reference to a Highly Available VPN gateway.
+completion:
+    flag:
+        ike-version:
+            - "1"
+            - "2"
+        interface:
+            - "0"
+            - "1"
+        peer-external-gateway-interface:
+            - "0"
+            - "1"
+            - "2"
+            - "3"
+documentation:
+    command: |-
+        *(BETA)*  *gcloud beta compute vpn-tunnels create* is used to create a Classic VPN tunnel between a target VPN
+        gateway in Google Cloud Platform and a peer address; or create Highly
+        Available VPN tunnel between HA VPN gateway and another HA VPN gateway, or
+        Highly Available VPN tunnel between HA VPN gateway and an external VPN
+        gateway.
+    flag:
+        description: An optional, textual description for the VPN tunnel.
+        ike-networks: THIS ARGUMENT NEEDS HELP TEXT.
+        ike-version: 'Internet Key Exchange protocol version number. Default is 2. _IKE_VERSION_ must be one of: *1*, *2*.'
+        interface: |-
+            Numeric interface ID of the VPN gateway with which this VPN tunnel
+            is associated. This flag is required if the tunnel is being attached
+            to a Highly Available VPN gateway. This option is only available
+            for use with Highly Available VPN gateway and must be omitted if the
+            tunnel is going to be connected to a Classic VPN gateway. _INTERFACE_ must be one of: *0*, *1*.
+        local-traffic-selector: |-
+            Traffic selector is an agreement between IKE peers to permit traffic
+            through a tunnel if the traffic matches a specified pair of local and
+            remote addresses.
+            +
+            --local-traffic-selector allows to configure the local addresses that are
+            permitted. The value should be a comma separated list of CIDR formatted
+            strings. Example: 192.168.0.0/16,10.0.0.0/24.
+            +
+            Local traffic selector must be specified only for VPN tunnels that
+            do not use dynamic routing with a Cloud Router. Omit this flag when
+            creating a tunnel using dynamic routing, including a tunnel for a
+            Highly Available VPN gateway.
+        peer-address: Valid IPV4 address representing the remote tunnel endpoint, the peer address must be specified when creating Classic VPN tunnels from Classic Target VPN gateway
+        peer-external-gateway: Peer side external VPN gateway representing the remote tunnel endpoint, this flag is used when creating HA VPN tunnels from Google Cloud to your external VPN gateway.Either --peer-external-gateway or --peer-gcp-gateway must be specified when creating VPN tunnels from High Available VPN gateway.
+        peer-external-gateway-interface: |-
+            Interface ID of the external VPN gateway to which this VPN tunnel
+            is connected to.
+            This flag is required if the tunnel is being created from
+            a Highly Available VPN gateway to an External Vpn Gateway. _PEER_EXTERNAL_GATEWAY_INTERFACE_ must be one of: *0*, *1*, *2*, *3*.
+        peer-gcp-gateway: Reference to the peer side Highly Available VPN gateway.
+        peer-gcp-gateway-region: Region of the VPN Gateway to operate on. Should be the same as region, if not specified, it will be automatically set. Overrides the default *compute/region* property value for this command invocation.
+        phase1-dh: Phase 1 Diffie-Hellman groups.
+        phase1-encryption: Phase 1 encryption algorithms.
+        phase1-integrity: Phase 1 integrity algorithms.
+        phase1-prf: Phase 1 pseudorandom functions.
+        phase2-encryption: Phase 2 encryption algorithms.
+        phase2-integrity: Phase 2 integrity algorithms.
+        phase2-pfs: Phase 2 perfect forward secerecy algorithms.
+        region: |-
+            Region of the VPN Tunnel to create. If not specified, you might be prompted to select a region (interactive mode
+            only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/region'' property:
+            +
+              $ gcloud config set compute/region REGION
+            +
+            A list of regions can be fetched by running:
+            +
+              $ gcloud compute regions list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/region
+            +
+            Alternatively, the region can be stored in the environment
+            variable ``CLOUDSDK_COMPUTE_REGION''.
+        remote-traffic-selector: |-
+            Traffic selector is an agreement between IKE peers to permit traffic
+            through a tunnel if the traffic matches a specified pair of local and
+            remote addresses.
+            +
+            --remote-traffic-selector allows to configure the remote addresses that
+            are permitted. The value should be a comma separated list of CIDR
+            formatted strings. Example: 192.168.0.0/16,10.0.0.0/24.
+            +
+            Remote traffic selector must be specified for VPN tunnels that do
+            not use dynamic routing with a Cloud Router. Omit this flag when
+            creating a tunnel using dynamic routing, including a tunnel for a
+            Highly Available VPN gateway.
+        router: Router to use for dynamic routing.
+        router-region: |-
+            Region of the router to operate on. If not specified, you might be prompted to select a region (interactive mode
+            only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/region'' property:
+            +
+              $ gcloud config set compute/region REGION
+            +
+            A list of regions can be fetched by running:
+            +
+              $ gcloud compute regions list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/region
+            +
+            Alternatively, the region can be stored in the environment
+            variable ``CLOUDSDK_COMPUTE_REGION''.
+        shared-secret: |-
+            Shared secret consisting of printable characters.  Valid
+            arguments match the regular expression [ -~]+
+        target-vpn-gateway: A reference to a Cloud VPN Classic Target VPN Gateway.
+        target-vpn-gateway-region: Region of the Target VPN Gateway to operate on. Should be the same as region, if not specified, it will be automatically set. Overrides the default *compute/region* property value for this command invocation.
+        vpn-gateway: Reference to a Highly Available VPN gateway.
+        vpn-gateway-region: Region of the VPN Gateway to operate on. Should be the same as region, if not specified, it will be automatically set. Overrides the default *compute/region* property value for this command invocation.

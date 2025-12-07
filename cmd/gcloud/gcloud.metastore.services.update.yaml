@@ -1,0 +1,305 @@
+name: update
+description: Update a Dataproc Metastore service.
+flags:
+    --add-auxiliary-versions=: Comma-separated list of auxiliary Hive metastore versions to deploy.
+    --async: Return immediately, without waiting for the operation in progress to
+    --autoscaling-enabled: A boolean flag to determine whether Dataproc Metastore autoscaling should be enabled,
+    --clear-auxiliary-versions: Clears the existing auxiliary services attached to the primary Hive metastore
+    --clear-hive-metastore-configs: clear existing Hive metastore configurations.
+    --clear-labels: Remove all labels.
+    --data-catalog-sync: Boolean flag to determine whether or not Dataproc Metastore metadata sync to Data Catalog
+    --deletion-protection: Flag that enables delete protection on Dataproc Metastore instance to prevent
+    --enable-scheduled-backup: Enable or disable scheduled backups for the Metastore service.
+    --endpoint-protocol=: The protocol to use for the metastore service endpoint.
+    --instance-size=: The instance size of the service.
+    --kerberos-principal=: A Kerberos principal that exists in the KDC to authenticate as.
+    --keytab=: A Kerberos keytab file that can be used to authenticate a service principal
+    --krb5-config=: A Cloud Storage URI that specifies the path to a krb5.conf file.
+    --location=: The location of the Dataproc Metastore service.
+    --maintenance-window-day=!: The day of week when the window starts, e.g., `sun`.
+    --maintenance-window-hour=!: The hour of day (0-23) when the window starts.
+    --max-scaling-factor=: The maximum scaling factor allowed by the autoscaler.
+    --min-scaling-factor=: The minimum scaling factor allowed by the autoscaler.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-autoscaling-enabled&: A boolean flag to determine whether Dataproc Metastore autoscaling should be enabled,
+    --no-clear-auxiliary-versions&: Clears the existing auxiliary services attached to the primary Hive metastore
+    --no-clear-hive-metastore-configs&: clear existing Hive metastore configurations.
+    --no-clear-labels&: Remove all labels.
+    --no-data-catalog-sync&: Boolean flag to determine whether or not Dataproc Metastore metadata sync to Data Catalog
+    --no-deletion-protection&: Flag that enables delete protection on Dataproc Metastore instance to prevent
+    --no-enable-scheduled-backup&: Enable or disable scheduled backups for the Metastore service.
+    --port=: The TCP port on which the Metastore service will listen.
+    --remove-hive-metastore-configs=: Comma-separated list of configuration keys to remove with the form
+    --remove-labels=: List of label keys to remove.
+    --scaling-factor=: The scaling factor of the service.
+    --scheduled-backup-configs-from-file=: Path to a JSON file containing a mapping of scheduled backup configurations key-value pairs to apply to the scheduled backup.
+    --scheduled-backup-cron=: Specify the frequency of a scheduled backup of the metastore service.
+    --scheduled-backup-location=: Set the Cloud Storage URI to store the scheduled backups of the metastore service.
+    --tier=: The tier of the service.
+    --update-auxiliary-versions-from-file=: Path to a YAML file containing the auxiliary versions configuration for
+    --update-hive-metastore-configs-from-file=: Path to a XML file containing a mapping of Hive metastore configuration key-value
+    --update-hive-metastore-configs=: Comma-separated list of Hive metastore configurations.
+    --update-labels=: List of label KEY=VALUE pairs to update.
+completion:
+    flag:
+        endpoint-protocol:
+            - grpc
+            - thrift
+        instance-size:
+            - extra-large
+            - extra-small
+            - large
+            - medium
+            - small
+        maintenance-window-day:
+            - fri
+            - mon
+            - sat
+            - sun
+            - thu
+            - tue
+            - wed
+        tier:
+            - developer
+            - enterprise
+documentation:
+    command: |
+        Update the metadata and/or configuration parameters of a Dataproc Metastore service.
+
+        If run asynchronously with `--async`, exits after printing
+        one operation name that can be used to poll the status of the
+        update via:
+
+          {top_command} metastore operations describe
+    flag:
+        add-auxiliary-versions: |-
+            Comma-separated list of auxiliary Hive metastore versions to deploy.
+            Auxiliary Hive metastore versions must be less than the primary Hive metastore
+            service's version.
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        autoscaling-enabled: |-
+            A boolean flag to determine whether Dataproc Metastore autoscaling should be enabled,
+            false if unspecified.
+            +
+            The default minimum and maximum scaling factors are 0.1 and 6.0, respectively.
+            +
+            The minimum and maximum scaling factors can be specified using --min-scaling-factor and
+            --max-scaling-factor.
+        clear-auxiliary-versions: |-
+            Clears the existing auxiliary services attached to the primary Hive metastore
+            services. If --add-auxiliary-versions is also specified, --clear-auxiliary-versions
+            is applied first.
+        clear-hive-metastore-configs: |-
+            clear existing Hive metastore configurations. If --update-hive-metastore-configs
+            is also specified, then --clear-hive-metastore-configs is applied first.
+        clear-labels: |-
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} --clear-labels
+            +
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        data-catalog-sync: |-
+            Boolean flag to determine whether or not Dataproc Metastore metadata sync to Data Catalog
+            is enabled, false if unspecified.
+            Mutually exclusive with flag `--encryption-kms-key`.
+            Cannot be updated if the service uses customer-managed encryption keys.
+        deletion-protection: |-
+            Flag that enables delete protection on Dataproc Metastore instance to prevent
+            accidental deletions of the instance.
+            Use --deletion-protection to enable and --no-deletion-protection to disable.
+        enable-scheduled-backup: Enable or disable scheduled backups for the Metastore service.
+        endpoint-protocol: |-
+            The protocol to use for the metastore service endpoint. _ENDPOINT_PROTOCOL_ must be one of:
+            +
+            *grpc*::: The modernized `GRPC` protocol.
+            +
+            *thrift*::: The legacy Apache `THRIFT` protocol.
+            +
+            :::
+            +
+        instance-size: |-
+            The instance size of the service. _INSTANCE_SIZE_ must be one of:
+            +
+            *extra-large*::: Extra large instance size, maps to a scaling factor of 6.0.
+            +
+            *extra-small*::: Extra small instance size, maps to a scaling factor of 0.1.
+            +
+            *large*::: Large instance size, maps to a scaling factor of 3.0.
+            +
+            *medium*::: Medium instance size, maps to a scaling factor of 1.0.
+            +
+            *small*::: Small instance size, maps to a scaling factor of 0.5.
+            +
+            :::
+            +
+        kerberos-principal: |-
+            A Kerberos principal that exists in the KDC to authenticate as. A typical principal
+            is of the form "primary/instance@REALM", but there is no exact format.
+        keytab: |-
+            A Kerberos keytab file that can be used to authenticate a service principal
+            with a Kerberos Key Distribution Center. This is a Secret Manager secret version,
+            and can be fully-qualified URL, or relative name in the form
+            `projects/{project_id}/secrets/{secret_id}/versions/{version_id}`.
+        krb5-config: |-
+            A Cloud Storage URI that specifies the path to a krb5.conf file. It is of the form
+            gs://{bucket_name}/path/krb5.conf, although the file does not need to be named
+            krb5.conf explicitly.
+        location: |-
+            The location of the Dataproc Metastore service.
+            +
+            If not specified, will use `default` metastore/location.
+            +
+
+            To set the `location` attribute:
+            * provide the argument `service` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `metastore/location`.
+        maintenance-window-day: 'The day of week when the window starts, e.g., `sun`. _MAINTENANCE_WINDOW_DAY_ must be one of: *fri*, *mon*, *sat*, *sun*, *thu*, *tue*, *wed*.'
+        maintenance-window-hour: The hour of day (0-23) when the window starts.
+        max-scaling-factor: |-
+            The maximum scaling factor allowed by the autoscaler.
+            Can be one of [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0].
+            The default value is 6.0.
+        min-scaling-factor: |-
+            The minimum scaling factor allowed by the autoscaler.
+            Can be one of [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0].
+            The default value is 0.1.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-autoscaling-enabled: |
+            A boolean flag to determine whether Dataproc Metastore autoscaling should be enabled,
+            false if unspecified.
+
+            The default minimum and maximum scaling factors are 0.1 and 6.0, respectively.
+
+            The minimum and maximum scaling factors can be specified using --min-scaling-factor and
+            --max-scaling-factor.
+        no-clear-auxiliary-versions: |
+            Clears the existing auxiliary services attached to the primary Hive metastore
+            services. If --add-auxiliary-versions is also specified, --clear-auxiliary-versions
+            is applied first.
+        no-clear-hive-metastore-configs: |
+            clear existing Hive metastore configurations. If --update-hive-metastore-configs
+            is also specified, then --clear-hive-metastore-configs is applied first.
+        no-clear-labels: |
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} --clear-labels
+
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        no-data-catalog-sync: |
+            Boolean flag to determine whether or not Dataproc Metastore metadata sync to Data Catalog
+            is enabled, false if unspecified.
+            Mutually exclusive with flag `--encryption-kms-key`.
+            Cannot be updated if the service uses customer-managed encryption keys.
+        no-deletion-protection: |
+            Flag that enables delete protection on Dataproc Metastore instance to prevent
+            accidental deletions of the instance.
+            Use --deletion-protection to enable and --no-deletion-protection to disable.
+        no-enable-scheduled-backup: |
+            Enable or disable scheduled backups for the Metastore service.
+        port: The TCP port on which the Metastore service will listen.
+        remove-hive-metastore-configs: |-
+            Comma-separated list of configuration keys to remove with the form
+            "KEY1, KEY2". If a label does not exist it is silently ignored. If
+            --update-hive-metastore-configs is also specified, then
+            --remove-hive-metastore-configs is applied first.
+        remove-labels: |-
+            List of label keys to remove. If a label does not exist it is
+            silently ignored. If `--update-labels` is also specified then
+            `--update-labels` is applied first.
+        scaling-factor: |-
+            The scaling factor of the service.
+            Can be one of [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0].
+        scheduled-backup-configs-from-file: |-
+            Path to a JSON file containing a mapping of scheduled backup configurations key-value pairs to apply to the scheduled backup.
+            +
+            For example:
+            +
+              backup_configs.json
+                  {
+                    "enabled": true,
+                    "cron_schedule": "0 * * * *",
+                    "backup_location": "gs://example-bucket",
+                    "time_zone": "UTC"
+                  }
+            +
+            Use a full or relative path to a local file containing the value of scheduled_backup_configs.
+        scheduled-backup-cron: Specify the frequency of a scheduled backup of the metastore service.
+        scheduled-backup-location: Set the Cloud Storage URI to store the scheduled backups of the metastore service.
+        tier: |-
+            The tier of the service. _TIER_ must be one of:
+            +
+            *developer*::: The developer tier provides limited scalability and no fault tolerance.
+            Good for low-cost proof-of-concept.
+            +
+            *enterprise*::: The enterprise tier provides multi-zone high availability, and sufficient
+            scalability for enterprise-level Dataproc Metastore workloads.
+            +
+            :::
+            +
+        update-auxiliary-versions-from-file: |-
+            Path to a YAML file containing the auxiliary versions configuration for
+            Dataproc Metastore instance. The file should contain a unique auxiliary service name and
+            auxiliary version that is lower than the primary service version. The primary version's
+            Hive metastore configs are applied to the auxiliary version. Additional Hive metastore
+            configs can be specified for the auxiliary version using "config_overrides". If a
+            specified config property has already been overridden in the primary Hive metastore
+            version's configs, the auxiliary version's override takes precedence.
+            The contents of the file should be structured as follows:
+            +
+            YAML:
+            +
+            ```
+              - name: aux-service1
+                version: x.y.z
+                config_overrides:
+                  key1: value1
+                  key2: value2
+                ...
+              - name: aux-service2
+                version: x.y.z
+                config_overrides:
+                  key1: value1
+                  key2: value2
+                ...
+              ...
+            ```
+        update-hive-metastore-configs: |-
+            Comma-separated list of Hive metastore configurations. Each configuration has
+            the form "NAME=VALUE".
+        update-hive-metastore-configs-from-file: |-
+            Path to a XML file containing a mapping of Hive metastore configuration key-value
+            pairs to apply to the Hive metastore.
+            +
+            For example:
+            +
+              hive-site.xml
+                  <configuration>
+                    <property>
+                      <name>hive.metastore.warehouse.dir</name>
+                      <value>${test.warehouse.dir}</value>
+                      <description></description>
+                    </property>
+                  </configuration>
+            +
+            Use a full or relative path to a local file containing the value of update_hive_metastore_configs.
+        update-labels: |-
+            List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.

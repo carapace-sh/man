@@ -1,0 +1,45 @@
+name: remove-invoker-policy-binding
+description: '*(ALPHA)*  Removes an invoker binding from the IAM policy of a Google Cloud Function.'
+flags:
+    --gen2&: If enabled, this command will use Cloud Functions (Second generation).
+    --member=!: The principal to remove from the IAM policy.
+    --no-gen2&: If enabled, this command will use Cloud Functions (Second generation).
+    --region=: The Cloud region for the function.
+documentation:
+    command: |
+        *(ALPHA)*  Removes the invoker role IAM policy binding that allows the specified
+        member to invoke the specified function.
+
+        For Cloud Functions (1st gen), this removes the Cloud Functions Invoker
+        binding from the IAM policy of the specified function.
+
+        For Cloud Functions (2nd gen), this removes the Cloud Run Invoker binding
+        from the IAM policy of the specified function's underlying Cloud Run
+        service.
+    flag:
+        gen2: If enabled, this command will use Cloud Functions (Second generation). If disabled with `--no-gen2`, Cloud Functions (First generation) will be used. If not specified, the value of this flag will be taken from the `functions/gen2` configuration property. If the `functions/gen2` configuration property is not set, defaults to looking up the given function and using its generation.
+        member: |-
+            The principal to remove from the IAM policy. Should be of the form `user|group|serviceAccount:email` or
+            `domain:domain`.
+            +
+            Examples: `user:test-user@gmail.com`, `group:admins@example.com`,
+            `serviceAccount:test123@example.domain.com`, or
+            `domain:example.domain.com`.
+            +
+            Deleted principals have an additional `deleted:` prefix and a `?uid=UID` suffix,
+            where ``UID'' is a unique identifier for the principal. Example:
+            `deleted:user:test-user@gmail.com?uid=123456789012345678901`.
+            +
+            Some resources also accept the following special values:
+            * `allUsers` - Special identifier that represents anyone who is on the internet,
+               with or without a Google account.
+            * `allAuthenticatedUsers` - Special identifier that represents anyone who is
+               authenticated with a Google account or a service account.
+        no-gen2: If enabled, this command will use Cloud Functions (Second generation). If disabled with `--no-gen2`, Cloud Functions (First generation) will be used. If not specified, the value of this flag will be taken from the `functions/gen2` configuration property. If the `functions/gen2` configuration property is not set, defaults to looking up the given function and using its generation.
+        region: |-
+            The Cloud region for the function. Overrides the default `functions/region` property value for this command invocation.
+            +
+            To set the `region` attribute:
+            * provide the argument `NAME` on the command line with a fully specified name;
+            * provide the argument `--region` on the command line;
+            * set the property `functions/region`.

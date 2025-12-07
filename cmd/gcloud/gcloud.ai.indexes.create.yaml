@@ -1,0 +1,58 @@
+name: create
+description: Create a new Vertex AI index.
+flags:
+    --description=: Description of the index.
+    --display-name=!: Display name of the index.
+    --encryption-kms-key-name=: The Cloud KMS resource identifier of the customer managed encryption key
+    --index-update-method=: The update method to use with this index.
+    --labels=: List of label KEY=VALUE pairs to add.
+    --metadata-file=!: Path to a local JSON file that contains the additional metadata information about the index.
+    --metadata-schema-uri=: Points to a YAML file stored on Google Cloud Storage describing additional information about index.
+    --region=: ID of the region or fully qualified identifier for the region.
+completion:
+    flag:
+        index-update-method:
+            - batch-update
+            - stream-update
+documentation:
+    command: |-
+        ## EXAMPLES
+
+        To create an index under project `example` in region
+        `us-central1`, encrypted with KMS key `kms-key-name`, run:
+
+          $ gcloud ai indexes create --display-name=index --description=test
+          --metadata-file=path/to/your/metadata.json
+          --project=example --region=us-central1
+          --encryption-kms-key-name=kms-key-name
+    flag:
+        description: Description of the index.
+        display-name: Display name of the index.
+        encryption-kms-key-name: |-
+            The Cloud KMS resource identifier of the customer managed encryption key
+            used to protect a resource. Has the form:
+            projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key.
+            +
+            The key needs to be in the same region as where the compute resource is
+            created.
+        index-update-method: |-
+            The update method to use with this index. Choose `stream-update` or
+            `batch-update` (case insensitive). If not set, batch update will be used by default. _INDEX_UPDATE_METHOD_ must be one of:
+            +
+            *batch-update*::: can update index with `gcloud ai indexes update` usingdatapoints files on Cloud Storage.
+            *stream-update*::: can update datapoints with `upsert-datapoints` and`delete-datapoints` and will be applied nearly real-time.
+            :::
+            +
+        labels: |-
+            List of label KEY=VALUE pairs to add.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+        metadata-file: Path to a local JSON file that contains the additional metadata information about the index.
+        metadata-schema-uri: Points to a YAML file stored on Google Cloud Storage describing additional information about index.
+        region: |-
+            ID of the region or fully qualified identifier for the region.
+            +
+            To set the `region` attribute:
+            * provide the argument `--region` on the command line;
+            * set the property `ai/region`;
+            * choose one from the prompted list of available regions.

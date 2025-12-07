@@ -1,0 +1,106 @@
+name: attach-disk
+description: Attach a disk to an instance.
+flags:
+    --boot: Attach the disk to the instance as a boot disk.
+    --csek-key-file=: Path to a Customer-Supplied Encryption Key (CSEK) key file that maps
+    --device-name=: An optional name that indicates the disk name the guest operating system will see.
+    --disk-scope=: The scope of the disk.
+    --disk=!: The name of the disk to attach to the instance.
+    --force-attach: Attach the disk to the instance even if it is currently attached to another
+    --interface=: The interface of the disk.
+    --mode=: Specifies the mode of the disk.
+    --no-boot&: Attach the disk to the instance as a boot disk.
+    --no-force-attach&: Attach the disk to the instance even if it is currently attached to another
+    --zone=: Zone of the instance to operate on.
+completion:
+    flag:
+        disk-scope:
+            - regional
+            - zonal
+        interface:
+            - NVME
+            - SCSI
+        mode:
+            - ro
+            - rw
+documentation:
+    command: |
+        *gcloud compute instances attach-disk* is used to attach a disk to an instance. For example,
+
+          $ gcloud compute instances attach-disk example-instance --disk DISK --zone us-central1-a
+
+        attaches the disk named 'DISK' to the instance named
+        'example-instance' in zone ``us-central1-a''.
+
+        After you create and attach a new disk to an instance, you must
+        [format and mount](https://cloud.google.com/compute/docs/disks/add-persistent-disk#formatting)
+        the disk so that the operating system can use the available storage
+        space.
+        You can attach an existing non-boot disk to more than one instance. For
+        more information, see
+        [Share a disk between VMs](compute/docs/disks/add-persistent-disk#use_multi_instances).
+    flag:
+        boot: Attach the disk to the instance as a boot disk.
+        csek-key-file: |-
+            Path to a Customer-Supplied Encryption Key (CSEK) key file that maps
+            Compute Engine resources to user managed keys to be used when
+            creating, mounting, or taking snapshots of disks.
+            +
+            If you pass `-` as value of the flag, the CSEK is read from stdin.
+            See https://cloud.google.com/compute/docs/disks/customer-supplied-encryption for more details.
+        device-name: 'An optional name that indicates the disk name the guest operating system will see. (Note: Device name does not correspond to mounted volume name). Must match the disk name if the disk is going to be mounted to a container with --container-mount-disk (alpha feature).'
+        disk: The name of the disk to attach to the instance.
+        disk-scope: |-
+            The scope of the disk. _DISK_SCOPE_ must be one of:
+            +
+            *regional*::: The disk specified in --disk is interpreted as a regional disk in the same region as the instance. Ignored if a full URI is provided to the `--disk` flag.
+            *zonal*::: The disk specified in --disk is interpreted as a zonal disk in the same zone as the instance. Ignored if a full URI is provided to the `--disk` flag.
+            :::
+            +
+        force-attach: |-
+            Attach the disk to the instance even if it is currently attached to another
+            instance. The attachment will succeed even if detaching from the previous
+            instance fails at first. The server will continue trying to detach the disk from
+            the previous instance in the background.
+        interface: |-
+            The interface of the disk. _INTERFACE_ must be one of:
+            +
+            *NVME*::: NVME
+            *SCSI*::: SCSI
+            :::
+            +
+        mode: |-
+            Specifies the mode of the disk. _MODE_ must be one of:
+            +
+            *ro*::: Read-only.
+            *rw*::: Read-write.
+            :::
+            +
+        no-boot: Attach the disk to the instance as a boot disk.
+        no-force-attach: |-
+            Attach the disk to the instance even if it is currently attached to another
+            instance. The attachment will succeed even if detaching from the previous
+            instance fails at first. The server will continue trying to detach the disk from
+            the previous instance in the background.
+        zone: |-
+            Zone of the instance to operate on. If not specified, you might be prompted to select a zone (interactive mode
+            only). `gcloud` attempts to identify the appropriate zone by searching for
+            resources in your currently active project. If the zone cannot be determined,
+            `gcloud` prompts you for a selection with all available Google Cloud Platform
+            zones.
+            +
+            To avoid prompting when this flag is omitted, the user can set the
+            ``compute/zone'' property:
+            +
+              $ gcloud config set compute/zone ZONE
+            +
+            A list of zones can be fetched by running:
+            +
+              $ gcloud compute zones list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/zone
+            +
+            Alternatively, the zone can be stored in the environment variable
+            ``CLOUDSDK_COMPUTE_ZONE''.

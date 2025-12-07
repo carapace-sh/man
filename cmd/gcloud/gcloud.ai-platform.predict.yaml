@@ -1,0 +1,85 @@
+name: predict
+description: Run AI Platform online prediction.
+flags:
+    --json-instances=: Path to a local file from which instances are read.
+    --json-request=: Path to a local file containing the body of JSON request.
+    --model=!: Name of the model.
+    --region=: Google Cloud region of the regional endpoint to use for this command.
+    --signature-name=: Name of the signature defined in the SavedModel to use for
+    --text-instances=: Path to a local file from which instances are read.
+completion:
+    flag:
+        region:
+            - global
+            - asia-east1
+            - asia-northeast1
+            - asia-southeast1
+            - australia-southeast1
+            - europe-west1
+            - europe-west2
+            - europe-west3
+            - europe-west4
+            - northamerica-northeast1
+            - us-central1
+            - us-east1
+            - us-east4
+            - us-west1
+documentation:
+    command: |-
+        `gcloud ai-platform predict` sends a prediction request to AI Platform for the given
+        instances. This command will read up to 100 instances, though the service
+        itself will accept instances up to the payload limit size (currently,
+        1.5MB). If you are predicting on more instances, you should use batch
+        prediction via
+
+            $ gcloud ai-platform jobs submit prediction.
+    flag:
+        json-instances: |-
+            Path to a local file from which instances are read.
+            Instances are in JSON format; newline delimited.
+            +
+            An example of the JSON instances file:
+            +
+                {"images": [0.0, ..., 0.1], "key": 3}
+                {"images": [0.0, ..., 0.1], "key": 2}
+                ...
+            +
+            This flag accepts "-" for stdin.
+        json-request: |-
+            Path to a local file containing the body of JSON request.
+            +
+            An example of a JSON request:
+            +
+                {
+                  "instances": [
+                    {"x": [1, 2], "y": [3, 4]},
+                    {"x": [-1, -2], "y": [-3, -4]}
+                  ]
+                }
+            +
+            This flag accepts "-" for stdin.
+        model: Name of the model.
+        region: |-
+            Google Cloud region of the regional endpoint to use for this command.
+            For the global endpoint, the region needs to be specified as `global`.
+            +
+            Learn more about regional endpoints and see a list of available regions:
+             https://cloud.google.com/ai-platform/prediction/docs/regional-endpoints
+            +
+            _REGION_ must be one of: *global*, *asia-east1*, *asia-northeast1*, *asia-southeast1*, *australia-southeast1*, *europe-west1*, *europe-west2*, *europe-west3*, *europe-west4*, *northamerica-northeast1*, *us-central1*, *us-east1*, *us-east4*, *us-west1*.
+        signature-name: |-
+            Name of the signature defined in the SavedModel to use for
+            this job. Defaults to DEFAULT_SERVING_SIGNATURE_DEF_KEY in
+            https://www.tensorflow.org/api_docs/python/tf/compat/v1/saved_model/signature_constants,
+            which is "serving_default". Only applies to TensorFlow models.
+        text-instances: |-
+            Path to a local file from which instances are read.
+            Instances are in UTF-8 encoded text format; newline delimited.
+            +
+            An example of the text instances file:
+            +
+                107,4.9,2.5,4.5,1.7
+                100,5.7,2.8,4.1,1.3
+                ...
+            +
+            This flag accepts "-" for stdin.

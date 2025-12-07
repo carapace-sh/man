@@ -1,0 +1,311 @@
+name: create
+description: '*(BETA)*  Create an Anthos cluster on VMware.'
+flags:
+    --admin-cluster-membership-location=: Google Cloud location for the admin_cluster_membership.
+    --admin-cluster-membership-project=: Google Cloud project for the admin_cluster_membership.
+    --admin-cluster-membership=!: ID of the admin_cluster_membership or fully qualified identifier for the admin_cluster_membership.
+    --admin-users=: Users that will be granted the cluster-admin role on the cluster, providing full access to the cluster.
+    --annotations=: Annotations on the VMware user cluster.
+    --async: Return immediately, without waiting for the operation in progress to
+    --control-plane-ip-block=: Static IP addresses for the control plane nodes.
+    --control-plane-node-port=: NodePort for control plane service.
+    --control-plane-vip=!: VIP for the Kubernetes API of this cluster.
+    --cpus=: Number of CPUs for each admin cluster node that serve as control planes for this VMware user cluster.
+    --description=: Description for the resource.
+    --disable-aag-config: If set, spread nodes across at least three physical hosts (requires at least three hosts).
+    --disable-control-plane-v2: If set, disable control plane v2.
+    --disable-vsphere-csi: If set, vSphere CSI components are not deployed in the VMware User Cluster.
+    --dns-search-domains=: DNS search domains.
+    --dns-servers=: DNS server IP address.
+    --enable-advanced-networking: If set, enable advanced networking.
+    --enable-auto-repair: If set, deploy the cluster-health-controller.
+    --enable-auto-resize: Enable controle plane node auto resize.
+    --enable-control-plane-v2: If set, enable control plane v2.
+    --enable-dataplane-v2: If set, enables Dataplane V2.
+    --enable-dhcp: Enable DHCP IP allocation for VMware user clusters.
+    --enable-vm-tracking: If set, enable VM tracking.
+    --f5-config-address=!: F5 Big IP load balancer address.
+    --f5-config-partition=!: F5 Big IP load balancer partition.
+    --f5-config-snat-pool=: F5 Big IP load balancer pool name if using SNAT.
+    --ingress-http-node-port=: NodePort for ingress service's http.
+    --ingress-https-node-port=: NodePort for ingress service's https.
+    --ingress-vip=!: VIP for ingress traffic into this cluster.
+    --konnectivity-server-node-port=: NodePort for konnectivity service running as a sidecar in each kube-apiserver pod.
+    --location=: Google Cloud location for the cluster.
+    --memory=: 'Megabytes of memory for each admin cluster node that serves as a control plane for this VMware User Cluster (default: 8192 MB memory).'
+    --metal-lb-config-address-pools=: MetalLB load balancer configurations.
+    --metal-lb-config-from-file=&: ""
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-disable-aag-config&: If set, spread nodes across at least three physical hosts (requires at least three hosts).
+    --no-disable-control-plane-v2&: If set, disable control plane v2.
+    --no-disable-vsphere-csi&: If set, vSphere CSI components are not deployed in the VMware User Cluster.
+    --no-enable-advanced-networking&: If set, enable advanced networking.
+    --no-enable-auto-repair&: If set, deploy the cluster-health-controller.
+    --no-enable-auto-resize&: Enable controle plane node auto resize.
+    --no-enable-control-plane-v2&: If set, enable control plane v2.
+    --no-enable-dataplane-v2&: If set, enables Dataplane V2.
+    --no-enable-dhcp&: Enable DHCP IP allocation for VMware user clusters.
+    --no-enable-vm-tracking&: If set, enable VM tracking.
+    --no-validate-only&: If set, only validate the request, but do not actually perform the operation.
+    --ntp-servers=: NTP server IP address.
+    --pod-address-cidr-blocks=!: IPv4 address range for all pods in the cluster.
+    --replicas=: Number of control plane nodes for this VMware user cluster.
+    --service-address-cidr-blocks=!: IPv4 address range for all services in the cluster.
+    --static-ip-config-from-file=&: ""
+    --static-ip-config-ip-blocks=: Static IP configurations.
+    --upgrade-policy=: If not specified, control-plane-only is set to False.
+    --validate-only: If set, only validate the request, but do not actually perform the operation.
+    --vcenter-ca-cert-data=: Name of the vCenter CA certificate public key for SSL verification.
+    --vcenter-cluster=: Name of the vCenter cluster for the user cluster.
+    --vcenter-datacenter=: Name of the vCenter datacenter for the user cluster.
+    --vcenter-datastore=: Name of the vCenter datastore for the user cluster.
+    --vcenter-folder=: Name of the vCenter folder for the user cluster.
+    --vcenter-resource-pool=: Name of the vCenter resource pool for the user cluster.
+    --vcenter-storage-policy-name=: Name of the vCenter storage policy for the user cluster.
+documentation:
+    command: '*(BETA)*  Create an Anthos cluster on VMware.'
+    flag:
+        admin-cluster-membership: |-
+            ID of the admin_cluster_membership or fully qualified identifier for the admin_cluster_membership.
+            +
+            To set the `admin_cluster_membership` attribute:
+            * provide the argument `--admin-cluster-membership` on the command line.
+        admin-cluster-membership-location: |-
+            Google Cloud location for the admin_cluster_membership.
+            +
+            To set the `location` attribute:
+            * provide the argument `--admin-cluster-membership` on the command line with a fully specified name;
+            * provide the argument `--admin-cluster-membership-location` on the command line.
+        admin-cluster-membership-project: |-
+            Google Cloud project for the admin_cluster_membership.
+            +
+            To set the `project` attribute:
+            * provide the argument `--admin-cluster-membership` on the command line with a fully specified name;
+            * provide the argument `--admin-cluster-membership-project` on the command line.
+        admin-users: |-
+            Users that will be granted the cluster-admin role on the cluster, providing full access to the cluster.
+            +
+            To add multiple users, specify one in each flag. When updating, the update command overwrites the whole grant list. Specify all existing and new users that you want to be cluster administrators.
+            +
+            Examples:
+            +
+              $ {command}
+                  --admin-users alice@example.com
+                  --admin-users bob@example.com
+        annotations: Annotations on the VMware user cluster.
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        control-plane-ip-block: |-
+            Static IP addresses for the control plane nodes. The number of IP addresses should match the number of replicas for the control plane nodes, specified by `--replicas`.
+            +
+            To specify the control plane IP block,
+            +
+            ```
+            $ gcloud {command}
+                --control-plane-ip-block 'gateway=192.168.0.1,netmask=255.255.255.0,ips=192.168.1.1;0.0.0.0 localhost;'
+            ```
+        control-plane-node-port: NodePort for control plane service.
+        control-plane-vip: VIP for the Kubernetes API of this cluster.
+        cpus: 'Number of CPUs for each admin cluster node that serve as control planes for this VMware user cluster. (default: 4 CPUs)'
+        description: Description for the resource.
+        disable-aag-config: If set, spread nodes across at least three physical hosts (requires at least three hosts). Enabled by default.
+        disable-control-plane-v2: If set, disable control plane v2.
+        disable-vsphere-csi: If set, vSphere CSI components are not deployed in the VMware User Cluster. Enabled by default.
+        dns-search-domains: DNS search domains.
+        dns-servers: DNS server IP address.
+        enable-advanced-networking: If set, enable advanced networking. Requires dataplane_v2_enabled to be set true.
+        enable-auto-repair: If set, deploy the cluster-health-controller.
+        enable-auto-resize: Enable controle plane node auto resize.
+        enable-control-plane-v2: If set, enable control plane v2.
+        enable-dataplane-v2: If set, enables Dataplane V2.
+        enable-dhcp: |-
+            Enable DHCP IP allocation for VMware user clusters.
+            +
+            While using DHCP, manual load balancing mode is not supported. For more details, see https://cloud.google.com/anthos/clusters/docs/on-prem/latest/how-to/manual-load-balance#setting_aside_node_ip_addresses.
+        enable-vm-tracking: If set, enable VM tracking.
+        f5-config-address: F5 Big IP load balancer address.
+        f5-config-partition: F5 Big IP load balancer partition.
+        f5-config-snat-pool: F5 Big IP load balancer pool name if using SNAT.
+        ingress-http-node-port: NodePort for ingress service's http.
+        ingress-https-node-port: NodePort for ingress service's https.
+        ingress-vip: VIP for ingress traffic into this cluster.
+        konnectivity-server-node-port: NodePort for konnectivity service running as a sidecar in each kube-apiserver pod.
+        location: |-
+            Google Cloud location for the cluster.
+            +
+            To set the `location` attribute:
+            * provide the argument `cluster` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `container_vmware/location`.
+        memory: 'Megabytes of memory for each admin cluster node that serves as a control plane for this VMware User Cluster (default: 8192 MB memory).'
+        metal-lb-config-address-pools: |-
+            MetalLB load balancer configurations.
+            +
+            Examples:
+            +
+            To specify MetalLB load balancer configurations for two address pools `pool1` and `pool2`,
+            +
+            ```
+            $ gcloud {command}
+                --metal-lb-config-address-pools 'pool=pool1,avoid-buggy-ips=True,manual-assign=True,addresses=192.168.1.1/32;192.168.1.2-192.168.1.3'
+                --metal-lb-config-address-pools 'pool=pool2,avoid-buggy-ips=False,manual-assign=False,addresses=192.168.2.1/32;192.168.2.2-192.168.2.3'
+            ```
+            +
+            Use quote around the flag value to escape semicolon in the terminal.
+        metal-lb-config-from-file: |+
+            Path of the YAML/JSON file that contains the MetalLB configurations.
+
+            Examples:
+
+              metalLBConfig:
+                addressPools:
+                - pool: lb-test-ip
+                  addresses:
+                  - 10.251.133.79/32
+                  - 10.251.133.80/32
+                  avoidBuggyIPs: True
+                  manualAssign: False
+                - pool: ingress-ip
+                  addresses:
+                  - 10.251.133.70/32
+                  avoidBuggyIPs: False
+                  manualAssign: True
+
+            List of supported fields in `metalLBConfig`
+
+            KEY           | VALUE                     | NOTE
+            --------------|---------------------------|------------------
+            addressPools  | one or more addressPools  | required, mutable
+
+            List of supported fields in `addressPools`
+
+            KEY           | VALUE                 | NOTE
+            --------------|-----------------------|---------------------------
+            pool          | string                | required, mutable
+            addresses     | one or more IP ranges | required, mutable
+            avoidBuggyIPs | bool                  | optional, mutable, defaults to False
+            manualAssign  | bool                  | optional, mutable, defaults to False
+
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-disable-aag-config: If set, spread nodes across at least three physical hosts (requires at least three hosts). Enabled by default.
+        no-disable-control-plane-v2: If set, disable control plane v2.
+        no-disable-vsphere-csi: If set, vSphere CSI components are not deployed in the VMware User Cluster. Enabled by default.
+        no-enable-advanced-networking: If set, enable advanced networking. Requires dataplane_v2_enabled to be set true.
+        no-enable-auto-repair: If set, deploy the cluster-health-controller.
+        no-enable-auto-resize: Enable controle plane node auto resize.
+        no-enable-control-plane-v2: If set, enable control plane v2.
+        no-enable-dataplane-v2: If set, enables Dataplane V2.
+        no-enable-dhcp: |
+            Enable DHCP IP allocation for VMware user clusters.
+
+            While using DHCP, manual load balancing mode is not supported. For more details, see https://cloud.google.com/anthos/clusters/docs/on-prem/latest/how-to/manual-load-balance#setting_aside_node_ip_addresses.
+        no-enable-vm-tracking: If set, enable VM tracking.
+        no-validate-only: If set, only validate the request, but do not actually perform the operation.
+        ntp-servers: NTP server IP address.
+        pod-address-cidr-blocks: IPv4 address range for all pods in the cluster.
+        replicas: 'Number of control plane nodes for this VMware user cluster. (default: 1 replica).'
+        service-address-cidr-blocks: IPv4 address range for all services in the cluster.
+        static-ip-config-from-file: |
+            Path of the YAML/JSON file that contains the static IP configurations, used by Anthos on VMware user cluster node pools.
+
+            Examples:
+
+                staticIPConfig:
+                  ipBlocks:
+                  - gateway: 10.251.31.254
+                    netmask: 255.255.252.0
+                    ips:
+                    - hostname: hostname-1
+                      ip: 1.1.1.1
+                    - hostname: hostname-2
+                      ip: 2.2.2.2
+                    - hostname: hostname-3
+                      ip: 3.3.3.3
+                    - hostname: hostname-4
+                      ip: 4.4.4.4
+
+            List of supported fields in `staticIPConfig`
+
+            KEY       | VALUE                 | NOTE
+            --------- | --------------------  | -----------------
+            ipBlocks  | one or more ipBlocks  | required, mutable
+
+            List of supported fields in `ipBlocks`
+
+            KEY     | VALUE           | NOTE
+            ------- | --------------- | -------------------
+            gateway | IP address      | required, immutable
+            netmask | IP address      | required, immutable
+            ips     | one or more ips | required, mutable
+
+            List of supported fields in `ips`
+
+            KEY       | VALUE       | NOTE
+            --------- | ----------- | -------------------
+            hostname  | string      | optional, immutable
+            ip        | IP address  | required, immutable
+
+            New `ips` fields can be added, existing `ips` fields cannot be removed or updated.
+        static-ip-config-ip-blocks: |-
+            Static IP configurations.
+            +
+            Expect an individual IP address, an individual IP address with an optional hostname, or a CIDR block.
+            +
+            Example:
+            +
+            To specify two Static IP blocks,
+            +
+            ```
+            $ gcloud {command}
+                --static-ip-config-ip-blocks 'gateway=192.168.0.1,netmask=255.255.255.0,ips=192.168.1.1;0.0.0.0 localhost;192.168.1.2/16'
+                --static-ip-config-ip-blocks 'gateway=192.168.1.1,netmask=255.255.0.0,ips=8.8.8.8;4.4.4.4'
+            ```
+            +
+            Use quote around the flag value to escape semicolon in the terminal.
+        upgrade-policy: |-
+            If not specified, control-plane-only is set to False. In the next upgrade operation, all worker node pools will be upgraded together with the control plane.
+            +
+            Example:
+            +
+              To upgrade the control plane only and keep worker node pools version unchanged, first specify the policy:
+            +
+                ```shell
+                $ {command} CLUSTER --upgrade-policy control-plane-only=True
+                ```
+            +
+              Then to start the upgrade operation using the specified policy, run:
+            +
+                ```shell
+                $ {parent_command} upgrade CLUSTER --version=VERSION
+                ```
+            +
+              After upgrading only the cluster control plane, to upgrade an individual node pool, run:
+            +
+                ```shell
+                $ {grandparent_command} node-pools update NODE_POOL --version=VERSION
+                ```
+            +
+            Example:
+            +
+              Alternatively, to upgrade both the control plane and all worker node pools, first specify the policy:
+            +
+                ```shell
+                $ {command} CLUSTER --upgrade-policy control-plane-only=False
+                ```
+            +
+              Then to start the upgrade operation using the specified policy, run:
+            +
+                ```shell
+                $ {parent_command} upgrade CLUSTER --version=VERSION
+                ```
+        validate-only: If set, only validate the request, but do not actually perform the operation.
+        vcenter-ca-cert-data: Name of the vCenter CA certificate public key for SSL verification.
+        vcenter-cluster: Name of the vCenter cluster for the user cluster.
+        vcenter-datacenter: Name of the vCenter datacenter for the user cluster.
+        vcenter-datastore: Name of the vCenter datastore for the user cluster.
+        vcenter-folder: Name of the vCenter folder for the user cluster.
+        vcenter-resource-pool: Name of the vCenter resource pool for the user cluster.
+        vcenter-storage-policy-name: Name of the vCenter storage policy for the user cluster.

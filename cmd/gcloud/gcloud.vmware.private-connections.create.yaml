@@ -1,0 +1,58 @@
+name: create
+description: Create a Google Cloud Private Connection.
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --description=: Text describing the private connection.
+    --location=: The resource name of the location.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --routing-mode=: Type of the routing mode.
+    --service-network=: Resource ID of the service network to connect with the VMware Engine network to create a private connection.
+    --service-project=!: Project ID or project number of the service network.
+    --type=!: Type of private connection.
+    --vmware-engine-network=!: Resource ID of the legacy VMware Engine network.
+completion:
+    flag:
+        routing-mode:
+            - GLOBAL
+            - REGIONAL
+        type:
+            - DELL_POWERSCALE
+            - NETAPP_CLOUD_VOLUMES
+            - PRIVATE_SERVICE_ACCESS
+            - THIRD_PARTY_SERVICE
+documentation:
+    command: |
+        Creates a new private connection to connect VMware Engine Network to the specified VPC network. This establishes private IP connectivity between the VPC network and all the VMware Private Clouds attached to the VMware Engine Network. Private connection creation is considered finished when the connection is in ACTIVE state. Check the progress of the private connection using `gcloud vmware private-connections list`.
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete. The default is *True*. Enabled by default, use *--no-async* to disable.
+        description: Text describing the private connection.
+        location: |-
+            The resource name of the location.
+            +
+            To set the `location` attribute:
+            * provide the argument `private_connection` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `compute/region`.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        routing-mode: 'Type of the routing mode. Default value is set to GLOBAL. For type=PRIVATE_SERVICE_ACCESS, this field can be set to GLOBAL or REGIONAL, for other types only GLOBAL is supported. _ROUTING_MODE_ must be one of: *GLOBAL*, *REGIONAL*.'
+        service-network: |-
+            Resource ID of the service network to connect with the VMware Engine network to create a private connection.
+            * For type=PRIVATE_SERVICE_ACCESS, this field represents service networking VPC. In this case the field value will be automatically set to `servicenetworking` and cannot be changed.
+            * For type=NETAPP_CLOUD_VOLUME, this field represents NetApp service VPC. In this case the field value will be automatically set to `netapp-tenant-vpc` and cannot be changed.
+            * For type=DELL_POWERSCALE, this field represents Dell service VPC. In this case the field value will be automatically set to `dell-tenant-vpc` and cannot be changed.
+            * For type=THIRD_PARTY_SERVICE, this field could represent a consumer VPC or any other producer VPC to which the VMware Engine Network needs to be connected. service-network field is required for this type.
+        service-project: Project ID or project number of the service network.
+        type: |-
+            Type of private connection. _TYPE_ must be one of:
+            +
+            *DELL_POWERSCALE*::: Peering connection used for connecting to Dell PowerScale.
+            *NETAPP_CLOUD_VOLUMES*::: Peering connection used for connecting to NetApp Cloud Volumes.
+            *PRIVATE_SERVICE_ACCESS*::: Peering connection used for establishing [private services access](https://cloud.google.com/vpc/docs/private-services-access).
+            *THIRD_PARTY_SERVICE*::: Peering connection used for connecting to third-party services. Most third-party services require manual setup of reverse peering on the VPC network associated with the third-party service.
+            :::
+            +
+        vmware-engine-network: Resource ID of the legacy VMware Engine network. Provide the {vmware_engine_network_id}, which will be in the form of {location}-default. The {location} is the same as the location specified in the private connection resource.

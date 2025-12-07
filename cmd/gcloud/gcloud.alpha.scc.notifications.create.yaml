@@ -1,0 +1,48 @@
+name: create
+description: '*(ALPHA)*  Create a Security Command Center notification config.'
+flags:
+    --api-version=&: ""
+    --description=: The text that will be used to describe a notification configuration.
+    --filter=: Filter to be used for notification config.
+    --folder=: Folder where the notification config resides.
+    --location=: If data residency is enabled, specify the Security Command Center location
+    --organization=: Organization where the notification config resides.
+    --pubsub-topic=!: The Pub/Sub topic which will receive notifications.
+completion:
+    flag:
+        api-version:
+            - v1
+            - v2enabled
+documentation:
+    command: |-
+        *(ALPHA)*  Create a Security Command Center notification config.
+
+        Notification configs that are created with Security Command Center API V2
+        and later include a `location` attribute. If a location is not specified,
+        the default `global` location is used. For example, the following
+        Notification config name has `location=global` attribute:
+        `organizations/123/locations/global/notificationConfigs/my-config`.
+    flag:
+        api-version: |-
+            This is a temporary flag to be used for testing the Security Command
+            Center v2 api before its launch.
+        description: The text that will be used to describe a notification configuration.
+        filter: Filter to be used for notification config.
+        folder: |-
+            Folder where the notification config resides. Formatted as
+            ``folders/456'' or just ``456''.
+        location: |-
+            If data residency is enabled, specify the Security Command Center location
+            in which to create the notification. The resulting `notificationConfig`
+            resource is stored only in this location. Only findings that are issued
+            in this location are sent to Pub/Sub.
+            +
+            If data residency is not enabled, specifying the `--location` flag creates
+            the notification by using Security Command Center API v2, and the only
+            valid value for the flag is `global`.
+        organization: |-
+            Organization where the notification config resides. Formatted as
+            ``organizations/123'' or just ``123''.
+        pubsub-topic: |-
+            The Pub/Sub topic which will receive notifications. Its format is
+            "projects/[project_id]/topics/[topic]".

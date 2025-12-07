@@ -1,0 +1,267 @@
+name: create
+description: '*(ALPHA)*  Create an Edge Container cluster.'
+flags:
+    --admin-users=: Username (Google email address) of the user who should be granted
+    --async: Return immediately, without waiting for the operation in progress to
+    --cluster-ipv4-cidr=: All pods in the cluster are assigned an RFC1918 IPv4 address from this
+    --cluster-ipv6-cidr=: If specified, all pods in the cluster are assigned an RFC4193 IPv6 address
+    --container-default-runtime-class=: Name of the default runtime class for containers.
+    --control-plane-kms-key=: Google Cloud KMS key that will be used to secure persistent disks of the
+    --control-plane-machine-filter=: Only machines matching this filter will be allowed to host
+    --control-plane-node-count=: The number of local control plane nodes in a cluster.
+    --control-plane-node-location=: Google Edge Cloud zone where the local control plane nodes
+    --control-plane-node-storage-schema=: Name for the storage schema of control plane nodes.
+    --control-plane-node-system-partition-size-gib=&: ""
+    --control-plane-shared-deployment-policy=: Policy configuration about how user application is deployed for
+    --default-max-pods-per-node=: The default maximum number of pods per node.
+    --enable-cluster-isolation=: If set, the cluster will be created in a secure cluster isolation mode.
+    --enable-google-group-authentication: If set, the cluster will be configured to use Google Group authentication.
+    --enable-remote-backup&: ""
+    --enable-robin-cns&: ""
+    --external-lb-address-pools=: Path to a YAML/JSON file containing external load balancer pool configuration.
+    --external-lb-ipv4-address-pools=: IPv4 address pools that are used for data plane load balancing of
+    --external-lb-ipv6-address-pools=: IPv6 address pools that are used for data plane load balancing of
+    --fleet-project=: Name of the Fleet host project where the cluster is registered.
+    --labels=: List of label KEY=VALUE pairs to add.
+    --location=: Google Cloud location for the cluster.
+    --lro-timeout=: Overwrite the default LRO maximum timeout.
+    --maintenance-window-end=: End time of the recurring cluster maintenance window in the RFC 3339
+    --maintenance-window-recurrence=: An RFC 5545 (https://tools.ietf.org/html/rfc5545#section-3.8.5.3)
+    --maintenance-window-start=: Start time of the recurring cluster maintenance window in the RFC 3339
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-enable-google-group-authentication&: ""
+    --no-enable-remote-backup&: ""
+    --no-enable-robin-cns&: ""
+    --offline-reboot-ttl=: Specifies the maximum duration a node can reboot offline (without
+    --release-channel=: Release channel a cluster is subscribed to.
+    --services-ipv4-cidr=: All services in the cluster are assigned an RFC1918 IPv4 address from
+    --services-ipv6-cidr=: If specified, all services in the cluster are assigned an RFC4193 IPv6
+    --system-addons-config=: If specified as a YAML/JSON file, customized configuration in this file
+    --zone-storage-kms-key=: Google Cloud KMS key that will be used to encrypt and decrypt the root key
+completion:
+    flag:
+        control-plane-node-system-partition-size-gib:
+            - "100"
+            - "300"
+documentation:
+    command: '*(ALPHA)*  Create an Edge Container cluster.'
+    flag:
+        admin-users: |-
+            Username (Google email address) of the user who should be granted
+            cluster-admin initially. This currently supports exactly one admin. If
+            not set, the account issuing the creation request will be used by
+            default.
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        cluster-ipv4-cidr: |-
+            All pods in the cluster are assigned an RFC1918 IPv4 address from this
+            block. This field cannot be changed after creation.
+        cluster-ipv6-cidr: |-
+            If specified, all pods in the cluster are assigned an RFC4193 IPv6 address
+            from this block. This field cannot be changed after creation.
+        container-default-runtime-class: |-
+            Name of the default runtime class for containers. It supports two values
+            RUNC and GVISOR.
+        control-plane-kms-key: |-
+            Google Cloud KMS key that will be used to secure persistent disks of the
+            control plane VMs of a remote control plane cluster. The Edge Container
+            service account for this project must have
+            `roles/cloudkms.cryptoKeyEncrypterDecrypter` on the key.
+            +
+            If not provided, a Google-managed key will be used by default.
+        control-plane-machine-filter: |-
+            Only machines matching this filter will be allowed to host
+            local control plane nodes.
+            The filtering language accepts strings like "name=<name>",
+            and is documented here: [AIP-160](https://google.aip.dev/160).
+        control-plane-node-count: |-
+            The number of local control plane nodes in a cluster. Use one to create
+            a single-node control plane or use three to create a high availability
+            control plane.
+            Any other numbers of nodes will not be accepted.
+        control-plane-node-location: |-
+            Google Edge Cloud zone where the local control plane nodes
+            will be created.
+        control-plane-node-storage-schema: Name for the storage schema of control plane nodes.
+        control-plane-node-system-partition-size-gib: |
+            Specifies the system partition size in GiB for the control plane nodes.
+            This parameter is optional. Valid values are 100 and 300 to set the system
+            partition size to 100GiB and 300GiB, respectively. If this parameter is
+            not specified, the system partition is created using the default size
+            specified in the system storage schema applicable to the control plane
+            nodes.
+        control-plane-shared-deployment-policy: |-
+            Policy configuration about how user application is deployed for
+            local control plane cluster. It supports two values, ALLOWED and
+            DISALLOWED. ALLOWED means that user application can be deployed on
+            control plane nodes. DISALLOWED means that user application can not be
+            deployed on control plane nodes. Instead, it can only be deployed on
+            worker nodes. By default, this value is DISALLOWED. The input is case
+            insensitive.
+        default-max-pods-per-node: The default maximum number of pods per node.
+        enable-cluster-isolation: If set, the cluster will be created in a secure cluster isolation mode.
+        enable-google-group-authentication: If set, the cluster will be configured to use Google Group authentication.
+        enable-remote-backup: |
+            If set, the cluster will be created with remote backup featureenabled.
+        enable-robin-cns: |
+            If set, Robin CNS will be enabled on the cluster.
+
+            WARNING:
+            Enabling Robin CNS is irreversible. Once enabled, it cannot be disabled.
+            Enabling Robin CNS will take over all unused local Persistent Volumes (PVs)
+            in the cluster. Any data on these PVs will be permanently lost.
+        external-lb-address-pools: |-
+            Path to a YAML/JSON file containing external load balancer pool configuration.
+            External load balancer pools are used for data plane load balancing of
+            local control plane clusters, with custom config such as address pool
+            name. Either --external-lb-ipv4-address-pools or --external-lb-address-pools
+            should be specified.
+            Existing pools cannot be updated after cluster creation; only adding new
+            pools is allowed currently.
+            +
+            For example,
+            +
+            ```
+            {
+              "externalLoadBalancerAddressPools": [
+                {
+                  "addressPool": "MyLoadBalancerPool",
+                  "ipv4Range": ["10.200.0.200-10.200.0.204","10.200.0.300/30"],
+                  "avoidBuggyIps": "false",
+                  "manualAssign": "true"
+                }
+              ]
+            }
+            ```
+            +
+            *address_pool*::: Optional. A name that identifies an address pool. If a name is not specified, an auto-generated one will be used.
+            +
+            *ipv4_range*::: Mandatory. One or more ipv4 address range, each must be specified as one
+            of the following two types of values:
+            +
+              1. A IPv4 address range, for example, "10.0.0.1-10.0.0.10". A range that contains a single IP (e.g. "10.0.0.1-10.0.0.1") is allowed.
+            +
+              2. A IPv4 CIDR block, for example, "10.0.0.1/24"
+            +
+            *ipv6_range*::: Optional. One or more ipv6 address range, each must be specified as one
+            of the following two types of values:
+            +
+              1. A IPv6 address range, for example, "2001:db8::1-2001:db8::a". A range that contains a single IP (e.g. "2001:db8::1-2001:db8::1") is allowed.
+            +
+              2. A IPv6 CIDR block, for example, "2001:db8::/120"
+            +
+            *avoid_buggy_ips*::: Optional. If true, the pool omits IP addresses
+            ending in .0 and .255. Some network hardware drops traffic to these
+            special addresses.
+            Its default value is false.
+            +
+            *manual_assign*::: Optional. If true, addresses in this pool are not
+            automatically assigned to Kubernetes Services. If true, an IP address in
+            this pool is used only when it is specified explicitly by a service.
+            Its default value is false.
+        external-lb-ipv4-address-pools: |-
+            IPv4 address pools that are used for data plane load balancing of
+            local control plane clusters. Existing pools cannot be updated
+            after cluster creation; only adding new pools is allowed.
+            Each address pool must be specified as one of the following
+            two types of values:
+              1. A IPv4 address range, for example, "10.0.0.1-10.0.0.10". A range that contains a single IP (e.g. "10.0.0.1-10.0.0.1") is allowed.
+              2. A IPv4 CIDR block, for example, "10.0.0.1/24"
+            Use comma when specifying multiple address pools, for example:
+              --external-lb-ipv4-address-pools 10.0.0.1-10.0.0.10,10.0.0.1/24
+        external-lb-ipv6-address-pools: |-
+            IPv6 address pools that are used for data plane load balancing of
+            local control plane clusters. Existing pools cannot be updated
+            after cluster creation; only adding new pools is allowed.
+            Each address pool must be specified as one of the following
+            two types of values:
+              1. A IPv6 address range, for example, "2001:db8::1-2001:db8::a". A range that contains a single IP (e.g. "2001:db8::1-2001:db8::1") is allowed.
+              2. A IPv6 CIDR block, for example, "2001:db8::/120"
+            Use comma when specifying multiple address pools, for example:
+              --external-lb-ipv6-address-pools 2001:db8::1-2001:db8::a,2001:db8::/120
+        fleet-project: Name of the Fleet host project where the cluster is registered.
+        labels: |-
+            List of label KEY=VALUE pairs to add.
+            +
+            Keys must start with a lowercase character and contain only hyphens
+            (-), underscores (```_```), lowercase characters, and numbers. Values must
+            contain only hyphens (-), underscores (```_```), lowercase characters, and
+            numbers.
+        location: |-
+            Google Cloud location for the cluster.
+            +
+            To set the `location` attribute:
+            * provide the argument `cluster` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line.
+        lro-timeout: Overwrite the default LRO maximum timeout.
+        maintenance-window-end: |-
+            End time of the recurring cluster maintenance window in the RFC 3339
+            (https://www.rfc-editor.org/rfc/rfc3339.txt) format. E.g.
+            "2021-01-01T00:00:00Z" or "2021-01-01T00:00:00-05:00"
+        maintenance-window-recurrence: |-
+            An RFC 5545 (https://tools.ietf.org/html/rfc5545#section-3.8.5.3)
+              recurrence rule for how the cluster maintenance window recurs. They go
+              on for the span of time between the start and the end time. E.g.
+              FREQ=WEEKLY;BYDAY=SU.
+        maintenance-window-start: |-
+            Start time of the recurring cluster maintenance window in the RFC 3339
+            (https://www.rfc-editor.org/rfc/rfc3339.txt) format. E.g.
+            "2021-01-01T00:00:00Z" or "2021-01-01T00:00:00-05:00"
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-enable-google-group-authentication: |
+            If set, the cluster will be configured to use Google Group authentication.
+        no-enable-remote-backup: |
+            If set, the cluster will be created with remote backup featureenabled.
+        no-enable-robin-cns: |
+            If set, Robin CNS will be enabled on the cluster.
+
+            WARNING:
+            Enabling Robin CNS is irreversible. Once enabled, it cannot be disabled.
+            Enabling Robin CNS will take over all unused local Persistent Volumes (PVs)
+            in the cluster. Any data on these PVs will be permanently lost.
+        offline-reboot-ttl: |-
+            Specifies the maximum duration a node can reboot offline (without
+            connection to Google) and then rejoin its cluster to resume its
+            designated workloads. This duration is relative to the machine's most
+            recent connection to Google. The maximum allowed duration is 7 days.
+            To disallow offline reboot, set the duration to "PT0S". The parameter
+            should be an ISO 8601 duration string, for example, "P1DT1H2M3S".
+        release-channel: |-
+            Release channel a cluster is subscribed to. It supports two values,
+            NONE and REGULAR. NONE is used to opt out of any release channel. Clusters
+            subscribed to the REGULAR channel will be automatically upgraded to
+            versions that are considered GA quality, and cannot be manually upgraded.
+            Additionally, if the REGULAR channel is used, a specific target version
+            cannot be set with the 'version' flag. If left unspecified, the release
+            channel will default to REGULAR.
+        services-ipv4-cidr: |-
+            All services in the cluster are assigned an RFC1918 IPv4 address from
+            this block. This field cannot be changed after creation.
+        services-ipv6-cidr: |-
+            If specified, all services in the cluster are assigned an RFC4193 IPv6
+            address from this block. This field cannot be changed after creation.
+        system-addons-config: |-
+            If specified as a YAML/JSON file, customized configuration in this file
+            will be applied to the system add-ons.
+            +
+            For example,
+            +
+            {
+              "systemAddonsConfig": {
+                "ingress": {
+                  "disabled": true,
+                  "ipv4_vip": "10.0.0.1"
+                }
+              }
+            }
+        zone-storage-kms-key: |-
+            Google Cloud KMS key that will be used to encrypt and decrypt the root key
+            for zone storage encryption. The zone storage KMS key is only
+            applicable to the storage infra cluster. The Edge Container service
+            account for this project must have
+            `roles/cloudkms.cryptoKeyEncrypterDecrypter` on the key.
+            +
+            If not provided, a Google-managed key will be used by default.

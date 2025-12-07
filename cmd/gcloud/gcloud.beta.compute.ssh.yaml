@@ -1,0 +1,217 @@
+name: ssh
+description: '*(BETA)*  SSH into a virtual machine instance.'
+flags:
+    --command=: A command to run on the virtual machine.
+    --container=: The name or ID of a container inside of the virtual machine instance
+    --dest-group=: Configures the destination group to use when connecting via IP address or FQDN.
+    --dry-run: Print the equivalent scp/ssh command that would be run to stdout, instead of executing it.
+    --force-key-file-overwrite: If enabled, the gcloud command-line tool will regenerate and overwrite
+    --iap-tunnel-insecure-disable-websocket-cert-check&: Disables checking certificates on the WebSocket connection.
+    --iap-tunnel-url-override=&: Allows for overriding the connection endpoint for integration testing.
+    --internal-ip: Connect to instances using their internal IP addresses rather than their
+    --network=!: Configures the VPC network to use when connecting via IP address or FQDN.
+    --no-dry-run&: Print the equivalent scp/ssh command that would be run to stdout, instead of executing it.
+    --no-force-key-file-overwrite&: If enabled, the gcloud command-line tool will regenerate and overwrite
+    --no-iap-tunnel-insecure-disable-websocket-cert-check&: Disables checking certificates on the WebSocket connection.
+    --no-internal-ip&: Connect to instances using their internal IP addresses rather than their
+    --no-plain&: Suppress the automatic addition of *ssh(1)*/*scp(1)* flags.
+    --no-troubleshoot&: 'If you can''t connect to a virtual machine (VM) instance using SSH, you can investigate the problem using the `--troubleshoot` flag:'
+    --no-tunnel-through-iap&: Tunnel the ssh connection through Cloud Identity-Aware Proxy for TCP
+    --no-verify-internal-ip&: Whether or not `gcloud` should perform an initial SSH connection to verify an instance ID is correct when connecting via its internal IP.
+    --plain: Suppress the automatic addition of *ssh(1)*/*scp(1)* flags.
+    --region=!: Configures the region to use when connecting via IP address or FQDN.
+    --ssh-flag=: Additional flags to be passed to *ssh(1)*.
+    --ssh-key-expiration=: The time when the ssh key will be valid until, such as
+    --ssh-key-expire-after=: The maximum length of time an SSH key is valid for once created and
+    --ssh-key-file=: The path to the SSH key file.
+    --strict-host-key-checking=: Override the default behavior of StrictHostKeyChecking for the
+    --troubleshoot: 'If you can''t connect to a virtual machine (VM) instance using SSH, you can investigate the problem using the `--troubleshoot` flag:'
+    --tunnel-through-iap: Tunnel the ssh connection through Cloud Identity-Aware Proxy for TCP
+    --verify-internal-ip&: Whether or not `gcloud` should perform an initial SSH connection to verify an instance ID is correct when connecting via its internal IP.
+    --zone=: Zone of the instance to connect to.
+completion:
+    flag:
+        strict-host-key-checking:
+            - "yes"
+            - "no"
+            - ask
+documentation:
+    command: |
+        *(BETA)*  *gcloud beta compute ssh* is a thin wrapper around the *ssh(1)* command that
+        takes care of authentication and the translation of the
+        instance name into an IP address.
+
+        To use SSH to connect to a Windows VM, refer to this guide:
+        https://cloud.google.com/compute/docs/connect/windows-ssh
+
+        The default network comes preconfigured to allow ssh access to
+        all VMs. If the default network was edited, or if not using the
+        default network, you may need to explicitly enable ssh access by adding
+        a firewall-rule:
+
+          $ gcloud compute firewall-rules create --network=NETWORK default-allow-ssh --allow=tcp:22
+
+        *gcloud beta compute ssh* ensures that the user's public SSH key is present
+        in the project's metadata. If the user does not have a public
+        SSH key, one is generated using *ssh-keygen(1)* (if the `--quiet`
+        flag is given, the generated key will have an empty passphrase).
+
+        If the `--region` and `--network` flags are provided, then `--plain` and
+        `--tunnel-through-iap` are implied and an IP address must be supplied instead of
+        an instance name. This is most useful for connecting to on-prem resources.
+    flag:
+        command: |-
+            A command to run on the virtual machine.
+            +
+            Runs the command on the target instance and then exits.
+        container: |-
+            The name or ID of a container inside of the virtual machine instance
+            to connect to. This only applies to virtual machines that are using
+            a Google Container-Optimized virtual machine image. For more
+            information, see [](https://cloud.google.com/compute/docs/containers).
+        dest-group: Configures the destination group to use when connecting via IP address or FQDN.
+        dry-run: Print the equivalent scp/ssh command that would be run to stdout, instead of executing it.
+        force-key-file-overwrite: |-
+            If enabled, the gcloud command-line tool will regenerate and overwrite
+            the files associated with a broken SSH key without asking for
+            confirmation in both interactive and non-interactive environments.
+            +
+            If disabled, the files associated with a broken SSH key will not be
+            regenerated and will fail in both interactive and non-interactive
+            environments.
+        iap-tunnel-insecure-disable-websocket-cert-check: Disables checking certificates on the WebSocket connection.
+        iap-tunnel-url-override: Allows for overriding the connection endpoint for integration testing.
+        internal-ip: |-
+            Connect to instances using their internal IP addresses rather than their
+            external IP addresses. Use this to connect from one instance to another
+            on the same VPC network, over a VPN connection, or between two peered
+            VPC networks.
+            +
+            For this connection to work, you must configure your networks and
+            firewall to allow SSH connections to the internal IP address of
+            the instance to which you want to connect.
+            +
+            To learn how to use this flag, see
+            [](https://cloud.google.com/compute/docs/instances/connecting-advanced#sshbetweeninstances).
+        network: Configures the VPC network to use when connecting via IP address or FQDN.
+        no-dry-run: Print the equivalent scp/ssh command that would be run to stdout, instead of executing it.
+        no-force-key-file-overwrite: |-
+            If enabled, the gcloud command-line tool will regenerate and overwrite
+            the files associated with a broken SSH key without asking for
+            confirmation in both interactive and non-interactive environments.
+
+            If disabled, the files associated with a broken SSH key will not be
+            regenerated and will fail in both interactive and non-interactive
+            environments.
+        no-iap-tunnel-insecure-disable-websocket-cert-check: Disables checking certificates on the WebSocket connection.
+        no-internal-ip: |
+            Connect to instances using their internal IP addresses rather than their
+            external IP addresses. Use this to connect from one instance to another
+            on the same VPC network, over a VPN connection, or between two peered
+            VPC networks.
+
+            For this connection to work, you must configure your networks and
+            firewall to allow SSH connections to the internal IP address of
+            the instance to which you want to connect.
+
+            To learn how to use this flag, see
+            [](https://cloud.google.com/compute/docs/instances/connecting-advanced#sshbetweeninstances).
+        no-plain: |
+            Suppress the automatic addition of *ssh(1)*/*scp(1)* flags. This flag
+            is useful if you want to take care of authentication yourself or
+            use specific ssh/scp features.
+        no-troubleshoot: |
+            If you can't connect to a virtual machine (VM) instance using SSH, you can investigate the problem using the `--troubleshoot` flag:
+
+              $ {command} VM_NAME --zone=ZONE --troubleshoot [--tunnel-through-iap]
+
+            The troubleshoot flag runs tests and returns recommendations for the following types of issues:
+            - VM status
+            - Network connectivity
+            - User permissions
+            - Virtual Private Cloud (VPC) settings
+            - VM boot
+
+            If you specify the `--tunnel-through-iap` flag, the tool also checks IAP port forwarding.
+        no-tunnel-through-iap: |
+            Tunnel the ssh connection through Cloud Identity-Aware Proxy for TCP
+            forwarding.
+
+            To learn more, see the
+            [IAP for TCP forwarding documentation](https://cloud.google.com/iap/docs/tcp-forwarding-overview).
+        no-verify-internal-ip: Whether or not `gcloud` should perform an initial SSH connection to verify an instance ID is correct when connecting via its internal IP. Without this check, `gcloud` will simply connect to the internal IP of the desired instance, which may be wrong if the desired instance is in a different subnet but happens to share the same internal IP as an instance in the current subnet. Defaults to True.
+        plain: |-
+            Suppress the automatic addition of *ssh(1)*/*scp(1)* flags. This flag
+            is useful if you want to take care of authentication yourself or
+            use specific ssh/scp features.
+        region: Configures the region to use when connecting via IP address or FQDN.
+        ssh-flag: |-
+            Additional flags to be passed to *ssh(1)*. It is recommended that flags
+            be passed using an assignment operator and quotes. Example:
+            +
+              $ {command} example-instance --zone=us-central1-a --ssh-flag="-vvv" --ssh-flag="-L 80:localhost:80"
+            +
+            This flag will replace occurences of ``%USER%'', ``%INSTANCE%'', and
+            ``%INTERNAL%'' with their dereferenced values. For example, passing
+            ``80:%INSTANCE%:80'' into the flag is equivalent to passing
+            ``80:162.222.181.197:80'' to *ssh(1)* if the external IP address of
+            'example-instance' is 162.222.181.197.
+            +
+            If connecting to the instance's external IP, then ``%INSTANCE%'' is
+            replaced with that, otherwise it is replaced with the internal IP.
+            ``%INTERNAL%'' is always replaced with the internal interface of the
+            instance.
+        ssh-key-expiration: |-
+            The time when the ssh key will be valid until, such as
+            "2017-08-29T18:52:51.142Z." This is only valid if the instance is not
+            using OS Login. See $ gcloud topic datetimes for information on time
+            formats.
+        ssh-key-expire-after: |-
+            The maximum length of time an SSH key is valid for once created and
+            installed, e.g. 2m for 2 minutes. See $ gcloud topic datetimes for
+            information on duration formats.
+        ssh-key-file: The path to the SSH key file. By default, this is ``~/.ssh/google_compute_engine''.
+        strict-host-key-checking: |-
+            Override the default behavior of StrictHostKeyChecking for the
+            connection. By default, StrictHostKeyChecking is set to 'no' the first
+            time you connect to an instance, and will be set to 'yes' for all
+            subsequent connections. _STRICT_HOST_KEY_CHECKING_ must be one of: *yes*, *no*, *ask*.
+        troubleshoot: |-
+            If you can't connect to a virtual machine (VM) instance using SSH, you can investigate the problem using the `--troubleshoot` flag:
+            +
+              $ {command} VM_NAME --zone=ZONE --troubleshoot [--tunnel-through-iap]
+            +
+            The troubleshoot flag runs tests and returns recommendations for the following types of issues:
+            - VM status
+            - Network connectivity
+            - User permissions
+            - Virtual Private Cloud (VPC) settings
+            - VM boot
+            +
+            If you specify the `--tunnel-through-iap` flag, the tool also checks IAP port forwarding.
+        tunnel-through-iap: |-
+            Tunnel the ssh connection through Cloud Identity-Aware Proxy for TCP
+            forwarding.
+            +
+            To learn more, see the
+            [IAP for TCP forwarding documentation](https://cloud.google.com/iap/docs/tcp-forwarding-overview).
+        verify-internal-ip: Whether or not `gcloud` should perform an initial SSH connection to verify an instance ID is correct when connecting via its internal IP. Without this check, `gcloud` will simply connect to the internal IP of the desired instance, which may be wrong if the desired instance is in a different subnet but happens to share the same internal IP as an instance in the current subnet. Defaults to True.
+        zone: |-
+            Zone of the instance to connect to. If not specified and the ``compute/zone'' property isn't set, you
+            might be prompted to select a zone (interactive mode only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/zone'' property:
+            +
+              $ gcloud config set compute/zone ZONE
+            +
+            A list of zones can be fetched by running:
+            +
+              $ gcloud compute zones list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/zone
+            +
+            Alternatively, the zone can be stored in the environment variable
+            ``CLOUDSDK_COMPUTE_ZONE''.

@@ -1,0 +1,204 @@
+name: run
+description: '*(BETA)*  Invoke a test in Firebase Test Lab for iOS and view test results.'
+flags:
+    --additional-ipas=: List of up to 100 additional IPAs to install, in addition to the one being directly tested.
+    --app=: The path to the application archive (.ipa file) for game-loop testing.
+    --async: Invoke a test asynchronously without waiting for test results.
+    --client-details=: Comma-separated, KEY=VALUE map of additional details to attach to the test
+    --device=: A list of ``DIMENSION=VALUE'' pairs which specify a target device to test
+    --directories-to-pull=: A list of paths that will be copied from the device's storage to
+    --filter=: Apply a Boolean filter _EXPRESSION_ to each resource item to be listed.
+    --limit=: Maximum number of resources to list.
+    --no-async&: Invoke a test asynchronously without waiting for test results.
+    --no-record-video&: Enable video recording during the test.
+    --no-test-special-entitlements&: Enables testing special app entitlements.
+    --num-flaky-test-attempts=: Specifies the number of times a test execution should be reattempted if
+    --other-files=: A list of device-path=file-path pairs that specify the paths of the test
+    --page-size=: Some services group resource list output into pages.
+    --record-video: Enable video recording during the test.
+    --results-bucket=: 'The name of a Google Cloud Storage bucket where raw test results will be stored (default: "test-lab-<random-UUID>").'
+    --results-dir=: 'The name of a *unique* Google Cloud Storage object within the results bucket where raw test results will be stored (default: a timestamp with a random suffix).'
+    --results-history-name=: 'The history name for your test results (an arbitrary string label; default: the bundle ID for the iOS application).'
+    --robo-script=: The path to a Robo Script JSON file.
+    --scenario-numbers=: 'A list of game-loop scenario numbers which will be run as part of the test (default: scenario 1).'
+    --sort-by=: Comma-separated list of resource field key names to sort by.
+    --test-special-entitlements: Enables testing special app entitlements.
+    --test=: The path to the test package (a zip file containing the iOS app and XCTest files).
+    --timeout=: 'The max time this test execution can run before it is cancelled (default: 15m).'
+    --type=: The type of iOS test to run.
+    --xcode-version=: The version of Xcode that should be used to run an XCTest.
+    --xctestrun-file=: The path to an .xctestrun file that will override any .xctestrun file contained in the *--test* package.
+completion:
+    flag:
+        type:
+            - xctest
+            - game-loop
+            - robo
+documentation:
+    command: |
+        *(BETA)*  *gcloud beta firebase test ios run* invokes and monitors tests in Firebase Test Lab for iOS.
+
+        Two types of iOS tests are currently supported:
+        - *xctest*: corresponds to the XCTest and XCUITest frameworks. Other
+          iOS testing frameworks which are built upon XCTest and XCUITest
+          should also work. The XCTEST_ZIP test package is a zip file built
+          using Apple's Xcode and supporting tools. For a detailed
+          description of the process to create your XCTEST_ZIP file, see
+          https://firebase.google.com/docs/test-lab/ios/command-line.
+        - *game-loop*: launches the game app through a custom URL scheme to
+          execute a "demo mode" built into the game app that simulates
+          actions of a real player. This test type can include multiple
+          game loops (also called "scenarios") indicated by positive
+          numbers.
+
+        The type of test to run can be specified with the *--type* flag,
+        which defaults to `xctest`.
+
+        All arguments for *gcloud beta firebase test ios run* may be specified on the command line
+        and/or within an argument file. Run *$ gcloud topic arg-files* for
+        more information about argument files.
+    flag:
+        additional-ipas: List of up to 100 additional IPAs to install, in addition to the one being directly tested. The path may be in the local filesystem or in Google Cloud Storage using gs:// notation.
+        app: The path to the application archive (.ipa file) for game-loop testing. The path may be in the local filesystem or in Google Cloud Storage using gs:// notation. This flag is only valid when *--type* is *game-loop* or *robo*.
+        async: Invoke a test asynchronously without waiting for test results.
+        client-details: |-
+            Comma-separated, KEY=VALUE map of additional details to attach to the test
+            matrix. Arbitrary KEY=VALUE pairs may be attached to a test matrix to
+            provide additional context about the tests being run. When consuming the
+            test results, such as in Cloud Functions or a CI system, these details can
+            add additional context such as a link to the corresponding pull request.
+            +
+            Example:
+            +
+            ```
+            --client-details=buildNumber=1234,pullRequest=https://example.com/link/to/pull-request
+            ```
+            +
+            To help you identify and locate your test matrix in the Firebase console,
+            use the matrixLabel key.
+            +
+            Example:
+            +
+            ```
+            --client-details=matrixLabel="Example matrix label"
+            ```
+        device: |-
+            A list of ``DIMENSION=VALUE'' pairs which specify a target device to test
+            against. This flag may be repeated to specify multiple devices. The device
+            dimensions are: *model*, *version*, *locale*, and *orientation*. If any
+            dimensions are omitted, they will use a default value. The default value,
+            and all possible values, for each dimension can be found with the
+            ``list'' command for that dimension, such as `$ {parent_command} models
+            list`. Omitting this flag entirely will run tests against a single device
+            using defaults for every dimension.
+            +
+            Examples:
+            +
+            ```
+            --device model=iphone8plus
+            --device version=11.2
+            --device model=ipadmini4,version=11.2,locale=zh_CN,orientation=landscape
+            ```
+        directories-to-pull: |-
+            A list of paths that will be copied from the device's storage to
+            the designated results bucket after the test is complete. These must be
+            absolute paths under `/private/var/mobile/Media` or `/Documents` of the
+            app under test. If the path is under an app's `/Documents`, it must be
+            prefixed with the app's bundle id and a colon.
+            +
+            Example:
+            +
+            ```
+            --directories-to-pull=com.my.app:/Documents/output,/private/var/mobile/Media/output
+            ```
+        filter: |-
+            Apply a Boolean filter _EXPRESSION_ to each resource item to be listed.
+            If the expression evaluates `True`, then that item is listed. For more
+            details and examples of filter expressions, run $ gcloud topic filters. This
+            flag interacts with other flags that are applied in this order: *--flatten*,
+            *--sort-by*, *--filter*, *--limit*.
+        limit: |-
+            Maximum number of resources to list. The default is *unlimited*.
+            This flag interacts with other flags that are applied in this order:
+            *--flatten*, *--sort-by*, *--filter*, *--limit*.
+        no-async: Invoke a test asynchronously without waiting for test results.
+        no-record-video: Enable video recording during the test. Enabled by default, use --no-record-video to disable.
+        no-test-special-entitlements: |
+            Enables testing special app entitlements. Re-signs an app having special
+            entitlements with a new application-identifier. This currently supports
+            testing Push Notifications (aps-environment) entitlement for up to one
+            app in a project.
+
+            Note: Because this changes the app's identifier, make sure none of the
+            resources in your zip file contain direct references to the test app's
+            bundle id.
+        num-flaky-test-attempts: |-
+            Specifies the number of times a test execution should be reattempted if
+            one or more of its test cases fail for any reason. An execution that
+            initially fails but succeeds on any reattempt is reported as FLAKY.
+            +
+            The maximum number of reruns allowed is 10. (Default: 0, which implies
+            no reruns.) All additional attempts are executed in parallel.
+        other-files: |-
+            A list of device-path=file-path pairs that specify the paths of the test
+            device and the files you want pushed to the device prior to testing.
+            +
+            Device paths should either be under the Media shared folder (e.g. prefixed
+            with /private/var/mobile/Media) or within the documents directory of the
+            filesystem of an app under test (e.g. /Documents). Device paths to app
+            filesystems should be prefixed by the bundle ID and a colon. Source file
+            paths may be in the local filesystem or in Google Cloud Storage
+            (gs://...).
+            +
+            Examples:
+            +
+            ```
+            --other-files com.my.app:/Documents/file.txt=local/file.txt,/private/var/mobile/Media/file.jpg=gs://bucket/file.jpg
+            ```
+        page-size: |-
+            Some services group resource list output into pages. This flag specifies
+            the maximum number of resources per page. The default is determined by the
+            service if it supports paging, otherwise it is *unlimited* (no paging).
+            Paging may be applied before or after *--filter* and *--limit* depending
+            on the service.
+        record-video: Enable video recording during the test. Enabled by default, use --no-record-video to disable.
+        results-bucket: 'The name of a Google Cloud Storage bucket where raw test results will be stored (default: "test-lab-<random-UUID>"). Note that the bucket must be owned by a billing-enabled project, and that using a non-default bucket will result in billing charges for the storage used.'
+        results-dir: 'The name of a *unique* Google Cloud Storage object within the results bucket where raw test results will be stored (default: a timestamp with a random suffix). Caution: if specified, this argument *must be unique* for each test matrix you create, otherwise results from multiple test matrices will be overwritten or intermingled.'
+        results-history-name: 'The history name for your test results (an arbitrary string label; default: the bundle ID for the iOS application). All tests which use the same history name will have their results grouped together in the Firebase console in a time-ordered test history list.'
+        robo-script: |-
+            The path to a Robo Script JSON file. The path may be in the local
+            filesystem or in Google Cloud Storage using gs:// notation. You can
+            guide the Robo test to perform specific actions by specifying a Robo
+            Script with this argument. Learn more at
+            https://firebase.google.com/docs/test-lab/robo-ux-test#scripting.
+            This flag is only valid when *--type=robo* is also set.
+        scenario-numbers: 'A list of game-loop scenario numbers which will be run as part of the test (default: scenario 1). A maximum of 1024 scenarios may be specified in one test matrix, but the maximum number may also be limited by the overall test *--timeout* setting. This flag is only valid when *--type=game-loop* is also set.'
+        sort-by: |-
+            Comma-separated list of resource field key names to sort by. The
+            default order is ascending. Prefix a field with ``~'' for descending
+            order on that field. This flag interacts with other flags that are applied
+            in this order: *--flatten*, *--sort-by*, *--filter*, *--limit*.
+        test: 'The path to the test package (a zip file containing the iOS app and XCTest files). The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with `gs://`. Note: any .xctestrun file in this zip file will be ignored if *--xctestrun-file* is specified.'
+        test-special-entitlements: |-
+            Enables testing special app entitlements. Re-signs an app having special
+            entitlements with a new application-identifier. This currently supports
+            testing Push Notifications (aps-environment) entitlement for up to one
+            app in a project.
+            +
+            Note: Because this changes the app's identifier, make sure none of the
+            resources in your zip file contain direct references to the test app's
+            bundle id.
+        timeout: |-
+            The max time this test execution can run before it is cancelled (default: 15m). It does not include any time necessary to prepare and clean up the target device. The maximum possible testing time is 45m on physical devices and 60m on virtual devices. The _TIMEOUT_ units can be h, m, or s. If no unit is given, seconds are assumed. Examples:
+            - *--timeout 1h* is 1 hour
+            - *--timeout 5m* is 5 minutes
+            - *--timeout 200s* is 200 seconds
+            - *--timeout 100* is 100 seconds
+        type: 'The type of iOS test to run. _TYPE_ must be one of: *xctest*, *game-loop*, *robo*.'
+        xcode-version: |-
+            The version of Xcode that should be used to run an XCTest. Defaults to the
+            latest Xcode version supported in Firebase Test Lab. This Xcode version
+            must be supported by all iOS versions selected in the test matrix. The
+            list of Xcode versions supported by each version of iOS can be viewed by
+            running `$ {parent_command} versions list`.
+        xctestrun-file: The path to an .xctestrun file that will override any .xctestrun file contained in the *--test* package. Because the .xctestrun file contains environment variables along with test methods to run and/or ignore, this can be useful for customizing or sharding test suites. The given path may be in the local filesystem or in Google Cloud Storage using a URL beginning with `gs://`.

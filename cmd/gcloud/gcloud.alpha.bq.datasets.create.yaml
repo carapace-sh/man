@@ -1,0 +1,42 @@
+name: create
+description: '*(ALPHA)*  Create a new BigQuery dataset.'
+flags:
+    --description=: Description of the dataset.
+    --no-overwrite&: Overwrite if the resource already exists.
+    --overwrite: Overwrite if the resource already exists.
+    --permissions-file=: A local yaml or JSON file containing the access permissions specifying who is allowed to access
+documentation:
+    command: '*(ALPHA)*  Create a new BigQuery dataset.'
+    flag:
+        description: Description of the dataset.
+        no-overwrite: Overwrite if the resource already exists.
+        overwrite: Overwrite if the resource already exists.
+        permissions-file: |-
+            A local yaml or JSON file containing the access permissions specifying who is allowed to access
+            the data.
+            +
+            YamlfFile should be specified the form:\
+            access:
+            - role: ROLE
+              [access type]: ACCESS_VALUE
+            - ...
+            +
+            and JSON file should be specified in the form:
+            {"access": [
+             {
+              "role": "ROLE",
+              "[access type]": "ACCESS_VALUE"
+             },
+            ...
+            ]}
+            +
+            Where `access type` is one of: `domain`, `userByEmail`, `specialGroup` or `view`.
+            +
+            If this field is not specified, BigQuery adds these default dataset access
+            permissions at creation time in :
+            * specialGroup=projectReaders, role=READER
+            * specialGroup=projectWriters, role=WRITER
+            * specialGroup=projectOwners, role=OWNER
+            * userByEmail=[dataset creator email], role=OWNER
+            +
+            For more information on BigQuery permissions see: https://cloud.google.com/bigquery/docs/access-control

@@ -1,0 +1,109 @@
+name: update
+description: '*(ALPHA)*  Update a Compute Engine partner interconnect attachment.'
+flags:
+    --admin-enabled&: (DEPRECATED) Use --enable-admin instead.
+    --candidate-cloud-router-ipv6-address=: Single IPv6 address + prefix length to be configured on the cloud
+    --candidate-customer-router-ipv6-address=: Single IPv6 address + prefix length to be configured on the customer
+    --clear-labels: Remove all labels.
+    --description=: Human-readable plain-text description of attachment.
+    --enable-admin: Administrative status of the interconnect attachment.
+    --mtu=: Maximum transmission unit (MTU) is the size of the largest IP packet
+    --no-admin-enabled&: (DEPRECATED) Use --enable-admin instead.
+    --no-clear-labels&: Remove all labels.
+    --no-enable-admin&: Administrative status of the interconnect attachment.
+    --region=: Region of the interconnect attachment to patch.
+    --remove-labels=: List of label keys to remove.
+    --stack-type=: Stack type of the protocol(s) enabled on this interconnect attachment.
+    --update-labels=: List of label KEY=VALUE pairs to update.
+completion:
+    flag:
+        stack-type:
+            - IPV4_IPV6
+            - IPV4_ONLY
+documentation:
+    command: |-
+        *(ALPHA)*  *gcloud alpha compute interconnects attachments partner update* is used to update partner interconnect attachments. A partner
+        interconnect attachment binds the underlying connectivity of a provider's
+        Interconnect to a path into and out of the customer's cloud network.
+    flag:
+        admin-enabled: (DEPRECATED) Use --enable-admin instead.
+        candidate-cloud-router-ipv6-address: |-
+            Single IPv6 address + prefix length to be configured on the cloud
+            router interface for this interconnect attachment. Example:
+            2001:db8::1/125
+        candidate-customer-router-ipv6-address: |-
+            Single IPv6 address + prefix length to be configured on the customer
+            router interface for this interconnect attachment. Example:
+            2001:db8::2/125
+        clear-labels: |-
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} --clear-labels
+            +
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        description: Human-readable plain-text description of attachment.
+        enable-admin: |-
+            Administrative status of the interconnect attachment.
+            When this is enabled, the attachment is operational and will carry
+            traffic. Use --no-enable-admin to disable it.
+        mtu: |-
+            Maximum transmission unit (MTU) is the size of the largest IP packet
+            passing through this interconnect attachment. Must be one of 1440, 1460,
+            1500, or 8896. If not specified, the value will default to 1440.
+        no-admin-enabled: (DEPRECATED) Use --enable-admin instead.
+        no-clear-labels: |
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} --clear-labels
+
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        no-enable-admin: |
+            Administrative status of the interconnect attachment.
+            When this is enabled, the attachment is operational and will carry
+            traffic. Use --no-enable-admin to disable it.
+        region: |-
+            Region of the interconnect attachment to patch. If not specified, you might be prompted to select a region (interactive mode
+            only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/region'' property:
+            +
+              $ gcloud config set compute/region REGION
+            +
+            A list of regions can be fetched by running:
+            +
+              $ gcloud compute regions list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/region
+            +
+            Alternatively, the region can be stored in the environment
+            variable ``CLOUDSDK_COMPUTE_REGION''.
+        remove-labels: |-
+            List of label keys to remove. If a label does not exist it is
+            silently ignored. If `--update-labels` is also specified then
+            `--update-labels` is applied first.
+        stack-type: |-
+            Stack type of the protocol(s) enabled on this interconnect attachment. _STACK_TYPE_ must be one of:
+            +
+            *IPV4_IPV6*::: Both IPv4 and IPv6 protocols are enabled on this attachment.
+            *IPV4_ONLY*::: Only IPv4 protocol is enabled on this attachment.
+            :::
+            +
+        update-labels: |-
+            List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.

@@ -1,0 +1,20 @@
+name: create
+description: '*(ALPHA)*  Creates a sink.'
+documentation:
+    command: |
+        *(ALPHA)*  Creates a sink used to export trace spans to a destination.
+
+        The sink's destination must be a BigQuery dataset.
+        The destination must already exist. The identity created with the sink
+        will need permission to write to the destination dataset. After creating
+        a sink look for the *[writer_identity]* to be populated in the response.
+        With that identity run the following command to give it permission:
+
+        gcloud projects add-iam-policy-binding {bigquery_project_id} \
+          --member serviceAccount:{writer_identity from trace_sink} \
+          --role roles/bigquery.dataEditor
+
+        You may also find an existing writer identity by describing a sink.
+
+        It may take several minutes before trace spans are exported after the
+        sink is created.

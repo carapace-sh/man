@@ -1,0 +1,42 @@
+name: create
+description: '*(ALPHA)*  Create a new inventory report config.'
+flags:
+    --csv-delimiter=: Sets the delimiter that separates the fields in the inventory report CSV file.
+    --csv-header: Indicates whether or not headers are included in the inventory report CSV file.
+    --csv-separator=: Sets the character used to separate the records in the inventory report CSV file.
+    --destination=: Sets the URL of the destination bucket and path where generated reports are stored.
+    --display-name=: Sets the editable name of the report configuration.
+    --metadata-fields=: The metadata fields to be included in the inventory report.
+    --no-csv-header&: Indicates whether or not headers are included in the inventory report CSV file.
+    --no-parquet&: Generate reports in parquet format.
+    --parquet: Generate reports in parquet format.
+    --schedule-repeats-until=: Sets date after which you want to stop generating inventory reports.
+    --schedule-repeats=: Sets how often the inventory report configuration will run.
+    --schedule-starts=: Sets the date you want to start generating inventory reports.
+completion:
+    flag:
+        csv-separator:
+            - \n
+            - \r\n
+        schedule-repeats:
+            - daily
+            - weekly
+documentation:
+    command: |
+        *(ALPHA)*  Create an inventory report config that defines how often
+        inventory reports are generated, the metadata fields you want the reports
+        to include, and a bucket/prefix in which to store the reports, also known
+        as the destination.
+    flag:
+        csv-delimiter: Sets the delimiter that separates the fields in the inventory report CSV file. For example, ``,``
+        csv-header: Indicates whether or not headers are included in the inventory report CSV file. Default is None. Use *--csv-header* to enable and *--no-csv-header* to disable.
+        csv-separator: 'Sets the character used to separate the records in the inventory report CSV file. For example, ``\n``. _SEPARATOR_ must be one of: *\n*, *\r\n*.'
+        destination: Sets the URL of the destination bucket and path where generated reports are stored. Defaults to <SOURCE_BUCKET_URL>/inventory_reports/.
+        display-name: Sets the editable name of the report configuration.
+        metadata-fields: 'The metadata fields to be included in the inventory report. The fields: "project, bucket, name" are REQUIRED.  Defaults to all fields being included. _METADATA_FIELDS_ must be one of: *project*, *bucket*, *name*, *location*, *size*, *timeCreated*, *timeDeleted*, *updated*, *storageClass*, *etag*, *retentionExpirationTime*, *crc32c*, *md5Hash*, *generation*, *metageneration*, *contentType*, *contentEncoding*, *timeStorageClassUpdated*.'
+        no-csv-header: Indicates whether or not headers are included in the inventory report CSV file. Default is None.
+        no-parquet: Generate reports in parquet format.
+        parquet: Generate reports in parquet format.
+        schedule-repeats: 'Sets how often the inventory report configuration will run. Defaults to DAILY. _FREQUENCY_ must be one of: *daily*, *weekly*.'
+        schedule-repeats-until: Sets date after which you want to stop generating inventory reports. For example, 2022-03-30. Defaults to one year from --schedule-starts value.
+        schedule-starts: Sets the date you want to start generating inventory reports. For example, 2022-01-30. Should be tomorrow or later based on UTC timezone. Defaults to tomorrow.

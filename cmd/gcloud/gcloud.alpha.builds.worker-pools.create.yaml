@@ -1,0 +1,84 @@
+name: create
+description: '*(ALPHA)*  Create a private pool for use by Cloud Build.'
+flags:
+    --config-from-file=: File that contains the configuration for the worker pool to be created.
+    --disable-public-ip-address: If set, workers in the worker pool are created without an external IP address.
+    --generation=: Generation of the worker pool.
+    --network-attachment=: The network attachment that the worker network interface is peered to.
+    --no-disable-public-ip-address&: If set, workers in the worker pool are created without an external IP address.
+    --no-public-egress: If set, workers in the worker pool are created without an external IP address.
+    --no-route-all-traffic&: Route all traffic through PSC interface.
+    --peered-network-ip-range=: An IP range for your peered network.
+    --peered-network=: Existing network to which workers are peered.
+    --region=: Cloud region where the worker pool is created.
+    --route-all-traffic: Route all traffic through PSC interface.
+    --worker-disk-size=: Size of the disk attached to the worker.
+    --worker-machine-type=: Compute Engine machine type for a worker pool.
+documentation:
+    command: '*(ALPHA)*  Create a private pool for use by Cloud Build.'
+    flag:
+        config-from-file: |-
+            File that contains the configuration for the worker pool to be created.
+            +
+            Private pool options:
+            +
+             https://cloud.google.com/build/docs/private-pools/worker-pool-config-file-schema
+        disable-public-ip-address: |-
+            If set, workers in the worker pool are created without an external IP address.
+            +
+            If the worker pool is within a VPC Service Control perimeter, use this flag.
+        generation: Generation of the worker pool.
+        network-attachment: |-
+            The network attachment that the worker network interface is peered to. The
+            network attachment is specified in resource URL format
+            projects/{project}/regions/{region}/networkAttachments/{name}.
+            The region of network attachment must be the same as the worker pool.
+            See https://cloud.google.com/vpc/docs/about-network-attachments for details.
+        no-disable-public-ip-address: |
+            If set, workers in the worker pool are created without an external IP address.
+
+            If the worker pool is within a VPC Service Control perimeter, use this flag.
+        no-public-egress: |-
+            If set, workers in the worker pool are created without an external IP address.
+            +
+            If the worker pool is within a VPC Service Control perimeter, use this flag.
+        no-route-all-traffic: |
+            Route all traffic through PSC interface. Enable this if you want full control
+            of traffic in the private pool. Configure Cloud NAT for the subnet of network
+            attachment if you need to access public Internet.
+
+            If unset, Only route private IPs, e.g. 10.0.0.0/8, 172.16.0.0/12,
+            and 192.168.0.0/16 through PSC interface.
+        peered-network: |-
+            Existing network to which workers are peered. The network is specified in
+            resource URL format
+            projects/{network_project}/global/networks/{network_name}.
+            +
+            If not specified, the workers are not peered to any network.
+        peered-network-ip-range: |-
+            An IP range for your peered network. Specify the IP range using Classless
+            Inter-Domain Routing (CIDR) notation with a slash and the subnet prefix size,
+            such as `/29`.
+            +
+            Your subnet prefix size must be between 1 and 29.  Optional: you can specify an
+            IP address before the subnet prefix value - for example `192.168.0.0/24`.
+            +
+            If no IP address is specified, your VPC automatically determines the starting
+            IP for the range. If no IP range is specified, Cloud Build uses `/24` as the
+            default network IP range.
+        region: Cloud region where the worker pool is created. See https://cloud.google.com/build/docs/locations for available locations.
+        route-all-traffic: |-
+            Route all traffic through PSC interface. Enable this if you want full control
+            of traffic in the private pool. Configure Cloud NAT for the subnet of network
+            attachment if you need to access public Internet.
+            +
+            If unset, Only route private IPs, e.g. 10.0.0.0/8, 172.16.0.0/12,
+            and 192.168.0.0/16 through PSC interface.
+        worker-disk-size: |-
+            Size of the disk attached to the worker.
+            +
+            If unspecified, Cloud Build uses a standard disk size.
+        worker-machine-type: |-
+            Compute Engine machine type for a worker pool.
+            +
+            If unspecified, Cloud Build uses a standard machine type.

@@ -1,0 +1,292 @@
+name: update-backend
+description: '*(BETA)*  Update an existing backend in a backend service.'
+flags:
+    --balancing-mode=: Defines how to measure whether a backend can handle additional traffic or is
+    --capacity-scaler=: Scales down the target capacity (max utilization, max rate, or max
+    --clear-custom-metrics: Clears current list of CUSTOM_METRICS.
+    --custom-metrics-file=: File path to json file with custom metrics that are used for CUSTOM_METRICS
+    --custom-metrics=: List of custom metrics that are used for CUSTOM_METRICS balancing mode and
+    --description=: An optional, textual description for the backend.
+    --failover: Designates whether this is a failover backend.
+    --global: If set, the backend service is global.
+    --instance-group-region=: Region of the instance group to update in the backend service.
+    --instance-group-zone=: Zone of the instance group to update in the backend service.
+    --instance-group=!: Name of the instance group to update in the backend service.
+    --max-connections-per-endpoint=: Only valid for network endpoint group backends.
+    --max-connections-per-instance=: Only valid for instance group backends.
+    --max-connections=: Maximum concurrent connections that the backend can handle.
+    --max-in-flight-requests-per-endpoint=: Only valid for network endpoint group backends.
+    --max-in-flight-requests-per-instance=: Only valid for instance group backends.
+    --max-in-flight-requests=: Maximum number of in-flight requests that the backend can handle.
+    --max-rate-per-endpoint=: Only valid for network endpoint group backends.
+    --max-rate-per-instance=: Only valid for instance group backends.
+    --max-rate=: Maximum number of HTTP requests per second (RPS) that the backend can
+    --max-utilization=: Defines the maximum target for average utilization of the backend instance
+    --network-endpoint-group-zone=: Zone of the network endpoint group to update in the backend service.
+    --network-endpoint-group=!: Name of the network endpoint group to update in the backend service.
+    --no-clear-custom-metrics&: Clears current list of CUSTOM_METRICS.
+    --no-failover&: Designates whether this is a failover backend.
+    --no-global&: If set, the backend service is global.
+    --preference=: This parameter specifies whether a backend should be fully utilized before
+    --region=: Region of the backend service to operate on.
+    --traffic-duration=: The expected traffic duration for this service.
+completion:
+    flag:
+        balancing-mode:
+            - CONNECTION
+            - CUSTOM_METRICS
+            - IN_FLIGHT
+            - RATE
+            - UTILIZATION
+        preference:
+            - DEFAULT
+            - PREFERRED
+        traffic-duration:
+            - LONG
+            - SHORT
+            - TRAFFIC_DURATION_UNSPECIFIED
+documentation:
+    command: |-
+        *(BETA)*  *gcloud beta compute backend-services update-backend* updates a backend that is part of a backend
+        service. This is useful for changing the way a backend
+        behaves. Example changes that can be made include changing the
+        load balancing policy and draining a backend by setting
+        its capacity scaler to zero.
+
+        Backends are instance groups or network endpoint groups. One
+        of the `--network-endpoint-group` or `--instance-group` flags is required to
+        identify the backend that you are modifying. You cannot change
+        the instance group or network endpoint group associated with a backend, but
+        you can remove a backend and add a new one with `backend-services
+        remove-backend` and `backend-services add-backend`.
+
+        The `gcloud compute backend-services edit` command can also
+        update a backend if the use of a text editor is desired.
+
+        For more information about the available settings, see
+        https://cloud.google.com/load-balancing/docs/backend-service.
+    flag:
+        balancing-mode: "Defines how to measure whether a backend can handle additional traffic or is\nfully loaded. For more information, see\nhttps://cloud.google.com/load-balancing/docs/backend-service#balancing-mode. _BALANCING_MODE_ must be one of:\n+\n*CONNECTION*::: \nAvailable if the backend service's load balancing scheme is either\n`INTERNAL` or `EXTERNAL`.\nAvailable if the backend service's protocol is one of `SSL`, `TCP`,\nor `UDP`.\n+\nSpreads load based on how many concurrent connections the backend\ncan handle.\n+\nFor backend services with --load-balancing-scheme `EXTERNAL`, you\nmust specify exactly one of these additional parameters:\n`--max-connections`, `--max-connections-per-instance`, or\n`--max-connections-per-endpoint`.\n+\nFor backend services where `--load-balancing-scheme` is `INTERNAL`,\nyou must omit all of these parameters.\n+\n*CUSTOM_METRICS*::: \nSpreads load based on custom defined and reported metrics.\n+\n*IN_FLIGHT*::: \n          Available if the backend service's load balancing scheme is\n`INTERNAL_MANAGED`, `INTERNAL_SELF_MANAGED`, or `EXTERNAL_MANAGED`. Available\nif the backend service's protocol is one of HTTP, HTTPS, or HTTP/2.\n+\nSpreads load based on how many in-flight requests the backend can handle.\n+\nYou must specify exactly one of these additional parameters:\n`--max-in-flight-requests`, `--max-in-flight-requests-per-instance`, or\n`--max-in-flight-requests-per-endpoint`, and `--traffic-duration=LONG`.\n+\n*RATE*::: \nAvailable if the backend service's load balancing scheme is\n`INTERNAL_MANAGED`, `INTERNAL_SELF_MANAGED`, or `EXTERNAL`. Available\nif the backend service's protocol is one of HTTP, HTTPS, or HTTP/2.\n+\nSpreads load based on how many HTTP requests per second (RPS) the\nbackend can handle.\n+\nYou must specify exactly one of these additional parameters:\n`--max-rate`, `--max-rate-per-instance`, or `--max-rate-per-endpoint`.\n+\n*UTILIZATION*::: \nAvailable if the backend service's load balancing scheme is\n`INTERNAL_MANAGED`, `INTERNAL_SELF_MANAGED`, or `EXTERNAL`. Available only\nfor managed or unmanaged instance group backends.\n+\nSpreads load based on the backend utilization of instances in a backend\ninstance group.\n+\nThe following additional parameters may be specified:\n`--max-utilization`, `--max-rate`, `--max-rate-per-instance`,\n`--max-connections`, `--max-connections-per-instance`.\nFor valid combinations, see `--max-utilization`.\n+\n:::\n+"
+        capacity-scaler: |-
+            Scales down the target capacity (max utilization, max rate, or max
+            connections) without changing the target capacity. For usage guidelines
+            and examples, see
+            [Capacity scaler](https://cloud.google.com/load-balancing/docs/backend-service#capacity_scaler).
+        clear-custom-metrics: Clears current list of CUSTOM_METRICS.
+        custom-metrics: |-
+            List of custom metrics that are used for CUSTOM_METRICS balancing mode and
+            WEIGHTED_ROUND_ROBIN locality load balancing policy.
+            +
+            Example:
+            +
+              $ {command} --custom-metrics='name=my-signal,maxUtilization=0.8,dryRun=true'
+              $ {command} --custom-metrics='name=my-signal,maxUtilization=0.8,dryRun=true' --custom-metrics='name=my-signal2,maxUtilization=0.2'
+              $ {command} --custom-metrics='[{"name" : "my-signal", "maxUtilization" : 0.8, "dryRun" : true}, {"name" : "my-signal2", "maxUtilization" : 0.1}]'
+            +
+            Sets `custom_metrics` value.
+            +
+            *dryRun*:::
+            Sets `dryRun` value.
+            +
+            *maxUtilization*:::
+            Sets `maxUtilization` value.
+            +
+            *name*:::
+            Required, sets `name` value.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --custom-metrics=dryRun=boolean,maxUtilization=float,name=string --custom-metrics=dryRun=boolean,maxUtilization=float,name=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --custom-metrics='[{"dryRun": boolean, "maxUtilization": float, "name": "string"}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --custom-metrics=path_to_file.(yaml|json)
+            +
+            ```
+        custom-metrics-file: |-
+            File path to json file with custom metrics that are used for CUSTOM_METRICS
+            balancing mode and WEIGHTED_ROUND_ROBIN locality load balancing policy.
+            +
+            Example:
+            +
+              $ {command} --custom-metrics-file='customMetric.json'
+            +
+            Sets `custom_metrics_file` value.
+            +
+            *dryRun*:::
+            Sets `dryRun` value.
+            +
+            *maxUtilization*:::
+            Sets `maxUtilization` value.
+            +
+            *name*:::
+            Required, sets `name` value.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --custom-metrics-file=dryRun=boolean,maxUtilization=float,name=string --custom-metrics-file=dryRun=boolean,maxUtilization=float,name=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --custom-metrics-file='[{"dryRun": boolean, "maxUtilization": float, "name": "string"}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --custom-metrics-file=path_to_file.(yaml|json)
+            +
+            ```
+        description: An optional, textual description for the backend.
+        failover: |-
+            Designates whether this is a failover backend. More than one
+            failover backend can be configured for a given BackendService.
+            Not compatible with the --global flag
+        global: If set, the backend service is global.
+        instance-group: 'Name of the instance group to update in the backend service. For details on valid instance names, refer to the criteria documented under the field ''name'' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances'
+        instance-group-region: |-
+            Region of the instance group to update in the backend service. If not specified, you might be prompted to select a region (interactive mode
+            only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/region'' property:
+            +
+              $ gcloud config set compute/region REGION
+            +
+            A list of regions can be fetched by running:
+            +
+              $ gcloud compute regions list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/region
+            +
+            Alternatively, the region can be stored in the environment
+            variable ``CLOUDSDK_COMPUTE_REGION''.
+        instance-group-zone: |-
+            Zone of the instance group to update in the backend service. If not specified and the ``compute/zone'' property isn't set, you
+            might be prompted to select a zone (interactive mode only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/zone'' property:
+            +
+              $ gcloud config set compute/zone ZONE
+            +
+            A list of zones can be fetched by running:
+            +
+              $ gcloud compute zones list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/zone
+            +
+            Alternatively, the zone can be stored in the environment variable
+            ``CLOUDSDK_COMPUTE_ZONE''.
+        max-connections: |-
+            Maximum concurrent connections that the backend can handle. Valid for
+            network endpoint group and instance group backends (except for regional
+            managed instance groups).
+        max-connections-per-endpoint: |-
+            Only valid for network endpoint group backends. Defines a maximum
+            number of connections per endpoint if all endpoints are healthy. When
+            one or more endpoints are unhealthy, an effective maximum average number
+            of connections per healthy endpoint is calculated by multiplying
+            `MAX_CONNECTIONS_PER_ENDPOINT` by the number of endpoints in the network
+            endpoint group, and then dividing by the number of healthy endpoints.
+        max-connections-per-instance: |-
+            Only valid for instance group backends. Defines a maximum number
+            of concurrent connections per instance if all instances in the
+            instance group are healthy. When one or more instances are
+            unhealthy, an effective average maximum number of connections per healthy
+            instance is calculated by multiplying `MAX_CONNECTIONS_PER_INSTANCE`
+            by the number of instances in the instance group, and then dividing by
+            the number of healthy instances.
+        max-in-flight-requests: Maximum number of in-flight requests that the backend can handle.
+        max-in-flight-requests-per-endpoint: |-
+            Only valid for network endpoint group backends. Defines the maximum number
+            of in-flight requests per endpoint.
+        max-in-flight-requests-per-instance: |-
+            Only valid for instance group backends. Defines the maximum number of
+            in-flight requests per instance.
+        max-rate: |-
+            Maximum number of HTTP requests per second (RPS) that the backend can
+            handle. Valid for network endpoint group and instance group backends
+            (except for regional managed instance groups). Must not be defined if the
+            backend is a managed instance group using load balancing-based autoscaling.
+        max-rate-per-endpoint: |-
+            Only valid for network endpoint group backends. Defines a maximum
+            number of HTTP requests per second (RPS) per endpoint if all endpoints
+            are healthy. When one or more endpoints are unhealthy, an effective
+            maximum rate per healthy endpoint is calculated by multiplying
+            `MAX_RATE_PER_ENDPOINT` by the number of endpoints in the network
+            endpoint group, and then dividing by the number of healthy endpoints.
+        max-rate-per-instance: |-
+            Only valid for instance group backends. Defines a maximum number of
+            HTTP requests per second (RPS) per instance if all instances in the
+            instance group are healthy. When one or more instances are unhealthy,
+            an effective maximum RPS per healthy instance is calculated by
+            multiplying `MAX_RATE_PER_INSTANCE` by the number of instances in the
+            instance group, and then dividing by the number of healthy instances. This
+            parameter is compatible with managed instance group backends that use
+            autoscaling based on load balancing.
+        max-utilization: |-
+            Defines the maximum target for average utilization of the backend instance
+            group. Supported values are `0.0` (0%) through `1.0` (100%). This is an
+            optional parameter for the `UTILIZATION` balancing mode.
+            +
+            You can use this parameter with other parameters for defining target
+            capacity. For usage guidelines, see
+            [Balancing mode combinations](https://cloud.google.com/load-balancing/docs/backend-service#balancing-mode-combos).
+        network-endpoint-group: Name of the network endpoint group to update in the backend service.
+        network-endpoint-group-zone: |-
+            Zone of the network endpoint group to update in the backend service. If not specified and the ``compute/zone'' property isn't set, you
+            might be prompted to select a zone (interactive mode only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/zone'' property:
+            +
+              $ gcloud config set compute/zone ZONE
+            +
+            A list of zones can be fetched by running:
+            +
+              $ gcloud compute zones list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/zone
+            +
+            Alternatively, the zone can be stored in the environment variable
+            ``CLOUDSDK_COMPUTE_ZONE''.
+        no-clear-custom-metrics: Clears current list of CUSTOM_METRICS.
+        no-failover: |-
+            Designates whether this is a failover backend. More than one
+            failover backend can be configured for a given BackendService.
+            Not compatible with the --global flag
+        no-global: If set, the backend service is global.
+        preference: "This parameter specifies whether a backend should be fully utilized before\nsending traffic to backends with the default preference.\n  This parameter cannot be used with regional managed instance groups and when\nthe endpoint type of an attached network endpoint group is INTERNET_IP_PORT, INTERNET_FQDN_PORT, or SERVERLESS. _PREFERENCE_ must be one of:\n+\n*DEFAULT*::: \nThis is the default setting. If the designated preferred backends\ndon't have enough capacity, backends in the default category are used.\nTraffic is distributed between default backends based on the load\nbalancing algorithm used.\n+\n*PREFERRED*::: \nBackends with this preference setting are used up to their capacity\nlimits first, while optimizing overall network latency.\n+\n:::\n+"
+        region: Region of the backend service to operate on. Overrides the default *compute/region* property value for this command invocation.
+        traffic-duration: "The expected traffic duration for this service. _TRAFFIC_DURATION_ must be one of:\n+\n*LONG*::: \nMost of the requests are expected to take more than multiple seconds to finish.\n+\n*SHORT*::: \nMost requests are expected to finish with a sub-second latency.\n+\n*TRAFFIC_DURATION_UNSPECIFIED*::: \nDefault value. Defaults to SHORT.\n+\n:::\n+"

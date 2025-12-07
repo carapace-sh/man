@@ -1,0 +1,105 @@
+name: create
+description: '*(BETA)*  Create a Cloud NetApp Storage Pool.'
+flags:
+    --active-directory=!: ID of the active_directory or fully qualified identifier for the active_directory.
+    --allow-auto-tiering=: Boolean flag indicating whether Storage Pool is allowed to use auto-tiering
+    --async: Return immediately, without waiting for the operation in progress to
+    --capacity=!: The desired capacity of the Storage Pool in GiB or TiB units.If no capacity unit is specified, GiB is assumed.
+    --custom-performance-enabled=: Boolean flag indicating whether Storage Pool is a custom performance Storage Pool or not
+    --description=: A description of the Cloud NetApp Storage Pool
+    --enable-hot-tier-auto-resize=: Boolean flag indicating whether Storage Pool is allowed to use hot tier auto resize
+    --enable-ldap=: Boolean flag indicating whether Storage Pool is a NFS LDAP Storage Pool or not
+    --hot-tier-size=: The hot tier size of the Storage Pool in GiB units.
+    --kms-config=!: ID of the kms_config or fully qualified identifier for the kms_config.
+    --labels=: List of label KEY=VALUE pairs to add.
+    --location=: The location of the storage_pool.
+    --network=!: Network configuration for a Cloud NetApp Files Storage Pool.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --qos-type=: Quality of service (QoS) type for the Storage Pool.
+    --replica-zone=: String indicating replica zone for the Storage Pool
+    --service-level=!: The service level for the Cloud NetApp Storage Pool.
+    --total-iops=: Integer indicating total IOPS of the Storage Pool
+    --total-throughput=: The total throughput of the Storage Pool in MiB/s or GiB/s units.
+    --type=: The type of the Storage Pool.
+    --unified-pool=&: Boolean flag indicating whether Storage Pool is a unified pool that supports BLOCK storage.
+    --zone=: String indicating active zone of the Storage Pool
+completion:
+    flag:
+        qos-type:
+            - auto
+            - manual
+            - qos-type-unspecified
+        service-level:
+            - extreme
+            - flex
+            - premium
+            - standard
+        type:
+            - file
+            - unified
+documentation:
+    command: |
+        *(BETA)*  Creates a Storage Pool to contain Volumes with a specified Service Level and capacity.
+    flag:
+        active-directory: |-
+            ID of the active_directory or fully qualified identifier for the active_directory.
+            +
+            To set the `active_directory` attribute:
+            * provide the argument `--active-directory` on the command line.
+        allow-auto-tiering: Boolean flag indicating whether Storage Pool is allowed to use auto-tiering
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        capacity: The desired capacity of the Storage Pool in GiB or TiB units.If no capacity unit is specified, GiB is assumed.
+        custom-performance-enabled: Boolean flag indicating whether Storage Pool is a custom performance Storage Pool or not
+        description: A description of the Cloud NetApp Storage Pool
+        enable-hot-tier-auto-resize: Boolean flag indicating whether Storage Pool is allowed to use hot tier auto resize
+        enable-ldap: Boolean flag indicating whether Storage Pool is a NFS LDAP Storage Pool or not
+        hot-tier-size: |-
+            The hot tier size of the Storage Pool in GiB units.
+                          This is a required field when --allow-auto-tiering is set for flex service level.
+        kms-config: |-
+            ID of the kms_config or fully qualified identifier for the kms_config.
+            +
+            To set the `kms_config` attribute:
+            * provide the argument `--kms-config` on the command line.
+        labels: |-
+            List of label KEY=VALUE pairs to add.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+        location: |-
+            The location of the storage_pool.
+            +
+            To set the `location` attribute:
+            * provide the argument `storage_pool` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `netapp/location`.
+        network: |-
+            Network configuration for a Cloud NetApp Files Storage Pool. Specifying
+            `psa-range` is optional.
+            *name*::: The name of the Google Compute Engine
+            [VPC network](/compute/docs/networks-and-firewalls#networks) to which
+            the volume is connected. Short-form (VPC network ID) or long-form
+            (full VPC network name: projects/PROJECT/locations/LOCATION/networks/NETWORK) are both
+            accepted, but please use the long-form when attempting to create a Storage Pool using a shared VPC.
+            *psa-range*::: This field is not implemented. The values provided in
+            this field are ignored.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        qos-type: 'Quality of service (QoS) type for the Storage Pool. _QOS_TYPE_ must be one of: *auto*, *manual*, *qos-type-unspecified*.'
+        replica-zone: String indicating replica zone for the Storage Pool
+        service-level: "The service level for the Cloud NetApp Storage Pool.\n       For more details, see:\n       https://cloud.google.com/netapp/volumes/docs/configure-and-use/storage-pools/overview#service_levels\n+\n_SERVICE_LEVEL_ must be one of:\n+\n*extreme*::: \nExtreme Service Level for Cloud NetApp Storage Pool.\nThe Extreme Service Level has a throughput per GiB of\nallocated volume size of 128 KiB/s.\n*flex*::: \nFlex Service Level for Cloud NetApp Storage Pool.\nThe Flex Service Level has a throughput per GiB of\nallocated volume size of 16 KiB/s.\n*premium*::: \nPremium Service Level for Cloud NetApp Storage Pool.\nThe Premium Service Level has a throughput per GiB of\nallocated volume size of 64 KiB/s.\n*standard*::: \nStandard Service Level for Cloud NetApp Storage Pool.\nThe Standard Service Level has a throughput per GiB of\nallocated volume size of 16 KiB/s.\n:::\n+"
+        total-iops: Integer indicating total IOPS of the Storage Pool
+        total-throughput: |-
+            The total throughput of the Storage Pool in MiB/s or GiB/s units.
+                          If no throughput unit is specified, MiB/s is assumed.
+        type: |-
+            The type of the Storage Pool. `FILE` pools support file-based volumes only. `UNIFIED` pools support both file and block volumes. _TYPE_ must be one of:
+            +
+            *file*::: File-based volumes only (default).
+            *unified*::: Both file and block volumes.
+            :::
+            +
+        unified-pool: Boolean flag indicating whether Storage Pool is a unified pool that supports BLOCK storage. Defaults to False if not specified.
+        zone: String indicating active zone of the Storage Pool

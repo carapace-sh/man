@@ -1,0 +1,50 @@
+name: evaluate-and-sign
+description: '*(ALPHA)*  Evaluate a Binary Authorization platform policy and sign the results, if conformant.'
+hidden: true
+flags:
+    --docker-config-dir=: Override the directory where the Docker configuration file is searched for.
+    --image=: The image to evaluate.
+    --no-upload: Do not upload the generated attestations to the image registry (using Sigstore tag conventions).
+    --no-use-docker-creds&: Whether to use the configuration file where Docker saves authentication credentials when uploading attestations to the registry.
+    --output-file=: If a resource is provided and deemed to be conformant, attestations will be added as annotations on the resource and writen back to this file path in the same format as the input file.
+    --platform=: The platform that the policy belongs to.
+    --resource=: The JSON or YAML file containing the Kubernetes resource to evaluate.
+    --use-docker-creds: Whether to use the configuration file where Docker saves authentication credentials when uploading attestations to the registry.
+documentation:
+    command: |-
+        ## EXAMPLES
+
+        To evaluate and sign a policy using its resource name:
+
+          $ gcloud alpha container binauthz policy evaluate-and-sign projects/my-proj/platforms/gke/policies/my-policy
+          --resource=$KUBERNETES_RESOURCE
+
+        To evaluate the same policy using flags against multiple images:
+
+          $ gcloud alpha container binauthz policy evaluate-and-sign my-policy --platform=gke --project=my-proj --image=$IMAGE1
+          --image=$IMAGE2
+
+        To return a modified resource with attestations added as an annotation on the
+        input resource, without uploading attestations to the registry:
+
+          $ gcloud alpha container binauthz policy evaluate-and-sign projects/my-proj/platforms/gke/policies/my-policy
+          --resource=$KUBERNETES_RESOURCE --output-file=$MODIFIED_RESOURCE --no-upload
+
+        To upload attestations using Docker credentials located in a custom directory:
+
+          $ gcloud alpha container binauthz policy evaluate-and-sign projects/my-proj/platforms/gke/policies/my-policy
+          --image=$IMAGE --use-docker-creds --docker-config-dir=$CUSTOM_DIR
+    flag:
+        docker-config-dir: Override the directory where the Docker configuration file is searched for. Credentials are pulled from the config.json file under this directory. Defaults to $HOME/.docker.
+        image: The image to evaluate. If the policy being evaluated has scoped checksets, this mode of evaluation will always use the default (unscoped) checkset.
+        no-upload: Do not upload the generated attestations to the image registry (using Sigstore tag conventions). Note, attestations are never uploaded to the transparency log.
+        no-use-docker-creds: Whether to use the configuration file where Docker saves authentication credentials when uploading attestations to the registry. If this flag is not passed, or valid credentials are not found, an OAuth2 token for the active gcloud account is used. See https://cloud.google.com/artifact-registry/docs/docker/authentication for more information.
+        output-file: If a resource is provided and deemed to be conformant, attestations will be added as annotations on the resource and writen back to this file path in the same format as the input file.
+        platform: |-
+            The platform that the policy belongs to. PLATFORM must be one of the following: cloudRun, gke.
+            +
+            To set the `platform` attribute:
+            * provide the argument `policy_resource_name` on the command line with a fully specified name;
+            * provide the argument `--platform` on the command line.
+        resource: The JSON or YAML file containing the Kubernetes resource to evaluate.
+        use-docker-creds: Whether to use the configuration file where Docker saves authentication credentials when uploading attestations to the registry. If this flag is not passed, or valid credentials are not found, an OAuth2 token for the active gcloud account is used. See https://cloud.google.com/artifact-registry/docs/docker/authentication for more information.

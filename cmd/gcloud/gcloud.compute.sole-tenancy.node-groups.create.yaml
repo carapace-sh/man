@@ -1,0 +1,94 @@
+name: create
+description: Create a Compute Engine node group.
+flags:
+    --autoscaler-mode=!: Set the mode of an autoscaler for a node group.
+    --description=: An optional description of this resource.
+    --location-hint=&: Used by internal tools to control sub-zone location of node groups.
+    --maintenance-interval=: Specifies the frequency of planned maintenance events.
+    --maintenance-policy=: Determines the maintenance behavior during host maintenance events.
+    --maintenance-window-start-time=: The time (in GMT) when planned maintenance operations window begins.
+    --max-nodes=: The maximum size of the node group.
+    --min-nodes=: The minimum size of the node group.
+    --node-template=!: The name of the node template resource to be set for this node group.
+    --share-setting=!: 'Specify if this node group is shared; and if so, the type of sharing:'
+    --share-with=: A list of specific projects this node group should be shared with.
+    --target-size=!: The target initial number of nodes in the node group.
+    --zone=: Zone of the node group to operate on.
+completion:
+    flag:
+        autoscaler-mode:
+            - "off"
+            - "on"
+            - only-scale-out
+        maintenance-interval:
+            - as-needed
+            - recurrent
+        maintenance-policy:
+            - default
+            - migrate-within-node-group
+            - restart-in-place
+        share-setting:
+            - projects
+            - organization
+            - local
+documentation:
+    command: Create a Compute Engine node group.
+    flag:
+        autoscaler-mode: |-
+            Set the mode of an autoscaler for a node group. _AUTOSCALER_MODE_ must be one of:
+            +
+            *off*::: to turn off autoscaling.
+            *on*::: to permit autoscaling to scale in and out.
+            *only-scale-out*::: to permit autoscaling to scale only out and not in.
+            :::
+            +
+        description: An optional description of this resource.
+        location-hint: Used by internal tools to control sub-zone location of node groups.
+        maintenance-interval: |-
+            Specifies the frequency of planned maintenance events. _MAINTENANCE_INTERVAL_ must be one of:
+            +
+            *as-needed*::: hosts are eligible to receive infrastructure and hypervisor updates as they become available.
+            *recurrent*::: hosts receive planned infrastructure and hypervisor updates on a periodic basis, but not more frequently than every 28 days. This minimizes the number of planned maintenance operations on individual hosts and reduces the frequency of disruptions, both live migrations and terminations, on individual VMs.
+            :::
+            +
+        maintenance-policy: |-
+            Determines the maintenance behavior during host maintenance events. For more information, see https://cloud.google.com/compute/docs/nodes#maintenance_policies. _MAINTENANCE_POLICY_ must be one of:
+            +
+            *default*::: VM instances on the host are live migrated to a new physical  server. This is the default setting.
+            *migrate-within-node-group*::: VM instances on the host are live migrated to another node within the same node group.
+            *restart-in-place*::: VM instances on the host are terminated and then restarted on the same physical server after the maintenance event has completed.
+            :::
+            +
+        maintenance-window-start-time: The time (in GMT) when planned maintenance operations window begins. The possible values are 00:00, 04:00, 08:00, 12:00, 16:00, 20:00.
+        max-nodes: |-
+            The maximum size of the node group. Must be smaller or equal to 100 and larger
+            than or equal to `--min-nodes`. Must be specified if `--autoscaler-mode` is not
+            ``off''.
+        min-nodes: |-
+            The minimum size of the node group. Default is 0 and must be an integer value
+            smaller than or equal to `--max-nodes`.
+        node-template: The name of the node template resource to be set for this node group.
+        share-setting: |-
+            Specify if this node group is shared; and if so, the type of sharing:
+            share with specific projects or folders. _SHARE_SETTING_ must be one of: *projects*, *organization*, *local*.
+        share-with: A list of specific projects this node group should be shared with.
+        target-size: The target initial number of nodes in the node group.
+        zone: |-
+            Zone of the node group to operate on. If not specified and the ``compute/zone'' property isn't set, you
+            might be prompted to select a zone (interactive mode only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/zone'' property:
+            +
+              $ gcloud config set compute/zone ZONE
+            +
+            A list of zones can be fetched by running:
+            +
+              $ gcloud compute zones list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/zone
+            +
+            Alternatively, the zone can be stored in the environment variable
+            ``CLOUDSDK_COMPUTE_ZONE''.

@@ -1,0 +1,98 @@
+name: update
+description: Update a Bare Metal Solution NFS share.
+flags:
+    --add-allowed-client=: Adds an allowed client to the NFS share.
+    --async: Return immediately, without waiting for the operation in progress to
+    --clear-allowed-clients: Removes all IP range reservations in the network.
+    --clear-labels: Remove all labels.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-clear-allowed-clients&: Removes all IP range reservations in the network.
+    --no-clear-labels&: Remove all labels.
+    --region=: Region of the resource.
+    --remove-allowed-client=: Removes an allowed client for the NFS share given its network name and cidr.
+    --remove-labels=: List of label keys to remove.
+    --update-labels=: List of label KEY=VALUE pairs to update.
+documentation:
+    command: |
+        Update a Bare Metal Solution NFS share.
+
+        This call returns immediately, but the update operation may take
+        several minutes to complete. To check if the operation is complete,
+        use the `describe` command for the NFS share.
+    flag:
+        add-allowed-client: |-
+            Adds an allowed client to the NFS share. This flag can be repeated to specify multiple allowed clients.
+            +
+            *network*::: The name of the network to allow.
+            +
+            *network-project-id*::: The project ID of the allowed client network.
+            If not present, the project ID of the NFS share will be used.
+            +
+            *cidr*::: The subnet of IP addresses permitted to access the NFS
+            share.
+            +
+            *mount-permissions*::: The mount permissions for the allowed client.
+            ``MOUNT_PERMISSIONS'' must be one of: `READ_ONLY`, `READ_WRITE`.
+            +
+            *allow-dev*::: If ``yes'', allows creation of devices.
+            +
+            *allow-suid*::: If ``yes'', allows SUID.
+            +
+            *enable-root-squash*::: If ``yes'', enables root squashing which
+            is a special mapping of the remote superuser (root) identity when
+            using identity authentication .
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        clear-allowed-clients: Removes all IP range reservations in the network.
+        clear-labels: |-
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} --clear-labels
+            +
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-clear-allowed-clients: Removes all IP range reservations in the network.
+        no-clear-labels: |
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} --clear-labels
+
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        region: |-
+            Region of the resource.
+            +
+            To set the `region` attribute:
+            * provide the argument `nfs_share` on the command line with a fully specified name;
+            * provide the argument `--region` on the command line.
+        remove-allowed-client: |-
+            Removes an allowed client for the NFS share given its network name and cidr. This flag can be repeated to remove multiple allowed clients.
+            +
+            *network*::: The name of the network of the allowed client to remove.
+            +
+            *network-project-id*::: The project ID of the allowed client network.
+            If not present, the project ID of the NFS share will be used.
+            +
+            *cidr*::: The subnet of permitted IP addresses of the allowed client to remove.
+        remove-labels: |-
+            List of label keys to remove. If a label does not exist it is
+            silently ignored. If `--update-labels` is also specified then
+            `--update-labels` is applied first.
+        update-labels: |-
+            List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.

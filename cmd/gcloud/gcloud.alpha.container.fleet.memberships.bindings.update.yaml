@@ -1,0 +1,85 @@
+name: update
+description: '*(ALPHA)*  Update the Binding in a Membership.'
+flags:
+    --clear-labels: Remove all labels.
+    --location=: Location for the binding.
+    --membership=: Name of the binding.
+    --no-clear-labels&: Remove all labels.
+    --remove-labels=: List of label keys to remove.
+    --scope=!: ID of the scope or fully qualified identifier for the scope.
+    --update-labels=: List of label KEY=VALUE pairs to update.
+documentation:
+    command: |-
+        *(ALPHA)*  This command can fail for the following reasons:
+        * The Membership specified does not exist.
+        * The Binding does not exist in the Membership.
+        * The caller does not have permission to access the Membership/Binding.
+        * The Scope specified does not exist.
+        * The caller did not specify the location (--location) if referring to
+        location other than global.
+
+        ## EXAMPLES
+
+        To update the binding `BINDING_NAME` in global membership `MEMBERSHIP_NAME`
+        in the active project:
+
+          $ gcloud alpha container fleet memberships bindings update BINDING_NAME --membership=MEMBERSHIP_NAME
+
+        To update a Binding `BINDING_NAME` associated with regional membership
+        `MEMBERSHIP_NAME`, provide the location LOCATION_NAME for the Membership where
+        the Binding belongs along with membership name and associated
+        Scope `SCOPE_NAME`.
+
+        $ gcloud alpha container fleet memberships bindings update BINDING_NAME --membership=MEMBERSHIP_NAME --scope=SCOPE_NAME
+          --location=LOCATION_NAME
+    flag:
+        clear-labels: |-
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} --clear-labels
+            +
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        location: |-
+            Location for the binding.
+            +
+            To set the `location` attribute:
+            * provide the argument `BINDING` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `gkehub/location`.
+        membership: |-
+            Name of the binding.
+            +
+            To set the `membership` attribute:
+            * provide the argument `BINDING` on the command line with a fully specified name;
+            * provide the argument `--membership` on the command line.
+        no-clear-labels: |
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} --clear-labels
+
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        remove-labels: |-
+            List of label keys to remove. If a label does not exist it is
+            silently ignored. If `--update-labels` is also specified then
+            `--update-labels` is applied first.
+        scope: |-
+            ID of the scope or fully qualified identifier for the scope.
+            +
+            To set the `scope` attribute:
+            * provide the argument `--scope` on the command line.
+        update-labels: |-
+            List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.

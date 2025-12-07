@@ -1,0 +1,64 @@
+name: create
+description: '*(BETA)*  Create an RBAC RoleBinding.'
+flags:
+    --custom-role=: Custom role to assign to principal.
+    --group=: Group for the RoleBinding.
+    --labels=: List of label KEY=VALUE pairs to add.
+    --location=: Location for the rbacrolebinding.
+    --role=: Predefined role to assign to principal (admin, edit, view).
+    --scope=: Name of the rbacrolebinding.
+    --user=: User for the RoleBinding.
+completion:
+    flag:
+        role:
+            - admin
+            - edit
+            - view
+documentation:
+    command: |-
+        *(BETA)*  This command can fail for the following reasons:
+        * The RBAC RoleBinding already exists.
+        * The caller does not have permission to access the given scope.
+
+        ## EXAMPLES
+
+        To create an admin RBAC RoleBinding `RBRB` in scope `SCOPE` for user
+        `person@google.com`, run:
+
+          $ gcloud beta container fleet scopes rbacrolebindings create RBRB --scope=SCOPE --role=admin
+          --user=person@google.com
+
+        To create a viewer RBAC RoleBinding `RBRB` in scope `SCOPE` for group
+        `people@google.com`, run:
+
+          $ gcloud beta container fleet scopes rbacrolebindings create RBRB --scope=SCOPE --role=viewer
+          --group=people@google.com
+
+        To create an RBAC RoleBinding with a custom role `custom-role` in scope
+        `SCOPE` for user `person@google.com`, run:
+
+          $ gcloud beta container fleet scopes rbacrolebindings create RBRB --scope=SCOPE --role=admin
+          --user=person@google.com
+          --custom-role=custom-role
+    flag:
+        custom-role: Custom role to assign to principal.
+        group: Group for the RoleBinding.
+        labels: |-
+            List of label KEY=VALUE pairs to add.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+        location: |-
+            Location for the rbacrolebinding.
+            +
+            To set the `location` attribute:
+            * provide the argument `NAME` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `gkehub/location`.
+        role: 'Predefined role to assign to principal (admin, edit, view). _ROLE_ must be one of: *admin*, *edit*, *view*.'
+        scope: |-
+            Name of the rbacrolebinding.
+            +
+            To set the `scope` attribute:
+            * provide the argument `NAME` on the command line with a fully specified name;
+            * provide the argument `--scope` on the command line.
+        user: User for the RoleBinding.

@@ -1,0 +1,71 @@
+name: update
+description: Update Compute Engine reservations.
+flags:
+    --add-share-with=: If this reservation is shared (--share-setting is projects), then
+    --enable-emergent-maintenance: Enables the reservation to receive notifications when urgent maintenance
+    --no-enable-emergent-maintenance&: Enables the reservation to receive notifications when urgent maintenance
+    --remove-share-with=: A list of specific projects to remove from the list of projects that this
+    --reservation-sharing-policy=: The reservation sharing policy to use for this reservation.
+    --scheduling-type=: How Compute Engine schedules maintenance events for your reserved hosts.
+    --vm-count=: The number of VM instances that are allocated to this reservation.
+    --zone=: Zone of the reservation to update.
+completion:
+    flag:
+        reservation-sharing-policy:
+            - ALLOW_ALL
+            - DISALLOW_ALL
+        scheduling-type:
+            - GROUPED
+            - INDEPENDENT
+documentation:
+    command: Update Compute Engine reservations.
+    flag:
+        add-share-with: |-
+            If this reservation is shared (--share-setting is projects), then
+            specify a comma-separated list of projects to share the reservation
+            with. You must list the projects using project IDs or project numbers.
+        enable-emergent-maintenance: |-
+            Enables the reservation to receive notifications when urgent maintenance
+            for a GPU VM starts after the VM encounters a host error. Use *--enable-emergent-maintenance* to enable and *--no-enable-emergent-maintenance* to disable.
+        no-enable-emergent-maintenance: |
+            Enables the reservation to receive notifications when urgent maintenance
+            for a GPU VM starts after the VM encounters a host error.
+        remove-share-with: |-
+            A list of specific projects to remove from the list of projects that this
+            reservation is shared with. List must contain project IDs or project numbers.
+        reservation-sharing-policy: |-
+            The reservation sharing policy to use for this reservation. _RESERVATION_SHARING_POLICY_ must be one of:
+            +
+            *ALLOW_ALL*::: The reservation can be shared with Google Cloud services.
+            *DISALLOW_ALL*::: The reservation won't be shared with Google Cloud services. If you omit this flag during creation, the default value is DISALLOW_ALL.
+            :::
+            +
+        scheduling-type: |-
+            How Compute Engine schedules maintenance events for your reserved hosts. _SCHEDULING_TYPE_ must be one of:
+            +
+            *GROUPED*::: In GROUPED mode, maintenance is synchronized across all your VMs.
+            *INDEPENDENT*::: In INDEPENDENT mode, your VMs have different, unsynchronized maintenance schedules.
+            :::
+            +
+        vm-count: |-
+            The number of VM instances that are allocated to this reservation.
+            The value of this field must be an int in the range [1, 1000].
+        zone: |-
+            Zone of the reservation to update. If not specified and the ``compute/zone'' property isn't set, you
+            might be prompted to select a zone (interactive mode only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/zone'' property:
+            +
+              $ gcloud config set compute/zone ZONE
+            +
+            A list of zones can be fetched by running:
+            +
+              $ gcloud compute zones list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/zone
+            +
+            Alternatively, the zone can be stored in the environment variable
+            ``CLOUDSDK_COMPUTE_ZONE''.

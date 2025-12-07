@@ -1,0 +1,61 @@
+name: analyze-iam-policy-longrunning
+description: '*(BETA)*  Analyzes IAM policies that match a request asynchronously and writes the results to Google Cloud Storage or BigQuery destination.'
+flags:
+    --access-time=: The hypothetical access timestamp to evaluate IAM conditions.
+    --analyze-service-account-impersonation: If true, the response will include access analysis from identities to resources via service account impersonation.
+    --bigquery-dataset=!: BigQuery dataset where the results will be written.
+    --bigquery-partition-key=: This enum determines the partition key column for the bigquery tables.
+    --bigquery-table-prefix=!: The prefix of the BigQuery tables to which the analysis results will be written.
+    --bigquery-write-disposition=: Specifies the action that occurs if the destination table or partition already exists.
+    --expand-groups: If true, the identities section of the result will expand any Google groups appearing in an IAM policy binding.
+    --expand-resources: If true, the resource section of the result will expand any resource attached to an IAM policy to include resources lower in the resource hierarchy.
+    --expand-roles: If true, the access section of result will expand any roles appearing in IAM policy bindings to include their permissions.
+    --folder=: Folder ID on which to perform the analysis.
+    --full-resource-name=: The full resource name.
+    --gcs-output-path=: Google Cloud Storage URI where the results will be written.
+    --identity=: The identity appearing in the form of principals in the IAM policy binding.
+    --no-analyze-service-account-impersonation&: If true, the response will include access analysis from identities to resources via service account impersonation.
+    --no-expand-groups&: If true, the identities section of the result will expand any Google groups appearing in an IAM policy binding.
+    --no-expand-resources&: If true, the resource section of the result will expand any resource attached to an IAM policy to include resources lower in the resource hierarchy.
+    --no-expand-roles&: If true, the access section of result will expand any roles appearing in IAM policy bindings to include their permissions.
+    --no-output-group-edges&: If true, the result will output the relevant membership relationships between groups.
+    --no-output-resource-edges&: If true, the result will output the relevant parent/child relationships between resources.
+    --organization=: Organization ID on which to perform the analysis.
+    --output-group-edges: If true, the result will output the relevant membership relationships between groups.
+    --output-resource-edges: If true, the result will output the relevant parent/child relationships between resources.
+    --permissions=: The permissions to appear in the result.
+    --roles=: The roles to appear in the result.
+completion:
+    flag:
+        bigquery-partition-key:
+            - PARTITION_KEY_UNSPECIFIED
+            - REQUEST_TIME
+documentation:
+    command: |
+        *(BETA)*  Analyzes IAM policies that match a request asynchronously and writes
+        the results to Google Cloud Storage or BigQuery destination.
+    flag:
+        access-time: The hypothetical access timestamp to evaluate IAM conditions.
+        analyze-service-account-impersonation: If true, the response will include access analysis from identities to resources via service account impersonation. This is a very expensive operation, because many derived queries will be executed. We highly recommend you use AnalyzeIamPolicyLongrunning rpc instead. Default is false.
+        bigquery-dataset: BigQuery dataset where the results will be written. Must be a dataset relative name starting with "projects/". For example, "projects/project_id/datasets/dataset_id".
+        bigquery-partition-key: 'This enum determines the partition key column for the bigquery tables. Partitioning can improve query performance and reduce query cost by filtering partitions. Refer to https://cloud.google.com/bigquery/docs/partitioned-tables for details. _BIGQUERY_PARTITION_KEY_ must be one of: *PARTITION_KEY_UNSPECIFIED*, *REQUEST_TIME*.'
+        bigquery-table-prefix: The prefix of the BigQuery tables to which the analysis results will be written. A table name consists of letters, numbers and underscores".
+        bigquery-write-disposition: 'Specifies the action that occurs if the destination table or partition already exists. The following values are supported: WRITE_TRUNCATE, WRITE_APPEND and WRITE_EMPTY. The default value is WRITE_APPEND.'
+        expand-groups: If true, the identities section of the result will expand any Google groups appearing in an IAM policy binding. Default is false.
+        expand-resources: If true, the resource section of the result will expand any resource attached to an IAM policy to include resources lower in the resource hierarchy. Default is false.
+        expand-roles: If true, the access section of result will expand any roles appearing in IAM policy bindings to include their permissions. Default is false.
+        folder: Folder ID on which to perform the analysis. Only policies defined at or below this folder will be  targeted in the analysis.
+        full-resource-name: The full resource name.
+        gcs-output-path: Google Cloud Storage URI where the results will be written. URI must start with "gs://". For example, "gs://bucket_name/object_name".
+        identity: The identity appearing in the form of principals in the IAM policy binding.
+        no-analyze-service-account-impersonation: If true, the response will include access analysis from identities to resources via service account impersonation. This is a very expensive operation, because many derived queries will be executed. We highly recommend you use AnalyzeIamPolicyLongrunning rpc instead. Default is false.
+        no-expand-groups: If true, the identities section of the result will expand any Google groups appearing in an IAM policy binding. Default is false.
+        no-expand-resources: If true, the resource section of the result will expand any resource attached to an IAM policy to include resources lower in the resource hierarchy. Default is false.
+        no-expand-roles: If true, the access section of result will expand any roles appearing in IAM policy bindings to include their permissions. Default is false.
+        no-output-group-edges: If true, the result will output the relevant membership relationships between groups. Default is false.
+        no-output-resource-edges: If true, the result will output the relevant parent/child relationships between resources. Default is false.
+        organization: Organization ID on which to perform the analysis. Only policies defined at or below this organization  will be targeted in the analysis.
+        output-group-edges: If true, the result will output the relevant membership relationships between groups. Default is false.
+        output-resource-edges: If true, the result will output the relevant parent/child relationships between resources. Default is false.
+        permissions: The permissions to appear in the result.
+        roles: The roles to appear in the result.

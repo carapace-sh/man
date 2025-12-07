@@ -1,0 +1,85 @@
+name: list
+description: '*(BETA)*  Lists all jobs in a particular project, optionally filtered by region.'
+flags:
+    --created-after=: Filter the jobs to those created after the given time.
+    --created-before=: Filter the jobs to those created before the given time.
+    --filter=: Apply a Boolean filter _EXPRESSION_ to each resource item to be listed.
+    --limit=: Maximum number of resources to list.
+    --no-uri&: Print a list of resource URIs instead of the default output, and change the
+    --page-size=: Some services group resource list output into pages.
+    --region=: Only resources from the given region are queried.
+    --sort-by=: Comma-separated list of resource field key names to sort by.
+    --status=: Filter the jobs to those with the selected status.
+    --uri: Print a list of resource URIs instead of the default output, and change the
+completion:
+    flag:
+        status:
+            - active
+            - all
+            - terminated
+documentation:
+    command: |-
+        *(BETA)*  By default, 100 jobs in the current project are listed; this can be overridden
+        with the gcloud --project flag, and the --limit flag.
+
+        Using the --region flag will only list jobs from the given regional endpoint.
+
+        ## EXAMPLES
+
+        Filter jobs with the given name:
+
+          $ gcloud beta dataflow jobs list --filter="name=my-wordcount"
+
+        List jobs with from a given region:
+
+          $ gcloud beta dataflow jobs list --region="europe-west1"
+
+        List jobs created this year:
+
+          $ gcloud beta dataflow jobs list --created-after=2018-01-01
+
+        List jobs created more than a week ago:
+
+          $ gcloud beta dataflow jobs list --created-before=-P1W
+    flag:
+        created-after: Filter the jobs to those created after the given time. See $ gcloud topic datetimes for information on time formats. For example, `2018-01-01` is the first day of the year, and `-P2W` is 2 weeks ago.
+        created-before: Filter the jobs to those created before the given time. See $ gcloud topic datetimes for information on time formats.
+        filter: |-
+            Apply a Boolean filter _EXPRESSION_ to each resource item to be listed.
+            If the expression evaluates `True`, then that item is listed. For more
+            details and examples of filter expressions, run $ gcloud topic filters. This
+            flag interacts with other flags that are applied in this order: *--flatten*,
+            *--sort-by*, *--filter*, *--limit*.
+        limit: |-
+            Maximum number of resources to list. The default is *100*.
+            This flag interacts with other flags that are applied in this order:
+            *--flatten*, *--sort-by*, *--filter*, *--limit*.
+        no-uri: |
+            Print a list of resource URIs instead of the default output, and change the
+            command output to a list of URIs. If this flag is used with *--format*,
+            the formatting is applied on this URI list. To display URIs alongside other
+            keys instead, use the *uri()* transform.
+        page-size: |-
+            Some services group resource list output into pages. This flag specifies
+            the maximum number of resources per page. The default is *20*.
+            Paging may be applied before or after *--filter* and *--limit* depending
+            on the service.
+        region: Only resources from the given region are queried. If not provided, an attempt will be made to query from all available regions. In the event of an outage, jobs from certain regions may not be available.
+        sort-by: |-
+            Comma-separated list of resource field key names to sort by. The
+            default order is ascending. Prefix a field with ``~'' for descending
+            order on that field. This flag interacts with other flags that are applied
+            in this order: *--flatten*, *--sort-by*, *--filter*, *--limit*.
+        status: |-
+            Filter the jobs to those with the selected status. _STATUS_ must be one of:
+            +
+            *active*::: Filters the jobs that are running ordered on the creation timestamp.
+            *all*::: Returns running jobs first, ordered on creation timestamp, then, returns all terminated jobs ordered on the termination timestamp.
+            *terminated*::: Filters the jobs that have a terminated state, ordered on the termination timestamp. Example terminated states: Done, Updated, Cancelled, etc.
+            :::
+            +
+        uri: |-
+            Print a list of resource URIs instead of the default output, and change the
+            command output to a list of URIs. If this flag is used with *--format*,
+            the formatting is applied on this URI list. To display URIs alongside other
+            keys instead, use the *uri()* transform.

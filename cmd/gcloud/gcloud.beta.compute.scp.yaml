@@ -1,0 +1,178 @@
+name: scp
+description: '*(BETA)*  Copy files to and from Google Compute Engine virtual machines via scp.'
+flags:
+    --compress: Enable compression.
+    --dest-group=: Configures the destination group to use when connecting via IP address or FQDN.
+    --dry-run: Print the equivalent scp/ssh command that would be run to stdout, instead of executing it.
+    --force-key-file-overwrite: If enabled, the gcloud command-line tool will regenerate and overwrite
+    --iap-tunnel-insecure-disable-websocket-cert-check&: Disables checking certificates on the WebSocket connection.
+    --iap-tunnel-url-override=&: Allows for overriding the connection endpoint for integration testing.
+    --internal-ip: Connect to instances using their internal IP addresses rather than their
+    --network=!: Configures the VPC network to use when connecting via IP address or FQDN.
+    --no-compress&: Enable compression.
+    --no-dry-run&: Print the equivalent scp/ssh command that would be run to stdout, instead of executing it.
+    --no-force-key-file-overwrite&: If enabled, the gcloud command-line tool will regenerate and overwrite
+    --no-iap-tunnel-insecure-disable-websocket-cert-check&: Disables checking certificates on the WebSocket connection.
+    --no-internal-ip&: Connect to instances using their internal IP addresses rather than their
+    --no-plain&: Suppress the automatic addition of *ssh(1)*/*scp(1)* flags.
+    --no-recurse&: Upload directories recursively.
+    --no-tunnel-through-iap&: Tunnel the ssh connection through Cloud Identity-Aware Proxy for TCP
+    --no-verify-internal-ip&: Whether or not `gcloud` should perform an initial SSH connection to verify an instance ID is correct when connecting via its internal IP.
+    --plain: Suppress the automatic addition of *ssh(1)*/*scp(1)* flags.
+    --port=: The port to connect to.
+    --recurse: Upload directories recursively.
+    --region=!: Configures the region to use when connecting via IP address or FQDN.
+    --scp-flag=: Extra flag to be sent to scp.
+    --ssh-key-expiration=: The time when the ssh key will be valid until, such as
+    --ssh-key-expire-after=: The maximum length of time an SSH key is valid for once created and
+    --ssh-key-file=: The path to the SSH key file.
+    --strict-host-key-checking=: Override the default behavior of StrictHostKeyChecking for the
+    --tunnel-through-iap: Tunnel the ssh connection through Cloud Identity-Aware Proxy for TCP
+    --verify-internal-ip&: Whether or not `gcloud` should perform an initial SSH connection to verify an instance ID is correct when connecting via its internal IP.
+    --zone=: The zone of the instance to copy files to/from.
+completion:
+    flag:
+        strict-host-key-checking:
+            - "yes"
+            - "no"
+            - ask
+documentation:
+    command: |-
+        *(BETA)*  *gcloud beta compute scp* securely copies files between a virtual machine instance and your
+        local machine using the scp command.
+
+        This command works for Linux VMs and Windows Server 2019 and later VMs that
+        have [SSH enabled](https://cloud.google.com/compute/docs/connect/windows-ssh).
+
+        In order to set up a successful transfer, follow these guidelines:
+        *   Prefix remote file names with the virtual machine instance
+            name (e.g., _example-instance_:~/_FILE_).
+        *   Local file names can be used as is (e.g., ~/_FILE_).
+        *   File names containing a colon (``:'') must be invoked by either their
+            absolute path or a path that begins with ``./''.
+        *   When the destination of your transfer is local, all source files must be
+            from the same virtual machine.
+        *   When the destination of your transfer is remote instead, all sources must
+            be local.
+        *   When the destination is Windows Server, the source must be using a similar
+            SSH version.
+
+        Under the covers, *scp(1)* is used to facilitate the transfer.
+
+        If the `--region` and `--network` flags are provided, then `--plain` and
+        `--tunnel-through-iap` are implied and any remote file names must be prefixed
+        with the remote IP address instead of the instance name. This is most useful for
+        connecting to on-prem resources.
+    flag:
+        compress: Enable compression.
+        dest-group: Configures the destination group to use when connecting via IP address or FQDN.
+        dry-run: Print the equivalent scp/ssh command that would be run to stdout, instead of executing it.
+        force-key-file-overwrite: |-
+            If enabled, the gcloud command-line tool will regenerate and overwrite
+            the files associated with a broken SSH key without asking for
+            confirmation in both interactive and non-interactive environments.
+            +
+            If disabled, the files associated with a broken SSH key will not be
+            regenerated and will fail in both interactive and non-interactive
+            environments.
+        iap-tunnel-insecure-disable-websocket-cert-check: Disables checking certificates on the WebSocket connection.
+        iap-tunnel-url-override: Allows for overriding the connection endpoint for integration testing.
+        internal-ip: |-
+            Connect to instances using their internal IP addresses rather than their
+            external IP addresses. Use this to connect from one instance to another
+            on the same VPC network, over a VPN connection, or between two peered
+            VPC networks.
+            +
+            For this connection to work, you must configure your networks and
+            firewall to allow SSH connections to the internal IP address of
+            the instance to which you want to connect.
+            +
+            To learn how to use this flag, see
+            [](https://cloud.google.com/compute/docs/instances/connecting-advanced#sshbetweeninstances).
+        network: Configures the VPC network to use when connecting via IP address or FQDN.
+        no-compress: Enable compression.
+        no-dry-run: Print the equivalent scp/ssh command that would be run to stdout, instead of executing it.
+        no-force-key-file-overwrite: |-
+            If enabled, the gcloud command-line tool will regenerate and overwrite
+            the files associated with a broken SSH key without asking for
+            confirmation in both interactive and non-interactive environments.
+
+            If disabled, the files associated with a broken SSH key will not be
+            regenerated and will fail in both interactive and non-interactive
+            environments.
+        no-iap-tunnel-insecure-disable-websocket-cert-check: Disables checking certificates on the WebSocket connection.
+        no-internal-ip: |
+            Connect to instances using their internal IP addresses rather than their
+            external IP addresses. Use this to connect from one instance to another
+            on the same VPC network, over a VPN connection, or between two peered
+            VPC networks.
+
+            For this connection to work, you must configure your networks and
+            firewall to allow SSH connections to the internal IP address of
+            the instance to which you want to connect.
+
+            To learn how to use this flag, see
+            [](https://cloud.google.com/compute/docs/instances/connecting-advanced#sshbetweeninstances).
+        no-plain: |
+            Suppress the automatic addition of *ssh(1)*/*scp(1)* flags. This flag
+            is useful if you want to take care of authentication yourself or
+            use specific ssh/scp features.
+        no-recurse: Upload directories recursively.
+        no-tunnel-through-iap: |
+            Tunnel the ssh connection through Cloud Identity-Aware Proxy for TCP
+            forwarding.
+
+            To learn more, see the
+            [IAP for TCP forwarding documentation](https://cloud.google.com/iap/docs/tcp-forwarding-overview).
+        no-verify-internal-ip: Whether or not `gcloud` should perform an initial SSH connection to verify an instance ID is correct when connecting via its internal IP. Without this check, `gcloud` will simply connect to the internal IP of the desired instance, which may be wrong if the desired instance is in a different subnet but happens to share the same internal IP as an instance in the current subnet. Defaults to True.
+        plain: |-
+            Suppress the automatic addition of *ssh(1)*/*scp(1)* flags. This flag
+            is useful if you want to take care of authentication yourself or
+            use specific ssh/scp features.
+        port: The port to connect to.
+        recurse: Upload directories recursively.
+        region: Configures the region to use when connecting via IP address or FQDN.
+        scp-flag: Extra flag to be sent to scp. This flag may be repeated.
+        ssh-key-expiration: |-
+            The time when the ssh key will be valid until, such as
+            "2017-08-29T18:52:51.142Z." This is only valid if the instance is not
+            using OS Login. See $ gcloud topic datetimes for information on time
+            formats.
+        ssh-key-expire-after: |-
+            The maximum length of time an SSH key is valid for once created and
+            installed, e.g. 2m for 2 minutes. See $ gcloud topic datetimes for
+            information on duration formats.
+        ssh-key-file: The path to the SSH key file. By default, this is ``~/.ssh/google_compute_engine''.
+        strict-host-key-checking: |-
+            Override the default behavior of StrictHostKeyChecking for the
+            connection. By default, StrictHostKeyChecking is set to 'no' the first
+            time you connect to an instance, and will be set to 'yes' for all
+            subsequent connections. _STRICT_HOST_KEY_CHECKING_ must be one of: *yes*, *no*, *ask*.
+        tunnel-through-iap: |-
+            Tunnel the ssh connection through Cloud Identity-Aware Proxy for TCP
+            forwarding.
+            +
+            To learn more, see the
+            [IAP for TCP forwarding documentation](https://cloud.google.com/iap/docs/tcp-forwarding-overview).
+        verify-internal-ip: Whether or not `gcloud` should perform an initial SSH connection to verify an instance ID is correct when connecting via its internal IP. Without this check, `gcloud` will simply connect to the internal IP of the desired instance, which may be wrong if the desired instance is in a different subnet but happens to share the same internal IP as an instance in the current subnet. Defaults to True.
+        zone: |-
+            The zone of the instance to copy files to/from.
+            +
+            If not specified and the ``compute/zone'' property isn't set, you
+            might be prompted to select a zone (interactive mode only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/zone'' property:
+            +
+              $ gcloud config set compute/zone ZONE
+            +
+            A list of zones can be fetched by running:
+            +
+              $ gcloud compute zones list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/zone
+            +
+            Alternatively, the zone can be stored in the environment variable
+            ``CLOUDSDK_COMPUTE_ZONE''.

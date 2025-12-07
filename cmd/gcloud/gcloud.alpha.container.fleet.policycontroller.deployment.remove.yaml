@@ -1,0 +1,81 @@
+name: remove
+description: '*(ALPHA)*  Removes configuration properties from Policy Controller components.'
+flags:
+    --all-memberships: If supplied, apply to all Policy Controllers memberships in the fleet.
+    --effect=: Applies only to "toleration" property.
+    --location=: Location for the memberships.
+    --memberships=!: IDs of the memberships or fully qualified identifiers for the memberships.
+    --no-all-memberships&: If supplied, apply to all Policy Controllers memberships in the fleet.
+completion:
+    flag:
+        effect:
+            - NoSchedule
+            - PreferNoSchedule
+            - NoExecute
+documentation:
+    command: |-
+        *(ALPHA)*  Remove customizations of on-cluster components in Policy Controller. These
+        components are managed as individual kubernetes deployments (e.g. 'admission')
+        in the gatekeeper-system namespace.
+
+        When removing a 'toleration' property, it must match exactly, including the
+        key, value and effect flag (if originally specified).
+
+        ## EXAMPLES
+
+        To remove the replica count for a component:
+
+          $ gcloud alpha container fleet policycontroller deployment remove admission replica-count
+
+        To remove the replica count for a component across all fleet memberships:
+
+          $ gcloud alpha container fleet policycontroller deployment remove admission replica-count --all-memberships
+
+        To remove a toleration with key 'my-key' on a component:
+
+          $ gcloud alpha container fleet policycontroller deployment remove admission toleration my-key
+
+        To remove a toleration with key 'my-key' and 'my-value' on a component:
+
+          $ gcloud alpha container fleet policycontroller deployment remove admission toleration my-key=my-value
+
+        To remove a toleration with key 'my-key' and 'my-value' on a component, along
+        with the effect 'NoSchedule':
+
+          $ gcloud alpha container fleet policycontroller deployment remove admission toleration my-key=my-value --effect=NoSchedule
+
+        To remove a memory limit:
+
+          $ gcloud alpha container fleet policycontroller deployment remove audit memory-limit
+
+        To remove a memory request:
+
+          $ gcloud alpha container fleet policycontroller deployment remove mutation memory-request
+
+        To remove a cpu limit:
+
+          $ gcloud alpha container fleet policycontroller deployment remove admission cpu-limit
+
+        To remove a cpu request:
+
+          $ gcloud alpha container fleet policycontroller deployment remove audit cpu-request
+
+        To remove the anti-affinity configuration:
+
+          $ gcloud alpha container fleet policycontroller deployment remove admission pod-affinity
+    flag:
+        all-memberships: If supplied, apply to all Policy Controllers memberships in the fleet.
+        effect: 'Applies only to "toleration" property. To be removed, tolerations must match exactly, including the effect setting. _EFFECT_ must be one of: *NoSchedule*, *PreferNoSchedule*, *NoExecute*.'
+        location: |-
+            Location for the memberships.
+            +
+            To set the `location` attribute:
+            * provide the argument `--memberships` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `gkehub/location`.
+        memberships: |-
+            IDs of the memberships or fully qualified identifiers for the memberships.
+            +
+            To set the `memberships` attribute:
+            * provide the argument `--memberships` on the command line.
+        no-all-memberships: If supplied, apply to all Policy Controllers memberships in the fleet.

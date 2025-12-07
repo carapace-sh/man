@@ -1,0 +1,102 @@
+name: create
+description: '*(BETA)*  Create a Compute Engine packet mirroring policy.'
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --collector-ilb=!: Forwarding rule configured as collector.
+    --description=: Optional, textual description for the packet mirroring.
+    --enable: Enable or disable the packet-mirroring.
+    --filter-cidr-ranges=: One or more IPv4 or IPv6 CIDR ranges that apply as filters on the source
+    --filter-direction=: '- For `ingress`, only ingress traffic is mirrored.'
+    --filter-protocols=: List of IP protocols that apply as filters for packet mirroring traffic.
+    --mirrored-instances=: List of instances to be mirrored.
+    --mirrored-subnets=: List of subnets to be mirrored.
+    --mirrored-tags=: List of virtual machine instance tags to be mirrored.
+    --network=!: Network for this packet mirroring.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-enable&: Enable or disable the packet-mirroring.
+    --region=: Region of the packet mirroring to create.
+completion:
+    flag:
+        filter-direction:
+            - both
+            - egress
+            - ingress
+documentation:
+    command: '*(BETA)*  Create a Compute Engine packet mirroring policy.'
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        collector-ilb: |-
+            Forwarding rule configured as collector. This must be a regional
+            forwarding rule (in the same region) with load balancing scheme INTERNAL
+            and isMirroringCollector set to true.
+            +
+            You can provide this as the full URL to the forwarding rule, partial URL,
+            or name.
+            For example, the following are valid values:
+              * https://compute.googleapis.com/compute/v1/projects/myproject/
+                regions/us-central1/forwardingRules/fr-1
+              * projects/myproject/regions/us-central1/forwardingRules/fr-1
+              * fr-1
+        description: Optional, textual description for the packet mirroring.
+        enable: Enable or disable the packet-mirroring. Enabled by default, use *--no-enable* to disable.
+        filter-cidr-ranges: |-
+            One or more IPv4 or IPv6 CIDR ranges that apply as filters on the source
+            (ingress) or destination (egress) IP in the IP header. If no ranges are
+            specified, all IPv4 traffic that matches the specified IPProtocols is
+            mirrored. If neither cidrRanges nor IPProtocols is specified, all IPv4
+            traffic is mirrored. To mirror all IPv4 and IPv6 traffic, use
+            0.0.0.0/0,::/0
+        filter-direction: |-
+            - For `ingress`, only ingress traffic is mirrored.
+            - For `egress`, only egress traffic is mirrored.
+            - For `both` (default), both directions are mirrored. _DIRECTION_ must be one of: *both*, *egress*, *ingress*.
+        filter-protocols: |-
+            List of IP protocols that apply as filters for packet mirroring traffic.
+            If unspecified, the packet mirroring applies to all traffic.
+            PROTOCOL can be one of tcp, udp, icmp, esp, ah, ipip, sctp, or an IANA
+            protocol number.
+        mirrored-instances: |-
+            List of instances to be mirrored.
+            You can provide this as the full or valid partial URL to the instance.
+            For example, the following are valid values:
+              * https://compute.googleapis.com/compute/v1/projects/myproject/
+                zones/us-central1-a/instances/instance-
+              * projects/myproject/zones/us-central1-a/instances/instance-1
+        mirrored-subnets: |-
+            List of subnets to be mirrored.
+            You can provide this as the full URL to the subnet, partial URL, or
+            name.
+            For example, the following are valid values:
+              * https://compute.googleapis.com/compute/v1/projects/myproject/
+                regions/us-central1/subnetworks/subnet-1
+              * projects/myproject/regions/us-central1/subnetworks/subnet-1
+              * subnet-1
+        mirrored-tags: |-
+            List of virtual machine instance tags to be mirrored.
+            +
+            To read more about configuring network tags, read this guide:
+            https://cloud.google.com/vpc/docs/add-remove-network-tags
+            +
+            The virtual machines with the provided tags must live
+            in zones contained in the same region as this packet mirroring.
+        network: |-
+            Network for this packet mirroring.
+            Only the packets in this network will be mirrored. It is mandatory
+            that all mirrored VMs have a network interface controller (NIC) in
+            the given network. All mirrored subnetworks should belong to the
+            given network.
+            +
+            You can provide this as the full URL to the network, partial URL,
+            or name.
+            For example, the following are valid values:
+              * https://compute.googleapis.com/compute/v1/projects/myproject/
+                global/networks/network-1
+              * projects/myproject/global/networks/network-1
+              * network-1
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-enable: Enable or disable the packet-mirroring.
+        region: Region of the packet mirroring to create. Overrides the default *compute/region* property value for this command invocation.

@@ -1,0 +1,99 @@
+name: update
+description: Update a service LB policy.
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --auto-capacity-drain: If specified, an unhealthy MIG/NEG will be removed from Global load balancing and traffic
+    --description=: The description for the service LB policy.
+    --failover-health-threshold=: The percentage threshold that a load balancer will begin to send traffic to failover backends.
+    --isolation-config-granularity=: The granularity of the isolation.
+    --isolation-config-mode=: The granularity of the isolation.
+    --load-balancing-algorithm=: The global load balancing algorithm to be used.
+    --location=: The location Id.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-auto-capacity-drain&: If specified, an unhealthy MIG/NEG will be removed from Global load balancing and traffic
+completion:
+    flag:
+        isolation-config-granularity:
+            - region
+            - unspecified
+        isolation-config-mode:
+            - nearest
+            - strict
+            - unspecified
+        load-balancing-algorithm:
+            - spray-to-region
+            - spray-to-world
+            - waterfall-by-region
+            - waterfall-by-zone
+documentation:
+    command: |
+        Update the detail of a service LB Policy.
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        auto-capacity-drain: |-
+            If specified, an unhealthy MIG/NEG will be removed from Global load balancing and traffic
+            routing for the service.
+            A MIG/NEG is considered to be unhealthy if less than 25% of the instance/endpoints in the
+            MIG/NEG are healthy.
+            autoCapacityDrain will never drain more than 50% of the configured MIGs/NEGs of a Backend
+            Service.
+        description: The description for the service LB policy.
+        failover-health-threshold: |-
+            The percentage threshold that a load balancer will begin to send traffic to failover backends.
+            If the percentage of endpoints in a MIG/NEG is smaller than this value, traffic would be sent
+            to failover backends if possible. This field should be set to a value between 1 and 99.
+            The default value is 50 for Proxyless service mesh, and 70 for others.
+        isolation-config-granularity: |-
+            The granularity of the isolation. _ISOLATION_CONFIG_GRANULARITY_ must be one of:
+            +
+            *region*::: Traffic for this service will be isolated at the nearest cloud region.
+            +
+            *unspecified*::: No isolation is configured for the backend service. Traffic can overflow
+            based on the load balancing algorithm.
+            +
+            :::
+            +
+        isolation-config-mode: |-
+            The granularity of the isolation. _ISOLATION_CONFIG_MODE_ must be one of:
+            +
+            *nearest*::: Traffic will be sent to the nearest location.
+            +
+            *strict*::: Traffic will fail if no serving backends are available in the same region as the load balancer.
+            +
+            *unspecified*::: No isolation mode is configured for the backend service.
+            +
+            :::
+            +
+        load-balancing-algorithm: |-
+            The global load balancing algorithm to be used. _LOAD_BALANCING_ALGORITHM_ must be one of:
+            +
+            *spray-to-region*::: Spread the traffic from each client to all the MIGs/NEGs in a region.
+            +
+            *spray-to-world*::: Balance traffic across all backends across the world proportionally based on capacity.
+            +
+            *waterfall-by-region*::: Direct traffic to the nearest region with endpoints and capacity before spilling over to
+            other regions.
+            +
+            *waterfall-by-zone*::: Attempt to keep traffic in a single zone closest to the client, before spilling over to
+            other zones.
+            +
+            :::
+            +
+        location: |-
+            The location Id.
+            +
+            To set the `location` attribute:
+            * provide the argument `service_lb_policy` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-auto-capacity-drain: |
+            If specified, an unhealthy MIG/NEG will be removed from Global load balancing and traffic
+            routing for the service.
+            A MIG/NEG is considered to be unhealthy if less than 25% of the instance/endpoints in the
+            MIG/NEG are healthy.
+            autoCapacityDrain will never drain more than 50% of the configured MIGs/NEGs of a Backend
+            Service.

@@ -1,0 +1,42 @@
+name: update
+description: '*(ALPHA)*  Update Access Approval settings.'
+flags:
+    --active-key-version=: The asymmetric crypto key version to use for signing approval requests.
+    --approval-policy=: The preference to configure the approval policy for access requests.
+    --enrolled-services=: Comma-separated list of services to enroll for Access Approval or 'all' for all supported services.
+    --folder=: Folder number.
+    --notification-emails=: Comma-separated list of email addresses to which notifications relating to approval requests should be sent or '' to clear all saved notification emails.
+    --notification-pubsub-topic=: The pubsub topic to publish notifications to when approval requests are made.
+    --organization=: Organization number.
+    --prefer-no-broad-approval-requests=: If set to true it will communicate the preference to Google personnel to request access with as targeted a resource scope as possible.
+    --preferred-request-expiration-days=: The default expiration time for approval requests.
+    --request-scope-max-width-preference=: The preference for the broadest scope of access for access requests without a specific method.
+    --require-customer-visible-justification=: The preference to configure if a customer visible justification (i.e. Vector Case) is required for a Googler to create an Access Ticket to send to the customer when attempting to access customer resources.
+completion:
+    flag:
+        approval-policy:
+            - transparency
+            - streamlined-support
+            - access-approval
+            - inherit-policy-from-parent
+        request-scope-max-width-preference:
+            - ORGANIZATION
+            - FOLDER
+            - PROJECT
+documentation:
+    command: |-
+        *(ALPHA)*  Update the Access Approval settings associated with a project, a folder, or
+        organization. Partial updates are supported (for example, you can update the
+        notification emails without modifying the enrolled services).
+    flag:
+        active-key-version: The asymmetric crypto key version to use for signing approval requests. Use '' to remove the custom signing key.
+        approval-policy: 'The preference to configure the approval policy for access requests. _APPROVAL_POLICY_ must be one of: *transparency*, *streamlined-support*, *access-approval*, *inherit-policy-from-parent*.'
+        enrolled-services: Comma-separated list of services to enroll for Access Approval or 'all' for all supported services. Note for project and folder enrollments, only 'all' is supported. Use '' to clear all enrolled services.
+        folder: Folder number. Only one of --project, --folder, or --organization can be provided. If none are provided then it uses config property [core/project].
+        notification-emails: Comma-separated list of email addresses to which notifications relating to approval requests should be sent or '' to clear all saved notification emails.
+        notification-pubsub-topic: The pubsub topic to publish notifications to when approval requests are made.
+        organization: Organization number. Either --project, --folder, or --organization must be provided. If none are provided then it uses config property [core/project].
+        prefer-no-broad-approval-requests: If set to true it will communicate the preference to Google personnel to request access with as targeted a resource scope as possible.
+        preferred-request-expiration-days: The default expiration time for approval requests. This value must be between 1 and 30. Note that this can be overridden at time of Approval Request creation and modified by the customer at approval time.
+        request-scope-max-width-preference: 'The preference for the broadest scope of access for access requests without a specific method. _REQUEST_SCOPE_MAX_WIDTH_PREFERENCE_ must be one of: *ORGANIZATION*, *FOLDER*, *PROJECT*.'
+        require-customer-visible-justification: The preference to configure if a customer visible justification (i.e. Vector Case) is required for a Googler to create an Access Ticket to send to the customer when attempting to access customer resources.

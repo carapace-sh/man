@@ -1,0 +1,58 @@
+name: create
+description: Create a schedule.
+flags:
+    --commit-sha=: The commit SHA to read from the Dataform repository.
+    --cron-schedule=!: Cron schedule (https://en.wikipedia.org/wiki/Cron) to launch scheduled runs.
+    --dataform-repository-name=!: ID of the dataform repository or fully qualified identifier for the dataform repository.
+    --display-name=!: The display name of the schedule.
+    --enable-queueing: Enables new scheduled runs to be queued when max_concurrent_runs limit is reached.
+    --end-time=: Timestamp after which no new runs can be scheduled.
+    --execution-display-name=!: The display name of the execution.
+    --execution-timeout=: The max running time of the execution job, as a duration.
+    --gcs-notebook-uri=!: The Cloud Storage uri pointing to the notebook.
+    --gcs-output-uri=!: The Cloud Storage location to upload notebook execution results to.
+    --generation=: The version of the Cloud Storage object to read.
+    --max-concurrent-runs=: Maximum number of runs that can be started concurrently for this Schedule.
+    --max-runs=: The max runs for the schedule.
+    --no-enable-queueing&: Enables new scheduled runs to be queued when max_concurrent_runs limit is reached.
+    --notebook-runtime-template=!: ID of the notebook runtime template or fully qualified identifier for the notebook runtime template.
+    --region=: ID of the region or fully qualified identifier for the region.
+    --service-account=: The service account to run the execution as.
+    --start-time=: The timestamp after which the first run can be scheduled.
+    --user-email=: The user email to run the execution as.
+documentation:
+    command: |
+        Create a schedule to run a Colab Enterprise notebook execution job.
+    flag:
+        commit-sha: The commit SHA to read from the Dataform repository. If unset, the file will be read from HEAD.
+        cron-schedule: 'Cron schedule (https://en.wikipedia.org/wiki/Cron) to launch scheduled runs. To explicitly set a timezone to the cron tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or "TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid string from IANA time zone database. For example, "CRON_TZ=America/New_York 1 * * * *", or "TZ=America/New_York 1 * * * *".'
+        dataform-repository-name: |-
+            ID of the dataform repository or fully qualified identifier for the dataform repository.
+            +
+            To set the `name` attribute:
+            * provide the argument `--dataform-repository-name` on the command line.
+        display-name: The display name of the schedule.
+        enable-queueing: Enables new scheduled runs to be queued when max_concurrent_runs limit is reached. If set to true, new runs will be queued instead of skipped.
+        end-time: Timestamp after which no new runs can be scheduled. If specified, the schedule will be completed when either end_time is reached or when scheduled_run_count >= max_run_count. If neither end time nor max_run_count is specified, new runs will keep getting scheduled until this Schedule is paused or deleted. Must be in the RFC 3339 (https://www.rfc-editor.org/rfc/rfc3339.txt) format. E.g. "2026-01-01T00:00:00Z" or "2026-01-01T00:00:00-05:00"
+        execution-display-name: The display name of the execution.
+        execution-timeout: The max running time of the execution job, as a duration. See '$ gcloud topic datetimes' for details on formatting the input duration.
+        gcs-notebook-uri: 'The Cloud Storage uri pointing to the notebook. Format: gs://bucket/notebook_file.ipynb'
+        gcs-output-uri: 'The Cloud Storage location to upload notebook execution results to. Format: gs://bucket-name.'
+        generation: The version of the Cloud Storage object to read. If unset, the current version of the object will be used.
+        max-concurrent-runs: Maximum number of runs that can be started concurrently for this Schedule. This is the limit for starting the scheduled requests and not the execution of the notebook execution jobs created by the requests.
+        max-runs: The max runs for the schedule.
+        no-enable-queueing: Enables new scheduled runs to be queued when max_concurrent_runs limit is reached. If set to true, new runs will be queued instead of skipped.
+        notebook-runtime-template: |-
+            ID of the notebook runtime template or fully qualified identifier for the notebook runtime template.
+            +
+            To set the `name` attribute:
+            * provide the argument `--notebook-runtime-template` on the command line.
+        region: |-
+            ID of the region or fully qualified identifier for the region.
+            +
+            To set the `region` attribute:
+            * provide the argument `--region` on the command line;
+            * set the property `colab/region`.
+        service-account: The service account to run the execution as.
+        start-time: The timestamp after which the first run can be scheduled. Defaults to the schedule creation time. Must be in the RFC 3339 (https://www.rfc-editor.org/rfc/rfc3339.txt) format. E.g. "2026-01-01T00:00:00Z" or "2026-01-01T00:00:00-05:00"
+        user-email: The user email to run the execution as. This requires the provided runtime template to have end user credentials enabled.

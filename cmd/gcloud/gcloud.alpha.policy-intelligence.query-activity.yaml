@@ -1,0 +1,25 @@
+name: query-activity
+description: '*(ALPHA)*  Query activities on cloud resource.'
+hidden: true
+flags:
+    --activity-type=!: Type of the activities.
+    --limit=: Max number of query result.
+    --page-size=: Max page size for each http response.
+    --query-filter=: Filter on activities.
+completion:
+    flag:
+        activity-type:
+            - serviceAccountLastAuthentication
+            - serviceAccountKeyLastAuthentication
+            - dailyAuthorization
+documentation:
+    command: |
+        *(ALPHA)*  Query activities with certain types of specific container resource. For --activity-type, supported values are:
+        - serviceAccountLastAuthentication
+        - serviceAccountKeyLastAuthentication
+        - dailyAuthorization
+    flag:
+        activity-type: 'Type of the activities. _ACTIVITY_TYPE_ must be one of: *serviceAccountLastAuthentication*, *serviceAccountKeyLastAuthentication*, *dailyAuthorization*.'
+        limit: Max number of query result. Default to be 1000 and max to be unlimited, i.e., --limit=unlimited.
+        page-size: Max page size for each http response. Default to be 500 and max to be 1000.
+        query-filter: "Filter on activities. \n+\n      For last authentication activities, this field is separated by \"OR\" if multiple filters are specified. At most 10 filter restrictions are supported in the query-filter. \n+\n        e.g. --query-filter='activities.full_resource_name=\"//iam.googleapis.com/projects/project-id/serviceAccounts/service-account-name-1@project-id.iam.gserviceaccount.com\" OR activities.full_resource_name=\"//iam.googleapis.com/projects/project-id/serviceAccounts/service-account-name-2@project-id.iam.gserviceaccount.com\"'\n+\n      For daily authorization activities, this field is separated by \"OR\" and \"AND\". At most 10 filter restrictions per layer and at most 2 layers are supported in the query-filter. \n+\n        e.g. --query-filter='activities.activity.date=\"2022-01-01\" AND activities.activity.permission=\"spanner.databases.list\" AND (activities.activity.principal=\"principal_1@your-organization.com\" OR activities.activity.principal=\"principal_2@your-organization.com\")'"

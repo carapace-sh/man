@@ -1,0 +1,107 @@
+name: update
+description: '*(BETA)*  Updates a record-set in a managed-zone.'
+flags:
+    --backup-data-trickle-ratio=: Specifies the percentage of traffic to send to the backup targets even when the primary targets are healthy.
+    --enable-geo-fencing: Specifies whether to enable fencing for geo queries.
+    --enable-health-checking: Required if specifying forwarding rule names for rrdata.
+    --health-check=: Specifies the health check to be used for public IP health checking.
+    --location=: Specifies the desired service location the request is sent to.
+    --no-enable-geo-fencing&: Specifies whether to enable fencing for geo queries.
+    --no-enable-health-checking&: Required if specifying forwarding rule names for rrdata.
+    --routing-policy-backup-data-type=!: For FAILOVER routing policies, the type of routing policy the backup data uses.
+    --routing-policy-backup-data=: (DEPRECATED) Specify the backup configuration for a primary backup routing policy.
+    --routing-policy-backup-item=: Specify this argument multiple times to define multiple items
+    --routing-policy-data=: (DEPRECATED) The routing policy data supports one of two formats below, depending on the choice of routing-policy-type.
+    --routing-policy-item=: Specify this argument multiple times for a weighted round robin (WRR)
+    --routing-policy-primary-data=!: The primary configuration for a primary backup routing policy.
+    --routing-policy-type=!: Indicates what type of routing policy is being specified.
+    --rrdatas=: DNS data (Address/CNAME/MX info, etc.) of the record-set.
+    --ttl=: TTL (time to live) for the record-set.
+    --type=!: DNS record type of the record-set (e.g. A, AAAA, MX etc.).
+    --zone=!: Name of the managed zone whose record sets you want to manage.
+completion:
+    flag:
+        routing-policy-backup-data-type:
+            - GEO
+        routing-policy-type:
+            - GEO
+            - WRR
+            - FAILOVER
+documentation:
+    command: |-
+        *(BETA)*  This command updates a record-set contained within the specified
+        managed-zone.
+
+        ## EXAMPLES
+
+        To update a record-set with dnsName foo.bar.com., record type A to have rrdata
+        [1.2.3.4, 9.8.7.6] and ttl 60 in my_zone, run:
+
+          $ gcloud beta dns record-sets update foo.bar.com. --rrdatas=1.2.3.4,9.8.7.6 --type=A --ttl=60
+             --zone=my_zone
+
+        To update a record-set with dnsName foo.bar.com., record type A to have rrdata
+        [1.2.3.4, 9.8.7.6] and ttl 60 in my_zone that is located in us-east1-a, run:
+
+          $ gcloud beta dns record-sets update foo.bar.com. --rrdatas=1.2.3.4,9.8.7.6 --type=A --ttl=60
+             --zone=my_zone --location=us-east1-a
+    flag:
+        backup-data-trickle-ratio: Specifies the percentage of traffic to send to the backup targets even when the primary targets are healthy.
+        enable-geo-fencing: Specifies whether to enable fencing for geo queries.
+        enable-health-checking: Required if specifying forwarding rule names for rrdata.
+        health-check: Specifies the health check to be used for public IP health checking. Either the health check name or full resource path should be provided.
+        location: Specifies the desired service location the request is sent to. Defaults to Cloud DNS global service. Use --location=global if you want to target the global service.
+        no-enable-geo-fencing: Specifies whether to enable fencing for geo queries.
+        no-enable-health-checking: Required if specifying forwarding rule names for rrdata.
+        routing-policy-backup-data: |-
+            (DEPRECATED) Specify the backup configuration for a primary backup routing policy. This backup configuration uses the same format as the routing-policy-data argument because it functions as another geolocation routing policy.
+            +
+            The `--routing-policy-backup-data` flag is deprecated. Use --routing-policy-backup-item instead.
+        routing-policy-backup-data-type: 'For FAILOVER routing policies, the type of routing policy the backup data uses. Currently, this must be GEO. _ROUTING_POLICY_BACKUP_DATA_TYPE_ must be (only one value is supported): *GEO*.'
+        routing-policy-backup-item: |-
+            Specify this argument multiple times to define multiple items
+            for a primary backup routing policy.
+            +
+            (e.g. --routing-policy-backup-item=location=us-east1-a,rrdatas=1.2.3.4;2.3.4.5,external_endpoints=3.4.5.6;4.5.6.7
+            --routing-policy-backup-item=location=us-east1-b,rrdatas=10.0.0.1;10.0.0.2,external_endpoints=10.0.0.4)
+            +
+            *location*::: The location corresponding to the item.
+            +
+            *rrdatas*::: The list of rrdatas, split by ";".
+            +
+            *external_endpoints*::: The list of health checked ips, split by ";".
+            +
+            *internal_load_balancers*::: The list of health checked internal load balancers, split by ";".
+        routing-policy-data: |-
+            (DEPRECATED) The routing policy data supports one of two formats below, depending on the choice of routing-policy-type.
+            +
+            For --routing-policy-type = "WRR" this flag indicates the weighted round robin policy data. The field accepts a semicolon-delimited list of the format "${weight_percent}=${rrdata},${rrdata}". Specify weight as a non-negative number (0 is allowed). Ratio of traffic routed to the target is calculated from the ratio of individual weight over the total across all weights.
+            +
+            For --routing-policy-type = "GEO" this flag indicates the geo-locations policy data. The field accepts a semicolon-delimited list of the format "${region}=${rrdata},${rrdata}". Each rrdata can either be an IP address or a reference to a forwarding rule of the format "FORWARDING_RULE_NAME", "FORWARDING_RULE_NAME@{region}", "FORWARDING_RULE_NAME@global", or the full resource path of the forwarding rule.
+            +
+            The `--routing_policy_data` flag is deprecated. Use --routing-policy-item instead.
+        routing-policy-item: |-
+            Specify this argument multiple times for a weighted round robin (WRR)
+            or geolocation routing policy. Use this repeated argument for only one
+            routing policy type (WRR or geolocation), not both. Similarly, use it
+            only for health checking either internal load balancers or external IP
+            addresses, not both.
+            +
+            (e.g. --routing-policy-item=weight=1,rrdatas=1.2.3.4;2.3.4.5,external_endpoints=3.4.5.6;4.5.6.7
+            --routing-policy-item=weight=1,rrdatas=10.0.0.1;10.0.0.2,external_endpoints=10.0.0.4)
+            +
+            *weight*::: The weight of the item. This is specified only for WRR routing policy items.
+            +
+            *location*::: The location corresponding to the item. This is specified only for GEO routing policy items.
+            +
+            *rrdatas*::: The list of rrdatas, split by ";".
+            +
+            *external_endpoints*::: The list of health checked ips, split by ";".
+            +
+            *internal_load_balancers*::: The list of health checked internal load balancers, split by ";".
+        routing-policy-primary-data: The primary configuration for a primary backup routing policy. This configuration is a list of forwarding rules of the format "FORWARDING_RULE_NAME", "FORWARDING_RULE_NAME@scope", or the full resource path of the forwarding rule.
+        routing-policy-type: 'Indicates what type of routing policy is being specified. As of this time, this field can take on either "WRR" for weighted round robin, "GEO" for geo location, or "FAILOVER" for a primary-backup configuration. This field cannot be modified - once a policy has a chosen type, the only way to change it is to delete the policy and add a new one with the different type. _ROUTING_POLICY_TYPE_ must be one of: *GEO*, *WRR*, *FAILOVER*.'
+        rrdatas: DNS data (Address/CNAME/MX info, etc.) of the record-set. This is RDATA; the format of this information varies depending on the type and class of the resource record.
+        ttl: TTL (time to live) for the record-set.
+        type: DNS record type of the record-set (e.g. A, AAAA, MX etc.).
+        zone: Name of the managed zone whose record sets you want to manage.

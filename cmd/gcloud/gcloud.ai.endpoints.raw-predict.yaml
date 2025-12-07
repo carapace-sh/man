@@ -1,0 +1,54 @@
+name: raw-predict
+description: Run Vertex AI online raw prediction.
+flags:
+    --http-headers=: List of header and value pairs to send as part of the request.
+    --region=: Cloud region for the endpoint.
+    --request=!: The request to send to the endpoint.
+documentation:
+    command: |-
+        `gcloud ai endpoints raw-predict` sends a raw prediction request to a Vertex AI endpoint. The
+        request can be given on the command line or read from a file or stdin.
+
+        ## EXAMPLES
+
+        To predict against an endpoint ``123'' under project ``example'' in region
+        ``us-central1'', reading the request from the command line, run:
+
+          $ gcloud ai endpoints raw-predict 123 --project=example --region=us-central1 --request='{
+              "instances": [
+                { "values": [1, 2, 3, 4], "key": 1 },
+                { "values": [5, 6, 7, 8], "key": 2 }
+              ]
+            }'
+
+        If the request body was in the file ``input.json'', run:
+
+          $ gcloud ai endpoints raw-predict 123 --project=example --region=us-central1 --request=@input.json
+
+        To send the image file ``image.jpeg'' and set the *content type*, run:
+
+          $ gcloud ai endpoints raw-predict 123 --project=example --region=us-central1
+          --http-headers=Content-Type=image/jpeg --request=@image.jpeg
+    flag:
+        http-headers: |-
+            List of header and value pairs to send as part of the request. For
+            example, to set the *Content-Type* and *X-Header*:
+            +
+              --http-headers=Content-Type="application/json",X-Header=Value
+        region: |-
+            Cloud region for the endpoint.
+            +
+            To set the `region` attribute:
+            * provide the argument `endpoint` on the command line with a fully specified name;
+            * provide the argument `--region` on the command line;
+            * set the property `ai/region`;
+            * choose one from the prompted list of available regions.
+        request: |-
+            The request to send to the endpoint.
+            +
+            If the request starts with the letter '*@*', the rest should be a file
+            name to read the request from, or '*@-*' to read from *stdin*. If the
+            request body actually starts with '*@*', it must be placed in a file.
+            +
+            If required, the *Content-Type* header should also be set appropriately,
+            particularly for binary data.

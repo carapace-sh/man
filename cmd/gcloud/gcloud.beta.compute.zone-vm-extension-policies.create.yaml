@@ -1,0 +1,73 @@
+name: create
+description: '*(BETA)*  Create a Compute Engine zone VM extension policy.'
+flags:
+    --config-from-file=: Same as --config except that the value for the entry will be read from a
+    --config=: A comma separated key:value list where the key is the extension name and the value is the
+    --description=: An optional textual description for the this extension policy.
+    --extensions=!: One or more extensions to be added to the policy.
+    --inclusion-labels=: A list of inclusion labels to select the target VMs.
+    --priority=: The priority of the policy.
+    --zone=: Zone of the zone vm extension policy to create.
+documentation:
+    command: '*(BETA)*  Create a Compute Engine zone VM extension policy.'
+    flag:
+        config: |-
+            A comma separated key:value list where the key is the extension name and the value is the
+            desired config for the given extension. The extension name must be one of the extensions
+            specified in the --extensions flag.
+            +
+            E.g. --config=filestore='filestore config',ops-agent='ops agent config'
+            +
+            Raises:
+              ArgumentTypeError: If the extension name is not specified in the
+              --extensions flag.
+        config-from-file: |-
+            Same as --config except that the value for the entry will be read from a
+            local file. The extension name must be one of the extensions specified in
+            the --extensions flag.
+            +
+            It is an error to specify the same extension in both --config and
+            --config-from-file.
+        description: An optional textual description for the this extension policy.
+        extensions: One or more extensions to be added to the policy.
+        inclusion-labels: |-
+            A list of inclusion labels to select the target VMs.
+            +
+            The expected format for a single selector is "key1=value1,key2=value2".
+            A VM is selected if it has ALL the inclusion labels.
+            +
+            When the option is specified multiple times, it assumes a logical OR between the selectors.
+            +
+            For example, if the inclusion labels are ["env=prod,workload=frontend", "workload=backend"], the following VMs will be selected:
+            - VM1: env=prod, workload=frontend, something=else
+            - VM2: env=prod, workload=backend
+            But not:
+            - VM3: env=prod
+            +
+            If not specified, ALL VMs in the zone will be selected.
+        priority: |-
+            The priority of the policy. Lower the number, higher the priority.
+            When two policies tries to apply the same extension, the one with the higher priority takes precedence.
+            If the priority is the same, the one with the more recent update timestamp takes precedence.
+            When a policy is deleted, the extension would remain installed on the VM if a lower priority policy still applies.
+            +
+            Range from 0 to 65535. Default is 1000.
+        zone: |-
+            Zone of the zone vm extension policy to create. If not specified and the ``compute/zone'' property isn't set, you
+            might be prompted to select a zone (interactive mode only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/zone'' property:
+            +
+              $ gcloud config set compute/zone ZONE
+            +
+            A list of zones can be fetched by running:
+            +
+              $ gcloud compute zones list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/zone
+            +
+            Alternatively, the zone can be stored in the environment variable
+            ``CLOUDSDK_COMPUTE_ZONE''.

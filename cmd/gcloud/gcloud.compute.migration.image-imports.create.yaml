@@ -1,0 +1,94 @@
+name: create
+description: import Virtual Disk images to Google Compute Engine.
+flags:
+    --adaptation-modifiers=: A map of flags to pass to the OS adaptation process.
+    --additional-licenses=: Comma-separated list of the additional licenses to assign to the image.
+    --boot-conversion=: This property will trigger an internal process which will convert the
+    --description=: A description of the image.
+    --family-name=: The name of the image family to which the new image belongs.
+    --generalize: If true, generalize the imported image.
+    --guest-os-features=: Guest OS features to enable on the imported image.
+    --image-name=: The name of the image that will be imported to Google Compute Engine.
+    --kms-key=: Fully qualified identifier for the Cloud KMS (Key Management Service) cryptokey that will be used to protect the image.
+    --labels=: A map of labels to associate with the image.
+    --license-type=: The license to use post migration.
+    --location=: Resource location.
+    --no-generalize&: If true, generalize the imported image.
+    --no-single-region-storage&: If true, the location of the imported image will be the region of the import job.
+    --no-skip-os-adaptation&: If true, skip OS adaptation.
+    --rootfs-uuid=: Identifies the file system to adapt.
+    --single-region-storage: If true, the location of the imported image will be the region of the import job.
+    --skip-os-adaptation: If true, skip OS adaptation.
+    --source-file=!: The path to the Google Cloud Storage file from which the image should be imported.
+    --target-project=: The target project resource path to which the image will be imported.
+completion:
+    flag:
+        boot-conversion:
+            - bios-to-efi
+            - boot-conversion-unspecified
+            - none
+        license-type:
+            - compute-engine-license-type-byol
+            - compute-engine-license-type-default
+            - compute-engine-license-type-payg
+documentation:
+    command: |
+        gcloud compute migration image-imports create imports images such as VMWare VMDK files and VHD files, from a Google Cloud Storage
+        file (gs://...) to Google Compute Engine, using the Migrate to Virtual Machines service API.
+        This command creates an Image Import resource with a nested Image Import Job
+        resource. The Image Import Job resource tracks the image import progress.
+        To use this command, you must enable VM Migration API in your project.
+    flag:
+        adaptation-modifiers: |-
+            A map of flags to pass to the OS adaptation process.
+            The actual value depends on the modifier and can also be empty.
+            e.g. --adaptation-modifiers=flag1=value1,flag2
+        additional-licenses: Comma-separated list of the additional licenses to assign to the image.
+        boot-conversion: |-
+            This property will trigger an internal process which will convert the
+             image from using the existing boot option to another.
+             The size of the boot disk might be increased to allow the conversion.
+             Currently only support BIOS_TO_EFI.
+            +
+            _BOOT_CONVERSION_ must be one of: *bios-to-efi*, *boot-conversion-unspecified*, *none*.
+        description: A description of the image.
+        family-name: The name of the image family to which the new image belongs.
+        generalize: |-
+            If true, generalize the imported image. Default false.
+            The generalization process enables co-existence of multiple VMs created from the same image.
+            For Windows, generalizing the image removes computer-specific information such as
+            installed drivers and the computer security identifier (SID).
+        guest-os-features: |-
+            Guest OS features to enable on the imported image.
+            This field does not change the OS of the image; it only marks the image with the specified features, so ensure they are compatible with the OS.
+            If specified, --skip-os-adaptation must be specified.
+        image-name: |-
+            The name of the image that will be imported to Google Compute Engine.
+            Default is the Image Import name.
+        kms-key: Fully qualified identifier for the Cloud KMS (Key Management Service) cryptokey that will be used to protect the image.
+        labels: A map of labels to associate with the image.
+        license-type: 'The license to use post migration. _LICENSE_TYPE_ must be one of: *compute-engine-license-type-byol*, *compute-engine-license-type-default*, *compute-engine-license-type-payg*.'
+        location: |-
+            Resource location.
+            +
+            To set the `location` attribute:
+            * provide the argument `image_import_name` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `compute/region`.
+        no-generalize: |
+            If true, generalize the imported image. Default false.
+            The generalization process enables co-existence of multiple VMs created from the same image.
+            For Windows, generalizing the image removes computer-specific information such as
+            installed drivers and the computer security identifier (SID).
+        no-single-region-storage: |
+            If true, the location of the imported image will be the region of the import job. Otherwise the closest multi-region is selected. Default is false.
+        no-skip-os-adaptation: |
+            If true, skip OS adaptation. Default false.
+        rootfs-uuid: Identifies the file system to adapt.
+        single-region-storage: If true, the location of the imported image will be the region of the import job. Otherwise the closest multi-region is selected. Default is false.
+        skip-os-adaptation: If true, skip OS adaptation. Default false.
+        source-file: The path to the Google Cloud Storage file from which the image should be imported.
+        target-project: |-
+            The target project resource path to which the image will be imported.
+            Default is the customer project.
+            To get a list of the target projects run the gcloud alpha migration vms target-projects list command.

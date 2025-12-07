@@ -1,0 +1,72 @@
+name: gcs
+description: '*(BETA)*  Export Cloud Healthcare API HL7v2 messages to Google Cloud Storage.'
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --dataset=: Cloud Healthcare dataset.
+    --end-time=: The end of the range in message send_time (MSH.7) to process.
+    --gcs-uri=!: The Cloud Storage destination location.
+    --location=: Google Cloud location.
+    --message-view=: Specifies the parts of the Message resource to include in the export.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --start-time=: The start of the range in message send_time (MSH.7) to process.
+completion:
+    flag:
+        message-view:
+            - basic
+            - full
+            - parsed-only
+            - raw-only
+            - schematized-only
+documentation:
+    command: '*(BETA)*  Export Cloud Healthcare API HL7v2 messages to Google Cloud Storage.'
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        dataset: |-
+            Cloud Healthcare dataset.
+            +
+            To set the `dataset` attribute:
+            * provide the argument `hl7v2_store` on the command line with a fully specified name;
+            * provide the argument `--dataset` on the command line.
+        end-time: |-
+            The end of the range in message send_time (MSH.7) to process. If not
+            specified, the time when the export is scheduled is used.
+        gcs-uri: |-
+            The Cloud Storage destination location. Specify a path to a Cloud
+            Storage bucket or folder rather than a concrete object. The exported
+            messages are ordered by the message send_time (MSH.7) in ascending
+            order. The server will create one or more objects. Each object contains
+            newline delimited JSON, and each line is an HL7v2 message.
+        location: |-
+            Google Cloud location.
+            +
+            To set the `location` attribute:
+            * provide the argument `hl7v2_store` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `healthcare/location`.
+        message-view: |-
+            Specifies the parts of the Message resource to include in the export.
+            The default is FULL. _MESSAGE_VIEW_ must be one of:
+            +
+            *basic*::: Exported resources include only the name field.
+            +
+            *full*::: Exported resources include all the message fields.
+            +
+            *parsed-only*::: Exported resources include all the message fields except data and
+            schematizedData fields.
+            +
+            *raw-only*::: Exported resources include all the message fields except parsedData
+            and schematizedData fields.
+            +
+            *schematized-only*::: Exported resources include all the message fields except data and
+            parsedData fields.
+            +
+            :::
+            +
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        start-time: |-
+            The start of the range in message send_time (MSH.7) to process. If not
+            specified, the UNIX epoch (1970-01-01T00:00:00Z) is used.

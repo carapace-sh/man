@@ -1,0 +1,115 @@
+name: create
+description: '*(BETA)*  Create a Cloud Tasks queue.'
+flags:
+    --http-header-override=: If provided, the specified HTTP headers override the existing
+    --http-method-override=: If provided, the specified HTTP method type override is used for
+    --http-oauth-service-account-email-override=!: The service account email to be used for generating an OAuth2 access
+    --http-oauth-token-scope-override=: The scope to be used when generating an OAuth2 access token to be
+    --http-oidc-service-account-email-override=!: The service account email to be used for generating an OpenID
+    --http-oidc-token-audience-override=: The audience to be used when generating an OpenID Connect token to
+    --http-uri-override=: If provided, the specified HTTP target URI override is used for all
+    --location=: The location where we want to manage the queue or task.
+    --log-sampling-ratio=: Specifies the fraction of operations to write to Cloud Logging.
+    --max-attempts=: The maximum number of attempts per task in the queue.
+    --max-backoff=: The maximum amount of time to wait before retrying a task after it
+    --max-concurrent-dispatches=: The maximum number of concurrent tasks that Cloud Tasks allows to
+    --max-dispatches-per-second=: The maximum rate at which tasks are dispatched from this queue.
+    --max-doublings=: The time between retries will double maxDoublings times.
+    --max-retry-duration=: The time limit for retrying a failed task, measured from when the task
+    --min-backoff=: The minimum amount of time to wait before retrying a task after it
+    --routing-override=: If provided, the specified App Engine route is used for all tasks
+    --type=: Specifies the type of queue.
+documentation:
+    command: |
+        *(BETA)*  The flags available to this command represent the fields of a queue that are
+        mutable.
+    flag:
+        http-header-override: |-
+            If provided, the specified HTTP headers override the existing
+            headers for all tasks in the queue.
+            If a task has a header with the same Key as a queue-level header
+            override, then the value of the task header will be overriden with
+            the value of the queue-level header. Otherwise, the queue-level
+            header will be added to the task headers.
+            Header values can contain commas. This flag can be repeated.
+            Repeated header fields will have their values overridden.
+        http-method-override: |-
+            If provided, the specified HTTP method type override is used for
+            all tasks in the queue, no matter what is set at the task-level.
+        http-oauth-service-account-email-override: |-
+            The service account email to be used for generating an OAuth2 access
+            token to be included in the request sent to the target when
+            executing the task. The service account must be within the same
+            project as the queue. The caller must have
+            'iam.serviceAccounts.actAs' permission for the service account.
+        http-oauth-token-scope-override: |-
+            The scope to be used when generating an OAuth2 access token to be
+            included in the request sent to the target when executing the task.
+            If not specified, 'https://www.googleapis.com/auth/cloud-platform'
+            will be used.
+        http-oidc-service-account-email-override: |-
+            The service account email to be used for generating an OpenID
+            Connect token to be included in the request sent to the target when
+            executing the task. The service account must be within the same
+            project as the queue. The caller must have
+            'iam.serviceAccounts.actAs' permission for the service account.
+        http-oidc-token-audience-override: |-
+            The audience to be used when generating an OpenID Connect token to
+            be included in the request sent to the target when executing the
+            task. If not specified, the URI specified in the target will be
+            used.
+        http-uri-override: |-
+            If provided, the specified HTTP target URI override is used for all
+            tasks in the queue depending on what is set as the mode.
+            Allowed values for mode are: ALWAYS, IF_NOT_EXISTS. If not set, mode
+            defaults to ALWAYS.
+            +
+            KEY must be at least one of: [scheme, host, port, path, query, mode]. Any missing keys will use the
+            default.
+        location: The location where we want to manage the queue or task. If not specified, uses the location of the current project's App Engine app if there is an associated app.
+        log-sampling-ratio: |-
+            Specifies the fraction of operations to write to Cloud Logging.
+            This field may contain any value between 0.0 and 1.0, inclusive. 0.0 is
+            the default and means that no operations are logged.
+        max-attempts: The maximum number of attempts per task in the queue.
+        max-backoff: |-
+            The maximum amount of time to wait before retrying a task after it
+            fails. Must be a string that ends in 's', such as "5s".
+        max-concurrent-dispatches: |-
+            The maximum number of concurrent tasks that Cloud Tasks allows to
+            be dispatched for this queue. After this threshold has been reached,
+            Cloud Tasks stops dispatching tasks until the number of outstanding
+            requests decreases.
+        max-dispatches-per-second: The maximum rate at which tasks are dispatched from this queue.
+        max-doublings: |-
+            The time between retries will double maxDoublings times.
+            +
+            A tasks retry interval starts at minBackoff, then doubles maxDoublings
+            times, then increases linearly, and finally retries retries at
+            intervals of maxBackoff up to maxAttempts times.
+            +
+            For example, if minBackoff is 10s, maxBackoff is 300s, and
+            maxDoublings is 3, then the a task will first be retried in 10s. The
+            retry interval will double three times, and then increase linearly by
+            2^3 * 10s. Finally, the task will retry at intervals of maxBackoff
+            until the task has been attempted maxAttempts times. Thus, the
+            requests will retry at 10s, 20s, 40s, 80s, 160s, 240s, 300s, 300s.
+        max-retry-duration: |-
+            The time limit for retrying a failed task, measured from when the task
+            was first run. Once the `--max-retry-duration` time has passed and the
+            task has been attempted --max-attempts times, no further attempts will
+            be made and the task will be deleted.
+            +
+            Must be a string that ends in 's', such as "5s".
+        min-backoff: |-
+            The minimum amount of time to wait before retrying a task after it
+            fails. Must be a string that ends in 's', such as "5s".
+        routing-override: |-
+            If provided, the specified App Engine route is used for all tasks
+            in the queue, no matter what is set is at the task-level.
+            +
+            KEY must be at least one of: [service, version, instance]. Any missing keys will use the
+            default.
+        type: |-
+            Specifies the type of queue. Only available options are 'push' and
+            'pull'. The default option is 'push'.

@@ -1,0 +1,33 @@
+name: execute-sql
+description: '*(ALPHA)*  Executes a statement on a Cloud SQL instance.'
+flags:
+    --database=: Database on which the statement is executed.
+    --partial-result-mode=: Controls how the API should respond when the SQL execution result is incomplete due to size limit or other reasons.
+    --row-limit=: Maximum number of rows to return.
+    --sql=!: SQL statement(s) to execute.
+completion:
+    flag:
+        partial-result-mode:
+            - ALLOW_PARTIAL_RESULT
+            - FAIL_PARTIAL_RESULT
+            - PARTIAL_RESULT_MODE_UNSPECIFIED
+documentation:
+    command: |
+        *(ALPHA)*  Executes a statement on a Cloud SQL instance. It will use the
+        credentials of the specified Google Cloud account to connect to the
+        instance, so an IAM user with the same name must exist in the instance.
+        It doesn't support DQL or DML statements yet.
+        WARNING: The requests and responses might transit through intermediate
+        locations between your client and the location of the target instance.
+    flag:
+        database: Database on which the statement is executed.
+        partial-result-mode: |-
+            Controls how the API should respond when the SQL execution result is incomplete due to size limit or other reasons. The default mode is to throw an error instead of returning the partial result. _PARTIAL_RESULT_MODE_ must be one of:
+            +
+            *ALLOW_PARTIAL_RESULT*::: Return the partial result and mark the field partial_result to true if the complete result can't be returned. Don't throw an error.
+            *FAIL_PARTIAL_RESULT*::: Throw an error if the complete result can't be returned. Don't return the partial result.
+            *PARTIAL_RESULT_MODE_UNSPECIFIED*::: Unspecified mode, effectively the same as `FAIL_PARTIAL_RESULT`.
+            :::
+            +
+        row-limit: Maximum number of rows to return. The default is unlimited.
+        sql: SQL statement(s) to execute. It supports multiple statements as well. When it starts with the character '@', the rest should be a filepath to read the SQL statement(s) from.

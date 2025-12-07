@@ -1,0 +1,117 @@
+name: create
+description: import machine images to Google Compute Engine.
+flags:
+    --adaptation-modifiers=: A map of flags to pass to the OS adaptation process.
+    --additional-licenses=: Comma-separated list of the additional licenses to assign to the machine image.
+    --boot-conversion=: This property will trigger an internal process which will convert the
+    --description=: A description of the machine image.
+    --enable-integrity-monitoring: Defines whether the instance created by the machine image has integrity monitoring enabled.
+    --enable-vtpm: Defines whether the instance created by the machine image has vTPM enabled.
+    --generalize: If true, generalize the imported machine image.
+    --kms-key=: Fully qualified identifier for the Cloud KMS (Key Management Service) cryptokey that will be used to protect the image.
+    --labels=: A map of labels to associate with the machine image.
+    --license-type=: The license to use post migration.
+    --location=: Resource location.
+    --machine-image-name=: The name of the machine image that will be imported to Google Compute Engine.
+    --machine-type=: The machine type to create the machine image with.
+    --network-interface=: The network interface to use for the instance created by the machine image.
+    --no-enable-integrity-monitoring&: Defines whether the instance created by the machine image has integrity monitoring enabled.
+    --no-enable-vtpm&: Defines whether the instance created by the machine image has vTPM enabled.
+    --no-generalize&: If true, generalize the imported machine image.
+    --no-single-region-storage&: If true, the location of the imported machine image will be the region of the import job.
+    --no-skip-os-adaptation&: If true, skip OS adaptation.
+    --rootfs-uuid=: Identifies the file system to adapt.
+    --scopes=: The list of scopes to be made available for the service account.
+    --secure-boot=: Defines whether the instance created by the machine image has Secure Boot enabled.
+    --service-account=: The email address of the service account.
+    --single-region-storage: If true, the location of the imported machine image will be the region of the import job.
+    --skip-os-adaptation: If true, skip OS adaptation.
+    --source-file=!: The path to the Google Cloud Storage file from which the image should be imported.
+    --tags=: The tags to apply to the instance created by the machine image.
+    --target-project=: The target project resource path to which the machine image will be imported.
+completion:
+    flag:
+        boot-conversion:
+            - bios-to-efi
+            - boot-conversion-unspecified
+            - none
+        license-type:
+            - compute-engine-license-type-byol
+            - compute-engine-license-type-default
+            - compute-engine-license-type-payg
+        secure-boot:
+            - "false"
+            - secure-boot-unspecified
+            - "true"
+documentation:
+    command: |
+        gcloud migration vms machine-image-imports create Imports machine images such as OVA and OVF files, from a Google Cloud Storage file
+        (gs://...) to Google Compute Engine, using the Migrate to Virtual Machines service API.
+        This command creates an Image Import resource with a nested Image Import Job resource.
+        The Image Import Job resource tracks the image import progress. To use this command, you
+        must enable VM Migration API in your project.
+    flag:
+        adaptation-modifiers: |-
+            A map of flags to pass to the OS adaptation process.
+            The actual value depends on the modifier and can also be empty.
+            e.g. --adaptation-modifiers=flag1=value1,flag2
+        additional-licenses: Comma-separated list of the additional licenses to assign to the machine image.
+        boot-conversion: |-
+            This property will trigger an internal process which will convert the
+            image from using the existing boot option to another.
+            The size of the boot disk might be increased to allow the conversion.
+            Currently only support BIOS_TO_EFI. _BOOT_CONVERSION_ must be one of: *bios-to-efi*, *boot-conversion-unspecified*, *none*.
+        description: A description of the machine image.
+        enable-integrity-monitoring: Defines whether the instance created by the machine image has integrity monitoring enabled. This can be set to true only if the image boot option is EFI, and vTPM is enabled.
+        enable-vtpm: Defines whether the instance created by the machine image has vTPM enabled. This can be set to true only if the image boot option is EFI.
+        generalize: |-
+            If true, generalize the imported machine image. Default false.
+            The generalization process enables co-existence of multiple VMs created from the same machine image.
+            For Windows, generalizing the machine image removes computer-specific information such as
+            installed drivers and the computer security identifier (SID).
+        kms-key: Fully qualified identifier for the Cloud KMS (Key Management Service) cryptokey that will be used to protect the image.
+        labels: A map of labels to associate with the machine image.
+        license-type: 'The license to use post migration. _LICENSE_TYPE_ must be one of: *compute-engine-license-type-byol*, *compute-engine-license-type-default*, *compute-engine-license-type-payg*.'
+        location: |-
+            Resource location.
+            +
+            To set the `location` attribute:
+            * provide the argument `image_import_name` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `compute/region`.
+        machine-image-name: |-
+            The name of the machine image that will be imported to Google Compute Engine.
+            Default is the Image Import name.
+        machine-type: The machine type to create the machine image with. If not provided, the service will choose a relevant machine type series based on the information from the source image.
+        network-interface: |-
+            The network interface to use for the instance created by the machine image.
+            This is a dicionary with the following keys:
+            - network: The network to use for this network interface.
+            - subnetwork: The subnetwork to use for this network interface.
+            - network-tier: The network tier to use for this network interface.
+            This argument can be specified multiple times in case of multiple nics.
+        no-enable-integrity-monitoring: |
+            Defines whether the instance created by the machine image has integrity monitoring enabled. This can be set to true only if the image boot option is EFI, and vTPM is enabled.
+        no-enable-vtpm: |
+            Defines whether the instance created by the machine image has vTPM enabled. This can be set to true only if the image boot option is EFI.
+        no-generalize: |
+            If true, generalize the imported machine image. Default false.
+            The generalization process enables co-existence of multiple VMs created from the same machine image.
+            For Windows, generalizing the machine image removes computer-specific information such as
+            installed drivers and the computer security identifier (SID).
+        no-single-region-storage: |
+            If true, the location of the imported machine image will be the region of the import job. Otherwise the closest multi-region is selected. Default is false.
+        no-skip-os-adaptation: |
+            If true, skip OS adaptation. Default false.
+        rootfs-uuid: Identifies the file system to adapt.
+        scopes: The list of scopes to be made available for the service account.
+        secure-boot: 'Defines whether the instance created by the machine image has Secure Boot enabled. This can be set to true only if the image boot option is EFI. If not specified we will use the configuration of the source. _SECURE_BOOT_ must be one of: *false*, *secure-boot-unspecified*, *true*.'
+        service-account: The email address of the service account.
+        single-region-storage: If true, the location of the imported machine image will be the region of the import job. Otherwise the closest multi-region is selected. Default is false.
+        skip-os-adaptation: If true, skip OS adaptation. Default false.
+        source-file: The path to the Google Cloud Storage file from which the image should be imported.
+        tags: The tags to apply to the instance created by the machine image.
+        target-project: |-
+            The target project resource path to which the machine image will be imported.
+            Default is the host project.
+            To get a list of the target projects run the gcloud alpha migration vms target-projects list command.

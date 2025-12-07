@@ -1,0 +1,118 @@
+name: update
+description: '*(ALPHA)*  Update a notification channel.'
+flags:
+    --channel-content-from-file=: The path to a JSON or YAML file containing the channel-content.
+    --channel-content=: The channel-content as a string.
+    --clear-channel-labels: Remove all labels.
+    --clear-user-labels: Remove all labels.
+    --description=: An optional description for the channel.
+    --display-name=: The display name for the channel.
+    --enabled: Whether notifications are forwarded to the described channel.
+    --fields=: The list of fields to update.
+    --no-clear-channel-labels&: Remove all labels.
+    --no-clear-user-labels&: Remove all labels.
+    --no-enabled&: Whether notifications are forwarded to the described channel.
+    --remove-channel-labels=: List of label keys to remove.
+    --remove-user-labels=: List of label keys to remove.
+    --type=: The type of the notification channel.
+    --update-channel-labels=: List of label KEY=VALUE pairs to update.
+    --update-user-labels=: List of label KEY=VALUE pairs to update.
+documentation:
+    command: |
+        *(ALPHA)*  Updates a notification channel.
+
+        If `--channel-content` or `--channel-content-from-file` are specified:
+
+          * --fields can be specified; only the specified fields will be
+            updated.
+          * Alternatively, the channel will be replaced with the provided
+            channel. The channel can be modified further using the flags
+            from the notification channel settings group below.
+
+        Otherwise, the channel will be updated with the values specified in
+        the flags from the notification channel settings group.
+
+        For information about the JSON/YAML format of a notification channel:
+        https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.notificationChannels
+
+        *Note:* When specifying the Channel as a YAML/JSON, the use of
+        `channelLabels` as an alternative name for `labels` is supported.
+
+        ## EXAMPLES
+        The following command updates an existing email notification channel to point from
+        its original email address to "newaddress@newdomain.tld":
+
+          $ gcloud alpha monitoring channels update "projects/12345/notificationChannels/67890"               --update-channel-labels=email_address=newaddress@newdomain.tld
+    flag:
+        channel-content: The channel-content as a string. In either JSON or YAML format.
+        channel-content-from-file: The path to a JSON or YAML file containing the channel-content. Use a full or relative path to a local file containing the value of channel_content.
+        clear-channel-labels: |-
+            Remove all labels. If `--update-channel-labels` is also specified then
+            `--clear-channel-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} --clear-channel-labels
+            +
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} --clear-channel-labels --update-channel-labels foo=bar,baz=qux
+        clear-user-labels: |-
+            Remove all labels. If `--update-user-labels` is also specified then
+            `--clear-user-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} --clear-user-labels
+            +
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} --clear-user-labels --update-user-labels foo=bar,baz=qux
+        description: An optional description for the channel.
+        display-name: The display name for the channel.
+        enabled: Whether notifications are forwarded to the described channel. Use *--enabled* to enable and *--no-enabled* to disable.
+        fields: The list of fields to update. Must specify `--channel-content` or `--channel-content-from-file` if using this flag.
+        no-clear-channel-labels: |
+            Remove all labels. If `--update-channel-labels` is also specified then
+            `--clear-channel-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} --clear-channel-labels
+
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} --clear-channel-labels --update-channel-labels foo=bar,baz=qux
+        no-clear-user-labels: |
+            Remove all labels. If `--update-user-labels` is also specified then
+            `--clear-user-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} --clear-user-labels
+
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} --clear-user-labels --update-user-labels foo=bar,baz=qux
+        no-enabled: Whether notifications are forwarded to the described channel.
+        remove-channel-labels: |-
+            List of label keys to remove. If a label does not exist it is
+            silently ignored. If `--update-channel-labels` is also specified then
+            `--update-channel-labels` is applied first.
+        remove-user-labels: |-
+            List of label keys to remove. If a label does not exist it is
+            silently ignored. If `--update-user-labels` is also specified then
+            `--update-user-labels` is applied first.
+        type: The type of the notification channel. This field matches the value of the NotificationChannelDescriptor type field.
+        update-channel-labels: |-
+            List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+        update-user-labels: |-
+            List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.

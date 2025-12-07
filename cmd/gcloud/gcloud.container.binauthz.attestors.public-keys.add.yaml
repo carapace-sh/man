@@ -1,0 +1,104 @@
+name: add
+description: Add a public key to an Attestor.
+flags:
+    --attestor=!: ID of the attestor or fully qualified identifier for the attestor.
+    --comment=: The comment describing the public key.
+    --keyversion-key=: The key of the CryptoKeyVersion.
+    --keyversion-keyring=: The keyring of the CryptoKeyVersion.
+    --keyversion-location=: The location of the CryptoKeyVersion.
+    --keyversion-project=: Project ID of the Google Cloud project for the CryptoKeyVersion.
+    --keyversion=!: ID of the CryptoKeyVersion or fully qualified identifier for the CryptoKeyVersion.
+    --pgp-public-key-file=: The path to the file containing the ASCII-armored PGP public key to add.
+    --pkix-public-key-algorithm=!: The signing algorithm of the associated key.
+    --pkix-public-key-file=!: The path to the file containing the PKIX public key to add.
+    --public-key-id-override=: If provided, the ID to replace the default API-generated one.
+completion:
+    flag:
+        pkix-public-key-algorithm:
+            - ec-sign-p256-sha256
+            - ec-sign-p384-sha384
+            - ec-sign-p521-sha512
+            - ecdsa-p256-sha256
+            - ecdsa-p384-sha384
+            - ecdsa-p521-sha512
+            - rsa-pss-2048-sha256
+            - rsa-pss-3072-sha256
+            - rsa-pss-4096-sha256
+            - rsa-pss-4096-sha512
+            - rsa-sign-pkcs1-2048-sha256
+            - rsa-sign-pkcs1-3072-sha256
+            - rsa-sign-pkcs1-4096-sha256
+            - rsa-sign-pkcs1-4096-sha512
+            - rsa-sign-pss-2048-sha256
+            - rsa-sign-pss-3072-sha256
+            - rsa-sign-pss-4096-sha256
+            - rsa-sign-pss-4096-sha512
+documentation:
+    command: |-
+        ## EXAMPLES
+
+        To add a new KMS public key to an existing Attestor `my_attestor`:
+
+          $ gcloud container binauthz attestors public-keys add \
+              --attestor=my_attestor \
+              --keyversion-project=foo \
+              --keyversion-location=us-west1 \
+              --keyversion-keyring=aring \
+              --keyversion-key=akey \
+              --keyversion=1
+
+        To add a new PGP public key to an existing Attestor `my_attestor`:
+
+          $ gcloud container binauthz attestors public-keys add \
+              --attestor=my_attestor \
+              --pgp-public-key-file=my_key.pub
+    flag:
+        attestor: |-
+            ID of the attestor or fully qualified identifier for the attestor.
+            +
+            To set the `name` attribute:
+            * provide the argument `--attestor` on the command line.
+        comment: The comment describing the public key.
+        keyversion: |-
+            ID of the CryptoKeyVersion or fully qualified identifier for the CryptoKeyVersion.
+            +
+            To set the `version` attribute:
+            * provide the argument `--keyversion` on the command line.
+        keyversion-key: |-
+            The key of the CryptoKeyVersion.
+            +
+            To set the `key` attribute:
+            * provide the argument `--keyversion` on the command line with a fully specified name;
+            * provide the argument `--keyversion-key` on the command line.
+        keyversion-keyring: |-
+            The keyring of the CryptoKeyVersion.
+            +
+            To set the `keyring` attribute:
+            * provide the argument `--keyversion` on the command line with a fully specified name;
+            * provide the argument `--keyversion-keyring` on the command line.
+        keyversion-location: |-
+            The location of the CryptoKeyVersion.
+            +
+            To set the `location` attribute:
+            * provide the argument `--keyversion` on the command line with a fully specified name;
+            * provide the argument `--keyversion-location` on the command line.
+        keyversion-project: |-
+            Project ID of the Google Cloud project for the CryptoKeyVersion.
+            +
+            To set the `project` attribute:
+            * provide the argument `--keyversion` on the command line with a fully specified name;
+            * provide the argument `--keyversion-project` on the command line;
+            * provide the argument `--project` on the command line;
+            * set the property `core/project`.
+        pgp-public-key-file: The path to the file containing the ASCII-armored PGP public key to add. Use a full or relative path to a local file containing the value of pgp_public_key_file.
+        pkix-public-key-algorithm: |-
+            The signing algorithm of the associated key. This will be used to
+            verify the signatures associated with this key. _PKIX_PUBLIC_KEY_ALGORITHM_ must be one of: *ec-sign-p256-sha256*, *ec-sign-p384-sha384*, *ec-sign-p521-sha512*, *ecdsa-p256-sha256*, *ecdsa-p384-sha384*, *ecdsa-p521-sha512*, *rsa-pss-2048-sha256*, *rsa-pss-3072-sha256*, *rsa-pss-4096-sha256*, *rsa-pss-4096-sha512*, *rsa-sign-pkcs1-2048-sha256*, *rsa-sign-pkcs1-3072-sha256*, *rsa-sign-pkcs1-4096-sha256*, *rsa-sign-pkcs1-4096-sha512*, *rsa-sign-pss-2048-sha256*, *rsa-sign-pss-3072-sha256*, *rsa-sign-pss-4096-sha256*, *rsa-sign-pss-4096-sha512*.
+        pkix-public-key-file: The path to the file containing the PKIX public key to add. Use a full or relative path to a local file containing the value of pkix_public_key_file.
+        public-key-id-override: |-
+            If provided, the ID to replace the default API-generated one. All IDs
+            must be valid URIs as defined by RFC 3986
+            (https://tools.ietf.org/html/rfc3986).
+            +
+            When creating Attestations to be verified by this key, one must always
+            provide this custom ID as the public key ID.

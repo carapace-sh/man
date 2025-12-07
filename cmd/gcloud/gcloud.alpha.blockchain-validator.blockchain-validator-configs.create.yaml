@@ -1,0 +1,180 @@
+name: create
+description: '*(ALPHA)*  Create a blockchain validator configuration.'
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --blockchain-node-id=: The fully qualified name of the blockchain node which carries out work
+    --blockchain-type=!: The blockchain type of the validator.
+    --ethereum-protocol-details-gas-limit=: Optionally requested (not enforced) maximum gas per block.
+    --ethereum-protocol-details-graffiti=: Graffiti is a custom string published in blocks proposed by the
+    --ethereum-protocol-details-suggested-fee-recipient=: The Ethereum address to which fee rewards should be sent.
+    --ethereum-protocol-details-use-block-builder-proposals: Enable use of the external block building services (MEV).
+    --existing-seed-phrase-reference-derivation-index=: The index to derive the voting key at, used as part of a derivation path.
+    --existing-seed-phrase-reference-secret=!: ID of the secret or fully qualified identifier for the secret.
+    --key-source=!: The source of the voting key for the blockchain validator.
+    --labels=: Labels as key value pairs.
+    --location=: For resources [blockchain_validator_config, existing-seed-phrase-reference-secret, seed-phrase-reference-secret], provides fallback value for resource location attribute.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-ethereum-protocol-details-use-block-builder-proposals&: Enable use of the external block building services (MEV).
+    --no-seed-phrase-reference-export&: True to export the seed phrase to Secret Manager.
+    --no-validation-work-enabled!&: True if the blockchain node requests and signs attestations and blocks on
+    --remote-web3-signer-timeout-duration=: Timeout for requests to the Web3Signer service.
+    --remote-web3-signer-voting-public-key=!: The public key of the validator, as a hexadecimal string prefixed with
+    --remote-web3-signer-web3signer-uri=!: URI of the Web3Signer service the validator client connects to, to
+    --request-id=: An optional request ID to identify requests.
+    --seed-phrase-reference-export: True to export the seed phrase to Secret Manager.
+    --seed-phrase-reference-secret=!: ID of the secret or fully qualified identifier for the secret.
+    --validation-work-enabled!: True if the blockchain node requests and signs attestations and blocks on
+completion:
+    flag:
+        blockchain-type:
+            - ethereum
+        key-source:
+            - existing-seed-phrase-reference
+            - remote-web3-signer
+            - seed-phrase-reference
+documentation:
+    command: |
+        *(ALPHA)*  Create a blockchain validator configuration on a blockchain node managed by Blockchain Node
+        Engine.
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        blockchain-node-id: |-
+            The fully qualified name of the blockchain node which carries out work
+            on behalf of the validator. If not set, the validator must either be
+            operated outside of Blockchain Validator Manager, or it will be offline
+            (no attestations or blocks will be produced).
+            If this node is offline or deleted, the validator will be offline.
+        blockchain-type: |-
+            The blockchain type of the validator. _BLOCKCHAIN_TYPE_ must be (only one value is supported):
+            +
+            *ethereum*::: The blockchain type is Ethereum.
+            :::
+            +
+        ethereum-protocol-details-gas-limit: |-
+            Optionally requested (not enforced) maximum gas per block. This is sent
+             to the block builder service, however whether it is followed depends on
+             the service. This field is only read if the field
+             use_block_builder_proposals is set to true. If not specified, the
+             validator client will use a default value.
+        ethereum-protocol-details-graffiti: |-
+            Graffiti is a custom string published in blocks proposed by the
+            validator. This can only be written, as the current value cannot be read
+            back from the validator client API. See
+            https://lighthouse-book.sigmaprime.io/graffiti.html for an example of
+            how this is used.
+            If not set, the validator client's default is used.
+            If no blockchain node is specified, this has no effect as no validator
+            client is run.
+        ethereum-protocol-details-suggested-fee-recipient: |-
+            The Ethereum address to which fee rewards should be sent. This can only
+            be set when creating the validator.
+            If no blockchain node is specified for the validator, this has no effect
+            as no validator client is run.
+            See also
+            https://lighthouse-book.sigmaprime.io/suggested-fee-recipient.html for
+            more context.
+        ethereum-protocol-details-use-block-builder-proposals: Enable use of the external block building services (MEV).
+        existing-seed-phrase-reference-derivation-index: |-
+            The index to derive the voting key at, used as part of a derivation path.
+            The derivation path is built from this as
+            "m/12381/3600/<derivation_index>/0/0"
+            See also https://eips.ethereum.org/EIPS/eip-2334#eth2-specific-parameters
+        existing-seed-phrase-reference-secret: |-
+            ID of the secret or fully qualified identifier for the secret.
+            +
+            To set the `secret` attribute:
+            * provide the argument `--existing-seed-phrase-reference-secret` on the command line.
+        key-source: |-
+            The source of the voting key for the blockchain validator. _KEY_SOURCE_ must be one of:
+            +
+            *existing-seed-phrase-reference*::: Derive voting keys from existing seed material.
+            *remote-web3-signer*::: The voting key is stored in a remote signing service (Web3Signer) and
+            signing requests are delegated.
+            *seed-phrase-reference*::: Derive voting keys from new seed material.
+            :::
+            +
+        labels: |-
+            Labels as key value pairs.
+            +
+            *KEY*:::
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+            +
+            *VALUE*:::
+            Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --labels=string=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --labels='{"string": "string"}'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --labels=path_to_file.(yaml|json)
+            +
+            ```
+        location: For resources [blockchain_validator_config, existing-seed-phrase-reference-secret, seed-phrase-reference-secret], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-ethereum-protocol-details-use-block-builder-proposals: Enable use of the external block building services (MEV).
+        no-seed-phrase-reference-export: True to export the seed phrase to Secret Manager.
+        no-validation-work-enabled: |-
+            True if the blockchain node requests and signs attestations and blocks on
+            behalf of this validator, false if not.
+            This does NOT define whether the blockchain expects work to occur, only
+            whether the blockchain node specified above is carrying out validation
+            tasks. This should be enabled under normal conditions, but may be useful
+            when migrating validators to/from Blockchain Node Engine, where the
+            validator may be paused during the migration.
+        remote-web3-signer-timeout-duration: Timeout for requests to the Web3Signer service.
+        remote-web3-signer-voting-public-key: |-
+            The public key of the validator, as a hexadecimal string prefixed with
+            "0x". This is used as the identifier for the key when sending requests
+            to the Web3Signer service.
+        remote-web3-signer-web3signer-uri: |-
+            URI of the Web3Signer service the validator client connects to, to
+            request signing of attestations, blocks, etc.
+        request-id: |-
+            An optional request ID to identify requests. Specify a unique request ID
+            so that if you must retry your request, the server will know to ignore
+            the request if it has already been completed. The server will guarantee
+            that for at least 60 minutes since the first request.
+            +
+            For example, consider a situation where you make an initial request and the
+            request times out. If you make the request again with the same request
+            ID, the server can check if original operation with the same request ID
+            was received, and if so, will ignore the second request. This prevents
+            clients from accidentally creating duplicate commitments.
+            +
+            The request ID must be a valid UUID with the exception that zero UUID is
+            not supported (00000000-0000-0000-0000-000000000000).
+        seed-phrase-reference-export: True to export the seed phrase to Secret Manager.
+        seed-phrase-reference-secret: |-
+            ID of the secret or fully qualified identifier for the secret.
+            +
+            To set the `secret` attribute:
+            * provide the argument `--seed-phrase-reference-secret` on the command line.
+        validation-work-enabled: |-
+            True if the blockchain node requests and signs attestations and blocks on
+            behalf of this validator, false if not.
+            This does NOT define whether the blockchain expects work to occur, only
+            whether the blockchain node specified above is carrying out validation
+            tasks. This should be enabled under normal conditions, but may be useful
+            when migrating validators to/from Blockchain Node Engine, where the
+            validator may be paused during the migration. Use *--validation-work-enabled* to enable and *--no-validation-work-enabled* to disable.

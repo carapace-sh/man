@@ -1,0 +1,33 @@
+name: import
+description: Import an autoscaling policy.
+flags:
+    --region=: Dataproc region for the autoscaling policy.
+    --source=: Path to a YAML file containing configuration export data.
+documentation:
+    command: |-
+        If the specified autoscaling policy already exists, it will be overwritten.
+        Otherwise, a new autoscaling policy will be created.
+        To edit an existing autoscaling policy, you can export the autoscaling policy
+        to a file, edit its configuration, and then import the new configuration.
+
+        This command does not allow output only fields, such as policy id and resource
+        name. It populates the id field based on the resource name specified as the
+        first command line argument.
+
+        ## EXAMPLES
+
+        The following command creates or updates the contents of autoscaling policy
+        `example-autoscaling-policy` based on a yaml file:
+
+          $ gcloud dataproc autoscaling-policies import example-autoscaling-policy --source=saved-policy.yaml
+    flag:
+        region: |-
+            Dataproc region for the autoscaling policy. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. Overrides the default `dataproc/region` property value for this command invocation.
+            +
+            To set the `region` attribute:
+            * provide the argument `autoscaling_policy` on the command line with a fully specified name;
+            * provide the argument `--region` on the command line;
+            * set the property `dataproc/region`.
+        source: |-
+            Path to a YAML file containing configuration export data.
+                      Alternatively, you may omit this flag to read from standard input.

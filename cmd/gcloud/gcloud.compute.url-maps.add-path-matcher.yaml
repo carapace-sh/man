@@ -1,0 +1,66 @@
+name: add-path-matcher
+description: Add a path matcher to a URL map.
+flags:
+    --backend-bucket-path-rules=: Rules for mapping request paths to backend buckets.
+    --backend-service-path-rules=: Rules for mapping request paths to services.
+    --default-backend-bucket=: A backend bucket that will be used for requests that the path matcher cannot match.
+    --default-service=: A backend service that will be used for requests that the path matcher cannot match.
+    --delete-orphaned-path-matcher: If provided and a path matcher is orphaned as a result of this command, the command removes the orphaned path matcher instead of failing.
+    --description=: An optional, textual description for the path matcher.
+    --existing-host=: An existing host rule to tie the new path matcher to.
+    --global: If set, the URL map is global.
+    --new-hosts=: If specified, a new host rule with the given hosts is created and the path matcher is tied to the new host rule.
+    --no-delete-orphaned-path-matcher&: If provided and a path matcher is orphaned as a result of this command, the command removes the orphaned path matcher instead of failing.
+    --no-global&: If set, the URL map is global.
+    --path-matcher-name=!: The name to assign to the path matcher.
+    --path-rules=: Rules for mapping request paths to services.
+    --region=: Region of the URL map to operate on.
+documentation:
+    command: |
+        *gcloud compute url-maps add-path-matcher* is used to add a path matcher to a URL map. A path
+        matcher maps HTTP request paths to backend services or backend
+        buckets. Each path matcher must be referenced by at least one
+        host rule. This command can create a new host rule through the
+        `--new-hosts` flag or it can reconfigure an existing host rule
+        to point to the newly added path matcher using `--existing-host`.
+        In the latter case, if a path matcher is orphaned as a result
+        of the operation, this command will fail unless
+        `--delete-orphaned-path-matcher` is provided. Path matcher
+        constraints can be found
+        [here](https://cloud.google.com/load-balancing/docs/url-map-concepts#pm-constraints).
+    flag:
+        backend-bucket-path-rules: Rules for mapping request paths to backend buckets.
+        backend-service-path-rules: Rules for mapping request paths to services.
+        default-backend-bucket: A backend bucket that will be used for requests that the path matcher cannot match. Exactly one of --default-service or --default-backend-bucket is required.
+        default-service: A backend service that will be used for requests that the path matcher cannot match. Exactly one of --default-service or --default-backend-bucket is required.
+        delete-orphaned-path-matcher: If provided and a path matcher is orphaned as a result of this command, the command removes the orphaned path matcher instead of failing.
+        description: An optional, textual description for the path matcher.
+        existing-host: |-
+            An existing host rule to tie the new path matcher to. Although
+            host rules can contain more than one host, only a single host
+            is needed to uniquely identify the host rule.
+        global: If set, the URL map is global.
+        new-hosts: If specified, a new host rule with the given hosts is created and the path matcher is tied to the new host rule.
+        no-delete-orphaned-path-matcher: If provided and a path matcher is orphaned as a result of this command, the command removes the orphaned path matcher instead of failing.
+        no-global: If set, the URL map is global.
+        path-matcher-name: The name to assign to the path matcher.
+        path-rules: Rules for mapping request paths to services.
+        region: |-
+            Region of the URL map to operate on. If not specified, you might be prompted to select a region (interactive mode
+            only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/region'' property:
+            +
+              $ gcloud config set compute/region REGION
+            +
+            A list of regions can be fetched by running:
+            +
+              $ gcloud compute regions list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/region
+            +
+            Alternatively, the region can be stored in the environment
+            variable ``CLOUDSDK_COMPUTE_REGION''.
