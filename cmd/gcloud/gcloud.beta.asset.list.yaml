@@ -1,0 +1,57 @@
+name: list
+description: '*(BETA)*  List the Cloud assets.'
+flags:
+    --asset-types=: A list of asset types (i.e., "compute.googleapis.com/Disk") to take a snapshot.
+    --content-type=: Asset content type.
+    --filter=: Apply a Boolean filter _EXPRESSION_ to each resource item to be listed.
+    --folder=: The ID of the folder which is the root asset.
+    --limit=: Maximum number of resources to list.
+    --organization=: The ID of the organization which is the root asset.
+    --page-size=: Some services group resource list output into pages.
+    --relationship-types=: A list of relationship types (i.e., "INSTANCE_TO_INSTANCEGROUP") to take a snapshot.
+    --snapshot-time=: Timestamp to take a snapshot on assets.
+    --sort-by=: Comma-separated list of resource field key names to sort by.
+completion:
+    flag:
+        content-type:
+            - resource
+            - iam-policy
+            - org-policy
+            - access-policy
+            - os-inventory
+            - relationship
+documentation:
+    command: |
+        *(BETA)*  List the Cloud assets. Note
+        that to list a project different from the project you want to bill, you
+        can use  --billing-project or authenticate with a service account.
+        See https://cloud.google.com/resource-manager/docs/cloud-asset-inventory/gcloud-asset
+        for examples of using a service account.
+    flag:
+        asset-types: A list of asset types (i.e., "compute.googleapis.com/Disk") to take a snapshot. If specified and non-empty, only assets matching the specified types will be returned. See http://cloud.google.com/asset-inventory/docs/supported-asset-types for supported asset types.
+        content-type: 'Asset content type. If not specified, no content but the asset name and type will be returned in the feed. For more information, see https://cloud.google.com/asset-inventory/docs/reference/rest/v1/feeds#ContentType. _CONTENT_TYPE_ must be one of: *resource*, *iam-policy*, *org-policy*, *access-policy*, *os-inventory*, *relationship*.'
+        filter: |-
+            Apply a Boolean filter _EXPRESSION_ to each resource item to be listed.
+            If the expression evaluates `True`, then that item is listed. For more
+            details and examples of filter expressions, run $ gcloud topic filters. This
+            flag interacts with other flags that are applied in this order: *--flatten*,
+            *--sort-by*, *--filter*, *--limit*.
+        folder: The ID of the folder which is the root asset.
+        limit: |-
+            Maximum number of resources to list. The default is *unlimited*.
+            This flag interacts with other flags that are applied in this order:
+            *--flatten*, *--sort-by*, *--filter*, *--limit*.
+        organization: The ID of the organization which is the root asset.
+        page-size: |-
+            Some services group resource list output into pages. This flag specifies
+            the maximum number of resources per page. The default is determined by the
+            service if it supports paging, otherwise it is *unlimited* (no paging).
+            Paging may be applied before or after *--filter* and *--limit* depending
+            on the service.
+        relationship-types: A list of relationship types (i.e., "INSTANCE_TO_INSTANCEGROUP") to take a snapshot. This argument will only be honoured if content_type=RELATIONSHIP. If specified and non-empty, only relationships matching the specified types will be returned. See http://cloud.google.com/asset-inventory/docs/supported-asset-types for supported relationship types.
+        snapshot-time: Timestamp to take a snapshot on assets. This can only be a current or past time. If not specified, the current time will be used. Due to delays in resource data collection and indexing, there is a volatile window during which running the same query at different times may return different results. See $ gcloud topic datetimes for information on time formats.
+        sort-by: |-
+            Comma-separated list of resource field key names to sort by. The
+            default order is ascending. Prefix a field with ``~'' for descending
+            order on that field. This flag interacts with other flags that are applied
+            in this order: *--flatten*, *--sort-by*, *--filter*, *--limit*.

@@ -1,0 +1,173 @@
+name: apply
+description: Create or update a deployment.
+flags:
+    --annotations=: Annotations to apply to the deployment.
+    --artifacts-gcs-bucket=: user-defined location of Cloud Build logs, artifacts, and Terraform state files in Google Cloud Storage.
+    --async: Return immediately, without waiting for the operation in progress to
+    --gcs-source=: URI of an object in Google Cloud Storage.
+    --git-source-directory=: Subdirectory inside the repository.
+    --git-source-ref=: Subdirectory inside the repository.
+    --git-source-repo=: Repository URL.
+    --ignore-file=: Override the `.gcloudignore` file and use the specified file instead.
+    --import-existing-resources: By default, Infrastructure Manager will return a failure when Terraform encounters a 409 code (resource conflict error) during actuation.
+    --input-values=: Input variable values for the Terraform blueprint.
+    --inputs-file=: A .tfvars file containing terraform variable values.
+    --labels=: Labels to apply to the deployment.
+    --local-source=: Local storage path where config files are stored.
+    --location=: The Cloud location for the deployment.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-import-existing-resources&: By default, Infrastructure Manager will return a failure when Terraform encounters a 409 code (resource conflict error) during actuation.
+    --provider-source=&: Input to control from where to fetch providers.
+    --quota-validation=: Input to control quota checks for resources in terraform configuration files.
+    --service-account=: User-specified Service Account (SA) to be used as credential to manage resources.
+    --stage-bucket=&: Use in conjunction with `--local-source` to specify a destination storage bucket for
+    --tf-version-constraint=: User-specified Terraform version constraint, for example "=1.3.10".
+    --worker-pool=: User-specified Worker Pool resource in which the Cloud Build job will execute.
+documentation:
+    command: |-
+        This command updates a deployment when it already exists, otherwise the
+        deployment will be created.
+    flag:
+        annotations: |-
+            Annotations to apply to the deployment. Existing values are overwritten. To retain
+            the existing annotations on a deployment, do not specify this flag.
+            +
+            Examples:
+            +
+            Update annotations for an existing deployment:
+            +
+              $ {command} projects/p1/locations/us-central1/deployments/my-deployment --gcs-source="gs://my-bucket" --annotations="env=prod,team=finance"
+            +
+            Clear annotations for an existing deployment:
+            +
+              $ {command} projects/p1/locations/us-central1/deployments/my-deployment --gcs-source="gs://my-bucket" --annotations=""
+            +
+            Add an annotation to an existing deployment:
+            +
+              First, fetch the current annotations using the `describe` command, then follow the
+              preceding example for updating annotations.
+        artifacts-gcs-bucket: 'user-defined location of Cloud Build logs, artifacts, and Terraform state files in Google Cloud Storage. Format: `gs://{bucket}/{folder}` A default bucket will be bootstrapped if the field is not set or empty'
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        gcs-source: |-
+            URI of an object in Google Cloud Storage.
+                  e.g. `gs://{bucket}/{object}`
+            +
+            Examples:
+            +
+            Create a deployment from a storage my-bucket:
+            +
+              $ {command} projects/p1/location/us-central1/deployments/my-deployment --gcs-source="gs://my-bucket"
+        git-source-directory: |-
+            Subdirectory inside the repository.
+            Example: 'staging/my-package'
+            +
+            Use in conjunction with `--git-source-repo` and `--git-source-ref`
+            +
+            Examples:
+            +
+            Create a deployment from the "https://github.com/examples/repository.git" repo, "staging/compute" folder, "mainline" branch:
+            +
+              $ {command} projects/p1/location/us-central1/deployments/my-deployment --git-source-repo="https://github.com/examples/repository.git"
+                --git-source-directory="staging/compute" --git-source-ref="mainline"
+        git-source-ref: |-
+            Subdirectory inside the repository.
+            Example: 'staging/my-package'
+            +
+            Use in conjunction with `--git-source-repo` and `--git-source-directory`
+            +
+            Examples:
+            +
+            Create a deployment from the "https://github.com/examples/repository.git" repo, "staging/compute" folder, "mainline" branch:
+            +
+              $ {command} projects/p1/location/us-central1/deployments/my-deployment --git-source-repo="https://github.com/examples/repository.git"
+                --git-source-directory="staging/compute" --git-source-ref="mainline"
+        git-source-repo: |-
+            Repository URL.
+            Example: 'https://github.com/examples/repository.git'
+            +
+            Use in conjunction with `--git-source-directory` and `--git-source_ref`
+            +
+            Examples:
+            +
+            Create a deployment from the "https://github.com/examples/repository.git" repo, "staging/compute" folder, "mainline" branch:
+            +
+              $ {command} projects/p1/location/us-central1/deployments/my-deployment --git-source-repo="https://github.com/examples/repository.git"
+                --git-source-directory="staging/compute" --git-source-ref="mainline"
+        ignore-file: Override the `.gcloudignore` file and use the specified file instead. See `gcloud topic gcloudignore` for more information.
+        import-existing-resources: By default, Infrastructure Manager will return a failure when Terraform encounters a 409 code (resource conflict error) during actuation. If this flag is set to true, Infrastructure Manager will instead attempt to automatically import the resource into the Terraform state (for supported resource types) and continue actuation.
+        input-values: |-
+            Input variable values for the Terraform blueprint. It only
+                  accepts (key, value) pairs where value is a scalar value.
+            +
+            Examples:
+            +
+            Pass input values on command line:
+            +
+              $ {command} projects/p1/location/us-central1/deployments/my-deployment --gcs-source="gs://my-bucket" --input-values=projects=p1,region=r
+        inputs-file: |-
+            A .tfvars file containing terraform variable values. --inputs-file flag is supported for python version 3.6 and above.
+            +
+            Examples:
+            +
+            Pass input values on the command line:
+            +
+              $ {command} projects/p1/location/us-central1/deployments/my-deployment --gcs-source="gs://my-bucket" --inputs-file=path-to-tfvar-file.tfvar
+        labels: |-
+            Labels to apply to the deployment. Existing values are overwritten. To retain
+            the existing labels on a deployment, do not specify this flag.
+            +
+            Examples:
+            +
+            Update labels for an existing deployment:
+            +
+              $ {command} projects/p1/locations/us-central1/deployments/my-deployment --gcs-source="gs://my-bucket" --labels="env=prod,team=finance"
+            +
+            Clear labels for an existing deployment:
+            +
+              $ {command} projects/p1/locations/us-central1/deployments/my-deployment --gcs-source="gs://my-bucket" --labels=""
+            +
+            Add a label to an existing deployment:
+            +
+              First, fetch the current labels using the `describe` command, then follow the
+              preceding example for updating labels.
+        local-source: |-
+            Local storage path where config files are stored. When using this option, Terraform config file references outside this storage path is not supported.
+                  e.g. `./path/to/blueprint`
+            +
+            Examples:
+            +
+            Create a deployment from a local storage path `./path/to/blueprint`:
+            +
+              $ {command} projects/p1/location/us-central1/deployments/my-deployment --local-source="./path/to/blueprint"
+        location: |-
+            The Cloud location for the deployment.
+            +
+            To set the `location` attribute:
+            * provide the argument `DEPLOYMENT` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `infra-manager/location`.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-import-existing-resources: By default, Infrastructure Manager will return a failure when Terraform encounters a 409 code (resource conflict error) during actuation. If this flag is set to true, Infrastructure Manager will instead attempt to automatically import the resource into the Terraform state (for supported resource types) and continue actuation.
+        provider-source: Input to control from where to fetch providers. Supported values arePROVIDER_SOURCE_UNSPECIFIED, SERVICE_MAINTAINED
+        quota-validation: Input to control quota checks for resources in terraform configuration files. There are limited resources on which quota validation applies. Supported values are QUOTA_VALIDATION_UNSPECIFIED, ENABLED, ENFORCED
+        service-account: 'User-specified Service Account (SA) to be used as credential to manage resources. Format: `projects/{projectID}/serviceAccounts/{serviceAccount}`'
+        stage-bucket: |
+            Use in conjunction with `--local-source` to specify a destination storage bucket for
+            uploading local files.
+
+            If unspecified, the bucket defaults to `gs://PROJECT_NAME_blueprints`. Uploaded
+            content will appear in the `source` object under a name comprised of the
+            timestamp and a UUID. The final output destination looks like this:
+            `gs://_BUCKET_/source/1615850562.234312-044e784992744951b0cd71c0b011edce/`
+
+            Examples:
+
+            Create a deployment from a local storage path `./path/to/blueprint` and stage-bucket `gs://my-bucket`:
+
+              $ {command} projects/p1/location/us-central1/deployments/my-deployment --local-source="./path/to/blueprint" --stage-bucket="gs://my-bucket"
+        tf-version-constraint: User-specified Terraform version constraint, for example "=1.3.10".
+        worker-pool: 'User-specified Worker Pool resource in which the Cloud Build job will execute. Format: projects/{project}/locations/{location}/workerPools/{workerPoolId}'

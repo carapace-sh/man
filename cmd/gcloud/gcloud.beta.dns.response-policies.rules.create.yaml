@@ -1,0 +1,61 @@
+name: create
+description: '*(BETA)*  Creates a new Cloud DNS response policy rule.'
+flags:
+    --behavior=: The response policy rule query behavior.
+    --dns-name=!: DNS name (wildcard or exact) to apply this rule to.
+    --local-data=: All resource record sets for this selector, one per resource record
+    --location=: Specifies the desired service location the request is sent to.
+    --response-policy=: The Cloud DNS response policy name response_policy_rule.
+completion:
+    flag:
+        behavior:
+            - behaviorUnspecified
+            - bypassResponsePolicy
+documentation:
+    command: |-
+        ## EXAMPLES
+
+        To create a new response policy rule with local data rrsets, run:
+
+          $ gcloud beta dns response-policies rules create myresponsepolicyrule --response-policy="myresponsepolicy"
+          --dns-name="www.zone.com."
+          --local-data=name=www.zone.com.,type=CNAME,ttl=21600,rrdatas=zone.com.
+
+        To create a new response policy rule with behavior, run:
+
+          $ gcloud beta dns response-policies rules create myresponsepolicyrule --response-policy="myresponsepolicy"
+          --dns-name="www.zone.com." --behavior=bypassResponsePolicy
+
+        To create a new response policy rule with behavior in a zonal response
+        policy in us-east1-a, run:
+
+          $ gcloud beta dns response-policies rules create myresponsepolicyrule --response-policy="myresponsepolicy"
+          --dns-name="www.zone.com." --behavior=bypassResponsePolicy
+          --location=us-east1-a
+    flag:
+        behavior: 'The response policy rule query behavior. _BEHAVIOR_ must be one of: *behaviorUnspecified*, *bypassResponsePolicy*.'
+        dns-name: DNS name (wildcard or exact) to apply this rule to.
+        local-data: |-
+            All resource record sets for this selector, one per resource record
+            type. The name must match the dns_name.
+            +
+            This is a repeated argument that can be specified multiple times to specify
+            multiple local data rrsets.
+            (e.g. --local-data=name="zone.com.",type="A",ttl=21600,rrdata="1.2.3.4 "
+            --local-data=name="www.zone.com.",type="CNAME",ttl=21600,rrdata="1.2.3.4|5.6.7.8")
+            +
+            *name*::: The DnsName of a resource record set.
+            +
+            *type*::: Type of all resource records in this set. For example, A, AAAA, SOA, MX,
+            NS, TXT ...
+            +
+            *ttl*::: Number of seconds that this ResourceRecordSet can be cached by resolvers.
+            +
+            *rrdatas*::: The list of datas for this record, split by "|".
+        location: Specifies the desired service location the request is sent to. Defaults to Cloud DNS global service. Use --location=global if you want to target the global service.
+        response-policy: |-
+            The Cloud DNS response policy name response_policy_rule.
+            +
+            To set the `response-policy` attribute:
+            * provide the argument `response_policy_rule` on the command line with a fully specified name;
+            * provide the argument `--response-policy` on the command line.

@@ -1,0 +1,55 @@
+name: management
+description: '*(ALPHA)*  Configure management settings of a Cloud Domains registration.'
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --preferred-renewal-method=: Preferred Renewal Method of a registration.
+    --transfer-lock-state=: Transfer Lock of a registration.
+completion:
+    flag:
+        preferred-renewal-method:
+            - automatic-renewal
+            - renewal-disabled
+        transfer-lock-state:
+            - locked
+            - unlocked
+documentation:
+    command: |-
+        *(ALPHA)*  Configure management settings of a registration. This includes settings
+        related to transfers, billing and renewals of a registration.
+
+        ## EXAMPLES
+
+        To start an interactive flow to configure management settings for
+        ``example.com'', run:
+
+          $ gcloud alpha domains registrations configure management example.com
+
+        To unlock a transfer lock of a registration for ``example.com'', run:
+
+          $ gcloud alpha domains registrations configure management example.com --transfer-lock-state=unlocked
+
+        To disable automatic renewals for ``example.com'', run:
+
+          $ gcloud alpha domains registrations configure management example.com --preferred-renewal-method=renewal-disabled
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        preferred-renewal-method: |-
+            Preferred Renewal Method of a registration. It defines how the registration should be renewed. The actual Renewal Method can be set to renewal-disabled in case of e.g. problems with the Billing Account or reporeted domain abuse. _PREFERRED_RENEWAL_METHOD_ must be one of:
+            +
+            *automatic-renewal*::: The domain is automatically renewed each year.
+            *renewal-disabled*::: The domain won't be renewed and will expire at its expiration time.
+            :::
+            +
+        transfer-lock-state: |-
+            Transfer Lock of a registration. It needs to be unlocked in order to transfer the domain to another registrar. _TRANSFER_LOCK_STATE_ must be one of:
+            +
+            *locked*::: The transfer lock is locked.
+            *unlocked*::: The transfer lock is unlocked.
+            :::
+            +

@@ -1,0 +1,302 @@
+name: update
+description: '*(BETA)*  Update an existing uptime check or synthetic monitor.'
+flags:
+    --add-regions=: The list of regions to add to the uptime check.
+    --add-status-classes=: The list of HTTP status classes to add to the uptime check.
+    --add-status-codes=: The list of HTTP status codes to add to the uptime check.
+    --body=: The request body associated with the HTTP POST request.
+    --clear-headers=: Clear all headers on the uptime check.
+    --clear-regions=: Clear all regions on the uptime check.
+    --clear-status-classes=: Clear all HTTP status classes on the uptime check.
+    --clear-status-codes=: Clear all HTTP status codes on the uptime check.
+    --clear-user-labels: Remove all labels.
+    --content-type=: The content type header to use for the check, defaults to `unspecified`.
+    --custom-content-type=: A user-provided content type header to use for the check.
+    --display-name=: The display name for the uptime check or synthetic monitor.
+    --json-path-matcher-type=: The type of JSONPath match that is applied to the JSON output, defaults to
+    --json-path=!: JSONPath within the response output pointing to the expected content to match.
+    --mask-headers=: Whether to encrypt the header information, defaults to `false`.
+    --matcher-content=!: String, regex or JSON content to match.
+    --matcher-type=: The type of content matcher that is applied to the server output, defaults to
+    --no-clear-user-labels&: Remove all labels.
+    --password=: The password to use when authenticating with the HTTP server.
+    --path=: The path to the page against which to run the check, defaults to `/`.
+    --period=: The time between uptime check or synthetic monitor executions in
+    --pings-count=: Number of ICMP pings to send alongside the request.
+    --port=: The port on the server against which to run the check.
+    --remove-headers=: The list of header keys to remove from the uptime check.
+    --remove-regions=: The list of regions to remove from the uptime check.
+    --remove-status-classes=: The list of HTTP status classes to remove from the uptime check.
+    --remove-status-codes=: The list of HTTP status codes to remove from the uptime check.
+    --remove-user-labels=: List of label keys to remove.
+    --request-method=: The HTTP request method to use, defaults to `get`.
+    --service-agent-auth=: The type of authentication to use for the HTTP request.
+    --set-regions=: The list of regions from which the check is run.
+    --set-status-classes=: List of HTTP status classes.
+    --set-status-codes=: List of HTTP status codes.
+    --timeout=: The maximum amount of time in seconds to wait for the request to complete, defaults to `60`.
+    --update-headers=: The list of headers to add to the uptime check.
+    --update-user-labels=: List of label KEY=VALUE pairs to update.
+    --username=: The username to use when authenticating with the HTTP server.
+    --validate-ssl=: Whether to include SSL certificate validation as a part of the uptime check,
+completion:
+    flag:
+        content-type:
+            - unspecified
+            - url-encoded
+            - user-provided
+        json-path-matcher-type:
+            - exact-match
+            - regex-match
+        matcher-type:
+            - contains-string
+            - matches-json-path
+            - matches-regex
+            - not-contains-string
+            - not-matches-json-path
+            - not-matches-regex
+        period:
+            - "1"
+            - "10"
+            - "15"
+            - "5"
+        request-method:
+            - get
+            - post
+        service-agent-auth:
+            - oidc-token
+documentation:
+    command: |
+        *(BETA)*  Updates an existing uptime check or synthetic monitor.
+
+        Flags only apply to uptime checks unless noted that they apply to
+        synthetic monitors.
+
+        For information about the JSON/YAML format of an uptime check:
+        https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.uptimeCheckConfigs
+    flag:
+        add-regions: |-
+            The list of regions to add to the uptime check. _region_ must be one of:
+            +
+            *asia-pacific*::: asia-southeast1
+            *europe*::: europe-west1
+            *south-america*::: southamerica-east1
+            *usa-iowa*::: us-central1
+            *usa-oregon*::: us-west1
+            *usa-virginia*::: us-east4
+            :::
+            +
+        add-status-classes: |-
+            The list of HTTP status classes to add to the uptime check. _status-class_ must be one of:
+            +
+            *1xx*::: Any response code from 100-199 inclusive
+            *2xx*::: Any response code from 200-299 inclusive
+            *3xx*::: Any response code from 300-399 inclusive
+            *4xx*::: Any response code from 400-499 inclusive
+            *5xx*::: Any response code from 500-599 inclusive
+            *any*::: Any response code
+            :::
+            +
+        add-status-codes: The list of HTTP status codes to add to the uptime check.
+        body: |-
+            The request body associated with the HTTP POST request.
+                    Can only be set if `--protocol` is `http` or `https`.
+        clear-headers: Clear all headers on the uptime check.
+        clear-regions: |-
+            Clear all regions on the uptime check. This setting acts the same as if all available
+                        regions were selected.
+        clear-status-classes: |-
+            Clear all HTTP status classes on the uptime check. Setting this
+                        flag is the same as selecting only the `2xx` status class.
+        clear-status-codes: |-
+            Clear all HTTP status codes on the uptime check. Setting this
+                        flag is the same as selecting only the `2xx` status class.
+        clear-user-labels: |-
+            Remove all labels. If `--update-user-labels` is also specified then
+            `--clear-user-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} --clear-user-labels
+            +
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} --clear-user-labels --update-user-labels foo=bar,baz=qux
+        content-type: |-
+            The content type header to use for the check, defaults to `unspecified`.
+                    Can only be set if `--protocol` is `http` or `https`.
+            +
+            _CONTENT_TYPE_ must be one of:
+            +
+            *unspecified*::: Not specified
+            *url-encoded*::: URL encoded
+            *user-provided*::: User provided
+            :::
+            +
+        custom-content-type: |-
+            A user-provided content type header to use for the check.
+                    Can only be set if `--protocol` is `http` or `https`.
+        display-name: The display name for the uptime check or synthetic monitor.
+        json-path: |-
+            JSONPath within the response output pointing to the expected content to match.
+                        Only used if `--matcher-type` is `matches-json-path` or `not-matches-json-path`.
+        json-path-matcher-type: |-
+            The type of JSONPath match that is applied to the JSON output, defaults to
+                        `exact-match`.
+                        Only used if `--matcher-type` is `matches-json-path` or `not-matches-json-path`.
+            +
+            _JSON_PATH_MATCHER_TYPE_ must be one of:
+            +
+            *exact-match*::: Response matches exact string at JSONPath
+            *regex-match*::: Response matches regex at JSONPath
+            :::
+            +
+        mask-headers: |-
+            Whether to encrypt the header information, defaults to `false`.
+                    Can only be set if `--protocol` is `http` or `https`.
+        matcher-content: String, regex or JSON content to match.
+        matcher-type: |-
+            The type of content matcher that is applied to the server output, defaults to
+                    `contains-string`.
+            +
+            _MATCHER_TYPE_ must be one of:
+            +
+            *contains-string*::: Response contains string
+            *matches-json-path*::: Response matches at JSONPath
+            *matches-regex*::: Response matches regex
+            *not-contains-string*::: Response does not contain string
+            *not-matches-json-path*::: Response does not match at JSONPath
+            *not-matches-regex*::: Response does not match regex
+            :::
+            +
+        no-clear-user-labels: |
+            Remove all labels. If `--update-user-labels` is also specified then
+            `--clear-user-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} --clear-user-labels
+
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} --clear-user-labels --update-user-labels foo=bar,baz=qux
+        password: |-
+            The password to use when authenticating with the HTTP server.
+                    Can only be set if `--protocol` is `http` or `https`.
+        path: |-
+            The path to the page against which to run the check, defaults to `/`.
+                    Can only be set if `--protocol` is `http` or `https`.
+        period: |-
+            The time between uptime check or synthetic monitor executions in
+                          minutes, defaults to `1`. Can be set for synthetic monitors.
+            +
+            _PERIOD_ must be one of:
+            +
+            *1*::: One minute
+            *10*::: Ten minutes
+            *15*::: Fifteen minutes
+            *5*::: Five minutes
+            :::
+            +
+        pings-count: Number of ICMP pings to send alongside the request.
+        port: |-
+            The port on the server against which to run the check.
+                    Defaults to `80` when `--protocol` is `http`.
+                    Defaults to `443` when `--protocol` is `https`.
+                    Required if `--protocol` is `tcp`.
+        remove-headers: The list of header keys to remove from the uptime check.
+        remove-regions: |-
+            The list of regions to remove from the uptime check. _region_ must be one of:
+            +
+            *asia-pacific*::: asia-southeast1
+            *europe*::: europe-west1
+            *south-america*::: southamerica-east1
+            *usa-iowa*::: us-central1
+            *usa-oregon*::: us-west1
+            *usa-virginia*::: us-east4
+            :::
+            +
+        remove-status-classes: |-
+            The list of HTTP status classes to remove from the uptime check. _status-class_ must be one of:
+            +
+            *1xx*::: Any response code from 100-199 inclusive
+            *2xx*::: Any response code from 200-299 inclusive
+            *3xx*::: Any response code from 300-399 inclusive
+            *4xx*::: Any response code from 400-499 inclusive
+            *5xx*::: Any response code from 500-599 inclusive
+            *any*::: Any response code
+            :::
+            +
+        remove-status-codes: The list of HTTP status codes to remove from the uptime check.
+        remove-user-labels: |-
+            List of label keys to remove. If a label does not exist it is
+            silently ignored. If `--update-user-labels` is also specified then
+            `--update-user-labels` is applied first.
+        request-method: |-
+            The HTTP request method to use, defaults to `get`.
+                    Can only be set if `--protocol` is `http` or `https`.
+            +
+            _REQUEST_METHOD_ must be one of:
+            +
+            *get*::: HTTP GET method
+            *post*::: HTTP POST method
+            :::
+            +
+        service-agent-auth: |-
+            The type of authentication to use for the HTTP request.
+                    Can only be set if `--protocol` is `https`.
+            +
+            _SERVICE_AGENT_AUTH_ must be (only one value is supported):
+            +
+            *oidc-token*::: OIDC Token authentication
+            :::
+            +
+        set-regions: |-
+            The list of regions from which the check is run. At least 3 regions must be
+                        selected.
+            +
+            _region_ must be one of:
+            +
+            *asia-pacific*::: asia-southeast1
+            *europe*::: europe-west1
+            *south-america*::: southamerica-east1
+            *usa-iowa*::: us-central1
+            *usa-oregon*::: us-west1
+            *usa-virginia*::: us-east4
+            :::
+            +
+        set-status-classes: |-
+            List of HTTP status classes. The uptime check will only pass if the response
+                            code is contained in this list.
+            +
+            _status-class_ must be one of:
+            +
+            *1xx*::: Any response code from 100-199 inclusive
+            *2xx*::: Any response code from 200-299 inclusive
+            *3xx*::: Any response code from 300-399 inclusive
+            *4xx*::: Any response code from 400-499 inclusive
+            *5xx*::: Any response code from 500-599 inclusive
+            *any*::: Any response code
+            :::
+            +
+        set-status-codes: |-
+            List of HTTP status codes. The uptime check will only pass if the response
+                            code is present in this list.
+        timeout: The maximum amount of time in seconds to wait for the request to complete, defaults to `60`. Can be set for synthetic monitors.
+        update-headers: |-
+            The list of headers to add to the uptime check. Any existing
+                          headers with matching "key" are overridden by the provided
+                          values.
+        update-user-labels: |-
+            List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+        username: |-
+            The username to use when authenticating with the HTTP server.
+                    Can only be set if `--protocol` is `http` or `https`.
+        validate-ssl: |-
+            Whether to include SSL certificate validation as a part of the uptime check,
+                    defaults to `false`.
+                    Can only be set if `--protocol` is `http` or `https`.

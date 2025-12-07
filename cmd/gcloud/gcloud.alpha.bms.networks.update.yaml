@@ -1,0 +1,86 @@
+name: update
+description: '*(ALPHA)*  Update a Bare Metal Solution network.'
+flags:
+    --add-ip-range-reservation=: Add a reservation of a range of IP addresses in the network.
+    --async: Return immediately, without waiting for the operation in progress to
+    --clear-ip-range-reservations: Removes all IP range reservations in the network.
+    --clear-labels: Remove all labels.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-clear-ip-range-reservations&: Removes all IP range reservations in the network.
+    --no-clear-labels&: Remove all labels.
+    --region=: Region of the resource.
+    --remove-ip-range-reservation=: Remove a reservation of a range of IP addresses in the network.
+    --remove-labels=: List of label keys to remove.
+    --update-labels=: List of label KEY=VALUE pairs to update.
+documentation:
+    command: |
+        *(ALPHA)*  Update a Bare Metal Solution network.
+
+        This call returns immediately, but the update operation may take
+        several minutes to complete. To check if the operation is complete,
+        use the `describe` command for the network.
+    flag:
+        add-ip-range-reservation: |-
+            Add a reservation of a range of IP addresses in the network.
+            +
+            *start_address*::: The first address of this reservation block.
+            Must be specified as a single IPv4 address, e.g. `10.1.2.2`.
+            +
+            *end_address*::: The last address of this reservation block,
+            inclusive. I.e., for cases when reservations are only single
+            addresses, end_address and start_address will be the same.
+            Must be specified as a single IPv4 address, e.g. `10.1.2.2`.
+            +
+            *note*::: A note about this reservation, intended for human consumption.
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        clear-ip-range-reservations: Removes all IP range reservations in the network.
+        clear-labels: |-
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} --clear-labels
+            +
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-clear-ip-range-reservations: Removes all IP range reservations in the network.
+        no-clear-labels: |
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} --clear-labels
+
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        region: |-
+            Region of the resource.
+            +
+            To set the `region` attribute:
+            * provide the argument `network` on the command line with a fully specified name;
+            * provide the argument `--region` on the command line.
+        remove-ip-range-reservation: |-
+            Remove a reservation of a range of IP addresses in the network.
+            +
+            *start_address*::: The first address of the reservation block to remove.
+            +
+            *end_address*::: The last address of the reservation block to remove.
+        remove-labels: |-
+            List of label keys to remove. If a label does not exist it is
+            silently ignored. If `--update-labels` is also specified then
+            `--update-labels` is applied first.
+        update-labels: |-
+            List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.

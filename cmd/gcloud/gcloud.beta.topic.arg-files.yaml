@@ -1,0 +1,61 @@
+name: arg-files
+description: '*(BETA)*  Supplementary help for arg-files to be used with *gcloud firebase test*.'
+documentation:
+    command: |+
+        *(BETA)*  Supplementary help for arg-files to be used with *gcloud firebase test*.
+
+        All *gcloud firebase test android run* arguments may be specified by
+        flags on the command line and/or via a YAML-formatted _ARG_FILE_. The
+        optional, positional ARG_SPEC argument on the command line is used to
+        specify a single _ARG_FILE_:_ARG_GROUP_NAME_ pair, where _ARG_FILE_ is
+        the path to the YAML argument file, and _ARG_GROUP_NAME_ is the name
+        of the argument group to load and parse. The _ARG_FILE_ must contain
+        valid YAML syntax or gcloud will respond with an error.
+
+        The basic format of a YAML argument file is:
+
+          arg-group1:
+            arg1: value1  # a comment
+            arg2: value2
+            ...
+
+          # Another comment
+          arg-group2:
+            arg3: value3
+            ...
+
+        List arguments may be specified within square brackets:
+
+          directories-to-pull: [/sdcard/dir1, /data/dir2]
+
+        or by using the alternate YAML list notation with one dash per list
+        item:
+
+          ```
+          directories-to-pull:
+            - /sdcard/dir1
+            - /data/dir2
+          ```
+
+        If a list argument only contains a single value, you may omit the
+        square brackets:
+
+          directories-to-pull: /sdcard/dir1
+
+        Composition
+
+        A special *include: [_ARG_GROUP1_, ...]* syntax allows merging or
+        composition of argument groups (see *EXAMPLES* below). Included
+        argument groups can *include:* other argument groups within the
+        same YAML file, with unlimited nesting.
+
+        Precedence
+
+        An argument which appears on the command line has the highest
+        precedence and will override the same argument if it is specified
+        within an argument file.
+
+        Any argument defined directly within a group will have higher
+        precedence than an identical argument which is merged into that
+        group using the *include:* keyword.
+

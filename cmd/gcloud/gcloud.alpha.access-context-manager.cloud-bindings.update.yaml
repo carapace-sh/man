@@ -1,0 +1,108 @@
+name: update
+description: '*(ALPHA)*  Update an existing access binding under an organization.'
+flags:
+    --append: When true, append the ScopedAccessSettings in `--binding-file` to the existing
+    --binding-file=: Path to the file that contains a Google Cloud Platform user access binding.
+    --binding=!: ID of the cloud-access-binding or fully qualified identifier for the cloud-access-binding.
+    --dry-run-level=: The dry run access level that replaces the existing dry run level for the given binding.
+    --level=: The access level that replaces the existing level for the given binding.
+    --no-append&: When true, append the ScopedAccessSettings in `--binding-file` to the existing
+    --organization=: The ID of the organization.
+    --policy=&: The access policy that the access level belongs to.
+    --restricted-client-application-client-ids=: The application client IDs that replace the existing application client IDs for
+    --restricted-client-application-names=: The application names that replace the existing application names for
+    --session-length=: The maximum lifetime of a user session provided as an  ISO 8601 duration string.
+    --session-reauth-method=: Specifies the security check a user must undergo when their session expires.
+completion:
+    flag:
+        session-reauth-method:
+            - login
+            - password
+            - security-key
+documentation:
+    command: |
+        *(ALPHA)*  Update an existing access binding. You can update the level, dry run level, scoped access
+        settings, session settings, restricted client application client IDs, and restricted client
+        application names.
+        They can't all be empty. Session settings are incompatible with restricted client
+        application client IDs/names; please use scoped access settings to bind session settings to
+        an application.
+    flag:
+        append: |-
+            When true, append the ScopedAccessSettings in `--binding-file` to the existing
+            ScopedAccessSettings on the binding. When false, the existing binding's ScopedAccessSettings
+            will be overwritten. Defaults to false. You may only append ScopedAccessSettings that
+            exclusively hold session settings (i.e no access levels).
+        binding: |-
+            ID of the cloud-access-binding or fully qualified identifier for the cloud-access-binding.
+            +
+            To set the `binding` attribute:
+            * provide the argument `--binding` on the command line.
+        binding-file: |-
+            Path to the file that contains a Google Cloud Platform user access binding.
+            +
+            This file contains a YAML-compliant object representing
+            a GcpUserAccessBinding (as described in the API reference) containing ScopedAccessSettings only.
+            No other binding fields are allowed.
+            +
+            The file content replaces the corresponding fields in the existing binding. Unless --append
+            is specified. See --append help text for more details.
+        dry-run-level: |-
+            The dry run access level that replaces the existing dry run level for the given binding.
+            The input must be the full identifier of an access level, such as
+            `accessPolicies/123/accessLevels/new-def`.
+        level: |-
+            The access level that replaces the existing level for the given binding. The input must
+            be the full identifier of an access level, such as
+            `accessPolicies/123/accessLevels/new-abc`.
+        no-append: |
+            When true, append the ScopedAccessSettings in `--binding-file` to the existing
+            ScopedAccessSettings on the binding. When false, the existing binding's ScopedAccessSettings
+            will be overwritten. Defaults to false. You may only append ScopedAccessSettings that
+            exclusively hold session settings (i.e no access levels).
+        organization: |-
+            The ID of the organization.
+            +
+
+            To set the `organization` attribute:
+            * provide the argument `--binding` on the command line with a fully specified name;
+            * provide the argument `--organization` on the command line;
+            * set the property `access_context_manager/organization`.
+        policy: The access policy that the access level belongs to.
+        restricted-client-application-client-ids: |-
+            The application client IDs that replace the existing application client IDs for
+            the restricted client applications in the given binding.
+        restricted-client-application-names: |-
+            The application names that replace the existing application names for
+            the restricted client applications in the given binding.
+        session-length: |-
+            The maximum lifetime of a user session provided as an  ISO 8601 duration string. Must be at
+            least one hour or zero, and no more than twenty-four hours. Granularity is limited to
+            seconds.
+            +
+            When --session-length=0 users in the group attached to this binding will have infinite
+            session length, effectively disabling the session settings.
+            +
+            A session begins after a user signs in successfully. If a user signs out before the end of
+            the session lifetime, a new login creates a new session with a fresh lifetime. When a
+            session expires, the user is asked to reauthenticate in accordance with
+            session-reauth-method.
+            +
+            Setting --session-reauth-method when --session-length is empty raises an error. Cannot set
+            --session-length on restricted client applications; please use scoped access settings.
+        session-reauth-method: |-
+            Specifies the security check a user must undergo when their session expires. Defaults to
+            --session-reauth-method=LOGIN if unspecified and --session-length is set. Cannot be used when
+            --session-length is empty or 0. _SESSION_REAUTH_METHOD_ must be one of:
+            +
+            *login*::: The user will be prompted to perform regular login. Users who are enrolled in two-step
+            verification and haven't chosen to "Remember this computer" will be prompted for their
+            second factor.
+            +
+            *password*::: The user will only be required to enter their password.
+            +
+            *security-key*::: The user will be prompted to autheticate using their security key. If no security key has
+            been configured, the LOGIN method is used.
+            +
+            :::
+            +

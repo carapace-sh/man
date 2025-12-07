@@ -1,0 +1,180 @@
+name: update
+description: '*(BETA)*  Update a backup plan.'
+flags:
+    --all-namespaces: Scope of the backup includes resources from all namespaces.
+    --async: Return immediately, without waiting for the operation in progress to
+    --backup-delete-lock-days=: Number of days a backup produced via this plan cannot be deleted.
+    --backup-retain-days=: Number of days after which a backup produced via this plan is automatically deleted.
+    --clear-labels: Remove all labels.
+    --cron-schedule=: Schedule on which backups will be automatically created.
+    --deactivated: If set, no further changes may be made to this backup plan and no further backups may be created
+    --description=: Optional text description for the backup plan.
+    --encryption-key=: Encryption key used for encrypting the backup.
+    --etag=: The etag is used for optimistic concurrency control as a way to help
+    --exclusion-windows-file=: If provided, defines an array of exclusion windows for RPO based schedules from the given
+    --include-secrets: If true, secret resources are included in the backup if they fall within the scope.
+    --include-volume-data: If true, snapshots are created for PD volumes corresponding to PersistentVolumeClaims that fall
+    --location=: Google Cloud location.
+    --locked: If set, subsequent updates are not allowed to the backup plan's retention policy and this value
+    --no-all-namespaces&: Scope of the backup includes resources from all namespaces.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-clear-labels&: Remove all labels.
+    --no-deactivated&: If set, no further changes may be made to this backup plan and no further backups may be created
+    --no-include-secrets&: If true, secret resources are included in the backup if they fall within the scope.
+    --no-include-volume-data&: If true, snapshots are created for PD volumes corresponding to PersistentVolumeClaims that fall
+    --no-locked&: If set, subsequent updates are not allowed to the backup plan's retention policy and this value
+    --no-paused&: If set, automatic backup creation is suppressed.
+    --no-permissive-mode&: If true, backups won't fail when Backup for GKE detects
+    --paused: If set, automatic backup creation is suppressed.
+    --permissive-mode: If true, backups won't fail when Backup for GKE detects
+    --remove-labels=: List of label keys to remove.
+    --selected-applications=: List of ProtectedApplication instances whose resources are included in the backup.
+    --selected-namespace-labels=: List of Namespace labels whose resources are included in the backup.
+    --selected-namespaces=: List of namespaces whose resources are included in the backup.
+    --target-rpo-minutes=: Schedule backups based on target RPO minutes instead of fixed cron schedules.
+    --update-labels=: List of label KEY=VALUE pairs to update.
+documentation:
+    command: |
+        *(BETA)*  Update a Backup for GKE backup plan.
+
+        ## EXAMPLES
+
+        To update a backup plan ``my-backup-plan'' in project ``my-project'' in location ``us-central1'' to add new description, run:
+
+          $ gcloud beta container backup-restore backup-plans update my-backup-plan --project=my-project --location=us-central1 --description="New description"
+    flag:
+        all-namespaces: |-
+            Scope of the backup includes resources from all namespaces.  Mutually exclusive with
+            --selected-namespaces, --selected-applications and --selected-namespace-labels.
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        backup-delete-lock-days: |-
+            Number of days a backup produced via this plan cannot be deleted.
+            +
+            Must be less than or equal to 90 days.  If 0, delete operations are allowed. Updating this field
+            does not affect existing backups. Backups created after a successful update will inherit this
+            new value.
+        backup-retain-days: |-
+            Number of days after which a backup produced via this plan is automatically deleted.
+            +
+            Must be less than or equal to 365 days. If not set (value is 0), backups are not automatically
+            deleted. If set, must be greater than the value for backup_delete_lock_days. Updating this field
+            does not affect existing backups. Backups created after a successful update will inherit this
+            new value.
+        clear-labels: |-
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} --clear-labels
+            +
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        cron-schedule: |-
+            Schedule on which backups will be automatically created.
+            +
+            Use standard [cron](http://en.wikipedia.org/wiki/Cron#Overview) syntax. For example,
+            `10 3 * * *` will automatically create a backup at 0310 every day. All times are interpreted as
+            UTC. The minimum interval between scheduled backups is 10 minutes.
+        deactivated: |-
+            If set, no further changes may be made to this backup plan and no further backups may be created
+            for this plan. Backup deletion is still allowed.
+        description: Optional text description for the backup plan.
+        encryption-key: |-
+            Encryption key used for encrypting the backup.
+            +
+            At this time, only the Cloud Key Management Service (Cloud KMS) is supported.
+            Value must be entered as a relative name, e.g.:
+            `projects/<project>/locations/<location>/keyRings/<key-ring>/cryptoKeys/<key>`.
+        etag: |-
+            The etag is used for optimistic concurrency control as a way to help
+            prevent simultaneous updates or deletes of a resource from overwriting each other.
+        exclusion-windows-file: |-
+            If provided, defines an array of exclusion windows for RPO based schedules from the given
+            config file in yaml. Only used together with --target-rpo-minutes for creation and rpo-based
+            plans during update.
+        include-secrets: |-
+            If true, secret resources are included in the backup if they fall within the scope. If unset,
+            the default is false.
+        include-volume-data: |-
+            If true, snapshots are created for PD volumes corresponding to PersistentVolumeClaims that fall
+            within the scope. If unset, the default is false.
+        location: |-
+            Google Cloud location.
+            +
+            To set the `location` attribute:
+            * provide the argument `backup_plan` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `gkebackup/location`.
+        locked: |-
+            If set, subsequent updates are not allowed to the backup plan's retention policy and this value
+            cannot be changed.
+        no-all-namespaces: |
+            Scope of the backup includes resources from all namespaces.  Mutually exclusive with
+            --selected-namespaces, --selected-applications and --selected-namespace-labels.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-clear-labels: |
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} --clear-labels
+
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        no-deactivated: |
+            If set, no further changes may be made to this backup plan and no further backups may be created
+            for this plan. Backup deletion is still allowed.
+        no-include-secrets: |
+            If true, secret resources are included in the backup if they fall within the scope. If unset,
+            the default is false.
+        no-include-volume-data: |
+            If true, snapshots are created for PD volumes corresponding to PersistentVolumeClaims that fall
+            within the scope. If unset, the default is false.
+        no-locked: |
+            If set, subsequent updates are not allowed to the backup plan's retention policy and this value
+            cannot be changed.
+        no-paused: |
+            If set, automatic backup creation is suppressed. When unset, automatic backup creation resumes
+            with the next scheduled create event.
+        no-permissive-mode: |
+            If true, backups won't fail when Backup for GKE detects
+            Kubernetes configuration that is known to cause restore failures.
+        paused: |-
+            If set, automatic backup creation is suppressed. When unset, automatic backup creation resumes
+            with the next scheduled create event.
+        permissive-mode: |-
+            If true, backups won't fail when Backup for GKE detects
+            Kubernetes configuration that is known to cause restore failures.
+        remove-labels: |-
+            List of label keys to remove. If a label does not exist it is
+            silently ignored. If `--update-labels` is also specified then
+            `--update-labels` is applied first.
+        selected-applications: |-
+            List of ProtectedApplication instances whose resources are included in the backup. Mutually
+            exclusive with --all-namespaces, --selected-namespaces and --selected-namespace-labels. e.g:
+            --selected-applications=namespace1/foo,namespace2/bar
+        selected-namespace-labels: |-
+            List of Namespace labels whose resources are included in the backup. Mutually
+            exclusive with --all-namespaces, --selected-namespaces and --selected-applications. e.g:
+            --selected-namespace-labels=namespacelabel1=value1,namespacelabel2=value2
+        selected-namespaces: |-
+            List of namespaces whose resources are included in the backup. Mutually exclusive with
+            --all-namespaces, --selected-applications and --selected-namespace-labels. e.g:
+            --selected-namespaces=foo,bar
+        target-rpo-minutes: |-
+            Schedule backups based on target RPO minutes instead of fixed cron schedules. Cannot be used with
+            --cron-schedule.
+        update-labels: |-
+            List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.

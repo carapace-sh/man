@@ -1,0 +1,81 @@
+name: os-upgrade
+description: '*(ALPHA)*  Upgrade the instances OS version.'
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --auto-rollback: When auto rollback is enabled, the instance and its resources are restored to their original state.
+    --create-machine-backup: When enabled, a machine image is created that backs up the original state of your instance.
+    --docker-image-tag=&: Specify which docker image tag (of tools from compute-image-tools)
+    --log-location=: Directory in Cloud Storage to hold build logs.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-auto-rollback&: When auto rollback is enabled, the instance and its resources are restored to their original state.
+    --no-create-machine-backup&: When enabled, a machine image is created that backs up the original state of your instance.
+    --no-use-staging-install-media&: Use staging install media.
+    --source-os=!: OS version of the source instance to upgrade.
+    --target-os=!: Version of the OS after upgrade.
+    --timeout=: Maximum time an upgrade can last before it fails as "TIMEOUT".
+    --use-staging-install-media&: Use staging install media.
+    --zone=: Zone of the instance to os-upgrade.
+completion:
+    flag:
+        source-os:
+            - windows-2008r2
+        target-os:
+            - windows-2012r2
+documentation:
+    command: |
+        *(ALPHA)*  *gcloud alpha compute os-config os-upgrade* upgrades the instance's OS version.
+
+        OS Upgrade involves:
+        *  Create a snapshot and/or machine image for the instance.
+        *  Create an install media disk and attach it to the instance.
+        *  Upgrade the OS version.
+        *  Cleanup install media disk after upgrade.
+
+        Virtual instances, snapshots, machine images, and disks in Compute Engine
+        and files stored on Cloud Storage incur charges. See [](https://cloud.google.com/compute/docs/images/importing-virtual-disks#resource_cleanup).
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        auto-rollback: When auto rollback is enabled, the instance and its resources are restored to their original state. Otherwise, the instance and any temporary resources are left in the intermediate state of the time of failure. This is useful for debugging.
+        create-machine-backup: When enabled, a machine image is created that backs up the original state of your instance. Enabled by default, use *--no-create-machine-backup* to disable.
+        docker-image-tag: |
+            Specify which docker image tag (of tools from compute-image-tools)
+            should be used for this command. By default it's "release", while
+            "latest" is supported as well. There may be more versions supported in
+            the future.
+        log-location: Directory in Cloud Storage to hold build logs. If not set, ```gs://<project num>.cloudbuild-logs.googleusercontent.com/``` is created and used.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-auto-rollback: When auto rollback is enabled, the instance and its resources are restored to their original state. Otherwise, the instance and any temporary resources are left in the intermediate state of the time of failure. This is useful for debugging.
+        no-create-machine-backup: When enabled, a machine image is created that backs up the original state of your instance.
+        no-use-staging-install-media: Use staging install media. This flag is for testing only. Set to true to upgrade with staging windows install media.
+        source-os: 'OS version of the source instance to upgrade. _SOURCE_OS_ must be (only one value is supported): *windows-2008r2*.'
+        target-os: 'Version of the OS after upgrade. _TARGET_OS_ must be (only one value is supported): *windows-2012r2*.'
+        timeout: |-
+            Maximum time an upgrade can last before it fails as "TIMEOUT". For example, if
+            you specify `2h`, the process fails after 2 hours.
+            See $ gcloud topic datetimes for information about duration formats.
+            +
+            This timeout option has a maximum value of 24 hours.
+        use-staging-install-media: Use staging install media. This flag is for testing only. Set to true to upgrade with staging windows install media.
+        zone: |-
+            Zone of the instance to os-upgrade. If not specified and the ``compute/zone'' property isn't set, you
+            might be prompted to select a zone (interactive mode only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/zone'' property:
+            +
+              $ gcloud config set compute/zone ZONE
+            +
+            A list of zones can be fetched by running:
+            +
+              $ gcloud compute zones list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/zone
+            +
+            Alternatively, the zone can be stored in the environment variable
+            ``CLOUDSDK_COMPUTE_ZONE''.

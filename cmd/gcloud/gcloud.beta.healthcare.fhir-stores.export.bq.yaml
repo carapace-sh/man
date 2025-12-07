@@ -1,0 +1,86 @@
+name: bq
+description: '*(BETA)*  Export Cloud Healthcare API FHIR resources to BigQuery.'
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --bq-dataset=!: BigQuery dataset that houses the BigQuery tables.
+    --dataset=: Cloud Healthcare dataset.
+    --location=: Google Cloud location.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --recursive-depth=: The depth for all recursive structures in the output analytics schema.
+    --resource-type=: String of comma-delimited FHIR resource types.
+    --schema-type=!: Specifies the output schema type.
+    --since=: If provided, only resources updated after this time are exported.
+    --write-disposition=: Determines whether existing tables in the destination dataset are overwritten or appended
+completion:
+    flag:
+        schema-type:
+            - analytics
+            - analytics_v2
+            - lossless
+        write-disposition:
+            - write-append
+            - write-empty
+            - write-truncate
+documentation:
+    command: '*(BETA)*  Export Cloud Healthcare API FHIR resources to BigQuery.'
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        bq-dataset: BigQuery dataset that houses the BigQuery tables.
+        dataset: |-
+            Cloud Healthcare dataset.
+            +
+            To set the `dataset` attribute:
+            * provide the argument `fhir_store` on the command line with a fully specified name;
+            * provide the argument `--dataset` on the command line.
+        location: |-
+            Google Cloud location.
+            +
+            To set the `location` attribute:
+            * provide the argument `fhir_store` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `healthcare/location`.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        recursive-depth: |-
+            The depth for all recursive structures in the output analytics schema. For example,
+            concept in the CodeSystem resource is a recursive structure; when the depth
+            is 2, the CodeSystem table will have a column called concept.concept but not
+            concept.concept.concept. If not specified or set to 0, the server will use the
+            default value 2.
+        resource-type: |-
+            String of comma-delimited FHIR resource types. If provided, only resources of the specified
+            resource type(s) are exported.
+        schema-type: |-
+            Specifies the output schema type. If unspecified, the default
+            is `LOSSLESS`. _SCHEMA_TYPE_ must be one of:
+            +
+            *analytics*::: Analytics schema defined by the FHIR community.
+            See https://github.com/rbrush/sql-on-fhir/blob/master/sql-on-fhir.md.
+            +
+            *analytics_v2*::: Analytics V2, similar to schema defined by the FHIR community,
+            with added support for extensions with one or more occurrences
+            and contained resources in stringified JSON.
+            +
+            *lossless*::: Schema generated from original FHIR data.
+            +
+            :::
+            +
+        since: |-
+            If provided, only resources updated after this time are exported. The time uses the format
+            YYYY-MM-DDThh:mm:ss.sss+zz:zz. For example, `2015-02-07T13:28:17.239+02:00` or
+            `2017-01-01T00:00:00Z`. The time must be specified to the second and include a time zone.
+        write-disposition: |-
+            Determines whether existing tables in the destination dataset are overwritten or appended
+            to. _WRITE_DISPOSITION_ must be one of:
+            +
+            *write-append*::: Append data to the existing tables.
+            +
+            *write-empty*::: Only export data if the destination tables are empty.
+            +
+            *write-truncate*::: Erase all existing data in the tables before writing the instances.
+            +
+            :::
+            +

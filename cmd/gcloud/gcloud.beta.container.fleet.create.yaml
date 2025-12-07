@@ -1,0 +1,92 @@
+name: create
+description: '*(BETA)*  Create a fleet.'
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --binauthz-evaluation-mode=: Configure binary authorization mode for clusters to onboard the fleet,
+    --binauthz-policy-bindings=: The relative resource name of the Binary Authorization policy to audit
+    --compliance-standards=&: To configure compliance standards for clusters in the fleet supply a
+    --compliance=&: To enable compliance for clusters in the fleet,
+    --display-name=: Display name of the fleet to be created (optional).
+    --labels=: List of label KEY=VALUE pairs to add.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --security-posture=: To apply standard security posture to clusters in the fleet,
+    --workload-vulnerability-scanning=: To apply standard vulnerability scanning to clusters in the fleet,
+completion:
+    flag:
+        binauthz-evaluation-mode:
+            - disabled
+            - policy-bindings
+        compliance:
+            - enabled
+            - disabled
+        security-posture:
+            - disabled
+            - standard
+            - enterprise
+        workload-vulnerability-scanning:
+            - disabled
+            - standard
+            - enterprise
+documentation:
+    command: |-
+        *(BETA)*  This command can fail for the following reasons:
+        * The project specified does not exist.
+        * The project specified already has a fleet.
+        * The active account does not have permission to access the given project.
+
+        ## EXAMPLES
+
+        To create a fleet in project `example-foo-bar-1` with display name `my-fleet`,
+        run:
+
+          $ gcloud beta container fleet create --display-name=my-fleet --project=example-foo-bar-1
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        binauthz-evaluation-mode: |-
+            Configure binary authorization mode for clusters to onboard the fleet,
+            +
+              $ {command} --binauthz-evaluation-mode=policy-bindings
+            +
+            _BINAUTHZ_EVALUATION_MODE_ must be one of: *disabled*, *policy-bindings*.
+        binauthz-policy-bindings: |-
+            The relative resource name of the Binary Authorization policy to audit
+            and/or enforce. GKE policies have the following format:
+            `projects/{project_number}/platforms/gke/policies/{policy_id}`.
+        compliance: |+
+            To enable compliance for clusters in the fleet,
+
+              $ {command} --compliance=enabled
+
+            To disable compliance for clusters in the fleet,
+
+              $ {command} --compliance=disabled
+
+        compliance-standards: |
+            To configure compliance standards for clusters in the fleet supply a
+            comma-delimited list:
+
+              $ {command} --compliance-standards=standard-1,standard-2
+
+            If this flag is supplied, it cannot be empty.
+        display-name: Display name of the fleet to be created (optional). 4-30 characters, alphanumeric and [ '"!-] only.
+        labels: |-
+            List of label KEY=VALUE pairs to add.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        security-posture: |-
+            To apply standard security posture to clusters in the fleet,
+            +
+              $ {command} --security-posture=standard
+            +
+            _SECURITY_POSTURE_ must be one of: *disabled*, *standard*, *enterprise*.
+        workload-vulnerability-scanning: |-
+            To apply standard vulnerability scanning to clusters in the fleet,
+            +
+              $ {command} --workload-vulnerability-scanning=standard
+            +
+            _WORKLOAD_VULNERABILITY_SCANNING_ must be one of: *disabled*, *standard*, *enterprise*.

@@ -1,0 +1,131 @@
+name: diagnose
+description: Diagnose Google Cloud Storage.
+flags:
+    --destination=: Destination file path where the diagnostic bundle will be exported.
+    --download-type=: Download strategy to use for the DOWNLOAD_THROUGHPUT diagnostic test.
+    --export!: Generate and export a diagnostic bundle.
+    --logs-path=: If the diagnostic supports writing logs, write the logs to this file location.
+    --no-export!&: ""
+    --object-count=!: Number of objects to use for each diagnostic test.
+    --object-size=: Object size to use for the diagnostic tests.
+    --object-sizes=: List of object sizes to use for the tests.
+    --process-count=: Number of processes at max to use for each diagnostic test.
+    --test-type=: Tests to run as part of this diagnosis.
+    --thread-count=: Number of threads at max to use for each diagnostic test.
+    --upload-type=: Upload strategy to use for the _UPLOAD_THROUGHPUT_ diagnostic test.
+completion:
+    flag:
+        download-type:
+            - FILE
+            - SLICED
+            - STREAMING
+        upload-type:
+            - FILE
+            - PARALLEL_COMPOSITE
+            - STREAMING
+documentation:
+    command: |+
+        The diagnose command runs a series of diagnostic tests for common gcloud
+        storage issues.
+
+        The `URL` argument must name an exisiting bucket for which the user
+        already has write permissions. Standard billing also applies.
+        Several test files/objects will be uploaded and downloaded to this bucket
+        to gauge out the performance metrics. All the temporary files will be
+        deleted on successfull completion of the command.
+
+        By default, the command executes `DOWNLOAD_THROUGHPUT`,
+        `UPLOAD_THROUGHPUT` and `LATENCY` tests. Tests to execute can be overriden
+        by using the `--test-type` flag.
+        Each test uses the command defaults or gcloud CLI configurations for
+        performing the operations. This command also provides a way to override
+        these values via means of different flags like `--process-count`,
+        `--thread-count`, `--download-type`, etc.
+
+        The command outputs a diagnostic report with sytem information like free
+        memory, available CPU, average CPU load per test, disk counter deltas and
+        diagnostic information specific to individual tests on successful
+        completion.
+
+    flag:
+        destination: Destination file path where the diagnostic bundle will be exported.
+        download-type: |-
+            Download strategy to use for the DOWNLOAD_THROUGHPUT diagnostic test.
+            +
+            STREAMING: Downloads the file in memory, does not use parallelism.
+            `--process-count` and `--thread-count` flag values will be ignored if
+            provided.
+            +
+            SLICED: Performs a [sliced download](https://cloud.google.com/storage/docs/sliced-object-downloads)
+            of objects to a directory.
+            Parallelism can be controlled via `--process-count` and `--thread-count`
+            flags.
+            +
+            FILE: Download objects as files. Parallelism can be controlled via
+            `--process-count` and `--thread-count` flags.
+            +
+            _DOWNLOAD_TYPE_ must be one of: *FILE*, *SLICED*, *STREAMING*.
+        export: |-
+            Generate and export a diagnostic bundle. The following
+            information will be bundled and exported into a gzipped tarball
+            (.tar.gz):
+            +
+            - Latest gcloud CLI logs.
+            - Output of running the `gcloud storage diagnose` command.
+            - Output of running the `gcloud info --anonymize` command.
+            +
+            Note: This command generates a bundle containing system information like
+            disk counter detlas, CPU information and system configurations. Please
+            exercise caution while sharing.
+        logs-path: If the diagnostic supports writing logs, write the logs to this file location.
+        no-export: |
+            Generate and export a diagnostic bundle. The following
+            information will be bundled and exported into a gzipped tarball
+            (.tar.gz):
+
+            - Latest gcloud CLI logs.
+            - Output of running the `gcloud storage diagnose` command.
+            - Output of running the `gcloud info --anonymize` command.
+
+            Note: This command generates a bundle containing system information like
+            disk counter detlas, CPU information and system configurations. Please
+            exercise caution while sharing.
+        object-count: Number of objects to use for each diagnostic test.
+        object-size: Object size to use for the diagnostic tests.
+        object-sizes: |-
+            List of object sizes to use for the tests. Sizes should be
+            provided for each object specified using `--object-count` flag.
+        process-count: Number of processes at max to use for each diagnostic test.
+        test-type: |-
+            Tests to run as part of this diagnosis. Following tests are supported:
+            +
+            DIRECT_CONNECTIVITY: Run a test upload over the Direct Connectivity
+            network path and run other diagnostics if the upload fails.
+            +
+            DOWNLOAD_THROUGHPUT: Upload objects to the specified bucket and record
+            the number of bytes transferred per second.
+            +
+            UPLOAD_THROUGHPUT: Download objects from the specified bucket and
+            record the number of bytes transferred per second.
+            +
+            LATENCY: Write the objects, retrieve their metadata, read the objects,
+            and record latency of each operation.
+            +
+            _TEST_TYPES_ must be one of: *DIRECT_CONNECTIVITY*, *DOWNLOAD_THROUGHPUT*, *LATENCY*, *UPLOAD_THROUGHPUT*.
+        thread-count: Number of threads at max to use for each diagnostic test.
+        upload-type: |-
+            Upload strategy to use for the _UPLOAD_THROUGHPUT_ diagnostic test.
+            +
+            FILE: Uploads files to a bucket. Parallelism can be controlled via
+            `--process-count` and `--thread-count` flags.
+            +
+            PARALLEL_COMPOSITE: Uploads files using a [parallel
+            composite strategy](https://cloud.google.com/storage/docs/parallel-composite-uploads).
+            Parallelism can be controlled via `--process-count` and `--thread-count`
+            flags.
+            +
+            STREAMING: Streams the data to the bucket, does not use parallelism.
+            `--process-count` and `--thread-count` flag values will be ignored if
+            provided.
+            +
+            _UPLOAD_TYPE_ must be one of: *FILE*, *PARALLEL_COMPOSITE*, *STREAMING*.

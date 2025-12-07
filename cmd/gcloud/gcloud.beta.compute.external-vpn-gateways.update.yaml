@@ -1,0 +1,58 @@
+name: update
+description: '*(BETA)*  Update a Compute Engine external VPN gateway.'
+flags:
+    --clear-labels: Remove all labels.
+    --no-clear-labels&: Remove all labels.
+    --remove-labels=: List of label keys to remove.
+    --update-labels=: List of label KEY=VALUE pairs to update.
+documentation:
+    command: |-
+        *(BETA)*  *gcloud beta compute external-vpn-gateways update* updates labels for a Compute Engine external VPN gateway.
+        For example:
+
+          $ gcloud beta compute external-vpn-gateways update example-gateway \
+            --update-labels=k0=value1,k1=value2 --remove-labels=k3
+
+        will add/update labels ``k0'' and ``k1'' and remove labels with key ``k3''.
+
+        Labels can be used to identify the External VPN gateway and to filter them
+        as in
+
+          $ gcloud beta compute external-vpn-gateways list --filter='labels.k1:value2'
+
+        To list existing labels
+
+          $ gcloud beta compute external-vpn-gateways describe example-gateway --format="default(labels)"
+    flag:
+        clear-labels: |-
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} --clear-labels
+            +
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        no-clear-labels: |
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} --clear-labels
+
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        remove-labels: |-
+            List of label keys to remove. If a label does not exist it is
+            silently ignored. If `--update-labels` is also specified then
+            `--update-labels` is applied first.
+        update-labels: |-
+            List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.

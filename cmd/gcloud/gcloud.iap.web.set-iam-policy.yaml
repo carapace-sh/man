@@ -1,0 +1,26 @@
+name: set-iam-policy
+description: Set the IAM policy for an IAP IAM resource.
+flags:
+    --region=: Region name.
+    --resource-type=: Resource type of the IAP resource.
+    --service=: Service name.
+completion:
+    flag:
+        resource-type:
+            - app-engine
+            - backend-services
+            - forwarding-rule
+documentation:
+    command: |-
+        This command replaces the existing IAM policy for an IAP IAM resource, given
+        a file encoded in JSON or YAML that contains the IAM policy. If the given
+        policy file specifies an "etag" value, then the replacement will succeed only
+        if the policy already in place matches that etag. (An etag obtained via
+        $ gcloud iap web get-iam-policy will prevent the replacement if
+        the policy for the resource has been subsequently updated.) A policy
+        file that does not contain an etag value will replace any existing policy for
+        the resource.
+    flag:
+        region: Region name. Should only be specified with `--resource-type=backend-services` if it is a regional scoped. Not applicable for global scoped backend services.
+        resource-type: 'Resource type of the IAP resource. _RESOURCE_TYPE_ must be one of: *app-engine*, *backend-services*, *forwarding-rule*.'
+        service: Service name.

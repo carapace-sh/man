@@ -1,0 +1,105 @@
+name: create-members
+description: Create new member interconnects in a Compute Engine interconnect group.
+flags:
+    --admin-enabled: Administrative status of the interconnect.
+    --customer-name=: Customer name to put in the Letter of Authorization as the party
+    --description=: An optional, textual description for the interconnect.
+    --facility=: The facility (zone free location) to create the interconnect in.
+    --intent-mismatch-behavior=: The behavior when the intent of the interconnect group does not match the
+    --interconnect-type=: Type of the interconnect.
+    --interconnect=!: New member interconnects to create in the interconnect group.
+    --link-type=: Type of the link for the interconnect.
+    --no-admin-enabled&: Administrative status of the interconnect.
+    --noc-contact-email=: Email address to contact the customer NOC for operations and maintenance
+    --remote-location=: The location of the interconnect for Cross-Cloud Interconnect.
+    --requested-features=: List of features requested for this interconnect.
+    --requested-link-count=: Target number of physical links in the link bundle.
+completion:
+    flag:
+        intent-mismatch-behavior:
+            - REJECT
+            - CREATE
+        interconnect-type:
+            - DEDICATED
+            - PARTNER
+        link-type:
+            - LINK_TYPE_ETHERNET_100G_LR
+            - LINK_TYPE_ETHERNET_10G_LR
+            - LINK_TYPE_ETHERNET_400G_LR4
+documentation:
+    command: |
+        *gcloud compute interconnects groups create-members* is used to create new member interconnects in an
+        interconnect group.
+
+        For an example, refer to the *EXAMPLES* section below.
+    flag:
+        admin-enabled: |-
+            Administrative status of the interconnect. If not provided on creation,
+            defaults to enabled.
+            When this is enabled, the interconnect is operational and will carry
+            traffic across any functioning linked interconnect attachments. Use
+            --no-admin-enabled to disable it.
+        customer-name: |-
+            Customer name to put in the Letter of Authorization as the party
+            authorized to request an interconnect. This field is required for most
+            interconnects, however it is prohibited when creating a Cross-Cloud Interconnect.
+        description: An optional, textual description for the interconnect.
+        facility: The facility (zone free location) to create the interconnect in.
+        intent-mismatch-behavior: |-
+            The behavior when the intent of the interconnect group does not match the
+            topology capability of the member interconnects. _INTENT_MISMATCH_BEHAVIOR_ must be one of: *REJECT*, *CREATE*.
+        interconnect: |-
+            New member interconnects to create in the interconnect group. To create
+            multiple interconnects, this flag should be specified multiple times.
+            +
+            Each interconnect takes in the same set of flags as the `gcloud compute
+            interconnects create` command, except instead of a location, a facility
+            must be specified. These flags are defined as a comma separated list of
+            flag=value pairs.
+            +
+            Example:
+            --interconnect name=interconnect1,facility=iad-1,description="my
+            interconnect",link-type=LINK_TYPE_ETHERNET_10G_LR,requested-link-count=1,
+            interconnect-type=DEDICATED,admin-enabled,
+            noc-contact-email=noc@google.com,customer-name=customer-name
+            requested-features=MACSEC:CROSS_SITE_NETWORK
+            +
+            Note that for multiple requested-features, use a colon (:) as the
+            delimiter, as the comma is used to separate the flags. Similarly, if you
+            need to use a comma in another flag value, you should set an alternative
+            delimiter for the --interconnect flag. Run `gcloud topic escaping` for
+            more information.
+        interconnect-type: |-
+            Type of the interconnect. _INTERCONNECT_TYPE_ must be one of:
+            +
+            *DEDICATED*::: Dedicated private interconnect.
+            *PARTNER*::: Partner interconnect. Only available to approved partners.
+            :::
+            +
+        link-type: |-
+            Type of the link for the interconnect. _LINK_TYPE_ must be one of:
+            +
+            *LINK_TYPE_ETHERNET_100G_LR*::: 100Gbps Ethernet, LR Optics.
+            *LINK_TYPE_ETHERNET_10G_LR*::: 10Gbps Ethernet, LR Optics.
+            *LINK_TYPE_ETHERNET_400G_LR4*::: 400Gbps Ethernet, LR4 Optics.
+            :::
+            +
+        no-admin-enabled: |
+            Administrative status of the interconnect. If not provided on creation,
+            defaults to enabled.
+            When this is enabled, the interconnect is operational and will carry
+            traffic across any functioning linked interconnect attachments. Use
+            --no-admin-enabled to disable it.
+        noc-contact-email: |-
+            Email address to contact the customer NOC for operations and maintenance
+            notifications regarding this interconnect.
+        remote-location: The location of the interconnect for Cross-Cloud Interconnect.
+        requested-features: |-
+            List of features requested for this interconnect. _FEATURES_ must be one of:
+            +
+            *CROSS_SITE_NETWORK*::: If specified then the interconnect is created on Cross-Site Network capable hardware ports. This parameter can only be provided during interconnect INSERT and cannot be changed using interconnect PATCH.
+            *L2_FORWARDING*::: If specified then the interconnect is created on L2 forwarding capable hardware ports. This parameter can only be provided during interconnect INSERT and cannot be changed using interconnect PATCH.
+            *MACSEC*::: If specified then the interconnect is created on MACsec capable hardware ports. If not specified, the interconnect is created on non-MACsec capable ports first, if available. This parameter can only be provided during interconnect INSERT and cannot be changed using interconnect PATCH.
+            :::
+            +
+        requested-link-count: Target number of physical links in the link bundle.

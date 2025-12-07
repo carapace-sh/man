@@ -1,0 +1,81 @@
+name: create
+description: '*(ALPHA)*  Create a new BigQuery table.'
+flags:
+    --dataset=: The id of the BigQuery dataset.
+    --description=: Description of the table.
+    --expiration=: How long after creation should this table or view expire e.g. 1d, 2w etc.
+    --no-overwrite&: Overwrite if the resource already exists.
+    --no-use-legacy-sql&: If specified, query will use BigQuery's legacy SQL syntax.
+    --overwrite: Overwrite if the resource already exists.
+    --schema-file=: The name of a JSON file containing a single object containing an array each element
+    --schema=: A comma-separated list of entries of the form FIELD_NAME[=FIELD_TYPE] specifying field names
+    --use-legacy-sql: If specified, query will use BigQuery's legacy SQL syntax.
+    --view=!: Create a view with this SQL query.
+documentation:
+    command: |-
+        *(ALPHA)*  Create a new BigQuery table.
+        Create a table or view with a specified name. A view is a collection of rows
+        selected by a query in a flag, and manipulated as a table. The dataset to contain
+        the table or view must already exist, and must not contain a table or view with
+        the specified name.
+    flag:
+        dataset: |-
+            The id of the BigQuery dataset.
+            +
+            To set the `dataset` attribute:
+            * provide the argument `table` on the command line with a fully specified name;
+            * provide the argument `--dataset` on the command line.
+        description: Description of the table.
+        expiration: |-
+            How long after creation should this table or view expire e.g. 1d, 2w etc.
+            +
+            See $ gcloud topic datetimes for information on duration formats
+        no-overwrite: Overwrite if the resource already exists.
+        no-use-legacy-sql: |-
+            If specified, query will use BigQuery's legacy SQL syntax. If not specified, query will use
+            BigQuery's standard SQL dialect by default (https://cloud.google.com/bigquery/sql-reference/).
+        overwrite: Overwrite if the resource already exists.
+        schema: |-
+            A comma-separated list of entries of the form FIELD_NAME[=FIELD_TYPE] specifying field names
+            and types for the table being created. FIELD_TYPE defaults to string if not present.
+            Possible FIELD_TYPES are `string`, `integer`, `float`, `boolean`, `record`, and `timestamp`.
+            +
+            For more details on BigQuery schemas see: https://cloud.google.com/bigquery/docs/schemas.
+        schema-file: |-
+            The name of a JSON file containing a single object containing an array each element
+            of which is an object with properties name, type, and, optionally a
+            mode (one of: `NULLABLE`, `REQUIRED` or `REPEATED`), specifying a schema for the table
+            being created. If mode is omitted the default is 'NULLABLE'.
+            +
+            For example:
+            {
+              'schema':
+                [
+                  {
+                    'name': 'field1',
+                    'type': 'string',
+                    'mode': 'REQUIRED'
+                  },
+                  {
+                    'name': 'field2',
+                    'type': 'integer',
+                    'mode': 'REPEATED'
+                  },
+                  [
+                    {
+                      'name': 'fieldN',
+                      'type': TYPE,
+                      ['mode': MODE]
+                    }
+                    ...
+                  ]
+                ]
+            }
+            +
+            For more details on BigQuery schemas see: https://cloud.google.com/bigquery/docs/schemas.
+            +
+            Use a full or relative path to a local file containing the value of schema_file.
+        use-legacy-sql: |-
+            If specified, query will use BigQuery's legacy SQL syntax. If not specified, query will use
+            BigQuery's standard SQL dialect by default (https://cloud.google.com/bigquery/sql-reference/).
+        view: Create a view with this SQL query. (If this flag is not specified, a table is created.)

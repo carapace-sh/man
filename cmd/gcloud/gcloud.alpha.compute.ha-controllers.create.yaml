@@ -1,0 +1,138 @@
+name: create
+description: '*(ALPHA)*  Create an HA Controller.'
+hidden: true
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --description=: An optional, user-provided description for the HA Controller to help identify its purpose.
+    --failover-initiation=!: Specifies how a failover is triggered.
+    --instance-name=: The name of the existing VM that the HA Controller manages.
+    --network-auto-configuration=: Adds a network interface to the instance.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --region=: The name of the Google Compute Engine region where the HA Controller exists.
+    --secondary-zone-capacity=!: Determines the capacity guarantee in the secondary zone.
+    --zone-configuration=!: Configures the two zones for the HA Controller and specifies how VM capacity is reserved in each zone.
+documentation:
+    command: |-
+        *(ALPHA)*  Create an High Availability (HA) Controller, which helps
+        ensure that a virtual machine (VM) instance remains operational by
+        automatically managing failover across two zones.
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        description: An optional, user-provided description for the HA Controller to help identify its purpose.
+        failover-initiation: 'Specifies how a failover is triggered. Set to MANUAL_ONLY if you want to trigger failovers yourself. Must be one of: failover-initiation-unspecified, manual-only'
+        instance-name: The name of the existing VM that the HA Controller manages. This VM must already exist in one of the zones specified in --zone-configuration.
+        network-auto-configuration: |-
+            Adds a network interface to the instance. Sets `network_auto_configuration` value.
+            +
+            *address*:::
+            Specifies an optional IPv4 address to assign to the instance. If not specified, an ephemeral IP will be generated.
+            +
+            *internal-ipv6-address*:::
+            Specifies an optional IPv6 address to assign to the instance. If not specified, an ephemeral IP will be generated.
+            +
+            *stack-type*:::
+            Specifies the stack type for the network configuration. Must match the stack type of the instance. Must be one of: ipv4-ipv6, ipv4-only, ipv6-only.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --network-auto-configuration=address=string,internal-ipv6-address=string,stack-type=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --network-auto-configuration='{"address": "string", "internal-ipv6-address": "string", "stack-type": "string"}'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --network-auto-configuration=path_to_file.(yaml|json)
+            +
+            ```
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        region: |-
+            The name of the Google Compute Engine region where the HA Controller exists.
+            +
+            Overrides the default compute/region property value for this command invocation.
+            +
+
+            To set the `region` attribute:
+            * provide the argument `ha_controller` on the command line with a fully specified name;
+            * provide the argument `--region` on the command line;
+            * set the property `compute/region`.
+        secondary-zone-capacity: 'Determines the capacity guarantee in the secondary zone. Use BEST_EFFORT to create a VM based on capacity availability at the time of failover, suitable for workloads that can tolerate longer recovery times. Must be one of: best-effort, secondary-zone-capacity-unspecified'
+        zone-configuration: |-
+            Configures the two zones for the HA Controller and specifies how VM capacity is reserved in each zone. You must provide two zone configurations. You can also specify an existing reservation or node-group to guarantee capacity. Required, sets `zone_configuration` value.
+            +
+            *node*:::
+            Specifies the node name. The node must exist within the HA Controller region.
+            +
+            *node-affinity-file*:::
+            The JSON/YAML file containing the configuration of desired nodes onto
+            which instance in this zone could be scheduled. These rules filter the nodes
+            according to their node affinity labels. A node's affinity labels come
+            from the node template of the group the node is in.
+            +
+            The file should contain a list of a JSON/YAML objects. For an example,
+            see https://cloud.google.com/compute/docs/nodes/provisioning-sole-tenant-vms#configure_node_affinity_labels.
+            The following list describes the fields:
+            +
+            *key*::: Corresponds to the node affinity label keys of
+            the Node resource.
+            *operator*::: Specifies the node selection type. Must be one of:
+              `IN`: Requires Compute Engine to seek for matched nodes.
+              `NOT_IN`: Requires Compute Engine to avoid certain nodes.
+            *values*::: Optional. A list of values which correspond to the node
+            affinity label values of the Node resource. Use a full or relative path to a local file containing the value of node-affinity-file.
+            +
+            *node-group*:::
+            Specifies the node-group name. The node-group must exist within the HA Controller region. Must be one of: in, not-in, operator-unspecified.
+            +
+            *node-project*:::
+            Specifies the name of the project with shared sole tenant node groups to create an instance in.
+            +
+            *reservation*:::
+            Specifies the reservation name. The reservation must exist within the HA Controller region.
+            +
+            *reservation-affinity*:::
+            Specifies the reservation-affinity value. Must be one of: any-reservation, no-reservation, specific-reservation, specific-then-any-reservation, specific-then-no-reservation, unspecified.
+            +
+            *zone*:::
+            Specifies the zone. The zone must be within the HA Controller region.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --zone-configuration=node=string,node-affinity-file=path_to_file,node-group=string,node-project=string,reservation=string,reservation-affinity=string,zone=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --zone-configuration='{"node": "string", "node-affinity-file": path_to_file, "node-group": "string", "node-project": "string", "reservation": "string", "reservation-affinity": "string", "zone": "string"}'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --zone-configuration=path_to_file.(yaml|json)
+            +
+            ```

@@ -1,0 +1,73 @@
+name: add-access-config
+description: '*(BETA)*  Create a Compute Engine virtual machine access configuration.'
+flags:
+    --access-config-name=: Specifies the name of the new access configuration.
+    --address=: Specifies the external IP address of the new access
+    --network-interface=: Specifies the name of the network interface which contains the access
+    --network-tier=: Specifies the network tier of the access configuration.
+    --no-public-ptr: If provided, no DNS PTR record is created for the external IP in the
+    --no-public-ptr-domain: If both this flag and --public-ptr are specified, creates a DNS PTR
+    --public-ptr: Creates a DNS PTR record for the external IP in the access
+    --public-ptr-domain=: Assigns a custom PTR domain for the external IP in the access
+    --zone=: Zone of the instance to operate on.
+documentation:
+    command: |
+        *(BETA)*  *gcloud beta compute instances add-access-config* is used to create access configurations for network
+        interfaces of Compute Engine virtual machines. This allows you
+        to assign a public, external IP to a virtual machine.
+    flag:
+        access-config-name: |-
+            Specifies the name of the new access configuration. ``external-nat''
+            is used as the default if this flag is not provided. Since ONE_TO_ONE_NAT
+            is currently the only access-config type, it is not recommended that you
+            change this value.
+        address: |-
+            Specifies the external IP address of the new access
+            configuration. If this is not specified, then the service will
+            choose an available ephemeral IP address. If an explicit IP
+            address is given, then that IP address must be reserved by the
+            project and not be in use by another resource.
+        network-interface: |-
+            Specifies the name of the network interface which contains the access
+            configuration. If this is not provided, then "nic0" is used
+            as the default.
+        network-tier: |-
+            Specifies the network tier of the access configuration. ``NETWORK_TIER''
+            must be one of: `PREMIUM`, `STANDARD`. The default value is `PREMIUM`.
+        no-public-ptr: |-
+            If provided, no DNS PTR record is created for the external IP in the
+            access configuration. Mutually exclusive with public-ptr-domain.
+        no-public-ptr-domain: |-
+            If both this flag and --public-ptr are specified, creates a DNS PTR
+            record for the external IP in the access configuration with the PTR
+            domain name being the DNS name of the instance.
+        public-ptr: |-
+            Creates a DNS PTR record for the external IP in the access
+            configuration. This option can only be specified for the default
+            network-interface, "nic0".
+        public-ptr-domain: |-
+            Assigns a custom PTR domain for the external IP in the access
+            configuration. Mutually exclusive with no-public-ptr. This option can
+            only be specified for the default network-interface, "nic0".
+        zone: |-
+            Zone of the instance to operate on. If not specified, you might be prompted to select a zone (interactive mode
+            only). `gcloud` attempts to identify the appropriate zone by searching for
+            resources in your currently active project. If the zone cannot be determined,
+            `gcloud` prompts you for a selection with all available Google Cloud Platform
+            zones.
+            +
+            To avoid prompting when this flag is omitted, the user can set the
+            ``compute/zone'' property:
+            +
+              $ gcloud config set compute/zone ZONE
+            +
+            A list of zones can be fetched by running:
+            +
+              $ gcloud compute zones list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/zone
+            +
+            Alternatively, the zone can be stored in the environment variable
+            ``CLOUDSDK_COMPUTE_ZONE''.

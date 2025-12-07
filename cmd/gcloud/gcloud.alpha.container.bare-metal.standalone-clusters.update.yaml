@@ -1,0 +1,248 @@
+name: update
+description: '*(ALPHA)*  Update an Anthos on bare metal standalone cluster.'
+flags:
+    --add-annotations=: Add the given key-value pairs to the current annotations, or update its value if the key already exists.
+    --admin-users=: Users that will be granted the cluster-admin role on the cluster, providing full access to the cluster.
+    --allow-missing: If set, and the Anthos standalone cluster on bare metal is not found, the update request will try to create a new standalone cluster with the provided configuration.
+    --api-server-args=: API Server argument configuration.
+    --async: Return immediately, without waiting for the operation in progress to
+    --bgp-lb-address-pools-from-file=&: ""
+    --bgp-lb-address-pools=: BGP LB address pools configuration.
+    --bgp-lb-asn=: BGP autonomous system number (ASN) of the cluster.
+    --bgp-lb-load-balancer-node-configs-from-file=&: ""
+    --bgp-lb-load-balancer-node-configs=: BGP LB load balancer node configuration.
+    --bgp-lb-load-balancer-node-labels=: Labels assigned to nodes of a BGP LB node pool.
+    --bgp-lb-load-balancer-node-taints=: Node taint applied to every node in a BGP LB node pool.
+    --bgp-lb-peer-configs-from-file=&: ""
+    --bgp-lb-peer-configs=: BGP LB peer configuration.
+    --binauthz-evaluation-mode=: Set Binary Authorization evaluation mode for this cluster.
+    --clear-annotations&: Clear all the current annotations
+    --control-plane-node-configs-from-file=&: ""
+    --control-plane-node-configs=: Control plane node configuration.
+    --control-plane-node-labels=: Labels assigned to nodes of a node pool.
+    --control-plane-node-taints=: Node taint applied to every Kubernetes node in a node pool.
+    --description=: Description for the resource.
+    --disable-sr-iov-config: If set, the SR-IOV operator won't be installed.
+    --enable-application-logs: Whether collection of application logs/metrics should be enabled (in addition to system logs/metrics).
+    --enable-sr-iov-config: If set, install the SR-IOV operator.
+    --island-mode-service-address-cidr-blocks=: IPv4 address range for all services in the cluster.
+    --location=: Google Cloud location for the standalone_cluster.
+    --login-user=: User name used to access node machines.
+    --maintenance-address-cidr-blocks=: IPv4 addresses to be placed into maintenance mode.
+    --metal-lb-address-pools-from-file=&: ""
+    --metal-lb-address-pools=: MetalLB address pools configuration.
+    --metal-lb-load-balancer-node-configs-from-file=&: ""
+    --metal-lb-load-balancer-node-configs=: MetalLB load balancer node configuration.
+    --metal-lb-load-balancer-node-labels=: Labels assigned to nodes of a MetalLB node pool.
+    --metal-lb-load-balancer-node-taints=: Node taint applied to every node in a MetalLB node pool.
+    --no-allow-missing&: If set, and the Anthos standalone cluster on bare metal is not found, the update request will try to create a new standalone cluster with the provided configuration.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-clear-annotations&: Clear all the current annotations
+    --no-disable-sr-iov-config&: If set, the SR-IOV operator won't be installed.
+    --no-enable-application-logs&: Whether collection of application logs/metrics should be enabled (in addition to system logs/metrics).
+    --no-enable-sr-iov-config&: If set, install the SR-IOV operator.
+    --no-validate-only&: If set, only validate the request, but do not actually perform the operation.
+    --remove-annotations=: Remove annotations of the given keys.
+    --set-annotations=&: Replace all the current annotations
+    --validate-only: If set, only validate the request, but do not actually perform the operation.
+completion:
+    flag:
+        binauthz-evaluation-mode:
+            - DISABLED
+            - PROJECT_SINGLETON_POLICY_ENFORCE
+documentation:
+    command: '*(ALPHA)*  Update an Anthos on bare metal standalone cluster.'
+    flag:
+        add-annotations: Add the given key-value pairs to the current annotations, or update its value if the key already exists.
+        admin-users: Users that will be granted the cluster-admin role on the cluster, providing full access to the cluster.
+        allow-missing: If set, and the Anthos standalone cluster on bare metal is not found, the update request will try to create a new standalone cluster with the provided configuration.
+        api-server-args: API Server argument configuration.
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        bgp-lb-address-pools: BGP LB address pools configuration.
+        bgp-lb-address-pools-from-file: |+
+            Path of the YAML/JSON file that contains the BGP LB address pools.
+
+            Examples:
+
+              addressPools:
+              - pool: pool-1
+                addresses:
+                - 10.200.0.14/32
+                - 10.200.0.15/32
+                avoidBuggyIPs: True
+                manualAssign: True
+              - pool: pool-2
+                addresses:
+                - 10.200.0.16/32
+                avoidBuggyIPs: False
+                manualAssign: False
+
+            List of supported fields in `addressPools`
+
+            KEY           | VALUE                 | NOTE
+            --------------|-----------------------|---------------------------
+            pool          | string                | required, mutable
+            addresses     | one or more IP ranges | required, mutable
+            avoidBuggyIPs | bool                  | optional, mutable, defaults to False
+            manualAssign  | bool                  | optional, mutable, defaults to False
+
+        bgp-lb-asn: BGP autonomous system number (ASN) of the cluster.
+        bgp-lb-load-balancer-node-configs: BGP LB load balancer node configuration.
+        bgp-lb-load-balancer-node-configs-from-file: |+
+            Path of the YAML/JSON file that contains the BGP LB node configs.
+
+            Examples:
+
+              nodeConfigs:
+              - nodeIP: 10.200.0.10
+                labels:
+                  node1: label1
+                  node2: label2
+              - nodeIP: 10.200.0.11
+                labels:
+                  node3: label3
+                  node4: label4
+
+            List of supported fields in `nodeConfigs`
+
+            KEY           | VALUE                     | NOTE
+            --------------|---------------------------|---------------------------
+            nodeIP        | string                    | required, mutable
+            labels        | one or more key-val pairs | optional, mutable
+
+        bgp-lb-load-balancer-node-labels: Labels assigned to nodes of a BGP LB node pool.
+        bgp-lb-load-balancer-node-taints: Node taint applied to every node in a BGP LB node pool.
+        bgp-lb-peer-configs: BGP LB peer configuration.
+        bgp-lb-peer-configs-from-file: |+
+            Path of the YAML/JSON file that contains the BGP LB peer configs.
+
+            Examples:
+
+              bgpPeerConfigs:
+              - asn: 1000
+                controlPlaneNodes:
+                - 10.200.0.14/32
+                - 10.200.0.15/32
+                ipAddress: 10.200.0.16/32
+              - asn: 1001
+                controlPlaneNodes:
+                - 10.200.0.17/32
+                - 10.200.0.18/32
+                ipAddress: 10.200.0.19/32
+
+            List of supported fields in `bgpPeerConfigs`
+
+            KEY               | VALUE                 | NOTE
+            ------------------|-----------------------|---------------------------
+            asn               | int                   | required, mutable
+            controlPlaneNodes | one or more IP ranges | optional, mutable
+            ipAddress         | valid IP address      | required, mutable
+
+        binauthz-evaluation-mode: 'Set Binary Authorization evaluation mode for this cluster. _BINAUTHZ_EVALUATION_MODE_ must be one of: *DISABLED*, *PROJECT_SINGLETON_POLICY_ENFORCE*.'
+        clear-annotations: Clear all the current annotations
+        control-plane-node-configs: Control plane node configuration.
+        control-plane-node-configs-from-file: |+
+            Path of the YAML/JSON file that contains the control plane node configs.
+
+            Examples:
+
+              nodeConfigs:
+              - nodeIP: 10.200.0.10
+                labels:
+                  node1: label1
+                  node2: label2
+              - nodeIP: 10.200.0.11
+                labels:
+                  node3: label3
+                  node4: label4
+
+            List of supported fields in `nodeConfigs`
+
+            KEY           | VALUE                     | NOTE
+            --------------|---------------------------|---------------------------
+            nodeIP        | string                    | required, mutable
+            labels        | one or more key-val pairs | optional, mutable
+
+        control-plane-node-labels: Labels assigned to nodes of a node pool.
+        control-plane-node-taints: Node taint applied to every Kubernetes node in a node pool.
+        description: Description for the resource.
+        disable-sr-iov-config: If set, the SR-IOV operator won't be installed.
+        enable-application-logs: Whether collection of application logs/metrics should be enabled (in addition to system logs/metrics).
+        enable-sr-iov-config: If set, install the SR-IOV operator.
+        island-mode-service-address-cidr-blocks: IPv4 address range for all services in the cluster.
+        location: |-
+            Google Cloud location for the standalone_cluster.
+            +
+            To set the `location` attribute:
+            * provide the argument `standalone_cluster` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `container_bare_metal/location`.
+        login-user: User name used to access node machines.
+        maintenance-address-cidr-blocks: IPv4 addresses to be placed into maintenance mode.
+        metal-lb-address-pools: MetalLB address pools configuration.
+        metal-lb-address-pools-from-file: |+
+            Path of the YAML/JSON file that contains the MetalLB address pools.
+
+            Examples:
+
+              addressPools:
+              - pool: pool-1
+                addresses:
+                - 10.200.0.14/32
+                - 10.200.0.15/32
+                avoidBuggyIPs: True
+                manualAssign: True
+              - pool: pool-2
+                addresses:
+                - 10.200.0.16/32
+                avoidBuggyIPs: False
+                manualAssign: False
+
+            List of supported fields in `addressPools`
+
+            KEY           | VALUE                 | NOTE
+            --------------|-----------------------|---------------------------
+            pool          | string                | required, mutable
+            addresses     | one or more IP ranges | required, mutable
+            avoidBuggyIPs | bool                  | optional, mutable, defaults to False
+            manualAssign  | bool                  | optional, mutable, defaults to False
+
+        metal-lb-load-balancer-node-configs: MetalLB load balancer node configuration.
+        metal-lb-load-balancer-node-configs-from-file: |+
+            Path of the YAML/JSON file that contains the Metal LB node configs.
+
+            Examples:
+
+              nodeConfigs:
+              - nodeIP: 10.200.0.10
+                labels:
+                  node1: label1
+                  node2: label2
+              - nodeIP: 10.200.0.11
+                labels:
+                  node3: label3
+                  node4: label4
+
+            List of supported fields in `nodeConfigs`
+
+            KEY           | VALUE                     | NOTE
+            --------------|---------------------------|---------------------------
+            nodeIP        | string                    | required, mutable
+            labels        | one or more key-val pairs | optional, mutable
+
+        metal-lb-load-balancer-node-labels: Labels assigned to nodes of a MetalLB node pool.
+        metal-lb-load-balancer-node-taints: Node taint applied to every node in a MetalLB node pool.
+        no-allow-missing: If set, and the Anthos standalone cluster on bare metal is not found, the update request will try to create a new standalone cluster with the provided configuration.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-clear-annotations: Clear all the current annotations
+        no-disable-sr-iov-config: If set, the SR-IOV operator won't be installed.
+        no-enable-application-logs: Whether collection of application logs/metrics should be enabled (in addition to system logs/metrics).
+        no-enable-sr-iov-config: If set, install the SR-IOV operator.
+        no-validate-only: If set, only validate the request, but do not actually perform the operation.
+        remove-annotations: Remove annotations of the given keys.
+        set-annotations: Replace all the current annotations
+        validate-only: If set, only validate the request, but do not actually perform the operation.

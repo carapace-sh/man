@@ -1,0 +1,67 @@
+name: update
+description: '*(BETA)*  Update a Compute Engine wire group.'
+flags:
+    --admin-enabled: Administrative status of the wire group.
+    --bandwidth-allocation=: The bandwidth allocation for the wire group.
+    --bandwidth-unmetered=: The amount of unmetered bandwidth to assign to the wire group.
+    --cross-site-network=!: Name of the crossSiteNetwork to operate on.
+    --description=: An optional, textual description for the wire group.
+    --fault-response=: The fault response for the wire group.
+    --no-admin-enabled&: Administrative status of the wire group.
+    --no-validate-only&: Validate the new configuration, but don't update it.
+    --type=: The type for the wire group.
+    --validate-only: Validate the new configuration, but don't update it.
+completion:
+    flag:
+        bandwidth-allocation:
+            - ALLOCATE_PER_WIRE
+            - SHARED_WITH_WIRE_GROUP
+        fault-response:
+            - DISABLE_PORT
+            - NONE
+        type:
+            - BOX_AND_CROSS
+            - REDUNDANT
+            - WIRE
+documentation:
+    command: |
+        *(BETA)*  *gcloud beta compute interconnects wire-groups update* is used to update wire groups.
+
+        For an example, refer to the *EXAMPLES* section below.
+    flag:
+        admin-enabled: |-
+            Administrative status of the wire group. When this is enabled, the wire
+            group is operational and will carry traffic. Use --no-admin-enabled to
+            disable it.
+        bandwidth-allocation: |-
+            The bandwidth allocation for the wire group. _BANDWIDTH_ALLOCATION_ must be one of:
+            +
+            *ALLOCATE_PER_WIRE*::: Configures a separate unmetered bandwidth allocation (and associated charges) for each wire in the group.
+            *SHARED_WITH_WIRE_GROUP*::: Configures one unmetered bandwidth allocation for the wire group. The unmetered bandwidth is divided equally across each wire in the group, but dynamic throttling reallocates unused unmetered bandwidth from unused or underused wires to other wires in the group.
+            :::
+            +
+        bandwidth-unmetered: The amount of unmetered bandwidth to assign to the wire group.
+        cross-site-network: Name of the crossSiteNetwork to operate on.
+        description: An optional, textual description for the wire group.
+        fault-response: |-
+            The fault response for the wire group. _FAULT_RESPONSE_ must be one of:
+            +
+            *DISABLE_PORT*::: Disable port
+            *NONE*::: None
+            :::
+            +
+        no-admin-enabled: |
+            Administrative status of the wire group. When this is enabled, the wire
+            group is operational and will carry traffic. Use --no-admin-enabled to
+            disable it.
+        no-validate-only: |
+            Validate the new configuration, but don't update it.
+        type: |-
+            The type for the wire group. _TYPE_ must be one of:
+            +
+            *BOX_AND_CROSS*::: Box and cross type wire groups must have two VLAN tags. The first is for the same-zone pseudowire, and the second is for the cross-zone pseudowire.
+            *REDUNDANT*::: Redundant type wire groups must have only one VLAN tag.
+            *WIRE*::: Single wire type wire groups must have only one VLAN tag.
+            :::
+            +
+        validate-only: Validate the new configuration, but don't update it.

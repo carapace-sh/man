@@ -1,0 +1,91 @@
+name: snapshot-schedule
+description: Create a Compute Engine Snapshot Schedule Resource Policy.
+flags:
+    --daily-schedule: Snapshot schedule starts daily at START_TIME.
+    --description=: An optional, textual description for the backend.
+    --guest-flush: Create an application consistent snapshot by informing the OS to prepare for the snapshot process.
+    --hourly-schedule=: Snapshot schedule occurs every n hours starting at START_TIME.
+    --max-retention-days=!: Maximum number of days snapshot can be retained.
+    --no-daily-schedule&: Snapshot schedule starts daily at START_TIME.
+    --no-guest-flush&: Create an application consistent snapshot by informing the OS to prepare for the snapshot process.
+    --on-source-disk-delete=: Retention behavior of automatic snapshots in the event of source disk deletion.
+    --region=: Region of the resource policy to operate on.
+    --snapshot-labels=: List of label KEY=VALUE pairs to add.
+    --start-time=!: Start time for the disk snapshot schedule in UTC.
+    --storage-location=: Google Cloud Storage location, either regional or multi-regional, where
+    --weekly-schedule-from-file=: A JSON/YAML file which specifies a weekly schedule.
+    --weekly-schedule=: Snapshot schedule occurs weekly on WEEKLY_SCHEDULE at START_TIME.
+completion:
+    flag:
+        on-source-disk-delete:
+            - apply-retention-policy
+            - keep-auto-snapshots
+        weekly-schedule:
+            - monday
+            - tuesday
+            - wednesday
+            - thursday
+            - friday
+            - saturday
+            - sunday
+documentation:
+    command: |
+        Create a Compute Engine Snapshot Schedule Resource Policy.
+    flag:
+        daily-schedule: Snapshot schedule starts daily at START_TIME.
+        description: An optional, textual description for the backend.
+        guest-flush: Create an application consistent snapshot by informing the OS to prepare for the snapshot process.
+        hourly-schedule: Snapshot schedule occurs every n hours starting at START_TIME.
+        max-retention-days: Maximum number of days snapshot can be retained.
+        no-daily-schedule: Snapshot schedule starts daily at START_TIME.
+        no-guest-flush: Create an application consistent snapshot by informing the OS to prepare for the snapshot process.
+        on-source-disk-delete: |-
+            Retention behavior of automatic snapshots in the event of source disk deletion. _ON_SOURCE_DISK_DELETE_ must be one of:
+            +
+            *apply-retention-policy*::: Continue to apply the retention window to automatically-created snapshots when the source disk is deleted.
+            *keep-auto-snapshots*::: Keep automatically-created snapshots when the source disk is deleted. This is the default behavior.
+            :::
+            +
+        region: |-
+            Region of the resource policy to operate on. If not specified, you might be prompted to select a region (interactive mode
+            only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/region'' property:
+            +
+              $ gcloud config set compute/region REGION
+            +
+            A list of regions can be fetched by running:
+            +
+              $ gcloud compute regions list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/region
+            +
+            Alternatively, the region can be stored in the environment
+            variable ``CLOUDSDK_COMPUTE_REGION''.
+        snapshot-labels: |-
+            List of label KEY=VALUE pairs to add.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+            +
+            The label is added to each snapshot created by the schedule.
+        start-time: Start time for the disk snapshot schedule in UTC. For example, `--start-time="15:00"`.
+        storage-location: |-
+            Google Cloud Storage location, either regional or multi-regional, where
+            snapshot content is to be stored. If absent, a nearby regional or
+            multi-regional location is chosen automatically.
+        weekly-schedule: 'Snapshot schedule occurs weekly on WEEKLY_SCHEDULE at START_TIME. _WEEKLY_CYCLE_ must be one of: *monday*, *tuesday*, *wednesday*, *thursday*, *friday*, *saturday*, *sunday*.'
+        weekly-schedule-from-file: |-
+            A JSON/YAML file which specifies a weekly schedule. The file should
+            contain the following fields:
+            +
+            day: Day of the week with the same choices as `--weekly-schedule`.
+            startTime: Start time of the snapshot schedule with
+            the same format as --start-time.
+            +
+            For more information about using a file,
+            see https://cloud.google.com/compute/docs/disks/scheduled-snapshots#create_snapshot_schedule.
+            +
+            Use a full or relative path to a local file containing the value of weekly_schedule.

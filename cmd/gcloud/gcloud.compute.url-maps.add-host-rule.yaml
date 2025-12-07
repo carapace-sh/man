@@ -1,0 +1,52 @@
+name: add-host-rule
+description: Add a rule to a URL map to map hosts to a path matcher.
+flags:
+    --description=: An optional, textual description for the host rule.
+    --global: If set, the URL map is global.
+    --hosts=!: The set of hosts to match requests against.
+    --no-global&: If set, the URL map is global.
+    --path-matcher-name=!: The name of the path matcher to use if a request matches this
+    --region=: Region of the URL map to operate on.
+documentation:
+    command: |
+        *gcloud compute url-maps add-host-rule* is used to add a mapping of hosts to a path
+        matcher in a URL map. The mapping will match the host
+        component of HTTP requests to path matchers which in turn map
+        the request to a backend service. Before adding a host rule,
+        at least one path matcher must exist in the URL map to take
+        care of the path component of the requests.
+        `gcloud compute url-maps add-path-matcher` or
+        `gcloud compute url-maps edit` can be used to add path matchers.
+    flag:
+        description: An optional, textual description for the host rule.
+        global: If set, the URL map is global.
+        hosts: |-
+            The set of hosts to match requests against. Each host must be
+            a fully qualified domain name (FQDN) with the exception that
+            the host can begin with a ``*'' or ``*-''. ``*'' acts as a
+            glob and will match any string of atoms to the left where an
+            atom is separated by dots (``.'') or dashes (``-'').
+        no-global: If set, the URL map is global.
+        path-matcher-name: |-
+            The name of the path matcher to use if a request matches this
+            host rule. The path matcher must already exist in the URL map
+            (see `gcloud compute url-maps add-path-matcher`).
+        region: |-
+            Region of the URL map to operate on. If not specified, you might be prompted to select a region (interactive mode
+            only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/region'' property:
+            +
+              $ gcloud config set compute/region REGION
+            +
+            A list of regions can be fetched by running:
+            +
+              $ gcloud compute regions list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/region
+            +
+            Alternatively, the region can be stored in the environment
+            variable ``CLOUDSDK_COMPUTE_REGION''.

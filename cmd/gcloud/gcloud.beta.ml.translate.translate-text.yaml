@@ -1,0 +1,52 @@
+name: translate-text
+description: '*(BETA)*  Use the Google Cloud Translation API to translate between languages.'
+flags:
+    --content-file=: Specify a local file path containing the text to be translated.
+    --content=: The content of the input in string format.
+    --glossary-config=: Glossary to be applied.
+    --mime-type=: The format of the source text, for example, 'text/html', 'text/plain'.
+    --model=: The model type requested for this translation.
+    --source-language=: The BCP-47 language code of the input text if known, for example, 'en-US' or 'sr-Latn'.
+    --target-language=!: The BCP-47 language code to use for translation of the input text.
+    --zone=: Location to make calls.
+documentation:
+    command: |
+        *(BETA)*  Translates input text and returns translated text.
+    flag:
+        content: |-
+            The content of the input in string format. We recommend that the content be less
+            than 30k codepoints.
+        content-file: Specify a local file path containing the text to be translated.
+        glossary-config: Glossary to be applied. The glossary must be within the same region as the model.
+        mime-type: |-
+            The format of the source text, for example, 'text/html', 'text/plain'. Defaults to
+            'text/html'.
+        model: |-
+            The model type requested for this translation. The format depends on the model type:
+            +
+              for AutoML Translation models: model-id
+            +
+              for General (built-in) models: general/nmt or general/base
+            +
+            Authorization requires one or more of the following Google IAM permissions on the specified
+            resource model:
+            +
+              cloudtranslate.generalModels.predict
+            +
+              automl.models.predict
+            +
+            If missing, the system decides which google base model to use.
+            +
+            Usage:
+            +
+            AutoML models: '--model=TRL321456789'
+            +
+            General models: '--model=general/nmt'
+        source-language: |-
+            The BCP-47 language code of the input text if known, for example, 'en-US' or 'sr-Latn'. If
+            the source language isn't specified, the API attempts to identify the source language
+            automatically and returns the source language in the response.
+        target-language: The BCP-47 language code to use for translation of the input text.
+        zone: |-
+            Location to make calls. Non-global location is required for requests using AutoML models.
+            Currently, only 'us-central1' is supported as a non-global location. Defaults to 'global'.

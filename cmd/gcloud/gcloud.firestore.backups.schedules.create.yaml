@@ -1,0 +1,70 @@
+name: create
+description: Creates a Cloud Firestore backup schedule.
+flags:
+    --database=!: The database to operate on.
+    --day-of-week=: The day of week (UTC time zone) of when backups are created.
+    --recurrence=!: The recurrence settings of a backup schedule.
+    --retention=!: The rention of the backup.
+completion:
+    flag:
+        day-of-week:
+            - SUN
+            - MON
+            - TUE
+            - WED
+            - THU
+            - FRI
+            - SAT
+documentation:
+    command: |-
+        ## EXAMPLES
+
+        To create a backup schedule with 7 days retention and daily recurrence under
+        database testdb.
+
+            $ gcloud firestore backups schedules create --database=testdb
+            --retention=7d
+            --recurrence=daily
+
+        To create a backup schedule with 7 days retention and weekly recurrence on
+        Monday under database testdb.
+
+            $ gcloud firestore backups schedules create --database=testdb
+            --retention=7d
+            --recurrence=weekly
+            --day-of-week=MON
+    flag:
+        database: |-
+            The database to operate on.
+            +
+            For example, to operate on database `foo`:
+            +
+              $ {command} --database='foo'
+        day-of-week: |-
+            The day of week (UTC time zone) of when backups are created.
+            +
+             The available values are: `MON`, `TUE`, `WED`, `THU`, `FRI`, `SAT`,`SUN`.
+             Values are case insensitive.
+            +
+             This is required when creating a weekly backup schedule.
+            +
+            _DAY_OF_WEEK_ must be one of: *SUN*, *MON*, *TUE*, *WED*, *THU*, *FRI*, *SAT*.
+        recurrence: |-
+            The recurrence settings of a backup schedule.
+            +
+            Currently only daily and weekly backup schedules are supported.
+            +
+            When a weekly backup schedule is created, day-of-week is needed.
+            +
+            For example, to create a weekly backup schedule which creates backups on
+            Monday.
+            +
+              $ {command} --recurrence=weekly --day-of-week=MON
+        retention: |-
+            The rention of the backup. At what relative time in the future,
+            compared to the creation time of the backup should the backup be
+            deleted, i.e. keep backups for 7 days.
+            +
+            For example, to set retention as 7 days.
+            +
+            $ {command} --retention=7d

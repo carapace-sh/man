@@ -1,0 +1,98 @@
+name: deprecate
+description: Manage deprecation status of Compute Engine images.
+flags:
+    --delete-in=: Specifies a time duration in which the image should be marked as ``DELETED''.
+    --delete-on=: Specifies a date when the image should be marked as ``DELETED''.
+    --deprecate-in=: Specifies a time duration in which the image should be marked as ``DEPRECATED''.
+    --deprecate-on=: Specifies a date when the image should be marked as DEPRECATED.
+    --obsolete-in=: Specifies a time duration in which the image should be marked as ``OBSOLETE''.
+    --obsolete-on=: Specifies a date when the image should be marked as ``OBSOLETE''.
+    --replacement=: Specifies a Compute Engine image as a replacement for the image
+    --state=!: The deprecation state to set on the image.
+completion:
+    flag:
+        state:
+            - ACTIVE
+            - DELETED
+            - DEPRECATED
+            - OBSOLETE
+documentation:
+    command: '*gcloud compute images deprecate* is used to deprecate images.'
+    flag:
+        delete-in: |-
+            Specifies a time duration in which the image should be marked as ``DELETED''.
+            +
+            Note: This is only informational and the image will not be deleted unless you manually delete it.
+            +
+            For example, specifying ``30d'' sets the planned ``DELETED'' time to 30 days from the current system time,
+            but does not delete the image. You must manually delete the image in 30 days.
+            See $ gcloud topic datetimes for information on duration formats.
+            +
+            This flag is mutually exclusive with *--delete-on*.
+        delete-on: |-
+            Specifies a date when the image should be marked as ``DELETED''.
+            +
+            Note: This is only informational and the image will not be deleted unless you manually delete it.
+            +
+            This flag is mutually exclusive with *--delete-in*.
+            +
+            The date and time specified must be valid RFC 3339 full-date or date-time.
+            For times in UTC, this looks like ``YYYY-MM-DDTHH:MM:SSZ''.
+            For example: 2020-01-02T00:00:00Z for midnight on January 2, 2020 in UTC.
+        deprecate-in: |-
+            Specifies a time duration in which the image should be marked as ``DEPRECATED''.
+            +
+            Note: This is only informational and the image will not be deprecated unless you manually deprecate it.
+            +
+            This flag is mutually exclusive with *--deprecate-on*.
+            +
+            For example, specifying ``30d'' sets the planned ``DEPRECATED'' date to 30 days from the current system time,
+            but does not deprecate the image. You must manually deprecate the image in 30 days.
+            See $ gcloud topic datetimes for information on duration formats.
+        deprecate-on: |-
+            Specifies a date when the image should be marked as DEPRECATED.
+            +
+            Note: This is only informational and the image will not be deprecated unless you manually deprecate it.
+            +
+            This flag is mutually exclusive with *--deprecate-in*.
+            +
+            The date and time specified must be valid RFC 3339 full-date or date-time.
+            For times in UTC, this looks like ``YYYY-MM-DDTHH:MM:SSZ''.
+            For example: 2020-01-02T00:00:00Z for midnight on January 2, 2020 in UTC.
+        obsolete-in: |-
+            Specifies a time duration in which the image should be marked as ``OBSOLETE''.
+            +
+            Note: This is only informational and the image will not be obsoleted unless you manually obsolete it.
+            +
+            This flag is mutually exclusive with *--obsolete-on*.
+            +
+            For example, specifying ``30d'' sets the planned ``OBSOLETE'' time to 30 days from the current system time,
+            but does not obsolete the image. You must manually obsolete the image in 30 days.
+            See $ gcloud topic datetimes for information on duration formats.
+        obsolete-on: |-
+            Specifies a date when the image should be marked as ``OBSOLETE''.
+            +
+            Note: This is only informational and the image will not be obsoleted unless you manually obsolete it.
+            +
+            This flag is mutually exclusive with *--obsolete-in*.
+            +
+            The date and time specified must be valid RFC 3339 full-date or date-time.
+            For times in UTC, this looks like ``YYYY-MM-DDTHH:MM:SSZ''.
+            For example: 2020-01-02T00:00:00Z for midnight on January 2, 2020 in UTC.
+        replacement: |-
+            Specifies a Compute Engine image as a replacement for the image
+            being phased out. Users of the deprecated image will be
+            advised to switch to this replacement. For example, *--replacement
+            example-image* or *--replacement
+            projects/google/global/images/example-image*.
+            +
+            This flag value is purely informational and is not validated in any way.
+        state: |-
+            The deprecation state to set on the image. _STATE_ must be one of:
+            +
+            *ACTIVE*::: The image is currently supported.
+            *DELETED*::: New uses result in an error. Setting this state will not automatically delete the image. You must still make a request to delete the image to remove it from the image list.
+            *DEPRECATED*::: Operations which create a new *DEPRECATED* resource return successfully, but with a warning indicating that the image is deprecated and recommending its replacement.
+            *OBSOLETE*::: New uses result in an error.
+            :::
+            +

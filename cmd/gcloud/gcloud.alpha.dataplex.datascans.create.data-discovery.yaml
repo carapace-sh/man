@@ -1,0 +1,80 @@
+name: data-discovery
+description: '*(ALPHA)*  Create a Dataplex data discovery scan job.'
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --bigquery-publishing-connection=: BigQuery connection to use for auto discovering cloud resource bucket to BigLake tables in format `projects/{project_id}/locations/{location_id}/connections/{connection_id}`.
+    --bigquery-publishing-dataset-location=: The location of the BigQuery dataset to publish BigLake external or non-BigLake external tables to.
+    --bigquery-publishing-dataset-project=: The project of the BigQuery dataset to publish BigLake external or non-BigLake external tables to.
+    --bigquery-publishing-table-type=: BigQuery table type to discover the cloud resource bucket.
+    --csv-delimiter=: Delimiter used to separate values in the CSV file.
+    --csv-disable-type-inference=: Whether to disable the inference of data types for CSV data.
+    --csv-encoding=: Character encoding of the CSV file.
+    --csv-header-row-count=: The number of rows to interpret as header rows that should be skipped when reading data rows.
+    --csv-quote-character=: The character used to quote column values.
+    --data-source-resource=!: 'Fully-qualified service resource name of the cloud resource bucket that contains the data for the data discovery scan, of the form: `//storage.googleapis.com/projects/{project_id_or_number}/buckets/{bucket_id}`.'
+    --description=: Description of the data discovery scan.
+    --display-name=: Display name of the data discovery scan.
+    --json-disable-type-inference=: Whether to disable the inference of data types for JSON data.
+    --json-encoding=: Character encoding of the JSON file.
+    --labels=: List of label KEY=VALUE pairs to add.
+    --location=: The location of the Dataplex resource.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-validate-only&: Validate the create action, but don't actually perform it.
+    --on-demand=: If set, the scan runs one-time shortly after data discovery scan creation.
+    --schedule=: Cron schedule (https://en.wikipedia.org/wiki/Cron) for running scans periodically.
+    --storage-exclude-patterns=: List of patterns that identify the data to exclude during discovery.
+    --storage-include-patterns=: List of patterns that identify the data to include during discovery when only a subset of the data should be considered.
+    --validate-only: Validate the create action, but don't actually perform it.
+completion:
+    flag:
+        bigquery-publishing-table-type:
+            - BIGLAKE
+            - EXTERNAL
+documentation:
+    command: |-
+        *(ALPHA)*  Allows users to auto discover BigQuery External and BigLake tables from
+        underlying Cloud Storage buckets.
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        bigquery-publishing-connection: BigQuery connection to use for auto discovering cloud resource bucket to BigLake tables in format `projects/{project_id}/locations/{location_id}/connections/{connection_id}`. Connection is required for `BIGLAKE` BigQuery publishing table type.
+        bigquery-publishing-dataset-location: The location of the BigQuery dataset to publish BigLake external or non-BigLake external tables to. If not specified, the dataset location will be set to the location of the data source resource. Refer to https://cloud.google.com/bigquery/docs/locations#supportedLocations for supported locations.
+        bigquery-publishing-dataset-project: The project of the BigQuery dataset to publish BigLake external or non-BigLake external tables to. If not specified, the cloud resource bucket project will be used to create the dataset. The format is "projects/{project_id_or_number}.
+        bigquery-publishing-table-type: |-
+            BigQuery table type to discover the cloud resource bucket. Can be either `EXTERNAL` or `BIGLAKE`. If not specified, the table type will be set to `EXTERNAL`. _BIGQUERY_PUBLISHING_TABLE_TYPE_ must be one of:
+            +
+            *BIGLAKE*::: Cloud Storage bucket is discovered to BigQuery BigLake tables.
+            *EXTERNAL*::: Default value. Cloud Storage bucket is discovered to BigQuery External tables.
+            :::
+            +
+        csv-delimiter: Delimiter used to separate values in the CSV file. If not specified, the delimiter will be set to comma (",").
+        csv-disable-type-inference: Whether to disable the inference of data types for CSV data. If true, all columns are registered as strings.
+        csv-encoding: Character encoding of the CSV file. If not specified, the encoding will be set to UTF-8.
+        csv-header-row-count: The number of rows to interpret as header rows that should be skipped when reading data rows. The default value is 1.
+        csv-quote-character: The character used to quote column values. Accepts " (double quotation mark) or ' (single quotation mark). If unspecified, defaults to " (double quotation mark).
+        data-source-resource: 'Fully-qualified service resource name of the cloud resource bucket that contains the data for the data discovery scan, of the form: `//storage.googleapis.com/projects/{project_id_or_number}/buckets/{bucket_id}`.'
+        description: Description of the data discovery scan.
+        display-name: Display name of the data discovery scan.
+        json-disable-type-inference: Whether to disable the inference of data types for JSON data. If true, all columns are registered as strings.
+        json-encoding: Character encoding of the JSON file. If not specified, the encoding will be set to UTF-8.
+        labels: |-
+            List of label KEY=VALUE pairs to add.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+        location: |-
+            The location of the Dataplex resource.
+            +
+            To set the `location` attribute:
+            * provide the argument `datascan` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `dataplex/location`.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-validate-only: Validate the create action, but don't actually perform it.
+        on-demand: If set, the scan runs one-time shortly after data discovery scan creation.
+        schedule: 'Cron schedule (https://en.wikipedia.org/wiki/Cron) for running scans periodically. To explicitly set a timezone to the cron tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or "TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid string from IANA time zone database. For example, `CRON_TZ=America/New_York 1 * * * *` or `TZ=America/New_York 1 * * * *`. This field is required for RECURRING scans.'
+        storage-exclude-patterns: List of patterns that identify the data to exclude during discovery. These patterns are interpreted as glob patterns used to match object names in the Cloud Storage bucket. Exclude patterns will be applied before include patterns.
+        storage-include-patterns: List of patterns that identify the data to include during discovery when only a subset of the data should be considered. These patterns are interpreted as glob patterns used to match object names in the Cloud Storage bucket.
+        validate-only: Validate the create action, but don't actually perform it.

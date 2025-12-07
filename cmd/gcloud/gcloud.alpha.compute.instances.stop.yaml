@@ -1,0 +1,61 @@
+name: stop
+description: '*(ALPHA)*  Stop a virtual machine instance.'
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --discard-local-ssd=:
+        description: If set to true, local SSD data is discarded.
+        nargs: -1
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-graceful-shutdown: Stops the instance immediately without gracefully shutting it down.
+    --zone=: Zone of the instances to operate on.
+documentation:
+    command: |
+        *(ALPHA)*  *gcloud alpha compute instances stop* is used to stop a Compute Engine virtual machine.
+        Stopping a VM performs a clean shutdown, much like invoking the shutdown
+        functionality of a workstation or laptop.
+
+        If a VM has any attached Local SSD disks, you must use the
+        `--discard-local-ssd` flag to indicate whether or not the Local SSD
+        data should be discarded. To stop the VM and preserve the Local SSD
+        data when you stop the VM by setting `--discard-local-ssd=False`.
+
+        To stop the VM and discard the Local SSD data, specify
+        `--discard-local-ssd=True`.
+
+        Preserving the Local SSD disk data incurs costs and is subject to
+        limitations. See
+        https://cloud.google.com/compute/docs/disks/local-ssd#stop_instance
+        for more information.
+
+        Stopping a VM which is already stopped will return without errors.
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        discard-local-ssd: If set to true, local SSD data is discarded.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-graceful-shutdown: Stops the instance immediately without gracefully shutting it down. If a graceful shutdown is in progress, then the instance is forcefully stopped.
+        zone: |-
+            Zone of the instances to operate on. If not specified, you might be prompted to select a zone (interactive mode
+            only). `gcloud` attempts to identify the appropriate zone by searching for
+            resources in your currently active project. If the zone cannot be determined,
+            `gcloud` prompts you for a selection with all available Google Cloud Platform
+            zones.
+            +
+            To avoid prompting when this flag is omitted, the user can set the
+            ``compute/zone'' property:
+            +
+              $ gcloud config set compute/zone ZONE
+            +
+            A list of zones can be fetched by running:
+            +
+              $ gcloud compute zones list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/zone
+            +
+            Alternatively, the zone can be stored in the environment variable
+            ``CLOUDSDK_COMPUTE_ZONE''.

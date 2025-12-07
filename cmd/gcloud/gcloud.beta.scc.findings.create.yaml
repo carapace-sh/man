@@ -1,0 +1,83 @@
+name: create
+description: '*(BETA)*  Create a Security Command Center finding.'
+flags:
+    --api-version=&: ""
+    --category=!: Taxonomy group within findings from a given source.
+    --event-time=!: Time at which the event took place.
+    --external-uri=: URI that, if available, points to a web page outside of Cloud SCC (Security Command Center)
+    --location=: When data residency controls are enabled, this attribute specifies the location in which
+    --organization=: (Optional) If the full resource name isn't provided e.g. organizations/123, then provide the
+    --resource-name=!: Full resource name of the Google Cloud Platform resource this finding is
+    --source-properties=: Source specific properties.
+    --source=: (Optional) If the full resource name isn't provided e.g. organizations/123/sources/456, then
+    --state=: 'State is one of: [ACTIVE, INACTIVE].'
+completion:
+    flag:
+        api-version:
+            - v1
+            - v2enabled
+        state:
+            - active
+            - inactive
+            - state-unspecified
+documentation:
+    command: '*(BETA)*  Create a Security Command Center finding.'
+    flag:
+        api-version: |-
+            This is a temporary flag to be used for testing the Security Command
+            Center v2 api before its launch.
+        category: |-
+            Taxonomy group within findings from a given source. Example:
+            XSS_SCRIPTING
+        event-time: |-
+            Time at which the event took place. For example, if the finding
+              represents an open firewall it would capture the time the open firewall
+              was detected. If event-time is not provided, it will default to UTC
+              version of NOW. See `$ gcloud topic datetimes` for information on
+              supported time formats.
+        external-uri: |-
+            URI that, if available, points to a web page outside of Cloud SCC (Security Command Center)
+                where additional information about the finding can be found. This field is guaranteed to be
+                either empty or a well formed URL.
+        location: |-
+            When data residency controls are enabled, this attribute specifies the location in which
+            the resource is located and applicable. The `location` attribute can be
+            provided as part of the fully specified resource name or with the `--location`
+            argument on the command line. The default location is `global`.
+            +
+            NOTE: If you override the endpoint to a [regional endpoint](https://cloud.google.com/security-command-center/docs/reference/rest/index.html?rep_location=global#regional-service-endpoint)
+            you must specify the correct [data location](https://cloud.google.com/security-command-center/docs/data-residency-support#locations) using this flag.
+            The default location on this command is unrelated to the default location
+            that is specified when data residency controls are enabled
+            for Security Command Center.
+            +
+            NOTE: If no location is specified, the default location is `global` AND
+            the request will be routed to the SCC V1 API. To use the SCC V2 API - please explicitly specify the flag.
+        organization: |-
+            (Optional) If the full resource name isn't provided e.g. organizations/123, then provide the
+                          organization id which is the suffix of the organization. Example: organizations/123, the id is
+                          123.
+            +
+            To set the `organization` attribute:
+            * provide the argument `finding` on the command line with a fully specified name;
+            * provide the argument `--organization` on the command line;
+            * Set the organization property in configuration using `gcloud config set scc/organization`
+                              if it is not specified in command line..
+        resource-name: |-
+            Full resource name of the Google Cloud Platform resource this finding is
+            for.
+        source: |-
+            (Optional) If the full resource name isn't provided e.g. organizations/123/sources/456, then
+                          provide the source id which is the suffix of the source.
+                          Example: organizations/123/sources/456, the id is 456.
+            +
+            To set the `source` attribute:
+            * provide the argument `finding` on the command line with a fully specified name;
+            * provide the argument `--source` on the command line.
+        source-properties: |-
+            Source specific properties. These properties are managed by the
+                  source that writes the finding. The key names in the source_properties map
+                  must be between 1 and 255 characters, and must start with a letter and
+                  contain alphanumeric characters or underscores only. For example
+                  "key1=val1,key2=val2"
+        state: 'State is one of: [ACTIVE, INACTIVE]. _STATE_ must be one of: *active*, *inactive*, *state-unspecified*.'

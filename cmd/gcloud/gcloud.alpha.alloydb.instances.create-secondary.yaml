@@ -1,0 +1,139 @@
+name: create-secondary
+description: '*(ALPHA)*  Creates a new AlloyDB SECONDARY instance within a given cluster.'
+flags:
+    --allocated-ip-range-override=: 'Name of the allocated IP range for the private IP AlloyDB instance, for example: "google-managed-services-default".'
+    --allowed-psc-projects=: Comma-separated list of allowed consumer projects to create endpoints for Private Service Connect (PSC) connectivity for the instance.
+    --assign-inbound-public-ip=: Specify to enable or disable public IP on an instance.
+    --async: Return immediately, without waiting for the operation in progress to
+    --authorized-external-networks=: Comma-separated list of authorized external networks to set on the instance.
+    --availability-type=: Specifies level of availability.
+    --cluster=!: AlloyDB cluster ID
+    --connection-pooling-client-connection-idle-timeout=: The maximum number of seconds a client is allowed to be idle before it is disconnected.
+    --connection-pooling-ignore-startup-parameters=: Comma-separated list of startup parameters that should be ignored by the connection pool.
+    --connection-pooling-max-client-connections=: The max client connections for managed connection pooling.
+    --connection-pooling-max-pool-size=: The max pool size for managed connection pooling.
+    --connection-pooling-max-prepared-statements=: The maximum number of prepared statements allowed.
+    --connection-pooling-min-pool-size=: The min pool size for managed connection pooling.
+    --connection-pooling-pool-mode=: The pool mode for managed connection pooling.
+    --connection-pooling-query-wait-timeout=: The query wait timeout for managed connection pooling.
+    --connection-pooling-server-idle-timeout=: The server idle timeout for managed connection pooling.
+    --connection-pooling-server-lifetime=: The lifetime of a server connection in seconds.
+    --connection-pooling-stats-users=: Comma-separated list of database users to access connection pooling stats.
+    --database-flags=: Comma-separated list of database flags to set on the instance.
+    --enable-connection-pooling: Enable connection pooling for the instance.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-enable-connection-pooling&: Enable connection pooling for the instance.
+    --no-outbound-public-ip&: Add outbound Public IP connectivity to an AlloyDB instance.
+    --no-require-connectors&: 'Enable or disable enforcing connectors only (ex: AuthProxy) connections to the database.'
+    --outbound-public-ip: Add outbound Public IP connectivity to an AlloyDB instance.
+    --psc-auto-connections=: Comma-separated list of consumer project and consumer network pairs to create endpoints for Private Service Connect (PSC) connectivity for the instance.
+    --psc-network-attachment-uri=: Full URI of the network attachment that is configured to support outbound connectivity from an AlloyDB instance which uses Private Service Connect (PSC).
+    --region=!: Regional location (e.g. `asia-east1`, `us-east1`).
+    --require-connectors: 'Enable or disable enforcing connectors only (ex: AuthProxy) connections to the database.'
+    --ssl-mode=: Specify the SSL mode to use when the instance connects to the database.
+completion:
+    flag:
+        availability-type:
+            - REGIONAL
+            - ZONAL
+        connection-pooling-pool-mode:
+            - SESSION
+            - TRANSACTION
+        ssl-mode:
+            - ALLOW_UNENCRYPTED_AND_ENCRYPTED
+            - ENCRYPTED_ONLY
+documentation:
+    command: '*(ALPHA)*  Creates a new AlloyDB SECONDARY instance within a given cluster.'
+    flag:
+        allocated-ip-range-override: 'Name of the allocated IP range for the private IP AlloyDB instance, for example: "google-managed-services-default". If set, the instance IPs will be created from this allocated range and will override the IP range used by the parent cluster. The range name must comply with RFC 1035. Specifically, the name must be 1-63 characters long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?`.'
+        allowed-psc-projects: Comma-separated list of allowed consumer projects to create endpoints for Private Service Connect (PSC) connectivity for the instance. Only instances in PSC-enabled clusters are allowed to set this field.(e.g., `--allowed-psc-projects=project1,12345678,project2)
+        assign-inbound-public-ip: |-
+            Specify to enable or disable public IP on an instance.
+                      ASSIGN_INBOUND_PUBLIC_IP must be one of:
+                      * *NO_PUBLIC_IP*
+                      ** This disables public IP on the instance. Updating an instance to
+                      disable public IP will clear the list of authorized networks.
+                      * *ASSIGN_IPV4*
+                      ** Assign an inbound public IPv4 address for the instance.
+                      Public IP is enabled.
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        authorized-external-networks: Comma-separated list of authorized external networks to set on the instance. Authorized networks should use CIDR notation (e.g. 1.2.3.4/30). This flag is only allowed to be set for instances with public IP enabled.
+        availability-type: |-
+            Specifies level of availability. _AVAILABILITY_TYPE_ must be one of:
+            +
+            *REGIONAL*::: Provide high availability instances. Recommended for production instances; instances automatically fail over to another zone within your selected region.
+            *ZONAL*::: Provide zonal availability instances. Not recommended for production instances; instance does not automatically fail over to another zone.
+            :::
+            +
+        cluster: AlloyDB cluster ID
+        connection-pooling-client-connection-idle-timeout: The maximum number of seconds a client is allowed to be idle before it is disconnected.
+        connection-pooling-ignore-startup-parameters: Comma-separated list of startup parameters that should be ignored by the connection pool.
+        connection-pooling-max-client-connections: The max client connections for managed connection pooling.
+        connection-pooling-max-pool-size: The max pool size for managed connection pooling.
+        connection-pooling-max-prepared-statements: The maximum number of prepared statements allowed.
+        connection-pooling-min-pool-size: The min pool size for managed connection pooling.
+        connection-pooling-pool-mode: |-
+            The pool mode for managed connection pooling. _CONNECTION_POOLING_POOL_MODE_ must be one of:
+            +
+            *SESSION*::: Session mode for managed connection pooling.
+            *TRANSACTION*::: Transaction mode for managed connection pooling.
+            :::
+            +
+        connection-pooling-query-wait-timeout: The query wait timeout for managed connection pooling.
+        connection-pooling-server-idle-timeout: The server idle timeout for managed connection pooling.
+        connection-pooling-server-lifetime: The lifetime of a server connection in seconds. The pooler will close an unused (not currently linked to any client connection) server connection that has been connected longer than this. Setting  it to 0 means the connection is to be used only once, then closed.
+        connection-pooling-stats-users: Comma-separated list of database users to access connection pooling stats.
+        database-flags: Comma-separated list of database flags to set on the instance. Use an equals sign to separate flag name and value. Flags without values, like skip_grant_tables, can be written out without a value after, e.g., `skip_grant_tables=`. Use on/off for booleans. View the Instance Resource API for allowed flags. (e.g., `--database-flags max_allowed_packet=55555,skip_grant_tables=,log_output=1`)
+        enable-connection-pooling: Enable connection pooling for the instance. Use *--enable-connection-pooling* to enable and *--no-enable-connection-pooling* to disable.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-enable-connection-pooling: Enable connection pooling for the instance.
+        no-outbound-public-ip: Add outbound Public IP connectivity to an AlloyDB instance.
+        no-require-connectors: 'Enable or disable enforcing connectors only (ex: AuthProxy) connections to the database.'
+        outbound-public-ip: Add outbound Public IP connectivity to an AlloyDB instance. Use *--outbound-public-ip* to enable and *--no-outbound-public-ip* to disable.
+        psc-auto-connections: |-
+            Comma-separated list of consumer project and consumer network pairs to create endpoints for Private Service Connect (PSC) connectivity for the instance. Only instances in PSC-enabled clusters are allowed to set this field. Both project and network must be specified. (e.g., `--psc-auto-connections=project=project1,network=projects/vpc-host-project1/global/networks/network1` `--psc-auto-connections=project=project2,network=projects/vpc-host-project2/global/networks/network2`). Sets `psc_auto_connections` value.
+            +
+            *network*:::
+            Required, sets `network` value.
+            +
+            *project*:::
+            Required, sets `project` value.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --psc-auto-connections=network=string,project=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --psc-auto-connections='{"network": "string", "project": "string"}'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --psc-auto-connections=path_to_file.(yaml|json)
+            +
+            ```
+        psc-network-attachment-uri: Full URI of the network attachment that is configured to support outbound connectivity from an AlloyDB instance which uses Private Service Connect (PSC). For example, this would be of the form:`psc-network-attachment-uri=projects/test-project/regions/us-central1/networkAttachments/my-na`
+        region: Regional location (e.g. `asia-east1`, `us-east1`). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.
+        require-connectors: 'Enable or disable enforcing connectors only (ex: AuthProxy) connections to the database. Use *--require-connectors* to enable and *--no-require-connectors* to disable.'
+        ssl-mode: |-
+            Specify the SSL mode to use when the instance connects to the database. Default SSL mode will match what is set on the primary instance. _SSL_MODE_ must be one of:
+            +
+            *ALLOW_UNENCRYPTED_AND_ENCRYPTED*::: SSL connections are optional. CA verification is not enforced.
+            *ENCRYPTED_ONLY*::: SSL connections are required. CA verification is not enforced.
+            :::
+            +

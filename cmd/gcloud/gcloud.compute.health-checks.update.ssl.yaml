@@ -1,0 +1,132 @@
+name: ssl
+description: Update a SSL health check.
+flags:
+    --check-interval=: How often to perform a health check for an instance.
+    --description=: A textual description for the SSL health check.
+    --enable-logging: Enable logging of health check probe results to Stackdriver.
+    --global: If set, the SSL health check is global.
+    --healthy-threshold=: The number of consecutive successful health checks before an
+    --no-enable-logging&: Enable logging of health check probe results to Stackdriver.
+    --no-global&: If set, the SSL health check is global.
+    --no-use-serving-port&: 'If given, use the "serving port" for health checks:'
+    --port-name=: The port name that this health check monitors.
+    --port=: The TCP port number that this health check monitors.
+    --proxy-header=: The type of proxy protocol header to be sent to the backend.
+    --region=: Region of the SSL health check to update.
+    --request=: An optional string of up to 1024 characters to send once the health check
+    --response=: An optional string of up to 1024 characters that the health checker
+    --timeout=: If Google Compute Engine doesn't receive a healthy response from the
+    --unhealthy-threshold=: The number of consecutive health check failures before a healthy
+    --use-serving-port: 'If given, use the "serving port" for health checks:'
+completion:
+    flag:
+        proxy-header:
+            - NONE
+            - PROXY_V1
+documentation:
+    command: |
+        *gcloud compute health-checks update ssl* is used to update an existing SSL health check. Only
+        arguments passed in will be updated on the health check. Other
+        attributes will remain unaffected.
+    flag:
+        check-interval: |-
+            How often to perform a health check for an instance. For example,
+            specifying ``10s'' will run the check every 10 seconds.
+            See $ gcloud topic datetimes for information on duration formats.
+        description: A textual description for the SSL health check. Pass in an empty string to unset.
+        enable-logging: |-
+            Enable logging of health check probe results to Stackdriver. Logging is
+            disabled by default.
+            +
+            Use --no-enable-logging to disable logging.
+        global: If set, the SSL health check is global.
+        healthy-threshold: |-
+            The number of consecutive successful health checks before an
+            unhealthy instance is marked as healthy.
+        no-enable-logging: |-
+            Enable logging of health check probe results to Stackdriver. Logging is
+            disabled by default.
+
+            Use --no-enable-logging to disable logging.
+        no-global: If set, the SSL health check is global.
+        no-use-serving-port: |-
+            If given, use the "serving port" for health checks:
+
+              - When health checking network endpoints in a Network Endpoint
+                Group, use the port specified with each endpoint.
+                `--use-serving-port` must be used when using a Network Endpoint Group
+                as a backend as this flag specifies the `portSpecification` option for
+                a Health Check object.
+              - When health checking other backends, use the port or named port of
+                the backend service.
+        port: The TCP port number that this health check monitors.
+        port-name: |-
+            The port name that this health check monitors. By default, this is
+            empty. Setting this to an empty string will clear any existing
+            port-name value.
+        proxy-header: |-
+            The type of proxy protocol header to be sent to the backend. _PROXY_HEADER_ must be one of:
+            +
+            *NONE*::: No proxy header is added.
+            *PROXY_V1*::: Adds the header "PROXY UNKNOWN\r\n".
+            :::
+            +
+        region: |-
+            Region of the SSL health check to update. If not specified, you might be prompted to select a region (interactive mode
+            only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/region'' property:
+            +
+              $ gcloud config set compute/region REGION
+            +
+            A list of regions can be fetched by running:
+            +
+              $ gcloud compute regions list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/region
+            +
+            Alternatively, the region can be stored in the environment
+            variable ``CLOUDSDK_COMPUTE_REGION''.
+        request: |-
+            An optional string of up to 1024 characters to send once the health check
+            TCP connection has been established. The health checker then looks for a
+            reply of the string provided in the `--response` field.
+            +
+            If `--response` is not configured, the health checker does not wait for a
+            response and regards the probe as successful if the TCP or SSL handshake
+            was successful.
+            +
+            Setting this to an empty string will clear any existing request value.
+        response: |-
+            An optional string of up to 1024 characters that the health checker
+            expects to receive from the instance. If the response is not received
+            exactly, the health check probe fails. If `--response` is configured, but
+            not `--request`, the health checker will wait for a response anyway.
+            Unless your system automatically sends out a message in response to a
+            successful handshake, only configure `--response` to match an explicit
+            `--request`.
+                  Setting this to an empty string will clear any existing
+            response value.
+        timeout: |-
+            If Google Compute Engine doesn't receive a healthy response from the
+            instance by the time specified by the value of this flag, the health
+            check request is considered a failure. For example, specifying ``10s''
+            will cause the check to wait for 10 seconds before considering the
+            request a failure.
+            See $ gcloud topic datetimes for information on duration formats.
+        unhealthy-threshold: |-
+            The number of consecutive health check failures before a healthy
+            instance is marked as unhealthy.
+        use-serving-port: |-
+            If given, use the "serving port" for health checks:
+            +
+              - When health checking network endpoints in a Network Endpoint
+                Group, use the port specified with each endpoint.
+                `--use-serving-port` must be used when using a Network Endpoint Group
+                as a backend as this flag specifies the `portSpecification` option for
+                a Health Check object.
+              - When health checking other backends, use the port or named port of
+                the backend service.

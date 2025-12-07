@@ -1,0 +1,81 @@
+name: update
+description: '*(ALPHA)*  Update an existing Vertex AI endpoint.'
+flags:
+    --clear-labels: Remove all labels.
+    --clear-traffic-split: Clears the traffic split map.
+    --description=: Description of the endpoint.
+    --disable-request-response-logging: Disable prediction request & response logging.
+    --display-name=: Display name of the endpoint.
+    --no-clear-labels&: Remove all labels.
+    --no-clear-traffic-split&: Clears the traffic split map.
+    --no-disable-request-response-logging&: Disable prediction request & response logging.
+    --region=: Cloud region for the endpoint.
+    --remove-labels=: List of label keys to remove.
+    --request-response-logging-rate=: Prediction request & response sampling rate for logging to BigQuery table.
+    --request-response-logging-table=: BigQuery table uri for prediction request & response logging.
+    --traffic-split=: List of pairs of deployed model id and value to set as traffic split.
+    --update-labels=: List of label KEY=VALUE pairs to update.
+documentation:
+    command: |-
+        ## EXAMPLES
+
+        To update an endpoint ``123'' under project ``example'' in region
+        ``us-central1'', run:
+
+          $ gcloud alpha ai endpoints update 123 --project=example --region=us-central1
+          --display-name=new_name
+    flag:
+        clear-labels: |-
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} --clear-labels
+            +
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        clear-traffic-split: Clears the traffic split map. If the map is empty, the endpoint is to not accept any traffic at the moment.
+        description: Description of the endpoint.
+        disable-request-response-logging: Disable prediction request & response logging.
+        display-name: Display name of the endpoint.
+        no-clear-labels: |
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} --clear-labels
+
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        no-clear-traffic-split: Clears the traffic split map. If the map is empty, the endpoint is to not accept any traffic at the moment.
+        no-disable-request-response-logging: Disable prediction request & response logging.
+        region: |-
+            Cloud region for the endpoint.
+            +
+            To set the `region` attribute:
+            * provide the argument `endpoint` on the command line with a fully specified name;
+            * provide the argument `--region` on the command line;
+            * set the property `ai/region`;
+            * choose one from the prompted list of available regions.
+        remove-labels: |-
+            List of label keys to remove. If a label does not exist it is
+            silently ignored. If `--update-labels` is also specified then
+            `--update-labels` is applied first.
+        request-response-logging-rate: Prediction request & response sampling rate for logging to BigQuery table.
+        request-response-logging-table: |-
+            BigQuery table uri for prediction request & response logging.
+            +
+            You can provide table uri that does not exist, it will be created for you.
+            +
+            Value should be provided in format: bq://``PROJECT_ID''/``DATASET''/``TABLE''
+        traffic-split: List of pairs of deployed model id and value to set as traffic split.
+        update-labels: |-
+            List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.

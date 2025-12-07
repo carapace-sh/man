@@ -1,0 +1,58 @@
+name: bak
+description: '*(BETA)*  Import data into a Cloud SQL instance from a BAK file.'
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --bak-type=: Type of bak file that will be imported.
+    --cert-path=!: Path to the encryption certificate file in Google Cloud Storage associated with the BAK file.
+    --database=!: A new database into which the import is made.
+    --keep-encrypted: Whether or not to decrypt the imported encrypted BAK file.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-keep-encrypted&: Whether or not to decrypt the imported encrypted BAK file.
+    --no-prompt-for-pvk-password&: Prompt for the private key password associated with the BAK file with character echo disabled.
+    --no-recovery: Whether or not the SQL Server import is executed with NORECOVERY keyword.
+    --no-recovery-only&: Whether or not the SQL Server import skip download and bring database online.
+    --no-striped&: Whether SQL Server import should be striped.
+    --prompt-for-pvk-password: Prompt for the private key password associated with the BAK file with character echo disabled.
+    --pvk-password=: The private key password associated with the BAK file.
+    --pvk-path=!: Path to the encryption private key file in Google Cloud Storage associated with the BAK file.
+    --recovery-only: Whether or not the SQL Server import skip download and bring database online.
+    --stop-at-mark=: Equivalent to SQL Server STOPATMARK keyword.
+    --stop-at=: Equivalent to SQL Server STOPAT keyword.
+    --striped: Whether SQL Server import should be striped.
+completion:
+    flag:
+        bak-type:
+            - FULL
+            - DIFF
+            - TLOG
+documentation:
+    command: |
+        *(BETA)*  gcloud beta sql import bak imports data into a Cloud SQL instance from a BAK backup
+        file in Google Cloud Storage. You should use a full backup file with a
+        single backup set.
+
+        For detailed help on importing data into Cloud SQL, refer to this
+        guide: https://cloud.google.com/sql/docs/sqlserver/import-export/importing
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        bak-type: 'Type of bak file that will be imported. Applicable to SQL Server only. _BAK_TYPE_ must be one of: *FULL*, *DIFF*, *TLOG*.'
+        cert-path: Path to the encryption certificate file in Google Cloud Storage associated with the BAK file. The URI is in the form `gs://bucketName/fileName`.
+        database: A new database into which the import is made.
+        keep-encrypted: Whether or not to decrypt the imported encrypted BAK file.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-keep-encrypted: Whether or not to decrypt the imported encrypted BAK file.
+        no-prompt-for-pvk-password: Prompt for the private key password associated with the BAK file with character echo disabled. The password is all typed characters up to but not including the RETURN or ENTER key.
+        no-recovery: Whether or not the SQL Server import is executed with NORECOVERY keyword.
+        no-recovery-only: Whether or not the SQL Server import skip download and bring database online.
+        no-striped: Whether SQL Server import should be striped.
+        prompt-for-pvk-password: Prompt for the private key password associated with the BAK file with character echo disabled. The password is all typed characters up to but not including the RETURN or ENTER key.
+        pvk-password: The private key password associated with the BAK file.
+        pvk-path: Path to the encryption private key file in Google Cloud Storage associated with the BAK file. The URI is in the form `gs://bucketName/fileName`.
+        recovery-only: Whether or not the SQL Server import skip download and bring database online.
+        stop-at: 'Equivalent to SQL Server STOPAT keyword. Used in transaction log import only. Transaction log import stop at this timestamp. Format: YYYY-MM-DDTHH:MM:SS.'
+        stop-at-mark: Equivalent to SQL Server STOPATMARK keyword. Used in transaction log import only. Transaction log import stop at the given mark. To stop at given LSN, use --stop-at-mark=lsn:xxx.
+        striped: Whether SQL Server import should be striped. Use *--striped* to enable and *--no-striped* to disable.

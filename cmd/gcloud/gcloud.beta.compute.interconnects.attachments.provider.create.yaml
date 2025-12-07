@@ -1,0 +1,139 @@
+name: create
+description: '*(BETA)*  Create a Compute Engine partner provider interconnect attachment.'
+hidden: true
+flags:
+    --bandwidth=!: Provisioned capacity of the attachment.
+    --candidate-cloud-router-ip-address=: Single IPv4 address + prefix length to be configured on the cloud
+    --candidate-cloud-router-ipv6-address=: Single IPv6 address + prefix length to be configured on the cloud
+    --candidate-customer-router-ip-address=: Single IPv4 address + prefix length to be configured on the customer
+    --candidate-customer-router-ipv6-address=: Single IPv6 address + prefix length to be configured on the customer
+    --candidate-subnets=: Up to 16 candidate prefixes that can be used to restrict the allocation of
+    --description=: Human-readable plain-text description of attachment.
+    --interconnect=!: The interconnect for the interconnect attachment
+    --pairing-key=!: Value of the pairing-key from the target partner attachment provided by
+    --partner-asn=: BGP ASN of the partner.
+    --partner-interconnect-name=!: Plain text name of the Interconnect this attachment is connected to,
+    --partner-name=!: Plain text name of the Partner providing this attachment.
+    --partner-portal-url=!: URL of the Partner's portal for this Attachment.
+    --region=: Region of the interconnect attachment to create.
+    --resource-manager-tags=: A comma-separated list of Resource Manager tags to apply to the interconnect.
+    --subnet-length=: Length of the IPv4 subnet mask for this attachment.
+    --vlan=: Desired VLAN for this attachment, in the range 2-4093.
+completion:
+    flag:
+        bandwidth:
+            - 100g
+            - 100m
+            - 10g
+            - 1g
+            - 200m
+            - 20g
+            - 2g
+            - 300m
+            - 400m
+            - 500m
+            - 50g
+            - 50m
+            - 5g
+        subnet-length:
+            - "29"
+            - "30"
+documentation:
+    command: |-
+        *(BETA)*  *gcloud beta compute interconnects attachments provider create* is used to create partner provider interconnect attachments. An
+        interconnect attachment binds the underlying connectivity of an Interconnect
+        to a path into and out of the customer's cloud network. Partner provider
+        attachments can only be created by approved network partners.
+    flag:
+        bandwidth: |-
+            Provisioned capacity of the attachment. _BANDWIDTH_ must be one of:
+            +
+            *50m*::: 50 Mbit/s
+            *100m*::: 100 Mbit/s
+            *200m*::: 200 Mbit/s
+            *300m*::: 300 Mbit/s
+            *400m*::: 400 Mbit/s
+            *500m*::: 500 Mbit/s
+            *1g*::: 1 Gbit/s
+            *2g*::: 2 Gbit/s
+            *5g*::: 5 Gbit/s
+            *10g*::: 10 Gbit/s
+            *20g*::: 20 Gbit/s
+            *50g*::: 50 Gbit/s
+            *100g*::: 100 Gbit/s
+            :::
+            +
+        candidate-cloud-router-ip-address: |-
+            Single IPv4 address + prefix length to be configured on the cloud
+            router interface for this interconnect attachment. Example:
+            203.0.113.1/29
+        candidate-cloud-router-ipv6-address: |-
+            Single IPv6 address + prefix length to be configured on the cloud
+            router interface for this interconnect attachment. Example:
+            2001:db8::1/125
+        candidate-customer-router-ip-address: |-
+            Single IPv4 address + prefix length to be configured on the customer
+            router interface for this interconnect attachment. Example:
+            203.0.113.2/29
+        candidate-customer-router-ipv6-address: |-
+            Single IPv6 address + prefix length to be configured on the customer
+            router interface for this interconnect attachment. Example:
+            2001:db8::2/125
+        candidate-subnets: |-
+            Up to 16 candidate prefixes that can be used to restrict the allocation of
+            `cloudRouterIpAddress` and `customerRouterIpAddress` for this
+            attachment. All prefixes must be within link-local address space.
+            Google attempts to select an unused subnet of SUBNET_LENGTH from the
+            supplied candidate subnet(s), or all of link-local space if no subnets
+            supplied. Google does not re-use a subnet already in-use by your project,
+            even if it's contained in one of the candidate subnets. The request fails
+            if all candidate subnets are in use at Google's edge.
+        description: Human-readable plain-text description of attachment.
+        interconnect: The interconnect for the interconnect attachment
+        pairing-key: |-
+            Value of the pairing-key from the target partner attachment provided by
+            the customer.
+        partner-asn: |-
+            BGP ASN of the partner. This should only be supplied by layer 3
+            providers that have configured BGP on behalf of the customer.
+        partner-interconnect-name: |-
+            Plain text name of the Interconnect this attachment is connected to,
+            as displayed in the Partner's portal. For instance "Chicago 1".
+        partner-name: |-
+            Plain text name of the Partner providing this attachment. This value
+            may be validated to match approved Partner values.
+        partner-portal-url: |-
+            URL of the Partner's portal for this Attachment. The Partner may wish
+            to customize this to be a deep-link to the specific resource on the
+            Partner portal. This value may be validated to match approved Partner
+            values.
+        region: |-
+            Region of the interconnect attachment to create. If not specified, you might be prompted to select a region (interactive mode
+            only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/region'' property:
+            +
+              $ gcloud config set compute/region REGION
+            +
+            A list of regions can be fetched by running:
+            +
+              $ gcloud compute regions list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/region
+            +
+            Alternatively, the region can be stored in the environment
+            variable ``CLOUDSDK_COMPUTE_REGION''.
+        resource-manager-tags: A comma-separated list of Resource Manager tags to apply to the interconnect.
+        subnet-length: |-
+            Length of the IPv4 subnet mask for this attachment. 29 is the
+            default value, except for attachments on Cross-Cloud Interconnects whose
+            remote location's "constraints.subnetLengthRange" field specifies a
+            minimum subnet length of 30. In that case, the default value is 30.
+            The default value is recommended when there's no requirement on the subnet
+            length. _SUBNET_LENGTH_ must be one of: *29*, *30*.
+        vlan: |-
+            Desired VLAN for this attachment, in the range 2-4093. If not supplied,
+            Google will automatically select a VLAN.

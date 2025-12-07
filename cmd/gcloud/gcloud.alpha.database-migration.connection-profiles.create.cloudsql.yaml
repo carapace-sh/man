@@ -1,0 +1,146 @@
+name: cloudsql
+description: '*(ALPHA)*  Create a Database Migration Service connection profile for Cloud SQL.'
+flags:
+    --activation-policy=: Activation policy specifies when the instance is activated; it is
+    --authorized-networks=: List of external networks that are allowed to connect to the instance.
+    --auto-storage-increase: If you enable this setting, Cloud SQL checks your available storage every
+    --availability-type=: Cloud SQL availability type.
+    --data-disk-size=: Storage capacity available to the database, in GB.
+    --data-disk-type=: Type of storage.
+    --database-flags=: Comma-separated list of database flags to set on the instance.
+    --database-version=: Database engine type and version.
+    --display-name=: A user-friendly name for the connection profile.
+    --enable-ip-v4: Whether the instance should be assigned an IPv4 address or not.
+    --labels=: List of label KEY=VALUE pairs to add.
+    --no-async: Waits for the operation in progress to complete before returning.
+    --no-auto-storage-increase&: If you enable this setting, Cloud SQL checks your available storage every
+    --no-enable-ip-v4&: Whether the instance should be assigned an IPv4 address or not.
+    --no-require-ssl&: Whether SSL connections over IP should be enforced or not.
+    --private-network=: Resource link for the VPC network from which the Cloud SQL instance is
+    --provider=: Database provider, for managed databases.
+    --region=: The Cloud region for the connection_profile.
+    --require-ssl: Whether SSL connections over IP should be enforced or not.
+    --root-password=: Root Cloud SQL user's password.
+    --secondary-zone=: Google Cloud Platform zone where the failover Cloud SQL database
+    --source-id=!: ID of the connection_profile or fully qualified identifier for the connection_profile.
+    --storage-auto-resize-limit=: Maximum size to which storage capacity can be automatically increased.
+    --tier=!: 'Tier (or machine type) for this instance, for example: ``db-n1-standard-1'''''
+    --user-labels=: The resource labels for a Cloud SQL instance to use to annotate any related
+    --zone=: Google Cloud Platform zone where your Cloud SQL database instance is
+completion:
+    flag:
+        activation-policy:
+            - ALWAYS
+            - NEVER
+        availability-type:
+            - REGIONAL
+            - ZONAL
+        data-disk-type:
+            - PD_SSD
+            - PD_HDD
+        database-version:
+            - MYSQL_5_7
+            - MYSQL_5_6
+            - MYSQL_8_0
+            - POSTGRES_9_6
+            - POSTGRES_10
+            - POSTGRES_11
+            - POSTGRES_12
+            - POSTGRES_13
+            - POSTGRES_14
+            - POSTGRES_15
+        provider:
+            - RDS
+            - CLOUDSQL
+documentation:
+    command: '*(ALPHA)*  Create a Database Migration Service destination connection profile for Cloud SQL. This will create a Cloud SQL replica. Used for PostgreSQL and MySQL migrations.'
+    flag:
+        activation-policy: |-
+            Activation policy specifies when the instance is activated; it is
+            applicable only when the instance state is 'RUNNABLE'. Valid values:
+            +
+            ALWAYS: The instance is on, and remains so even in the absence of
+            connection requests.
+            +
+            NEVER: The instance is off; it is not activated, even if a connection
+            request arrives.
+            +
+            _ACTIVATION_POLICY_ must be one of: *ALWAYS*, *NEVER*.
+        authorized-networks: |-
+            List of external networks that are allowed to connect to the instance.
+            Specify values in CIDR notation, also known as 'slash' notation
+            (e.g.192.168.100.0/24).
+        auto-storage-increase: |-
+            If you enable this setting, Cloud SQL checks your available storage every
+            30 seconds. If the available storage falls below a threshold size, Cloud
+            SQL automatically adds additional storage capacity. If the available
+            storage repeatedly falls below the threshold size, Cloud SQL continues to
+            add storage until it reaches the maximum of 64 TB. Default: ON. Enabled by default, use *--no-auto-storage-increase* to disable.
+        availability-type: 'Cloud SQL availability type. _AVAILABILITY_TYPE_ must be one of: *REGIONAL*, *ZONAL*.'
+        data-disk-size: |-
+            Storage capacity available to the database, in GB. The minimum (and
+            default) size is 10GB.
+        data-disk-type: 'Type of storage. _DATA_DISK_TYPE_ must be one of: *PD_SSD*, *PD_HDD*.'
+        database-flags: |-
+            Comma-separated list of database flags to set on the instance. Use an equals
+            sign to separate the flag name and value. Flags without values, like
+            skip_grant_tables, can be written out without a value, e.g.,
+            `skip_grant_tables=`. Use on/off values for booleans. View the Instance
+            Resource API for allowed flags. (e.g., `--database-flags max_allowed_packet=55555
+            skip_grant_tables=,log_output=1`).
+        database-version: 'Database engine type and version. _DATABASE_VERSION_ must be one of: *MYSQL_5_7*, *MYSQL_5_6*, *MYSQL_8_0*, *POSTGRES_9_6*, *POSTGRES_10*, *POSTGRES_11*, *POSTGRES_12*, *POSTGRES_13*, *POSTGRES_14*, *POSTGRES_15*.'
+        display-name: |-
+            A user-friendly name for the connection profile. The display name can
+            include letters, numbers, spaces, and hyphens, and must start with a letter.
+        enable-ip-v4: Whether the instance should be assigned an IPv4 address or not. Enabled by default, use *--no-enable-ip-v4* to disable.
+        labels: |-
+            List of label KEY=VALUE pairs to add.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+        no-async: Waits for the operation in progress to complete before returning.
+        no-auto-storage-increase: |
+            If you enable this setting, Cloud SQL checks your available storage every
+            30 seconds. If the available storage falls below a threshold size, Cloud
+            SQL automatically adds additional storage capacity. If the available
+            storage repeatedly falls below the threshold size, Cloud SQL continues to
+            add storage until it reaches the maximum of 64 TB. Default: ON.
+        no-enable-ip-v4: Whether the instance should be assigned an IPv4 address or not.
+        no-require-ssl: Whether SSL connections over IP should be enforced or not.
+        private-network: |-
+            Resource link for the VPC network from which the Cloud SQL instance is
+            accessible for private IP. For example,
+            /projects/myProject/global/networks/default. This setting can be updated,
+            but it cannot be removed after it is set.
+        provider: 'Database provider, for managed databases. _PROVIDER_ must be one of: *RDS*, *CLOUDSQL*.'
+        region: |-
+            The Cloud region for the connection_profile.
+            +
+            To set the `region` attribute:
+            * provide the argument `connection_profile` on the command line with a fully specified name;
+            * provide the argument `--region` on the command line.
+        require-ssl: Whether SSL connections over IP should be enforced or not.
+        root-password: Root Cloud SQL user's password.
+        secondary-zone: |-
+            Google Cloud Platform zone where the failover Cloud SQL database
+            instance is located. Used when the Cloud SQL database availability type
+            is REGIONAL (i.e. multiple zones / highly available).
+        source-id: |-
+            ID of the connection_profile or fully qualified identifier for the connection_profile.
+            +
+            To set the `connection_profile` attribute:
+            * provide the argument `--source-id` on the command line.
+        storage-auto-resize-limit: |-
+            Maximum size to which storage capacity can be automatically increased. The
+            default value is 0, which specifies that there is no limit.
+        tier: |-
+            Tier (or machine type) for this instance, for example: ``db-n1-standard-1''
+            (MySQL instances) or ``db-custom-1-3840'' (PostgreSQL instances). For more
+            information, see
+            [Cloud SQL Instance Settings](https://cloud.google.com/sql/docs/mysql/instance-settings).
+        user-labels: |-
+            The resource labels for a Cloud SQL instance to use to annotate any related
+            underlying resources such as Compute Engine VMs. An object containing a list
+            of "key": "value" pairs.
+        zone: |-
+            Google Cloud Platform zone where your Cloud SQL database instance is
+            located.

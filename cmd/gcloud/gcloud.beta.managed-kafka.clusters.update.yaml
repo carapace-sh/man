@@ -1,0 +1,98 @@
+name: update
+description: '*(BETA)*  Update a Managed Service for Apache Kafka cluster.'
+flags:
+    --allow-broker-downscale-on-cluster-upscale: If enabled, this setting allows an update operation that could significantly decrease the
+    --async: Return immediately, without waiting for the operation in progress to
+    --auto-rebalance: Whether the automatic rebalancing is enabled.
+    --clear-mtls-ca-pools: Remove all the CA pools from the cluster.
+    --cpu=: The number of vCPUs to provision for the cluster.
+    --labels=: List of label KEY=VALUE pairs to add.
+    --location=: ID of the location of the Managed Service for Apache Kafka resource.
+    --memory=: The memory to provision for the cluster in bytes.
+    --mtls-ca-pools=: A comma-separated list of CA pools from the Google Cloud Certificate Authority Service.
+    --no-allow-broker-downscale-on-cluster-upscale&: If enabled, this setting allows an update operation that could significantly decrease the
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-auto-rebalance&: Whether the automatic rebalancing is enabled.
+    --no-clear-mtls-ca-pools&: Remove all the CA pools from the cluster.
+    --ssl-principal-mapping-rules=: The rules for mapping mTLS certificate Distinguished Names (DNs) to shortened principal names
+    --subnets=: A comma-separated list of VPC subnets from which the cluster is accessible.
+documentation:
+    command: |
+        *(BETA)*  Update a Managed Service for Apache Kafka cluster.
+    flag:
+        allow-broker-downscale-on-cluster-upscale: |-
+            If enabled, this setting allows an update operation that could significantly decrease the
+            per-broker vCPU and/or memory allocation, which can lead to reduced performance and
+            availability. By default, an update operation will fail if it results in a reduction of 10% or
+            more to the brokers' vCPU or memory allocation.
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        auto-rebalance: |-
+            Whether the automatic rebalancing is enabled. If automatic rebalancing
+            is enabled, topic partitions are rebalanced among brokers when the number of
+            CPUs in the cluster changes. Automatic rebalancing is enabled by default.
+            Use --no-auto-rebalance to disable this flag.
+        clear-mtls-ca-pools: |-
+            Remove all the CA pools from the cluster. This will remove all root certificates
+            from the truststore of each broker in the cluster.
+        cpu: The number of vCPUs to provision for the cluster. The minimum is 3.
+        labels: |-
+            List of label KEY=VALUE pairs to add.
+            Keys must start with a lowercase character and contain only hyphens (`-`),
+            underscores (```_```), lowercase characters, and numbers. Values must contain only
+            hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+        location: |-
+            ID of the location of the Managed Service for Apache Kafka resource. See
+            https://cloud.google.com/managed-service-for-apache-kafka/docs/locations for a list of supported
+            locations.
+            +
+
+            To set the `location` attribute:
+            * provide the argument `cluster` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line.
+        memory: |-
+            The memory to provision for the cluster in bytes. The value must be between 1 GiB and 8 GiB
+            per vCPU.
+            Ex. 1024Mi, 4Gi.
+        mtls-ca-pools: |-
+            A comma-separated list of CA pools from the Google Cloud Certificate Authority Service.
+            The root certificates of these CA pools will be installed in the truststore of each broker
+            in the cluster for use with mTLS. A maximum of 10 CA pools can be specified.
+            CA pools can be in a different project and region than the cluster.
+            This command overwrites the entire set of pools currently configured on the cluster.
+            If you want to add a new pool to an existing configuration, you must provide the full list of
+            both the old and new CA pools in the command.
+            Each CA pool must be in the format
+            projects/``PROJECT_ID''/locations/``LOCATION''/caPools/``CA_POOL''. Clear the CA pools
+            using the `--clear-mtls-ca-pools` flag.
+        no-allow-broker-downscale-on-cluster-upscale: |
+            If enabled, this setting allows an update operation that could significantly decrease the
+            per-broker vCPU and/or memory allocation, which can lead to reduced performance and
+            availability. By default, an update operation will fail if it results in a reduction of 10% or
+            more to the brokers' vCPU or memory allocation.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-auto-rebalance: |
+            Whether the automatic rebalancing is enabled. If automatic rebalancing
+            is enabled, topic partitions are rebalanced among brokers when the number of
+            CPUs in the cluster changes. Automatic rebalancing is enabled by default.
+            Use --no-auto-rebalance to disable this flag.
+        no-clear-mtls-ca-pools: |
+            Remove all the CA pools from the cluster. This will remove all root certificates
+            from the truststore of each broker in the cluster.
+        ssl-principal-mapping-rules: |-
+            The rules for mapping mTLS certificate Distinguished Names (DNs) to shortened principal names
+            for Kafka ACLs. This flag corresponds exactly to the `ssl.principal.mapping.rules` broker config
+            and matches the format and syntax defined in the Apache Kafka documentation.
+            Setting or modifying this field will trigger a rolling restart of the Kafka brokers
+            to apply the change. An empty string means that the default Kafka behavior is used.
+            Example: "RULE:^CN=(.*?),OU=ServiceUsers.*$/$1@example.com/,DEFAULT"
+        subnets: |-
+            A comma-separated list of VPC subnets from which the cluster is accessible. Both broker and bootstrap server
+            IP addresses and DNS entries are automatically created in each subnet. Only one subnet per
+            network is allowed, and the subnet must be located in the same region as the cluster.
+            The project may differ. A minimum of 1 subnet is required. A maximum of 10 subnets can be
+            specified. Use commas to separate multiple subnets. The name of the subnet must be in the format
+            projects/``PROJECT_ID''/regions/``REGION''/subnetworks/``SUBNET''.

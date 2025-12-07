@@ -1,0 +1,511 @@
+name: update
+description: '*(BETA)*  Update applications.'
+flags:
+    --add-endpoint-matchers=: Add new value to endpoint_matchers list.
+    --add-upstreams=: Add new value to upstreams list.
+    --async: Return immediately, without waiting for the operation in progress to
+    --clear-endpoint-matchers: Clear endpoint_matchers value and set to empty list.
+    --clear-upstreams: Clear upstreams value and set to empty list.
+    --display-name=: An arbitrary user-provided name for the application resource.
+    --endpoint-matchers=: Set endpoint_matchers to new value.
+    --location=: The location id of the application resource.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-clear-endpoint-matchers&: Clear endpoint_matchers value and set to empty list.
+    --no-clear-upstreams&: Clear upstreams value and set to empty list.
+    --remove-endpoint-matchers=: Remove existing value from endpoint_matchers list.
+    --remove-upstreams=: Remove existing value from upstreams list.
+    --request-id=: An optional request ID to identify requests.
+    --schema=: Type of the external application.
+    --security-gateway=: The securityGateway id of the application resource.
+    --upstreams=: Set upstreams to new value.
+completion:
+    flag:
+        schema:
+            - api-gateway
+            - proxy-gateway
+documentation:
+    command: '*(BETA)*  Update an application'
+    flag:
+        add-endpoint-matchers: |-
+            Add new value to endpoint_matchers list. Endpoint matchers associated with an application.
+            A combination of hostname and ports as endpoint matchers is used to match
+            the application.
+            Match conditions for OR logic.
+            An array of match conditions to allow for multiple matching criteria.
+            The rule is considered a match if one of the conditions is met.
+            The conditions should be the following combination:
+            (Hostname & Ports)
+            +
+            EXAMPLES:
+            Hostname and Ports - ("*.example.com", "443"), ("example.com" and "22"),
+            ("example.com" and "22,33") etc.
+            +
+            *hostname*:::
+            Hostname of the application.
+            +
+            *ports*:::
+            Ports of the application.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --add-endpoint-matchers=hostname=string,ports=[int] --add-endpoint-matchers=hostname=string,ports=[int]
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --add-endpoint-matchers='[{"hostname": "string", "ports": [int]}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --add-endpoint-matchers=path_to_file.(yaml|json)
+            +
+            ```
+        add-upstreams: |-
+            Add new value to upstreams list. Which upstream resources to forward traffic to.
+            +
+            *egressPolicy*:::
+            Routing policy information.
+            +
+            *regions*::::
+            List of the regions where the application sends traffic.
+            +
+            *external*:::
+            List of the external endpoints to forward traffic to.
+            +
+            *endpoints*::::
+            List of the endpoints to forward traffic to.
+            +
+            *hostname*:::::
+            Hostname of the endpoint.
+            +
+            *port*:::::
+            Port of the endpoint.
+            +
+            *network*:::
+            Network to forward traffic to.
+            +
+            *name*::::
+            Network name is of the format:
+            `projects/{project}/global/networks/{network}.
+            +
+            *proxyProtocol*:::
+            Enables proxy protocol configuration for the upstream.
+            +
+            *allowedClientHeaders*::::
+            List of the allowed client header names.
+            +
+            *clientIp*::::
+            Client IP configuration. The client IP address is included if true.
+            +
+            *contextualHeaders*::::
+            Configuration for the contextual headers.
+            +
+            *deviceInfo*:::::
+            Device info configuration.
+            +
+            *outputType*::::::
+            The output type of the delegated device info.
+            +
+            *groupInfo*:::::
+            Group info configuration.
+            +
+            *outputType*::::::
+            The output type of the delegated group info.
+            +
+            *outputType*:::::
+            Default output type for all enabled headers.
+            +
+            *userInfo*:::::
+            User info configuration.
+            +
+            *outputType*::::::
+            The output type of the delegated user info.
+            +
+            *gatewayIdentity*::::
+            Gateway identity configuration.
+            +
+            *metadataHeaders*::::
+            Custom resource specific headers along with the values.
+            The names should conform to RFC 9110:
+            > Field names SHOULD constrain themselves to alphanumeric characters, "-",
+            and ".", and SHOULD begin with a letter.
+            Field values SHOULD contain only ASCII printable characters and tab.
+            +
+            *KEY*:::::
+            Sets `KEY` value.
+            +
+            *VALUE*:::::
+            Sets `VALUE` value.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --add-upstreams=egressPolicy={regions=[string]},external={endpoints=[{hostname=string,port=int}]},network={name=string},proxyProtocol={allowedClientHeaders=[string],clientIp=boolean,contextualHeaders={deviceInfo={outputType=string},groupInfo={outputType=string},outputType=string,userInfo={outputType=string}},gatewayIdentity=string,metadataHeaders={string=string}} --add-upstreams=egressPolicy={regions=[string]},external={endpoints=[{hostname=string,port=int}]},network={name=string},proxyProtocol={allowedClientHeaders=[string],clientIp=boolean,contextualHeaders={deviceInfo={outputType=string},groupInfo={outputType=string},outputType=string,userInfo={outputType=string}},gatewayIdentity=string,metadataHeaders={string=string}}
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --add-upstreams='[{"egressPolicy": {"regions": ["string"]}, "external": {"endpoints": [{"hostname": "string", "port": int}]}, "network": {"name": "string"}, "proxyProtocol": {"allowedClientHeaders": ["string"], "clientIp": boolean, "contextualHeaders": {"deviceInfo": {"outputType": "string"}, "groupInfo": {"outputType": "string"}, "outputType": "string", "userInfo": {"outputType": "string"}}, "gatewayIdentity": "string", "metadataHeaders": {"string": "string"}}}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --add-upstreams=path_to_file.(yaml|json)
+            +
+            ```
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        clear-endpoint-matchers: Clear endpoint_matchers value and set to empty list.
+        clear-upstreams: Clear upstreams value and set to empty list.
+        display-name: |-
+            An arbitrary user-provided name for the application resource.
+            Cannot exceed 64 characters.
+        endpoint-matchers: |-
+            Set endpoint_matchers to new value. Endpoint matchers associated with an application.
+            A combination of hostname and ports as endpoint matchers is used to match
+            the application.
+            Match conditions for OR logic.
+            An array of match conditions to allow for multiple matching criteria.
+            The rule is considered a match if one of the conditions is met.
+            The conditions should be the following combination:
+            (Hostname & Ports)
+            +
+            EXAMPLES:
+            Hostname and Ports - ("*.example.com", "443"), ("example.com" and "22"),
+            ("example.com" and "22,33") etc.
+            +
+            *hostname*:::
+            Hostname of the application.
+            +
+            *ports*:::
+            Ports of the application.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --endpoint-matchers=hostname=string,ports=[int] --endpoint-matchers=hostname=string,ports=[int]
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --endpoint-matchers='[{"hostname": "string", "ports": [int]}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --endpoint-matchers=path_to_file.(yaml|json)
+            +
+            ```
+        location: |-
+            The location id of the application resource. We support only global location.
+            +
+            To set the `location` attribute:
+            * provide the argument `application` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-clear-endpoint-matchers: Clear endpoint_matchers value and set to empty list.
+        no-clear-upstreams: Clear upstreams value and set to empty list.
+        remove-endpoint-matchers: |-
+            Remove existing value from endpoint_matchers list. Endpoint matchers associated with an application.
+            A combination of hostname and ports as endpoint matchers is used to match
+            the application.
+            Match conditions for OR logic.
+            An array of match conditions to allow for multiple matching criteria.
+            The rule is considered a match if one of the conditions is met.
+            The conditions should be the following combination:
+            (Hostname & Ports)
+            +
+            EXAMPLES:
+            Hostname and Ports - ("*.example.com", "443"), ("example.com" and "22"),
+            ("example.com" and "22,33") etc.
+            +
+            *hostname*:::
+            Hostname of the application.
+            +
+            *ports*:::
+            Ports of the application.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --remove-endpoint-matchers=hostname=string,ports=[int] --remove-endpoint-matchers=hostname=string,ports=[int]
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --remove-endpoint-matchers='[{"hostname": "string", "ports": [int]}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --remove-endpoint-matchers=path_to_file.(yaml|json)
+            +
+            ```
+        remove-upstreams: |-
+            Remove existing value from upstreams list. Which upstream resources to forward traffic to.
+            +
+            *egressPolicy*:::
+            Routing policy information.
+            +
+            *regions*::::
+            List of the regions where the application sends traffic.
+            +
+            *external*:::
+            List of the external endpoints to forward traffic to.
+            +
+            *endpoints*::::
+            List of the endpoints to forward traffic to.
+            +
+            *hostname*:::::
+            Hostname of the endpoint.
+            +
+            *port*:::::
+            Port of the endpoint.
+            +
+            *network*:::
+            Network to forward traffic to.
+            +
+            *name*::::
+            Network name is of the format:
+            `projects/{project}/global/networks/{network}.
+            +
+            *proxyProtocol*:::
+            Enables proxy protocol configuration for the upstream.
+            +
+            *allowedClientHeaders*::::
+            List of the allowed client header names.
+            +
+            *clientIp*::::
+            Client IP configuration. The client IP address is included if true.
+            +
+            *contextualHeaders*::::
+            Configuration for the contextual headers.
+            +
+            *deviceInfo*:::::
+            Device info configuration.
+            +
+            *outputType*::::::
+            The output type of the delegated device info.
+            +
+            *groupInfo*:::::
+            Group info configuration.
+            +
+            *outputType*::::::
+            The output type of the delegated group info.
+            +
+            *outputType*:::::
+            Default output type for all enabled headers.
+            +
+            *userInfo*:::::
+            User info configuration.
+            +
+            *outputType*::::::
+            The output type of the delegated user info.
+            +
+            *gatewayIdentity*::::
+            Gateway identity configuration.
+            +
+            *metadataHeaders*::::
+            Custom resource specific headers along with the values.
+            The names should conform to RFC 9110:
+            > Field names SHOULD constrain themselves to alphanumeric characters, "-",
+            and ".", and SHOULD begin with a letter.
+            Field values SHOULD contain only ASCII printable characters and tab.
+            +
+            *KEY*:::::
+            Sets `KEY` value.
+            +
+            *VALUE*:::::
+            Sets `VALUE` value.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --remove-upstreams=egressPolicy={regions=[string]},external={endpoints=[{hostname=string,port=int}]},network={name=string},proxyProtocol={allowedClientHeaders=[string],clientIp=boolean,contextualHeaders={deviceInfo={outputType=string},groupInfo={outputType=string},outputType=string,userInfo={outputType=string}},gatewayIdentity=string,metadataHeaders={string=string}} --remove-upstreams=egressPolicy={regions=[string]},external={endpoints=[{hostname=string,port=int}]},network={name=string},proxyProtocol={allowedClientHeaders=[string],clientIp=boolean,contextualHeaders={deviceInfo={outputType=string},groupInfo={outputType=string},outputType=string,userInfo={outputType=string}},gatewayIdentity=string,metadataHeaders={string=string}}
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --remove-upstreams='[{"egressPolicy": {"regions": ["string"]}, "external": {"endpoints": [{"hostname": "string", "port": int}]}, "network": {"name": "string"}, "proxyProtocol": {"allowedClientHeaders": ["string"], "clientIp": boolean, "contextualHeaders": {"deviceInfo": {"outputType": "string"}, "groupInfo": {"outputType": "string"}, "outputType": "string", "userInfo": {"outputType": "string"}}, "gatewayIdentity": "string", "metadataHeaders": {"string": "string"}}}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --remove-upstreams=path_to_file.(yaml|json)
+            +
+            ```
+        request-id: |-
+            An optional request ID to identify requests. Specify a unique request ID
+            so that if you must retry your request, the server will know to ignore
+            the request if it has already been completed. The server will guarantee
+            that for at least 60 minutes after the first request.
+            +
+            For example, consider a situation where you make an initial request and
+            the request timed out. If you make the request again with the same request
+            ID, the server can check if original operation with the same request ID
+            was received, and if so, will ignore the second request. This prevents
+            clients from accidentally creating duplicate commitments.
+            +
+            The request ID must be a valid UUID with the exception that zero UUID is
+            not supported (00000000-0000-0000-0000-000000000000).
+        schema: |-
+            Type of the external application. _SCHEMA_ must be one of:
+            +
+            *api-gateway*::: Service Discovery API endpoint when Service Discovery is enabled in
+            Gateway.
+            *proxy-gateway*::: Proxy which routes traffic to actual applications, like Netscaler
+            Gateway.
+            :::
+            +
+        security-gateway: |-
+            The securityGateway id of the application resource.
+            +
+            To set the `security-gateway` attribute:
+            * provide the argument `application` on the command line with a fully specified name;
+            * provide the argument `--security-gateway` on the command line.
+        upstreams: |-
+            Set upstreams to new value. Which upstream resources to forward traffic to.
+            +
+            *egressPolicy*:::
+            Routing policy information.
+            +
+            *regions*::::
+            List of the regions where the application sends traffic.
+            +
+            *external*:::
+            List of the external endpoints to forward traffic to.
+            +
+            *endpoints*::::
+            List of the endpoints to forward traffic to.
+            +
+            *hostname*:::::
+            Hostname of the endpoint.
+            +
+            *port*:::::
+            Port of the endpoint.
+            +
+            *network*:::
+            Network to forward traffic to.
+            +
+            *name*::::
+            Network name is of the format:
+            `projects/{project}/global/networks/{network}.
+            +
+            *proxyProtocol*:::
+            Enables proxy protocol configuration for the upstream.
+            +
+            *allowedClientHeaders*::::
+            List of the allowed client header names.
+            +
+            *clientIp*::::
+            Client IP configuration. The client IP address is included if true.
+            +
+            *contextualHeaders*::::
+            Configuration for the contextual headers.
+            +
+            *deviceInfo*:::::
+            Device info configuration.
+            +
+            *outputType*::::::
+            The output type of the delegated device info.
+            +
+            *groupInfo*:::::
+            Group info configuration.
+            +
+            *outputType*::::::
+            The output type of the delegated group info.
+            +
+            *outputType*:::::
+            Default output type for all enabled headers.
+            +
+            *userInfo*:::::
+            User info configuration.
+            +
+            *outputType*::::::
+            The output type of the delegated user info.
+            +
+            *gatewayIdentity*::::
+            Gateway identity configuration.
+            +
+            *metadataHeaders*::::
+            Custom resource specific headers along with the values.
+            The names should conform to RFC 9110:
+            > Field names SHOULD constrain themselves to alphanumeric characters, "-",
+            and ".", and SHOULD begin with a letter.
+            Field values SHOULD contain only ASCII printable characters and tab.
+            +
+            *KEY*:::::
+            Sets `KEY` value.
+            +
+            *VALUE*:::::
+            Sets `VALUE` value.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --upstreams=egressPolicy={regions=[string]},external={endpoints=[{hostname=string,port=int}]},network={name=string},proxyProtocol={allowedClientHeaders=[string],clientIp=boolean,contextualHeaders={deviceInfo={outputType=string},groupInfo={outputType=string},outputType=string,userInfo={outputType=string}},gatewayIdentity=string,metadataHeaders={string=string}} --upstreams=egressPolicy={regions=[string]},external={endpoints=[{hostname=string,port=int}]},network={name=string},proxyProtocol={allowedClientHeaders=[string],clientIp=boolean,contextualHeaders={deviceInfo={outputType=string},groupInfo={outputType=string},outputType=string,userInfo={outputType=string}},gatewayIdentity=string,metadataHeaders={string=string}}
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --upstreams='[{"egressPolicy": {"regions": ["string"]}, "external": {"endpoints": [{"hostname": "string", "port": int}]}, "network": {"name": "string"}, "proxyProtocol": {"allowedClientHeaders": ["string"], "clientIp": boolean, "contextualHeaders": {"deviceInfo": {"outputType": "string"}, "groupInfo": {"outputType": "string"}, "outputType": "string", "userInfo": {"outputType": "string"}}, "gatewayIdentity": "string", "metadataHeaders": {"string": "string"}}}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --upstreams=path_to_file.(yaml|json)
+            +
+            ```

@@ -1,0 +1,60 @@
+name: deploy
+description: '*(ALPHA)*  Deploy an application.'
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --location=: The location id of the application resource.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-replace&: Flag to update the existing deployment.
+    --replace: Flag to update the existing deployment.
+    --service-account=: The email address of the service account to use for this deployment.
+    --space=: The space id of the application resource.
+    --worker-pool=: The user-specified Worker Pool resource in which the Cloud Build job will
+documentation:
+    command: '*(ALPHA)*  Deploy an application in a space.'
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        location: |-
+            The location id of the application resource.
+            +
+            To set the `location` attribute:
+            * provide the argument `application` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-replace: |-
+            Flag to update the existing deployment. If not set or false, deploy will
+            fail if application `state` is in the `DEPLOYED` state.
+        replace: |-
+            Flag to update the existing deployment. If not set or false, deploy will
+            fail if application `state` is in the `DEPLOYED` state.
+        service-account: |-
+            The email address of the service account to use for this deployment.
+            +
+            - If provided, this service account will be used to execute the deployment
+              process, taking precedence over any service_account specified on the
+              Application resource.
+            - The caller must have the 'iam.serviceAccounts.actAs' permission on this
+              service account.
+            - If this field is omitted, the system will use the 'service_account'
+              defined within the Application resource.
+            - We recommend that you provide a service account here or on the
+              Application resource. If you don't provide a service account, the
+              deployment will fail.
+            Format: projects/{PROJECT}/serviceAccounts/{EMAIL_ADDRESS}
+        space: |-
+            The space id of the application resource.
+            +
+            To set the `space` attribute:
+            * provide the argument `application` on the command line with a fully specified name;
+            * provide the argument `--space` on the command line.
+        worker-pool: |-
+            The user-specified Worker Pool resource in which the Cloud Build job will
+            execute.
+            Format: projects/{project}/locations/{location}/workerPools/{workerPoolId}
+            If this flag is omitted, the worker pool already defined on the
+            application will be used. If no worker pool is defined on the application,
+            the default Cloud Build worker pool is used.
+            The worker pool must exist in the same region as the application.

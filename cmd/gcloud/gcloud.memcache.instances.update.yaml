@@ -1,0 +1,101 @@
+name: update
+description: Update a Memorystore Memcached instance.
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --display-name=: An arbitrary and optional user provided name for the instance.
+    --labels=: List of label KEY=VALUE pairs to add.
+    --maintenance-window-any: Removes the user-specified maintenance window.
+    --maintenance-window-day=: The day of week when the window starts, e.g. 'sunday'.
+    --maintenance-window-duration=: Duration in integer hours (`3` to `8`) of the maintenance window.
+    --maintenance-window-start-time=: Hour of day (0 to 23) for the start of maintenance window, in UTC time zone.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-maintenance-window-any&: Removes the user-specified maintenance window.
+    --node-count=: Number of memcache nodes in this instance.
+    --parameters=: User defined parameters to apply to the memcached process on each node.
+    --region=: The name of the Memcached region of the instance.
+    --tags=&: List of tag KEY=VALUE pairs to add.
+completion:
+    flag:
+        maintenance-window-day:
+            - friday
+            - monday
+            - saturday
+            - sunday
+            - thursday
+            - tuesday
+            - wednesday
+documentation:
+    command: |
+        Update a Memcached instance with one or more of the following actions:
+          * Scale up or down the number of nodes in the instance.
+          * Stage an update to instance configuration parameters.
+          * Update the instance metadata (display name, labels).
+
+        Updating parameters cannot be combined with any other update actions in the same call.
+        All other update actions can be combined in the same call.
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        display-name: An arbitrary and optional user provided name for the instance.
+        labels: List of label KEY=VALUE pairs to add.
+        maintenance-window-any: Removes the user-specified maintenance window.
+        maintenance-window-day: 'The day of week when the window starts, e.g. ''sunday''. _MAINTENANCE_WINDOW_DAY_ must be one of: *friday*, *monday*, *saturday*, *sunday*, *thursday*, *tuesday*, *wednesday*.'
+        maintenance-window-duration: Duration in integer hours (`3` to `8`) of the maintenance window.
+        maintenance-window-start-time: Hour of day (0 to 23) for the start of maintenance window, in UTC time zone.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-maintenance-window-any: |
+            Removes the user-specified maintenance window.
+        node-count: Number of memcache nodes in this instance. Valid values range from 1 to 20.
+        parameters: |-
+            User defined parameters to apply to the memcached process on each node. Possible attributes include:
+            +
+            *listen-backlog*::: The backlog queue limit for the instance.
+            +
+            *disable-flush-all*::: If enabled, flush_all command will be disabled. Applicable to
+            1.4.24 and higher.
+            +
+            *max-item-size*::: Max bytes of the instnace. Must at least be equal to slab_chunk_max
+            (which defaults to 524288 bytes) and less than 134217728 bytes. Additionally it must
+            be a multiple of slab_chunk_max.
+            +
+            *slab-min-size*::: This is an integer in the range [1, 1024].
+            +
+            *slab-growth-factor*::: This is a float in the range [1.01, 100].
+            +
+            *protocol*::: This is an enum with acceptable values of ["ascii", "auto"].
+            +
+            *disable-cas*::: This is a boolean value.
+            +
+            *disable-evictions*::: This is a boolean value.
+            +
+            *max-reqs-per-event*::: This is an integer in the range [1, 1000].
+            +
+            *track-sizes*::: This is a boolean value.
+            +
+            *worker-logbuf-size*::: This is an integer in the range [48, 524288].
+            +
+            *watcher-logbuf-size*::: This is an integer in the range [0, 2097151].
+            +
+            *lru-crawler*::: This is a boolean value.
+            +
+            *idle-timeout*::: This is an integer in the range [1,86400].
+            +
+            *lru-maintainer*::: This is a boolean value.
+            +
+            *maxconns-fast*::: This is a boolean value.
+            +
+            *hash-algorithm*::: This is an enum with accepted values of ["jenkins", "murmur3"].
+        region: |-
+            The name of the Memcached region of the instance. Overrides the default
+            memcache/region property value for this command invocation.
+            +
+
+            To set the `region` attribute:
+            * provide the argument `instance` on the command line with a fully specified name;
+            * provide the argument `--region` on the command line;
+            * set the property `memcache/region`.
+        tags: |
+            List of tag KEY=VALUE pairs to add.

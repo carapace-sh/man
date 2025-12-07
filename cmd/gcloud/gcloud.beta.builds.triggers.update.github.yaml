@@ -1,0 +1,144 @@
+name: github
+description: '*(BETA)*  Update GitHub trigger used by Cloud Build.'
+flags:
+    --branch-pattern=: A regular expression specifying which git branches to match.
+    --build-config=: Path to a YAML or JSON file containing the build configuration in the repository.
+    --clear-substitutions: Clear existing substitutions.
+    --comment-control=: Require a repository collaborator or owner to comment '/gcbrun' on a pull request before running the build.
+    --description=: Build trigger description.
+    --dockerfile-dir=: Location of the directory containing the Dockerfile in the repository.
+    --dockerfile-image=!: Docker image name to build.
+    --dockerfile=!: Path of Dockerfile to use for builds in the repository.
+    --enterprise-config=: Resource name of the GitHub Enterprise config that should be applied to this
+    --ignored-files=: Glob filter.
+    --include-logs-with-status: Build logs will be sent back to GitHub as part of the checkrun result.
+    --included-files=: Glob filter.
+    --inline-config=: Local path to a YAML or JSON file containing a build configuration.
+    --no-clear-substitutions&: Clear existing substitutions.
+    --no-include-logs-with-status&: Build logs will be sent back to GitHub as part of the checkrun result.
+    --no-require-approval&: Require manual approval for triggered builds.
+    --pull-request-pattern=: A regular expression specifying which base git branch to match for
+    --region=: The Cloud location for the trigger.
+    --remove-substitutions=: Remove existing substitutions if present.
+    --repo-name=: Name of the GitHub Repository.
+    --repo-owner=: Owner of the GitHub Repository.
+    --repository=: Repository resource (2nd gen) to use, in the format
+    --require-approval: Require manual approval for triggered builds.
+    --service-account=: The service account used for all user-controlled operations including UpdateBuildTrigger, RunBuildTrigger, CreateBuild, and CancelBuild.
+    --tag-pattern=: A regular expression specifying which git tags to match.
+    --trigger-config=: Path to Build Trigger config file (JSON or YAML format).
+    --update-substitutions=: Update or add to existing substitutions.
+completion:
+    flag:
+        comment-control:
+            - COMMENTS_DISABLED
+            - COMMENTS_ENABLED
+            - COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY
+documentation:
+    command: '*(BETA)*  Update GitHub trigger used by Cloud Build.'
+    flag:
+        branch-pattern: |-
+            A regular expression specifying which git branches to match.
+            +
+            This pattern is used as a regular expression search for any incoming pushes.
+            For example, --branch-pattern=foo will match "foo", "foobar", and "barfoo".
+            Events on a branch that does not match will be ignored.
+            +
+            The syntax of the regular expressions accepted is the syntax accepted by
+            RE2 and described at https://github.com/google/re2/wiki/Syntax.
+        build-config: |-
+            Path to a YAML or JSON file containing the build configuration in the repository.
+            +
+            For more details, see: https://cloud.google.com/cloud-build/docs/build-config
+        clear-substitutions: Clear existing substitutions.
+        comment-control: |-
+            Require a repository collaborator or owner to comment '/gcbrun' on a pull request before running the build. _COMMENT_CONTROL_ must be one of:
+            +
+            *COMMENTS_DISABLED*::: Do not require comments on Pull Requests before builds are triggered.
+            *COMMENTS_ENABLED*::: Enforce that repository owners or collaborators must comment on Pull Requests before builds are triggered.
+            *COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY*::: Enforce that repository owners or collaborators must comment on external contributors' Pull Requests before builds are triggered.
+            :::
+            +
+        description: Build trigger description.
+        dockerfile: |-
+            Path of Dockerfile to use for builds in the repository.
+            +
+            If specified, a build config will be generated to run docker
+            build using the specified file.
+            +
+            The filename is relative to the Dockerfile directory.
+        dockerfile-dir: |-
+            Location of the directory containing the Dockerfile in the repository.
+            +
+            The directory will also be used as the Docker build context.
+        dockerfile-image: Docker image name to build.
+        enterprise-config: |-
+            Resource name of the GitHub Enterprise config that should be applied to this
+            installation.
+            +
+            For example: "projects/{$project_id}/locations/{$location_id}/githubEnterpriseConfigs/{$config_id}
+        ignored-files: Glob filter. Changes only affecting ignored files won't trigger builds.
+        include-logs-with-status: Build logs will be sent back to GitHub as part of the checkrun result.
+        included-files: Glob filter. Changes affecting at least one included file will trigger builds.
+        inline-config: Local path to a YAML or JSON file containing a build configuration.
+        no-clear-substitutions: Clear existing substitutions.
+        no-include-logs-with-status: Build logs will be sent back to GitHub as part of the checkrun result.
+        no-require-approval: Require manual approval for triggered builds.
+        pull-request-pattern: |-
+            A regular expression specifying which base git branch to match for
+            pull request events.
+            +
+            This pattern is used as a regex search for the base branch (the branch you are
+            trying to merge into) for pull request updates.
+            For example, --pull-request-pattern=foo will match "foo", "foobar", and "barfoo".
+            +
+            The syntax of the regular expressions accepted is the syntax accepted by
+            RE2 and described at https://github.com/google/re2/wiki/Syntax.
+        region: |-
+            The Cloud location for the trigger.
+            +
+            To set the `region` attribute:
+            * provide the argument `TRIGGER` on the command line with a fully specified name;
+            * provide the argument `--region` on the command line;
+            * set the property `builds/region`.
+        remove-substitutions: Remove existing substitutions if present.
+        repo-name: Name of the GitHub Repository.
+        repo-owner: Owner of the GitHub Repository.
+        repository: |-
+            Repository resource (2nd gen) to use, in the format
+            "projects/*/locations/*/connections/*/repositories/*".
+        require-approval: Require manual approval for triggered builds. Use *--require-approval* to enable and *--no-require-approval* to disable.
+        service-account: 'The service account used for all user-controlled operations including UpdateBuildTrigger, RunBuildTrigger, CreateBuild, and CancelBuild. If no service account is set, then the standard Cloud Build service account ([PROJECT_NUM]@system.gserviceaccount.com) is used instead. Format: `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT_ID_OR_EMAIL}`.'
+        tag-pattern: |-
+            A regular expression specifying which git tags to match.
+            +
+            This pattern is used as a regular expression search for any incoming pushes.
+            For example, --tag-pattern=foo will match "foo", "foobar", and "barfoo".
+            Events on a tag that does not match will be ignored.
+            +
+            The syntax of the regular expressions accepted is the syntax accepted by
+            RE2 and described at https://github.com/google/re2/wiki/Syntax.
+        trigger-config: |-
+            Path to Build Trigger config file (JSON or YAML format). For more details, see
+            https://cloud.google.com/cloud-build/docs/api/reference/rest/v1/projects.triggers#BuildTrigger
+        update-substitutions: |-
+            Update or add to existing substitutions.
+            Substitutions are parameters to be substituted or add in the build specification.
+            +
+            For example (using some nonsensical substitution keys; all keys must begin with
+            an underscore):
+            +
+              $ gcloud builds triggers update ...
+                  --update-substitutions _FAVORITE_COLOR=blue,_NUM_CANDIES=10
+            +
+            This will add the provided substitutions to the existing substitutions and
+            results in a build where every occurrence of ```${_FAVORITE_COLOR}```
+            in certain fields is replaced by "blue", and similarly for ```${_NUM_CANDIES}```
+            and "10".
+            +
+            Only the following built-in variables can be specified with the
+            `--substitutions` flag: REPO_NAME, BRANCH_NAME, TAG_NAME, REVISION_ID,
+            COMMIT_SHA, SHORT_SHA.
+            +
+            For more details, see:
+            https://cloud.google.com/build/docs/build-config-file-schema#substitutions

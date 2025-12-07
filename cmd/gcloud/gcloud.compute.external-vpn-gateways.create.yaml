@@ -1,0 +1,43 @@
+name: create
+description: Create a new Compute Engine external VPN gateway.
+flags:
+    --description=: Textual description of the External VPN Gateway.
+    --interfaces=!: Map of interfaces from interface ID to interface IP address for the External VPN Gateway.
+documentation:
+    command: |-
+        *gcloud compute external-vpn-gateways create* creates a new external VPN gateway.
+
+        External VPN gateway is the on-premises VPN gateway or another cloud
+        provider's VPN gateway that connects to your Google Cloud VPN gateway.
+        To create a highly available VPN from Google Cloud to your on-premises side
+        or another Cloud provider's VPN gateway, you must create an external VPN
+        gateway resource in Google Cloud, which provides the information to
+        Google Cloud about your external VPN gateway.
+    flag:
+        description: Textual description of the External VPN Gateway.
+        interfaces: |-
+            Map of interfaces from interface ID to interface IP address for the External VPN Gateway.
+            +
+            There can be one, two, or four interfaces in the map.
+            +
+            For example, to create an external VPN gateway with one interface:
+            +
+              $ {command} MY-EXTERNAL-GATEWAY --interfaces 0=192.0.2.0
+            +
+            To create an external VPN gateway with two interfaces:
+              $ {command} MY-EXTERNAL-GATEWAY --interfaces 0=192.0.2.0,1=192.0.2.1
+            +
+            To create an external VPN gateway with four interfaces:
+              $ {command} MY-EXTERNAL-GATEWAY --interfaces 0=192.0.2.0,1=192.0.2.1,2=192.0.2.3,3=192.0.2.4
+            +
+            To create an external VPN gateway with IPv6 addresses on four interfaces:
+              $ {command} MY-EXTERNAL-GATEWAY --interfaces 0=2001:db8::1,1=2001:db8::2,2=2001:db8::3,3=2001:db8::4
+            +
+            Note that the redundancy type of the gateway will be automatically inferred based on the number
+            of interfaces provided:
+            +
+              1 interface: `SINGLE_IP_INTERNALLY_REDUNDANT`
+            +
+              2 interfaces: `TWO_IPS_REDUNDANCY`
+            +
+              4 interfaces: `FOUR_IPS_REDUNDANCY`

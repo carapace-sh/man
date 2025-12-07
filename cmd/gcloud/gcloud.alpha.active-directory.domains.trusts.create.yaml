@@ -1,0 +1,64 @@
+name: create
+description: '*(ALPHA)*  Create a Microsoft Active Directory Trust between a Managed Microsoft AD domain and another domain.'
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --direction=: Direction of the trust.
+    --handshake-secret=: Trust handshake secret with target domain.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-selective-authentication&: If specified, trusted side will only have selective access to approved set of resources.
+    --selective-authentication: If specified, trusted side will only have selective access to approved set of resources.
+    --target-dns-ip-addresses=!: Target DNS server IP addresses that can resolve the target domain.
+    --target-domain-name=!: Target domain name for the Managed Microsoft AD Trust.
+    --type=: Type of the trust.
+completion:
+    flag:
+        direction:
+            - bidirectional
+            - inbound
+            - outbound
+            - trust-direction-unspecified
+        type:
+            - external
+            - forest
+            - trust-type-unspecified
+documentation:
+    command: |
+        *(ALPHA)*  Create a Microsoft Active Directory Trust between a Managed Microsoft AD domain and another
+        domain.
+
+        This command can fail for the following reasons:
+          * The domain specified does not exist.
+          * The active account does not have permission to access the given
+            domain.
+          * A trust already exists with the same target domain name.
+          * The active account does not have permission to create AD trusts.
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        direction: |-
+            Direction of the trust.
+            +
+            Must be one of: INBOUND, OUTBOUND, BIDIRECTIONAL. Default is BIDIRECTIONAL.
+            +
+            _DIRECTION_ must be one of: *bidirectional*, *inbound*, *outbound*, *trust-direction-unspecified*.
+        handshake-secret: |-
+            Trust handshake secret with target domain. The secret will not be stored. If not specified,
+            command will prompt user for secret.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-selective-authentication: |
+            If specified, trusted side will only have selective access to approved set of resources.
+
+            Otherwise, the trusted side has forest/domain wide access. Default is false.
+        selective-authentication: |-
+            If specified, trusted side will only have selective access to approved set of resources.
+            +
+            Otherwise, the trusted side has forest/domain wide access. Default is false.
+        target-dns-ip-addresses: |-
+            Target DNS server IP addresses that can resolve the target domain.
+            +
+            Only IPv4 is supported.
+        target-domain-name: Target domain name for the Managed Microsoft AD Trust.
+        type: 'Type of the trust. Must be FOREST or EXTERNAL. Default is FOREST. _TYPE_ must be one of: *external*, *forest*, *trust-type-unspecified*.'

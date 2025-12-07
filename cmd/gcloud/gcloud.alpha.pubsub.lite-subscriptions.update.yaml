@@ -1,0 +1,46 @@
+name: update
+description: '*(ALPHA)*  Update a Pub/Sub Lite subscription.'
+flags:
+    --delivery-requirement=: When this subscription should send messages to subscribers relative to
+    --export-dead-letter-topic=: The name of the Pub/Sub Lite topic to write messages that cannot be exported.
+    --export-desired-state=: The desired state of the export.
+    --export-pubsub-topic=: The name of the destination Pub/Sub topic to which messages are exported.
+    --location=: ID of the location of the Pub/Sub Lite resource.
+    --zone=&: (DEPRECATED) ID of the location of the Pub/Sub Lite resource.
+completion:
+    flag:
+        delivery-requirement:
+            - deliver-after-stored
+            - deliver-immediately
+        export-desired-state:
+            - active
+            - paused
+documentation:
+    command: '*(ALPHA)*  Update a Pub/Sub Lite subscription.'
+    flag:
+        delivery-requirement: |-
+            When this subscription should send messages to subscribers relative to
+            messages persistence in storage.
+            See https://cloud.google.com/pubsub/lite/docs/subscriptions#creating_lite_subscriptions
+            for more info. _DELIVERY_REQUIREMENT_ must be one of: *deliver-after-stored*, *deliver-immediately*.
+        export-dead-letter-topic: |-
+            The name of the Pub/Sub Lite topic to write messages that cannot be exported. Must be in the
+            same project and location as the subscription to be created. Note that this is a Lite topic.
+        export-desired-state: |-
+            The desired state of the export. Process messages by setting the value to ACTIVE or pause
+            message processing by setting the value to PAUSED. _EXPORT_DESIRED_STATE_ must be one of: *active*, *paused*.
+        export-pubsub-topic: |-
+            The name of the destination Pub/Sub topic to which messages are exported. Must be the topic's
+            fully specified path if it is not in the same project as the subscription to be created.
+        location: |-
+            ID of the location of the Pub/Sub Lite resource.
+            +
+
+            To set the `location` attribute:
+            * provide the argument `subscription` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * provide the argument `--zone` on the command line.
+        zone: |
+            (DEPRECATED) ID of the location of the Pub/Sub Lite resource.
+            +
+            zone is deprecated and will be removed in an upcoming release. Please use --location instead.

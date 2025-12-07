@@ -1,0 +1,143 @@
+name: update
+description: '*(DEPRECATED)*  Update a node pool in an Anthos cluster on AWS.'
+flags:
+    --annotations=: Annotations for the node pool.
+    --async: Return immediately, without waiting for the operation in progress to
+    --autoscaling-metrics-granularity=: Frequency at which EC2 Auto Scaling sends aggregated data to AWS CloudWatch.
+    --autoscaling-metrics=: Autoscaling metrics to enable.
+    --clear-annotations: Clear the annotations for the node pool.
+    --clear-autoscaling-metrics: Clear the cloudwatch autoscaling metrics collection associated with the nodepool.
+    --clear-node-labels: Clear the labels assigned to the node pool's nodes.
+    --clear-proxy-config: Clear the proxy configuration associated with the node pool.
+    --clear-security-group-ids: Clear any additional security groups associated with the node pool's nodes.
+    --clear-ssh-ec2-key-pair: Clear the EC2 key pair authorized to login to the node pool's nodes.
+    --clear-tags: Clear any tags associated with the node pool's nodes.
+    --cluster=: cluster of the node_pool.
+    --config-encryption-kms-key-arn=: Amazon Resource Name (ARN) of the AWS KMS key to encrypt the user data.
+    --enable-autorepair: Enable node autorepair feature for a node pool.
+    --iam-instance-profile=: Name or ARN of the IAM instance profile associated with the node pool.
+    --instance-type=: AWS EC2 instance type for the node pool's nodes.
+    --location=: Google Cloud location for the node_pool.
+    --max-nodes=: Maximum number of nodes in the node pool.
+    --max-surge-update=: Maximum number of extra (surge) nodes to be created beyond the current size of
+    --max-unavailable-update=: Maximum number of nodes that can be simultaneously unavailable during this node
+    --min-nodes=: Minimum number of nodes in the node pool.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-clear-annotations&: Clear the annotations for the node pool.
+    --no-clear-autoscaling-metrics&: Clear the cloudwatch autoscaling metrics collection associated with the nodepool.
+    --no-clear-node-labels&: Clear the labels assigned to the node pool's nodes.
+    --no-clear-proxy-config&: Clear the proxy configuration associated with the node pool.
+    --no-clear-security-group-ids&: Clear any additional security groups associated with the node pool's nodes.
+    --no-clear-ssh-ec2-key-pair&: Clear the EC2 key pair authorized to login to the node pool's nodes.
+    --no-clear-tags&: 'Clear any tags associated with the node pool''s nodes. '
+    --no-enable-autorepair&: Enable node autorepair feature for a node pool.
+    --no-validate-only&: Validate the node pool to update, but don't actually perform it.
+    --node-labels=: Labels assigned to the node pool's nodes.
+    --node-version=: Kubernetes version to use for the node pool.
+    --proxy-secret-arn=: ARN of the AWS Secrets Manager secret that contains a proxy configuration.
+    --proxy-secret-version-id=: Version ID string of the AWS Secrets Manager secret that contains a proxy configuration.
+    --root-volume-iops=: Number of I/O operations per second (IOPS) to provision for the root volume.
+    --root-volume-kms-key-arn=: Amazon Resource Name (ARN) of the AWS KMS key to encrypt the root volume.
+    --root-volume-size=: Size of the root volume.
+    --root-volume-throughput=: Throughput to provision for the root volume, in MiB/s.
+    --root-volume-type=: Type of the root volume.
+    --security-group-ids=: IDs of additional security groups to add to the node pool's nodes.
+    --ssh-ec2-key-pair=: Name of the EC2 key pair authorized to login to the node pool's nodes.
+    --tags=: Applies the given tags (comma separated) on the node pool.
+    --validate-only: Validate the node pool to update, but don't actually perform it.
+completion:
+    flag:
+        root-volume-type:
+            - gp2
+            - gp3
+documentation:
+    command: |+
+        *(DEPRECATED)*  Update a node pool in an Anthos cluster on AWS.
+
+        This command is deprecated. See https://cloud.google.com/kubernetes-engine/multi-cloud/docs/aws/deprecations/deprecation-announcement for more details.
+
+    flag:
+        annotations: Annotations for the node pool.
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        autoscaling-metrics: Autoscaling metrics to enable. For a list of valid metrics, refer to https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_EnableMetricsCollection.html. If granularity is specified but not any metrics, all metrics are enabled.
+        autoscaling-metrics-granularity: Frequency at which EC2 Auto Scaling sends aggregated data to AWS CloudWatch. The only valid value is "1Minute".
+        clear-annotations: Clear the annotations for the node pool.
+        clear-autoscaling-metrics: Clear the cloudwatch autoscaling metrics collection associated with the nodepool.
+        clear-node-labels: Clear the labels assigned to the node pool's nodes.
+        clear-proxy-config: Clear the proxy configuration associated with the node pool.
+        clear-security-group-ids: Clear any additional security groups associated with the node pool's nodes. This does not remove the default security groups.
+        clear-ssh-ec2-key-pair: Clear the EC2 key pair authorized to login to the node pool's nodes.
+        clear-tags: Clear any tags associated with the node pool's nodes.
+        cluster: |-
+            cluster of the node_pool.
+            +
+            To set the `cluster` attribute:
+            * provide the argument `node_pool` on the command line with a fully specified name;
+            * provide the argument `--cluster` on the command line.
+        config-encryption-kms-key-arn: Amazon Resource Name (ARN) of the AWS KMS key to encrypt the user data.
+        enable-autorepair: |-
+            Enable node autorepair feature for a node pool. Use --no-enable-autorepair to disable.
+            +
+              $ {command} --enable-autorepair
+        iam-instance-profile: Name or ARN of the IAM instance profile associated with the node pool.
+        instance-type: AWS EC2 instance type for the node pool's nodes.
+        location: |-
+            Google Cloud location for the node_pool.
+            +
+            To set the `location` attribute:
+            * provide the argument `node_pool` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `container_aws/location`.
+        max-nodes: Maximum number of nodes in the node pool.
+        max-surge-update: |-
+            Maximum number of extra (surge) nodes to be created beyond the current size of
+            the node pool during its update process. Use --max-unavailable-update as well,
+            if needed, to control the overall surge settings.
+            +
+            To create an extra node each time the node pool is rolling updated, run:
+            +
+              $ {command} --max-surge-update=1 --max-unavailable-update=0
+        max-unavailable-update: |-
+            Maximum number of nodes that can be simultaneously unavailable during this node
+            pool's update process. Use --max-surge-update as well, if needed, to control the
+            overall surge settings.
+            +
+            To modify a node pool with 6 nodes such that, 3 nodes are updated in parallel
+            (1 + 2), but keep at least 4 nodes (6 - 2) available each time this
+            node pool is rolling updated, run:
+            +
+              $ {command} --max-surge-update=1 --max-unavailable-update=2
+        min-nodes: Minimum number of nodes in the node pool.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-clear-annotations: Clear the annotations for the node pool.
+        no-clear-autoscaling-metrics: Clear the cloudwatch autoscaling metrics collection associated with the nodepool.
+        no-clear-node-labels: Clear the labels assigned to the node pool's nodes.
+        no-clear-proxy-config: Clear the proxy configuration associated with the node pool.
+        no-clear-security-group-ids: Clear any additional security groups associated with the node pool's nodes. This does not remove the default security groups.
+        no-clear-ssh-ec2-key-pair: Clear the EC2 key pair authorized to login to the node pool's nodes.
+        no-clear-tags: 'Clear any tags associated with the node pool''s nodes. '
+        no-enable-autorepair: |
+            Enable node autorepair feature for a node pool. Use --no-enable-autorepair to disable.
+
+              $ {command} --enable-autorepair
+        no-validate-only: Validate the node pool to update, but don't actually perform it.
+        node-labels: Labels assigned to the node pool's nodes.
+        node-version: Kubernetes version to use for the node pool.
+        proxy-secret-arn: ARN of the AWS Secrets Manager secret that contains a proxy configuration.
+        proxy-secret-version-id: Version ID string of the AWS Secrets Manager secret that contains a proxy configuration.
+        root-volume-iops: Number of I/O operations per second (IOPS) to provision for the root volume.
+        root-volume-kms-key-arn: Amazon Resource Name (ARN) of the AWS KMS key to encrypt the root volume.
+        root-volume-size: Size of the root volume. The value must be a whole number followed by a size unit of `GB` for gigabyte, or `TB` for terabyte. If no size unit is specified, GB is assumed.
+        root-volume-throughput: Throughput to provision for the root volume, in MiB/s. Only valid if the volume type is GP3. If volume type is GP3 and throughput is not provided, it defaults to 125.
+        root-volume-type: 'Type of the root volume. _ROOT_VOLUME_TYPE_ must be one of: *gp2*, *gp3*.'
+        security-group-ids: IDs of additional security groups to add to the node pool's nodes.
+        ssh-ec2-key-pair: Name of the EC2 key pair authorized to login to the node pool's nodes.
+        tags: |-
+            Applies the given tags (comma separated) on the node pool. Example:
+            +
+              $ {command} EXAMPLE_NODE_POOL --tags=tag1=one,tag2=two
+        validate-only: Validate the node pool to update, but don't actually perform it.

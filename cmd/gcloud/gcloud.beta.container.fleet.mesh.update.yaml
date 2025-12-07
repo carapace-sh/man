@@ -1,0 +1,62 @@
+name: update
+description: '*(BETA)*  Update the configuration of the Service Mesh Feature.'
+flags:
+    --config-api=: The API to use for mesh configuration.
+    --control-plane=: (DEPRECATED) Control plane management to update to.
+    --fleet-default-member-config=: The path to a service-mesh.yaml configuration file.
+    --location=: Location for the memberships.
+    --management=: The management mode to update to.
+    --memberships=!: IDs of the memberships or fully qualified identifiers for the memberships.
+    --origin=: Changing the origin of the membership.
+completion:
+    flag:
+        config-api:
+            - istio
+            - gateway
+        control-plane:
+            - automatic
+            - manual
+            - unspecified
+        management:
+            - automatic
+            - manual
+        origin:
+            - fleet
+documentation:
+    command: |-
+        *(BETA)*  Update the Service Mesh Feature Spec of a Membership.
+
+        ## EXAMPLES
+
+        To update the control plane management of comma separated Memberships like
+        `membership1,membership2`, run:
+
+          $ gcloud beta container fleet mesh update --memberships=membership1,membership2
+            --control-plane=CONTROL_PLANE
+    flag:
+        config-api: 'The API to use for mesh configuration. _CONFIG_API_ must be one of: *istio*, *gateway*.'
+        control-plane: |-
+            (DEPRECATED) Control plane management to update to.
+            +
+            The --control-plane flag is now deprecated. Please use `--management` instead. See https://cloud.google.com/service-mesh/docs/managed/provision-managed-anthos-service-mesh. _CONTROL_PLANE_ must be one of: *automatic*, *manual*, *unspecified*.
+        fleet-default-member-config: |-
+            The path to a service-mesh.yaml configuration file.
+            +
+                    To enable the Service Mesh Feature with a fleet-level default
+                    membership configuration, run:
+            +
+                      $ {command} --fleet-default-member-config=/path/to/service-mesh.yaml
+        location: |-
+            Location for the memberships.
+            +
+            To set the `location` attribute:
+            * provide the argument `--memberships` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `gkehub/location`.
+        management: 'The management mode to update to. _MANAGEMENT_ must be one of: *automatic*, *manual*.'
+        memberships: |-
+            IDs of the memberships or fully qualified identifiers for the memberships.
+            +
+            To set the `memberships` attribute:
+            * provide the argument `--memberships` on the command line.
+        origin: 'Changing the origin of the membership. _ORIGIN_ must be (only one value is supported): *fleet*.'

@@ -1,0 +1,56 @@
+name: update
+description: '*(ALPHA)*  Update the given Cloud Security Command Center (SCC) posture.'
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --location=: ID of the location where the resource exists (for example, global).
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --organization=: ID of the organization which is the parent of the resource.
+    --posture-from-file=!: Path of the file containing the details of the field to be updated.
+    --revision-id=!: Revision ID of the posture to be updated.
+    --update-mask=: Comma separated string containing list of fields to be updated.
+documentation:
+    command: |
+        *(ALPHA)*  Update a Cloud Security Command Center (SCC) posture.
+
+        Fields specified in update-mask flag are updated. Updatable fields are state, description and policy_sets.
+        State of the posture can't be updated along with update of other fields.
+        An empty or "*" as field mask will result in update of policy_sets and description.
+        In case of the update of policy_sets, the value mentioned in the update posture request overwrites the exisiting value of policy_sets.
+
+        Valid state transitions are:
+        a) ACTIVE to DRAFT
+        b) ACTIVE to DEPRECATED
+        c) DRAFT to ACTIVE
+        d) DEPRECATED to ACTIVE
+
+        The update operation will result in the update of the revision-id specified in the request, unless the posture revision is currently deployed on a workload.
+        A new revision is created for an already deployed posture revision.
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        location: |-
+            ID of the location where the resource exists (for example, global).
+            +
+
+            To set the `location` attribute:
+            * provide the argument `posture` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        organization: |-
+            ID of the organization which is the parent of the resource.
+            +
+
+            To set the `organization` attribute:
+            * provide the argument `posture` on the command line with a fully specified name;
+            * provide the argument `--organization` on the command line.
+        posture-from-file: |-
+            Path of the file containing the details of the field to be updated. Contents include the name of the
+            posture to be updated and value of the fields to be updated. Use a full or relative path to a local file containing the value of posture.
+        revision-id: |-
+            Revision ID of the posture to be updated. The same revision ID will be updated in case the posture
+            revision is not deployed on any workload. A new revision will be created for a deployed
+            posture.
+        update-mask: Comma separated string containing list of fields to be updated.

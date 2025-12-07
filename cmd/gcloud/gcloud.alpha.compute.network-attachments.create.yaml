@@ -1,0 +1,54 @@
+name: create
+description: '*(ALPHA)*  Create a Google Compute Engine network attachment.'
+flags:
+    --connection-preference=: The connection preference of network attachment.
+    --description=: An optional, textual description for the network attachment.
+    --producer-accept-list=: Projects that are allowed to connect to this network attachment.
+    --producer-reject-list=: Projects that are not allowed to connect to this network attachment.
+    --region=: Region of the network attachment to create.
+    --subnets-region=: Region of the subnetworks to operate on.
+    --subnets=!: The subnetworks provided by the consumer for the producers
+completion:
+    flag:
+        connection-preference:
+            - ACCEPT_AUTOMATIC
+            - ACCEPT_MANUAL
+documentation:
+    command: |
+        *(ALPHA)*  *gcloud alpha compute network-attachments create* is used to create network attachments. A service consumer
+        creates network attachments and makes it available to producers.
+        Service producers then use a multi-NIC VM to form a bi-directional,
+        non-NAT'd communication channel.
+    flag:
+        connection-preference: |-
+            The connection preference of network attachment.
+            The value can be set to ACCEPT_AUTOMATIC or ACCEPT_MANUAL.
+            An ACCEPT_AUTOMATIC network attachment is one that
+            always accepts the connection from producer NIC.
+            An ACCEPT_MANUAL network attachment is one that
+            requires an explicit addition of the producer project id
+            or project number to the producer accept list. _CONNECTION_PREFERENCE_ must be one of: *ACCEPT_AUTOMATIC*, *ACCEPT_MANUAL*.
+        description: An optional, textual description for the network attachment.
+        producer-accept-list: Projects that are allowed to connect to this network attachment.
+        producer-reject-list: Projects that are not allowed to connect to this network attachment.
+        region: |-
+            Region of the network attachment to create. If not specified, you might be prompted to select a region (interactive mode
+            only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/region'' property:
+            +
+              $ gcloud config set compute/region REGION
+            +
+            A list of regions can be fetched by running:
+            +
+              $ gcloud compute regions list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/region
+            +
+            Alternatively, the region can be stored in the environment
+            variable ``CLOUDSDK_COMPUTE_REGION''.
+        subnets: The subnetworks provided by the consumer for the producers
+        subnets-region: Region of the subnetworks to operate on. Overrides the default *compute/region* property value for this command invocation.

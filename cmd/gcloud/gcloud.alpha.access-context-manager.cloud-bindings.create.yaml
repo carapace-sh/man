@@ -1,0 +1,112 @@
+name: create
+description: '*(ALPHA)*  Create cloud access bindings for a specific group.'
+flags:
+    --binding-file=: Path to the file that contains a Google Cloud Platform user access binding.
+    --dry-run-level=: The dry run access level that binds to the given group and restricted client applications.
+    --federated-principal=&: The access level that binds to the given federated principal.
+    --group-key=: Google Group ID whose members are subject to the restrictions of this binding.
+    --level=: The access level that binds to the given group and restricted client applications.
+    --organization=: Parent organization for this binding.
+    --policy=&: The access policy that the access level belongs to.
+    --restricted-client-application-client-ids=: Client IDs to which the access level is applied.
+    --restricted-client-application-names=: Application names to which the access level is applied.
+    --service-account-project-number=&: The access level that binds to all the service accounts belong to the given project number.
+    --service-account=&: The access level that binds to the given service account email.
+    --session-length=: The maximum lifetime of a user session provided as an  ISO 8601 duration string.
+    --session-reauth-method=: Specifies the type of re-authentication challenge given to the user when their session
+completion:
+    flag:
+        session-reauth-method:
+            - login
+            - password
+            - security-key
+documentation:
+    command: |
+        *(ALPHA)*  Create a new access binding. The access level (if any) will be bound with
+
+        - a group and the restricted client application
+        - a specific service account or all service accounts in a specified project.
+
+        The session settings (if any) will be bound with
+
+        - a group
+
+        If you want to bind session settings to a particular application, use scoped access
+        settings.
+
+        If a group key is specified, the access level and/or session settings are globally enforced
+        for all context-aware access group members, as specified in the binding.
+        If a restricted client application is also specified, then the enforcement applies only to
+        the specified application, and not to the entire organization. Session settings are
+        incompatible with the top level --restricted-client-application flags; please use
+        --binding-file to specify scoped access settings. If the restricted client application is
+        specified, then --binding-file cannot be set.
+        If a service account is specified, then the enforcement applies only to the specified
+        service account.
+        If a service account project is specified, the enforcement applies to all of the
+        service accounts belonging to the specified project.
+    flag:
+        binding-file: |-
+            Path to the file that contains a Google Cloud Platform user access binding.
+            +
+            This file contains a YAML-compliant object representing
+            a GcpUserAccessBinding (as described in the API reference) containing ScopedAccessSettings only.
+            No other binding fields are allowed.
+        dry-run-level: |-
+            The dry run access level that binds to the given group and restricted client applications.
+            The dry run access level is evaluated but isn't enforced. Denial on a dry run access level
+            is logged. The input must be the full identifier of an access level, such as
+            `accessPolicies/123/accessLevels/new-def`. If no
+            `restricted-client-application-client-ids` or `restricted-client-application-names` are
+            provided, then the access level is applied to the entire organization.
+        federated-principal: |
+            The access level that binds to the given federated principal.
+        group-key: Google Group ID whose members are subject to the restrictions of this binding.
+        level: |-
+            The access level that binds to the given group and restricted client applications.
+            The input must be the full identifier of an access level, such as
+            `accessPolicies/123/accessLevels/abc`. If no `restricted-client-application-client-ids`
+            or `restricted-client-application-names` are provided, then the access level is applied
+            to the entire organization.
+        organization: Parent organization for this binding.
+        policy: The access policy that the access level belongs to.
+        restricted-client-application-client-ids: Client IDs to which the access level is applied.
+        restricted-client-application-names: Application names to which the access level is applied.
+        service-account: |
+            The access level that binds to the given service account email. For example
+            `service-account@project.iam.gserviceaccount.com`.
+        service-account-project-number: |
+            The access level that binds to all the service accounts belong to the given project number.
+        session-length: |-
+            The maximum lifetime of a user session provided as an  ISO 8601 duration string. Must be at
+            least one hour or zero seconds, and no more than twenty-four hours. Granularity is limited
+            to seconds.
+            +
+            When --session-length=0 then users in the group attached to this binding will have infinite
+            session length, effectively disabling session.
+            +
+            A session begins when a user signs-in successfully. If a user signs out before the end of
+            the session lifetime, a new login creates a new session with a fresh lifetime. When a
+            session expires, the user is asked to re-authenticate in accordance with session-method.
+            +
+            Setting --session-reauth-method when --session-length is empty raises an error. Cannot set
+            --session-length with --restricted-client-application-client-ids or
+            --restricted-client-application-names; please use scoped access settings.
+        session-reauth-method: |-
+            Specifies the type of re-authentication challenge given to the user when their session
+             expires. Defaults to --session-reauth-method=login if unspecified and --session-length is
+             set. Cannot be used when --session-length is empty or 0.
+            +
+            _SESSION_REAUTH_METHOD_ must be one of:
+            +
+            *login*::: The user must complete a regular login.
+            +
+            *password*::: The user will only be required to enter their password.
+            +
+            *security-key*::: The user must re-autheticate using their security key. Before enabling this session reauth
+            method, ensure a security key is properly configured for the user. For help configuring
+            your security key, see
+            https://support.google.com/a/answer/2537800?hl=en#zippy=%2Cview-add-or-remove-security-keys
+            +
+            :::
+            +

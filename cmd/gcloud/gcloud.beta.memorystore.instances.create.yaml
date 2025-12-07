@@ -1,0 +1,521 @@
+name: create
+description: '*(BETA)*  Create a Memorystore instance.'
+flags:
+    --allow-fewer-zones-deployment&: Allows customers to specify if they are okay with deploying a multi-zone
+    --aof-config-append-fsync=: The fsync mode.
+    --async: Return immediately, without waiting for the operation in progress to
+    --async-instance-endpoints-deletion-enabled: If true, instance endpoints that are created and registered by customers
+    --authorization-mode=: Authorization mode of the instance.
+    --automated-backup-config-mode=: The automated backup mode.
+    --automated-backup-config-retention=: How long to keep automated backups before the backups are deleted.
+    --cross-instance-replication-config-role=!: The role of the instance in cross instance replication.
+    --cross-instance-replication-config-secondary-instances=: List of secondary instances that are replicating from this primary
+    --deletion-protection-enabled: If set to true deletion of the instance will fail.
+    --endpoints=: Endpoints for the instance.
+    --engine-configs=: User-provided engine configurations for the instance.
+    --engine-version=: Engine version of the instance.
+    --fixed-frequency-schedule-start-time-hours=: Hours of a day in 24 hour format.
+    --fixed-frequency-schedule-start-time-minutes=: Minutes of an hour.
+    --fixed-frequency-schedule-start-time-nanos=: Fractions of seconds, in nanoseconds.
+    --fixed-frequency-schedule-start-time-seconds=: Seconds of a minute.
+    --gcs-source-uris=: 'Example: gs://bucket1/object1, gs://bucket2/folder2/object2'
+    --key-ring=: The keyRing id of the cryptoKey resource.
+    --kms-key=!: ID of the cryptoKey or fully qualified identifier for the cryptoKey.
+    --labels=: Labels to represent user-provided metadata.
+    --location=: For resources [instance, kms-key, primary-instance], provides fallback value for resource location attribute.
+    --maintenance-policy-weekly-window=: Maintenance window that is applied to resources covered by this
+    --managed-backup-source=: 'Example:'
+    --mode=: The mode config for the instance.
+    --no-allow-fewer-zones-deployment&: Allows customers to specify if they are okay with deploying a multi-zone
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-async-instance-endpoints-deletion-enabled&: If true, instance endpoints that are created and registered by customers
+    --no-deletion-protection-enabled&: If set to true deletion of the instance will fail.
+    --no-ondemand-maintenance&: Ondemand maintenance for the instance.
+    --no-simulate-maintenance-event&: Simulate a maintenance event.
+    --node-type=: Machine type for individual nodes of the instance.
+    --ondemand-maintenance: Ondemand maintenance for the instance.
+    --persistence-config-mode=: Current persistence mode.
+    --primary-instance=!: ID of the instance or fully qualified identifier for the instance.
+    --psc-auto-connections=: 'Deprecated: Use the endpoints.connections.psc_auto_connection value'
+    --rdb-config-snapshot-period=: Period between RDB snapshots.
+    --rdb-config-snapshot-start-time=: Time that the first snapshot was/will be attempted, and to which future
+    --replica-count=: Number of replica nodes per shard.
+    --request-id=: An optional request ID to identify requests.
+    --shard-count=: Number of shards for the instance.
+    --simulate-maintenance-event: Simulate a maintenance event.
+    --transit-encryption-mode=: In-transit encryption mode of the instance.
+    --zone-distribution-config-mode=: Current zone distribution mode.
+    --zone-distribution-config=: Defines zone where all resources will be allocated with SINGLE_ZONE mode.
+completion:
+    flag:
+        aof-config-append-fsync:
+            - always
+            - every-sec
+            - never
+        authorization-mode:
+            - auth-disabled
+            - iam-auth
+        automated-backup-config-mode:
+            - disabled
+            - enabled
+        cross-instance-replication-config-role:
+            - none
+            - primary
+            - secondary
+        mode:
+            - cluster
+            - cluster-disabled
+            - standalone
+        node-type:
+            - highmem-medium
+            - highmem-xlarge
+            - shared-core-nano
+            - standard-small
+        persistence-config-mode:
+            - aof
+            - disabled
+            - rdb
+        rdb-config-snapshot-period:
+            - one-hour
+            - six-hours
+            - twelve-hours
+            - twenty-four-hours
+        transit-encryption-mode:
+            - server-authentication
+            - transit-encryption-disabled
+        zone-distribution-config-mode:
+            - multi-zone
+            - single-zone
+documentation:
+    command: |
+        *(BETA)*  Create a Memorystore instance.
+
+        A service connection policy for service class `gcp-memorystore` must already exist for the
+        location and network. Refer to
+        [creation prerequisites](https://cloud.google.com/memorystore/docs/valkey/networking#prerequisites_required_before_creating_an_instance)
+        for more details.
+    flag:
+        allow-fewer-zones-deployment: |-
+            Allows customers to specify if they are okay with deploying a multi-zone
+            instance in less than 3 zones. Once set, if there is a zonal outage during
+            the instance creation, the instance will only be deployed in 2 zones, and
+            stay within the 2 zones for its lifecycle.
+        aof-config-append-fsync: |-
+            The fsync mode. _AOF_CONFIG_APPEND_FSYNC_ must be one of:
+            +
+            *always*::: Fsync every time new write commands are appended to the AOF. The best
+            data loss protection at the cost of performance.
+            *every-sec*::: Fsync every second. You may lose 1 second of data if there is a
+            disaster.
+            *never*::: Never fsync. Normally Linux will flush data every 30 seconds with this
+            configuration, but it's up to the kernel's exact tuning.
+            :::
+            +
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        async-instance-endpoints-deletion-enabled: |-
+            If true, instance endpoints that are created and registered by customers
+            can be deleted asynchronously. That is, such an instance endpoint can be
+            de-registered before the forwarding rules in the instance endpoint are
+            deleted.
+        authorization-mode: |-
+            Authorization mode of the instance. _AUTHORIZATION_MODE_ must be one of:
+            +
+            *auth-disabled*::: Authorization disabled.
+            *iam-auth*::: IAM basic authorization.
+            :::
+            +
+        automated-backup-config-mode: |-
+            The automated backup mode. If the mode is disabled, the other fields will
+            be ignored. _AUTOMATED_BACKUP_CONFIG_MODE_ must be one of:
+            +
+            *disabled*::: Automated backup config disabled.
+            *enabled*::: Automated backup config enabled.
+            :::
+            +
+        automated-backup-config-retention: |-
+            How long to keep automated backups before the backups are deleted. The
+            value should be between 1 day and 365 days. If not specified, the default
+            value is 35 days.
+        cross-instance-replication-config-role: |-
+            The role of the instance in cross instance replication. _CROSS_INSTANCE_REPLICATION_CONFIG_ROLE_ must be one of:
+            +
+            *none*::: This instance does not participate in cross instance replication. It is
+            an independent instance and does not replicate to or from any other
+            instances.
+            *primary*::: A instance that allows both reads and writes. Any data written to this
+            instance is also replicated to the attached secondary instances.
+            *secondary*::: A instance that allows only reads and replicates data from a primary
+            instance.
+            :::
+            +
+        cross-instance-replication-config-secondary-instances: |-
+            List of secondary instances that are replicating from this primary
+            instance.
+            +
+            This field is only set for a primary instance.
+            +
+            *instance*:::
+            The full resource path of the remote instance in
+            the format: projects/<project>/locations/<region>/instances/<instance-id>.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --cross-instance-replication-config-secondary-instances=instance=string --cross-instance-replication-config-secondary-instances=instance=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --cross-instance-replication-config-secondary-instances='[{"instance": "string"}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --cross-instance-replication-config-secondary-instances=path_to_file.(yaml|json)
+            +
+            ```
+        deletion-protection-enabled: If set to true deletion of the instance will fail.
+        endpoints: |-
+            Endpoints for the instance.
+            +
+            *connections*:::
+            A group of PSC connections. They are created in the same VPC network, one
+            for each service attachment in the cluster.
+            +
+            *pscAutoConnection*::::
+            Detailed information of a PSC connection that is created through
+            service connectivity automation.
+            +
+            *network*:::::
+            The network where the PSC endpoints are created, in the form of
+            projects/{project_id}/global/networks/{network_id}.
+            +
+            *port*:::::
+            port will only be set for Primary/Reader or Discovery endpoint.
+            +
+            *projectId*:::::
+            The consumer project_id where PSC connections are established.
+            This should be the same project_id that the instance is being created in.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --endpoints=connections=[{pscAutoConnection={network=string,port=int,projectId=string}}] --endpoints=connections=[{pscAutoConnection={network=string,port=int,projectId=string}}]
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --endpoints='[{"connections": [{"pscAutoConnection": {"network": "string", "port": int, "projectId": "string"}}]}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --endpoints=path_to_file.(yaml|json)
+            +
+            ```
+        engine-configs: |-
+            User-provided engine configurations for the instance.
+            +
+            *KEY*:::
+            Sets `KEY` value.
+            +
+            *VALUE*:::
+            Sets `VALUE` value.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --engine-configs=string=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --engine-configs='{"string": "string"}'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --engine-configs=path_to_file.(yaml|json)
+            +
+            ```
+        engine-version: Engine version of the instance.
+        fixed-frequency-schedule-start-time-hours: |-
+            Hours of a day in 24 hour format. Must be greater than or equal to 0 and
+            typically must be less than or equal to 23. An API may choose to allow the
+            value "24:00:00" for scenarios like business closing time.
+        fixed-frequency-schedule-start-time-minutes: |-
+            Minutes of an hour. Must be greater than or equal to 0 and less than or
+            equal to 59.
+        fixed-frequency-schedule-start-time-nanos: |-
+            Fractions of seconds, in nanoseconds. Must be greater than or equal to 0
+            and less than or equal to 999,999,999.
+        fixed-frequency-schedule-start-time-seconds: |-
+            Seconds of a minute. Must be greater than or equal to 0 and typically must
+            be less than or equal to 59. An API may allow the value 60 if it allows
+            leap-seconds.
+        gcs-source-uris: 'Example: gs://bucket1/object1, gs://bucket2/folder2/object2'
+        key-ring: |-
+            The keyRing id of the cryptoKey resource.
+            +
+            To set the `key-ring` attribute:
+            * provide the argument `--kms-key` on the command line with a fully specified name;
+            * provide the argument `--key-ring` on the command line.
+        kms-key: |-
+            ID of the cryptoKey or fully qualified identifier for the cryptoKey.
+            +
+            To set the `crypto-key` attribute:
+            * provide the argument `--kms-key` on the command line.
+        labels: |-
+            Labels to represent user-provided metadata.
+            +
+            *KEY*:::
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+            +
+            *VALUE*:::
+            Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --labels=string=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --labels='{"string": "string"}'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --labels=path_to_file.(yaml|json)
+            +
+            ```
+        location: For resources [instance, kms-key, primary-instance], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
+        maintenance-policy-weekly-window: |-
+            Maintenance window that is applied to resources covered by this
+            policy. Minimum 1. For the current version, the maximum number of
+            weekly_window is expected to be one.
+            +
+            *day*:::
+            Allows to define schedule that runs specified day of the week.
+            +
+            *startTime*:::
+            Start time of the window in UTC.
+            +
+            *hours*::::
+            Hours of a day in 24 hour format. Must be greater than or equal to 0 and
+            typically must be less than or equal to 23. An API may choose to allow the
+            value "24:00:00" for scenarios like business closing time.
+            +
+            *minutes*::::
+            Minutes of an hour. Must be greater than or equal to 0 and less than or
+            equal to 59.
+            +
+            *nanos*::::
+            Fractions of seconds, in nanoseconds. Must be greater than or equal to 0
+            and less than or equal to 999,999,999.
+            +
+            *seconds*::::
+            Seconds of a minute. Must be greater than or equal to 0 and typically must
+            be less than or equal to 59. An API may allow the value 60 if it allows
+            leap-seconds.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} --maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int}
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --maintenance-policy-weekly-window='[{"day": "string", "startTime": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --maintenance-policy-weekly-window=path_to_file.(yaml|json)
+            +
+            ```
+        managed-backup-source: |-
+            Example:
+            //memorystore.googleapis.com/projects/{project}/locations/{location}/backupCollections/{collection}/backups/{backup}
+            A shorter version (without the prefix) of the backup name is also
+            supported, like
+            projects/{project}/locations/{location}/backupCollections/{collection}/backups/{backup_id}
+            In this case, it assumes the backup is under memorystore.googleapis.com.
+        mode: |-
+            The mode config for the instance. _MODE_ must be one of:
+            +
+            *cluster*::: Instance is in cluster mode.
+            *cluster-disabled*::: Cluster mode is disabled for the instance.
+            *standalone*::: Deprecated: Use CLUSTER_DISABLED instead.
+            :::
+            +
+        no-allow-fewer-zones-deployment: |-
+            Allows customers to specify if they are okay with deploying a multi-zone
+            instance in less than 3 zones. Once set, if there is a zonal outage during
+            the instance creation, the instance will only be deployed in 2 zones, and
+            stay within the 2 zones for its lifecycle.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-async-instance-endpoints-deletion-enabled: |-
+            If true, instance endpoints that are created and registered by customers
+            can be deleted asynchronously. That is, such an instance endpoint can be
+            de-registered before the forwarding rules in the instance endpoint are
+            deleted.
+        no-deletion-protection-enabled: If set to true deletion of the instance will fail.
+        no-ondemand-maintenance: Ondemand maintenance for the instance.
+        no-simulate-maintenance-event: Simulate a maintenance event.
+        node-type: |-
+            Machine type for individual nodes of the instance. _NODE_TYPE_ must be one of:
+            +
+            *highmem-medium*::: High memory medium.
+            *highmem-xlarge*::: High memory extra large.
+            *shared-core-nano*::: Shared core nano.
+            *standard-small*::: Standard small.
+            :::
+            +
+        ondemand-maintenance: Ondemand maintenance for the instance.
+        persistence-config-mode: |-
+            Current persistence mode. _PERSISTENCE_CONFIG_MODE_ must be one of:
+            +
+            *aof*::: AOF based persistence is enabled.
+            *disabled*::: Persistence is disabled, and any snapshot data is deleted.
+            *rdb*::: RDB based persistence is enabled.
+            :::
+            +
+        primary-instance: |-
+            ID of the instance or fully qualified identifier for the instance.
+            +
+            To set the `instance` attribute:
+            * provide the argument `--primary-instance` on the command line.
+        psc-auto-connections: |-
+            Deprecated: Use the endpoints.connections.psc_auto_connection value
+            instead.
+            +
+            *network*:::
+            The network where the PSC endpoints are created, in the form of
+            projects/{project_id}/global/networks/{network_id}.
+            +
+            *port*:::
+            port will only be set for Primary/Reader or Discovery endpoint.
+            +
+            *projectId*:::
+            The consumer project_id where PSC connections are established.
+            This should be the same project_id that the instance is being created in.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --psc-auto-connections=network=string,port=int,projectId=string --psc-auto-connections=network=string,port=int,projectId=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --psc-auto-connections='[{"network": "string", "port": int, "projectId": "string"}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --psc-auto-connections=path_to_file.(yaml|json)
+            +
+            ```
+        rdb-config-snapshot-period: |-
+            Period between RDB snapshots. _RDB_CONFIG_SNAPSHOT_PERIOD_ must be one of:
+            +
+            *one-hour*::: One hour.
+            *six-hours*::: Six hours.
+            *twelve-hours*::: Twelve hours.
+            *twenty-four-hours*::: Twenty four hours.
+            :::
+            +
+        rdb-config-snapshot-start-time: |-
+            Time that the first snapshot was/will be attempted, and to which future
+            snapshots will be aligned. If not provided, the current time will be
+            used.
+        replica-count: Number of replica nodes per shard. If omitted the default is 0 replicas.
+        request-id: |-
+            An optional request ID to identify requests. Specify a unique request ID
+            so that if you must retry your request, the server will know to ignore
+            the request if it has already been completed. The server will guarantee
+            that for at least 60 minutes since the first request.
+            +
+            For example, consider a situation where you make an initial request and the
+            request times out. If you make the request again with the same request
+            ID, the server can check if original operation with the same request ID
+            was received, and if so, will ignore the second request. This prevents
+            clients from accidentally creating duplicate commitments.
+            +
+            The request ID must be a valid UUID with the exception that zero UUID is
+            not supported (00000000-0000-0000-0000-000000000000).
+        shard-count: Number of shards for the instance.
+        simulate-maintenance-event: Simulate a maintenance event.
+        transit-encryption-mode: |-
+            In-transit encryption mode of the instance. _TRANSIT_ENCRYPTION_MODE_ must be one of:
+            +
+            *server-authentication*::: Server-managed encryption is used for in-transit encryption.
+            *transit-encryption-disabled*::: In-transit encryption is disabled.
+            :::
+            +
+        zone-distribution-config: |-
+            Defines zone where all resources will be allocated with SINGLE_ZONE mode.
+            Ignored for MULTI_ZONE mode.
+        zone-distribution-config-mode: |-
+            Current zone distribution mode. Defaults to MULTI_ZONE. _ZONE_DISTRIBUTION_CONFIG_MODE_ must be one of:
+            +
+            *multi-zone*::: Distribute resources across 3 zones picked at random within the
+            region.
+            *single-zone*::: Provision resources in a single zone. Zone field must be specified.
+            :::
+            +

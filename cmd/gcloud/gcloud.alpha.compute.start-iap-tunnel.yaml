@@ -1,0 +1,74 @@
+name: start-iap-tunnel
+description: '*(ALPHA)*  Starts an IAP TCP forwarding tunnel.'
+flags:
+    --dest-group=: Configures the destination group to use when connecting via IP address or FQDN.
+    --iap-tunnel-disable-connection-check: Disables the immediate check of the connection.
+    --iap-tunnel-insecure-disable-websocket-cert-check&: Disables checking certificates on the WebSocket connection.
+    --iap-tunnel-url-override=&: Allows for overriding the connection endpoint for integration testing.
+    --listen-on-stdin&: Whether to get/put local data on stdin/stdout instead of listening on a socket.
+    --local-host-port=: '`LOCAL_HOST:LOCAL_PORT` on which gcloud should bind and listen for connections'
+    --network=!: Configures the VPC network to use when connecting via IP address or FQDN.
+    --no-iap-tunnel-disable-connection-check&: Disables the immediate check of the connection.
+    --no-iap-tunnel-insecure-disable-websocket-cert-check&: Disables checking certificates on the WebSocket connection.
+    --no-listen-on-stdin&: Whether to get/put local data on stdin/stdout instead of listening on a socket.
+    --no-use-dest-group&: Configures the destination group to use when connecting via IP address or FQDN.
+    --region=!: Configures the region to use when connecting via IP address or FQDN.
+    --security-gateway=!&: Configure the security gateway resource for connecting.
+    --use-dest-group&: Configures the destination group to use when connecting via IP address or FQDN.
+    --zone=: Zone of the instance to operate on.
+documentation:
+    command: |
+        *(ALPHA)*  Starts a tunnel to Cloud Identity-Aware Proxy for TCP forwarding through which
+        another process can create a connection (eg. SSH, RDP) to a Google Compute
+        Engine instance.
+
+        To learn more, see the
+        [IAP for TCP forwarding documentation](https://cloud.google.com/iap/docs/tcp-forwarding-overview).
+
+        If the `--region` and `--network` flags are provided, then an IP address or FQDN
+        must be supplied instead of an instance name. This is most useful for connecting
+        to on-prem resources.
+    flag:
+        dest-group: Configures the destination group to use when connecting via IP address or FQDN.
+        iap-tunnel-disable-connection-check: Disables the immediate check of the connection.
+        iap-tunnel-insecure-disable-websocket-cert-check: Disables checking certificates on the WebSocket connection.
+        iap-tunnel-url-override: Allows for overriding the connection endpoint for integration testing.
+        listen-on-stdin: Whether to get/put local data on stdin/stdout instead of listening on a socket.  It is an error to specify --local-host-port with this, because that flag has no meaning with this.
+        local-host-port: |-
+            `LOCAL_HOST:LOCAL_PORT` on which gcloud should bind and listen for connections
+            that should be tunneled.
+            +
+            `LOCAL_PORT` may be omitted, in which case it is treated as 0 and an arbitrary
+            unused local port is chosen. The colon also may be omitted in that case.
+            +
+            If `LOCAL_PORT` is 0, an arbitrary unused local port is chosen.
+        network: Configures the VPC network to use when connecting via IP address or FQDN.
+        no-iap-tunnel-disable-connection-check: Disables the immediate check of the connection.
+        no-iap-tunnel-insecure-disable-websocket-cert-check: Disables checking certificates on the WebSocket connection.
+        no-listen-on-stdin: Whether to get/put local data on stdin/stdout instead of listening on a socket.  It is an error to specify --local-host-port with this, because that flag has no meaning with this.
+        no-use-dest-group: Configures the destination group to use when connecting via IP address or FQDN.
+        region: Configures the region to use when connecting via IP address or FQDN.
+        security-gateway: Configure the security gateway resource for connecting.
+        use-dest-group: Configures the destination group to use when connecting via IP address or FQDN.
+        zone: |-
+            Zone of the instance to operate on. If not specified, you might be prompted to select a zone (interactive mode
+            only). `gcloud` attempts to identify the appropriate zone by searching for
+            resources in your currently active project. If the zone cannot be determined,
+            `gcloud` prompts you for a selection with all available Google Cloud Platform
+            zones.
+            +
+            To avoid prompting when this flag is omitted, the user can set the
+            ``compute/zone'' property:
+            +
+              $ gcloud config set compute/zone ZONE
+            +
+            A list of zones can be fetched by running:
+            +
+              $ gcloud compute zones list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/zone
+            +
+            Alternatively, the zone can be stored in the environment variable
+            ``CLOUDSDK_COMPUTE_ZONE''.

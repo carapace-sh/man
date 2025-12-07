@@ -1,0 +1,54 @@
+name: set
+description: '*(BETA)*  Sets bundle installation for Policy Controller content.'
+flags:
+    --all-memberships: If supplied, apply to all Policy Controllers memberships in the fleet.
+    --exempted-namespaces=: Exempted namespaces are ignored by Policy Controller when applying constraints added by this bundle.
+    --location=: Location for the memberships.
+    --memberships=!: IDs of the memberships or fully qualified identifiers for the memberships.
+    --no-all-memberships&: If supplied, apply to all Policy Controllers memberships in the fleet.
+    --no-exempted-namespaces: Removes all exempted namespaces from the specified bundle.
+documentation:
+    command: |-
+        *(BETA)*  Google-defined policy bundles of constraints can be installed onto Policy
+        Controller installations.
+
+        The namespace exclusion flag (`--exempted-namespaces`) will specify a set of
+        namespaces that the installed bundle will ignore. Subsequent calls with the
+        same bundle name and this flag will overwrite what namespaces are being
+        ignored. Using `--no-exempted-namespaces` or specifying no namespaces with
+        `--exempted-namespaces` will remove all namespaces from the ignore list.
+
+        To uninstall a bundle, use the `remove` command.
+
+        ## EXAMPLES
+
+        To install a policy bundle:
+
+          $ gcloud beta container hub policycontroller content bundles set cis-k8s-v1.5.1
+
+        To install a policy bundle, while ignoring (exempting) certain namespaces from
+        being affected by the bundle:
+
+          $ gcloud beta container hub policycontroller content bundles set cis-k8s-v1.5.1
+              --exempted-namespaces=kube-system,gatekeeper-system
+
+        To remove all exempted namespaces from a particular bundles ignore list:
+
+          $ gcloud beta container hub policycontroller content bundles set cis-k8s-v1.5.1 --no-exempted-namespaces
+    flag:
+        all-memberships: If supplied, apply to all Policy Controllers memberships in the fleet.
+        exempted-namespaces: Exempted namespaces are ignored by Policy Controller when applying constraints added by this bundle.
+        location: |-
+            Location for the memberships.
+            +
+            To set the `location` attribute:
+            * provide the argument `--memberships` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `gkehub/location`.
+        memberships: |-
+            IDs of the memberships or fully qualified identifiers for the memberships.
+            +
+            To set the `memberships` attribute:
+            * provide the argument `--memberships` on the command line.
+        no-all-memberships: If supplied, apply to all Policy Controllers memberships in the fleet.
+        no-exempted-namespaces: Removes all exempted namespaces from the specified bundle.

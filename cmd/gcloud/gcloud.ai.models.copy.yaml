@@ -1,0 +1,40 @@
+name: copy
+description: Copy a model.
+flags:
+    --destination-model-id=: Copy source_model into a new Model with this ID.
+    --destination-parent-model=: Specify this field to copy source_model into this existing Model as a new version.
+    --kms-key-name=: The Cloud KMS resource identifier of the customer managed encryption key
+    --region=: ID of the region or fully qualified identifier for the region.
+    --source-model=!: The resource name of the Model to copy.
+documentation:
+    command: |-
+        ## EXAMPLES
+
+        To copy a model `123` of project `example` from region `us-central1` to region
+        `europe-west4`, run:
+
+          $ gcloud ai models copy --source-model=projects/example/locations/us-central1/models/123
+            --region=projects/example/locations/europe-west4
+    flag:
+        destination-model-id: |-
+            Copy source_model into a new Model with this ID. The ID will become the final component of the model resource name.
+            This value may be up to 63 characters, and valid characters are `[a-z0-9_-]`. The first character cannot be a number or hyphen.
+        destination-parent-model: |-
+            Specify this field to copy source_model into this existing Model as a new version.
+            Format: `projects/{project}/locations/{location}/models/{model}`.
+        kms-key-name: |-
+            The Cloud KMS resource identifier of the customer managed encryption key
+            used to protect the resource.
+            Has the form:
+            `projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key`.
+            The key needs to be in the same region as the destination region of the model to be copied.
+        region: |-
+            ID of the region or fully qualified identifier for the region.
+            +
+            To set the `region` attribute:
+            * provide the argument `--region` on the command line;
+            * set the property `ai/region`;
+            * choose one from the prompted list of available regions.
+        source-model: |-
+            The resource name of the Model to copy. That Model must be in the same Project.
+            Format: `projects/{project}/locations/{location}/models/{model}`.

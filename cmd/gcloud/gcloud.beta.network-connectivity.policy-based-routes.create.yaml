@@ -1,0 +1,50 @@
+name: create
+description: '*(BETA)*  Create a new policy-based route.'
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --description=: Optional description of this resource.
+    --destination-range=: Destination IP range of outgoing packets that this policy-based route applies to.
+    --interconnect-attachment-region=: Cloud region to install this policy-based route on interconnect attachment.
+    --ip-protocol=: IP protocol that this policy-based route applies to.
+    --labels=: List of label KEY=VALUE pairs to add.
+    --network=!: Fully-qualified URL of the network that this route applies to.
+    --next-hop-ilb-ip=: IP of a global access enabled L4 ILB that should be the next hop to handle packets.
+    --next-hop-other-routes=: Next hop should be other routes that handle packets.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --priority=: Priority of this policy-based route.
+    --protocol-version=: Internet protocol versions that this policy-based route applies to.
+    --source-range=: Source IP range of outgoing packets that this policy-based route applies to.
+    --tags=: List of VM instance tags that this route applies to.
+completion:
+    flag:
+        next-hop-other-routes:
+            - default-routing
+            - other-routes-unspecified
+        protocol-version:
+            - ipv4
+            - ipv6
+            - protocol-version-unspecified
+documentation:
+    command: '*(BETA)*  Create a new policy-based route with the given name.'
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        description: Optional description of this resource. Provide this field when you create the resource.
+        destination-range: Destination IP range of outgoing packets that this policy-based route applies to.
+        interconnect-attachment-region: Cloud region to install this policy-based route on interconnect attachment. Use `all` to install it on all interconnect attachments. Note if both `--tags` and `--interconnect-attachment-region` are not set, then the policy-based route will be installed in all network endpoints, including VMs, VPNs, and Interconnect attachements, in the network.
+        ip-protocol: IP protocol that this policy-based route applies to. Valid values are `TCP`, `UDP`, and `ALL`. Default is `ALL`.
+        labels: |-
+            List of label KEY=VALUE pairs to add.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+        network: Fully-qualified URL of the network that this route applies to. E.g. `projects/my-project/global/networks/my-network`
+        next-hop-ilb-ip: IP of a global access enabled L4 ILB that should be the next hop to handle packets.
+        next-hop-other-routes: 'Next hop should be other routes that handle packets. This effectively excludes matching packets being applied on other policy-based routes with a lower priority. _NEXT_HOP_OTHER_ROUTES_ must be one of: *default-routing*, *other-routes-unspecified*.'
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        priority: Priority of this policy-based route. Priority is used to break ties in cases where there are more than one matching policy-based routes found. In cases where multiple policy-based routes are matched, the one with the lowest-numbered priority value wins. The default value is 1000. The priority value must be from 1 to 65535, inclusive. Note the priority of policy-based route is always higher than other types of route (e.g. static routes/advanced routes)
+        protocol-version: 'Internet protocol versions that this policy-based route applies to. Valid values are `IPV4`, and `IPV6`. Default is `IPV4''. _PROTOCOL_VERSION_ must be one of: *ipv4*, *ipv6*, *protocol-version-unspecified*.'
+        source-range: Source IP range of outgoing packets that this policy-based route applies to.
+        tags: List of VM instance tags that this route applies to. VM instances that have ANY of tags specified here installs this route. Note if both `--tags` and `--interconnect-attachment-region` are not set, then the policy-based route will be installed in all endpoints, including VMs, VPNs, and Interconnect attachements, in the network.

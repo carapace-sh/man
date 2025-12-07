@@ -1,0 +1,55 @@
+name: create
+description: Create a Dataproc Metastore federation.
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --backends=!: Backends from which the federation service serves metadata at query time.
+    --hive-metastore-version=: Hive metastore schema version of the Metastore federation.
+    --labels=: List of label KEY=VALUE pairs to add.
+    --location=: The location of the Dataproc Metastore service.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --tags=: List of tag KEY=VALUE pairs to add.
+completion:
+    flag:
+        hive-metastore-version:
+            - 2.3.6
+            - 3.1.2
+documentation:
+    command: |
+        Create a new Dataproc Metastore federation with the given name and configurations.
+
+        If run asynchronously with `--async`, exits after printing
+        one operation name that can be used to poll the status of the
+        creation via:
+
+          {top_command} metastore operations describe
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        backends: |-
+            Backends from which the federation service serves metadata at query time. The backends are specified as a comma-separated
+            list of `RANK=BACKEND` pairs.
+            For example: `1=dpms:dpms1,2=dpms:projects/my-project/locations/us-central1/services/dpms2`.
+            `RANK` represents the rank of the backend metastore and is used to resolve database name collisions.
+            `BACKEND` is specified as `METASTORE_TYPE:METASTORE_NAME` where `METASTORE_TYPE` is the type of backend metastore and
+            `METASTORE_NAME` is the relative resource name of the metastore. If only the name of the metastore is specified (e.g. `dpms1`),
+            project and location will be inferred from the project and location used to create the federation.
+        hive-metastore-version: 'Hive metastore schema version of the Metastore federation. _HIVE_METASTORE_VERSION_ must be one of: *2.3.6*, *3.1.2*.'
+        labels: |-
+            List of label KEY=VALUE pairs to add.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+        location: |-
+            The location of the Dataproc Metastore service.
+            +
+            If not specified, will use `default` metastore/location.
+            +
+
+            To set the `location` attribute:
+            * provide the argument `federation` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `metastore/location`.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        tags: List of tag KEY=VALUE pairs to add.

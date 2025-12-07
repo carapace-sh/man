@@ -1,0 +1,231 @@
+name: update
+description: '*(ALPHA)*  Update a Dataplex task resource.'
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --batch-executors-count=: Total number of job executors.
+    --batch-max-executors-count=: Max configurable executors.
+    --clear-labels: Remove all labels.
+    --container-image-java-jars=: A list of Java JARS to add to the classpath.
+    --container-image-properties=: Override to common configuration of open source components installed on
+    --container-image-python-packages=: A list of python packages to be installed.
+    --container-image=: Optional custom container image for the job.
+    --description=: Description of the task.
+    --display-name=: Display name of the task.
+    --execution-args=: The arguments to pass to the task.
+    --execution-project=: The project in which jobs are run.
+    --execution-service-account=: Service account to use to execute a task.
+    --kms-key=: 'The Cloud KMS key to use for encryption, of the form:'
+    --lake=: Identifier of the Dataplex lake resource.
+    --location=: Location of the Dataplex resource.
+    --max-job-execution-lifetime=: The maximum duration before the job execution expires.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-clear-labels&: Remove all labels.
+    --no-trigger-disabled&: Prevent the task from executing.
+    --notebook-archive-uris=: Google Cloud Storage URIs of archives to be extracted into the working directory of
+    --notebook-batch-executors-count=: Total number of job executors.
+    --notebook-batch-max-executors-count=: Max configurable executors.
+    --notebook-container-image-java-jars=: A list of Java JARS to add to the classpath.
+    --notebook-container-image-properties=: Override to common configuration of open source components installed on
+    --notebook-container-image=: Optional custom container image for the job.
+    --notebook-file-uris=: Google Cloud Storage URIs of files to be placed in the working directory of each
+    --notebook-vpc-network-name=: The Cloud VPC network in which the job is run.
+    --notebook-vpc-network-tags=: List of network tags to apply to the job.
+    --notebook-vpc-sub-network-name=: The Cloud VPC sub-network in which the job is run.
+    --notebook=: Google Cloud Storage URIs of the notebook file or the path to a Notebook Content.
+    --remove-labels=: List of label keys to remove.
+    --spark-archive-uris=: Google Cloud Storage URIs of archives to be extracted into the working directory of
+    --spark-file-uris=: Google Cloud Storage URIs of files to be placed in the working directory of each
+    --spark-main-class=: The name of the driver's main class.
+    --spark-main-jar-file-uri=: The Google Cloud Storage URI of the jar file that contains the main class.
+    --spark-python-script-file=: The Google Cloud Storage URI of the main Python file to use as the driver.
+    --spark-sql-script-file=: A reference to a query file.
+    --spark-sql-script=: The SQL query text.
+    --trigger-disabled: Prevent the task from executing.
+    --trigger-max-retires=: Number of retry attempts before aborting.
+    --trigger-schedule=: Cron schedule (https://en.wikipedia.org/wiki/Cron) for running
+    --trigger-start-time=: The first run of the task will be after this time.
+    --update-labels=: List of label KEY=VALUE pairs to update.
+    --vpc-network-name=: The Cloud VPC network in which the job is run.
+    --vpc-network-tags=: List of network tags to apply to the job.
+    --vpc-sub-network-name=: The Cloud VPC sub-network in which the job is run.
+documentation:
+    command: |
+        *(ALPHA)*  Update a Dataplex task resource with the given configurations.
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        batch-executors-count: Total number of job executors.
+        batch-max-executors-count: |-
+            Max configurable executors.
+            If max_executors_count > executors_count, then auto-scaling is enabled.
+        clear-labels: |-
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} --clear-labels
+            +
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        container-image: Optional custom container image for the job.
+        container-image-java-jars: |-
+            A list of Java JARS to add to the classpath.
+            Valid input includes Cloud Storage URIs to Jar binaries.
+            For example, gs://bucket-name/my/path/to/file.jar
+        container-image-properties: |-
+            Override to common configuration of open source components installed on
+            the Dataproc cluster.
+            The properties to set on daemon config files.
+            Property keys are specified in `prefix:property` format, for example
+            `core:hadoop.tmp.dir`.
+            For more information, see [Cluster
+            properties](https://cloud.google.com/dataproc/docs/concepts/cluster-properties).
+        container-image-python-packages: |-
+            A list of python packages to be installed.
+            Valid formats include Cloud Storage URI to a PIP installable library.
+            For example, gs://bucket-name/my/path/to/lib.tar.gz
+        description: Description of the task.
+        display-name: Display name of the task.
+        execution-args: |-
+            The arguments to pass to the task.
+            The args can use placeholders of the format ${placeholder} as
+            part of key/value string. These will be interpolated before passing the
+            args to the driver. Currently supported placeholders:
+            - ${task_id}
+            - ${job_time}
+            To pass positional args, set the key as TASK_ARGS. The value should be a
+            comma-separated string of all the positional arguments. To use a
+            delimiter other than comma, refer to
+            https://cloud.google.com/sdk/gcloud/reference/topic/escaping. In case of
+            other keys being present in the args, then TASK_ARGS will be passed as
+            the last argument.
+        execution-project: |-
+            The project in which jobs are run.
+            By default, the project containing the Lake is used.
+            If a project is provided, the --execution-service-account must belong to this same
+            project.
+        execution-service-account: |-
+            Service account to use to execute a task.
+            If not provided, the default Compute service account for the project is used.
+        kms-key: |-
+            The Cloud KMS key to use for encryption, of the form:
+            projects/{project_number}/locations/{location_id}/keyRings/{key-ring-name}/cryptoKeys/{key-name}
+        lake: |-
+            Identifier of the Dataplex lake resource.
+            +
+
+            To set the `lake` attribute:
+            * provide the argument `task` on the command line with a fully specified name;
+            * provide the argument `--lake` on the command line.
+        location: |-
+            Location of the Dataplex resource.
+            +
+
+            To set the `location` attribute:
+            * provide the argument `task` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `dataplex/location`.
+        max-job-execution-lifetime: The maximum duration before the job execution expires.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-clear-labels: |
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} --clear-labels
+
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        no-trigger-disabled: |
+            Prevent the task from executing.
+            This does not cancel already running tasks. It is intended to temporarily
+            disable RECURRING tasks.
+        notebook: |-
+            Google Cloud Storage URIs of the notebook file or the path to a Notebook Content.
+            Path to input notebook.
+        notebook-archive-uris: |-
+            Google Cloud Storage URIs of archives to be extracted into the working directory of
+            each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and
+            .zip.
+        notebook-batch-executors-count: Total number of job executors.
+        notebook-batch-max-executors-count: |-
+            Max configurable executors.
+            If max_executors_count > executors_count, then auto-scaling is enabled.
+        notebook-container-image: Optional custom container image for the job.
+        notebook-container-image-java-jars: |-
+            A list of Java JARS to add to the classpath.
+            Valid input includes Cloud Storage URIs to Jar binaries.
+            For example, gs://bucket-name/my/path/to/file.jar
+        notebook-container-image-properties: |-
+            Override to common configuration of open source components installed on
+            the Dataproc cluster.
+            The properties to set on daemon config files.
+            Property keys are specified in `prefix:property` format, for example
+            `core:hadoop.tmp.dir`.
+            For more information, see [Cluster
+            properties](https://cloud.google.com/dataproc/docs/concepts/cluster-properties).
+        notebook-file-uris: |-
+            Google Cloud Storage URIs of files to be placed in the working directory of each
+            executor.
+        notebook-vpc-network-name: |-
+            The Cloud VPC network in which the job is run. By default, the Cloud
+            VPC network named Default within the project is used.
+        notebook-vpc-network-tags: List of network tags to apply to the job.
+        notebook-vpc-sub-network-name: The Cloud VPC sub-network in which the job is run.
+        remove-labels: |-
+            List of label keys to remove. If a label does not exist it is
+            silently ignored. If `--update-labels` is also specified then
+            `--update-labels` is applied first.
+        spark-archive-uris: |-
+            Google Cloud Storage URIs of archives to be extracted into the working directory of
+            each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and
+            .zip.
+        spark-file-uris: |-
+            Google Cloud Storage URIs of files to be placed in the working directory of each
+            executor.
+        spark-main-class: |-
+            The name of the driver's main class. The jar file that contains the
+            class must be in the default CLASSPATH or specified in
+        spark-main-jar-file-uri: |-
+            The Google Cloud Storage URI of the jar file that contains the main class.
+            The execution args are passed in as a sequence of named process
+            arguments (`--key=value`).
+        spark-python-script-file: |-
+            The Google Cloud Storage URI of the main Python file to use as the driver. Must
+            be a .py file.
+        spark-sql-script: The SQL query text.
+        spark-sql-script-file: |-
+            A reference to a query file. This can be the Google Cloud Storage URI of the query file
+            or it can the path to a SqlScript Content.
+        trigger-disabled: |-
+            Prevent the task from executing.
+            This does not cancel already running tasks. It is intended to temporarily
+            disable RECURRING tasks.
+        trigger-max-retires: |-
+            Number of retry attempts before aborting.
+            Set to zero to never attempt to retry a failed task.
+        trigger-schedule: |-
+            Cron schedule (https://en.wikipedia.org/wiki/Cron) for running
+            tasks periodically.
+        trigger-start-time: |-
+            The first run of the task will be after this time.
+            If not specified, the task will run shortly after being submitted if
+            ON_DEMAND and based on the schedule if RECURRING.
+        update-labels: |-
+            List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+        vpc-network-name: |-
+            The Cloud VPC network in which the job is run. By default, the Cloud
+            VPC network named Default within the project is used.
+        vpc-network-tags: List of network tags to apply to the job.
+        vpc-sub-network-name: The Cloud VPC sub-network in which the job is run.

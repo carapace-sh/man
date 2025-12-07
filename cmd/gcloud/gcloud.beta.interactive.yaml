@@ -1,0 +1,160 @@
+name: interactive
+description: '*(BETA)*  Start the gcloud interactive shell.'
+flags:
+    --context=: Default command context.
+    --debug&: Enable debugging display.
+    --hidden&: Enable completion of hidden commands and flags.
+    --no-debug&: Enable debugging display.
+    --no-hidden&: Enable completion of hidden commands and flags.
+    --no-suggest&: Enable auto suggestion from history.
+    --prompt=&: The interactive shell prompt.
+    --suggest&: Enable auto suggestion from history.
+documentation:
+    command: |-
+        *(BETA)*  *gcloud beta interactive* provides an enhanced *bash*(1) command line with features that
+        include:
+        {features}
+
+        ### Display
+
+        The *gcloud beta interactive* display window is divided into sections, described here
+        from top to bottom.
+
+        *Previous Output*::
+
+        Command output scrolls above the command input section as commands are
+        executed.
+
+        *Command Input*::
+
+        Commands are typed, completed, and edited in this section. The default prompt
+        is "$ ". If a context has been set, then its tokens are prepopulated before
+        the cursor.
+
+        *Active Help*::
+
+        As you type, this section displays in-line help summaries for commands, flags,
+        and arguments. You can toggle active help on and off via the *F2* key.
+        Hit *F8* to display the help text in your browser.
+
+        *Status Display*::
+
+        Current *gcloud* project and account information, and function key
+        descriptions and settings are displayed in this section. Function keys
+        toggle mode/state settings or run specific actions.
+        {bindings}
+
+        ### Auto and Tab Completion
+
+        Command completions are displayed in a scrolling pop-up menu. Use `tab` and
+        up/down keys to navigate the completions, and `space` or `/` to select the
+        highlighted completion.
+
+        Completions for _known_ commands, flags, and static flag values are displayed
+        automatically. Positional and dynamic flag value completions for known
+        commands are displayed after `tab` is entered. Known commands include
+        `gcloud`, `bq`, `gsutil`, `kubectl`, and any command with a man page that has
+        been executed at least once in any *interactive* session.
+
+        `tab` completion for unknown commands defers to *bash*(1), while still using
+        the *interactive* user interface. Absent specific command information, a
+        file/path completer is used when `tab` is entered for unknown positionals
+        (arguments that do not start with '-'). The default completer handles '~' path
+        notation and embedded _$var_ references, but does not expand their values in
+        completions.
+
+        Configure bash completions as you normally would. *gcloud beta interactive* starts up bash
+        in a mode that sources *~/.bashrc* with the environment variable
+        *COSHELL_VERSION* set to a non-empty version value.
+
+        Command completion resets with each simple command in the command line. Simple
+        commands are separated by '|', ';', '&' and may appear after '$(', '(', '{',
+        '!', *if*, *then*, *elif*, *while*, and _name_=_value_ per command exports.
+        Use `tab` on an empty line to enable command executable search on PATH for
+        the first token in each simple command.
+
+        Currently simple and compound commands must be entered in a single line.
+
+        Refer to
+        [Using gcloud interactive](https://cloud.google.com/sdk/docs/interactive-gcloud)
+        for more information and animated GIFs.
+
+        ### Control Characters
+
+        Control characters affect the currently running command or the current
+        command line being entered at the prompt.
+
+        *ctrl-c*::
+        If a command is currently running, then that command is interrupted. This
+        terminates the command. Otherwise, if no command is running, ctrl-c clears
+        the current command line.
+
+        *ctrl-d*::
+        Exits when entered as the first character at the command prompt. You can
+        also run the *exit* command at the prompt.
+
+        *ctrl-w*::
+        If a command is not currently running, then the last word on the command
+        line is deleted. This is handy for "walking back" partial completions.
+
+        ### Command history
+
+        *gcloud beta interactive* maintains persistent command history across sessions.
+
+        #### emacs mode
+
+        *^N*:: Move ahead one line in the history.
+        *^P*:: Move back one line in the history.
+        *^R*:: Search backwards in the history.
+
+        #### vi mode
+
+        /:: Search backwards in the history.
+        *j*:: Move ahead one line in the history.
+        *k*:: Move back one line in the history.
+        *n*:: Search backwards for the next match.
+        *N*:: Search forwards for the next match.
+
+        #### history search mode
+
+        *ENTER/RETURN*:: Retrieve the matched command line from the history.
+        *^R*:: Search backwards for the next match.
+        *^S*:: Search forwards for the next match.
+
+        ### Layout Configuration
+
+        Parts of the layout are configurable via
+        *$ gcloud config set* interactive/_property_. These properties are only
+        checked at startup. You must exit and restart to see the effects of new
+        settings.
+        {properties}
+
+        ### CLI Trees
+
+        *gcloud beta interactive* uses CLI tree data files for typeahead, command line completion,
+        and help snippet generation. A few CLI trees are installed with their
+        respective Google Cloud CLI components: *gcloud* (core component), *bq*,
+        *gsutil*, and *kubectl*. Trees for commands that have man(1) pages are
+        generated on the fly. See `$ gcloud topic cli-trees` for details.
+
+        ## EXAMPLES
+
+        To set the command context of *gcloud beta interactive* to "gcloud ", run:
+
+            gcloud beta interactive --context="gcloud "
+
+        ## NOTES
+
+        On Windows, install *git*(1) for a *bash*(1) experience. *gcloud beta interactive* will
+        then use the *git* (MinGW) *bash* instead of *cmd.exe*.
+
+        Please run *$ gcloud feedback* to report bugs or request new features.
+    flag:
+        context: Default command context. This is a string containing a command name, flags, and arguments. The context is prepopulated in each command line. You can inline edit any part of the context, or ctrl-c to eliminate it.
+        debug: Enable debugging display.
+        hidden: Enable completion of hidden commands and flags.
+        no-debug: Enable debugging display.
+        no-hidden: Enable completion of hidden commands and flags.
+        no-suggest: Enable auto suggestion from history. The defaults are currently too rudimentary for prime time.
+        prompt: The interactive shell prompt.
+        suggest: Enable auto suggestion from history. The defaults are currently too rudimentary for prime time.

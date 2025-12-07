@@ -1,0 +1,41 @@
+name: create
+description: '*(ALPHA)*  Creates a Compute Engine firewall policy packet mirroring rule.'
+flags:
+    --action=!: Action to take if the request matches the match condition.
+    --description=: An optional, textual description for the rule.
+    --dest-ip-ranges=: Destination IP ranges to match for this rule.
+    --direction=: Direction of the traffic the rule is applied.
+    --disabled: Use this flag to disable the rule.
+    --firewall-policy=!: Short name of the firewall policy into which the rule should be inserted.
+    --layer4-configs=!: A list of destination protocols and ports to which the firewall rule will apply.
+    --no-disabled&: Use this flag to disable the rule.
+    --organization=: Organization which the organization firewall policy belongs to.
+    --security-profile-group=: An org-based security profile group to be used with mirror action.
+    --src-ip-ranges=: Source IP ranges to match for this rule.
+    --target-resources=: List of URLs of target resources to which the rule is applied.
+completion:
+    flag:
+        action:
+            - mirror
+            - do_not_mirror
+            - goto_next
+        direction:
+            - INGRESS
+            - EGRESS
+documentation:
+    command: |-
+        *(ALPHA)*  *gcloud alpha compute firewall-policies mirroring-rules create* is used to create organization firewall policy packet mirroring
+        rules.
+    flag:
+        action: 'Action to take if the request matches the match condition. _ACTION_ must be one of: *mirror*, *do_not_mirror*, *goto_next*.'
+        description: An optional, textual description for the rule.
+        dest-ip-ranges: Destination IP ranges to match for this rule.
+        direction: 'Direction of the traffic the rule is applied. The default is to apply on incoming traffic. _DIRECTION_ must be one of: *INGRESS*, *EGRESS*.'
+        disabled: Use this flag to disable the rule. Disabled rules will not affect traffic. Use *--disabled* to enable and *--no-disabled* to disable.
+        firewall-policy: Short name of the firewall policy into which the rule should be inserted.
+        layer4-configs: A list of destination protocols and ports to which the firewall rule will apply.
+        no-disabled: Use this flag to disable the rule. Disabled rules will not affect traffic.
+        organization: Organization which the organization firewall policy belongs to. Must be set if FIREWALL_POLICY is short name.
+        security-profile-group: 'An org-based security profile group to be used with mirror action. Allowed formats are: a) http(s)://<namespace>/<api>/organizations/<org_id>/locations/global/securityProfileGroups/<profile> b) (//)<namespace>/organizations/<org_id>/locations/global/securityProfileGroups/<profile> c) <profile>. In case "c" `gcloud` CLI will create a reference matching format "a", but to make it work CLOUDSDK_API_ENDPOINT_OVERRIDES_NETWORKSECURITY property must be set. In order to set this property, please run the command `gcloud config set api_endpoint_overrides/networksecurity https://<namespace>/`.'
+        src-ip-ranges: Source IP ranges to match for this rule.
+        target-resources: List of URLs of target resources to which the rule is applied.

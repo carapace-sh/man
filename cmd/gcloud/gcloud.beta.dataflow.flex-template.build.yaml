@@ -1,0 +1,83 @@
+name: build
+description: '*(BETA)*  Builds a flex template file from the specified parameters.'
+flags:
+    --additional-experiments=: Default experiments to pass to the job.
+    --additional-user-labels=: Default user labels to pass to the job.
+    --cloud-build-service-account=: Service account to run the Cloud Build in the format projects/{project}/serviceAccounts/{service_account}.
+    --dataflow-kms-key=: Default Cloud KMS key to protect the job resources.
+    --disable-public-ips: Cloud Dataflow workers must not use public IP addresses.
+    --enable-streaming-engine: Enable Streaming Engine for the streaming job by default.
+    --env=!: Environment variables to create for the Dockerfile.
+    --flex-template-base-image=!: Flex template base image to be used while building the container image.
+    --gcs-log-dir=: Google Cloud Storage directory to save build logs.(Must
+    --go-binary-path=: Local path to your compiled dataflow pipeline Go binary.
+    --image-gcr-path=!: The Google Container Registry or Google Artifact Registry location to store the flex template image to be built.
+    --image-repository-cert-path=: The full URL to self-signed certificate of private registry in Cloud Storage.
+    --image-repository-password-secret-id=: Secret Manager secret id for the password to authenticate to private registry.
+    --image-repository-username-secret-id=: Secret Manager secret id for the username to authenticate to private registry.
+    --image=: Path to the any image registry location of the prebuilt flex template image.
+    --jar=: Local path to your dataflow pipeline jar file and all their dependent jar files required for the flex template classpath.
+    --max-workers=: Default maximum number of workers to run.
+    --metadata-file=: Local path to the metadata json file for the flex template.
+    --network=: Default Compute Engine network for launching instances to run your pipeline.
+    --no-disable-public-ips&: Cloud Dataflow workers must not use public IP addresses.
+    --no-enable-streaming-engine&: Enable Streaming Engine for the streaming job by default.
+    --no-print-only&: Prints the container spec to stdout.
+    --num-workers=: Initial number of workers to use by default.
+    --print-only: Prints the container spec to stdout.
+    --py-path=: Local path to your dataflow pipeline python files and all their dependent files required for the flex template classpath.
+    --sdk-language=!: SDK language of the flex template job.
+    --service-account-email=: Default service account to run the workers as.
+    --staging-location=: Default Google Cloud Storage location to stage local files.(Must
+    --subnetwork=: Default Compute Engine subnetwork for launching instances to run your pipeline.
+    --temp-location=: Default Google Cloud Storage location to stage temporary files.
+    --worker-machine-type=: Default type of machine to use for workers.
+    --worker-region=: Default region to run the workers in.
+    --worker-zone=: Default zone to run the workers in.
+    --yaml-image=: Path to the any image registry location of the prebuilt yaml template image.
+    --yaml-pipeline-path=!: Local path to your YAML pipeline file.
+completion:
+    flag:
+        sdk-language:
+            - JAVA
+            - PYTHON
+            - GO
+            - YAML
+documentation:
+    command: '*(BETA)*  Builds a flex template file from the specified parameters.'
+    flag:
+        additional-experiments: Default experiments to pass to the job.
+        additional-user-labels: 'Default user labels to pass to the job. Example: --additional-user-labels=''{"key1":"value1"}'''
+        cloud-build-service-account: Service account to run the Cloud Build in the format projects/{project}/serviceAccounts/{service_account}. Ensure that the account you are using to run 'gcloud dataflow flex-template build' has 'ServiceAccountUser' role on the specified Cloud Build service account you provide with the --cloud-build-service-account flag. The specified service account must have required permissions to build the image. If the specified service account is in a project that is different from the project where you are starting builds, see https://cloud.google.com/build/docs/securing-builds/configure-user-specified-service-accounts#cross-project_set_up to grant the necessary access.
+        dataflow-kms-key: Default Cloud KMS key to protect the job resources.
+        disable-public-ips: Cloud Dataflow workers must not use public IP addresses. Overrides the default *dataflow/disable_public_ips* property value for this command invocation.
+        enable-streaming-engine: Enable Streaming Engine for the streaming job by default. Overrides the default *dataflow/enable_streaming_engine* property value for this command invocation.
+        env: 'Environment variables to create for the Dockerfile. You can pass them as a comma separated list or repeat individually with --env flag. Ex: --env="A=B,C=D" or --env A=B, --env C=D.When you reference files/dir in env variables, please specify relative path to the paths passed via --py-path.Ex: if you pass. --py-path="path/pipleline/" then set FLEX_TEMPLATE_PYTHON_PY_FILE="pipeline/pipeline.py" You can find the list of supported environment variables in this link. https://cloud.google.com/dataflow/docs/guides/templates/configuring-flex-templates#setting_required_dockerfile_environment_variables.'
+        flex-template-base-image: Flex template base image to be used while building the container image. Allowed choices are allowed labels (JAVA11/17/21/25, PYTHON3, GO), supported distroless images (JAVA11/17/21/25_DISTROLESS, GO_DISTROLESS), or full gcr.io path of the specific version of the base image. For labels, we use the latest base image version to build the container. You can also provide a specific version from this link  https://gcr.io/dataflow-templates-base/
+        gcs-log-dir: Google Cloud Storage directory to save build logs.(Must be a URL beginning with 'gs://'.)
+        go-binary-path: Local path to your compiled dataflow pipeline Go binary. The binary should be compiled to run on the target worker architecture (usually linux-amd64). See https://beam.apache.org/documentation/sdks/go-cross-compilation/ for more information.
+        image: Path to the any image registry location of the prebuilt flex template image.
+        image-gcr-path: The Google Container Registry or Google Artifact Registry location to store the flex template image to be built.
+        image-repository-cert-path: The full URL to self-signed certificate of private registry in Cloud Storage. For example, gs://mybucket/mycerts/selfsigned.crt. The certificate provided in Cloud Storage must be DER-encoded and may be supplied in binary or printable (Base64) encoding. If the certificate is provided in Base64 encoding, it must be bounded at the beginning by -----BEGIN CERTIFICATE-----, and must be bounded at the end by -----END CERTIFICATE-----. If this parameter is provided, the docker daemon in the template launcher will be instructed to trust that certificate.
+        image-repository-password-secret-id: Secret Manager secret id for the password to authenticate to private registry. Should be in the format projects/{project}/secrets/{secret}/versions/{secret_version} or projects/{project}/secrets/{secret}. If the version is not provided latest version will be used.
+        image-repository-username-secret-id: Secret Manager secret id for the username to authenticate to private registry. Should be in the format projects/{project}/secrets/{secret}/versions/{secret_version} or projects/{project}/secrets/{secret}. If the version is not provided latest version will be used.
+        jar: 'Local path to your dataflow pipeline jar file and all their dependent jar files required for the flex template classpath. You can pass them as a comma separated list or repeat individually with --jar flag. Ex: --jar="code.jar,dep.jar" or --jar code.jar, --jar dep.jar.'
+        max-workers: Default maximum number of workers to run.
+        metadata-file: Local path to the metadata json file for the flex template. Use a full or relative path to a local file containing the value of metadata_file.
+        network: Default Compute Engine network for launching instances to run your pipeline.
+        no-disable-public-ips: Cloud Dataflow workers must not use public IP addresses.
+        no-enable-streaming-engine: Enable Streaming Engine for the streaming job by default.
+        no-print-only: Prints the container spec to stdout. Does not save in Google Cloud Storage.
+        num-workers: Initial number of workers to use by default.
+        print-only: Prints the container spec to stdout. Does not save in Google Cloud Storage. Overrides the default *dataflow/print_only* property value for this command invocation.
+        py-path: 'Local path to your dataflow pipeline python files and all their dependent files required for the flex template classpath. You can pass them as a comma separated list or repeat individually with --py-path flag. Ex: --py-path="path/pipleline/,path/dependency/" or --py-path path/pipleline/, --py-path path/dependency/.'
+        sdk-language: 'SDK language of the flex template job. _SDK_LANGUAGE_ must be one of: *JAVA*, *PYTHON*, *GO*, *YAML*.'
+        service-account-email: Default service account to run the workers as.
+        staging-location: Default Google Cloud Storage location to stage local files.(Must be a URL beginning with 'gs://'.)
+        subnetwork: Default Compute Engine subnetwork for launching instances to run your pipeline.
+        temp-location: Default Google Cloud Storage location to stage temporary files. If not set, defaults to the value for --staging-location.(Must be a URL beginning with 'gs://'.)
+        worker-machine-type: Default type of machine to use for workers. Defaults to server-specified.
+        worker-region: Default region to run the workers in.
+        worker-zone: Default zone to run the workers in.
+        yaml-image: Path to the any image registry location of the prebuilt yaml template image.
+        yaml-pipeline-path: Local path to your YAML pipeline file. Use a full or relative path to a local file containing the value of yaml_pipeline_path.

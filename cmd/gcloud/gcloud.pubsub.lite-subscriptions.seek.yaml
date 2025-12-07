@@ -1,0 +1,52 @@
+name: seek
+description: Seek a Pub/Sub Lite subscription.
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --event-time=: The event time to which you seek a subscription.
+    --location=: ID of the location of the Pub/Sub Lite resource.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --publish-time=: The publish time to which you seek a subscription.
+    --starting-offset=: The offset at which a newly created or seeked subscription starts receiving messages.
+completion:
+    flag:
+        starting-offset:
+            - beginning
+            - end
+documentation:
+    command: |
+        Initiate an out-of-band seek operation for a Pub/Sub Lite subscription to a specified target,
+        which may be timestamps or named locations within the message backlog.
+
+        The seek operation will complete once subscriber clients react to the seek for all partitions of
+        the topic. Note that the seek operation will not complete until subscribers are online. It may
+        take some time (usually within 30 seconds) for the seek to propagate if subscribers are online.
+        Use the --async flag if it's not necessary to wait for completion.
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        event-time: |-
+            The event time to which you seek a subscription. The subscription seeks to the first message
+            with event time greater than or equal to the specified event time. Messages missing an event
+            time use publish time as a fallback. As event times are user supplied, subsequent messages may
+            have event times less than the specified event time and must be filtered by the client, if
+            necessary.
+            Run $ gcloud topic datetimes for information on time formats.
+        location: |-
+            ID of the location of the Pub/Sub Lite resource.
+            +
+
+            To set the `location` attribute:
+            * provide the argument `subscription` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        publish-time: |-
+            The publish time to which you seek a subscription. Messages with publish time greater than or
+            equal to the specified time are delivered after the seek operation.
+            Run $ gcloud topic datetimes for information on time formats.
+        starting-offset: |-
+            The offset at which a newly created or seeked subscription starts receiving messages. A
+            subscription can be initialized at the offset of the oldest retained message (`beginning`), or
+            at the current HEAD offset (`end`). _STARTING_OFFSET_ must be one of: *beginning*, *end*.

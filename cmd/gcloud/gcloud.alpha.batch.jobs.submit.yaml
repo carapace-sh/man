@@ -1,0 +1,116 @@
+name: submit
+description: '*(ALPHA)*  Submit a Batch job.'
+flags:
+    --config=: The file path of the job config file in either JSON or YAML format.
+    --container-commands-file=: Overrides the `CMD` specified in the container.
+    --container-entrypoint=: Overrides the `ENTRYPOINT` specified in the container.
+    --container-image-uri=: The URI to pull the container image from.
+    --job-prefix=: Specify the job prefix.
+    --location=: Google Cloud location for the job.
+    --machine-type=: Specify the Compute Engine machine type, for
+    --network=!: The URL for the network resource.
+    --no-external-ip-address: Required if no external public IP address
+    --priority=: Job priority [0-99] 0 is the lowest priority.
+    --provisioning-model=: Specify the allowed provisioning model for the compute instances.
+    --script-file-path=: Path to script file to run as first runnable in task spec.
+    --script-text=: Text to run as first runnable in task spec.
+    --subnetwork=!: The URL for the subnetwork resource.
+completion:
+    flag:
+        provisioning-model:
+            - SPOT
+            - STANDARD
+documentation:
+    command: |-
+        *(ALPHA)*  This command creates and submits a Batch job. After you create and
+        submit the job, Batch automatically queues, schedules, and executes it.
+
+        ## EXAMPLES
+
+        To submit a job with a sample JSON configuration file (config.json) and name
+        `projects/foo/locations/us-central1/jobs/bar`, run:
+
+          $ gcloud alpha batch jobs submit projects/foo/locations/us-central1/jobs/bar --config=config.json
+
+        To submit a job with a sample YAML configuration file (config.yaml) and
+        name projects/foo/locations/us-central1/jobs/bar, run:
+
+          $ gcloud alpha batch jobs submit projects/foo/locations/us-central1/jobs/bar --config=config.yaml
+
+        To submit a job through stdin with a sample job configuration and name
+        `projects/foo/locations/us-central1/jobs/bar`, run:
+
+          $ gcloud alpha batch jobs submit projects/foo/locations/us-central1/jobs/bar --config=-
+
+            then input json job config via stdin
+            {
+              job config
+            }
+
+        To submit a job through HereDoc with a sample job configuration and name
+        `projects/foo/locations/us-central1/jobs/bar`, run:
+
+          $ gcloud alpha batch jobs submit projects/foo/locations/us-central1/jobs/bar --config=- << EOF
+
+            {
+              job config
+            }
+            EOF
+
+        For details about how to define a job's configuration using JSON, see the
+        projects.locations.jobs resource in the Batch API Reference.
+        If you want to define a job's configuration using YAML, convert the JSON
+        syntax to YAML.
+    flag:
+        config: |-
+            The file path of the job config file in either JSON or YAML format.
+                    It also supports direct input from stdin with '-' or HereDoc
+                    (in shells with HereDoc support like Bash) with '- <<DELIMITER'.
+            +
+            Use a full or relative path to a local file containing the value of config.
+        container-commands-file: |-
+            Overrides the `CMD` specified in the container. If there is an
+                  ENTRYPOINT (either in the container image or with the entrypoint field
+                  below) then commands are appended as arguments to the ENTRYPOINT.
+        container-entrypoint: Overrides the `ENTRYPOINT` specified in the container.
+        container-image-uri: The URI to pull the container image from.
+        job-prefix: |-
+            Specify the job prefix. A job ID in the format of
+                  job prefix + %Y%m%d-%H%M%S will be generated. Note that job prefix
+                  cannot be specified while JOB ID positional argument is
+                  specified.
+        location: |-
+            Google Cloud location for the job.
+            +
+            To set the `location` attribute:
+            * provide the argument `JOB` on the command line with a fully specified name;
+            * job ID is optional and will be generated if not specified with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `batch/location`.
+        machine-type: |-
+            Specify the Compute Engine machine type, for
+                  example, e2-standard-4. Currently only one machine type is supported.
+        network: |-
+            The URL for the network resource.
+                    Must specify subnetwork as well if network is specified
+        no-external-ip-address: |-
+            Required if no external public IP address
+                    is attached to the VM. If no external public IP address,
+                    additional configuration is required to allow the VM
+                    to access Google Services.
+        priority: Job priority [0-99] 0 is the lowest priority.
+        provisioning-model: |-
+            Specify the allowed provisioning model for the compute instances. _PROVISIONING_MODEL_ must be one of:
+            +
+            *SPOT*::: The SPOT VM provisioning model. Ideal for fault-tolerant
+                        workloads that can withstand preemption.
+            *STANDARD*::: The STANDARD VM provisioning model
+            :::
+            +
+        script-file-path: |-
+            Path to script file to run as first runnable in task spec.
+                    File path should be a valid path on the instance volume.
+        script-text: Text to run as first runnable in task spec.
+        subnetwork: |-
+            The URL for the subnetwork resource.
+                    Must specify network as well if subnetwork is specified

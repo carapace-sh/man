@@ -1,0 +1,494 @@
+name: update
+description: '*(BETA)*  *(DEPRECATED)*  Updates a Datastream stream.'
+flags:
+    --backfill-all: Automatically backfill objects included in the stream source
+    --backfill-none: Do not automatically backfill any objects.
+    --bigquery-destination-config=: Path to a YAML (or JSON) file containing the configuration for Google BigQuery Destination Config.
+    --clear-labels: Remove all labels.
+    --destination-name=!: ID of the connection_profile or fully qualified identifier for the connection_profile.
+    --display-name=: Friendly name for the stream.
+    --force: Update the stream without validating it.
+    --gcs-destination-config=: Path to a YAML (or JSON) file containing the configuration for Google Cloud Storage Destination Config.
+    --location=: The Cloud location for the stream.
+    --mongodb-excluded-objects=: Path to a YAML (or JSON) file containing the MongoDB data sources to avoid backfilling.
+    --mongodb-source-config=: Path to a YAML (or JSON) file containing the configuration for MongoDB Source Config.
+    --mysql-excluded-objects=: Path to a YAML (or JSON) file containing the MySQL data sources to avoid backfilling.
+    --mysql-source-config=: Path to a YAML (or JSON) file containing the configuration for MySQL Source Config.
+    --no-backfill-all&: Automatically backfill objects included in the stream source
+    --no-backfill-none&: Do not automatically backfill any objects.
+    --no-clear-labels&: Remove all labels.
+    --no-force&: Update the stream without validating it.
+    --no-validate-only&: Only validate the stream, but do not update any resources.
+    --oracle-excluded-objects=: Path to a YAML (or JSON) file containing the Oracle data sources to avoid backfilling.
+    --oracle-source-config=: Path to a YAML (or JSON) file containing the configuration for Oracle Source Config.
+    --postgresql-excluded-objects=: Path to a YAML (or JSON) file containing the PostgreSQL data sources to avoid backfilling.
+    --postgresql-source-config=: Path to a YAML (or JSON) file containing the configuration for PostgreSQL Source Config.
+    --remove-labels=: List of label keys to remove.
+    --salesforce-excluded-objects=: Path to a YAML (or JSON) file containing the Salesforce data sources to avoid backfilling.
+    --salesforce-source-config=: Path to a YAML (or JSON) file containing the configuration for Salesforce Source Config.
+    --source-name=!: ID of the connection_profile or fully qualified identifier for the connection_profile.
+    --sqlserver-excluded-objects=: Path to a YAML (or JSON) file containing the SQL Server data sources to avoid backfilling.
+    --sqlserver-source-config=: Path to a YAML (or JSON) file containing the configuration for SQL Server Source Config.
+    --state=: 'Stream state, can be set to: "RUNNING" or "PAUSED".'
+    --update-labels=: List of label KEY=VALUE pairs to update.
+    --update-mask=: Used to specify the fields to be overwritten in the stream resource by the update.
+    --validate-only: Only validate the stream, but do not update any resources.
+documentation:
+    command: |4
+        *(BETA)*  *(DEPRECATED)*  Datastream beta version is deprecated. Please use`gcloud datastream streams update` command instead.
+
+        Update a Datastream stream. If successful, the response body contains a newly created instance of Operation.
+        To get the operation result, call: describe OPERATION
+    flag:
+        backfill-all: |-
+            Automatically backfill objects included in the stream source
+                  configuration. Specific objects can be excluded. This flag is equivalent
+                  to selecting the Automatic backfill type in the Google Cloud console.
+        backfill-none: |-
+            Do not automatically backfill any objects. This flag is equivalent
+                  to selecting the Manual backfill type in the Google Cloud console.
+        bigquery-destination-config: |-
+            Path to a YAML (or JSON) file containing the configuration for Google BigQuery Destination Config.
+            +
+            The YAML (or JSON) file should be formatted as follows:
+            +
+            BigQuery configuration with source hierarchy datasets and merge mode (merge mode is by default):
+            +
+            ```
+            {
+              "sourceHierarchyDatasets": {
+                "datasetTemplate": {
+                  "location": "us-central1",
+                  "datasetIdPrefix": "my_prefix",
+                  "kmsKeyName": "projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{cryptoKey}"
+                }
+              },
+              "merge": {}
+              "dataFreshness": "3600s"
+            }
+            ```
+            +
+            BigQuery configuration with source hierarchy datasets and append only mode:
+            ```
+            {
+              "sourceHierarchyDatasets": {
+                "datasetTemplate": {
+                  "location": "us-central1",
+                  "datasetIdPrefix": "my_prefix",
+                  "kmsKeyName": "projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{cryptoKey}"
+                }
+              },
+              "appendOnly": {}
+            }
+            ```
+            +
+            BigQuery configuration with single target dataset and merge mode:
+            +
+            ```
+            {
+              "singleTargetDataset": {
+                "datasetId": "projectId:my_dataset"
+              },
+              "merge": {}
+              "dataFreshness": "3600s"
+            }
+            ```
+            +
+            BigQuery configuration with Big Lake table configuration:
+            ```
+            {
+              "singleTargetDataset": {
+                "datasetId": "projectId:datasetId"
+              },
+              "appendOnly": {},
+              "blmtConfig": {
+                "bucket": "bucketName",
+                "tableFormat": "ICEBERG",
+                "fileFormat": "PARQUET",
+                "connectionName": "projectId.region.connectionName",
+                "rootPath": "/root"
+              }
+            }
+            ```
+        clear-labels: |-
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} --clear-labels
+            +
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        destination-name: |-
+            ID of the connection_profile or fully qualified identifier for the connection_profile.
+            +
+            To set the `connection_profile` attribute:
+            * provide the argument `--destination-name` on the command line.
+        display-name: Friendly name for the stream.
+        force: Update the stream without validating it.
+        gcs-destination-config: |-
+            Path to a YAML (or JSON) file containing the configuration for Google Cloud Storage Destination Config.
+            +
+            The JSON file is formatted as follows:
+            +
+            ```
+             {
+             "path": "some/path",
+             "fileRotationMb":5,
+             "fileRotationInterval":"15s",
+             "avroFileFormat": {}
+             }
+            ```
+        location: |-
+            The Cloud location for the stream.
+            +
+            To set the `location` attribute:
+            * provide the argument `stream` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line.
+        mongodb-excluded-objects: |-
+            Path to a YAML (or JSON) file containing the MongoDB data sources to avoid backfilling.
+            +
+            The JSON file is formatted as follows, with camelCase field naming:
+            +
+            ```
+              {
+                "databases": [
+                  {
+                    "database":"sample_database",
+                    "collections": [
+                      {
+                        "collection": "sample_collection",
+                        "fields": [
+                          {
+                            "field": "sample_field",
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ```
+        mongodb-source-config: |-
+            Path to a YAML (or JSON) file containing the configuration for MongoDB Source Config.
+            +
+            The JSON file is formatted as follows, with snake_case field naming:
+            +
+            ```
+              {
+                "includeObjects": {},
+                "excludeObjects": {
+                  "databases": [
+                    {
+                      "database": "sampleDb",
+                      "collections": [
+                        {
+                          "collection": "sampleCollection",
+                          "fields": [
+                            {
+                              "field": "SAMPLE_FIELD",
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ```
+        mysql-excluded-objects: |-
+            Path to a YAML (or JSON) file containing the MySQL data sources to avoid backfilling.
+            +
+            The JSON file is formatted as follows, with camelCase field naming:
+            +
+            ```
+              {
+                "mysqlDatabases": [
+                  {
+                    "database":"sample_database",
+                    "mysqlTables": [
+                      {
+                        "table": "sample_table",
+                        "mysqlColumns": [
+                          {
+                            "column": "sample_column",
+                          }
+                          ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ```
+        mysql-source-config: |-
+            Path to a YAML (or JSON) file containing the configuration for MySQL Source Config.
+            +
+            The JSON file is formatted as follows, with snake_case field naming:
+            +
+            ```
+              {
+                "allowlist": {},
+                "rejectlist":  {
+                  "mysql_databases": [
+                      {
+                        "database_name":"sample_database",
+                        "mysql_tables": [
+                          {
+                            "table_name": "sample_table",
+                            "mysql_columns": [
+                              {
+                                "column_name": "sample_column",
+                              }
+                             ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+              }
+            ```
+        no-backfill-all: |-
+            Automatically backfill objects included in the stream source
+                  configuration. Specific objects can be excluded. This flag is equivalent
+                  to selecting the Automatic backfill type in the Google Cloud console.
+        no-backfill-none: |-
+            Do not automatically backfill any objects. This flag is equivalent
+                  to selecting the Manual backfill type in the Google Cloud console.
+        no-clear-labels: |
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} --clear-labels
+
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        no-force: Update the stream without validating it.
+        no-validate-only: |-
+            Only validate the stream, but do not update any resources.
+                  The default is false.
+        oracle-excluded-objects: |-
+            Path to a YAML (or JSON) file containing the Oracle data sources to avoid backfilling.
+            +
+            The JSON file is formatted as follows, with camelCase field naming:
+            +
+            ```
+              {
+                "oracleSchemas": [
+                  {
+                    "schema": "SAMPLE",
+                    "oracleTables": [
+                      {
+                        "table": "SAMPLE_TABLE",
+                        "oracleColumns": [
+                          {
+                            "column": "COL",
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ```
+        oracle-source-config: |-
+            Path to a YAML (or JSON) file containing the configuration for Oracle Source Config.
+            +
+            The JSON file is formatted as follows, with snake_case field naming:
+            +
+            ```
+              {
+                "allowlist": {},
+                "rejectlist": {
+                  "oracle_schemas": [
+                    {
+                      "schema_name": "SAMPLE",
+                      "oracle_tables": [
+                        {
+                          "table_name": "SAMPLE_TABLE",
+                          "oracle_columns": [
+                            {
+                              "column_name": "COL",
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ```
+        postgresql-excluded-objects: |-
+            Path to a YAML (or JSON) file containing the PostgreSQL data sources to avoid backfilling.
+            +
+            The JSON file is formatted as follows, with camelCase field naming:
+            +
+            ```
+              {
+                "postgresqlSchemas": [
+                  {
+                    "schema": "SAMPLE",
+                    "postgresqlTables": [
+                      {
+                        "table": "SAMPLE_TABLE",
+                        "postgresqlColumns": [
+                          {
+                            "column": "COL",
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ```
+        postgresql-source-config: |-
+            Path to a YAML (or JSON) file containing the configuration for PostgreSQL Source Config.
+            +
+            The JSON file is formatted as follows, with camelCase field naming:
+            +
+            ```
+              {
+                "includeObjects": {},
+                "excludeObjects": {
+                  "postgresqlSchemas": [
+                    {
+                      "schema": "SAMPLE",
+                      "postgresqlTables": [
+                        {
+                          "table": "SAMPLE_TABLE",
+                          "postgresqlColumns": [
+                            {
+                              "column": "COL",
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "replicationSlot": "SAMPLE_REPLICATION_SLOT",
+                "publication": "SAMPLE_PUBLICATION"
+              }
+            ```
+        remove-labels: |-
+            List of label keys to remove. If a label does not exist it is
+            silently ignored. If `--update-labels` is also specified then
+            `--update-labels` is applied first.
+        salesforce-excluded-objects: |-
+            Path to a YAML (or JSON) file containing the Salesforce data sources to avoid backfilling.
+            +
+            The JSON file is formatted as follows, with camelCase field naming:
+            +
+            ```
+              {
+                "objects": [
+                  {
+                    "objectName": "SAMPLE",
+                  },
+                  {
+                    "objectName": "SAMPLE2",
+                  }
+                ]
+              }
+            ```
+        salesforce-source-config: |-
+            Path to a YAML (or JSON) file containing the configuration for Salesforce Source Config.
+            +
+            The JSON file is formatted as follows, with camelCase field naming:
+            +
+            ```
+              {
+                "pollingInterval": "3000s",
+                "includeObjects": {},
+                "excludeObjects": {
+                  "objects": [
+                    {
+                      "objectName": "SAMPLE",
+                      "fields": [
+                        {
+                          "fieldName": "SAMPLE_FIELD",
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ```
+        source-name: |-
+            ID of the connection_profile or fully qualified identifier for the connection_profile.
+            +
+            To set the `connection_profile` attribute:
+            * provide the argument `--source-name` on the command line.
+        sqlserver-excluded-objects: |-
+            Path to a YAML (or JSON) file containing the SQL Server data sources to avoid backfilling.
+            +
+            The JSON file is formatted as follows, with camelCase field naming:
+            +
+            ```
+              {
+                "schemas": [
+                  {
+                    "schema": "SAMPLE",
+                    "tables": [
+                      {
+                        "table": "SAMPLE_TABLE",
+                        "columns": [
+                          {
+                            "column": "COL",
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ```
+        sqlserver-source-config: |-
+            Path to a YAML (or JSON) file containing the configuration for SQL Server Source Config.
+            +
+            The JSON file is formatted as follows, with camelCase field naming:
+            +
+            ```
+              {
+                "includeObjects": {},
+                "excludeObjects": {
+                  "schemas": [
+                    {
+                      "schema": "SAMPLE",
+                      "tables": [
+                        {
+                          "table": "SAMPLE_TABLE",
+                          "columns": [
+                            {
+                              "column": "COL",
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "maxConcurrentCdcTasks": 2,
+                "maxConcurrentBackfillTasks": 10,
+                "transactionLogs": {}  # Or changeTables
+              }
+            ```
+        state: 'Stream state, can be set to: "RUNNING" or "PAUSED".'
+        update-labels: |-
+            List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+        update-mask: |-
+            Used to specify the fields to be overwritten in the stream resource by the update.
+              If the update mask is used, then a field will be overwritten only if it is in the mask. If the user does not provide a mask then all fields will be overwritten.
+              This is a comma-separated list of fully qualified names of fields, written as snake_case or camelCase. Example: "display_name, source_config.oracle_source_config".
+        validate-only: |-
+            Only validate the stream, but do not update any resources.
+                  The default is false.

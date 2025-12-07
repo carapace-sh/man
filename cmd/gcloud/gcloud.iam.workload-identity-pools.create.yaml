@@ -1,0 +1,119 @@
+name: create
+description: Create a new workload identity pool.
+flags:
+    --description=: A description of the pool.
+    --disabled: Whether the pool is disabled.
+    --display-name=: A display name for the pool.
+    --enable-mesh-ca-compatibility&: Whether to enable mesh CA compatibility for the trust domain.
+    --inline-certificate-issuance-config-file=: YAML file with configuration for certificate issuance.
+    --inline-trust-config-file=: YAML file with configuration for providing additional trust bundles.
+    --location=: The location name.
+    --mode=: The mode of the pool.
+    --no-disabled&: Whether the pool is disabled.
+    --no-enable-mesh-ca-compatibility&: Whether to enable mesh CA compatibility for the trust domain.
+    --no-use-default-shared-ca&: Whether to use the default shared CA to issue certificates.
+    --session-duration=&: Overrides the lifespan of access tokens issued issued for identities in this pool.
+    --use-default-shared-ca&: Whether to use the default shared CA to issue certificates.
+completion:
+    flag:
+        mode:
+            - federation-only
+            - mode-unspecified
+            - trust-domain
+documentation:
+    command: Create a new workload identity pool.
+    flag:
+        description: A description of the pool. Cannot exceed 256 characters.
+        disabled: |-
+            Whether the pool is disabled. You cannot use a disabled pool to exchange tokens, or use
+            existing tokens to access resources. If the pool is re-enabled, existing tokens grant access
+            again.
+        display-name: A display name for the pool. Cannot exceed 32 characters.
+        enable-mesh-ca-compatibility: |-
+            Whether to enable mesh CA compatibility for the trust domain.
+            If set to true, the generated trust bundle for the workloads in this trust domain will
+            include the Cloud Service Mesh certificate authority's root CA certificates. The certificate
+            chain for the workload in this trust domain will be signed by the Cloud Service Mesh
+            certificate authority root CA.
+        inline-certificate-issuance-config-file: |-
+            YAML file with configuration for certificate issuance.
+            Example file format:
+            ```yaml
+            inlineCertificateIssuanceConfig:
+              caPools:
+                us-east1: projects/1234/locations/us-east1/caPools/capoolname
+                us-west1: projects/1234/locations/us-west1/caPools/capoolname
+              keyAlgorithm: ECDSA_P256
+              lifetime: 86400s
+              rotationWindowPercentage: 50
+            ```
+        inline-trust-config-file: |-
+            YAML file with configuration for providing additional trust bundles.
+            Example file format:
+            ```yaml
+            inlineTrustConfig:
+              additionalTrustBundles:
+                example.com:
+                  trustAnchors:
+                  - pemCertificate: "-----BEGIN CERTIFICATE-----
+                    <certificate>
+                    -----END CERTIFICATE-----"
+                  - pemCertificate: "-----BEGIN CERTIFICATE-----
+                    <certificate>
+                    -----END CERTIFICATE-----"
+                myorg.com:
+                  trustAnchors:
+                  - pemCertificate: "-----BEGIN CERTIFICATE-----
+                    <certificate>
+                    -----END CERTIFICATE-----"
+                  - pemCertificate: "-----BEGIN CERTIFICATE-----
+                    <certificate>
+                    -----END CERTIFICATE-----"
+            ```
+        location: |-
+            The location name.
+            +
+            To set the `location` attribute:
+            * provide the argument `workload_identity_pool` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line.
+        mode: 'The mode of the pool. _MODE_ must be one of: *federation-only*, *mode-unspecified*, *trust-domain*.'
+        no-disabled: |-
+            Whether the pool is disabled. You cannot use a disabled pool to exchange tokens, or use
+            existing tokens to access resources. If the pool is re-enabled, existing tokens grant access
+            again.
+        no-enable-mesh-ca-compatibility: |-
+            Whether to enable mesh CA compatibility for the trust domain.
+            If set to true, the generated trust bundle for the workloads in this trust domain will
+            include the Cloud Service Mesh certificate authority's root CA certificates. The certificate
+            chain for the workload in this trust domain will be signed by the Cloud Service Mesh
+            certificate authority root CA.
+        no-use-default-shared-ca: |-
+            Whether to use the default shared CA to issue certificates.
+            If this flag is enabled, certificates will be automatically provisioned from the default
+            shared CAs. A default CA in the same region as the workload will be selected to issue the
+            certificate. Enabling this flag will clear any existing `ca_pools` configuration to provision
+            the certificates.
+        session-duration: |-
+            Overrides the lifespan of access tokens issued issued for identities in this pool. If not set,
+            the lifespan of issued access tokens is computed based on the type of identity provider:
+
+            - For AWS, the default access token lifespan is equal to 15
+              minutes.
+            - For OIDC providers, including Microsoft Azure, the default access token lifespan is equal to
+              the remaining lifespan of the exchanged OIDC ID token, with a maximum lifespan
+              of 1 hour.
+            - For SAML providers, the lifetime of the token is the minimum of session_duration
+              and the SessionNotOnOrAfter claim in the SAML assertion. If
+              session_duration is not set and the SAML assertion does not contain a
+              SessionNotOnOrAfter claim, it defaults to 1 hour.
+
+              If set, session duration must be between 2 minutes and 12 hours.
+              Organization administrators can further reduce the maximum
+              session_duration value using the iam-workloadIdentitySessionDuration
+              Resource Setting.
+        use-default-shared-ca: |-
+            Whether to use the default shared CA to issue certificates.
+            If this flag is enabled, certificates will be automatically provisioned from the default
+            shared CAs. A default CA in the same region as the workload will be selected to issue the
+            certificate. Enabling this flag will clear any existing `ca_pools` configuration to provision
+            the certificates.

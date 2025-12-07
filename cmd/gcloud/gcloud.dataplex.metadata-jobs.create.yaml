@@ -1,0 +1,117 @@
+name: create
+description: Create a Dataplex Metadata Job.
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --export-aspect-types=: The list of aspect types to export metadata from.
+    --export-entry-groups=: The list of entry groups to export metadata from.
+    --export-entry-types=: The list of entry types to export metadata from.
+    --export-organization-level=: Whether to export metadata at the organization level.
+    --export-output-path=!: The Cloud Storage location to export metadata to.
+    --export-projects=: The list of projects to export metadata from.
+    --import-aspect-sync-mode=!: Type.
+    --import-aspect-types=: The list of aspect types to import metadata jobs into.
+    --import-entry-groups=: The list of entry groups to import metadata jobs into.
+    --import-entry-link-types=: The list of entry link types to import metadata jobs into.
+    --import-entry-sync-mode=!: Type.
+    --import-entry-types=: The list of entry types to import metadata jobs into.
+    --import-glossaries=: The list of glossaries to import metadata jobs into.
+    --import-log-level=: Type.
+    --import-referenced-entry-scopes=: The list of referenced entry scopes to import metadata jobs into.
+    --import-source-create-time=: Time at which the event took place.
+    --import-source-storage-uri=!: The Dataplex source storage URI to import metadata from.
+    --labels=: List of label KEY=VALUE pairs to add.
+    --location=: The location of the Dataplex resource.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-validate-only&: Validate the create action, but don't actually perform it.
+    --type=!: Type.
+    --validate-only: Validate the create action, but don't actually perform it.
+completion:
+    flag:
+        import-aspect-sync-mode:
+            - FULL
+            - INCREMENTAL
+        import-entry-sync-mode:
+            - FULL
+            - INCREMENTAL
+        import-log-level:
+            - DEBUG
+            - INFO
+        type:
+            - EXPORT
+            - IMPORT
+documentation:
+    command: |-
+        A metadata job represents a long running job on Dataplex Catalog metadata
+        entries. Some operations include importing and exporting metadata into entry
+        groups through the usage of entry types and aspect types.
+
+        The Metadata Job ID will be used to identify each configuration run.
+        The Metadata Job id must follow these rules:
+         * Must contain only lowercase letters, numbers, and hyphens.
+         * Must start with a letter.
+         * Must end with a number or a letter.
+         * Must be between 1-63 characters.
+         * Must be unique within the customer project / location.
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        export-aspect-types: The list of aspect types to export metadata from.
+        export-entry-groups: The list of entry groups to export metadata from.
+        export-entry-types: The list of entry types to export metadata from.
+        export-organization-level: Whether to export metadata at the organization level.
+        export-output-path: The Cloud Storage location to export metadata to.
+        export-projects: The list of projects to export metadata from.
+        import-aspect-sync-mode: "Type. _IMPORT_ASPECT_SYNC_MODE_ must be one of:\n+\n*FULL*::: All resources in the job's scope are modified. If a\n                       resource exists in Dataplex but isn't included in the\n                       metadata import file, the resource is deleted when you\n                       run the metadata job. Use this mode to perform a full\n                       sync of the set of entries in the job scope.\n*INCREMENTAL*::: Only the entries and aspects that are explicitly\n                           included in the metadata import file are modified.\n                           Use this mode to modify a subset of resources while\n                           leaving unreferenced resources unchanged. \n:::\n+"
+        import-aspect-types: The list of aspect types to import metadata jobs into.
+        import-entry-groups: The list of entry groups to import metadata jobs into.
+        import-entry-link-types: The list of entry link types to import metadata jobs into.
+        import-entry-sync-mode: "Type. _IMPORT_ENTRY_SYNC_MODE_ must be one of:\n+\n*FULL*::: All resources in the job's scope are modified. If a\n                       resource exists in Dataplex but isn't included in the\n                       metadata import file, the resource is deleted when you\n                       run the metadata job. Use this mode to perform a full\n                       sync of the set of entries in the job scope.\n*INCREMENTAL*::: Only the entries and aspects that are explicitly\n                           included in the metadata import file are modified.\n                           Use this mode to modify a subset of resources while\n                           leaving unreferenced resources unchanged. \n:::\n+"
+        import-entry-types: The list of entry types to import metadata jobs into.
+        import-glossaries: The list of glossaries to import metadata jobs into.
+        import-log-level: |-
+            Type. _IMPORT_LOG_LEVEL_ must be one of:
+            +
+            *DEBUG*::: Debug-level logging. Captures detailed logs for each import
+                            item. Use debug-level logging to troubleshoot issues with
+                            specific import items. For example, use debug-level logging to
+                            identify resources that are missing from the job scope, entries
+                            or aspects that don't conform to the associated entry type or
+                            aspect type, or other misconfigurations with the metadata import file..
+            *INFO*::: Info-level logging. Captures logs at the overall job
+                               level. Includes aggregate logs about import items, but
+                               doesn't specify which import item has an error..
+            :::
+            +
+        import-referenced-entry-scopes: The list of referenced entry scopes to import metadata jobs into.
+        import-source-create-time: |-
+            Time at which the event took place. See `$ gcloud topic datetimes`
+                    for information on supported time formats.
+        import-source-storage-uri: The Dataplex source storage URI to import metadata from.
+        labels: |-
+            List of label KEY=VALUE pairs to add.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+        location: |-
+            The location of the Dataplex resource.
+            +
+            To set the `location` attribute:
+            * provide the argument `metadata_job` on the command line with a fully specified name;
+            * job ID is optional and will be generated if not specified with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `dataplex/location`.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-validate-only: Validate the create action, but don't actually perform it.
+        type: |-
+            Type. _TYPE_ must be one of:
+            +
+            *EXPORT*::: A Metadata Export Job will export entries and aspects from
+                               the declared Dataplex scope to the specified Cloud
+                               Storage location.
+            *IMPORT*::: A Metadata Import Job will ingest, update, or delete entries
+                               and aspects into the declared Dataplex entry group.
+            :::
+            +
+        validate-only: Validate the create action, but don't actually perform it.

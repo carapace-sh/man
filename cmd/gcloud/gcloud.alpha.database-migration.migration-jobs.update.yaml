@@ -1,0 +1,98 @@
+name: update
+description: '*(ALPHA)*  Update a Database Migration Service migration job.'
+flags:
+    --clear-labels: Remove all labels.
+    --destination=!: ID of the connection_profile or fully qualified identifier for the connection_profile.
+    --display-name=: A user-friendly name for the migration job.
+    --dump-flags=: A list of dump flags.
+    --dump-path=: 'Path to the dump file in Google Cloud Storage, in the format:'
+    --no-async: Waits for the operation in progress to complete before returning.
+    --no-clear-labels&: Remove all labels.
+    --no-static-ip&: Use the default IP allowlist method.
+    --peer-vpc=: Name of the VPC network to peer with the Cloud SQL private network.
+    --region=: The Cloud region for the migration_job.
+    --remove-labels=: List of label keys to remove.
+    --source=!: ID of the connection_profile or fully qualified identifier for the connection_profile.
+    --static-ip: Use the default IP allowlist method.
+    --type=: Type of the migration job.
+    --update-labels=: List of label KEY=VALUE pairs to update.
+    --vm-ip=: Bastion Virtual Machine IP.
+    --vm-port=: Forwarding port for the SSH tunnel.
+    --vm=: Name of VM that will host the SSH tunnel bastion.
+    --vpc=: Name of the VPC network where the VM is hosted.
+completion:
+    flag:
+        type:
+            - ONE_TIME
+            - CONTINUOUS
+documentation:
+    command: |
+        *(ALPHA)*  Update a Database Migration Service migration job.
+        - Draft migration job: user can update all available flags.
+        - Any other state can only update flags: `--display-name`,
+        `--dump-path`, and connectivity method flags.
+    flag:
+        clear-labels: |-
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} --clear-labels
+            +
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        destination: |-
+            ID of the connection_profile or fully qualified identifier for the connection_profile.
+            +
+            To set the `connection_profile` attribute:
+            * provide the argument `--destination` on the command line.
+        display-name: |-
+            A user-friendly name for the migration job. The display name can include
+            letters, numbers, spaces, and hyphens, and must start with a letter.
+        dump-flags: 'A list of dump flags. An object containing a list of "key": "value" pairs.'
+        dump-path: |-
+            Path to the dump file in Google Cloud Storage, in the format:
+            `gs://[BUCKET_NAME]/[OBJECT_NAME]`.
+        no-async: Waits for the operation in progress to complete before returning.
+        no-clear-labels: |
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} --clear-labels
+
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        no-static-ip: Use the default IP allowlist method. This method creates a public IP that will be used with the destination Cloud SQL database. The method works by configuring the source database server to accept connections from the outgoing IP of the Cloud SQL instance.
+        peer-vpc: Name of the VPC network to peer with the Cloud SQL private network.
+        region: |-
+            The Cloud region for the migration_job.
+            +
+            To set the `region` attribute:
+            * provide the argument `migration_job` on the command line with a fully specified name;
+            * provide the argument `--region` on the command line.
+        remove-labels: |-
+            List of label keys to remove. If a label does not exist it is
+            silently ignored. If `--update-labels` is also specified then
+            `--update-labels` is applied first.
+        source: |-
+            ID of the connection_profile or fully qualified identifier for the connection_profile.
+            +
+            To set the `connection_profile` attribute:
+            * provide the argument `--source` on the command line.
+        static-ip: Use the default IP allowlist method. This method creates a public IP that will be used with the destination Cloud SQL database. The method works by configuring the source database server to accept connections from the outgoing IP of the Cloud SQL instance.
+        type: 'Type of the migration job. _TYPE_ must be one of: *ONE_TIME*, *CONTINUOUS*.'
+        update-labels: |-
+            List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+        vm: Name of VM that will host the SSH tunnel bastion.
+        vm-ip: Bastion Virtual Machine IP.
+        vm-port: Forwarding port for the SSH tunnel.
+        vpc: Name of the VPC network where the VM is hosted.

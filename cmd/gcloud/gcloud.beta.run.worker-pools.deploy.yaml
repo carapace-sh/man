@@ -1,0 +1,246 @@
+name: deploy
+description: '*(BETA)*  Create or update a Cloud Run worker-pool.'
+flags:
+    --add-cloudsql-instances=: Append the given values to the current Cloud SQL instances.
+    --add-volume-mount=: Adds a mount to the current container.
+    --add-volume=: Adds a volume to the Cloud Run resource.
+    --args=: Comma-separated arguments passed to the command run by the container image.
+    --async: Return immediately, without waiting for the operation in progress to
+    --binary-authorization=: Binary Authorization policy to check against.
+    --breakglass=: Justification to bypass Binary Authorization policy constraints and allow the operation.
+    --clear-binary-authorization: Remove any previously set Binary Authorization policy.
+    --clear-cloudsql-instances: Empty the current Cloud SQL instances.
+    --clear-encryption-key-shutdown-hours: Remove any previously set CMEK key shutdown hours setting.
+    --clear-env-vars: Remove all environment variables.
+    --clear-key: Remove any previously set CMEK key reference.
+    --clear-labels: Remove all labels.
+    --clear-network: Disconnect this Cloud Run worker from the VPC network it is connected to.
+    --clear-network-tags: Clears all existing network tags from the Cloud Run worker.
+    --clear-post-key-revocation-action-type: Remove any previously set post CMEK key revocation action type.
+    --clear-secrets: Remove all secrets.
+    --clear-volume-mounts: Remove all existing mounts from the current container.
+    --clear-volumes: Remove all existing volumes from the Cloud Run resource, including volumes mounted as secrets
+    --client-name=&: Name of the client handling the deployment.
+    --client-version=&: Version of the client handling the deployment.
+    --command=: Entrypoint for the container image.
+    --container=: Specifies a container by name.
+    --cpu=: Set a CPU limit in Kubernetes cpu units.
+    --depends-on=: List of container dependencies to add to the current container.
+    --description=: Provides an optional, human-readable description of the service.
+    --encryption-key-shutdown-hours=: The number of hours to wait before an automatic shutdown server after CMEK key revocation is detected.
+    --env-vars-file=: Path to a local YAML or ENV file with definitions for all environment
+    --gpu-type=: The GPU type to use.
+    --gpu-zonal-redundancy: Set GPU zonal redundancy.
+    --gpu=: Cloud Run supports values 0 or 1.  1 gpu also requires a minimum 4 `--cpu` value and  a minimum 16Gi `--memory` value.
+    --image=: Name of the container image to deploy (e.g. `us-docker.pkg.dev/cloudrun/container/hello:latest`).
+    --key=: CMEK key reference to encrypt the container with.
+    --labels=: List of label KEY=VALUE pairs to add.
+    --memory=: Set a memory limit.
+    --network-tags=: Applies the given network tags (comma separated) to the Cloud Run worker.
+    --network=: The VPC network that the Cloud Run worker will be able to send traffic to.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-clear-binary-authorization&: Remove any previously set Binary Authorization policy.
+    --no-clear-cloudsql-instances&: Empty the current Cloud SQL instances.
+    --no-clear-encryption-key-shutdown-hours&: Remove any previously set CMEK key shutdown hours setting.
+    --no-clear-env-vars&: Remove all environment variables.
+    --no-clear-key&: Remove any previously set CMEK key reference.
+    --no-clear-labels&: Remove all labels.
+    --no-clear-network&: Disconnect this Cloud Run worker from the VPC network it is connected to.
+    --no-clear-network-tags&: 'Clears all existing network tags from the Cloud Run worker. '
+    --no-clear-post-key-revocation-action-type&: Remove any previously set post CMEK key revocation action type.
+    --no-clear-secrets&: Remove all secrets.
+    --no-clear-volume-mounts&: Remove all existing mounts from the current container.
+    --no-clear-volumes&: Remove all existing volumes from the Cloud Run resource, including volumes mounted as secrets
+    --no-gpu-zonal-redundancy&: Set GPU zonal redundancy.
+    --no-promote: True to avoid assign instances to the worker revision being deployed.
+    --post-key-revocation-action-type=: Action type after CMEK key revocation.
+    --region=: The Cloud region for the WorkerPool.
+    --remove-cloudsql-instances=: Remove the given values from the current Cloud SQL instances.
+    --remove-containers=: List of containers to remove.
+    --remove-env-vars=: List of environment variables to be removed.
+    --remove-labels=: List of label keys to remove.
+    --remove-secrets=: List of secrets to be removed.
+    --remove-volume-mount=: Removes the volume mounted at the specified path from the current container.
+    --remove-volume=: Removes volumes from the Cloud Run resource.
+    --revision-suffix=: Specify the suffix of the revision name.
+    --runtime=&: The runtime to use.
+    --scaling=: The scaling mode to use for this resource.
+    --service-account=: the email address of an IAM service account associated with the revision of the service.
+    --set-cloudsql-instances=: Completely replace the current Cloud SQL instances with the given values.
+    --set-env-vars=: List of key-value pairs to set as environment variables.
+    --set-secrets=: List of key-value pairs to set as secrets.
+    --source=: The location of the source to build.
+    --subnet=: The VPC subnetwork that the Cloud Run worker will get IPs from.
+    --update-annotations=&: List of annotation KEY=VALUE pairs to update.
+    --update-env-vars=: List of key-value pairs to set as environment variables.
+    --update-labels=: List of label KEY=VALUE pairs to update.
+    --update-secrets=: List of key-value pairs to set as secrets.
+    --vpc-egress=: Specify which of the outbound traffic to send through Direct VPC egress or the VPC connector for this resource.
+completion:
+    flag:
+        post-key-revocation-action-type:
+            - prevent-new
+            - shut-down
+        vpc-egress:
+            - all
+            - all-traffic
+            - private-ranges-only
+documentation:
+    command: |
+        *(BETA)*  Creates or updates a Cloud Run worker-pool.
+    flag:
+        add-cloudsql-instances: Append the given values to the current Cloud SQL instances.
+        add-volume: "Adds a volume to the Cloud Run resource. To add more than one volume, specify this flag multiple times. Volumes must have a `name` and `type` key. Only certain values are supported for `type`. Depending on the provided type, other keys will be required. The following types are supported with the specified additional keys:\n+\n*cloud-storage*: A volume representing a Cloud Storage bucket. This volume type is mounted using Cloud Storage FUSE. See https://cloud.google.com/storage/docs/gcs-fuse for the details and limitations of this filesystem.\n  Additional keys:  \n* bucket: (required) the name of the bucket to use as the source of this volume    \n* readonly: (optional) A boolean. If true, this volume will be read-only from all mounts.  \n* mount-options: (optional) A list of flags to pass to GCSFuse. Flags should be specified without leading dashes and separated by semicolons.      \n+\n*in-memory*: An ephemeral volume that stores data in the instance's memory. With this type of volume, data is not shared between instances and all data will be lost when the instance it is on is terminated.\n  Additional keys:  \n* size-limit: (optional) A quantity representing the maximum amount of memory allocated to this volume, such as \"512Mi\" or \"3G\". Data stored in an in-memory volume consumes the memory allocation of the container that wrote the data. If size-limit is not specified, the maximum size will be half the total memory limit of all containers.      \n+\n*nfs*: Represents a volume backed by an NFS server.\n  Additional keys:  \n* location: (required) The location of the NFS Server, in the form SERVER:/PATH    \n* readonly: (optional) A boolean. If true, this volume will be read-only from all mounts."
+        add-volume-mount: Adds a mount to the current container. Must contain the keys `volume=NAME` and `mount-path=/PATH` where NAME is the name of a volume on this resource and PATH is the path within the container's filesystem to mount this volume.
+        args: Comma-separated arguments passed to the command run by the container image. If not specified and no '--command' is provided, the container image's default Cmd is used. Otherwise, if not specified, no arguments are passed. To reset this field to its default, pass an empty string.
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        binary-authorization: Binary Authorization policy to check against. This must be set to "default".
+        breakglass: Justification to bypass Binary Authorization policy constraints and allow the operation. See https://cloud.google.com/binary-authorization/docs/using-breakglass for more information. Next update or deploy command will automatically clear existing breakglass justification.
+        clear-binary-authorization: Remove any previously set Binary Authorization policy.
+        clear-cloudsql-instances: Empty the current Cloud SQL instances.
+        clear-encryption-key-shutdown-hours: Remove any previously set CMEK key shutdown hours setting.
+        clear-env-vars: Remove all environment variables.
+        clear-key: Remove any previously set CMEK key reference.
+        clear-labels: |-
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} --clear-labels
+            +
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        clear-network: Disconnect this Cloud Run worker from the VPC network it is connected to.
+        clear-network-tags: Clears all existing network tags from the Cloud Run worker.
+        clear-post-key-revocation-action-type: Remove any previously set post CMEK key revocation action type.
+        clear-secrets: Remove all secrets.
+        clear-volume-mounts: Remove all existing mounts from the current container.
+        clear-volumes: Remove all existing volumes from the Cloud Run resource, including volumes mounted as secrets
+        client-name: Name of the client handling the deployment. Defaults to ``global'' if this and --client-version are both unspecified.
+        client-version: Version of the client handling the deployment. Defaults to the current gcloud version if this and --client-name are both unspecified.
+        command: Entrypoint for the container image. If not specified, the container image's default Entrypoint is run. To reset this field to its default, pass an empty string.
+        container: |-
+            Specifies a container by name. Flags following --container will apply to the specified container.
+            +
+            Flags that are not container-specific must be specified before --container.
+        cpu: |-
+            Set a CPU limit in Kubernetes cpu units.
+            +
+            Cloud Run supports values fractional values below 1, 1, 2, 4, and 8.  Some CPU values requires a minimum Memory `--memory` value.
+        depends-on: List of container dependencies to add to the current container.
+        description: Provides an optional, human-readable description of the service.
+        encryption-key-shutdown-hours: The number of hours to wait before an automatic shutdown server after CMEK key revocation is detected.
+        env-vars-file: |-
+            Path to a local YAML or ENV file with definitions for all environment
+                        variables. All existing environment variables will be removed before
+                        the new environment variables are added. Example YAML content:
+            +
+                          ```
+                          KEY_1: "value1"
+                          KEY_2: "value 2"
+                          ```
+                          Example ENV content:
+            +
+                          ```
+                          KEY_1="value1"
+                          KEY_2="value 2"
+                          ```
+        gpu: Cloud Run supports values 0 or 1.  1 gpu also requires a minimum 4 `--cpu` value and  a minimum 16Gi `--memory` value.
+        gpu-type: The GPU type to use.
+        gpu-zonal-redundancy: Set GPU zonal redundancy. Use *--gpu-zonal-redundancy* to enable and *--no-gpu-zonal-redundancy* to disable.
+        image: Name of the container image to deploy (e.g. `us-docker.pkg.dev/cloudrun/container/hello:latest`).
+        key: CMEK key reference to encrypt the container with.
+        labels: |-
+            List of label KEY=VALUE pairs to add.
+            +
+            An alias to --update-labels.
+        memory: 'Set a memory limit. Ex: 1024Mi, 4Gi.'
+        network: The VPC network that the Cloud Run worker will be able to send traffic to. If --subnet is also specified, subnet must be a subnetwork of the network specified by this --network flag. To clear existing VPC network settings, use --clear-network.
+        network-tags: Applies the given network tags (comma separated) to the Cloud Run worker. To clear existing tags, use --clear-network-tags.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-clear-binary-authorization: Remove any previously set Binary Authorization policy.
+        no-clear-cloudsql-instances: Empty the current Cloud SQL instances.
+        no-clear-encryption-key-shutdown-hours: Remove any previously set CMEK key shutdown hours setting.
+        no-clear-env-vars: Remove all environment variables.
+        no-clear-key: Remove any previously set CMEK key reference.
+        no-clear-labels: |
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} --clear-labels
+
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        no-clear-network: Disconnect this Cloud Run worker from the VPC network it is connected to.
+        no-clear-network-tags: 'Clears all existing network tags from the Cloud Run worker. '
+        no-clear-post-key-revocation-action-type: Remove any previously set post CMEK key revocation action type.
+        no-clear-secrets: Remove all secrets.
+        no-clear-volume-mounts: Remove all existing mounts from the current container.
+        no-clear-volumes: Remove all existing volumes from the Cloud Run resource, including volumes mounted as secrets
+        no-gpu-zonal-redundancy: Set GPU zonal redundancy.
+        no-promote: |-
+            True to avoid assign instances to the worker revision being deployed. Setting this flag assigns any instances assigned to the LATEST revision to the specific revision bound to LATEST before the deployment. The effect is that the revision being deployed will not receive instance split.
+            +
+            After a deployment with this flag the LATEST revision will not receive instances on future deployments. To restore assinging instances to the LATEST revision by default, run the `gcloud run workers update-instance-split` command with `--to-latest`.
+        post-key-revocation-action-type: |-
+            Action type after CMEK key revocation. _POST_KEY_REVOCATION_ACTION_TYPE_ must be one of:
+            +
+            *prevent-new*::: No new instances will be started after CMEK key revocation.
+            *shut-down*::: No new instances will be started and the existing instances will be shut
+            down after CMEK key revocation.
+            +
+            :::
+            +
+        region: |-
+            The Cloud region for the WorkerPool. Overrides the default `run/region` property value for this command invocation.
+            +
+            To set the `region` attribute:
+            * provide the argument `WORKER_POOL` on the command line with a fully specified name;
+            * specify the workerpool name from an interactive prompt with a fully specified name;
+            * provide the argument `--region` on the command line;
+            * set the property `run/region`;
+            * specify the region from an interactive prompt.
+        remove-cloudsql-instances: Remove the given values from the current Cloud SQL instances.
+        remove-containers: List of containers to remove.
+        remove-env-vars: List of environment variables to be removed.
+        remove-labels: |-
+            List of label keys to remove. If a label does not exist it is
+            silently ignored. If `--update-labels` is also specified then
+            `--update-labels` is applied first.
+        remove-secrets: List of secrets to be removed.
+        remove-volume: Removes volumes from the Cloud Run resource.
+        remove-volume-mount: Removes the volume mounted at the specified path from the current container.
+        revision-suffix: Specify the suffix of the revision name. Revision names always start with the service name automatically. For example, specifying [--revision-suffix=v1] for a service named 'helloworld', would lead to a revision named 'helloworld-v1'. Set empty string to clear the suffix and resume server-assigned naming.
+        runtime: The runtime to use. "wasm" for WebAssembly runtime, "default" for the default Linux runtime.
+        scaling: The scaling mode to use for this resource. Flag value should be a positive integer to configure manual scaling with the given integer as a fixed instance count.
+        service-account: the email address of an IAM service account associated with the revision of the service. The service account represents the identity of the running revision, and determines what permissions the revision has.
+        set-cloudsql-instances: Completely replace the current Cloud SQL instances with the given values.
+        set-env-vars: List of key-value pairs to set as environment variables. All existing environment variables will be removed first.
+        set-secrets: List of key-value pairs to set as secrets. All existing secrets will be removed first.
+        source: The location of the source to build. If a Dockerfile is present in the source code directory, it will be built using that Dockerfile, otherwise it will use Google Cloud buildpacks. See https://cloud.google.com/run/docs/deploying-source-code for more details. The location can be a directory on a local disk or a gzipped archive file (.tar.gz) in Google Cloud Storage. If the source is a local directory, this command skips the files specified in the `--ignore-file`. If `--ignore-file` is not specified, use `.gcloudignore` file. If a `.gcloudignore` file is absent and a `.gitignore` file is present in the local source directory, gcloud will use a generated Git-compatible `.gcloudignore` file that respects your .gitignored files. The global `.gitignore` is not respected. For more information on `.gcloudignore`, see `gcloud topic gcloudignore`.
+        subnet: The VPC subnetwork that the Cloud Run worker will get IPs from. The subnetwork must be `/26` or larger. If --network is also specified, subnet must be a subnetwork of the network specified by the --network flag. If --network is not specified, network will be looked up from this subnetwork. To clear existing VPC network settings, use --clear-network.
+        update-annotations: List of annotation KEY=VALUE pairs to update. If an annotation exists, its value is modified. Otherwise, a new annotation is created.
+        update-env-vars: List of key-value pairs to set as environment variables.
+        update-labels: List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+        update-secrets: List of key-value pairs to set as secrets.
+        vpc-egress: |-
+            Specify which of the outbound traffic to send through Direct VPC egress or the VPC connector for this resource. This resource must have Direct VPC egress enabled or a VPC connector to set this flag. _VPC_EGRESS_ must be one of:
+            +
+            *all*::: (DEPRECATED) Sends all outbound traffic through Direct VPC egress or the VPC connector. Provides the same functionality as 'all-traffic'. Prefer to use 'all-traffic' instead.
+            *all-traffic*::: Sends all outbound traffic through Direct VPC egress or the VPC connector.
+            *private-ranges-only*::: Default option. Sends outbound traffic to private IP addresses (RFC 1918 and Private Google Access IPs) through Direct VPC egress or the VPC connector.
+            +
+            Traffic to other Cloud Run services might require additional configuration. See https://cloud.google.com/run/docs/securing/private-networking#send_requests_to_other_services_and_services for more information.
+            :::
+            +

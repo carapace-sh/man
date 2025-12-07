@@ -1,0 +1,59 @@
+name: create
+description: '*(BETA)*  Create a legacy HTTP health check.'
+flags:
+    --check-interval=: How often to perform a health check for an instance.
+    --description=: An optional, textual description for the HTTP health check.
+    --healthy-threshold=: The number of consecutive successful health checks before an
+    --host=: The value of the host header used in this HTTP health check request.
+    --port=: The TCP port number that this health check monitors.
+    --request-path=: The request path that this health check monitors.
+    --timeout=: If Compute Engine doesn't receive an HTTP 200 response from the
+    --unhealthy-threshold=: The number of consecutive health check failures before a healthy
+documentation:
+    command: |-
+        *(BETA)*  Legacy HTTP health checks are required if you want to implement health
+        checking for a target pool backend of an external passthrough Network
+        Load Balancer. Though you can
+        use legacy HTTP health checks in certain other Google Cloud Platform load
+        balancing configurations and for managed instance group autohealing, you
+        should consider a non-legacy HTTP health check created with `health-checks
+        create http` instead.
+
+        For more information about the differences between legacy and non-legacy
+        health checks see:
+        [](https://cloud.google.com/load-balancing/docs/health-check-concepts#category_and_protocol)
+
+        For information about what type of health check to use for a particular load
+        balancer, see:
+        [](https://cloud.google.com/load-balancing/docs/health-check-concepts#lb_guide)
+    flag:
+        check-interval: |-
+            How often to perform a health check for an instance. For example,
+            specifying ``10s'' will run the check every 10 seconds. The default
+            value is ``5s''. See $ gcloud topic datetimes for information on
+            duration formats.
+        description: An optional, textual description for the HTTP health check.
+        healthy-threshold: |-
+            The number of consecutive successful health checks before an
+            unhealthy instance is marked as healthy. The default is 2.
+        host: |-
+            The value of the host header used in this HTTP health check request.
+            By default, this is empty and Compute Engine automatically sets
+            the host header in health requests to the same external IP address as
+            the forwarding rule associated with the target pool.
+        port: |-
+            The TCP port number that this health check monitors. The default value
+            is 80.
+        request-path: |-
+            The request path that this health check monitors. For example,
+            ``/healthcheck''.
+        timeout: |-
+            If Compute Engine doesn't receive an HTTP 200 response from the
+            instance by the time specified by the value of this flag, the health
+            check request is considered a failure. For example, specifying ``10s''
+            will cause the check to wait for 10 seconds before considering the
+            request a failure. The default value is ``5s''.
+            See $ gcloud topic datetimes for information on duration formats.
+        unhealthy-threshold: |-
+            The number of consecutive health check failures before a healthy
+            instance is marked as unhealthy. The default is 2.

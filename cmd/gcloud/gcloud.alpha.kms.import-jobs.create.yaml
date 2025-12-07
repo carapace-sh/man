@@ -1,0 +1,36 @@
+name: create
+description: '*(ALPHA)*  Create a new import job.'
+flags:
+    --import-method=!: The wrapping method to be used for incoming key material.
+    --keyring=: Key ring of the import job.
+    --location=: Location of the import job.
+    --protection-level=!: Protection level of the import job.
+completion:
+    flag:
+        import-method:
+            - rsa-oaep-3072-sha1-aes-256
+            - rsa-oaep-3072-sha256
+            - rsa-oaep-3072-sha256-aes-256
+            - rsa-oaep-4096-sha1-aes-256
+            - rsa-oaep-4096-sha256
+            - rsa-oaep-4096-sha256-aes-256
+        protection-level:
+            - software
+            - hsm
+documentation:
+    command: |-
+        *(ALPHA)*  Creates a new import job within the given keyring.
+
+        ## EXAMPLES
+
+        The following command creates a new import job named 'strider' within the
+        'fellowship' keyring, and 'us-central1' location:
+
+          $ gcloud alpha kms import-jobs create strider --location=us-central1 \
+              --keyring=fellowship --import-method=rsa-oaep-3072-sha256-aes-256 \
+              --protection-level=hsm
+    flag:
+        import-method: 'The wrapping method to be used for incoming key material. For more information about choosing an import method, see https://cloud.google.com/kms/docs/key-wrapping. _IMPORT_METHOD_ must be one of: *rsa-oaep-3072-sha1-aes-256*, *rsa-oaep-3072-sha256*, *rsa-oaep-3072-sha256-aes-256*, *rsa-oaep-4096-sha1-aes-256*, *rsa-oaep-4096-sha256*, *rsa-oaep-4096-sha256-aes-256*.'
+        keyring: Key ring of the import job.
+        location: Location of the import job.
+        protection-level: 'Protection level of the import job. _PROTECTION_LEVEL_ must be one of: *software*, *hsm*.'

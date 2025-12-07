@@ -1,0 +1,60 @@
+name: disable
+description: Disable the Config Management feature.
+flags:
+    --all-memberships: All memberships in the fleet.
+    --fleet-default-member-config: Disable the [fleet-default membership configuration](https://cloud.google.com/kubernetes-engine/fleet-management/docs/manage-features).
+    --force: Force disablement.
+    --location=: Location for the memberships.
+    --memberships=!: IDs of the memberships or fully qualified identifiers for the memberships.
+    --no-fleet-default-member-config&: Disable the [fleet-default membership configuration](https://cloud.google.com/kubernetes-engine/fleet-management/docs/manage-features).
+    --no-force&: Force disablement.
+    --uninstall: Uninstall any previously-installed and managed Config Sync on the specified
+documentation:
+    command: |-
+        Disable the Config Management feature entirely, or disable specific
+        configuration on the feature.
+
+        `gcloud container fleet config-management disable` without flags deletes the Config Management feature,
+        which unmanages and leaves existing Config Sync installations on membership
+        clusters. Running the command without flags exits silently if the feature
+        does not exist. Specify flags to disable configuration on parts of the feature
+        without deleting it.
+
+        ## EXAMPLES
+
+        To disable the Config Management feature entirely, run:
+
+          $ gcloud container fleet config-management disable
+
+        To unmanage Config Sync only on select memberships, run:
+
+          $ gcloud container fleet config-management disable --memberships=example-membership-1,example-membership-2
+    flag:
+        all-memberships: All memberships in the fleet.
+        fleet-default-member-config: Disable the [fleet-default membership configuration](https://cloud.google.com/kubernetes-engine/fleet-management/docs/manage-features). Does not change existing membership configurations. Does nothing if the feature is disabled.
+        force: Force disablement. Bypasses any prompts for confirmation. When disabling the entire feature, proceeds even if the feature is in use. Might result in unexpected behavior.
+        location: |-
+            Location for the memberships.
+            +
+            To set the `location` attribute:
+            * provide the argument `--memberships` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `gkehub/location`.
+        memberships: |-
+            IDs of the memberships or fully qualified identifiers for the memberships.
+            +
+            To set the `memberships` attribute:
+            * provide the argument `--memberships` on the command line.
+        no-fleet-default-member-config: Disable the [fleet-default membership configuration](https://cloud.google.com/kubernetes-engine/fleet-management/docs/manage-features). Does not change existing membership configurations. Does nothing if the feature is disabled.
+        no-force: Force disablement. Bypasses any prompts for confirmation. When disabling the entire feature, proceeds even if the feature is in use. Might result in unexpected behavior.
+        uninstall: |-
+            Uninstall any previously-installed and managed Config Sync on the specified
+            memberships by setting the `enabled`
+            [field](https://cloud.google.com/kubernetes-engine/enterprise/config-sync/docs/reference/gcloud-apply-fields)
+            to false. Clears all other configuration for each membership. Does not wait for
+            the uninstallation to complete. To bypass the confirmation prompt, use
+            `--force`. Requires the feature to be enabled.
+            +
+            To uninstall Config Sync on select memberships, run:
+            +
+              $ {command} --uninstall --memberships=example-membership-1,example-membership-2

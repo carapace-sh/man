@@ -1,0 +1,80 @@
+name: enable
+description: Enable Policy Controller Feature.
+flags:
+    --all-memberships: If supplied, apply to all Policy Controllers memberships in the fleet.
+    --audit-interval=: How often Policy Controller will audit resources, in seconds.
+    --clear-exemptable-namespaces: Removes any namespace exemptions, enabling Policy Controller on all namespaces.
+    --constraint-violation-limit=: The number of violations stored on the constraint resource.
+    --exemptable-namespaces=: Namespaces that Policy Controller should ignore, separated by commas if multiple are supplied.
+    --fleet-default-member-config=: The path to a policy-controller.yaml configuration
+    --location=: Location for the memberships.
+    --log-denies: If set, log all denies and dry run failures.
+    --memberships=!: IDs of the memberships or fully qualified identifiers for the memberships.
+    --monitoring=: Monitoring backend options Policy Controller should export metrics to, separated by commas if multiple are supplied.
+    --mutation: If set, enable support for mutation.
+    --no-all-memberships&: If supplied, apply to all Policy Controllers memberships in the fleet.
+    --no-clear-exemptable-namespaces&: Removes any namespace exemptions, enabling Policy Controller on all namespaces.
+    --no-content: If set, Policy content, including the template library and policy bundles, will not be installed.
+    --no-default-bundles: If set, skip installing the default bundle of policy-essentials.
+    --no-fleet-default-member-config: Removes the fleet default configuration for policy controller.
+    --no-log-denies: If set, disable all log denies.
+    --no-monitoring: Include this flag to disable the monitoring configuration of Policy Controller.
+    --no-mutation: Disables mutation support.
+    --no-referential-rules: Disables referential rules support.
+    --referential-rules: If set, enable support for referential constraints.
+documentation:
+    command: |-
+        Enables the Policy Controller Feature in a fleet.
+
+        ## EXAMPLES
+
+        To enable the Policy Controller Feature, run:
+
+          $ gcloud container fleet policycontroller enable
+    flag:
+        all-memberships: If supplied, apply to all Policy Controllers memberships in the fleet.
+        audit-interval: How often Policy Controller will audit resources, in seconds.
+        clear-exemptable-namespaces: Removes any namespace exemptions, enabling Policy Controller on all namespaces. Setting this flag will overwrite currently exempted namespaces, not append.
+        constraint-violation-limit: The number of violations stored on the constraint resource. Must be greater than 0.
+        exemptable-namespaces: Namespaces that Policy Controller should ignore, separated by commas if multiple are supplied.
+        fleet-default-member-config: |-
+            The path to a policy-controller.yaml configuration
+                    file. If specified, this configuration will become the default Policy
+                    Controller configuration for all memberships in your fleet. It can be
+                    overridden with a membership-specific configuration by using the
+                    the `Update` command.
+            +
+                    To enable the Policy Controller Feature with a fleet-level default
+                    membership configuration, run:
+            +
+                      $ {command} --fleet-default-member-config=/path/to/policy-controller.yaml
+        location: |-
+            Location for the memberships.
+            +
+            To set the `location` attribute:
+            * provide the argument `--memberships` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `gkehub/location`.
+        log-denies: If set, log all denies and dry run failures. (To disable, use --no-log-denies)
+        memberships: |-
+            IDs of the memberships or fully qualified identifiers for the memberships.
+            +
+            To set the `memberships` attribute:
+            * provide the argument `--memberships` on the command line.
+        monitoring: 'Monitoring backend options Policy Controller should export metrics to, separated by commas if multiple are supplied.  Setting this flag will overwrite currently enabled backends, not append. Options: prometheus, cloudmonitoring'
+        mutation: If set, enable support for mutation. (To disable, use --no-mutation)
+        no-all-memberships: If supplied, apply to all Policy Controllers memberships in the fleet.
+        no-clear-exemptable-namespaces: Removes any namespace exemptions, enabling Policy Controller on all namespaces. Setting this flag will overwrite currently exempted namespaces, not append.
+        no-content: If set, Policy content, including the template library and policy bundles, will not be installed.
+        no-default-bundles: If set, skip installing the default bundle of policy-essentials.
+        no-fleet-default-member-config: |-
+            Removes the fleet default configuration for policy controller.
+                  Memberships configured with the fleet default will maintain their current
+                  configuration.
+            +
+                      $ {command} --no-fleet-default-member-config
+        no-log-denies: If set, disable all log denies.
+        no-monitoring: Include this flag to disable the monitoring configuration of Policy Controller.
+        no-mutation: Disables mutation support.
+        no-referential-rules: Disables referential rules support.
+        referential-rules: If set, enable support for referential constraints. (To disable, use --no-referential-rules)

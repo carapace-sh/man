@@ -1,0 +1,57 @@
+name: read
+description: Read logs for a Cloud Run service.
+flags:
+    --cluster-location=&: Zone in which the cluster is located.
+    --cluster=&: ID of the cluster or fully qualified identifier for the cluster.
+    --context=&: The name of the context in your kubectl config file to use for connecting.
+    --freshness=: Return entries that are not older than this value.
+    --kubeconfig=&: The absolute path to your kubectl config file.
+    --limit=: Maximum number of resources to list.
+    --log-filter=: Filter expression that specifies the log entries to return.
+    --order=: Ordering of returned log entries based on timestamp field.
+    --platform=&: Target platform for running commands.
+    --region=: Region in which the resource can be found.
+completion:
+    flag:
+        order:
+            - desc
+            - asc
+        platform:
+            - gke
+            - kubernetes
+            - managed
+documentation:
+    command: |
+        gcloud run services logs read reads log entries. Log entries matching *--log-filter* are
+        returned according to the specified --order.
+        If the log entries come from multiple logs, then entries from
+        different logs might be intermingled in the results.
+    flag:
+        cluster: |-
+            ID of the cluster or fully qualified identifier for the cluster.
+
+            To set the `cluster` attribute:
+            * provide the argument `--cluster` on the command line;
+            * set the property `run/cluster`;
+            * specify the cluster from a list of available clusters.
+        cluster-location: |-
+            Zone in which the cluster is located. Alternatively, set the property [run/cluster_location].
+
+            To set the `location` attribute:
+            * provide the argument `--cluster` on the command line with a fully specified name;
+            * set the property `run/cluster` with a fully specified name;
+            * specify the cluster from a list of available clusters with a fully specified name;
+            * provide the argument `--cluster-location` on the command line;
+            * set the property `run/cluster_location`;
+            * specify the cluster location from a list of available zones.
+        context: The name of the context in your kubectl config file to use for connecting.
+        freshness: Return entries that are not older than this value. Works only with DESC ordering and filters without a timestamp. See $ gcloud topic datetimes for information on duration formats.
+        kubeconfig: The absolute path to your kubectl config file. If not specified, the colon- or semicolon-delimited list of paths specified by $KUBECONFIG will be used. If $KUBECONFIG is unset, this defaults to `~/.kube/config`.
+        limit: |-
+            Maximum number of resources to list. The default is *unlimited*.
+            This flag interacts with other flags that are applied in this order:
+            *--flatten*, *--sort-by*, *--filter*, *--limit*.
+        log-filter: 'Filter expression that specifies the log entries to return. Detailed information about filters can be found at: https://cloud.google.com/logging/docs/view/logging-query-language'
+        order: 'Ordering of returned log entries based on timestamp field. _ORDER_ must be one of: *desc*, *asc*.'
+        platform: 'Target platform for running commands. Alternatively, set the property [run/platform]. '
+        region: Region in which the resource can be found. Alternatively, set the property [run/region].

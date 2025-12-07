@@ -1,0 +1,78 @@
+name: list
+description: '*(BETA)*  Retrieves the metrics from a specific job.'
+flags:
+    --changed-after=: Only display metrics that have changed after the given time.
+    --filter=: Apply a Boolean filter _EXPRESSION_ to each resource item to be listed.
+    --hide-committed: If true, hide committed values.
+    --limit=: Maximum number of resources to list.
+    --no-hide-committed&: If true, hide committed values.
+    --no-tentative&: If true, display tentative values.
+    --region=: Region ID of the job's regional endpoint.
+    --source=: Set the metrics source.
+    --tentative: If true, display tentative values.
+    --transform=: Filters only the metrics that prefix match the given regex.
+completion:
+    flag:
+        source:
+            - all
+            - service
+            - user
+documentation:
+    command: |-
+        *(BETA)*  This command can be used to explore the job's metrics at a fine-grained level.
+
+        ## EXAMPLES
+
+        Filter metrics with the given name:
+
+          $ gcloud beta dataflow metrics list JOB --filter="name=ElementCount"
+
+        Filter child metrics with matching transforms:
+
+          $ gcloud beta dataflow metrics list JOB --transform=WordCount
+
+        Filter child output metrics:
+
+          $ gcloud beta dataflow metrics list JOB --transform=WordCount/Write.*out
+
+        Filter all output metrics:
+
+          $ gcloud beta dataflow metrics list JOB --transform=.*out
+
+        Filter all custom-defined user metrics
+
+          $ gcloud beta dataflow metrics list JOB --source=user
+
+        Filter metrics with a scalar value greater than a threshold.
+
+          $ gcloud beta dataflow metrics list JOB --filter="scalar > 50"
+
+        List metrics that have changed in the last 2 weeks:
+
+          $ gcloud beta dataflow metrics list JOB --changed-after=-P2W
+    flag:
+        changed-after: Only display metrics that have changed after the given time. See $ gcloud topic datetimes for information on time formats. For example, `2018-01-01` is the first day of the year, and `-P2W` is 2 weeks ago.
+        filter: |-
+            Apply a Boolean filter _EXPRESSION_ to each resource item to be listed.
+            If the expression evaluates `True`, then that item is listed. For more
+            details and examples of filter expressions, run $ gcloud topic filters. This
+            flag interacts with other flags that are applied in this order: *--flatten*,
+            *--sort-by*, *--filter*, *--limit*.
+        hide-committed: If true, hide committed values.
+        limit: |-
+            Maximum number of resources to list. The default is *unlimited*.
+            This flag interacts with other flags that are applied in this order:
+            *--flatten*, *--sort-by*, *--filter*, *--limit*.
+        no-hide-committed: If true, hide committed values.
+        no-tentative: If true, display tentative values.
+        region: Region ID of the job's regional endpoint. Defaults to 'us-central1'.
+        source: |-
+            Set the metrics source. _SOURCE_ must be one of:
+            +
+            *all*::: Retrieves all metrics.
+            *service*::: Retrieves only dataflow service metrics.
+            *user*::: Retrieves only custom user metrics.
+            :::
+            +
+        tentative: If true, display tentative values.
+        transform: Filters only the metrics that prefix match the given regex.

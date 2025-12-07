@@ -1,0 +1,46 @@
+name: set-rotation-schedule
+description: Update the rotation schedule for a key.
+flags:
+    --keyring=: The KMS keyring of the key.
+    --location=: The Google Cloud location for the key.
+    --next-rotation-time=: Next automatic rotation time of the key.
+    --rotation-period=: Automatic rotation period of the key.
+documentation:
+    command: |-
+        Updates the rotation schedule for the given key. The schedule
+        automatically creates a new primary version for the key
+        according to the `--next-rotation-time` and `--rotation-period` flags.
+
+        The flag `--next-rotation-time` must be in ISO or RFC3339 format,
+        and `--rotation-period` must be in the form INTEGER[UNIT], where units
+        can be one of seconds (s), minutes (m), hours (h) or days (d).
+
+        Key rotations performed manually via `update-primary-version` and the
+        version `create` do not affect the stored `--next-rotation-time`.
+
+        ## EXAMPLES
+
+        The following command sets a 30 day rotation period for the key
+        named `frodo` within the keyring `fellowship` and location `global`
+        starting at the specified time:
+
+          $ gcloud kms keys set-rotation-schedule frodo \
+              --location=global \
+              --keyring=fellowship \
+              --rotation-period=30d \
+              --next-rotation-time=2017-10-12T12:34:56.1234Z
+    flag:
+        keyring: |-
+            The KMS keyring of the key.
+            +
+            To set the `keyring` attribute:
+            * provide the argument `key` on the command line with a fully specified name;
+            * provide the argument `--keyring` on the command line.
+        location: |-
+            The Google Cloud location for the key.
+            +
+            To set the `location` attribute:
+            * provide the argument `key` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line.
+        next-rotation-time: Next automatic rotation time of the key. See $ gcloud topic datetimes for information on time formats.
+        rotation-period: Automatic rotation period of the key. See $ gcloud topic datetimes for information on duration formats.

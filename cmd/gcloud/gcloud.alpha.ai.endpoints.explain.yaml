@@ -1,0 +1,42 @@
+name: explain
+description: '*(ALPHA)*  Request an online explanation from an Vertex AI endpoint.'
+flags:
+    --deployed-model-id=: Id of the deployed model.
+    --json-request=!: Path to a local file containing the body of a JSON request.
+    --region=: Cloud region for the endpoint.
+documentation:
+    command: |-
+        *(ALPHA)*  `gcloud alpha ai endpoints explain` sends an explanation request to the Vertex AI endpoint for
+        the given instances. This command reads up to 100 instances, though the
+        service itself accepts instances up to the payload limit size
+        (currently, 1.5MB).
+
+        ## EXAMPLES
+
+        To send an explanation request to the endpoint for the json file,
+        input.json, run:
+
+        $ gcloud alpha ai endpoints explain ENDPOINT_ID --region=us-central1 --json-request=input.json
+    flag:
+        deployed-model-id: Id of the deployed model.
+        json-request: |-
+            Path to a local file containing the body of a JSON request.
+            +
+            An example of a JSON request:
+            +
+                {
+                  "instances": [
+                    {"x": [1, 2], "y": [3, 4]},
+                    {"x": [-1, -2], "y": [-3, -4]}
+                  ]
+                }
+            +
+            This flag accepts "-" for stdin.
+        region: |-
+            Cloud region for the endpoint.
+            +
+            To set the `region` attribute:
+            * provide the argument `endpoint` on the command line with a fully specified name;
+            * provide the argument `--region` on the command line;
+            * set the property `ai/region`;
+            * choose one from the prompted list of available regions.

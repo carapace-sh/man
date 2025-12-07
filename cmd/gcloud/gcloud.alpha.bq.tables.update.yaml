@@ -1,0 +1,71 @@
+name: update
+description: '*(ALPHA)*  Update a new BigQuery table.'
+flags:
+    --add-columns-file=: The name of a JSON file containing a single object containing an array each element
+    --add-columns=: A comma-separated list of entries of the form FIELD_NAME[=FIELD_TYPE] specifying field names
+    --dataset=: The id of the BigQuery dataset.
+    --description=: Description of the table.
+    --expiration=: How long after creation should this table or view expire e.g. 1d, 2w etc.
+    --relax-columns=: A comma-separated list of field names in the current schema that should have their mode
+documentation:
+    command: |-
+        *(ALPHA)*  Create a new BigQuery table.
+        Updates one or more attributes of a table or view.
+    flag:
+        add-columns: |-
+            A comma-separated list of entries of the form FIELD_NAME[=FIELD_TYPE] specifying field names
+            and types for the columns being  added to the table. FIELD_TYPE defaults to string if not present.
+            Possible FIELD_TYPES are `string`, `integer`, `float`, `boolean`, `record`, and `timestamp`.
+            +
+            For more details on BigQuery schemas see: https://cloud.google.com/bigquery/docs/schemas.
+        add-columns-file: |-
+            The name of a JSON file containing a single object containing an array each element
+            of which is an object with properties name, type, and, optionally a
+            mode (one of: `NULLABLE` or `REPEATED`), specifying the columns to be added
+            to the table. If mode is omitted the default is 'NULLABLE'.
+            +
+            For example:
+            {
+              'schema':
+                [
+                  {
+                    'name': 'field1',
+                    'type': 'string',
+                    'mode': 'REQUIRED'
+                  },
+                  {
+                    'name': 'field2',
+                    'type': 'integer',
+                    'mode': 'REPEATED'
+                  },
+                  [
+                    {
+                      'name': 'fieldN',
+                      'type': TYPE,
+                      ['mode': MODE]
+                    }
+                    ...
+                  ]
+                ]
+            }
+            +
+            For more details on BigQuery schemas see: https://cloud.google.com/bigquery/docs/schemas.
+            +
+            Use a full or relative path to a local file containing the value of add_columns_file.
+        dataset: |-
+            The id of the BigQuery dataset.
+            +
+            To set the `dataset` attribute:
+            * provide the argument `table` on the command line with a fully specified name;
+            * provide the argument `--dataset` on the command line.
+        description: Description of the table.
+        expiration: |-
+            How long after creation should this table or view expire e.g. 1d, 2w etc.
+            +
+            See $ gcloud topic datetimes for information on duration formats
+        relax-columns: |-
+            A comma-separated list of field names in the current schema that should have their mode
+            changed from REQUIRED to NULLABLE.
+            +
+            For more details on updating and managing BigQuery schemas see:
+            https://cloud.google.com/bigquery/docs/managing-table-schemas

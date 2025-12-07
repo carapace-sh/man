@@ -1,0 +1,75 @@
+name: create
+description: '*(ALPHA)*  Create a new group.'
+flags:
+    --description=: An extended description to help users determine the purpose of a Group.
+    --display-name=: The Group's display name.
+    --dynamic-user-query=: Query that determines the memberships of the dynamic group.
+    --group-type=: The type of group to create.
+    --labels=: Labels for group resource.
+    --organization=: The organization the Group being created belongs to.
+    --posix-group=&: Group ID (gid) and name of the POSIX group that you want to associate
+    --with-initial-owner=: If specified the user making the request will be added as the initial owner of the group being
+completion:
+    flag:
+        group-type:
+            - discussion
+            - dynamic
+            - security
+        with-initial-owner:
+            - empty
+            - with-initial-owner
+documentation:
+    command: '*(ALPHA)*  Create a new group.'
+    flag:
+        description: |-
+            An extended description to help users determine the purpose of a Group. For
+            example, you can include information about who should join the Group, the
+            types of messages to send to the Group, links to FAQs about the Group, or
+            related Groups. Maximum length is 4,096 characters.
+        display-name: The Group's display name.
+        dynamic-user-query: |-
+            Query that determines the memberships of the dynamic group.
+            +
+            Example of a query:
+            --dynamic-user-query="user.organizations.exists(org,org.title=='SWE')"
+        group-type: |-
+            The type of group to create. Setting group-type will add the
+            appropriate labels for the type of group being created. _GROUP_TYPE_ must be one of:
+            +
+            *discussion*::: Creates a Google Groups discussion group.
+            *dynamic*::: Creates a dynamic group.
+            *security*::: Creates a security group.
+            :::
+            +
+        labels: |-
+            Labels for group resource.
+            Example of labels "--labels cloudidentity.googleapis.com/groups.discussion_forum"
+        organization: |-
+            The organization the Group being created belongs to. This can be
+            specified either as an ID ("123456789") or as the associated domain
+            ("example.com").
+        posix-group: |
+            Group ID (gid) and name of the POSIX group that you want to associate
+            with the specified Cloud Identity group. You can specify multiple POSIX
+            groups with multiple instances of this flag.
+
+            For example, use '--posix-group=gid=1005,name=eng' to add a single
+            group, or '--posix-group=gid=1005,name=eng
+            --posix-group=gid=1006,name=docs' to add multiple groups.
+
+            Caution: POSIX groups are deprecated. As of September 26, 2024, you can
+            no longer create new POSIX groups. For more information, see [POSIX
+            groups
+            deprecation](https://cloud.google.com/identity/docs/deprecations/posix-groups).
+        with-initial-owner: |-
+            If specified the user making the request will be added as the initial owner of the group being
+            created. _WITH_INITIAL_OWNER_ must be one of:
+            +
+            *empty*::: The creator of the group will not be the owner of the group. This is
+            the default for dynamic groups.
+            +
+            *with-initial-owner*::: The creator of the group will be the owner of the group. This is
+            the default for non-dynamic groups.
+            +
+            :::
+            +

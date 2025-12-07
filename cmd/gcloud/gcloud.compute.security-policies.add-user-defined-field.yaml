@@ -1,0 +1,36 @@
+name: add-user-defined-field
+description: Add a user defined field to a Compute Engine security policy.
+flags:
+    --base=!: The base relative to which offset is measured.
+    --mask=: If specified, apply this mask (bitwise AND) to the field to ignore bits before matching.
+    --offset=!: Offset of the first byte of the field (in network byte order) relative to base.
+    --region=: Region of the security policy to update.
+    --size=!: Size of the field in bytes.
+    --user-defined-field-name=!: The name for the user defined field.
+completion:
+    flag:
+        base:
+            - ipv4
+            - ipv6
+            - tcp
+            - udp
+documentation:
+    command: |-
+        *gcloud compute security-policies add-user-defined-field* is used to add user defined fields to security policies.
+
+        ## EXAMPLES
+
+        To add a user defined field run this:
+
+          $ gcloud compute security-policies add-user-defined-field SECURITY_POLICY \
+             --user-defined-field-name=my-field \
+             --base=ipv6 \
+             --offset=10 \
+             --size=3
+    flag:
+        base: 'The base relative to which offset is measured. _BASE_ must be one of: *ipv4*, *ipv6*, *tcp*, *udp*.'
+        mask: If specified, apply this mask (bitwise AND) to the field to ignore bits before matching. Encoded as a hexadecimal number (starting with "0x").
+        offset: Offset of the first byte of the field (in network byte order) relative to base.
+        region: Region of the security policy to update. Overrides the default *compute/region* property value for this command invocation.
+        size: 'Size of the field in bytes. Valid values: 1-4.'
+        user-defined-field-name: The name for the user defined field.

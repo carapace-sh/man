@@ -1,0 +1,133 @@
+name: calendar-mode
+description: '*(ALPHA)*  Recommends the optimal time window and zone for Future Reservations.'
+flags:
+    --chip-count=!: The number of chips to check for availability.
+    --deployment-type=&: The deployment type for the reserved capacity.
+    --duration-range=: A duration range for the duration of the Future Reservation.
+    --end-time-range=: A time range for the end time of the Future Reservation.
+    --local-ssd=: Manage the size and the interface of local SSD to use.
+    --location-policy=: Policy for which zones to include or exclude when looking for the optimal
+    --machine-type=!: The type of machine (name only) that has a fixed number of vCPUs and a fixed
+    --region=: Region of the resources to get advice on.
+    --start-time-range=: A time range for the start time of the Future Reservation.
+    --tpu-version=!: The version of Cloud TPU to reserve.
+    --vm-count=!: The number of instances to check for availability.
+    --workload-type=: Type of the workload that will be running on the reserved TPUs.
+completion:
+    flag:
+        deployment-type:
+            - DENSE
+        tpu-version:
+            - TPU7X
+            - V5E
+            - V5P
+            - V6E
+        workload-type:
+            - BATCH
+            - SERVING
+documentation:
+    command: |
+        *(ALPHA)*  Recommends the optimal time window and zone for Future Reservations.
+    flag:
+        chip-count: The number of chips to check for availability.
+        deployment-type: |
+            The deployment type for the reserved capacity.
+        duration-range: |-
+            A duration range for the duration of the Future Reservation. Defined as
+            a list of key-value pairs.
+            +
+            The key is either "min" or "max", and the value is a duration in seconds.
+            For example, specify `30m` for a duration of 30 minutes or specify
+            `1d2h3m4s` for a duration of 1 day, 2 hours, 3 minutes, and 4 seconds.
+            +
+            See $ gcloud topic datetimes for information on duration formats.
+            +
+            *min*:: The minimum duration of the Future Reservation.
+            *max*:: The maximum duration of the Future Reservation.
+            +
+            Example:
+            +
+              gcloud compute advice calendar-mode --duration-range=min=24h,max=72h
+        end-time-range: |-
+            A time range for the end time of the Future Reservation. Defined as
+            a list of key-value pairs.
+            +
+            The key is either "from" or "to", and the value is a datetime.
+            See $ gcloud topic datetimes for information on time formats.
+            +
+            *from*:: The earliest possible end time for the reservation.
+            *to*:: The latest possible end time for the reservation.
+            +
+            Example:
+            +
+              gcloud compute advice calendar-mode --end-time-range=from=2024-08-01T00:00:00Z,to=2024-08-02T00:00:00Z
+        local-ssd: |-
+            Manage the size and the interface of local SSD to use. See
+            https://cloud.google.com/compute/docs/disks/local-ssd for more information.
+            *interface*::: The kind of disk interface exposed to the VM for this SSD.
+            The only valid value is `nvme`.
+            *size*::: The size of the local SSD in base-2 GB.
+        location-policy: |-
+            Policy for which zones to include or exclude when looking for the optimal
+            time window and zone for Future Reservations within a region. Policy is
+            defined as a list of key-value pairs, with the key being the zone name,
+            and value being the applied policy. Available policies are `allow` and
+            `deny`. Default for zones if left unspecified is `allow`.
+            +
+            Example:
+            +
+              gcloud compute advice calendar-mode --location-policy=us-central1-a=allow,us-central1-b=deny
+        machine-type: |-
+            The type of machine (name only) that has a fixed number of vCPUs and a fixed
+            amount of memory. You can also specify a custom machine type by using the
+            pattern `custom-number_of_CPUs-amount_of_memory`-for example,
+            `custom-32-29440`.
+        region: |-
+            Region of the resources to get advice on. If not specified, you might be prompted to select a region (interactive mode
+            only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/region'' property:
+            +
+              $ gcloud config set compute/region REGION
+            +
+            A list of regions can be fetched by running:
+            +
+              $ gcloud compute regions list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/region
+            +
+            Alternatively, the region can be stored in the environment
+            variable ``CLOUDSDK_COMPUTE_REGION''.
+        start-time-range: |-
+            A time range for the start time of the Future Reservation. Defined as
+            a list of key-value pairs.
+            +
+            The key is either "from" or "to", and the value is a datetime.
+            See $ gcloud topic datetimes for information on time formats.
+            +
+            *from*:: The earliest possible start time for the reservation.
+            *to*:: The latest possible start time for the reservation.
+            +
+            Example:
+            +
+              gcloud compute advice calendar-mode --start-time-range=from=2024-08-01T00:00:00Z,to=2024-08-02T00:00:00Z
+        tpu-version: |-
+            The version of Cloud TPU to reserve. _TPU_VERSION_ must be one of:
+            +
+            *TPU7X*::: Cloud TPU v7x
+            *V5E*::: Cloud TPU v5e Lite
+            *V5P*::: Cloud TPU v5p
+            *V6E*::: Cloud TPU v6e
+            :::
+            +
+        vm-count: The number of instances to check for availability.
+        workload-type: |-
+            Type of the workload that will be running on the reserved TPUs. _WORKLOAD_TYPE_ must be one of:
+            +
+            *BATCH*::: Reserved resources will be optimized for BATCH workloads that handle large amounts of data in single or multiple operations, such as ML training workloads.
+            *SERVING*::: Reserved resources will be optimized for SERVING workloads that handle concurrent requests and require minimal network latency, such as ML inference.
+            :::
+            +

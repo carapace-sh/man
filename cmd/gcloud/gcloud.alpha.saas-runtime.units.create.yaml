@@ -1,0 +1,77 @@
+name: create
+description: '*(ALPHA)*  Create a Unit.'
+hidden: true
+flags:
+    --labels=: The labels on the resource, which can be used for categorization.
+    --location=: For resources [unit, tenant, unit-kind], provides fallback value for resource location attribute.
+    --maintenance-pinned-until-time=: If present, it fixes the release on the unit until the given time; i.e.
+    --management-mode=: Indicates whether the Unit life cycle is controlled
+    --tenant=!: ID of the tenant or fully qualified identifier for the tenant.
+    --unit-kind=!: ID of the unitKind or fully qualified identifier for the unitKind.
+completion:
+    flag:
+        management-mode:
+            - system
+            - user
+documentation:
+    command: '*(ALPHA)*  Create a Unit'
+    flag:
+        labels: |-
+            The labels on the resource, which can be used for categorization.
+            similar to Kubernetes resource labels.
+            +
+            *KEY*:::
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+            +
+            *VALUE*:::
+            Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --labels=string=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --labels='{"string": "string"}'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --labels=path_to_file.(yaml|json)
+            +
+            ```
+        location: For resources [unit, tenant, unit-kind], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
+        maintenance-pinned-until-time: |-
+            If present, it fixes the release on the unit until the given time; i.e.
+            changes to the release field will be rejected. Rollouts should and will
+            also respect this by not requesting an upgrade in the first place.
+        management-mode: |-
+            Indicates whether the Unit life cycle is controlled
+            by the user or by the system.
+            Immutable once created. _MANAGEMENT_MODE_ must be one of:
+            +
+            *system*::: The system will decide when to deprovision and delete the unit.
+            User still can deprovision or delete the unit manually.
+            *user*::: Unit's lifecycle is managed by the user.
+            :::
+            +
+        tenant: |-
+            ID of the tenant or fully qualified identifier for the tenant.
+            +
+            To set the `tenant` attribute:
+            * provide the argument `--tenant` on the command line.
+        unit-kind: |-
+            ID of the unitKind or fully qualified identifier for the unitKind.
+            +
+            To set the `unit-kind` attribute:
+            * provide the argument `--unit-kind` on the command line.

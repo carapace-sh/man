@@ -1,0 +1,124 @@
+name: migrate
+description: '*(BETA)*  Migrates an environment from Composer 2 to Composer 3 in-place.'
+hidden: true
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --dag-processor-count=!: Number of dag processors
+    --dag-processor-cpu=!: CPU allocated to Airflow dag processor
+    --dag-processor-memory=!: Memory allocated to Airflow dag processor, ex.
+    --dag-processor-storage=!: Storage allocated to Airflow dag processor, ex.
+    --delete-gke-cluster: Delete Composer 2 GKE cluster after migration.
+    --image-version=!: Migrate the Composer 2 environment to this Composer 3 version in-place.
+    --location=: Region where Composer environment runs or in which to create the environment.
+    --maintenance-window-end=!: End time of the mantenance window in the form of the full date.
+    --maintenance-window-recurrence=!: An RFC 5545 RRULE, specifying how the maintenance window will recur.
+    --maintenance-window-start=!: Start time of the mantenance window in the form of the full date.
+    --max-workers=: Maximum number of workers in the Environment.
+    --min-workers=: Minimum number of workers in the Environment.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-delete-gke-cluster&: Delete Composer 2 GKE cluster after migration.
+    --no-retain-gke-cluster&: Retain Composer 2 GKE cluster after migration.
+    --retain-gke-cluster: Retain Composer 2 GKE cluster after migration.
+    --scheduler-count=: Number of schedulers, supported in the Environments with Airflow 2.0.1 and later.
+    --scheduler-cpu=: CPU allocated to Airflow scheduler.
+    --scheduler-memory=: Memory allocated to Airflow scheduler, ex.
+    --scheduler-storage=: Storage allocated to Airflow scheduler, ex.
+    --triggerer-count=: Number of triggerers, supported in the Environments with Composer 2.0.31 and Airflow 2.2.5 and greater.
+    --triggerer-cpu=: CPU allocated to Airflow triggerer.
+    --triggerer-memory=: Memory allocated to Airflow triggerer, ex.
+    --web-server-cpu=: CPU allocated to each Airflow web server
+    --web-server-memory=: Memory allocated to Airflow web server, ex.
+    --web-server-storage=: Storage allocated to Airflow web server, ex.
+    --worker-cpu=: CPU allocated to each Airflow worker
+    --worker-memory=: Memory allocated to Airflow worker, ex.
+    --worker-storage=: Storage allocated to Airflow worker, ex.
+documentation:
+    command: |-
+        *(BETA)*  If run asynchronously with `--async`, exits after printing an operation
+        that can be used to poll the status of the creation operation via:
+
+          {top_command} composer operations describe
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        dag-processor-count: Number of dag processors
+        dag-processor-cpu: CPU allocated to Airflow dag processor
+        dag-processor-memory: Memory allocated to Airflow dag processor, ex. 1GB, 3GB, 2. If units are not provided, defaults to GB.
+        dag-processor-storage: Storage allocated to Airflow dag processor, ex. 600MB, 3GB, 2. If units are not provided, defaults to GB.
+        delete-gke-cluster: Delete Composer 2 GKE cluster after migration.
+        image-version: |-
+            Migrate the Composer 2 environment to this Composer 3 version in-place.
+            +
+            The image version encapsulates the versions of both Cloud Composer and
+            Apache Airflow. Must be of the form
+            `composer-3-airflow-X[.Y[.Z[-build.N]]]`, where `[]` denotes optional
+            fragments.
+            +
+            Examples: `composer-3-airflow-2`, `composer-3-airflow-2.2`,
+            `composer-3-airflow-2.3.4`, `composer-3-airflow-2.3.4-build.5`.
+            +
+            The Cloud Composer portion of the image version must be a Composer 3
+            version. The Apache Airflow portion of the image version can be a
+            semantic version or an alias in the form of major or major.minor
+            version numbers, resolved to the latest matching Apache Airflow version
+            supported in the given Cloud Composer version. The resolved versions are
+            stored in the migrated environment.
+        location: |-
+            Region where Composer environment runs or in which to create the environment.
+            +
+            To set the `location` attribute:
+            * provide the argument `environment` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `composer/location`.
+        maintenance-window-end: |-
+            End time of the mantenance window in the form of the full date. Only the
+            time of the day is used as a reference for an ending time of the window
+            with a provided recurrence. Specified date must take place after the one
+            specified as a start date, the difference between will be used as a length
+            of a single maintenance window.
+            See $ gcloud topic datetimes for information on time formats.
+        maintenance-window-recurrence: |-
+            An RFC 5545 RRULE, specifying how the maintenance window will recur. The
+            minimum requirement for the length of the maintenance window is 12 hours a
+            week. Only FREQ=DAILY and FREQ=WEEKLY rules are supported.
+        maintenance-window-start: |-
+            Start time of the mantenance window in the form of the full date. Only the
+            time of the day is used as a reference for a starting time of the window
+            with a provided recurrence.
+            See $ gcloud topic datetimes for information on time formats.
+        max-workers: Maximum number of workers in the Environment.
+        min-workers: Minimum number of workers in the Environment.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-delete-gke-cluster: Delete Composer 2 GKE cluster after migration.
+        no-retain-gke-cluster: Retain Composer 2 GKE cluster after migration.
+        retain-gke-cluster: Retain Composer 2 GKE cluster after migration.
+        scheduler-count: Number of schedulers, supported in the Environments with Airflow 2.0.1 and later.
+        scheduler-cpu: CPU allocated to Airflow scheduler.
+        scheduler-memory: |-
+            Memory allocated to Airflow scheduler, ex. 600MB, 3GB, 2. If units are not provided,
+            defaults to GB.
+        scheduler-storage: |-
+            Storage allocated to Airflow scheduler, ex. 600MB, 3GB, 2. If units are not provided,
+            defaults to GB.
+        triggerer-count: Number of triggerers, supported in the Environments with Composer 2.0.31 and Airflow 2.2.5 and greater.
+        triggerer-cpu: CPU allocated to Airflow triggerer. Supported in the Environments with Composer 2.0.31 and Airflow 2.2.5 and greater.
+        triggerer-memory: |-
+            Memory allocated to Airflow triggerer, ex. 512MB, 3GB, 2. If units are not provided,
+            defaults to GB. Supported in the Environments with Composer 2.0.31 and Airflow 2.2.5 and greater.
+        web-server-cpu: CPU allocated to each Airflow web server
+        web-server-memory: |-
+            Memory allocated to Airflow web server, ex. 600MB, 3GB, 2. If units are not provided,
+            defaults to GB.
+        web-server-storage: |-
+            Storage allocated to Airflow web server, ex. 600MB, 3GB, 2. If units are not provided,
+            defaults to GB.
+        worker-cpu: CPU allocated to each Airflow worker
+        worker-memory: |-
+            Memory allocated to Airflow worker, ex. 600MB, 3GB, 2. If units are not provided,
+            defaults to GB.
+        worker-storage: |-
+            Storage allocated to Airflow worker, ex. 600MB, 3GB, 2. If units are not provided,
+            defaults to GB.

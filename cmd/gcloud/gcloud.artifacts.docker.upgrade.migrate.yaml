@@ -1,0 +1,46 @@
+name: migrate
+description: Migrate projects from Container Registry to Artifact Registry.
+flags:
+    --canary-reads=: Send only a percent of reads to Artifact Registry.
+    --copy-only: Only perform image copying
+    --from-gcr=: Container Registry host + project to copy from.
+    --input-iam-policy-dir=: During the IAM update step, the tool applies all iam policies in the given directory.
+    --last-uploaded-versions=: Only copy the N most recently uploaded versions of each image.
+    --max-threads=: Max number of images to copy simultaneously.
+    --no-copy-only&: Only perform image copying
+    --no-skip-iam-update&: Migrate without changing iam-policy.
+    --no-skip-pre-copy&: Skip the initial copy of recent images before enabling redirection.
+    --no-use-analyze-iam&: Use analyzeIAMPolicy to get IAM bindings.
+    --output-iam-policy-dir=: Outputs Artifact Registry-equivalent bindings to this directory during IAM update step and then exits the tool.
+    --pkg-dev-location=: The location of the pkg-dev repository you are migrating to.
+    --projects=: Comma seperated list of Container Registry projects to migrate to Artifact Registry gcr.io repositories.
+    --recent-images=: Only copy images pulled or pushed in the last NUM_DAYS days.
+    --skip-iam-update: Migrate without changing iam-policy.
+    --skip-pre-copy: Skip the initial copy of recent images before enabling redirection.
+    --to-pkg-dev=: Artifact Registry pkg.dev project ID and repository ID to copy to.
+    --use-analyze-iam: Use analyzeIAMPolicy to get IAM bindings.
+documentation:
+    command: |
+        Migrate projects from Container Registry to Artifact Registry
+    flag:
+        canary-reads: Send only a percent of reads to Artifact Registry. The rest of reads and all writes are sent to Container Registry.
+        copy-only: Only perform image copying
+        from-gcr: 'Container Registry host + project to copy from. This flag is only used when migrating to pkg.dev repos. Example: gcr.io/my-project'
+        input-iam-policy-dir: During the IAM update step, the tool applies all iam policies in the given directory.
+        last-uploaded-versions: Only copy the N most recently uploaded versions of each image. More than N images may be copied if new images are uploaded during migration.
+        max-threads: Max number of images to copy simultaneously. Consider quota usage when increasing this
+        no-copy-only: Only perform image copying
+        no-skip-iam-update: |
+            Migrate without changing iam-policy. Users without Artifact Registry permissions will not have access to migrated images.
+        no-skip-pre-copy: |
+            Skip the initial copy of recent images before enabling redirection.
+        no-use-analyze-iam: |
+            Use analyzeIAMPolicy to get IAM bindings. If false, tooling iterates through IAM bindings itself, which is slower, but doesn't require anlayzeIAMPolicy quota.
+        output-iam-policy-dir: Outputs Artifact Registry-equivalent bindings to this directory during IAM update step and then exits the tool. After any neccesary modifications are made, the tool can be rerun with --input-iam-policy-dir to continue migration with the generated bindings.
+        pkg-dev-location: The location of the pkg-dev repository you are migrating to. If not specified, migration is always done to the same multi-region as GCR. Setting this flag can cause cross-regional copying and lead to billing charges.
+        projects: Comma seperated list of Container Registry projects to migrate to Artifact Registry gcr.io repositories.
+        recent-images: Only copy images pulled or pushed in the last NUM_DAYS days. NUM_DAYS must be between 30 and 90 inclusive.
+        skip-iam-update: Migrate without changing iam-policy. Users without Artifact Registry permissions will not have access to migrated images.
+        skip-pre-copy: Skip the initial copy of recent images before enabling redirection.
+        to-pkg-dev: 'Artifact Registry pkg.dev project ID and repository ID to copy to. Example: my-project/my-repo'
+        use-analyze-iam: Use analyzeIAMPolicy to get IAM bindings. If false, tooling iterates through IAM bindings itself, which is slower, but doesn't require anlayzeIAMPolicy quota. Enabled by default, use *--no-use-analyze-iam* to disable.

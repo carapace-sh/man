@@ -1,0 +1,305 @@
+name: create
+description: '*(ALPHA)*  Creates a Remote Build Execution instance.'
+hidden: true
+flags:
+    --action-hermeticity=: Defines levels of hermeticity for actions executed on this instance by requiring other
+    --action-isolation=: Defines levels of isolation of actions executed on this instance by requiring other
+    --async: Return immediately, without waiting for the operation in progress to
+    --container-image-sources-allowlist=: The list of allowed container image sources.
+    --container-image-sources=!: Whether container image sources can be used.
+    --docker-add-capabilities-allowlist=: The list of allowed dockerAddCapabilities values.
+    --docker-add-capabilities=!: Whether dockerAddCapabilities can be used.
+    --docker-chroot-path-allowlist=: The list of allowed dockerChrootPath values.
+    --docker-chroot-path=!: Whether dockerChrootPath can be used.
+    --docker-network-allowlist=: The list of allowed dockerNetwork values.
+    --docker-network=!: Whether dockerNetwork can be used.
+    --docker-privileged=: Whether dockerPrivileged can be used.
+    --docker-run-as-container-provided-user-allowlist=: The list of allowed dockerRunAsContainerProvidedUser values.
+    --docker-run-as-container-provided-user=!: Whether dockerRunAsContainerProvidedUser can be used.
+    --docker-run-as-root=: Whether dockerRunAsRoot can be used.
+    --docker-runtime-allowlist=: The list of allowed dockerRuntime values.
+    --docker-runtime=!: Whether dockerRuntime can be used.
+    --docker-sibling-containers=: Whether dockerSiblingSontainers can be used.
+    --docker-ulimits=: Whether dockerUlimits can be used.
+    --linux-execution=: Defines whether Linux actions and worker pools are allowed and how they can be configured
+    --linux-isolation=: Which Linux isolation mechanism should be used for execution.
+    --location=: The Cloud location to create the instance in.
+    --mac-execution=: Defines whether Mac actions and worker pools are allowed and how they can be configured
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --windows-execution=: Defines whether Windows actions and worker pools are allowed and how they can be configured
+completion:
+    flag:
+        action-hermeticity:
+            - best-effort
+            - enforced
+            - "off"
+        action-isolation:
+            - enforced
+            - "off"
+        container-image-sources:
+            - allowed
+            - forbidden
+            - restricted
+        docker-add-capabilities:
+            - allowed
+            - forbidden
+            - restricted
+        docker-chroot-path:
+            - allowed
+            - forbidden
+            - restricted
+        docker-network:
+            - allowed
+            - forbidden
+            - restricted
+        docker-privileged:
+            - allowed
+            - forbidden
+        docker-run-as-container-provided-user:
+            - allowed
+            - forbidden
+            - restricted
+        docker-run-as-root:
+            - allowed
+            - forbidden
+        docker-runtime:
+            - allowed
+            - forbidden
+            - restricted
+        docker-sibling-containers:
+            - allowed
+            - forbidden
+        docker-ulimits:
+            - allowed
+            - forbidden
+        linux-execution:
+            - forbidden
+            - hardened-gvisor
+            - hardened-gvisor-or-terminal
+            - unrestricted
+        linux-isolation:
+            - gvisor
+            - "off"
+        mac-execution:
+            - forbidden
+            - unrestricted
+        windows-execution:
+            - forbidden
+            - terminal
+            - unrestricted
+documentation:
+    command: |
+        *(ALPHA)*  Creates a Remote Build Execution instance, which contains a remote cache and can contain
+        worker pools for execution of build and test actions.
+    flag:
+        action-hermeticity: |-
+            Defines levels of hermeticity for actions executed on this instance by requiring other
+            isolation and hermeticity related feature policies like linux-execution, windows-execution,
+            etc to be set a certain way. _ACTION_HERMETICITY_ must be one of:
+            +
+            *best-effort*::: Hermeticity of actions is best effort.
+            +
+            *enforced*::: Hermeticity of actions is enforced.
+            +
+            *off*::: No Hermeticity restrictions for actions.
+            +
+            :::
+            +
+        action-isolation: |-
+            Defines levels of isolation of actions executed on this instance by requiring other
+            isolation related feature policies like linux-execution, windows-execution, etc to be set
+            a certain way. _ACTION_ISOLATION_ must be one of:
+            +
+            *enforced*::: Isolation of actions is enforced.
+            +
+            *off*::: No enforcement of isolation for actions.
+            +
+            :::
+            +
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        container-image-sources: |-
+            Whether container image sources can be used. Note that all RBE actions require a
+            container image so if this is set to "forbidden", all tasks will fail. If unspecified,
+            the default is equivalent to "allowed". _CONTAINER_IMAGE_SOURCES_ must be one of:
+            +
+            *allowed*::: Images from any container image sources can be used.
+            +
+            *forbidden*::: No images from any container image sources can be used.
+            +
+            *restricted*::: Container images can be used, if and only if, they are stored in one of the allowed
+            container image sources.
+            +
+            :::
+            +
+        container-image-sources-allowlist: |-
+            The list of allowed container image sources. Note: this will only be used if the
+            corresponding policy is set to "restricted".
+        docker-add-capabilities: |-
+            Whether dockerAddCapabilities can be used. If unspecified, the default is equivalent to
+            "forbidden". _DOCKER_ADD_CAPABILITIES_ must be one of:
+            +
+            *allowed*::: The feature can be used.
+            +
+            *forbidden*::: The feature cannot be used.
+            +
+            *restricted*::: The feature can be used, if and only if, it is set to one of the allowed values.
+            +
+            :::
+            +
+        docker-add-capabilities-allowlist: |-
+            The list of allowed dockerAddCapabilities values. Note: this will only be used if the
+            corresponding policy is set to "restricted".
+        docker-chroot-path: |-
+            Whether dockerChrootPath can be used. If unspecified, the default is equivalent to
+            "forbidden". _DOCKER_CHROOT_PATH_ must be one of:
+            +
+            *allowed*::: The feature can be used.
+            +
+            *forbidden*::: The feature cannot be used.
+            +
+            *restricted*::: The feature can be used, if and only if, it is set to one of the allowed values.
+            +
+            :::
+            +
+        docker-chroot-path-allowlist: |-
+            The list of allowed dockerChrootPath values. Note: this will only be used if the
+            corresponding policy is set to "restricted".
+        docker-network: |-
+            Whether dockerNetwork can be used. If unspecified, the default is equivalent to
+            "forbidden". _DOCKER_NETWORK_ must be one of:
+            +
+            *allowed*::: The feature can be used.
+            +
+            *forbidden*::: The feature cannot be used.
+            +
+            *restricted*::: The feature can be used, if and only if, it is set to one of the allowed values.
+            +
+            :::
+            +
+        docker-network-allowlist: |-
+            The list of allowed dockerNetwork values. Note: this will only be used if the
+            corresponding policy is set to "restricted".
+        docker-privileged: |-
+            Whether dockerPrivileged can be used. If unspecified, the default is equivalent to
+            "forbidden". _DOCKER_PRIVILEGED_ must be one of:
+            +
+            *allowed*::: dockerPrivileged can be used.
+            +
+            *forbidden*::: dockerPrivileged cannot be used.
+            +
+            :::
+            +
+        docker-run-as-container-provided-user: |-
+            Whether dockerRunAsContainerProvidedUser can be used. If unspecified, the default is
+            equivalent to "forbidden". _DOCKER_RUN_AS_CONTAINER_PROVIDED_USER_ must be one of:
+            +
+            *allowed*::: The feature can be used.
+            +
+            *forbidden*::: The feature cannot be used.
+            +
+            *restricted*::: The feature can be used, if and only if, it is set to one of the allowed values.
+            +
+            :::
+            +
+        docker-run-as-container-provided-user-allowlist: |-
+            The list of allowed dockerRunAsContainerProvidedUser values. Note: this will only be
+            used if the corresponding policy is set to "restricted".
+        docker-run-as-root: |-
+            Whether dockerRunAsRoot can be used. If unspecified, the default is equivalent to
+            "forbidden". _DOCKER_RUN_AS_ROOT_ must be one of:
+            +
+            *allowed*::: dockerRunAsRoot can be used.
+            +
+            *forbidden*::: dockerRunAsRoot cannot be used.
+            +
+            :::
+            +
+        docker-runtime: |-
+            Whether dockerRuntime can be used. If unspecified, the default is equivalent to
+            "forbidden". _DOCKER_RUNTIME_ must be one of:
+            +
+            *allowed*::: The feature can be used.
+            +
+            *forbidden*::: The feature cannot be used.
+            +
+            *restricted*::: The feature can be used, if and only if, it is set to one of the allowed values.
+            +
+            :::
+            +
+        docker-runtime-allowlist: |-
+            The list of allowed dockerRuntime values. Note: this will only be used if the
+            corresponding policy is set to "restricted".
+        docker-sibling-containers: |-
+            Whether dockerSiblingSontainers can be used. If unspecified, the default is equivalent to
+            "forbidden". _DOCKER_SIBLING_CONTAINERS_ must be one of:
+            +
+            *allowed*::: The feature can be used.
+            +
+            *forbidden*::: The feature cannot be used.
+            +
+            :::
+            +
+        docker-ulimits: |-
+            Whether dockerUlimits can be used. If unspecified, the default is equivalent to "forbidden". _DOCKER_ULIMITS_ must be one of:
+            +
+            *allowed*::: The feature can be used.
+            +
+            *forbidden*::: The feature cannot be used.
+            +
+            :::
+            +
+        linux-execution: |-
+            Defines whether Linux actions and worker pools are allowed and how they can be configured
+            to support various levels of isolation. _LINUX_EXECUTION_ must be one of:
+            +
+            *forbidden*::: Forbid Linux actions and worker pools.
+            +
+            *hardened-gvisor*::: Linux actions will be hardened with gVisor. Actions incompatible with gVisor hardening
+            will be rejected.
+            +
+            *hardened-gvisor-or-terminal*::: Linux actions will be hardened with gVisor. Actions incompatible with gVisor hardening
+            will be made terminal, i.e., the worker that ran the action will be terminated after the
+            action completes.
+            +
+            *unrestricted*::: No additional restrictions imposed on Linux actions or worker pools by this policy.
+            +
+            :::
+            +
+        linux-isolation: |-
+            Which Linux isolation mechanism should be used for execution. If unspecified, the default
+            Linux runtime will be used. _LINUX_ISOLATION_ must be one of:
+            +
+            *gvisor*::: gVisor will be used as the isolation mechanism for all linux execution.
+            +
+            *off*::: No additional isolation mechanisms will be used beyond the default linux runtime.
+            +
+            :::
+            +
+        location: The Cloud location to create the instance in.
+        mac-execution: |-
+            Defines whether Mac actions and worker pools are allowed and how they can be configured
+            to support various levels of isolation. _MAC_EXECUTION_ must be one of:
+            +
+            *forbidden*::: Forbid Mac actions and worker pools.
+            +
+            *unrestricted*::: No additional restrictions imposed on Mac actions or worker pools by this policy.
+            +
+            :::
+            +
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        windows-execution: |-
+            Defines whether Windows actions and worker pools are allowed and how they can be configured
+            to support various levels of isolation. _WINDOWS_EXECUTION_ must be one of:
+            +
+            *forbidden*::: Forbid Windows actions and worker pools.
+            +
+            *terminal*::: Windows workers will be terminated after they finish running an action.
+            +
+            *unrestricted*::: No additional restrictions imposed on Windows actions or worker pools by this policy.
+            +
+            :::
+            +

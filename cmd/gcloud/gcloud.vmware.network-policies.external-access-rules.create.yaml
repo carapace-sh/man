@@ -1,0 +1,55 @@
+name: create
+description: Create a VMware Engine external access firewall rule.
+flags:
+    --action=: Whether the firewall rule allows or denies traffic based on a successful rule match.
+    --async: Return immediately, without waiting for the operation in progress to
+    --description=: User-provided description of the external access rule.
+    --destination-ports=: List of allowed destination ports.
+    --destination-ranges=!: A list of destination IP addresses that the rule applies to.
+    --ip-protocol=!: Internet protocol covered by the rule.
+    --location=: The resource name of the location.
+    --network-policy=: VMware Engine network policy
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --priority=!: Priority of this external access rule.
+    --source-ports=: List of allowed source ports.
+    --source-ranges=!: A list of source IP addresses that the rule applies to.
+completion:
+    flag:
+        action:
+            - ALLOW
+            - DENY
+        ip-protocol:
+            - TCP
+            - UDP
+            - ICMP
+documentation:
+    command: |
+        Create a VMware Engine external access firewall rule. Check the progress of a VMware Engine external access firewall rule creation using `gcloud vmware network-policies external-access-rules list`.
+    flag:
+        action: 'Whether the firewall rule allows or denies traffic based on a successful rule match. By default, the action is ALLOW. _ACTION_ must be one of: *ALLOW*, *DENY*.'
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete. The default is *True*. Enabled by default, use *--no-async* to disable.
+        description: User-provided description of the external access rule.
+        destination-ports: List of allowed destination ports. Each entry must be either an integer or a range.
+        destination-ranges: A list of destination IP addresses that the rule applies to. Each entry in the list can be an ExternalAddress resource name or `0.0.0.0/0`. When the value is set to `0.0.0.0/0`, all IP addresses are allowed.
+        ip-protocol: 'Internet protocol covered by the rule. Valid values are TCP, UDP, and ICMP. _IP_PROTOCOL_ must be one of: *TCP*, *UDP*, *ICMP*.'
+        location: |-
+            The resource name of the location.
+            +
+            To set the `location` attribute:
+            * provide the argument `external_access_rule` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `compute/region`.
+        network-policy: |-
+            VMware Engine network policy
+            +
+            To set the `network-policy` attribute:
+            * provide the argument `external_access_rule` on the command line with a fully specified name;
+            * provide the argument `--network-policy` on the command line.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        priority: Priority of this external access rule. Valid values are numbers between 100 and 4096, with 100 being the highest priority. Firewall rules are processed from highest to lowest priority.
+        source-ports: List of allowed source ports. Each entry must be either an integer or a range.
+        source-ranges: A list of source IP addresses that the rule applies to. Each entry in the list can be a CIDR notation or a single IP address. When the value is set to `0.0.0.0/0`, all IP addresses are allowed.

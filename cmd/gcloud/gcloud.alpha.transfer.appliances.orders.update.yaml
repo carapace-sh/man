@@ -1,0 +1,97 @@
+name: update
+description: '*(ALPHA)*  Update an order for a transfer appliance.'
+flags:
+    --address=: Address where the appliance will be shipped.
+    --cmek=: Customer-managed key which will add additional layer of security.
+    --delivery-notes=: Add any additional details about your order, such as site details and a preference date when the appliance should be delivered.
+    --display-name=: A mutable, user-settable name for both the appliance and the order.
+    --model=: Model of the appliance to order.
+    --no-submit&: Submits an order that is in draft.
+    --offline-export=: Configuration for an offline export transfer, where data is downloaded onto
+    --offline-import=: Destination for a offline import, where data is loaded onto the appliance at the customer site and ingested at Google.
+    --online-import=: Destination for a online import, where data is loaded onto the appliance and automatically transferred to Cloud Storage whenever it has an internet connection.
+    --order-contact=: '*business*::: Name of the business, if applicable.'
+    --region=: The location affiliated with the appliance order to update.
+    --shipping-contact=: '*business*::: Name of the business, if applicable.'
+    --submit: Submits an order that is in draft.
+completion:
+    flag:
+        model:
+            - TA40_RACKABLE
+            - TA40_STANDALONE
+            - TA300_RACKABLE
+            - TA300_STANDALONE
+            - TA7
+            - EA_STORAGE_7
+            - EA_GPU_T4
+        region:
+            - us-central1
+            - europe-west1
+            - asia-southeast1
+documentation:
+    command: |
+        *(ALPHA)*  *gcloud alpha transfer appliances orders update* facilitates the update of Transfer Appliance Orders.
+    flag:
+        address: |-
+            Address where the appliance will be shipped. All fields (or list items)
+            have a maximum of 80 characters. For more information see
+            https://support.google.com/business/answer/6397478.
+            +
+            *lines*::: Line of the postal address that doesn't fit in the other
+            fields. For most countries/regions, the first line will include a street
+            number and street name. You can have up to 5 address lines.
+            +
+            *locality*::: Generally refers to the city/town portion of the address.
+            +
+            *administrative_area*::: The state or province where the business is
+            located. Enter the full name (e.g. "California"), common postal
+            abbreviation (e.g. "CA"), or subdivision (ISO 3166-2) code
+            (e.g. "US-CA").
+            +
+            *postal_code*::: The postal code of the address.
+        cmek: Customer-managed key which will add additional layer of security. By default data is encrypted with a Google-managed key.
+        delivery-notes: Add any additional details about your order, such as site details and a preference date when the appliance should be delivered.
+        display-name: A mutable, user-settable name for both the appliance and the order.
+        model: 'Model of the appliance to order. _MODEL_ must be one of: *TA40_RACKABLE*, *TA40_STANDALONE*, *TA300_RACKABLE*, *TA300_STANDALONE*, *TA7*, *EA_STORAGE_7*, *EA_GPU_T4*.'
+        no-submit: Submits an order that is in draft.
+        offline-export: |-
+            Configuration for an offline export transfer, where data is downloaded onto
+            the appliance at Google and copied from the appliance at the customer site.
+            +
+            *source*::: The Cloud Storage bucket or folder where the data is located,
+            in the form of `gs://my-bucket/path/to/folder/`.
+            +
+            *manifest*::: Specifies the path to the manifest in Cloud Storage.
+            An example path is `gs://bucket_name/path/manifest.csv`. The paths in
+            the manifest file are relative to bucketname. For example, to export
+            `SOURCE_PATH/object1.pdf`, manifest will have `object1.pdf` in the first
+            column, followed by object version (optional). For more information see
+            https://cloud.google.com/storage-transfer/docs/manifest#object_storage_transfers.
+        offline-import: Destination for a offline import, where data is loaded onto the appliance at the customer site and ingested at Google. Should be in the form of `gs://my-bucket/path/to/folder/`.
+        online-import: Destination for a online import, where data is loaded onto the appliance and automatically transferred to Cloud Storage whenever it has an internet connection. Should be in the form of `gs://my-bucket/path/to/folder/`.
+        order-contact: |-
+            *business*::: Name of the business, if applicable.
+            +
+            *name*::: Name of the primary contact.
+            +
+            *phone*::: The phone number of the primary contact. Should be given in E.164
+            format consisting of the country calling code (1 to 3 digits) and the
+            subscriber number, with no additional spaces or formatting, e.g.
+            `15552220123`.
+            +
+            *emails*::: The email of the primary contact along with any additional email
+            addresses to include with all correspondence.
+        region: 'The location affiliated with the appliance order to update. _REGION_ must be one of: *us-central1*, *europe-west1*, *asia-southeast1*.'
+        shipping-contact: |-
+            *business*::: Name of the business, if applicable.
+            +
+            *name*::: Name of the primary contact.
+            +
+            *phone*::: The phone number of the primary contact. Should be given in E.164
+            format consisting of the country calling code (1 to 3 digits) and the
+            subscriber number, with no additional spaces or formatting, e.g.
+            `15552220123`.
+            +
+            *emails*::: The email of the primary contact along with any additional email
+            addresses to include with all correspondence.
+        submit: Submits an order that is in draft.

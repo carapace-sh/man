@@ -1,0 +1,40 @@
+name: generate-ssh-script
+description: Generate a SSH script for a Database Migration Service migration job.
+flags:
+    --region=: The name of the region.
+    --subnet=!: Subnet to create the VM instance in.
+    --vm-machine-type=!: Machine type for a new VM instance.
+    --vm-port=: Port that will be open on the bastion host.
+    --vm-zone-create=: Zone to create the VM instance in.
+    --vm-zone=: Zone the existing bastion VM instance is located in.
+    --vm=!: Bastion Compute Engine VM instance name to use or to create.
+documentation:
+    command: |
+        Generate a script for a Database Migration Service migration job, to configure Reverse SSH
+        tunnel connectivity with a bastion host on a Compute Engine VM instance.
+        You can use an existing VM instance or create a new VM for this purpose.
+
+        Copy the generated script and run it in bash from a machine that has:
+        - The gcloud command-line tool installed.
+        - Access to your source database.
+        - Access to the existing bastion VM, or permissions and access to the Cloud Compute API if creating a new bastion VM.
+        Make sure this machine is available during the entire migration.
+
+        Running the script will set up the SSH tunnel on the VM you selected and will establish
+        connectivity between the source database and the Cloud SQL instance.
+        Find additional information [here](https://cloud.google.com/database-migration/docs/mysql/configure-connectivity-reverse-ssh-tunnel).
+    flag:
+        region: |-
+            The name of the region.
+            +
+            To set the `region` attribute:
+            * provide the argument `migration_job` on the command line with a fully specified name;
+            * provide the argument `--region` on the command line.
+        subnet: Subnet to create the VM instance in.
+        vm: Bastion Compute Engine VM instance name to use or to create.
+        vm-machine-type: |-
+            Machine type for a new VM instance.
+            To get a list of available machine types, run 'gcloud compute machine-types list'.
+        vm-port: Port that will be open on the bastion host.
+        vm-zone: Zone the existing bastion VM instance is located in.
+        vm-zone-create: Zone to create the VM instance in.

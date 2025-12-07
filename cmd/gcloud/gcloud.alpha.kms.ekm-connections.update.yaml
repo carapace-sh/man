@@ -1,0 +1,56 @@
+name: update
+description: '*(ALPHA)*  Update an ekmconnection.'
+flags:
+    --crypto-space-path=: Crypto space path for the EkmConnection.
+    --endpoint-filter=: The filter applied to the endpoints of the resolved service.
+    --hostname=: The hostname of the EKM replica used at TLS and HTTP layers.
+    --key-management-mode=: Key management mode of the ekm connection.
+    --location=: The Google Cloud location for the ekmconnection.
+    --server-certificates-files=: A list of filenames of leaf server certificates used to authenticate HTTPS connections to the EKM replica in PEM format.
+    --service-directory-service=: The resource name of the Service Directory service pointing to an EKM replica.
+completion:
+    flag:
+        key-management-mode:
+            - manual
+            - cloud-kms
+documentation:
+    command: |-
+        *(ALPHA)*  gcloud alpha kms ekm-connections update can be used to update the ekmconnection. Updates can be made to the
+        ekmconnection's service resolver's fields.
+
+        ## EXAMPLES
+
+        The following command updates an ekm-connection named `laplace` service
+        resolver's hostname within location `us-east1`:
+
+        $ gcloud alpha kms ekm-connections update laplace --location=us-east1 \
+                            --hostname=newhostname.foo
+
+        The following command updates an ekm-connection named `laplace` service
+        resolver's service_directory_service, endpoint_filter, hostname, and
+        server_certificates within location `us-east1`:
+
+          $ gcloud alpha kms ekm-connections update laplace --location=us-east1 \
+              --service-directory-service="foo" \
+              --endpoint-filter="foo > bar" \
+              --hostname="newhostname.foo" \
+              --server-certificates-files=foo.pem,bar.pem
+
+        The following command updates an ekm-connection named `laplace`
+        key_management_mode within location `us-east1`:
+
+        $ gcloud alpha kms ekm-connections update laplace --location=us-east1 \
+                            --key-management-mode=manual
+    flag:
+        crypto-space-path: Crypto space path for the EkmConnection. Required during EkmConnection creation if `--key-management-mode=cloud-kms`.
+        endpoint-filter: The filter applied to the endpoints of the resolved service. If no filter is specified, all endpoints will be considered.
+        hostname: The hostname of the EKM replica used at TLS and HTTP layers.
+        key-management-mode: 'Key management mode of the ekm connection. An EkmConnection in `cloud-kms` mode means Cloud KMS will attempt to create and manage the key material that resides on the EKM for crypto keys created with this EkmConnection. An EkmConnection in `manual` mode means the external key material will not be managed by Cloud KMS. Omitting the flag defaults to `manual`. _KEY_MANAGEMENT_MODE_ must be one of: *manual*, *cloud-kms*.'
+        location: |-
+            The Google Cloud location for the ekmconnection.
+            +
+            To set the `location` attribute:
+            * provide the argument `ekm_connection` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line.
+        server-certificates-files: A list of filenames of leaf server certificates used to authenticate HTTPS connections to the EKM replica in PEM format. If files are not in PEM, the assumed format will be DER.
+        service-directory-service: The resource name of the Service Directory service pointing to an EKM replica.

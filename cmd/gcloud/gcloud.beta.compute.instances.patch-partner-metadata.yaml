@@ -1,0 +1,49 @@
+name: patch-partner-metadata
+description: '*(BETA)*  Patch partner metadata.'
+flags:
+    --partner-metadata-from-file=: Path to a local json file containing partner metadata.
+    --partner-metadata=: Partner metadata specifying namespace and its entries.
+    --zone=: Zone of the instance to set partner metadata on.
+documentation:
+    command: |4+
+          *(BETA)*  gcloud beta compute instances patch-partner-metadata can be used to patch partner metadata of a
+        virtual machine instance. Every instance has access to a
+        metadata server that can be used to query partner metadata that has
+        been set through this tool. For information on metadata, see link:https://cloud.google.com/compute/docs/metadata/overview[About VM metadata].
+
+        Only namespaces keys that are provided are mutated. Existing
+        Namespaces entries will remain unaffected.
+
+        In order to retrieve partner metadata, run:
+
+            $ gcloud compute instances describe example-instance --zone
+            us-central1-a --view=FULL --format="value(partnerMetadata)"
+
+        where example-instance is the name of the virtual machine instance
+        you're querying partner metadata from.
+
+    flag:
+        partner-metadata: Partner metadata specifying namespace and its entries. The entries can be key-value pairs or in json format.
+        partner-metadata-from-file: Path to a local json file containing partner metadata. Use a full or relative path to a local file containing the value of partner_metadata.
+        zone: |-
+            Zone of the instance to set partner metadata on. If not specified, you might be prompted to select a zone (interactive mode
+            only). `gcloud` attempts to identify the appropriate zone by searching for
+            resources in your currently active project. If the zone cannot be determined,
+            `gcloud` prompts you for a selection with all available Google Cloud Platform
+            zones.
+            +
+            To avoid prompting when this flag is omitted, the user can set the
+            ``compute/zone'' property:
+            +
+              $ gcloud config set compute/zone ZONE
+            +
+            A list of zones can be fetched by running:
+            +
+              $ gcloud compute zones list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/zone
+            +
+            Alternatively, the zone can be stored in the environment variable
+            ``CLOUDSDK_COMPUTE_ZONE''.

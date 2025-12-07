@@ -1,0 +1,54 @@
+name: replace-all
+description: '*(ALPHA)*  Replace all existing access levels.'
+flags:
+    --etag=: An etag which specifies the version of the Access Policy.
+    --source-file=!: Path to a file containing a list of access levels.
+documentation:
+    command: |
+        *(ALPHA)*  Replace all existing access level in specified access policy with access levels specified in a
+        file.
+
+        ## EXAMPLES
+
+        To replace all levels within a policy, using etag:
+
+          $ gcloud alpha access-context-manager levels replace-all my-policy-number --source-file=path-to-file-containing-all-replacement-access-levels.yaml --etag=optional-latest-etag-of-policy
+
+        To replace all levels within a policy, without using etag:
+
+          $ gcloud alpha access-context-manager levels replace-all my-policy-number --source-file=path-to-file-containing-all-replacement-access-levels.yaml
+    flag:
+        etag: |-
+            An etag which specifies the version of the Access Policy. Only etags
+            that represent the latest version of the Access Policy will be accepted.
+        source-file: |-
+            Path to a file containing a list of access levels.
+            +
+            An access level file is a YAML-formatted list of access levels,
+            which are YAML objects representing a Basic or Custom level as described in
+            the API reference. For example:
+            +
+            ```
+            - name: accessPolicies/my_policy/accessLevels/my_level
+              title: My Basic Level
+              description: Basic level for foo.
+              basic:
+                combiningFunction: AND
+                conditions:
+                - ipSubnetworks:
+                  - 192.168.100.14/24
+                  - 2001:db8::/48
+                - members
+                  - user1:user1@example.com
+            - name: accessPolicies/my_policy/accessLevels/my_other_level
+              title: My Other Custom Level
+              description: Custom level for bar.
+              custom:
+                expr:
+                  expression: "origin.region_code in ['US', 'CA']"
+            ```
+            +
+            For more information about the alpha version, see:
+            https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.accessLevels
+            For other versions, see:
+            https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.accessLevels

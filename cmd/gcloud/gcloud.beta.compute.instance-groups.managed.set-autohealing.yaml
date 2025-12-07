@@ -1,0 +1,61 @@
+name: set-autohealing
+description: '*(BETA)*  *(DEPRECATED)*  Set autohealing policy for managed instance group.'
+flags:
+    --health-check=: Name of the  health check to operate on.
+    --http-health-check=: (DEPRECATED) HTTP health check object used for autohealing instances in this group.
+    --https-health-check=: (DEPRECATED) HTTPS health check object used for autohealing instances in this group.
+    --initial-delay=: Specifies the number of seconds that a new VM takes to initialize and run
+    --region=: Region of the managed instance group to operate on.
+    --zone=: Zone of the managed instance group to operate on.
+documentation:
+    command: |-
+        *(BETA)*  *(DEPRECATED)*  Set autohealing policy for managed instance group.
+
+        This command is deprecated and will not be promoted to GA. Please use `gcloud beta instance-groups managed update` instead.
+
+        *gcloud beta compute instance-groups managed set-autohealing* updates the autohealing policy for an existing managed
+        instance group.
+
+        If health check is specified, the resulting autohealing policy will be
+        triggered by the health-check signal i.e. the autohealing action (RECREATE) on
+        an instance will be performed if the health-check signals that the instance is
+        UNHEALTHY. If no health check is specified, the resulting autohealing policy
+        will be triggered by instance's status i.e. the autohealing action (RECREATE)
+        on an instance will be performed if the instance.status is not RUNNING.
+    flag:
+        health-check: Name of the  health check to operate on.
+        http-health-check: |-
+            (DEPRECATED) HTTP health check object used for autohealing instances in this group.
+            +
+            HttpHealthCheck is deprecated. Use --health-check instead.
+        https-health-check: |-
+            (DEPRECATED) HTTPS health check object used for autohealing instances in this group.
+            +
+            HttpsHealthCheck is deprecated. Use --health-check instead.
+        initial-delay: |-
+            Specifies the number of seconds that a new VM takes to initialize and run
+            its startup script. During a VM's initial delay period, the MIG ignores
+            unsuccessful health checks because the VM might be in the startup process.
+            This prevents the MIG from prematurely recreating a VM. If the health
+            check receives a healthy response during the initial delay, it indicates
+            that the startup process is complete and the VM is ready. The value of
+            initial delay must be between 0 and 3600 seconds. The default value is 0.
+            See $ gcloud topic datetimes for information on duration formats.
+        region: |-
+            Region of the managed instance group to operate on. If not specified, you might be prompted to select a region (interactive mode
+            only).
+            +
+            A list of regions can be fetched by running:
+            +
+              $ gcloud compute regions list
+            +
+            Overrides the default *compute/region* property value for this command invocation.
+        zone: |-
+            Zone of the managed instance group to operate on. If not specified, you might be prompted to select a zone (interactive mode
+            only).
+            +
+            A list of zones can be fetched by running:
+            +
+              $ gcloud compute zones list
+            +
+            Overrides the default *compute/zone* property value for this command invocation.

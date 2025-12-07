@@ -1,0 +1,62 @@
+name: rollback
+description: '*(ALPHA)*  Rollbacks a target to a prior rollout.'
+flags:
+    --annotations=: Annotations to apply to the rollback.
+    --delivery-pipeline=!: The name of the Cloud Deploy delivery pipeline
+    --description=: Description of rollout created during a rollback.
+    --labels=: Labels to apply to the rollback.
+    --override-deploy-policies=: Deploy policies to override
+    --region=: The Cloud region for the target.
+    --release=: Name of the release to rollback to.
+    --rollback-of-rollout=: If set, this validates whether the rollout name specified by the flag matches
+    --rollout-id=: ID to assign to the generated rollout for promotion.
+    --starting-phase-id=: If set, starts the created rollout at the specified phase.
+documentation:
+    command: |-
+        *(ALPHA)*  If release is not specified, the command rollbacks the target with the last
+        successful deployed release. If optional rollout-id parameter is not
+        specified, a generated rollout ID will be used.
+    flag:
+        annotations: |-
+            Annotations to apply to the rollback. Annotations take the form of key/value string pairs.
+            +
+            Examples:
+            +
+            Add annotations:
+            +
+              $ {command} --annotations="from_target=test,status=stable"
+        delivery-pipeline: The name of the Cloud Deploy delivery pipeline
+        description: Description of rollout created during a rollback.
+        labels: |-
+            Labels to apply to the rollback. Labels take the form of key/value string pairs.
+            +
+            Examples:
+            +
+            Add labels:
+            +
+              $ {command} --labels="commit=abc123,author=foo"
+        override-deploy-policies: Deploy policies to override
+        region: |-
+            The Cloud region for the target.  Alternatively, set the property [deploy/region].
+            +
+            To set the `region` attribute:
+            * provide the argument `target` on the command line with a fully specified name;
+            * provide the argument `--region` on the command line;
+            * set the property `deploy/region`.
+        release: Name of the release to rollback to.
+        rollback-of-rollout: |-
+            If set, this validates whether the rollout name specified by the flag matches
+            the rollout on the target.
+            +
+            Examples:
+            +
+            Validate that `test-rollout` is the rollout to rollback on the target.
+            +
+              $ {command} --rollback-of-rollout=projects/test-project/locations/us-central1/deliveryPipelines/test-pipeline/releases/test-release/rollouts/test-rollout
+        rollout-id: ID to assign to the generated rollout for promotion.
+        starting-phase-id: |-
+            If set, starts the created rollout at the specified phase.
+            +
+            Start rollout at `stable` phase:
+            +
+              $ {command} --starting-phase-id=stable

@@ -1,0 +1,109 @@
+name: update
+description: '*(ALPHA)*  Update Compute Engine reservations.'
+flags:
+    --add-share-with=: If this reservation is shared (--share-setting is projects), then
+    --delete-after-duration=: Automatically deletes the reservations after a specified number of
+    --delete-at-time=: Automatically deletes the reservation at a specific time from its creation.
+    --disable-auto-delete: Disables the auto-delete setting for the reservation.
+    --enable-emergent-maintenance: Enables the reservation to receive notifications when urgent maintenance
+    --no-disable-auto-delete&: Disables the auto-delete setting for the reservation.
+    --no-enable-emergent-maintenance&: Enables the reservation to receive notifications when urgent maintenance
+    --remove-share-with=: A list of specific projects to remove from the list of projects that this
+    --reservation-sharing-policy=: The reservation sharing policy to use for this reservation.
+    --scheduling-type=: How Compute Engine schedules maintenance events for your reserved hosts.
+    --share-setting=: The projects that can use the reservation.
+    --share-with=: If this reservation is shared (--share-setting=projects), then specify a
+    --vm-count=: The number of VM instances that are allocated to this reservation.
+    --zone=: Zone of the reservation to update.
+completion:
+    flag:
+        reservation-sharing-policy:
+            - ALLOW_ALL
+            - DISALLOW_ALL
+        scheduling-type:
+            - GROUPED
+            - INDEPENDENT
+        share-setting:
+            - local
+            - projects
+documentation:
+    command: '*(ALPHA)*  Update Compute Engine reservations.'
+    flag:
+        add-share-with: |-
+            If this reservation is shared (--share-setting is projects), then
+            specify a comma-separated list of projects to share the reservation
+            with. You must list the projects using project IDs or project numbers.
+        delete-after-duration: |-
+            Automatically deletes the reservations after a specified number of
+            days, hours, minutes, or seconds from its creation. For example,
+            specify 30m for 30 minutes, or 1d2h3m4s for 1 day, 2 hours,
+            3 minutes, and 4 seconds. For more information, see $ gcloud topic datetimes.
+        delete-at-time: |-
+            Automatically deletes the reservation at a specific time from its creation.
+            The specified time must be an RFC3339 timestamp, which must be
+            formatted as "YYYY-MM-DDTHH:MM:SSZ" where YYYY = year, MM = month, DD = day,
+            HH = hours, MM = minutes, SS = seconds, and Z = time zone in
+            Coordinated Universal Time (UTC). For example, specify 2021-11-20T07:00:00Z.
+        disable-auto-delete: Disables the auto-delete setting for the reservation.
+        enable-emergent-maintenance: |-
+            Enables the reservation to receive notifications when urgent maintenance
+            for a GPU VM starts after the VM encounters a host error. Use *--enable-emergent-maintenance* to enable and *--no-enable-emergent-maintenance* to disable.
+        no-disable-auto-delete: |
+            Disables the auto-delete setting for the reservation.
+        no-enable-emergent-maintenance: |
+            Enables the reservation to receive notifications when urgent maintenance
+            for a GPU VM starts after the VM encounters a host error.
+        remove-share-with: |-
+            A list of specific projects to remove from the list of projects that this
+            reservation is shared with. List must contain project IDs or project numbers.
+        reservation-sharing-policy: |-
+            The reservation sharing policy to use for this reservation. _RESERVATION_SHARING_POLICY_ must be one of:
+            +
+            *ALLOW_ALL*::: The reservation can be shared with Google Cloud services.
+            *DISALLOW_ALL*::: The reservation won't be shared with Google Cloud services. If you omit this flag during creation, the default value is DISALLOW_ALL.
+            :::
+            +
+        scheduling-type: |-
+            How Compute Engine schedules maintenance events for your reserved hosts. _SCHEDULING_TYPE_ must be one of:
+            +
+            *GROUPED*::: In GROUPED mode, maintenance is synchronized across all your VMs.
+            *INDEPENDENT*::: In INDEPENDENT mode, your VMs have different, unsynchronized maintenance schedules.
+            :::
+            +
+        share-setting: |-
+            The projects that can use the reservation. _SHARE_SETTING_ must be one of:
+            +
+            *local*::: Only your project can use the reservation. This is the default value.
+            *projects*::: Your project and up to 100 other projects within your
+            project's organization can use the reservation. If you specify
+            this value, then you must also include the --share-with flag in
+            the command.
+            +
+            :::
+            +
+        share-with: |-
+            If this reservation is shared (--share-setting=projects), then specify a
+            comma-separated list of projects to share the reservation with. List
+            projects using project IDs or project numbers.
+        vm-count: |-
+            The number of VM instances that are allocated to this reservation.
+            The value of this field must be an int in the range [1, 1000].
+        zone: |-
+            Zone of the reservation to update. If not specified and the ``compute/zone'' property isn't set, you
+            might be prompted to select a zone (interactive mode only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/zone'' property:
+            +
+              $ gcloud config set compute/zone ZONE
+            +
+            A list of zones can be fetched by running:
+            +
+              $ gcloud compute zones list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/zone
+            +
+            Alternatively, the zone can be stored in the environment variable
+            ``CLOUDSDK_COMPUTE_ZONE''.

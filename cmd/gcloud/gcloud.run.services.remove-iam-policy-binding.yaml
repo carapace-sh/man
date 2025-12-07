@@ -1,0 +1,96 @@
+name: remove-iam-policy-binding
+description: Remove IAM policy binding of a Cloud Run service.
+flags:
+    --all: Remove all bindings with this role and principal, irrespective of any
+    --cluster-location=&: Zone in which the cluster is located.
+    --cluster=&: ID of the cluster or fully qualified identifier for the cluster.
+    --condition-from-file=: Path to a local JSON or YAML file that defines the condition.
+    --condition=: The condition of the binding that you want to remove.
+    --context=&: The name of the context in your kubectl config file to use for connecting.
+    --kubeconfig=&: The absolute path to your kubectl config file.
+    --member=!: The principal to remove the binding for.
+    --no-all&: ""
+    --platform=&: Target platform for running commands.
+    --region=: Region in which the resource can be found.
+    --role=!: The role to remove the principal from.
+completion:
+    flag:
+        platform:
+            - gke
+            - kubernetes
+            - managed
+documentation:
+    command: |
+        Remove an IAM policy binding from the IAM policy of a service. One binding consists of a member,
+        and a role.
+    flag:
+        all: |-
+            Remove all bindings with this role and principal, irrespective of any
+            conditions.
+        cluster: |-
+            ID of the cluster or fully qualified identifier for the cluster.
+
+            To set the `cluster` attribute:
+            * provide the argument `--cluster` on the command line;
+            * set the property `run/cluster`;
+            * specify the cluster from a list of available clusters.
+        cluster-location: |-
+            Zone in which the cluster is located. Alternatively, set the property [run/cluster_location].
+
+            To set the `location` attribute:
+            * provide the argument `--cluster` on the command line with a fully specified name;
+            * set the property `run/cluster` with a fully specified name;
+            * specify the cluster from a list of available clusters with a fully specified name;
+            * provide the argument `--cluster-location` on the command line;
+            * set the property `run/cluster_location`;
+            * specify the cluster location from a list of available zones.
+        condition: |-
+            The condition of the binding that you want to remove. When the condition is
+            explicitly specified as `None` (`--condition=None`), a binding without a
+            condition is removed. Otherwise, only a binding with a condition that exactly
+            matches the specified condition (including the optional description) is removed.
+            For more on conditions, refer to the conditions overview guide:
+            https://cloud.google.com/iam/docs/conditions-overview
+            +
+            When using the `--condition` flag, include the following key-value pairs:
+            +
+            *expression*::: (Required) Condition expression that evaluates to True or False.
+            This uses a subset of Common Expression Language syntax.
+            +
+            If the condition expression includes a comma, use a different delimiter to
+            separate the key-value pairs. Specify the delimiter before listing the
+            key-value pairs. For example, to specify a colon (`:`) as the delimiter, do the
+            following: `--condition=^:^title=TITLE:expression=EXPRESSION`. For more
+            information, see https://cloud.google.com/sdk/gcloud/reference/topic/escaping.
+            +
+            *title*::: (Required) A short string describing the purpose of the expression.
+            +
+            *description*::: (Optional) Additional description for the expression.
+        condition-from-file: |-
+            Path to a local JSON or YAML file that defines the condition.
+            To see available fields, see the help for `--condition`. Use a full or relative path to a local file containing the value of condition.
+        context: The name of the context in your kubectl config file to use for connecting.
+        kubeconfig: The absolute path to your kubectl config file. If not specified, the colon- or semicolon-delimited list of paths specified by $KUBECONFIG will be used. If $KUBECONFIG is unset, this defaults to `~/.kube/config`.
+        member: |-
+            The principal to remove the binding for. Should be of the form `user|group|serviceAccount:email` or
+            `domain:domain`.
+            +
+            Examples: `user:test-user@gmail.com`, `group:admins@example.com`,
+            `serviceAccount:test123@example.domain.com`, or
+            `domain:example.domain.com`.
+            +
+            Deleted principals have an additional `deleted:` prefix and a `?uid=UID` suffix,
+            where ``UID'' is a unique identifier for the principal. Example:
+            `deleted:user:test-user@gmail.com?uid=123456789012345678901`.
+            +
+            Some resources also accept the following special values:
+            * `allUsers` - Special identifier that represents anyone who is on the internet,
+               with or without a Google account.
+            * `allAuthenticatedUsers` - Special identifier that represents anyone who is
+               authenticated with a Google account or a service account.
+        no-all: |-
+            Remove all bindings with this role and principal, irrespective of any
+            conditions.
+        platform: 'Target platform for running commands. Alternatively, set the property [run/platform]. '
+        region: Region in which the resource can be found. Alternatively, set the property [run/region].
+        role: The role to remove the principal from.

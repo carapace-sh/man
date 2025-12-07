@@ -1,0 +1,45 @@
+name: abandon-instances
+description: '*(ALPHA)*  Abandon instances owned by a managed instance group.'
+flags:
+    --instances=!: Names of instances to abandon.
+    --region=: Region of the managed instance group to operate on.
+    --zone=: Zone of the managed instance group to operate on.
+documentation:
+    command: |4
+                *(ALPHA)*  *gcloud alpha compute instance-groups managed abandon-instances* abandons one or more instances from a managed instance
+        group, thereby reducing the targetSize of the group. Once instances have been
+        abandoned, the currentSize of the group is automatically reduced as well to
+        reflect the change.
+
+        Abandoning an instance does not reboot or delete the underlying virtual machine
+        instances, but just removes the instances from the instance group. If you would
+        like to delete the underlying instances, use the `delete-instances` command
+        instead.
+
+        The command returns the operation status per instance, which might be ``FAIL'',
+        ``SUCCESS'', or ``MEMBER_NOT_FOUND''. ``MEMBER_NOT_FOUND'' is returned only for
+        regional groups when the gcloud command-line tool wasn't able to resolve the
+        zone from the instance name.
+
+        For a more detailed overview of how abandoning instances from a managed instance
+        group works, see [Abandoning instances from a MIG](https://cloud.google.com/compute/docs/instance-groups/add-remove-vms-in-mig#abandoning_instances).
+    flag:
+        instances: Names of instances to abandon.
+        region: |-
+            Region of the managed instance group to operate on. If not specified, you might be prompted to select a region (interactive mode
+            only).
+            +
+            A list of regions can be fetched by running:
+            +
+              $ gcloud compute regions list
+            +
+            Overrides the default *compute/region* property value for this command invocation.
+        zone: |-
+            Zone of the managed instance group to operate on. If not specified, you might be prompted to select a zone (interactive mode
+            only).
+            +
+            A list of zones can be fetched by running:
+            +
+              $ gcloud compute zones list
+            +
+            Overrides the default *compute/zone* property value for this command invocation.

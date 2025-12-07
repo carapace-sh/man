@@ -1,0 +1,49 @@
+name: set-scopes
+description: '*(BETA)*  Set scopes and service account for a Compute Engine VM instance.'
+flags:
+    --no-scopes: Remove all scopes from the instance
+    --no-service-account: Remove service account from the instance
+    --scopes=: If not provided, the instance will keep the scopes it currently has.
+    --service-account=: A service account is an identity attached to the instance.
+    --zone=: Zone of the instance to operate on.
+documentation:
+    command: |
+        *(BETA)*  `gcloud beta compute instances set-scopes` lets you configure service account and scopes for a
+        Compute Engine VM instance.
+
+        Note: This command might be deprecated in a future release.
+        Use `gcloud compute instances set-service-account` instead.
+    flag:
+        no-scopes: Remove all scopes from the instance
+        no-service-account: Remove service account from the instance
+        scopes: "If not provided, the instance will keep the scopes it currently has. \n+\nSCOPE can be either the full URI of the scope or an alias. *Default* scopes are\nassigned to all instances. Available aliases are:\n+\nAlias | URI\n--- | ---\nbigquery | https://www.googleapis.com/auth/bigquery\ncloud-platform | https://www.googleapis.com/auth/cloud-platform\ncloud-source-repos | https://www.googleapis.com/auth/source.full_control\ncloud-source-repos-ro | https://www.googleapis.com/auth/source.read_only\ncompute-ro | https://www.googleapis.com/auth/compute.readonly\ncompute-rw | https://www.googleapis.com/auth/compute\ndatastore | https://www.googleapis.com/auth/datastore\ndefault | https://www.googleapis.com/auth/devstorage.read_only\n| https://www.googleapis.com/auth/logging.write\n| https://www.googleapis.com/auth/monitoring.write\n| https://www.googleapis.com/auth/pubsub\n| https://www.googleapis.com/auth/service.management.readonly\n| https://www.googleapis.com/auth/servicecontrol\n| https://www.googleapis.com/auth/trace.append\ngke-default | https://www.googleapis.com/auth/devstorage.read_only\n| https://www.googleapis.com/auth/logging.write\n| https://www.googleapis.com/auth/monitoring\n| https://www.googleapis.com/auth/service.management.readonly\n| https://www.googleapis.com/auth/servicecontrol\n| https://www.googleapis.com/auth/trace.append\nlogging-write | https://www.googleapis.com/auth/logging.write\nmonitoring | https://www.googleapis.com/auth/monitoring\nmonitoring-read | https://www.googleapis.com/auth/monitoring.read\nmonitoring-write | https://www.googleapis.com/auth/monitoring.write\npubsub | https://www.googleapis.com/auth/pubsub\nservice-control | https://www.googleapis.com/auth/servicecontrol\nservice-management | https://www.googleapis.com/auth/service.management.readonly\nsql (deprecated) | https://www.googleapis.com/auth/sqlservice\nsql-admin | https://www.googleapis.com/auth/sqlservice.admin\nstorage-full | https://www.googleapis.com/auth/devstorage.full_control\nstorage-ro | https://www.googleapis.com/auth/devstorage.read_only\nstorage-rw | https://www.googleapis.com/auth/devstorage.read_write\ntaskqueue | https://www.googleapis.com/auth/taskqueue\ntrace | https://www.googleapis.com/auth/trace.append\nuserinfo-email | https://www.googleapis.com/auth/userinfo.email\n+\nDEPRECATION WARNING: https://www.googleapis.com/auth/sqlservice account scope\nand `sql` alias do not provide SQL instance management capabilities and have\nbeen deprecated. Please, use https://www.googleapis.com/auth/sqlservice.admin\nor `sql-admin` to manage your Google SQL Service instances."
+        service-account: |-
+            A service account is an identity attached to the instance. Its access tokens
+            can be accessed through the instance metadata server and are used to
+            authenticate applications on the instance. The account can be set using an
+            email address corresponding to the required service account. You can explicitly specify the Compute Engine default service
+            account using the 'default' alias.
+            +
+            If not provided, the instance will use the service account it currently has.
+        zone: |-
+            Zone of the instance to operate on. If not specified, you might be prompted to select a zone (interactive mode
+            only). `gcloud` attempts to identify the appropriate zone by searching for
+            resources in your currently active project. If the zone cannot be determined,
+            `gcloud` prompts you for a selection with all available Google Cloud Platform
+            zones.
+            +
+            To avoid prompting when this flag is omitted, the user can set the
+            ``compute/zone'' property:
+            +
+              $ gcloud config set compute/zone ZONE
+            +
+            A list of zones can be fetched by running:
+            +
+              $ gcloud compute zones list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/zone
+            +
+            Alternatively, the zone can be stored in the environment variable
+            ``CLOUDSDK_COMPUTE_ZONE''.

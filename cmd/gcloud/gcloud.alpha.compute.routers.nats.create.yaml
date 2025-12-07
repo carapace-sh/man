@@ -1,0 +1,221 @@
+name: create
+description: '*(ALPHA)*  Add a NAT to a Compute Engine router.'
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --auto-allocate-nat-external-ips: Automatically allocate external IP addresses for Cloud NAT
+    --auto-network-tier=: Network tier to use when automatically reserving NAT IP addresses.
+    --enable-dynamic-port-allocation: Enable dynamic port allocation.
+    --enable-endpoint-independent-mapping: Enable endpoint-independent mapping for the NAT (as defined in RFC 5128).
+    --enable-logging: Enable logging for the NAT.
+    --endpoint-types=: Endpoint Types supported by the NAT Gateway.
+    --icmp-idle-timeout=: Timeout for ICMP connections.
+    --log-filter=: Filter for logs exported to stackdriver.
+    --max-ports-per-vm=: Maximum ports to be allocated to a VM.
+    --min-ports-per-vm=: Minimum ports to be allocated to a VM.
+    --nat-all-subnet-ip-ranges: Allow all IP ranges of all subnetworks in the region, including
+    --nat-custom-subnet-ip-ranges=: List of subnetwork primary and secondary IP ranges to be allowed to
+    --nat-external-ip-pool-region=&: 'Region of the addresss to operate on. '
+    --nat-external-ip-pool=: External IP Addresses to use for Cloud NAT
+    --nat-primary-subnet-ip-ranges: Allow only primary IP ranges of all subnetworks in the region to use
+    --nat64-all-v6-subnet-ip-ranges: Allow all IPv6 subnetwork ranges in the region to use NAT.
+    --nat64-custom-v6-subnet-ip-ranges=: List of subnetworks with IPv6 ranges to be allowed to use NAT.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-auto-allocate-nat-external-ips&: Automatically allocate external IP addresses for Cloud NAT
+    --no-enable-dynamic-port-allocation&: Enable dynamic port allocation.
+    --no-enable-endpoint-independent-mapping&: Enable endpoint-independent mapping for the NAT (as defined in RFC 5128).
+    --no-enable-logging&: Enable logging for the NAT.
+    --region=: Region of the NAT to create.
+    --router-region=&: 'Region of the router to operate on. '
+    --router=!: Router to use for NAT.
+    --rules=: Path to YAML file containing NAT Rules applied to the NAT.
+    --tcp-established-idle-timeout=: Timeout for TCP established connections.
+    --tcp-time-wait-timeout=: Timeout for TCP connections in the TIME_WAIT state.
+    --tcp-transitory-idle-timeout=: Timeout for TCP transitory connections.
+    --type=: Type of the NAT Gateway.
+    --udp-idle-timeout=: Timeout for UDP connections.
+completion:
+    flag:
+        auto-network-tier:
+            - PREMIUM
+            - STANDARD
+        log-filter:
+            - ALL
+            - ERRORS_ONLY
+            - TRANSLATIONS_ONLY
+        type:
+            - PRIVATE
+            - PUBLIC
+documentation:
+    command: |
+        *(ALPHA)*  *gcloud alpha compute routers nats create* is used to create a NAT on a Compute Engine router.
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        auto-allocate-nat-external-ips: Automatically allocate external IP addresses for Cloud NAT
+        auto-network-tier: |-
+            Network tier to use when automatically reserving NAT IP addresses. _AUTO_NETWORK_TIER_ must be one of:
+            +
+            *PREMIUM*::: High quality, Google-grade network tier with support for all networking products.
+            *STANDARD*::: Public internet quality, with only limited support for other networking products.
+            :::
+            +
+        enable-dynamic-port-allocation: |-
+            Enable dynamic port allocation.
+            +
+            If not specified, Dynamic Port Allocation is disabled by default.
+            +
+            Use *--enable-dynamic-port-allocation* to enable and *--no-enable-dynamic-port-allocation* to disable.
+        enable-endpoint-independent-mapping: |-
+            Enable endpoint-independent mapping for the NAT (as defined in RFC 5128).
+            +
+            If not specified, NATs have endpoint-independent mapping disabled by default.
+            +
+            Use `--no-enable-endpoint-independent-mapping` to disable endpoint-independent
+            mapping.
+        enable-logging: |-
+            Enable logging for the NAT. Logs will be exported to Stackdriver. NAT
+            logging is disabled by default.
+            To disable logging for the NAT, use
+            $ {parent_command} update MY-NAT --no-enable-logging --router ROUTER
+              --region REGION
+        endpoint-types: |-
+            Endpoint Types supported by the NAT Gateway.
+            +
+              ENDPOINT_TYPE must be one of:
+            +
+              ENDPOINT_TYPE_VM
+                For VM Endpoints
+              ENDPOINT_TYPE_SWG
+                For Secure Web Gateway Endpoints
+              ENDPOINT_TYPE_MANAGED_PROXY_LB
+                For regional Application Load Balancers (internal and external) and regional proxy Network Load Balancers (internal and external) endpoints
+            +
+            The default is ENDPOINT_TYPE_VM.
+            +
+            _ENDPOINT_TYPE_ must be one of: *ENDPOINT_TYPE_VM*, *ENDPOINT_TYPE_SWG*, *ENDPOINT_TYPE_MANAGED_PROXY_LB*.
+        icmp-idle-timeout: |-
+            Timeout for ICMP connections. See
+            https://cloud.google.com/sdk/gcloud/reference/topic/datetimes for
+            information on duration formats.
+        log-filter: |-
+            Filter for logs exported to stackdriver.
+            +
+            The default is ALL.
+            +
+            If logging is not enabled, filter settings will be persisted but will have
+            no effect.
+            +
+            Use --[no-]enable-logging to enable and disable logging.
+            +
+            _LOG_FILTER_ must be one of:
+            +
+            *ALL*::: Export logs for all connections handled by this NAT.
+            *ERRORS_ONLY*::: Export logs for connection failures only.
+            *TRANSLATIONS_ONLY*::: Export logs for successful connections only.
+            :::
+            +
+        max-ports-per-vm: |-
+            Maximum ports to be allocated to a VM.
+            +
+            This field can only be set when Dynamic Port Allocation is enabled and
+            defaults to 65536. It must be set to a power of 2 that is greater than
+            minPortsPerVm and at most 65536.
+        min-ports-per-vm: |-
+            Minimum ports to be allocated to a VM.
+            +
+            If Dynamic Port Allocation is disabled, this defaults to 64.
+            +
+            If Dynamic Port Allocation is enabled, this defaults to 32 and must be set
+            to a power of 2 that is at least 32 and lower than maxPortsPerVm.
+        nat-all-subnet-ip-ranges: |-
+            Allow all IP ranges of all subnetworks in the region, including
+            primary and secondary ranges, to use NAT.
+        nat-custom-subnet-ip-ranges: |-
+            List of subnetwork primary and secondary IP ranges to be allowed to
+            use NAT.
+            +
+            * `SUBNETWORK:ALL` - specifying a subnetwork name with ALL includes the
+            primary range and all secondary ranges of the subnet.
+            * `SUBNETWORK` - including a subnetwork name includes only the primary
+            subnet range of the subnetwork.
+            * `SUBNETWORK:RANGE_NAME` - specifying a subnetwork and secondary range
+            name includes only that secondary range. It does not include the
+            primary range of the subnet.
+        nat-external-ip-pool: External IP Addresses to use for Cloud NAT
+        nat-external-ip-pool-region: 'Region of the addresss to operate on. '
+        nat-primary-subnet-ip-ranges: |-
+            Allow only primary IP ranges of all subnetworks in the region to use
+            NAT.
+        nat64-all-v6-subnet-ip-ranges: Allow all IPv6 subnetwork ranges in the region to use NAT.
+        nat64-custom-v6-subnet-ip-ranges: List of subnetworks with IPv6 ranges to be allowed to use NAT.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-auto-allocate-nat-external-ips: Automatically allocate external IP addresses for Cloud NAT
+        no-enable-dynamic-port-allocation: |
+            Enable dynamic port allocation.
+
+            If not specified, Dynamic Port Allocation is disabled by default.
+        no-enable-endpoint-independent-mapping: |
+            Enable endpoint-independent mapping for the NAT (as defined in RFC 5128).
+
+            If not specified, NATs have endpoint-independent mapping disabled by default.
+
+            Use `--no-enable-endpoint-independent-mapping` to disable endpoint-independent
+            mapping.
+        no-enable-logging: |-
+            Enable logging for the NAT. Logs will be exported to Stackdriver. NAT
+            logging is disabled by default.
+            To disable logging for the NAT, use
+            $ {parent_command} update MY-NAT --no-enable-logging --router ROUTER
+              --region REGION
+        region: |-
+            Region of the NAT to create. If not specified, you might be prompted to select a region (interactive mode
+            only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/region'' property:
+            +
+              $ gcloud config set compute/region REGION
+            +
+            A list of regions can be fetched by running:
+            +
+              $ gcloud compute regions list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/region
+            +
+            Alternatively, the region can be stored in the environment
+            variable ``CLOUDSDK_COMPUTE_REGION''.
+        router: Router to use for NAT.
+        router-region: 'Region of the router to operate on. '
+        rules: |-
+            Path to YAML file containing NAT Rules applied to the NAT.
+            The YAML file format must follow the REST API schema for NAT Rules.
+            See [API Discovery docs](https://www.googleapis.com/discovery/v1/apis/compute/alpha/rest)
+            for reference.
+        tcp-established-idle-timeout: |-
+            Timeout for TCP established connections. See
+            https://cloud.google.com/sdk/gcloud/reference/topic/datetimes for
+            information on duration formats.
+        tcp-time-wait-timeout: |-
+            Timeout for TCP connections in the TIME_WAIT state. See
+            https://cloud.google.com/sdk/gcloud/reference/topic/datetimes for
+            information on duration formats.
+        tcp-transitory-idle-timeout: |-
+            Timeout for TCP transitory connections. See
+            https://cloud.google.com/sdk/gcloud/reference/topic/datetimes for
+            information on duration formats.
+        type: |-
+            Type of the NAT Gateway. Defaults to PUBLIC if not specified. _TYPE_ must be one of:
+            +
+            *PRIVATE*::: Used for private-to-private NAT translations. Allows communication between VPC Networks.
+            *PUBLIC*::: Used for private-to-public NAT translations. Allows VM instances to communicate with the internet.
+            :::
+            +
+        udp-idle-timeout: |-
+            Timeout for UDP connections. See
+            https://cloud.google.com/sdk/gcloud/reference/topic/datetimes for
+            information on duration formats.

@@ -1,0 +1,64 @@
+name: update
+description: Update an existing certificate.
+flags:
+    --clear-labels: Remove all labels.
+    --issuer-location=: The location of the CERTIFICATE.
+    --issuer-pool=: The parent CA Pool of the CERTIFICATE.
+    --no-clear-labels&: Remove all labels.
+    --remove-labels=: List of label keys to remove.
+    --update-labels=: List of label KEY=VALUE pairs to update.
+documentation:
+    command: |-
+        ## EXAMPLES
+
+         To update labels on a certificate:
+
+            $ gcloud privateca certificates update frontend-server-tls \
+              --issuer-pool=my-pool --issuer-location=us-west1 \
+              --update-labels=in_use=true
+    flag:
+        clear-labels: |-
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} --clear-labels
+            +
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        issuer-location: |-
+            The location of the CERTIFICATE.
+            +
+            To set the `issuer-location` attribute:
+            * provide the argument `CERTIFICATE` on the command line with a fully specified name;
+            * provide the argument `--issuer-location` on the command line;
+            * set the property `privateca/location`.
+        issuer-pool: |-
+            The parent CA Pool of the CERTIFICATE.
+            +
+            To set the `issuer-pool` attribute:
+            * provide the argument `CERTIFICATE` on the command line with a fully specified name;
+            * provide the argument `--issuer-pool` on the command line.
+        no-clear-labels: |
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} --clear-labels
+
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        remove-labels: |-
+            List of label keys to remove. If a label does not exist it is
+            silently ignored. If `--update-labels` is also specified then
+            `--update-labels` is applied first.
+        update-labels: |-
+            List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.

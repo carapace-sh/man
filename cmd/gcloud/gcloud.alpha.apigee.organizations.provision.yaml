@@ -1,0 +1,50 @@
+name: provision
+description: '*(ALPHA)*  Provision an Apigee SaaS organization.'
+flags:
+    --analytics-region=: Primary Cloud Platform region for analytics data storage.
+    --async: If set, returns immediately and outputs a description of the long running operation that was launched.
+    --authorized-network=!: Name of the network to which the provisioned organization should be attached.
+    --no-async&: If set, returns immediately and outputs a description of the long running operation that was launched.
+    --runtime-location=: Cloud Platform location for the runtime instance.
+documentation:
+    command: |
+        *(ALPHA)*  Provision an Apigee SaaS organization.
+
+        `gcloud alpha apigee organizations provision` creates an Apigee organization and populates it with the
+        necessary child resources to be immediately useable.
+
+        This is a long running operation and could take anywhere from 10 minutes to 1
+        hour to complete.
+
+        At the moment, only trial organizations are supported.
+    flag:
+        analytics-region: |-
+            Primary Cloud Platform region for analytics data storage. For valid values, see: https://docs.apigee.com/hybrid/latest/precog-provision.
+            +
+            If unspecified, the default is ``us-west1''
+        async: |-
+            If set, returns immediately and outputs a description of the long running operation that was launched. Else, `{command}` will block until the organization has been provisioned.
+            +
+            To monitor the operation once it's been launched, run `{grandparent_command} operations describe OPERATION_NAME`.
+        authorized-network: |-
+            Name of the network to which the provisioned organization should be attached.
+            This must be a VPC network peered through Service Networking. To get a list
+            of existing networks, run:
+            +
+                $ gcloud compute networks list
+            +
+            To check whether a network is peered through Service Networking, run:
+            +
+                $ gcloud services vpc-peerings list --network=NETWORK_NAME --service=servicenetworking.googleapis.com
+            +
+            To create a new network suitable for Apigee provisioning, choose a name for
+            the network and address range, and run:
+            +
+                $ gcloud compute networks create NETWORK_NAME --bgp-routing-mode=global --description='network for an Apigee trial'
+                $ gcloud compute addresses create ADDRESS_RANGE_NAME --global --prefix-length=16 --description="peering range for an Apigee trial" --network=NETWORK_NAME --purpose=vpc_peering
+                $ gcloud services vpc-peerings connect --service=servicenetworking.googleapis.com --network=NETWORK_NAME --ranges=ADDRESS_RANGE_NAME
+        no-async: |-
+            If set, returns immediately and outputs a description of the long running operation that was launched. Else, `{command}` will block until the organization has been provisioned.
+
+            To monitor the operation once it's been launched, run `{grandparent_command} operations describe OPERATION_NAME`.
+        runtime-location: Cloud Platform location for the runtime instance. For trial organizations, this is a compute zone. To get a list of valid zones, run `gcloud compute zones list`. If unspecified, the default is ``us-west1-a''.

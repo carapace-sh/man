@@ -1,0 +1,57 @@
+name: invalidate-cdn-cache
+description: '*(ALPHA)*  Invalidate specified objects for a URL map in Cloud CDN caches.'
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --global: (Default) The URL map is global.
+    --host=: If set, this invalidation will apply only to requests to the
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-global&: (Default) The URL map is global.
+    --path=: A path specifying which objects to invalidate.
+    --region=&: 'Region of the URL map to operate on. '
+    --tags=: A single tag or a comma-delimited list of tags.
+documentation:
+    command: |
+        *(ALPHA)*  *gcloud alpha compute url-maps invalidate-cdn-cache* requests that Cloud CDN stop using cached content for
+        resources at a particular URL path or set of URL paths.
+
+        *gcloud alpha compute url-maps invalidate-cdn-cache* may succeed even if no content is cached for some or all
+        URLs with the given path.
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        global: (Default) The URL map is global. Regional URL maps are not supported.
+        host: |-
+            If set, this invalidation will apply only to requests to the
+            specified host.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-global: (Default) The URL map is global. Regional URL maps are not supported.
+        path: |-
+            A path specifying which objects to invalidate. PATH must start with
+            ``/'' and the only place a ``*'' is allowed is at the end following a
+            ``/''. It will be matched against URL paths, which do not include
+            scheme, host, or any text after the first ``?'' or ``#'' (and those
+            characters are not allowed here). For example, for the URL
+            ``https://example.com/whatever/x.html?a=b'', the path is
+            ``/whatever/x.html''.
+            +
+            If PATH ends with ``*'', the preceding string is a prefix, and all URLs
+            whose paths begin with it will be invalidated. If PATH doesn't end with
+            ``*'', then only URLs with exactly that path will be invalidated.
+            +
+            Examples:
+            - ``'', ``*'', anything that doesn't start with ``/'': error
+            - ``/'': just the root URL
+            - ``/*'': everything
+            - ``/x/y'': ``/x/y'' only (and not ``/x/y/'')
+            - ``/x/y/'': ``/x/y/'' only (and not ``/x/y'')
+            - ``/x/y/*'': ``/x/y/'' and everything under it
+        region: 'Region of the URL map to operate on. '
+        tags: |-
+            A single tag or a comma-delimited list of tags. When multiple tags are
+            specified, the invalidation applies them using boolean OR logic.
+            +
+            Example:
+            - ``--tags=abcd,user123''

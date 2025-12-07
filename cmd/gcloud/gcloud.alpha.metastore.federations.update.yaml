@@ -1,0 +1,84 @@
+name: update
+description: '*(ALPHA)*  Update a Dataproc Metastore federation.'
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --clear-backends: Clear existing metastore backends.
+    --clear-labels: Remove all labels.
+    --location=: The location of the Dataproc Metastore service.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-clear-backends&: Clear existing metastore backends.
+    --no-clear-labels&: Remove all labels.
+    --remove-backends=: Comma-separated list of metastore backend keys to remove with the form `RANK1,RANK2`.
+    --remove-labels=: List of label keys to remove.
+    --update-backends=: Comma-separated list of metastore backends specified as a list of `RANK=BACKEND` pairs.
+    --update-labels=: List of label KEY=VALUE pairs to update.
+documentation:
+    command: |
+        *(ALPHA)*  Update the metadata and/or configuration parameters of a Dataproc Metastore federation.
+
+        If run asynchronously with `--async`, exits after printing
+        one operation name that can be used to poll the status of the
+        update via:
+
+          {top_command} metastore operations describe
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        clear-backends: Clear existing metastore backends. `--clear-backends` must be used with `--update-backends`.
+        clear-labels: |-
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} --clear-labels
+            +
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        location: |-
+            The location of the Dataproc Metastore service.
+            +
+            If not specified, will use `default` metastore/location.
+            +
+
+            To set the `location` attribute:
+            * provide the argument `federation` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `metastore/location`.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-clear-backends: |
+            Clear existing metastore backends. `--clear-backends` must be used with `--update-backends`.
+        no-clear-labels: |
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} --clear-labels
+
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        remove-backends: |-
+            Comma-separated list of metastore backend keys to remove with the form `RANK1,RANK2`. The Key represents the rank of the backend metastore and is used to resolve database name collisions.
+            If a `RANK` does not exist then it is sliently ignored. If `--update-backends` is also specified, then `--remove-backends` is applied first.
+        remove-labels: |-
+            List of label keys to remove. If a label does not exist it is
+            silently ignored. If `--update-labels` is also specified then
+            `--update-labels` is applied first.
+        update-backends: |-
+            Comma-separated list of metastore backends specified as a list of `RANK=BACKEND` pairs. For example: `1=dpms:dpms1,2=dpms:projects/my-project/locations/us-central1/services/dpms2`.
+            `RANK` represents the rank of the backend metastore and is used to resolve database name collisions.
+            `BACKEND` is specified as `METASTORE_TYPE:METASTORE_NAME` where `METASTORE_TYPE` is the type of backend metastore and
+            `METASTORE_NAME` is the relative resource name of the metastore. If only the name of the metastore is specified (e.g. `dpms1`),
+             project and location will be inferred from the project and location used to create the federation.
+        update-labels: |-
+            List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.

@@ -1,0 +1,30 @@
+name: print-access-token
+description: '*(ALPHA)*  Print an access token for the specified account.'
+flags:
+    --lifetime=: Access token lifetime.
+    --scopes=&: The scopes to authorize for.
+documentation:
+    command: |
+        *(ALPHA)*  Print an access token for the specified account.
+        See [RFC6749](https://tools.ietf.org/html/rfc6749) for more
+        information about access tokens.
+
+        Note that token itself may not be enough to access some services.
+        If you use the token with curl or similar tools, you may see
+        permission errors similar to "API has not been used in
+        project 32555940559 before or it is disabled.". If it happens, you may
+        need to provide a quota project in the "X-Goog-User-Project" header.
+        For example,
+
+          $ curl -H "X-Goog-User-Project: your-project" -H "Authorization: Bearer $(gcloud auth print-access-token)" foo.googleapis.com
+
+        The identity that granted the token must have the
+        serviceusage.services.use permission on the provided project. See
+        https://cloud.google.com/apis/docs/system-parameters for more
+        information.
+    flag:
+        lifetime: Access token lifetime. The default access token lifetime is 3600 seconds, but you can use this flag to reduce the lifetime or extend it up to 43200 seconds (12 hours). The org policy constraint `constraints/iam.allowServiceAccountCredentialLifetimeExtension` must be set if you want to extend the lifetime beyond 3600 seconds. Note that this flag is for service account impersonation only, so it must be used together with the `--impersonate-service-account` flag.
+        scopes: |-
+            The scopes to authorize for. This flag is supported for user accounts and service accounts only. The list of possible scopes can be found at: https://developers.google.com/identity/protocols/googlescopes.
+
+            For end-user accounts the provided scopes must from [['openid', 'https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/cloud-platform', 'https://www.googleapis.com/auth/appengine.admin', 'https://www.googleapis.com/auth/sqlservice.login', 'https://www.googleapis.com/auth/compute', 'https://www.googleapis.com/auth/drive']]

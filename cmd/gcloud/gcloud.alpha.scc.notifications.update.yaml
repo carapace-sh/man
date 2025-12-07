@@ -1,0 +1,53 @@
+name: update
+description: '*(ALPHA)*  Update a Security Command Center notification config.'
+flags:
+    --api-version=&: ""
+    --description=: The text that will be used to describe a notification configuration.
+    --filter=: The filter string which will applied to events of findings of a
+    --folder=: Folder where the notification config resides.
+    --location=: Required if either data residency is enabled or the `notificationConfig`
+    --organization=: Organization where the notification config resides.
+    --pubsub-topic=: The Pub/Sub topic which will receive notifications.
+completion:
+    flag:
+        api-version:
+            - v1
+            - v2enabled
+documentation:
+    command: |
+        *(ALPHA)*  Update a Security Command Center notification config.
+
+        Notification configs that are created with Security Command Center API V2
+        and later include a `location` attribute. If the `location` attribute is
+        included in the resource name of a Notification configs, you must specify
+        it when referencing the Notification config. For example, the following
+        Notification configs name has `location=eu`:
+        `organizations/123/locations/eu/notificationConfigs/test-config`.
+    flag:
+        api-version: |-
+            This is a temporary flag to be used for testing the Security Command
+            Center v2 api before its launch.
+        description: The text that will be used to describe a notification configuration.
+        filter: |-
+            The filter string which will applied to events of findings of a
+            notification configuration.
+        folder: |-
+            Folder where the notification config resides. Formatted as
+            ``folders/456'' or just ``456''.
+        location: |-
+            Required if either data residency is enabled or the `notificationConfig`
+            was created by using the API v2.
+            +
+            If data residency is enabled, specify the Security Command Center location
+            in which the notification is stored.
+            +
+            If data residency is not enabled, include `/locations/```LOCATION'' in the
+            full name or specify the `--location` flag only if the
+            `notificationConfig` resource was created by using the Security Command
+            Center API v2, in which case, the only valid location is `global`.
+        organization: |-
+            Organization where the notification config resides. Formatted as
+            ``organizations/123'' or just ``123''.
+        pubsub-topic: |-
+            The Pub/Sub topic which will receive notifications. Its format is
+            "projects/[project_id]/topics/[topic]".

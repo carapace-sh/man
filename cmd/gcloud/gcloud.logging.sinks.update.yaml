@@ -1,0 +1,80 @@
+name: update
+description: Update a sink.
+flags:
+    --add-exclusion=: Add an exclusion filter for log entries that are not to be routed to the sink' destination.
+    --billing-account=: Billing account of the sink to update.
+    --clear-exclusions: Remove all logging exclusions from the sink.
+    --custom-writer-identity=: Writer identity for the sink.
+    --description=: Description of the sink.
+    --disabled: Disable the sink.
+    --folder=: Folder of the sink to update.
+    --include-children: Whether to export logs from all child projects and folders.
+    --intercept-children: Whether to intercept logs from all child projects and folders.
+    --log-filter=: A new filter expression for the sink.
+    --no-clear-exclusions&: Remove all logging exclusions from the sink.
+    --no-disabled&: Disable the sink.
+    --no-include-children&: Whether to export logs from all child projects and folders.
+    --no-intercept-children&: Whether to intercept logs from all child projects and folders.
+    --no-use-partitioned-tables&: If specified, use BigQuery's partitioned tables.
+    --organization=: Organization of the sink to update.
+    --remove-exclusions=: Specify the name of the Logging exclusion(s) to delete.
+    --update-exclusion=: Update an exclusion filter for a log entry that is not to be exported.
+    --use-partitioned-tables: If specified, use BigQuery's partitioned tables.
+documentation:
+    command: |-
+        Change the *[DESTINATION]* or *--log-filter* associated with a sink.
+        The new destination must already exist and Cloud Logging must have
+        permission to write to it.
+
+        Log entries are exported to the new destination immediately.
+
+        ## EXAMPLES
+
+        To only update a sink filter, run:
+
+          $ gcloud logging sinks update my-sink --log-filter='severity>=ERROR'
+
+        Detailed information about filters can be found at:
+        [](https://cloud.google.com/logging/docs/view/logging-query-language)
+    flag:
+        add-exclusion: |-
+            Add an exclusion filter for log entries that are not to be routed to the sink' destination. This flag can be repeated.
+            +
+            The ``name'' and ``filter'' attributes are required. The following keys are accepted:
+            +
+            *name*::: Required. An identifier, such as ``load-balancer-exclusion''. Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods.
+            +
+            *description*::: Optional. A description of this exclusion.
+            +
+            *filter*::: Required. Entries that match this advanced log filter will be excluded. Filter cannot be empty.
+            +
+            *disabled*::: Optional. By default, an exclusion is not disabled. To disable an exclusion, include this key and specify any value.
+        billing-account: Billing account of the sink to update.
+        clear-exclusions: Remove all logging exclusions from the sink.
+        custom-writer-identity: Writer identity for the sink. This flag can only be used if the destination is a log bucket in a different project. The writer identity is automatically generated when it is not provided for a sink.
+        description: Description of the sink.
+        disabled: Disable the sink. Disabled sinks do not route logs to the sink destination. Specify --no-disabled to enable a disabled sink. If this flag is not specified, the value will not be updated.
+        folder: Folder of the sink to update.
+        include-children: Whether to export logs from all child projects and folders. Only applies to sinks for organizations and folders.
+        intercept-children: Whether to intercept logs from all child projects and folders. Only applies to sinks for organizations and folders.
+        log-filter: A new filter expression for the sink. If omitted, the sink's existing filter (if any) is unchanged.
+        no-clear-exclusions: Remove all logging exclusions from the sink.
+        no-disabled: Disable the sink. Disabled sinks do not route logs to the sink destination. Specify --no-disabled to enable a disabled sink. If this flag is not specified, the value will not be updated.
+        no-include-children: Whether to export logs from all child projects and folders. Only applies to sinks for organizations and folders.
+        no-intercept-children: Whether to intercept logs from all child projects and folders. Only applies to sinks for organizations and folders.
+        no-use-partitioned-tables: If specified, use BigQuery's partitioned tables. By default, Logging creates dated tables based on the log entries' timestamps, e.g. 'syslog_20170523'. Partitioned tables remove the suffix and special query syntax (https://cloud.google.com/bigquery/docs/querying-partitioned-tables) must be used.
+        organization: Organization of the sink to update.
+        remove-exclusions: Specify the name of the Logging exclusion(s) to delete.
+        update-exclusion: |-
+            Update an exclusion filter for a log entry that is not to be exported. This flag can be repeated.
+            +
+            The ``name'' attribute is required. The following keys are accepted:
+            +
+            *name*::: Required. An identifier, such as ``load-balancer-exclusion''. Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods.
+            +
+            *description*::: Optional. A description of this exclusion.
+            +
+            *filter*::: Optional. Entries that match this advanced log filter will be excluded. Filter cannot be empty.
+            +
+            *disabled*::: Optional. To disable an exclusion, include this key and specify any value. To enable a disabled exclusion, include this key, but do not specify any value. Do not include this key unless you want to change its value.
+        use-partitioned-tables: If specified, use BigQuery's partitioned tables. By default, Logging creates dated tables based on the log entries' timestamps, e.g. 'syslog_20170523'. Partitioned tables remove the suffix and special query syntax (https://cloud.google.com/bigquery/docs/querying-partitioned-tables) must be used.

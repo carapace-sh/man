@@ -1,0 +1,36 @@
+name: create
+description: Generate ready-to-deploy Kubernetes manifests with compute, load balancing, and autoscaling capabilities.
+flags:
+    --accelerator-type=!: The accelerator type.
+    --model-bucket-uri=: The Google Cloud Storage bucket URI to load the model from.
+    --model-server-version=: The model server version.
+    --model-server=!: The model server.
+    --model=!: The model.
+    --namespace=: The namespace to deploy the manifests in.
+    --output-path=: The path to save the output to.
+    --output=: The output to display.
+    --target-ntpot-milliseconds=: The maximum normalized time per output token (NTPOT) in milliseconds.
+    --target-ttft-milliseconds=: If specified, results will only show accelerators that can meet the latency target and will show their throughput performances at the target ttft target to achieve, the HPA manifest will not be generated.
+completion:
+    flag:
+        output:
+            - manifest
+            - comments
+            - all
+documentation:
+    command: |-
+        To get supported model, model servers, and model server versions, run `gcloud
+        alpha container ai profiles model-and-server-combinations list`. To get
+        supported accelerators with their performance metrics, run `gcloud alpha
+        container ai profiles accelerators list`.
+    flag:
+        accelerator-type: The accelerator type.
+        model: The model.
+        model-bucket-uri: The Google Cloud Storage bucket URI to load the model from. This URI must point to the directory containing the model's config file (config.json) and model weights. If unspecified, defaults to loading the model from Hugging Face.
+        model-server: The model server.
+        model-server-version: The model server version. If not specified, this defaults to the latest version.
+        namespace: The namespace to deploy the manifests in. Default namespace is 'default'.
+        output: 'The output to display. Default is all. _OUTPUT_ must be one of: *manifest*, *comments*, *all*.'
+        output-path: The path to save the output to. If not specified, output to the terminal.
+        target-ntpot-milliseconds: The maximum normalized time per output token (NTPOT) in milliseconds. NTPOT is measured as the request_latency / output_tokens. If this is set, the manifests will include Horizontal Pod Autoscaler (HPA) resources which automatically adjust the model server replica count in response to changes in model server load to keep p50 NTPOT below the specified threshold. If the provided target-ntpot-milliseconds is too low to achieve, the HPA manifest will not be generated.
+        target-ttft-milliseconds: If specified, results will only show accelerators that can meet the latency target and will show their throughput performances at the target ttft target to achieve, the HPA manifest will not be generated.

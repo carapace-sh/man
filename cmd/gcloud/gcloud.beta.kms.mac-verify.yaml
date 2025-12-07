@@ -1,0 +1,38 @@
+name: mac-verify
+description: '*(BETA)*  Verify a user signature file using a MAC key version.'
+flags:
+    --input-file=!: Path to the input file to use for verification.
+    --key=: to use for signing.
+    --keyring=: Key ring of the key.
+    --location=: Location of the keyring.
+    --no-skip-integrity-verification&: Skip integrity verification on request and response API fields.
+    --signature-file=!: Path to the signature file to be verified.
+    --skip-integrity-verification: Skip integrity verification on request and response API fields.
+documentation:
+    command: |-
+        *(BETA)*  Verifies a digital signature using the provided MAC signing key version.
+
+        By default, the command performs integrity verification on data sent to and
+        received from Cloud KMS. Use --skip-integrity-verification to disable
+        integrity verification.
+
+        ## EXAMPLES
+        The following command will read the file '/tmp/my/file.to.verify', and verify
+        it using the symmetric MAC CryptoKey `dont-panic` Version 3 and the file
+        used previously to generate the MAC tag ('/tmp/my/original.data.file').
+
+          $ gcloud beta kms mac-verify \
+          --location=us-central1 \
+          --keyring=hitchhiker \
+          --key=dont-panic \
+          --version=3 \
+          --input-file=/tmp/my/original.data.file \
+          --signature-file=/tmp/my/file.to.verify
+    flag:
+        input-file: Path to the input file to use for verification.
+        key: to use for signing.
+        keyring: Key ring of the key.
+        location: Location of the keyring.
+        no-skip-integrity-verification: Skip integrity verification on request and response API fields.
+        signature-file: Path to the signature file to be verified.
+        skip-integrity-verification: Skip integrity verification on request and response API fields.

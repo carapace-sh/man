@@ -1,0 +1,91 @@
+name: update
+description: Update a `WasmPlugin` resource.
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --description=: A human-readable description of the resource.
+    --image=: URI of the container image containing the plugin's Wasm module,
+    --labels=: List of label KEY=VALUE pairs to add.
+    --location=: The location ID.
+    --log-config=: Logging options for the activity performed by this plugin.
+    --main-version=: The ID of the `WasmPluginVersion` that should be the currently
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --plugin-config-file=: Path to a local file containing the plugin runtime
+    --plugin-config-uri=: URI of the container image containing the plugin's runtime
+    --plugin-config=: Plugin runtime configuration in the textual format.
+documentation:
+    command: |
+        Update an existing `WasmPlugin` resource and optionally create
+        a `WasmPluginVersion` resource and set it as the main (serving) one.
+
+        If `--image` is not specified:
+            * the method only updates the `WasmPlugin` resource without
+              creating a `WasmPluginVersion`.
+            * the `--plugin-config***` flags are disallowed.
+            * if `--main-version` is set, then the referenced
+              `WasmPluginVersion` must already exist and it is set as the
+              main (serving) one.
+
+        If `--image` is specified:
+            * the `--main-version` flag must also be specified.
+            * the method updates the `WasmPlugin` resource and creates a new
+              `WasmPluginVersion` with `--main-version` name and sets it as
+              the main (serving) one.
+            * the `--plugin-config***` flags are allowed.
+            * the `--async` flag is disallowed.
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        description: A human-readable description of the resource.
+        image: |-
+            URI of the container image containing the plugin's Wasm module,
+            stored in the Artifact Registry.
+        labels: |-
+            List of label KEY=VALUE pairs to add.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+        location: |-
+            The location ID.
+            +
+
+            To set the `location` attribute:
+            * provide the argument `wasm_plugin` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * use global location.
+        log-config: |-
+            Logging options for the activity performed by this plugin.
+            The following options can be set:
+            * `enable`: whether to enable logging. If `log-config` flag is set,
+              `enable` option is required.
+            +
+            * `sample-rate`: configures the sampling rate of activity logs, where
+              `1.0` means all logged activity is reported and `0.0` means no
+              activity is reported. The default value is `1.0`, and the value of
+              the field must be in range `0` to `1` (inclusive).
+            +
+            * `min-log-level`: specifies the lowest level of the logs that
+              should be exported to Cloud Logging. The default value is `INFO`.
+            +
+            Example usage:
+            `--log-config=enable=True,sample-rate=0.5,min-log-level=INFO
+            --log_config=enable=False`
+        main-version: |-
+            The ID of the `WasmPluginVersion` that should be the currently
+            serving one. The version referred to must be a child of this
+            `WasmPlugin`.
+            +
+            If the `--image` flag was also provided, the `WasmPluginVersion`
+            will be created for that `WasmPlugin` and will be set as the
+            current main version.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        plugin-config: Plugin runtime configuration in the textual format.
+        plugin-config-file: |-
+            Path to a local file containing the plugin runtime
+                          configuration.
+            +
+            Use a full or relative path to a local file containing the value of plugin_config_file.
+        plugin-config-uri: |-
+            URI of the container image containing the plugin's runtime
+                          configuration, stored in the Artifact Registry.

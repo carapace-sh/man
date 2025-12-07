@@ -1,0 +1,58 @@
+name: compute
+description: '*(BETA)*  Compute the essential contacts that are subscribed to the specified notification categories for a resource.'
+flags:
+    --filter=: Apply a Boolean filter _EXPRESSION_ to each resource item to be listed.
+    --folder=: folder number where contacts are set.
+    --limit=: Maximum number of resources to list.
+    --notification-categories=!: list of notification categories contact is subscribed to.
+    --organization=: organization number where contacts are set.
+    --page-size=: Some services group resource list output into pages.
+    --sort-by=: Comma-separated list of resource field key names to sort by.
+documentation:
+    command: |-
+        *(BETA)*  This command will return the contacts subscribed to any of the notification
+        categories that have been set on the requested resource or any of its
+        ancestors.
+
+        ## EXAMPLES
+
+        To compute contacts subscribed to the technical category for the current
+        project, run:
+
+              $ gcloud beta essential-contacts compute --notification-categories=technical
+
+        To compute contacts subscribed to the product-updates or billing categories
+        for the folder with id ``123'', run:
+
+              $ gcloud beta essential-contacts compute --notification-categories=product-updates,billing
+              --folder=123
+
+        To compute contacts subscribed to the legal category for the organization with
+        id ``456'', run:
+
+              $ gcloud beta essential-contacts compute --notification-categories=legal --organization=456
+    flag:
+        filter: |-
+            Apply a Boolean filter _EXPRESSION_ to each resource item to be listed.
+            If the expression evaluates `True`, then that item is listed. For more
+            details and examples of filter expressions, run $ gcloud topic filters. This
+            flag interacts with other flags that are applied in this order: *--flatten*,
+            *--sort-by*, *--filter*, *--limit*.
+        folder: folder number where contacts are set. If neither --project, --folder, nor --organization are provided then the config property [core/project] will be used as the resource.
+        limit: |-
+            Maximum number of resources to list. The default is *unlimited*.
+            This flag interacts with other flags that are applied in this order:
+            *--flatten*, *--sort-by*, *--filter*, *--limit*.
+        notification-categories: 'list of notification categories contact is subscribed to. _NOTIFICATION_CATEGORIES_ must be one of: *all*, *billing*, *legal*, *notification-category-unspecified*, *product-updates*, *security*, *suspension*, *technical*, *technical-incidents*.'
+        organization: organization number where contacts are set. If neither --project, --folder, nor --organization are provided then the config property [core/project] will be used as the resource.
+        page-size: |-
+            Some services group resource list output into pages. This flag specifies
+            the maximum number of resources per page. The default is determined by the
+            service if it supports paging, otherwise it is *unlimited* (no paging).
+            Paging may be applied before or after *--filter* and *--limit* depending
+            on the service.
+        sort-by: |-
+            Comma-separated list of resource field key names to sort by. The
+            default order is ascending. Prefix a field with ``~'' for descending
+            order on that field. This flag interacts with other flags that are applied
+            in this order: *--flatten*, *--sort-by*, *--filter*, *--limit*.

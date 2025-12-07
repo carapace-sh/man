@@ -1,0 +1,54 @@
+name: create
+description: '*(ALPHA)*  Create a URL map.'
+flags:
+    --default-backend-bucket=: A backend bucket that will be used for requests for which this URL map has no mappings.
+    --default-service=: A backend service that will be used for requests for which this URL map has no mappings.
+    --description=: An optional, textual description for the URL map.
+    --global: If set, the URL map is global.
+    --no-global&: If set, the URL map is global.
+    --region=: Region of the URL map to create.
+documentation:
+    command: |
+        *(ALPHA)*  *gcloud alpha compute url-maps create* is used to create URL maps which map HTTP and
+        HTTPS request URLs to backend services and backend buckets.
+        Mappings are done using a longest-match strategy.
+
+        There are two components to a mapping: a host rule and a path
+        matcher. A host rule maps one or more hosts to a path
+        matcher. A path matcher maps request paths to backend
+        services or backend buckets. For example, a host rule can map
+        the hosts ``*.google.com'' and ``google.com'' to a path
+        matcher called ``www''. The ``www'' path matcher in turn can
+        map the path ``/search/*'' to the search backend service, the
+        path ``/static/*'' to the static backend bucket  and everything
+        else to a default backend service or default backend bucket.
+
+        Host rules and patch matchers can be added to the URL map
+        after the map is created by using `gcloud compute url-maps edit`
+        or by using `gcloud compute url-maps add-path-matcher`
+        and `gcloud compute url-maps add-host-rule`.
+    flag:
+        default-backend-bucket: A backend bucket that will be used for requests for which this URL map has no mappings. Exactly one of --default-service or --default-backend-bucket is required.
+        default-service: A backend service that will be used for requests for which this URL map has no mappings. Exactly one of --default-service or --default-backend-bucket is required.
+        description: An optional, textual description for the URL map.
+        global: If set, the URL map is global.
+        no-global: If set, the URL map is global.
+        region: |-
+            Region of the URL map to create. If not specified, you might be prompted to select a region (interactive mode
+            only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/region'' property:
+            +
+              $ gcloud config set compute/region REGION
+            +
+            A list of regions can be fetched by running:
+            +
+              $ gcloud compute regions list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/region
+            +
+            Alternatively, the region can be stored in the environment
+            variable ``CLOUDSDK_COMPUTE_REGION''.

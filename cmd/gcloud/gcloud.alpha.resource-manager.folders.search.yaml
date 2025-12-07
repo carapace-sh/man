@@ -1,0 +1,44 @@
+name: search
+description: '*(ALPHA)*  Search folders matching the specified query.'
+flags:
+    --limit=: Maximum number of resources to list.
+    --page-size=: This flag specifies the maximum number of folders per page.
+    --query=: A boolean expression for the search criteria used to select the folders to return.
+    --sort-by=: Comma-separated list of resource field key names to sort by.
+documentation:
+    command: |-
+        *(ALPHA)*  You can specify the maximum number of folders to return in the result
+        using the `--limit`flag.
+
+        ## EXAMPLES
+
+        The following command lists the folders that have been marked for deletion:
+
+          $ gcloud alpha resource-manager folders search --query='state:DELETE_REQUESTED'
+
+        Folders with their displayNames starting with sun like sunflower-folder,
+        sunburn-folder etc. can be listed using the below command
+
+          $ gcloud alpha resource-manager folders search --query='displayName:sun*'
+    flag:
+        limit: |-
+            Maximum number of resources to list. The default is *unlimited*.
+            This flag interacts with other flags that are applied in this order:
+            *--flatten*, *--sort-by*, *--filter*, *--limit*.
+        page-size: This flag specifies the maximum number of folders per page.
+        query: |-
+            A boolean expression for the search criteria used to select the folders to return.
+            If no search criteria is specified then all accessible projects will be returned.
+            Query expressions can be used to restrict results based upon displayName, state
+            and parent, where the operators `=` (`:`) `NOT`, `AND` and `OR` can be used along
+            with the suffix wildcard symbol `*`. The `displayName` field in a query expression should
+            use escaped quotes for values that include whitespace to prevent unexpected behavior.
+            +
+            For more details and fields supported by the query expression please refer
+            query parameters section `[here]
+            (https://cloud.google.com/resource-manager/reference/rest/v3/folders/search#query-parameters)`
+        sort-by: |-
+            Comma-separated list of resource field key names to sort by. The
+            default order is ascending. Prefix a field with ``~'' for descending
+            order on that field. This flag interacts with other flags that are applied
+            in this order: *--flatten*, *--sort-by*, *--filter*, *--limit*.

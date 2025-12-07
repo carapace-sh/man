@@ -1,0 +1,200 @@
+name: create
+description: '*(BETA)*  Create applications.'
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --display-name=: An arbitrary user-provided name for the application resource.
+    --endpoint-matchers=!: Required, Endpoint matchers associated with an application.
+    --location=: The location id of the application resource.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --request-id=: An optional request ID to identify requests.
+    --schema=: Type of the external application.
+    --security-gateway=: The securityGateway id of the application resource.
+    --upstreams=: Which upstream resources to forward traffic to.
+completion:
+    flag:
+        schema:
+            - api-gateway
+            - proxy-gateway
+documentation:
+    command: '*(BETA)*  Create an application'
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        display-name: |-
+            An arbitrary user-provided name for the application resource.
+            Cannot exceed 64 characters.
+        endpoint-matchers: |-
+            Required, Endpoint matchers associated with an application.
+            A combination of hostname and ports as endpoint matchers is used to match
+            the application.
+            Match conditions for OR logic.
+            An array of match conditions to allow for multiple matching criteria.
+            The rule is considered a match if one of the conditions is met.
+            The conditions should be the following combination:
+            (Hostname & Ports)
+            +
+            EXAMPLES:
+            Hostname and Ports - ("*.example.com", "443"), ("example.com" and "22"),
+            ("example.com" and "22,33") etc.
+            +
+            *hostname*:::
+            Hostname of the application.
+            +
+            *ports*:::
+            Ports of the application.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --endpoint-matchers=hostname=string,ports=[int] --endpoint-matchers=hostname=string,ports=[int]
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --endpoint-matchers='[{"hostname": "string", "ports": [int]}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --endpoint-matchers=path_to_file.(yaml|json)
+            +
+            ```
+        location: |-
+            The location id of the application resource. We support only global location.
+            +
+            To set the `location` attribute:
+            * provide the argument `application` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        request-id: |-
+            An optional request ID to identify requests. Specify a unique request ID
+            so that if you must retry your request, the server will know to ignore
+            request if it has already been completed. The server will guarantee
+            that for at least 60 minutes since the first request.
+        schema: |-
+            Type of the external application. _SCHEMA_ must be one of:
+            +
+            *api-gateway*::: Service Discovery API endpoint when Service Discovery is enabled in
+            Gateway.
+            *proxy-gateway*::: Proxy which routes traffic to actual applications, like Netscaler
+            Gateway.
+            :::
+            +
+        security-gateway: |-
+            The securityGateway id of the application resource.
+            +
+            To set the `security-gateway` attribute:
+            * provide the argument `application` on the command line with a fully specified name;
+            * provide the argument `--security-gateway` on the command line.
+        upstreams: |-
+            Which upstream resources to forward traffic to.
+            +
+            *egressPolicy*:::
+            Routing policy information.
+            +
+            *regions*::::
+            List of the regions where the application sends traffic.
+            +
+            *external*:::
+            List of the external endpoints to forward traffic to.
+            +
+            *endpoints*::::
+            List of the endpoints to forward traffic to.
+            +
+            *hostname*:::::
+            Hostname of the endpoint.
+            +
+            *port*:::::
+            Port of the endpoint.
+            +
+            *network*:::
+            Network to forward traffic to.
+            +
+            *name*::::
+            Network name is of the format:
+            `projects/{project}/global/networks/{network}.
+            +
+            *proxyProtocol*:::
+            Enables proxy protocol configuration for the upstream.
+            +
+            *allowedClientHeaders*::::
+            List of the allowed client header names.
+            +
+            *clientIp*::::
+            Client IP configuration. The client IP address is included if true.
+            +
+            *contextualHeaders*::::
+            Configuration for the contextual headers.
+            +
+            *deviceInfo*:::::
+            Device info configuration.
+            +
+            *outputType*::::::
+            The output type of the delegated device info.
+            +
+            *groupInfo*:::::
+            Group info configuration.
+            +
+            *outputType*::::::
+            The output type of the delegated group info.
+            +
+            *outputType*:::::
+            Default output type for all enabled headers.
+            +
+            *userInfo*:::::
+            User info configuration.
+            +
+            *outputType*::::::
+            The output type of the delegated user info.
+            +
+            *gatewayIdentity*::::
+            Gateway identity configuration.
+            +
+            *metadataHeaders*::::
+            Custom resource specific headers along with the values.
+            The names should conform to RFC 9110:
+            > Field names SHOULD constrain themselves to alphanumeric characters, "-",
+            and ".", and SHOULD begin with a letter.
+            Field values SHOULD contain only ASCII printable characters and tab.
+            +
+            *KEY*:::::
+            Sets `KEY` value.
+            +
+            *VALUE*:::::
+            Sets `VALUE` value.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --upstreams=egressPolicy={regions=[string]},external={endpoints=[{hostname=string,port=int}]},network={name=string},proxyProtocol={allowedClientHeaders=[string],clientIp=boolean,contextualHeaders={deviceInfo={outputType=string},groupInfo={outputType=string},outputType=string,userInfo={outputType=string}},gatewayIdentity=string,metadataHeaders={string=string}} --upstreams=egressPolicy={regions=[string]},external={endpoints=[{hostname=string,port=int}]},network={name=string},proxyProtocol={allowedClientHeaders=[string],clientIp=boolean,contextualHeaders={deviceInfo={outputType=string},groupInfo={outputType=string},outputType=string,userInfo={outputType=string}},gatewayIdentity=string,metadataHeaders={string=string}}
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --upstreams='[{"egressPolicy": {"regions": ["string"]}, "external": {"endpoints": [{"hostname": "string", "port": int}]}, "network": {"name": "string"}, "proxyProtocol": {"allowedClientHeaders": ["string"], "clientIp": boolean, "contextualHeaders": {"deviceInfo": {"outputType": "string"}, "groupInfo": {"outputType": "string"}, "outputType": "string", "userInfo": {"outputType": "string"}}, "gatewayIdentity": "string", "metadataHeaders": {"string": "string"}}}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --upstreams=path_to_file.(yaml|json)
+            +
+            ```

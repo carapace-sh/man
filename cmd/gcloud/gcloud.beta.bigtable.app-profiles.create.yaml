@@ -1,0 +1,67 @@
+name: create
+description: '*(BETA)*  Create a new Bigtable app profile.'
+flags:
+    --data-boost!: Use Data Boost serverless compute option, rather than standard provisioned node compute.
+    --data-boost-compute-billing-owner=!: Specify the Data Boost compute billing owner, required if --data-boost is passed.
+    --description=: Friendly name of the app profile.
+    --force: Ignore warnings and force create.
+    --instance=: Bigtable instance for the app profile.
+    --no-data-boost!&: Use Data Boost serverless compute option, rather than standard provisioned node compute.
+    --no-force&: Ignore warnings and force create.
+    --no-route-any!&: Use Multi Cluster Routing policy.
+    --no-row-affinity&: Use row-affinity routing for this app profile.
+    --no-standard&: Use standard provisioned node compute option, rather than Data Boost compute option.
+    --no-transactional-writes&: Allow transactional writes with a Single Cluster Routing policy.
+    --priority=!: Specify the request priority under standard provisioned node compute capabilities.
+    --restrict-to=: Cluster IDs to route to using the Multi Cluster Routing Policy.
+    --route-any!: Use Multi Cluster Routing policy.
+    --route-to=!: Cluster ID to route to using Single Cluster Routing policy.
+    --row-affinity: Use row-affinity routing for this app profile.
+    --standard: Use standard provisioned node compute option, rather than Data Boost compute option.
+    --transactional-writes: Allow transactional writes with a Single Cluster Routing policy.
+completion:
+    flag:
+        data-boost-compute-billing-owner:
+            - HOST_PAYS
+        priority:
+            - PRIORITY_HIGH
+            - PRIORITY_LOW
+            - PRIORITY_MEDIUM
+documentation:
+    command: '*(BETA)*  Create a new Bigtable app profile.'
+    flag:
+        data-boost: Use Data Boost serverless compute option, rather than standard provisioned node compute. If specified, --data-boost-compute-billing-owner is required. Specifying Data Boost compute on an app profile that uses standard provisioned node compute may cause unexpected behavior for running applications.
+        data-boost-compute-billing-owner: |-
+            Specify the Data Boost compute billing owner, required if --data-boost is passed. _DATA_BOOST_COMPUTE_BILLING_OWNER_ must be (only one value is supported):
+            +
+            *HOST_PAYS*::: Compute billing should be accounted towards the host Cloud project (containing the targeted Bigtable instance / table).
+            :::
+            +
+        description: Friendly name of the app profile.
+        force: Ignore warnings and force create.
+        instance: |-
+            Bigtable instance for the app profile.
+            +
+            To set the `instance` attribute:
+            * provide the argument `app_profile` on the command line with a fully specified name;
+            * provide the argument `--instance` on the command line.
+        no-data-boost: Use Data Boost serverless compute option, rather than standard provisioned node compute. If specified, --data-boost-compute-billing-owner is required. Specifying Data Boost compute on an app profile that uses standard provisioned node compute may cause unexpected behavior for running applications.
+        no-force: Ignore warnings and force create.
+        no-route-any: Use Multi Cluster Routing policy.
+        no-row-affinity: Use row-affinity routing for this app profile.
+        no-standard: Use standard provisioned node compute option, rather than Data Boost compute option. If specified, `--priority` is required.
+        no-transactional-writes: Allow transactional writes with a Single Cluster Routing policy.
+        priority: |-
+            Specify the request priority under standard provisioned node compute capabilities. Passing this option implies standard provisioned node compute, e.g. the `--standard` option. If not specified, the app profile uses standard provisioned node compute with PRIORITY_HIGH by default. Specifying request priority on an app profile that has Data Boost serverless compute enabled changes the compute option to standard and uses the specified priority, which might cause unexpected behavior for running applications. _PRIORITY_ must be one of:
+            +
+            *PRIORITY_HIGH*::: Requests are treated with high priority.
+            *PRIORITY_LOW*::: Requests are treated with low priority.
+            *PRIORITY_MEDIUM*::: Requests are treated with medium priority.
+            :::
+            +
+        restrict-to: Cluster IDs to route to using the Multi Cluster Routing Policy. If unset, all clusters in the instance are eligible.
+        route-any: Use Multi Cluster Routing policy.
+        route-to: Cluster ID to route to using Single Cluster Routing policy.
+        row-affinity: Use row-affinity routing for this app profile.
+        standard: Use standard provisioned node compute option, rather than Data Boost compute option. If specified, `--priority` is required.
+        transactional-writes: Allow transactional writes with a Single Cluster Routing policy.

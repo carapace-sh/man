@@ -1,0 +1,56 @@
+name: list
+description: '*(ALPHA)*  Retrieve the job logs for a specific job.'
+flags:
+    --after=: Only display messages logged after the given time.
+    --before=: Only display messages logged before the given time.
+    --filter=: Apply a Boolean filter _EXPRESSION_ to each resource item to be listed.
+    --importance=: Minimum importance a message must have to be displayed.
+    --limit=: Maximum number of resources to list.
+    --region=: Region ID of the job's regional endpoint.
+completion:
+    flag:
+        importance:
+            - debug
+            - detailed
+            - warning
+            - error
+documentation:
+    command: |-
+        *(ALPHA)*  Retrieves the job logs from a specified job using the Dataflow Messages API
+        with at least the specified importance level. Can also be used to display
+        logs between a given time period using the --before and --after flags. These
+        logs are produced by the service and are distinct from worker logs. Worker
+        logs can be found in Cloud Logging.
+
+        ## EXAMPLES
+
+        Retrieve only error logs:
+
+          $ gcloud alpha dataflow logs list --importance=error
+
+        Retrieve all logs after some date:
+
+          $ gcloud alpha dataflow logs list --after="2016-08-12 00:00:00"
+
+        Retrieve logs from this year:
+
+          $ gcloud alpha dataflow logs list --after=2018-01-01
+
+        Retrieve logs more than a week old:
+
+          $ gcloud alpha dataflow logs list --before=-P1W
+    flag:
+        after: Only display messages logged after the given time. See $ gcloud topic datetimes for information on time formats. For example, `2018-01-01` is the first day of the year, and `-P2W` is 2 weeks ago.
+        before: Only display messages logged before the given time. See $ gcloud topic datetimes for information on time formats.
+        filter: |-
+            Apply a Boolean filter _EXPRESSION_ to each resource item to be listed.
+            If the expression evaluates `True`, then that item is listed. For more
+            details and examples of filter expressions, run $ gcloud topic filters. This
+            flag interacts with other flags that are applied in this order: *--flatten*,
+            *--sort-by*, *--filter*, *--limit*.
+        importance: 'Minimum importance a message must have to be displayed. _IMPORTANCE_ must be one of: *debug*, *detailed*, *warning*, *error*.'
+        limit: |-
+            Maximum number of resources to list. The default is *unlimited*.
+            This flag interacts with other flags that are applied in this order:
+            *--flatten*, *--sort-by*, *--filter*, *--limit*.
+        region: Region ID of the job's regional endpoint. Defaults to 'us-central1'.

@@ -1,0 +1,151 @@
+name: update
+description: '*(ALPHA)*  Update Memorystore Cluster for Redis instance.'
+flags:
+    --aof-append-fsync=: Fsync configuration.
+    --async: Return immediately, without waiting for the operation in progress to
+    --automated-backup-mode=: Automated backup mode.
+    --automated-backup-start-time=: One-hour window when you want automated-backup operations to start.
+    --automated-backup-ttl=: Time to live for automated backups.
+    --deletion-protection: Enable deletion protection for the Redis Cluster.
+    --maintenance-version=: The maintenance version of the cluster.
+    --maintenance-window-any: Removes the user-specified maintenance window.
+    --maintenance-window-day=: The day of week when the window starts, e.g. `sunday`.
+    --maintenance-window-hour=: Hour of day (`0` to `23`) for the start of maintenance window, in UTC time zone.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-deletion-protection&: Enable deletion protection for the Redis Cluster.
+    --no-maintenance-window-any&: Removes the user-specified maintenance window.
+    --no-simulate-maintenance-event&: Trigger a simulation for maintenance event.
+    --node-type=: Node Type of the redis cluster Node.
+    --persistence-mode=: Operation mode for persistence.
+    --rdb-snapshot-period=: Attempted period between RDB snapshots.
+    --rdb-snapshot-start-time=: Date and time of the first snapshot in the ISO 1801 format, and alignment time for future snapshots.
+    --region=: The name of the Redis region of the cluster.
+    --remove-redis-config=: A list of Redis Cluster config parameters to remove.
+    --replica-count=: The replica count of each shard.
+    --shard-count=: The shard count of the cluster.
+    --simulate-maintenance-event: Trigger a simulation for maintenance event.
+    --update-redis-config=: A list of Redis Cluster config KEY=VALUE pairs to update.
+completion:
+    flag:
+        aof-append-fsync:
+            - always
+            - everysec
+            - "no"
+        automated-backup-mode:
+            - disabled
+            - enabled
+        maintenance-window-day:
+            - friday
+            - monday
+            - saturday
+            - sunday
+            - thursday
+            - tuesday
+            - wednesday
+        node-type:
+            - redis-highmem-medium
+            - redis-highmem-xlarge
+            - redis-shared-core-nano
+            - redis-standard-small
+        persistence-mode:
+            - aof
+            - disabled
+            - rdb
+        rdb-snapshot-period:
+            - 12h
+            - 1h
+            - 24h
+            - 6h
+documentation:
+    command: |
+        *(ALPHA)*  Update the metadata and/or configuration parameters of a Redis cluster.
+
+        This command can fail for the following reasons:
+          * The cluster specified does not exist.
+          * The active account does not have permission to update the given
+            cluster.
+    flag:
+        aof-append-fsync: |-
+            Fsync configuration. _AOF_APPEND_FSYNC_ must be one of:
+            +
+            *always*::: Redis explicitly calls fsync for every write command.
+            +
+            *everysec*::: (default) Redis explicitly calls fsync every second.
+            +
+            *no*::: Redis will not explicitly call fsync.
+            +
+            :::
+            +
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        automated-backup-mode: |-
+            Automated backup mode. _AUTOMATED_BACKUP_MODE_ must be one of:
+            +
+            *disabled*::: (default) Automated backup is disabled.
+            +
+            *enabled*::: Automated backup is enabled.
+            +
+            :::
+            +
+        automated-backup-start-time: One-hour window when you want automated-backup operations to start. Specify the time in the format HH:00 on a 24-hour cycle in UTC time.
+        automated-backup-ttl: |-
+            Time to live for automated backups. A backup will be deleted automatically after the TTL
+            is reached. It ranges from 1 day to 365 days. For example, "10d" for 10 days. If not specified, the default value is 35 days.
+        deletion-protection: |-
+            Enable deletion protection for the Redis Cluster. Use
+            `--deletion-protection`/`--no-deletion-protection` to enable/disable it.
+        maintenance-version: The maintenance version of the cluster.
+        maintenance-window-any: Removes the user-specified maintenance window.
+        maintenance-window-day: 'The day of week when the window starts, e.g. `sunday`. _MAINTENANCE_WINDOW_DAY_ must be one of: *friday*, *monday*, *saturday*, *sunday*, *thursday*, *tuesday*, *wednesday*.'
+        maintenance-window-hour: Hour of day (`0` to `23`) for the start of maintenance window, in UTC time zone.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-deletion-protection: |
+            Enable deletion protection for the Redis Cluster. Use
+            `--deletion-protection`/`--no-deletion-protection` to enable/disable it.
+        no-maintenance-window-any: |
+            Removes the user-specified maintenance window.
+        no-simulate-maintenance-event: |
+            Trigger a simulation for maintenance event.
+        node-type: 'Node Type of the redis cluster Node. _NODE_TYPE_ must be one of: *redis-highmem-medium*, *redis-highmem-xlarge*, *redis-shared-core-nano*, *redis-standard-small*.'
+        persistence-mode: |-
+            Operation mode for persistence. _PERSISTENCE_MODE_ must be one of:
+            +
+            *aof*::: AOF-based persistence
+            *disabled*::: Persistence mode is disabled
+            *rdb*::: RDB-based persistence
+            :::
+            +
+        rdb-snapshot-period: |-
+            Attempted period between RDB snapshots. _RDB_SNAPSHOT_PERIOD_ must be one of:
+            +
+            *12h*::: 12 hours
+            *1h*::: 1 hour
+            *24h*::: (default) 24 hours
+            *6h*::: 6 hours
+            :::
+            +
+        rdb-snapshot-start-time: |-
+            Date and time of the first snapshot in the ISO 1801 format, and alignment time for future snapshots. For example, 2024-01-01T01:00:00Z.
+            If not specified, the current time will be used.
+        region: |-
+            The name of the Redis region of the cluster. Overrides the default
+            redis/region property value for this command invocation.
+            +
+
+            To set the `region` attribute:
+            * provide the argument `cluster` on the command line with a fully specified name;
+            * provide the argument `--region` on the command line;
+            * set the property `redis/region`.
+        remove-redis-config: |-
+            A list of Redis Cluster config parameters to remove. Removing a non-existent
+            config parameter is silently ignored.
+        replica-count: The replica count of each shard.
+        shard-count: The shard count of the cluster.
+        simulate-maintenance-event: Trigger a simulation for maintenance event.
+        update-redis-config: |-
+            A list of Redis Cluster config KEY=VALUE pairs to update. If a
+            config parameter is already set, its value is modified; otherwise a
+            new Redis config parameter is added.

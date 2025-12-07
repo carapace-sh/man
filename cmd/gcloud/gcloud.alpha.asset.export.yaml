@@ -1,0 +1,63 @@
+name: export
+description: '*(ALPHA)*  Export the cloud assets to Google Cloud Storage/BigQuery.'
+flags:
+    --asset-types=: A list of asset types (i.e., "compute.googleapis.com/Disk") to take a snapshot.
+    --bigquery-dataset=: The id of the BigQuery dataset.
+    --bigquery-table=!: ID of the table or fully qualified identifier for the table.
+    --content-type=: Asset content type.
+    --folder=: The ID of the folder which is the root asset.
+    --no-output-bigquery-force&: If the destination table already exists and this flag is specified, the table will be overwritten by the contents of assets snapshot.
+    --no-per-asset-type&: If the flag is specified, the snapshot results will be written to one or more tables, each of which contains results of one asset type.
+    --organization=: The ID of the organization which is the root asset.
+    --output-bigquery-force: If the destination table already exists and this flag is specified, the table will be overwritten by the contents of assets snapshot.
+    --output-path-prefix=: Google Cloud Storage URI where the results will go.
+    --output-path=: Google Cloud Storage URI where the results will go.
+    --partition-key=: If specified.
+    --per-asset-type: If the flag is specified, the snapshot results will be written to one or more tables, each of which contains results of one asset type.
+    --relationship-types=: A list of relationship types (i.e., "INSTANCE_TO_INSTANCEGROUP") to take a snapshot.
+    --snapshot-time=: Timestamp to take a snapshot on assets.
+completion:
+    flag:
+        content-type:
+            - resource
+            - iam-policy
+            - org-policy
+            - access-policy
+            - os-inventory
+            - relationship
+        partition-key:
+            - read-time
+            - request-time
+documentation:
+    command: |
+        *(ALPHA)*  Export the cloud assets to Google Cloud Storage or BigQuery. Use gcloud
+        asset operations describe to get the latest status of the operation. Note
+        that to export a project different from the project you want to bill, you
+        can use  --billing-project or authenticate with a service account.
+        See https://cloud.google.com/resource-manager/docs/cloud-asset-inventory/gcloud-asset
+        for examples of using a service account.
+    flag:
+        asset-types: A list of asset types (i.e., "compute.googleapis.com/Disk") to take a snapshot. If specified and non-empty, only assets matching the specified types will be returned. See http://cloud.google.com/asset-inventory/docs/supported-asset-types for supported asset types.
+        bigquery-dataset: |-
+            The id of the BigQuery dataset.
+            +
+            To set the `bigquery-dataset` attribute:
+            * provide the argument `--bigquery-table` on the command line with a fully specified name;
+            * provide the argument `--bigquery-dataset` on the command line.
+        bigquery-table: |-
+            ID of the table or fully qualified identifier for the table.
+            +
+            To set the `table` attribute:
+            * provide the argument `--bigquery-table` on the command line.
+        content-type: 'Asset content type. If specified, only content matching the specified type will be returned. Otherwise, no content but the asset name will be returned. Specifying `resource` will export resource metadata, specifying `iam-policy` will export the IAM policy for each child asset, specifying `org-policy` will export the Org Policy set on child assets, specifying `access-policy` will export the Access Policy set on child assets, specifying `os-inventory` will export the OS inventory of VM instances, and specifying `relationship` will export relationships of the assets. _CONTENT_TYPE_ must be one of: *resource*, *iam-policy*, *org-policy*, *access-policy*, *os-inventory*, *relationship*.'
+        folder: The ID of the folder which is the root asset.
+        no-output-bigquery-force: If the destination table already exists and this flag is specified, the table will be overwritten by the contents of assets snapshot. If the flag is not specified and the destination table already exists, the export call returns an error.
+        no-per-asset-type: If the flag is specified, the snapshot results will be written to one or more tables, each of which contains results of one asset type.
+        organization: The ID of the organization which is the root asset.
+        output-bigquery-force: If the destination table already exists and this flag is specified, the table will be overwritten by the contents of assets snapshot. If the flag is not specified and the destination table already exists, the export call returns an error.
+        output-path: Google Cloud Storage URI where the results will go. URI must start with "gs://". For example, "gs://bucket_name/object_name"
+        output-path-prefix: 'Google Cloud Storage URI where the results will go. URI must start with "gs://". For example, "gs://bucket_name/object_name_prefix", in which case each exported object uri is in format: "gs://bucket_name/object_name_prefix/<asset type>/<shard number>" and it only contains assets for that type.'
+        partition-key: 'If specified. the snapshot results will be written to partitioned table(s) with two additional timestamp columns, readTime and requestTime, one of which will be the partition key. _PARTITION_KEY_ must be one of: *read-time*, *request-time*.'
+        per-asset-type: If the flag is specified, the snapshot results will be written to one or more tables, each of which contains results of one asset type.
+        relationship-types: A list of relationship types (i.e., "INSTANCE_TO_INSTANCEGROUP") to take a snapshot. This argument will only be honoured if content_type=RELATIONSHIP. If specified and non-empty, only relationships matching the specified types will be returned. See http://cloud.google.com/asset-inventory/docs/supported-asset-types for supported relationship types.
+        snapshot-time: Timestamp to take a snapshot on assets. This can only be a current or past time. If not specified, the current time will be used. Due to delays in resource data collection and indexing, there is a volatile window during which running the same query at different times may return different results. See $ gcloud topic datetimes for information on time formats.

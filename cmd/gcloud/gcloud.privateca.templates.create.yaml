@@ -1,0 +1,51 @@
+name: create
+description: Create a new certificate template.
+flags:
+    --copy-all-requested-extensions: If this is set, all extensions specified in the certificate  request will be copied into the signed certificate.
+    --copy-extensions-by-oid=: If this is set, then extensions with the given OIDs will be copied from the certificate request into the signed certificate.
+    --copy-known-extensions=: If this is set, then the given extensions will be copied from the certificate request into the signed certificate.
+    --copy-sans!: If this is specified, the Subject Alternative Name extension from the certificate request will be copied into the signed certificate.
+    --copy-subject!: If this is specified, the Subject from the certificate request will be copied into the signed certificate.
+    --description=: A text description for the Certificate Template.
+    --identity-cel-expression=: A CEL expression that will be evaluated against the identity in the certificate before it is issued, and returns a boolean signifying whether the request should be allowed.
+    --labels=: List of label KEY=VALUE pairs to add.
+    --location=: The location of the CERTIFICATE_TEMPLATE.
+    --maximum-lifetime=: If this is set, then issued certificate's lifetime will be truncated to the value provided.
+    --no-copy-sans!&: If this is specified, the Subject Alternative Name extension from the certificate request will be copied into the signed certificate.
+    --no-copy-subject!&: If this is specified, the Subject from the certificate request will be copied into the signed certificate.
+    --predefined-values-file=: A YAML file describing any predefined X.509 values set by this template.
+documentation:
+    command: |
+        Create a certificate template that enforces policy restrictions on
+        certificate requestors. Using a certificate template, you can define
+        restrictions on the kinds of Subjects/SANs and x509 extensions allowed
+        from certificate requestors as well as a default set of x509
+        extensions that should be applied to all certificates using that
+        template. These templates can be binded to IAM identities such that
+        certain groups of requestors must use particular templates, allowing
+        for fine-grained policy enforcements based on identity.
+
+        For more information and examples, see https://cloud.google.com/certificate-authority-service/docs/creating-certificate-template.
+    flag:
+        copy-all-requested-extensions: If this is set, all extensions specified in the certificate  request will be copied into the signed certificate.
+        copy-extensions-by-oid: If this is set, then extensions with the given OIDs will be copied from the certificate request into the signed certificate.
+        copy-known-extensions: 'If this is set, then the given extensions will be copied from the certificate request into the signed certificate. _KNOWN_EXTENSIONS_ must be one of: *base-key-usage*, *extended-key-usage*, *ca-options*, *policy-ids*, *aia-ocsp-servers*.'
+        copy-sans: If this is specified, the Subject Alternative Name extension from the certificate request will be copied into the signed certificate. Specify --no-copy-sans to drop any caller-specified SANs in the certificate request.
+        copy-subject: If this is specified, the Subject from the certificate request will be copied into the signed certificate. Specify --no-copy-subject to drop any caller-specified subjects from the certificate request.
+        description: A text description for the Certificate Template.
+        identity-cel-expression: A CEL expression that will be evaluated against the identity in the certificate before it is issued, and returns a boolean signifying whether the request should be allowed.
+        labels: |-
+            List of label KEY=VALUE pairs to add.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+        location: |-
+            The location of the CERTIFICATE_TEMPLATE.
+            +
+            To set the `location` attribute:
+            * provide the argument `CERTIFICATE_TEMPLATE` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set the property `privateca/location`.
+        maximum-lifetime: If this is set, then issued certificate's lifetime will be truncated to the value provided. If the issuing CaPool's IssuancePolicy specifies a maximum lifetime the minimum of the two durations will be the maximum lifetime for the issued certificate. Note that if the issuing CertificateAuthority expires before a Certificate's requested maximum_lifetime, the effective lifetime will be explicitly truncated to match it.
+        no-copy-sans: If this is specified, the Subject Alternative Name extension from the certificate request will be copied into the signed certificate. Specify --no-copy-sans to drop any caller-specified SANs in the certificate request.
+        no-copy-subject: If this is specified, the Subject from the certificate request will be copied into the signed certificate. Specify --no-copy-subject to drop any caller-specified subjects from the certificate request.
+        predefined-values-file: 'A YAML file describing any predefined X.509 values set by this template. The provided extensions will be copied over to any certificate requests that use this template, taking precedent over any allowed extensions in the certificate request. The format of this file should be a YAML representation of the X509Parameters message, which is defined here: https://cloud.google.com/certificate-authority-service/docs/reference/rest/v1/X509Parameters. Some examples can be found here: https://cloud.google.com/certificate-authority-service/docs/creating-certificate-template'

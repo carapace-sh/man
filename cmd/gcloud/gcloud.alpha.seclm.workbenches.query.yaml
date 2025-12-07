@@ -1,0 +1,100 @@
+name: query
+description: '*(ALPHA)*  Runs a query against a single Workbench instance.'
+hidden: true
+flags:
+    --contents=: The content of the current conversation with the model.
+    --location=: The location id of the workbench resource.
+    --safety-settings=: Per request settings for blocking unsafe content.
+documentation:
+    command: |
+        *(ALPHA)*  Runs a query against a single Workbench instance.
+
+        If run asynchronously with --async, exits after printing an operation that can
+        be used to poll the status of the creation operation.
+
+        query <WORKBENCH_ID> --location=<LOCATION> --query=<QUERY> [--async] [--labels]
+    flag:
+        contents: |-
+            The content of the current conversation with the model.
+            +
+            For single-turn queries, this is a single instance. For multi-turn queries,
+            this is a repeated field that contains conversation history + latest
+            request.
+            +
+            *parts*:::
+            Ordered `Parts` that constitute a single message. Parts may have different
+            IANA MIME types.
+            +
+            *text*::::
+            Text part (can be code).
+            +
+            *role*:::
+            The producer of the content. Must be either 'user' or 'model'.
+            +
+            Useful to set for multi-turn conversations, otherwise can be left blank
+            or unset.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --contents=parts=[{text=string}],role=string --contents=parts=[{text=string}],role=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --contents='[{"parts": [{"text": "string"}], "role": "string"}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --contents=path_to_file.(yaml|json)
+            +
+            ```
+        location: |-
+            The location id of the workbench resource.
+            +
+            To set the `location` attribute:
+            * provide the argument `workbench` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line.
+        safety-settings: |-
+            Per request settings for blocking unsafe content.
+            Enforced on GenerateContentResponse.candidates.
+            +
+            *category*:::
+            The category for this setting.
+            +
+            *threshold*:::
+            Controls the probability threshold at which harm is blocked.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --safety-settings=category=string,threshold=string --safety-settings=category=string,threshold=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --safety-settings='[{"category": "string", "threshold": "string"}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --safety-settings=path_to_file.(yaml|json)
+            +
+            ```

@@ -1,0 +1,207 @@
+name: create
+description: '*(ALPHA)*  Create a Compute Engine dedicated interconnect attachment.'
+flags:
+    --admin-enabled&: (DEPRECATED) Use --enable-admin instead.
+    --bandwidth=: Provisioned capacity of the attachment.
+    --candidate-cloud-router-ip-address=: Single IPv4 address + prefix length to be configured on the cloud
+    --candidate-cloud-router-ipv6-address=: Single IPv6 address + prefix length to be configured on the cloud
+    --candidate-customer-router-ip-address=: Single IPv4 address + prefix length to be configured on the customer
+    --candidate-customer-router-ipv6-address=: Single IPv6 address + prefix length to be configured on the customer
+    --candidate-ipv6-subnets=: The `candididate-ipv6-subnets` field is not available.
+    --candidate-subnets=: Up to 16 candidate prefixes that can be used to restrict the allocation of
+    --cloud-router-ipv6-interface-id=: '`cloud-router-ipv6-interface-id` field is not available.'
+    --customer-router-ipv6-interface-id=: '`customer-router-ipv6-interface-id` field is not available.'
+    --description=: Human-readable plain-text description of attachment.
+    --dry-run: If supplied, validates the attachment without creating it.
+    --enable-admin: Administrative status of the interconnect attachment.
+    --enable-multicast: If supplied, the attachment will be able to carry multicast traffic.
+    --encryption=: Indicates the user-supplied encryption option for this interconnect
+    --interconnect=!: The interconnect for the interconnect attachment
+    --ipsec-internal-addresses=: List of IP address range names that have been reserved for the interconnect
+    --mtu=: Maximum transmission unit (MTU) is the size of the largest IP packet
+    --no-admin-enabled&: (DEPRECATED) Use --enable-admin instead.
+    --no-dry-run&: If supplied, validates the attachment without creating it.
+    --no-enable-admin&: Administrative status of the interconnect attachment.
+    --no-enable-multicast&: If supplied, the attachment will be able to carry multicast traffic.
+    --region=: Region of the interconnect attachment to create.
+    --resource-manager-tags=: A comma-separated list of Resource Manager tags to apply to the interconnect.
+    --router-region=&: Region of the router to operate on.
+    --router=!: Google Cloud Router to use for dynamic routing.
+    --stack-type=: Stack type of the protocol(s) enabled on this interconnect attachment.
+    --subnet-length=: Length of the IPv4 subnet mask for this attachment.
+    --vlan=: Desired VLAN for this attachment, in the range 2-4093.
+completion:
+    flag:
+        bandwidth:
+            - 100g
+            - 100m
+            - 10g
+            - 1g
+            - 200m
+            - 20g
+            - 2g
+            - 300m
+            - 400g
+            - 400m
+            - 500m
+            - 50g
+            - 50m
+            - 5g
+        encryption:
+            - IPSEC
+            - NONE
+        stack-type:
+            - IPV4_IPV6
+            - IPV4_ONLY
+        subnet-length:
+            - "29"
+            - "30"
+documentation:
+    command: |-
+        *(ALPHA)*  *gcloud alpha compute interconnects attachments dedicated create* is used to create a dedicated interconnect attachments. An
+        interconnect attachment is what binds the underlying connectivity of an
+        interconnect to a path into and out of the customer's cloud network.
+    flag:
+        admin-enabled: (DEPRECATED) Use --enable-admin instead.
+        bandwidth: |-
+            Provisioned capacity of the attachment. _BANDWIDTH_ must be one of:
+            +
+            *50m*::: 50 Mbit/s
+            *100m*::: 100 Mbit/s
+            *200m*::: 200 Mbit/s
+            *300m*::: 300 Mbit/s
+            *400m*::: 400 Mbit/s
+            *500m*::: 500 Mbit/s
+            *1g*::: 1 Gbit/s
+            *2g*::: 2 Gbit/s
+            *5g*::: 5 Gbit/s
+            *10g*::: 10 Gbit/s
+            *20g*::: 20 Gbit/s
+            *50g*::: 50 Gbit/s
+            *100g*::: 100 Gbit/s
+            *400g*::: 400 Gbit/s
+            :::
+            +
+        candidate-cloud-router-ip-address: |-
+            Single IPv4 address + prefix length to be configured on the cloud
+            router interface for this interconnect attachment. Example:
+            203.0.113.1/29
+        candidate-cloud-router-ipv6-address: |-
+            Single IPv6 address + prefix length to be configured on the cloud
+            router interface for this interconnect attachment. Example:
+            2001:db8::1/125
+        candidate-customer-router-ip-address: |-
+            Single IPv4 address + prefix length to be configured on the customer
+            router interface for this interconnect attachment. Example:
+            203.0.113.2/29
+        candidate-customer-router-ipv6-address: |-
+            Single IPv6 address + prefix length to be configured on the customer
+            router interface for this interconnect attachment. Example:
+            2001:db8::2/125
+        candidate-ipv6-subnets: The `candididate-ipv6-subnets` field is not available.
+        candidate-subnets: |-
+            Up to 16 candidate prefixes that can be used to restrict the allocation of
+            `cloudRouterIpAddress` and `customerRouterIpAddress` for this
+            attachment. All prefixes must be within link-local address space.
+            Google attempts to select an unused subnet of SUBNET_LENGTH from the
+            supplied candidate subnet(s), or all of link-local space if no subnets
+            supplied. Google does not re-use a subnet already in-use by your project,
+            even if it's contained in one of the candidate subnets. The request fails
+            if all candidate subnets are in use at Google's edge.
+        cloud-router-ipv6-interface-id: '`cloud-router-ipv6-interface-id` field is not available.'
+        customer-router-ipv6-interface-id: '`customer-router-ipv6-interface-id` field is not available.'
+        description: Human-readable plain-text description of attachment.
+        dry-run: If supplied, validates the attachment without creating it.
+        enable-admin: |-
+            Administrative status of the interconnect attachment. If not provided
+            on creation, defaults to enabled.
+            When this is enabled, the attachment is operational and will carry
+            traffic. Use --no-enable-admin to disable it.
+        enable-multicast: |-
+            If supplied, the attachment will be able to carry multicast traffic.
+            If not provided on creation, defaults to disabled. Use
+            --no-enable-multicast to disable it.
+        encryption: |-
+            Indicates the user-supplied encryption option for this interconnect
+            attachment (VLAN attachment).
+            +
+            Possible values are:
+            +
+            `NONE` - This is the default value, which means the interconnect attachment
+            carries unencrypted traffic. VMs can send traffic to or
+            receive traffic from such interconnect attachment.
+            +
+            `IPSEC` - The interconnect attachment carries only traffic that is encrypted
+            by an IPsec device; for example, an HA VPN gateway or third-party
+            IPsec VPN. VMs cannot directly send traffic to or receive traffic from such
+            an interconnect attachment. To use HA VPN over Cloud Interconnect,
+            the interconnect attachment must be created with this option.
+            +
+            _ENCRYPTION_ must be one of: *IPSEC*, *NONE*.
+        interconnect: The interconnect for the interconnect attachment
+        ipsec-internal-addresses: |-
+            List of IP address range names that have been reserved for the interconnect
+            attachment (VLAN attachment). Use this option only for an interconnect
+            attachment that has its encryption option set as IPSEC. Currently only one
+            internal IP address range can be specified for each attachment.
+            When creating an HA VPN gateway for the interconnect attachment, if the
+            attachment is configured to use a regional internal IP address, then the VPN
+            gateway's IP address is allocated from the IP address range specified here.
+            If this field is not specified when creating the interconnect attachment,
+            then when creating any HA VPN gateways for this interconnect attachment,
+            the HA VPN gateway's IP address is allocated from a regional external IP
+            address pool.
+        mtu: |-
+            Maximum transmission unit (MTU) is the size of the largest IP packet
+            passing through this interconnect attachment. Must be one of 1440, 1460,
+            1500, or 8896. If not specified, the value will default to 1440.
+        no-admin-enabled: (DEPRECATED) Use --enable-admin instead.
+        no-dry-run: If supplied, validates the attachment without creating it.
+        no-enable-admin: |
+            Administrative status of the interconnect attachment. If not provided
+            on creation, defaults to enabled.
+            When this is enabled, the attachment is operational and will carry
+            traffic. Use --no-enable-admin to disable it.
+        no-enable-multicast: |
+            If supplied, the attachment will be able to carry multicast traffic.
+            If not provided on creation, defaults to disabled. Use
+            --no-enable-multicast to disable it.
+        region: |-
+            Region of the interconnect attachment to create. If not specified, you might be prompted to select a region (interactive mode
+            only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/region'' property:
+            +
+              $ gcloud config set compute/region REGION
+            +
+            A list of regions can be fetched by running:
+            +
+              $ gcloud compute regions list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/region
+            +
+            Alternatively, the region can be stored in the environment
+            variable ``CLOUDSDK_COMPUTE_REGION''.
+        resource-manager-tags: A comma-separated list of Resource Manager tags to apply to the interconnect.
+        router: Google Cloud Router to use for dynamic routing.
+        router-region: Region of the router to operate on. Should be the same as --region, if not specified, it will be inherited from --region.
+        stack-type: |-
+            Stack type of the protocol(s) enabled on this interconnect attachment. _STACK_TYPE_ must be one of:
+            +
+            *IPV4_IPV6*::: Both IPv4 and IPv6 protocols are enabled on this attachment.
+            *IPV4_ONLY*::: Only IPv4 protocol is enabled on this attachment.
+            :::
+            +
+        subnet-length: |-
+            Length of the IPv4 subnet mask for this attachment. 29 is the
+            default value, except for attachments on Cross-Cloud Interconnects whose
+            remote location's "constraints.subnetLengthRange" field specifies a
+            minimum subnet length of 30. In that case, the default value is 30.
+            The default value is recommended when there's no requirement on the subnet
+            length. _SUBNET_LENGTH_ must be one of: *29*, *30*.
+        vlan: |-
+            Desired VLAN for this attachment, in the range 2-4093. If not supplied,
+            Google will automatically select a VLAN.

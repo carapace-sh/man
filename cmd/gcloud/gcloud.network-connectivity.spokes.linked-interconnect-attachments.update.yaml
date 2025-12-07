@@ -1,0 +1,74 @@
+name: update
+description: Update a VLAN attachment spoke.
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --clear-labels: Remove all labels.
+    --description=: New description of the spoke.
+    --exclude-export-ranges=&: Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub.
+    --exclude-import-ranges=&: Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub.
+    --include-export-ranges=&: Dynamic routes fully encompassed by include export ranges are included during export to hub.
+    --include-import-ranges=: IP address range(s) allowed to be imported from hub subnets.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-clear-labels&: Remove all labels.
+    --region=: The location Id.
+    --remove-labels=: List of label keys to remove.
+    --update-labels=: List of label KEY=VALUE pairs to update.
+documentation:
+    command: Update the details of a VLAN attachment spoke.
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        clear-labels: |-
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+            +
+            For example, to remove all labels:
+            +
+                $ {command} --clear-labels
+            +
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+            +
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        description: New description of the spoke.
+        exclude-export-ranges: |
+            Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub.
+        exclude-import-ranges: |
+            Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub.
+        include-export-ranges: |
+            Dynamic routes fully encompassed by include export ranges are included during export to hub.
+            If it's empty, the spoke exports all dynamic routes to the hub.
+        include-import-ranges: |-
+            IP address range(s) allowed to be imported from hub subnets. Only ``ALL_IPV4_RANGES`` can be
+            added to the list. If it's empty, the spoke does not import any subnets from the hub.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-clear-labels: |
+            Remove all labels. If `--update-labels` is also specified then
+            `--clear-labels` is applied first.
+
+            For example, to remove all labels:
+
+                $ {command} --clear-labels
+
+            To remove all existing labels and create two new labels,
+            ``foo'' and ``baz'':
+
+                $ {command} --clear-labels --update-labels foo=bar,baz=qux
+        region: |-
+            The location Id.
+            +
+
+            To set the `region` attribute:
+            * provide the argument `spoke` on the command line with a fully specified name;
+            * provide the argument `--region` on the command line.
+        remove-labels: |-
+            List of label keys to remove. If a label does not exist it is
+            silently ignored. If `--update-labels` is also specified then
+            `--update-labels` is applied first.
+        update-labels: |-
+            List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.

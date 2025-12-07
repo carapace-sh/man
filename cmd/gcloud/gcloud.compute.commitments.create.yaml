@@ -1,0 +1,191 @@
+name: create
+description: Create Compute Engine commitments.
+flags:
+    --accelerator=: Manage the configuration of the type and number of accelerator cards attached.
+    --auto-renew: Enable auto renewal for the commitment.
+    --custom-end-time=: Specifies a custom future end date and extends the commitment's ongoing term.
+    --existing-reservation=: Details of the existing on-demand reservation or auto-created future
+    --local-ssd=: Manage the size and the interface of local SSD to use.
+    --machine-type=: The type of machine (name only) that has a fixed number of vCPUs and a fixed
+    --merge-source-commitments=: Creates the new commitment by merging the specified source commitments and combining their resources.
+    --min-cpu-platform=: Optional minimum CPU platform of the reservation to create.
+    --no-auto-renew&: Enable auto renewal for the commitment.
+    --no-require-specific-reservation&: Indicates whether the reservation can be consumed by VMs with "any reservation"
+    --plan=!: Duration of the commitment.
+    --region=: Region of the commitment to create.
+    --require-specific-reservation: Indicates whether the reservation can be consumed by VMs with "any reservation"
+    --reservation-type=&: The type of the reservation to be created.
+    --reservation-zone=: Zone of the reservation to operate on.
+    --reservation=!: Name of the reservation to operate on.
+    --reservations-from-file=: Path to a YAML file of multiple reservations' configuration.
+    --resource-policies=: The resource policies to include in this reservation.
+    --resources-accelerator=: Manage the configuration of the type and number of accelerator cards to include in the commitment.
+    --resources=: Resources to be included in the commitment.
+    --share-setting=: The projects that can use the reservation.
+    --share-with=: If this reservation is shared (--share-setting=projects), then specify a
+    --split-source-commitment=: Creates the new commitment by splitting the specified source commitment and redistributing the specified resources.
+    --type=: Type of commitment.
+    --vm-count=: The number of VM instances that are allocated to this reservation.
+completion:
+    flag:
+        plan:
+            - 12-month
+            - 36-month
+        reservation-type:
+            - specific
+        share-setting:
+            - local
+            - projects
+        type:
+            - accelerator-optimized
+            - accelerator-optimized-a3
+            - accelerator-optimized-a3-mega
+            - accelerator-optimized-a3-ultra
+            - accelerator-optimized-a4
+            - compute-optimized
+            - compute-optimized-c2d
+            - compute-optimized-c3
+            - compute-optimized-c3d
+            - compute-optimized-h3
+            - compute-optimized-h4d
+            - general-purpose
+            - general-purpose-c4
+            - general-purpose-c4a
+            - general-purpose-c4d
+            - general-purpose-e2
+            - general-purpose-n2
+            - general-purpose-n2d
+            - general-purpose-n4
+            - general-purpose-n4d
+            - general-purpose-t2d
+            - graphics-optimized
+            - graphics-optimized-g4
+            - memory-optimized
+            - memory-optimized-m3
+            - memory-optimized-m4
+            - memory-optimized-m4-6tb
+            - memory-optimized-x4-16tb
+            - memory-optimized-x4-24tb
+            - memory-optimized-x4-32tb
+            - storage-optimized-z3
+documentation:
+    command: Create Compute Engine commitments.
+    flag:
+        accelerator: |-
+            Manage the configuration of the type and number of accelerator cards attached.
+            *count*::: The number of accelerators to attach to each instance in the reservation.
+            *type*::: The specific type (e.g. `nvidia-tesla-k80` for nVidia Tesla K80) of
+            accelerator to attach to instances in the reservation. Use `gcloud compute accelerator-types list`
+            to learn about all available accelerator types.
+        auto-renew: Enable auto renewal for the commitment.
+        custom-end-time: Specifies a custom future end date and extends the commitment's ongoing term.
+        existing-reservation: |-
+            Details of the existing on-demand reservation or auto-created future
+            reservation that you want to attach to your commitment. Specify a new instance
+            of this flag for every existing reservation that you want to attach. The
+            reservations must be in the same region as the commitment.
+            *name*::: The name of the reservation.
+            *zone*::: The zone of the reservation.
+            For example, to attach an existing reservation named reservation-name in the
+            zone reservation-zone, use the following text:
+            --existing-reservation=name=reservation-name,zone=reservation-zone
+        local-ssd: |-
+            Manage the size and the interface of local SSD to use. See
+            https://cloud.google.com/compute/docs/disks/local-ssd for more information.
+            *interface*::: The kind of disk interface exposed to the VM for this SSD. Valid
+            values are `scsi` and `nvme`. SCSI is the default and is supported by more
+            guest operating systems. NVME may provide higher performance.
+            *size*::: The size of the local SSD in base-2 GB.
+        machine-type: |-
+            The type of machine (name only) that has a fixed number of vCPUs and a fixed
+            amount of memory. You can also specify a custom machine type by using the
+            pattern `custom-number_of_CPUs-amount_of_memory`-for example,
+            `custom-32-29440`.
+        merge-source-commitments: Creates the new commitment by merging the specified source commitments and combining their resources.
+        min-cpu-platform: Optional minimum CPU platform of the reservation to create.
+        no-auto-renew: Enable auto renewal for the commitment.
+        no-require-specific-reservation: |
+            Indicates whether the reservation can be consumed by VMs with "any reservation"
+            defined. If enabled, then only VMs that target this reservation by name using
+            `--reservation-affinity=specific` can consume from this reservation.
+        plan: 'Duration of the commitment. _PLAN_ must be one of: *12-month*, *36-month*.'
+        region: |-
+            Region of the commitment to create. If not specified, you might be prompted to select a region (interactive mode
+            only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/region'' property:
+            +
+              $ gcloud config set compute/region REGION
+            +
+            A list of regions can be fetched by running:
+            +
+              $ gcloud compute regions list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/region
+            +
+            Alternatively, the region can be stored in the environment
+            variable ``CLOUDSDK_COMPUTE_REGION''.
+        require-specific-reservation: |-
+            Indicates whether the reservation can be consumed by VMs with "any reservation"
+            defined. If enabled, then only VMs that target this reservation by name using
+            `--reservation-affinity=specific` can consume from this reservation.
+        reservation: Name of the reservation to operate on.
+        reservation-type: The type of the reservation to be created.
+        reservation-zone: |-
+            Zone of the reservation to operate on. If not specified and the ``compute/zone'' property isn't set, you
+            might be prompted to select a zone (interactive mode only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/zone'' property:
+            +
+              $ gcloud config set compute/zone ZONE
+            +
+            A list of zones can be fetched by running:
+            +
+              $ gcloud compute zones list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/zone
+            +
+            Alternatively, the zone can be stored in the environment variable
+            ``CLOUDSDK_COMPUTE_ZONE''.
+        reservations-from-file: Path to a YAML file of multiple reservations' configuration. Use a full or relative path to a local file containing the value of reservations.
+        resource-policies: |-
+            The resource policies to include in this reservation. If you omit this flag,
+            no resource policies are added. You can specify any string as the key, and
+            specify the name of a resource policy as the value.
+        resources: |-
+            Resources to be included in the commitment. For details and examples of valid
+            specifications, refer to the
+            [custom machine type guide](https://cloud.google.com/compute/docs/instances/creating-instance-with-custom-machine-type#specifications).
+            *memory*::: The size of the memory, should include units (e.g. 3072MB or 9GB). If no units are specified, GB is assumed.
+            *vcpu*::: The number of the vCPU cores.
+            *local-ssd*::: The size of local SSD.
+        resources-accelerator: |-
+            Manage the configuration of the type and number of accelerator cards to include in the commitment.
+            *count*::: The number of accelerators to include.
+            *type*::: The specific type (e.g. nvidia-tesla-k80 for NVIDIA Tesla K80) of the accelerator. Use `gcloud compute accelerator-types list` to learn about all available accelerator types.
+        share-setting: |-
+            The projects that can use the reservation. _SHARE_SETTING_ must be one of:
+            +
+            *local*::: Only your project can use the reservation. This is the default value.
+            *projects*::: Your project and up to 100 other projects within your
+            project's organization can use the reservation. If you specify
+            this value, then you must also include the --share-with flag in
+            the command.
+            +
+            :::
+            +
+        share-with: |-
+            If this reservation is shared (--share-setting=projects), then specify a
+            comma-separated list of projects to share the reservation with. List
+            projects using project IDs or project numbers.
+        split-source-commitment: Creates the new commitment by splitting the specified source commitment and redistributing the specified resources.
+        type: 'Type of commitment. `memory-optimized` indicates that the commitment is for memory-optimized VMs. _TYPE_ must be one of: *accelerator-optimized*, *accelerator-optimized-a3*, *accelerator-optimized-a3-mega*, *accelerator-optimized-a3-ultra*, *accelerator-optimized-a4*, *compute-optimized*, *compute-optimized-c2d*, *compute-optimized-c3*, *compute-optimized-c3d*, *compute-optimized-h3*, *compute-optimized-h4d*, *general-purpose*, *general-purpose-c4*, *general-purpose-c4a*, *general-purpose-c4d*, *general-purpose-e2*, *general-purpose-n2*, *general-purpose-n2d*, *general-purpose-n4*, *general-purpose-n4d*, *general-purpose-t2d*, *graphics-optimized*, *graphics-optimized-g4*, *memory-optimized*, *memory-optimized-m3*, *memory-optimized-m4*, *memory-optimized-m4-6tb*, *memory-optimized-x4-16tb*, *memory-optimized-x4-24tb*, *memory-optimized-x4-32tb*, *storage-optimized-z3*.'
+        vm-count: |-
+            The number of VM instances that are allocated to this reservation.
+            The value of this field must be an int in the range [1, 1000].

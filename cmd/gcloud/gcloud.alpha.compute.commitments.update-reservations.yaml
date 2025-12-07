@@ -1,0 +1,128 @@
+name: update-reservations
+description: '*(ALPHA)*  Update the resource shape of reservations within the commitment.'
+flags:
+    --dest-accelerator=: Manage the configuration of the type and number of accelerator cards attached.
+    --dest-local-ssd=: Manage the size and the interface of local SSD to use.
+    --dest-reservation=!: destination reservation configuration.
+    --dest-share-setting=: The projects that can use the reservation.
+    --dest-share-with=: If this reservation is shared (--share-setting=projects), then specify a
+    --region=: Region of the commitment to update reservation.
+    --reservations-from-file=: Path to a YAML file of two reservations' configuration.
+    --source-accelerator=: Manage the configuration of the type and number of accelerator cards attached.
+    --source-local-ssd=: Manage the size and the interface of local SSD to use.
+    --source-reservation=!: source reservation configuration.
+    --source-share-setting=: The projects that can use the reservation.
+    --source-share-with=: If this reservation is shared (--share-setting=projects), then specify a
+completion:
+    flag:
+        dest-share-setting:
+            - local
+            - projects
+        source-share-setting:
+            - local
+            - projects
+documentation:
+    command: '*(ALPHA)*  Update the resource shape of reservations within the commitment.'
+    flag:
+        dest-accelerator: |-
+            Manage the configuration of the type and number of accelerator cards attached.
+            *count*::: The number of accelerators to attach to each instance in the reservation.
+            *type*::: The specific type (e.g. `nvidia-tesla-k80` for nVidia Tesla K80) of
+            accelerator to attach to instances in the reservation. Use `gcloud compute accelerator-types list`
+            to learn about all available accelerator types.
+        dest-local-ssd: |-
+            Manage the size and the interface of local SSD to use. See
+            https://cloud.google.com/compute/docs/disks/local-ssd for more information.
+            *interface*::: The kind of disk interface exposed to the VM for this SSD. Valid
+            values are `scsi` and `nvme`. SCSI is the default and is supported by more
+            guest operating systems. NVME may provide higher performance.
+            *size*::: The size of the local SSD in base-2 GB.
+        dest-reservation: |-
+            destination reservation configuration.
+            *reservation*::: Name of the destination reservation to operate on.
+            *reservation-zone*:::  Zone of the destination reservation to operate on.
+            *vm-count*::: The number of VM instances that are allocated to this reservation.
+            The value of this field must be an int in the range [1, 1000].
+            *machine-type*:::  The type of machine (name only) which has a fixed number of
+            vCPUs and a fixed amount of memory. This also includes specifying custom machine
+            type following `custom-number_of_CPUs-amount_of_memory` pattern, e.g. `custom-32-29440`.
+            *min-cpu-platform*::: Optional minimum CPU platform of the reservation to create.
+            *require-specific-reservation*::: Indicates whether the reservation can be consumed by VMs with "any reservation"
+            defined. If enabled, then only VMs that target this reservation by name using
+            `--reservation-affinity=specific` can consume from this reservation.
+        dest-share-setting: |-
+            The projects that can use the reservation. _DEST_SHARE_SETTING_ must be one of:
+            +
+            *local*::: Only your project can use the reservation. This is the default value.
+            *projects*::: Your project and up to 100 other projects within your
+            project's organization can use the reservation. If you specify
+            this value, then you must also include the --share-with flag in
+            the command.
+            +
+            :::
+            +
+        dest-share-with: |-
+            If this reservation is shared (--share-setting=projects), then specify a
+            comma-separated list of projects to share the reservation with. List
+            projects using project IDs or project numbers.
+        region: |-
+            Region of the commitment to update reservation. If not specified, you might be prompted to select a region (interactive mode
+            only).
+            +
+            To avoid prompting when this flag is omitted, you can set the
+            ``compute/region'' property:
+            +
+              $ gcloud config set compute/region REGION
+            +
+            A list of regions can be fetched by running:
+            +
+              $ gcloud compute regions list
+            +
+            To unset the property, run:
+            +
+              $ gcloud config unset compute/region
+            +
+            Alternatively, the region can be stored in the environment
+            variable ``CLOUDSDK_COMPUTE_REGION''.
+        reservations-from-file: Path to a YAML file of two reservations' configuration. Use a full or relative path to a local file containing the value of reservations.
+        source-accelerator: |-
+            Manage the configuration of the type and number of accelerator cards attached.
+            *count*::: The number of accelerators to attach to each instance in the reservation.
+            *type*::: The specific type (e.g. `nvidia-tesla-k80` for nVidia Tesla K80) of
+            accelerator to attach to instances in the reservation. Use `gcloud compute accelerator-types list`
+            to learn about all available accelerator types.
+        source-local-ssd: |-
+            Manage the size and the interface of local SSD to use. See
+            https://cloud.google.com/compute/docs/disks/local-ssd for more information.
+            *interface*::: The kind of disk interface exposed to the VM for this SSD. Valid
+            values are `scsi` and `nvme`. SCSI is the default and is supported by more
+            guest operating systems. NVME may provide higher performance.
+            *size*::: The size of the local SSD in base-2 GB.
+        source-reservation: |-
+            source reservation configuration.
+            *reservation*::: Name of the source reservation to operate on.
+            *reservation-zone*:::  Zone of the source reservation to operate on.
+            *vm-count*::: The number of VM instances that are allocated to this reservation.
+            The value of this field must be an int in the range [1, 1000].
+            *machine-type*:::  The type of machine (name only) which has a fixed number of
+            vCPUs and a fixed amount of memory. This also includes specifying custom machine
+            type following `custom-number_of_CPUs-amount_of_memory` pattern, e.g. `custom-32-29440`.
+            *min-cpu-platform*::: Optional minimum CPU platform of the reservation to create.
+            *require-specific-reservation*::: Indicates whether the reservation can be consumed by VMs with "any reservation"
+            defined. If enabled, then only VMs that target this reservation by name using
+            `--reservation-affinity=specific` can consume from this reservation.
+        source-share-setting: |-
+            The projects that can use the reservation. _SOURCE_SHARE_SETTING_ must be one of:
+            +
+            *local*::: Only your project can use the reservation. This is the default value.
+            *projects*::: Your project and up to 100 other projects within your
+            project's organization can use the reservation. If you specify
+            this value, then you must also include the --share-with flag in
+            the command.
+            +
+            :::
+            +
+        source-share-with: |-
+            If this reservation is shared (--share-setting=projects), then specify a
+            comma-separated list of projects to share the reservation with. List
+            projects using project IDs or project numbers.

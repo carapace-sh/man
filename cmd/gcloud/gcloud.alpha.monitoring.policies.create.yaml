@@ -1,0 +1,76 @@
+name: create
+description: '*(ALPHA)*  Create a new alerting policy.'
+flags:
+    --aggregation=: Specifies an Aggregation message as a JSON/YAML value to be applied to the condition.
+    --combiner=: The combiner for the Alert Policy.
+    --condition-display-name=: The display name for the condition.
+    --condition-filter=: Specifies the "filter" in a metric absence or metric threshold condition.
+    --display-name=: The display name for the Alert Policy.
+    --documentation-format=: The MIME type that should be used with `--documentation` or `--documentation-from-file`.
+    --documentation-from-file=: The path to a file containing the documentation to be included with the policy.
+    --documentation=: The documentation to be included with the policy.
+    --duration=: The duration (e.g. "60s", "2min", etc.) that the condition must hold in order to trigger as true.
+    --enabled: If the policy is enabled.
+    --if=: One of "absent", "< THRESHOLD", "> THRESHOLD" where "THRESHOLD" is an integer or float.
+    --no-enabled&: If the policy is enabled.
+    --notification-channels=!: IDs of the Notification Channels or fully qualified identifiers for the Notification Channels.
+    --policy-from-file=: The path to a JSON or YAML file containing the policy.
+    --policy=: The policy as a string.
+    --trigger-count=: The absolute number of time series that must fail the predicate for the condition to be triggered.
+    --trigger-percent=: The percentage of time series that must fail the predicate for the condition to be triggered.
+    --user-labels=: List of label KEY=VALUE pairs to add.
+completion:
+    flag:
+        combiner:
+            - AND
+            - AND_WITH_MATCHING_RESOURCE
+            - COMBINE_UNSPECIFIED
+            - OR
+documentation:
+    command: |
+        *(ALPHA)*  Creates a new alerting policy. An alert policy can be specified as a
+        JSON/YAML value passed in as a string through the `--policy` flag or
+        as a file through the `--policy-from-file` flag. A basic policy can
+        also be specified through command line flags. If a policy is specified
+        through `--policy` or `--policy-from-file`, and additional flags are
+        supplied, the flags will override the policy's settings and a
+        specified condition will be appended to the list of conditions.
+
+        For information about the JSON/YAML format of an alerting policy:
+        https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.alertPolicies
+    flag:
+        aggregation: 'Specifies an Aggregation message as a JSON/YAML value to be applied to the condition. For more information about the format: https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.alertPolicies'
+        combiner: |-
+            The combiner for the Alert Policy. _COMBINER_ must be one of:
+            +
+            *AND*::: An incident is created only if all conditions are met simultaneously. This combiner is satisfied if all conditions are met, even if they are met on completely different resources.
+            *AND_WITH_MATCHING_RESOURCE*::: Combine conditions using logical AND operator, but unlike the regular AND option, an incident is created only if all conditions are met simultaneously on at least one resource.
+            *COMBINE_UNSPECIFIED*::: An unspecified combiner
+            *OR*::: An incident is created if any of the listed conditions is met.
+            :::
+            +
+        condition-display-name: The display name for the condition.
+        condition-filter: Specifies the "filter" in a metric absence or metric threshold condition.
+        display-name: The display name for the Alert Policy.
+        documentation: The documentation to be included with the policy.
+        documentation-format: The MIME type that should be used with `--documentation` or `--documentation-from-file`. Currently, only "text/markdown" is supported.
+        documentation-from-file: The path to a file containing the documentation to be included with the policy. Use a full or relative path to a local file containing the value of documentation.
+        duration: The duration (e.g. "60s", "2min", etc.) that the condition must hold in order to trigger as true.
+        enabled: If the policy is enabled. Enabled by default, use *--no-enabled* to disable.
+        if: One of "absent", "< THRESHOLD", "> THRESHOLD" where "THRESHOLD" is an integer or float.
+        no-enabled: If the policy is enabled.
+        notification-channels: |-
+            IDs of the Notification Channels or fully qualified identifiers for the Notification Channels.
+            +
+            To set the `notification_channels` attribute:
+            * provide the argument `--notification-channels` on the command line.
+        policy: The policy as a string. In either JSON or YAML format.
+        policy-from-file: The path to a JSON or YAML file containing the policy. Use a full or relative path to a local file containing the value of policy.
+        trigger-count: The absolute number of time series that must fail the predicate for the condition to be triggered.
+        trigger-percent: The percentage of time series that must fail the predicate for the condition to be triggered.
+        user-labels: |-
+            List of label KEY=VALUE pairs to add.
+            +
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers. Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+            +
+            If the policy was given as a JSON/YAML object from a string or file, this flag will replace the labels value in the given policy.

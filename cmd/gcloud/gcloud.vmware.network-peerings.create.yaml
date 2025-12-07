@@ -1,0 +1,82 @@
+name: create
+description: Create a VMware Engine VPC network peering.
+flags:
+    --async: Return immediately, without waiting for the operation in progress to
+    --description=: User-provided description of the VPC network peering.
+    --exchange-subnet-routes: True if full-mesh connectivity is created and managed automatically between peered VPC networks; false otherwise.
+    --export-custom-routes: True if custom routes are exported to the peered VPC network; false otherwise.
+    --export-custom-routes-with-public-ip: True if all subnet routes with public IP address range are exported; false otherwise.
+    --import-custom-routes: True if custom routes are imported to the peered VPC network; false otherwise.
+    --import-custom-routes-with-public-ip: True if all subnet routes with public IP address range are imported; false otherwise.
+    --location=: The resource name of the location.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-exchange-subnet-routes&: True if full-mesh connectivity is created and managed automatically between peered VPC networks; false otherwise.
+    --no-export-custom-routes&: True if custom routes are exported to the peered VPC network; false otherwise.
+    --no-export-custom-routes-with-public-ip&: True if all subnet routes with public IP address range are exported; false otherwise.
+    --no-import-custom-routes&: True if custom routes are imported to the peered VPC network; false otherwise.
+    --no-import-custom-routes-with-public-ip&: True if all subnet routes with public IP address range are imported; false otherwise.
+    --peer-mtu=: Maximum transmission unit (MTU) in bytes.
+    --peer-network-type=!: Type of the VPC network to peer with the VMware Engine network.
+    --peer-network=!: ID of the network to peer with the VMware Engine network.
+    --peer-project=: Project ID or project number of the peer network.
+    --vmware-engine-network-project=: Project of the VMware Engine network to attach the new peering to.
+    --vmware-engine-network=!: ID of the VMware Engine network to attach the new peering to.
+completion:
+    flag:
+        peer-network-type:
+            - PEER_NETWORK_TYPE_UNSPECIFIED
+            - STANDARD
+            - VMWARE_ENGINE_NETWORK
+            - PRIVATE_SERVICES_ACCESS
+            - NETAPP_CLOUD_VOLUMES
+            - THIRD_PARTY_SERVICE
+            - DELL_POWERSCALE
+            - GOOGLE_CLOUD_NETAPP_VOLUMES
+documentation:
+    command: |
+        Create a VMware Engine VPC network peering. VPC network peering creation is considered finished when the network peering is in ACTIVE state. Check the progress of a VPC network peering using `gcloud vmware network-peerings list`.
+    flag:
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete. The default is *True*. Enabled by default, use *--no-async* to disable.
+        description: User-provided description of the VPC network peering.
+        exchange-subnet-routes: True if full-mesh connectivity is created and managed automatically between peered VPC networks; false otherwise. This field is always true because Google Compute Engine automatically creates and manages subnetwork routes between two VPC networks when the peering state is ACTIVE. Enabled by default, use *--no-exchange-subnet-routes* to disable.
+        export-custom-routes: True if custom routes are exported to the peered VPC network; false otherwise. The default value is true. Enabled by default, use *--no-export-custom-routes* to disable.
+        export-custom-routes-with-public-ip: True if all subnet routes with public IP address range are exported; false otherwise. The default value is true. Enabled by default, use *--no-export-custom-routes-with-public-ip* to disable.
+        import-custom-routes: True if custom routes are imported to the peered VPC network; false otherwise. The default value is true. Enabled by default, use *--no-import-custom-routes* to disable.
+        import-custom-routes-with-public-ip: True if all subnet routes with public IP address range are imported; false otherwise. The default value is true. Enabled by default, use *--no-import-custom-routes-with-public-ip* to disable.
+        location: |-
+            The resource name of the location.
+            +
+            To set the `location` attribute:
+            * provide the argument `network_peering` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * set location as 'global' (default).
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-exchange-subnet-routes: |
+            True if full-mesh connectivity is created and managed automatically between peered VPC networks; false otherwise. This field is always true because Google Compute Engine automatically creates and manages subnetwork routes between two VPC networks when the peering state is ACTIVE.
+        no-export-custom-routes: |
+            True if custom routes are exported to the peered VPC network; false otherwise. The default value is true.
+        no-export-custom-routes-with-public-ip: |
+            True if all subnet routes with public IP address range are exported; false otherwise. The default value is true.
+        no-import-custom-routes: |
+            True if custom routes are imported to the peered VPC network; false otherwise. The default value is true.
+        no-import-custom-routes-with-public-ip: |
+            True if all subnet routes with public IP address range are imported; false otherwise. The default value is true.
+        peer-mtu: Maximum transmission unit (MTU) in bytes.
+        peer-network: ID of the network to peer with the VMware Engine network. The peer network can be a consumer VPC network or another VMware Engine network.
+        peer-network-type: |-
+            Type of the VPC network to peer with the VMware Engine network. PEER_NETWORK_TYPE must be one of the following:
+            * STANDARD: Peering connection used for connecting to another VPC network established by the same user.
+              For example, a peering connection to another VPC network in the same project or to an on-premises network.
+            * VMWARE_ENGINE_NETWORK: Peering connection used for connecting to another VMware Engine network.
+            * PRIVATE_SERVICES_ACCESS: Peering connection used for establishing private services access.
+            * NETAPP_CLOUD_VOLUMES: Peering connection used for connecting to NetApp Cloud Volumes.
+            * THIRD_PARTY_SERVICE: Peering connection used for connecting to third-party services. Most third-party services require manual setup of reverse peering on the VPC network associated with the third-party service.
+            * DELL_POWERSCALE: Peering connection used for connecting to Dell PowerScale Filers.
+            * GOOGLE_CLOUD_NETAPP_VOLUMES: Peering connection used for connecting to Google Cloud NetApp Volumes. _PEER_NETWORK_TYPE_ must be one of: *PEER_NETWORK_TYPE_UNSPECIFIED*, *STANDARD*, *VMWARE_ENGINE_NETWORK*, *PRIVATE_SERVICES_ACCESS*, *NETAPP_CLOUD_VOLUMES*, *THIRD_PARTY_SERVICE*, *DELL_POWERSCALE*, *GOOGLE_CLOUD_NETAPP_VOLUMES*.
+        peer-project: Project ID or project number of the peer network. Use this flag when the peer network is in another project.
+        vmware-engine-network: ID of the VMware Engine network to attach the new peering to.
+        vmware-engine-network-project: Project of the VMware Engine network to attach the new peering to. Use this flag when the VMware Engine network is in another project.

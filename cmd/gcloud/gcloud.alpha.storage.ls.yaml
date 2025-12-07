@@ -1,0 +1,54 @@
+name: ls
+description: '*(ALPHA)*  List Cloud Storage buckets and objects.'
+flags:
+    --additional-headers=: Includes arbitrary headers in storage API calls.
+    --all-versions: Include noncurrent object versions in the listing.
+    --buckets: When given a bucket URL, only return buckets.
+    --decryption-keys=: A comma-separated list of customer-supplied encryption keys (RFC 4648 section 4 base64-encoded AES256 strings) that will be used to decrypt Cloud Storage objects.
+    --encryption-key=&: The encryption key to use for encrypting target objects.
+    --etag: Include ETag metadata in listings that use the `--long` flag.
+    --exhaustive: For features like soft delete, the API may return an empty list.
+    --fetch-encrypted-object-hashes: API requests to the LIST endpoint do not fetch the hashes for encrypted objects by default.
+    --full: List all available metadata about items in rows.
+    --json: List all available metadata about items as a JSON dump.
+    --long: For objects only.
+    --metadata-filter=: Server side filtering for objects.
+    --next-page-token=: Page token for resuming LIST calls.
+    --no-exhaustive&: For features like soft delete, the API may return an empty list.
+    --no-fetch-encrypted-object-hashes&: API requests to the LIST endpoint do not fetch the hashes for encrypted objects by default.
+    --no-read-paths-from-stdin&: Read the list of URLs from stdin.
+    --no-readable-sizes&: When used with `--long`, print object sizes in human readable format, such as 1 KiB, 234 MiB, or 2 GiB.
+    --no-soft-deleted&: Displays soft-deleted resources only.
+    --read-paths-from-stdin: Read the list of URLs from stdin.
+    --readable-sizes: When used with `--long`, print object sizes in human readable format, such as 1 KiB, 234 MiB, or 2 GiB.
+    --recursive: Recursively list the contents of any directories that match the path expression.
+    --soft-deleted: Displays soft-deleted resources only.
+documentation:
+    command: |
+        *(ALPHA)*  List your Cloud Storage buckets in a project and objects in a bucket.
+        This command treats forward slashes in object names as directories. See
+        below for examples of how to use wildcards to get the listing behavior
+        you want.
+    flag:
+        additional-headers: Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. `header1=value1,header2=value2`. Overrides the default *storage/additional_headers* property value for this command invocation.
+        all-versions: Include noncurrent object versions in the listing. This flag is typically only useful for buckets with [object versioning](https://cloud.google.com/storage/docs/object-versioning) enabled. If combined with the `--long` option, the metageneration for each listed object is also included.
+        buckets: When given a bucket URL, only return buckets. Useful for avoiding the rule that prints the top-level objects of buckets matching a query. Typically used in combination with `--full` to get the full metadata of buckets.
+        decryption-keys: A comma-separated list of customer-supplied encryption keys (RFC 4648 section 4 base64-encoded AES256 strings) that will be used to decrypt Cloud Storage objects. Data encrypted with a customer-managed encryption key (CMEK) is decrypted automatically, so CMEKs do not need to be listed here.
+        encryption-key: The encryption key to use for encrypting target objects. The specified encryption key can be a customer-supplied encryption key (An RFC 4648 section 4 base64-encoded AES256 string), or a customer-managed encryption key of the form `projects/{project}/locations/{location}/keyRings/{key-ring}/cryptoKeys/{crypto-key}`. The specified key also acts as a decryption key, which is useful when copying or moving encrypted data to a new location. Using this flag in an `objects update` command triggers a rewrite of target objects.
+        etag: Include ETag metadata in listings that use the `--long` flag.
+        exhaustive: For features like soft delete, the API may return an empty list. If present, continue querying. This may incur costs from repeated LIST calls and may not return any additional objects.
+        fetch-encrypted-object-hashes: API requests to the LIST endpoint do not fetch the hashes for encrypted objects by default. If this flag is set, a GET request is sent for each encrypted object in order to fetch hashes. This can significantly increase the cost of the command.
+        full: List all available metadata about items in rows.
+        json: List all available metadata about items as a JSON dump.
+        long: For objects only. List size in bytes, creation time, and URL.
+        metadata-filter: Server side filtering for objects. Works only for Google Cloud Storage URLs. The filter only works for objects, and not directories or buckets, which means commands like `storage ls` and `storage du` will still list directories or buckets even if they do not contain any objects matching the filter. See https://cloud.google.com/storage/docs/listing-objects#filter-by-object-contexts-syntax for more details.
+        next-page-token: Page token for resuming LIST calls.
+        no-exhaustive: For features like soft delete, the API may return an empty list. If present, continue querying. This may incur costs from repeated LIST calls and may not return any additional objects.
+        no-fetch-encrypted-object-hashes: API requests to the LIST endpoint do not fetch the hashes for encrypted objects by default. If this flag is set, a GET request is sent for each encrypted object in order to fetch hashes. This can significantly increase the cost of the command.
+        no-read-paths-from-stdin: Read the list of URLs from stdin.
+        no-readable-sizes: When used with `--long`, print object sizes in human readable format, such as 1 KiB, 234 MiB, or 2 GiB.
+        no-soft-deleted: Displays soft-deleted resources only. For objects, it will exclude live and noncurrent ones.
+        read-paths-from-stdin: Read the list of URLs from stdin.
+        readable-sizes: When used with `--long`, print object sizes in human readable format, such as 1 KiB, 234 MiB, or 2 GiB.
+        recursive: Recursively list the contents of any directories that match the path expression.
+        soft-deleted: Displays soft-deleted resources only. For objects, it will exclude live and noncurrent ones.

@@ -1,0 +1,27 @@
+name: evaluate
+description: '*(BETA)*  Evaluate a Binary Authorization platform policy.'
+flags:
+    --image=: The image to evaluate.
+    --platform=: The platform that the policy belongs to.
+    --resource=: The JSON or YAML file containing the Kubernetes resource to evaluate.
+documentation:
+    command: |-
+        ## EXAMPLES
+
+        To evaluate a policy using its resource name:
+
+          $ gcloud beta container binauthz policy evaluate projects/my-proj/platforms/gke/policies/my-policy
+          --resource=$KUBERNETES_RESOURCE
+
+        To evaluate the same policy using flags against an image:
+
+          $ gcloud beta container binauthz policy evaluate my-policy --platform=gke --project=my-proj --image=$IMAGE
+    flag:
+        image: The image to evaluate. If the policy being evaluated has scoped checksets, this mode of evaluation will always use the default (unscoped) checkset.
+        platform: |-
+            The platform that the policy belongs to. PLATFORM must be one of the following: cloudRun, gke.
+            +
+            To set the `platform` attribute:
+            * provide the argument `policy_resource_name` on the command line with a fully specified name;
+            * provide the argument `--platform` on the command line.
+        resource: The JSON or YAML file containing the Kubernetes resource to evaluate.

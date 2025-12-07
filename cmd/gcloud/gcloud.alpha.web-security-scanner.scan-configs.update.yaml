@@ -1,0 +1,75 @@
+name: update
+description: '*(ALPHA)*  Update a Web Security Scanner ScanConfig.'
+flags:
+    --auth-password=: Password for the test user.
+    --auth-type=: Type of authentication to use.
+    --auth-url=: URL of the login page for your site.
+    --auth-user=: The test user to log in as.
+    --blacklist-patterns=: 'List of blacklist URL patterns as described online:'
+    --display-name=: A human-readable name for the scan config.
+    --export-to-security-center: If True, the scanner will export scan results to Cloud Security Command Center.
+    --max-qps=: Maximum queries per second (QPS) of the scanners.
+    --no-export-to-security-center&: If True, the scanner will export scan results to Cloud Security Command Center.
+    --risk-level=: The risk level selected for the scan.
+    --schedule-interval-days=: How frequently the scan should be run automatically (in days).
+    --schedule-next-start=: When the next automatic scheduled scan should start.
+    --starting-urls=: URLs the scan starts scanning from.
+    --target-platforms=: List of platforms the site is running on.
+    --user-agent=: List of user agents to use when crawling.
+completion:
+    flag:
+        auth-type:
+            - custom
+            - google
+            - none
+        risk-level:
+            - low
+            - normal
+        user-agent:
+            - chrome-android
+            - chrome-linux
+            - safari-iphone
+            - user-agent-unspecified
+documentation:
+    command: |
+        *(ALPHA)*  Updates a Web Security Scanner ScanConfig.
+    flag:
+        auth-password: Password for the test user. Required if `--auth-type` is not 'none'.
+        auth-type: |-
+            Type of authentication to use. _AUTH_TYPE_ must be one of:
+            +
+            *custom*::: Authentication with a custom account.
+            *google*::: Authentication with a Google account.
+            *none*::: Disables Authentication.
+            :::
+            +
+        auth-url: |-
+            URL of the login page for your site. Required if `--auth-type` is
+            'custom'. Otherwise, it should not be set.
+        auth-user: |-
+            The test user to log in as. Required if `--auth-type` is not 'none'.
+            'google' login requires a full email address. Cannot be your own account.
+        blacklist-patterns: |-
+            List of blacklist URL patterns as described online:
+            https://cloud.google.com/security-scanner/docs/excluded-urls
+        display-name: A human-readable name for the scan config.
+        export-to-security-center: |-
+            If True, the scanner will export scan results to Cloud Security Command Center. Defaults to
+            true. Enabled by default, use *--no-export-to-security-center* to disable.
+        max-qps: Maximum queries per second (QPS) of the scanners. Defaults to 15, with a maximum of 20.
+        no-export-to-security-center: |
+            If True, the scanner will export scan results to Cloud Security Command Center. Defaults to
+            true.
+        risk-level: 'The risk level selected for the scan. Defaults to normal scanning. _RISK_LEVEL_ must be one of: *low*, *normal*.'
+        schedule-interval-days: |-
+            How frequently the scan should be run automatically (in days). If not set, there is no automatic
+            scheduling of this scan.
+        schedule-next-start: |-
+            When the next automatic scheduled scan should start. Requires `--schedule-interval-days` to be
+            set. See $ gcloud topic datetimes for information on time formats.
+        starting-urls: |-
+            URLs the scan starts scanning from. These URLs must be 'owned' by the project in some way
+            (resolve to a reserved IP address, or be the default
+            `https://<PROJECT-ID>.<REGION-ID>.r.appspot.com`).
+        target-platforms: 'List of platforms the site is running on. Defaults to ''app_engine,compute''. _TARGET_PLATFORMS_ must be one of: *app-engine*, *cloud-functions*, *cloud-run*, *compute*, *target-platform-unspecified*.'
+        user-agent: 'List of user agents to use when crawling. Defaults to ''chrome_linux''. _USER_AGENT_ must be one of: *chrome-android*, *chrome-linux*, *safari-iphone*, *user-agent-unspecified*.'

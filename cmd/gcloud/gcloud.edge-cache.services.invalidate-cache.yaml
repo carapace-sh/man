@@ -1,0 +1,38 @@
+name: invalidate-cache
+description: Invalidate the cache for an EdgeCacheService resource.
+flags:
+    --host=: The hostname to invalidate against.
+    --location=: The location Id.
+    --path=: The path to invalidate against.
+    --tags=: A list of cache tags used to identify cached objects.
+documentation:
+    command: |
+        Invalidate the cache entries associated with an EdgeCacheService
+        resource.
+    flag:
+        host: |-
+            The hostname to invalidate against. You can specify an exact or wildcard host - e.g.
+            "video.example.com" or "*.example.com" - based on host component.
+        location: |-
+            The location Id.
+            +
+
+            To set the `location` attribute:
+            * provide the argument `service` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line;
+            * use global location.
+        path: |-
+            The path to invalidate against. You can specify an exact or wildcard host - e.g.
+            "/videos/hls/139123.mp4" or "/manifests/*" - based on path component.
+        tags: |-
+            A list of cache tags used to identify cached objects.
+            +
+            - Cache tags are specified when the response is first cached, by setting the "Cache-Tag"
+            response header at the origin.
+            - By default, all objects have a cache tag representing the HTTP status code of the response,
+            the MIME content-type, and the origin.
+            - Multiple cache tags in the same revalidation request are treated as boolean OR - e.g. tag1
+            OR tag2 OR tag3.
+            - If a host and/or path are also specified, these are treated as boolean AND with any tags.
+            +
+            Up to 10 tags may be specified in a single invalidation request.

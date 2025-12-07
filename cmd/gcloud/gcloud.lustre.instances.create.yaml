@@ -1,0 +1,204 @@
+name: create
+description: Creates a Managed Lustre instance.
+flags:
+    --access-rules=: The access rules for the instance.
+    --async: Return immediately, without waiting for the operation in progress to
+    --capacity-gib=!: The storage capacity of the instance in gibibytes (GiB).
+    --default-squash-gid=: The user squash GID for the default access rule.
+    --default-squash-mode=!: The squash mode for the default access rule.
+    --default-squash-uid=: The user squash UID for the default access rule.
+    --description=: A user-readable description of the instance.
+    --filesystem=!: The filesystem name for this instance.
+    --gke-support-enabled: Indicates whether you want to enable support for GKE clients.
+    --kms-key=: The Cloud KMS key name to use for data encryption.
+    --labels=: Labels as key value pairs.
+    --location=: The location id of the instance resource.
+    --network=!: ID of the network or fully qualified identifier for the network.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-gke-support-enabled&: Indicates whether you want to enable support for GKE clients.
+    --per-unit-storage-throughput=!: The throughput of the instance in MB/s/TiB.
+    --placement-policy=: The placement policy name for the instance in the format of
+    --request-id=: An optional request ID to identify requests.
+completion:
+    flag:
+        default-squash-mode:
+            - no-squash
+            - root-squash
+documentation:
+    command: |
+        Creates a Managed Lustre instance.
+    flag:
+        access-rules: |-
+            The access rules for the instance.
+            +
+            *ipAddressRanges*:::
+            The IP address ranges to which to apply this access rule. Accepts
+            non-overlapping CIDR ranges (e.g., `192.168.1.0/24`) and IP addresses
+            (e.g., `192.168.1.0`).
+            +
+            *name*:::
+            The name of the access rule policy group.
+            Must be 16 characters or less and include only alphanumeric characters
+            or '_'.
+            +
+            *squashMode*:::
+            Squash mode for the access rule.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --access-rules=ipAddressRanges=[string],name=string,squashMode=string --access-rules=ipAddressRanges=[string],name=string,squashMode=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --access-rules='[{"ipAddressRanges": ["string"], "name": "string", "squashMode": "string"}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --access-rules=path_to_file.(yaml|json)
+            +
+            ```
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        capacity-gib: |-
+            The storage capacity of the instance in gibibytes (GiB). Allowed values
+            are from `18000` to `7632000`, depending on the `perUnitStorageThroughput`.
+            See [Performance tiers and maximum storage
+            capacities](https://cloud.google.com/managed-lustre/docs/create-instance#performance-tiers)
+            for specific minimums, maximums, and step sizes for each performance tier.
+        default-squash-gid: |-
+            The user squash GID for the default access rule.
+            This user squash GID applies to all root users connecting from clients
+            that are not matched by any of the access rules. If not set, the default
+            is 0 (no GID squash).
+        default-squash-mode: |-
+            The squash mode for the default access rule. _DEFAULT_SQUASH_MODE_ must be one of:
+            +
+            *no-squash*::: Squash is disabled.
+            +
+            If set inside an [AccessRule][google.cloud.lustre.v1.AccessRulesOptions.AccessRule], root users matching the
+            [ip_ranges][AccessRule.ip_ranges] are not squashed.
+            +
+            If set as the [default_squash_mode][google.cloud.lustre.v1.AccessRulesOptions.default_squash_mode], root squash is
+            disabled for this instance.
+            +
+            If the default squash mode is `NO_SQUASH`, do not set the
+            [default_squash_uid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_uid] or
+            [default_squash_gid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_gid], or an `invalid argument` error
+            is returned.
+            *root-squash*::: Root user squash is enabled.
+            +
+            Not supported inside an [AccessRule][google.cloud.lustre.v1.AccessRulesOptions.AccessRule].
+            +
+            If set as the [default_squash_mode][google.cloud.lustre.v1.AccessRulesOptions.default_squash_mode],
+            root users not matching any of the [access_rules][google.cloud.lustre.v1.AccessRulesOptions.access_rules] are
+            squashed to the [default_squash_uid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_uid] and
+            [default_squash_gid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_gid].
+            :::
+            +
+        default-squash-uid: |-
+            The user squash UID for the default access rule.
+            This user squash UID applies to all root users connecting from clients
+            that are not matched by any of the access rules. If not set, the default
+            is 0 (no UID squash).
+        description: A user-readable description of the instance.
+        filesystem: |-
+            The filesystem name for this instance. This name is used by client-side
+            tools, including when mounting the instance. Must be eight characters or
+            less and can only contain letters and numbers.
+        gke-support-enabled: |-
+            Indicates whether you want to enable support for GKE clients. By default,
+            GKE clients are not supported.
+            Deprecated. No longer required for GKE instance creation.
+        kms-key: |-
+            The Cloud KMS key name to use for data encryption.
+            If not set, the instance will use Google-managed encryption keys.
+            If set, the instance will use customer-managed encryption keys.
+            The key must be in the same region as the instance.
+            The key format is:
+            projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{key}
+        labels: |-
+            Labels as key value pairs.
+            +
+            *KEY*:::
+            Keys must start with a lowercase character and contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+            +
+            *VALUE*:::
+            Values must contain only hyphens (`-`), underscores (```_```), lowercase characters, and numbers.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --labels=string=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --labels='{"string": "string"}'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --labels=path_to_file.(yaml|json)
+            +
+            ```
+        location: |-
+            The location id of the instance resource.
+            +
+            To set the `location` attribute:
+            * provide the argument `instance` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line.
+        network: |-
+            ID of the network or fully qualified identifier for the network.
+            +
+            To set the `network` attribute:
+            * provide the argument `--network` on the command line.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-gke-support-enabled: |-
+            Indicates whether you want to enable support for GKE clients. By default,
+            GKE clients are not supported.
+            Deprecated. No longer required for GKE instance creation.
+        per-unit-storage-throughput: |-
+            The throughput of the instance in MB/s/TiB. Valid values are 125, 250,
+            500, 1000.
+            See [Performance tiers and maximum storage
+            capacities](https://cloud.google.com/managed-lustre/docs/create-instance#performance-tiers)
+            for more information.
+        placement-policy: |-
+            The placement policy name for the instance in the format of
+            projects/{project}/locations/{location}/resourcePolicies/{resource_policy}
+        request-id: |-
+            An optional request ID to identify requests. Specify a unique request ID
+            so that if you must retry your request, the server will know to ignore
+            the request if it has already been completed. The server will guarantee
+            that for at least 60 minutes since the first request.
+            +
+            For example, consider a situation where you make an initial request and the
+            request times out. If you make the request again with the same request
+            ID, the server can check if original operation with the same request ID
+            was received, and if so, will ignore the second request. This prevents
+            clients from accidentally creating duplicate commitments.
+            +
+            The request ID must be a valid UUID with the exception that zero UUID is
+            not supported (00000000-0000-0000-0000-000000000000).

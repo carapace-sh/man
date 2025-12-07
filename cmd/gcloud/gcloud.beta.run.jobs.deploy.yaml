@@ -1,0 +1,193 @@
+name: deploy
+description: '*(BETA)*  Create or update a Cloud Run job.'
+flags:
+    --add-volume-mount=: Adds a mount to the current container.
+    --add-volume=: Adds a volume to the Cloud Run resource.
+    --args=: Comma-separated arguments passed to the command run by the container image.
+    --async: Return immediately, without waiting for the operation in progress to
+    --binary-authorization=: Binary Authorization policy to check against.
+    --breakglass=: Justification to bypass Binary Authorization policy constraints and allow the operation.
+    --clear-env-vars: Remove all environment variables.
+    --clear-network: Disconnect this Cloud Run job from the VPC network it is connected to.
+    --clear-network-tags: Clears all existing network tags from the Cloud Run job.
+    --clear-secrets: Remove all secrets.
+    --clear-volume-mounts: Remove all existing mounts from the current container.
+    --clear-volumes: Remove all existing volumes from the Cloud Run resource, including volumes mounted as secrets
+    --client-name=&: Name of the client handling the deployment.
+    --client-version=&: Version of the client handling the deployment.
+    --command=: Entrypoint for the container image.
+    --container=: Specifies a container by name.
+    --cpu=: Set a CPU limit in Kubernetes cpu units.
+    --depends-on=: List of container dependencies to add to the current container.
+    --env-vars-file=: Path to a local YAML or ENV file with definitions for all environment
+    --execute-now: Execute the job immediately after the creation or update  completes.
+    --execution-environment=&: Selects the execution environment where the application will run.
+    --gpu-type=: The GPU type to use.
+    --gpu-zonal-redundancy: Set GPU zonal redundancy.
+    --gpu=: Cloud Run supports values 0 or 1.  1 gpu also requires a minimum 4 `--cpu` value and  a minimum 16Gi `--memory` value.
+    --image=: Name of the container image to deploy (e.g. `us-docker.pkg.dev/cloudrun/container/job:latest`).
+    --key=: CMEK key reference to encrypt the container with.
+    --labels=: List of label KEY=VALUE pairs to add.
+    --max-retries=: Number of times a task is allowed to restart in case of failure before being failed permanently.
+    --memory=: Set a memory limit.
+    --network-tags=: Applies the given network tags (comma separated) to the Cloud Run job.
+    --network=: The VPC network that the Cloud Run job will be able to send traffic to.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --no-build&: When set, the cloud build step will be skipped and the provided will be extracted directly on the base image.
+    --no-clear-env-vars&: Remove all environment variables.
+    --no-clear-network&: Disconnect this Cloud Run job from the VPC network it is connected to.
+    --no-clear-network-tags&: 'Clears all existing network tags from the Cloud Run job. '
+    --no-clear-secrets&: Remove all secrets.
+    --no-clear-volume-mounts&: Remove all existing mounts from the current container.
+    --no-clear-volumes&: Remove all existing volumes from the Cloud Run resource, including volumes mounted as secrets
+    --no-execute-now&: Execute the job immediately after the creation or update  completes.
+    --no-gpu-zonal-redundancy&: Set GPU zonal redundancy.
+    --no-wait&: Wait until the execution has completed running before exiting.
+    --parallelism=: Number of tasks that may run concurrently.
+    --region=: Region in which the resource can be found.
+    --remove-containers=: List of containers to remove.
+    --remove-env-vars=: List of environment variables to be removed.
+    --remove-secrets=: List of secrets to be removed.
+    --remove-volume-mount=: Removes the volume mounted at the specified path from the current container.
+    --remove-volume=: Removes volumes from the Cloud Run resource.
+    --service-account=: the email address of an IAM service account associated with the revision of the service.
+    --set-cloudsql-instances=: You can specify a name of a Cloud SQL instance if it's in the same
+    --set-env-vars=: List of key-value pairs to set as environment variables.
+    --set-secrets=: List of key-value pairs to set as secrets.
+    --source=: The location of the source to build.
+    --startup-probe=: Comma separated settings for startup probe in the form KEY=VALUE.
+    --subnet=: The VPC subnetwork that the Cloud Run job will get IPs from.
+    --task-timeout=: Set the maximum time (deadline) a job task attempt can run for.
+    --tasks=: Number of tasks that must run to completion for the execution to be considered done.
+    --update-annotations=&: List of annotation KEY=VALUE pairs to update.
+    --update-env-vars=: List of key-value pairs to set as environment variables.
+    --update-secrets=: List of key-value pairs to set as secrets.
+    --vpc-connector=: Set a VPC connector for this resource.
+    --vpc-egress=: Specify which of the outbound traffic to send through Direct VPC egress or the VPC connector for this resource.
+    --wait: Wait until the execution has completed running before exiting.
+completion:
+    flag:
+        execution-environment:
+            - gen1
+            - gen2
+        vpc-egress:
+            - all
+            - all-traffic
+            - private-ranges-only
+documentation:
+    command: |
+        *(BETA)*  Creates or updates a Cloud Run job.
+    flag:
+        add-volume: "Adds a volume to the Cloud Run resource. To add more than one volume, specify this flag multiple times. Volumes must have a `name` and `type` key. Only certain values are supported for `type`. Depending on the provided type, other keys will be required. The following types are supported with the specified additional keys:\n+\n*cloud-storage*: A volume representing a Cloud Storage bucket. This volume type is mounted using Cloud Storage FUSE. See https://cloud.google.com/storage/docs/gcs-fuse for the details and limitations of this filesystem.\n  Additional keys:  \n* bucket: (required) the name of the bucket to use as the source of this volume    \n* readonly: (optional) A boolean. If true, this volume will be read-only from all mounts.  \n* mount-options: (optional) A list of flags to pass to GCSFuse. Flags should be specified without leading dashes and separated by semicolons.      \n+\n*in-memory*: An ephemeral volume that stores data in the instance's memory. With this type of volume, data is not shared between instances and all data will be lost when the instance it is on is terminated.\n  Additional keys:  \n* size-limit: (optional) A quantity representing the maximum amount of memory allocated to this volume, such as \"512Mi\" or \"3G\". Data stored in an in-memory volume consumes the memory allocation of the container that wrote the data. If size-limit is not specified, the maximum size will be half the total memory limit of all containers.      \n+\n*nfs*: Represents a volume backed by an NFS server.\n  Additional keys:  \n* location: (required) The location of the NFS Server, in the form SERVER:/PATH    \n* readonly: (optional) A boolean. If true, this volume will be read-only from all mounts."
+        add-volume-mount: Adds a mount to the current container. Must contain the keys `volume=NAME` and `mount-path=/PATH` where NAME is the name of a volume on this resource and PATH is the path within the container's filesystem to mount this volume.
+        args: Comma-separated arguments passed to the command run by the container image. If not specified and no '--command' is provided, the container image's default Cmd is used. Otherwise, if not specified, no arguments are passed. To reset this field to its default, pass an empty string.
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        binary-authorization: Binary Authorization policy to check against. This must be set to "default".
+        breakglass: Justification to bypass Binary Authorization policy constraints and allow the operation. See https://cloud.google.com/binary-authorization/docs/using-breakglass for more information. Next update or deploy command will automatically clear existing breakglass justification.
+        clear-env-vars: Remove all environment variables.
+        clear-network: Disconnect this Cloud Run job from the VPC network it is connected to.
+        clear-network-tags: Clears all existing network tags from the Cloud Run job.
+        clear-secrets: Remove all secrets.
+        clear-volume-mounts: Remove all existing mounts from the current container.
+        clear-volumes: Remove all existing volumes from the Cloud Run resource, including volumes mounted as secrets
+        client-name: Name of the client handling the deployment. Defaults to ``global'' if this and --client-version are both unspecified.
+        client-version: Version of the client handling the deployment. Defaults to the current gcloud version if this and --client-name are both unspecified.
+        command: Entrypoint for the container image. If not specified, the container image's default Entrypoint is run. To reset this field to its default, pass an empty string.
+        container: |-
+            Specifies a container by name. Flags following --container will apply to the specified container.
+            +
+            Flags that are not container-specific must be specified before --container.
+        cpu: |-
+            Set a CPU limit in Kubernetes cpu units.
+            +
+            Cloud Run supports values fractional values below 1, 1, 2, 4, and 8.  Some CPU values requires a minimum Memory `--memory` value.
+        depends-on: List of container dependencies to add to the current container.
+        env-vars-file: |-
+            Path to a local YAML or ENV file with definitions for all environment
+                        variables. All existing environment variables will be removed before
+                        the new environment variables are added. Example YAML content:
+            +
+                          ```
+                          KEY_1: "value1"
+                          KEY_2: "value 2"
+                          ```
+                          Example ENV content:
+            +
+                          ```
+                          KEY_1="value1"
+                          KEY_2="value 2"
+                          ```
+        execute-now: Execute the job immediately after the creation or update  completes. gcloud exits once the job has started unless the `--wait` flag is set.
+        execution-environment: Selects the execution environment where the application will run.
+        gpu: Cloud Run supports values 0 or 1.  1 gpu also requires a minimum 4 `--cpu` value and  a minimum 16Gi `--memory` value.
+        gpu-type: The GPU type to use.
+        gpu-zonal-redundancy: Set GPU zonal redundancy. Use *--gpu-zonal-redundancy* to enable and *--no-gpu-zonal-redundancy* to disable.
+        image: Name of the container image to deploy (e.g. `us-docker.pkg.dev/cloudrun/container/job:latest`).
+        key: CMEK key reference to encrypt the container with.
+        labels: List of label KEY=VALUE pairs to add.
+        max-retries: Number of times a task is allowed to restart in case of failure before being failed permanently. This applies per-task, not per-job. If set to 0, tasks will only run once and never be retried on failure.
+        memory: 'Set a memory limit. Ex: 1024Mi, 4Gi.'
+        network: The VPC network that the Cloud Run job will be able to send traffic to. If --subnet is also specified, subnet must be a subnetwork of the network specified by this --network flag. To clear existing VPC network settings, use --clear-network.
+        network-tags: Applies the given network tags (comma separated) to the Cloud Run job. To clear existing tags, use --clear-network-tags.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        no-build: When set, the cloud build step will be skipped and the provided will be extracted directly on the base image.
+        no-clear-env-vars: Remove all environment variables.
+        no-clear-network: Disconnect this Cloud Run job from the VPC network it is connected to.
+        no-clear-network-tags: 'Clears all existing network tags from the Cloud Run job. '
+        no-clear-secrets: Remove all secrets.
+        no-clear-volume-mounts: Remove all existing mounts from the current container.
+        no-clear-volumes: Remove all existing volumes from the Cloud Run resource, including volumes mounted as secrets
+        no-execute-now: Execute the job immediately after the creation or update  completes. gcloud exits once the job has started unless the `--wait` flag is set.
+        no-gpu-zonal-redundancy: Set GPU zonal redundancy.
+        no-wait: Wait until the execution has completed running before exiting. If not set, gcloud exits successfully when the execution has started.  Implies --execute-now.
+        parallelism: Number of tasks that may run concurrently. Must be less than or equal to the number of tasks. Set to 0 to unset.
+        region: Region in which the resource can be found. Alternatively, set the property [run/region].
+        remove-containers: List of containers to remove.
+        remove-env-vars: List of environment variables to be removed.
+        remove-secrets: List of secrets to be removed.
+        remove-volume: Removes volumes from the Cloud Run resource.
+        remove-volume-mount: Removes the volume mounted at the specified path from the current container.
+        service-account: the email address of an IAM service account associated with the revision of the service. The service account represents the identity of the running revision, and determines what permissions the revision has.
+        set-cloudsql-instances: |-
+            You can specify a name of a Cloud SQL instance if it's in the same
+                  project and region as your Cloud Run resource; otherwise specify
+                  <project>:<region>:<instance> for the instance.
+        set-env-vars: List of key-value pairs to set as environment variables. All existing environment variables will be removed first.
+        set-secrets: List of key-value pairs to set as secrets. All existing secrets will be removed first.
+        source: The location of the source to build. If a Dockerfile is present in the source code directory, it will be built using that Dockerfile, otherwise it will use Google Cloud buildpacks. See https://cloud.google.com/run/docs/deploying-source-code for more details. The location can be a directory on a local disk or a gzipped archive file (.tar.gz) in Google Cloud Storage. If the source is a local directory, this command skips the files specified in the `--ignore-file`. If `--ignore-file` is not specified, use `.gcloudignore` file. If a `.gcloudignore` file is absent and a `.gitignore` file is present in the local source directory, gcloud will use a generated Git-compatible `.gcloudignore` file that respects your .gitignored files. The global `.gitignore` is not respected. For more information on `.gcloudignore`, see `gcloud topic gcloudignore`.
+        startup-probe: |-
+            Comma separated settings for startup probe in the form KEY=VALUE.
+            Each key stands for a field of the probe described in
+            https://cloud.google.com/run/docs/reference/rest/v1/Container#Probe.
+            Currently supported keys are: initialDelaySeconds, timeoutSeconds, periodSeconds, failureThreshold, httpGet.port, httpGet.path, grpc.port, grpc.service, tcpSocket.port.
+            +
+            For example, to set a probe with 10s timeout and HTTP probe requests
+            sent to 8080 port of the container:
+            +
+                $ --startup-probe=timeoutSeconds=10,httpGet.port=8080
+            +
+            To remove existing probe:
+            +
+                $ --startup-probe=""
+        subnet: The VPC subnetwork that the Cloud Run job will get IPs from. The subnetwork must be `/26` or larger. If --network is also specified, subnet must be a subnetwork of the network specified by the --network flag. If --network is not specified, network will be looked up from this subnetwork. To clear existing VPC network settings, use --clear-network.
+        task-timeout: Set the maximum time (deadline) a job task attempt can run for. In the case of retries, this deadline applies to each attempt of a task. If the task attempt does not complete within this time, it will be killed. It is specified as a duration; for example, "10m5s" is ten minutes, and five seconds. If you don't specify a unit, seconds is assumed. For example, "10" is 10 seconds.
+        tasks: Number of tasks that must run to completion for the execution to be considered done.
+        update-annotations: List of annotation KEY=VALUE pairs to update. If an annotation exists, its value is modified. Otherwise, a new annotation is created.
+        update-env-vars: List of key-value pairs to set as environment variables.
+        update-secrets: List of key-value pairs to set as secrets.
+        vpc-connector: Set a VPC connector for this resource.
+        vpc-egress: |-
+            Specify which of the outbound traffic to send through Direct VPC egress or the VPC connector for this resource. This resource must have Direct VPC egress enabled or a VPC connector to set this flag. _VPC_EGRESS_ must be one of:
+            +
+            *all*::: (DEPRECATED) Sends all outbound traffic through Direct VPC egress or the VPC connector. Provides the same functionality as 'all-traffic'. Prefer to use 'all-traffic' instead.
+            *all-traffic*::: Sends all outbound traffic through Direct VPC egress or the VPC connector.
+            *private-ranges-only*::: Default option. Sends outbound traffic to private IP addresses (RFC 1918 and Private Google Access IPs) through Direct VPC egress or the VPC connector.
+            +
+            Traffic to other Cloud Run services might require additional configuration. See https://cloud.google.com/run/docs/securing/private-networking#send_requests_to_other_services_and_services for more information.
+            :::
+            +
+        wait: Wait until the execution has completed running before exiting. If not set, gcloud exits successfully when the execution has started.  Implies --execute-now.

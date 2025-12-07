@@ -1,0 +1,1536 @@
+name: update
+description: '*(ALPHA)*  Updates a Cluster Director resource.'
+flags:
+    --add-dws-flex-instances=: Parameters to define cluster DWS Flex instances.
+    --add-filestore-instances=: Reference of existing filestore instance.
+    --add-labels=: Cluster labels as key value pairs.
+    --add-lustre-instances=: Reference of existing Lustre instance.
+    --add-new-filestore-instances=: Parameters to create a filestore instance.
+    --add-new-lustre-instances=: Parameters to create a Lustre instance.
+    --add-new-storage-buckets=: Parameters to create a Google Cloud Storage bucket.
+    --add-on-demand-instances=: Parameters to define cluster on demand instances.
+    --add-reserved-instances=: Parameters to define cluster reserved instances.
+    --add-slurm-node-sets=: Parameters to define slurm cluster nodeset config.
+    --add-slurm-partitions=: Parameters to define slurm cluster partitions.
+    --add-spot-instances=: Parameters to define cluster spot instances.
+    --add-storage-buckets=: Reference of existing Google Cloud Storage bucket.
+    --async: Return immediately, without waiting for the operation in progress to
+    --config=!: Configuration of the cluster specs in the form of a JSON object.
+    --description=: Description of the cluster.
+    --location=: The location id of the cluster resource.
+    --no-async&: Return immediately, without waiting for the operation in progress to
+    --remove-dws-flex-instances=: Parameters to remove DWS Flex instance config by compute id.
+    --remove-filestore-instances=: Parameters to remove filestore instance config by filestore name.
+    --remove-labels=: Parameters to remove cluster label by key.
+    --remove-lustre-instances=: Parameters to remove lustre instance config by lustre name.
+    --remove-on-demand-instances=: Parameters to remove on demand instances config by compute id.
+    --remove-reserved-instances=: Parameters to remove reserved instance config by compute id.
+    --remove-slurm-node-sets=: Parameters to remove slurm nodeset config by nodeset id.
+    --remove-slurm-partitions=: Parameters to remove slurm partition config by partition id.
+    --remove-spot-instances=: Parameters to remove spot instance config by compute id.
+    --remove-storage-buckets=: Parameters to remove Google Cloud Storage bucket by bucket name.
+    --slurm-default-partition=: Parameters to define slurm cluster default partition.
+    --update-mask=!: Update mask to specify the fields to update.
+    --update-slurm-login-node=: Parameters to update slurm cluster login node.
+    --update-slurm-node-sets=: Parameters to define and update slurm cluster nodeset config.
+    --update-slurm-partitions=: Parameters to define and update slurm cluster partition config.
+documentation:
+    command: |
+        *(ALPHA)*  *gcloud alpha cluster-director clusters update* facilitates the updation of a cluster resource.
+
+        There are following ways to update a cluster:
+        - [Preferred] Use granular flags to update cluster specs, based on read-modify-update pattern.
+          - Read the existing cluster specs through `get` cluster request.
+          - Modify the cluster specs through granular flags.
+          - Update the cluster specs through `patch` cluster request.
+        - Use --config with cluster specs and --update-mask flags, both in JSON format.
+          - Map and repeated fields update requires existing and new values.
+          - For e.g. if we want to update a cluster to add a new nodeset, then we will use the update_mask "orchestrator.slurm.node_sets", and the patch cluster must include all the existing nodesets as well as the new one.
+
+        Please refer to the examples below for more details.
+    flag:
+        add-dws-flex-instances: |-
+            Parameters to define cluster DWS Flex instances.
+            +
+            For e.g. --add-dws-flex-instances id={computeId},zone={zone},machineType={machineType},maxDuration=10000s.
+            +
+            Sets `add_dws_flex_instances` value.
+            +
+            *id*:::
+            Required, sets `id` value.
+            +
+            *machineType*:::
+            Required, sets `machineType` value.
+            +
+            *maxDuration*:::
+            Required, sets `maxDuration` value.
+            +
+            *zone*:::
+            Required, sets `zone` value.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --add-dws-flex-instances=id=string,machineType=string,maxDuration=string,zone=string --add-dws-flex-instances=id=string,machineType=string,maxDuration=string,zone=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --add-dws-flex-instances='[{"id": "string", "machineType": "string", "maxDuration": "string", "zone": "string"}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --add-dws-flex-instances=path_to_file.(yaml|json)
+            +
+            ```
+        add-filestore-instances: |-
+            Reference of existing filestore instance.
+            +
+            For e.g. --add-filestore-instances locations/{location}/instances/{filestore}
+        add-labels: |-
+            Cluster labels as key value pairs.
+            +
+            For e.g. --add-labels key1=value1,key2=value2.
+            +
+            Sets `add_labels` value.
+            +
+            *KEY*:::
+            Sets `KEY` value.
+            +
+            *VALUE*:::
+            Sets `VALUE` value.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --add-labels={string=string}
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --add-labels='{"string": "string"}'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --add-labels=path_to_file.(yaml|json)
+            +
+            ```
+        add-lustre-instances: |-
+            Reference of existing Lustre instance.
+            +
+            For e.g. --add-lustre-instances locations/{location}/instances/{lustre}
+        add-new-filestore-instances: |-
+            Parameters to create a filestore instance.
+            +
+            For e.g. --create-filestores name=locations/{location}/instances/{filestore},tier=REGIONAL,capacityGb={filestoreSize},fileshare={fileshare}
+            +
+            Supported tier values:
+            - ZONAL
+            - REGIONAL
+            +
+            Supported protocol values:
+            - NFSV3
+            - NFSV41
+            - If not specified, defaults to NFSV3
+            +
+            Defaults:
+            - protocol: NFSV3.
+            +
+            Sets `add_new_filestore_instances` value.
+            +
+            *capacityGb*:::
+            Required, sets `capacityGb` value.
+            +
+            *description*:::
+            Sets `description` value.
+            +
+            *fileshare*:::
+            Required, sets `fileshare` value.
+            +
+            *name*:::
+            Required, sets `name` value.
+            +
+            *protocol*:::
+            Sets `protocol` value.
+            +
+            *tier*:::
+            Required, sets `tier` value.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --add-new-filestore-instances=capacityGb=int,description=string,fileshare=string,name=string,protocol=string,tier=string --add-new-filestore-instances=capacityGb=int,description=string,fileshare=string,name=string,protocol=string,tier=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --add-new-filestore-instances='[{"capacityGb": int, "description": "string", "fileshare": "string", "name": "string", "protocol": "string", "tier": "string"}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --add-new-filestore-instances=path_to_file.(yaml|json)
+            +
+            ```
+        add-new-lustre-instances: |-
+            Parameters to create a Lustre instance.
+            +
+            For e.g. --add-new-lustre-instances name=locations/{location}/instances/{lustre},capacityGb={lustreSize},filesystem={filesystem}.
+            +
+            Sets `add_new_lustre_instances` value.
+            +
+            *capacityGb*:::
+            Required, sets `capacityGb` value.
+            +
+            *description*:::
+            Sets `description` value.
+            +
+            *filesystem*:::
+            Required, sets `filesystem` value.
+            +
+            *name*:::
+            Required, sets `name` value.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --add-new-lustre-instances=capacityGb=int,description=string,filesystem=string,name=string --add-new-lustre-instances=capacityGb=int,description=string,filesystem=string,name=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --add-new-lustre-instances='[{"capacityGb": int, "description": "string", "filesystem": "string", "name": "string"}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --add-new-lustre-instances=path_to_file.(yaml|json)
+            +
+            ```
+        add-new-storage-buckets: |-
+            Parameters to create a Google Cloud Storage bucket.
+            +
+            For e.g. --add-new-storage-buckets name={bucket-path}
+            +
+            Supported storageClass values:
+            - STANDARD
+            - NEARLINE
+            - COLDLINE
+            - ARCHIVE
+            +
+            Defaults:
+            - storageClass: STANDARD
+            +
+            Note:
+            - Either storageClass or enableAutoclass can be set.
+            - if enableAutoclass is set, enableHNS should not be set.
+            - HNS: Hierarchical namespace.
+            +
+            Sets `add_new_storage_buckets` value.
+            +
+            *enableAutoclass*:::
+            Sets `enableAutoclass` value.
+            +
+            *enableHNS*:::
+            Sets `enableHNS` value.
+            +
+            *name*:::
+            Required, sets `name` value.
+            +
+            *storageClass*:::
+            Sets `storageClass` value.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --add-new-storage-buckets=enableAutoclass=boolean,enableHNS=boolean,name=string,storageClass=string --add-new-storage-buckets=enableAutoclass=boolean,enableHNS=boolean,name=string,storageClass=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --add-new-storage-buckets='[{"enableAutoclass": boolean, "enableHNS": boolean, "name": "string", "storageClass": "string"}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --add-new-storage-buckets=path_to_file.(yaml|json)
+            +
+            ```
+        add-on-demand-instances: |-
+            Parameters to define cluster on demand instances.
+            +
+            For e.g. --add-on-demand-instances id={computeId},zone={zone},machineType={machineType}.
+            +
+            Sets `add_on_demand_instances` value.
+            +
+            *id*:::
+            Required, sets `id` value.
+            +
+            *machineType*:::
+            Required, sets `machineType` value.
+            +
+            *zone*:::
+            Required, sets `zone` value.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --add-on-demand-instances=id=string,machineType=string,zone=string --add-on-demand-instances=id=string,machineType=string,zone=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --add-on-demand-instances='[{"id": "string", "machineType": "string", "zone": "string"}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --add-on-demand-instances=path_to_file.(yaml|json)
+            +
+            ```
+        add-reserved-instances: |-
+            Parameters to define cluster reserved instances.
+            +
+            For e.g. --add-reserved-instances id={computeId},reservation=zones/{zone}/reservations/{reservation},machineType={machineType}.
+            +
+            Sets `add_reserved_instances` value.
+            +
+            *id*:::
+            Required, sets `id` value.
+            +
+            *machineType*:::
+            Required, sets `machineType` value.
+            +
+            *reservation*:::
+            Required, sets `reservation` value.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --add-reserved-instances=id=string,machineType=string,reservation=string --add-reserved-instances=id=string,machineType=string,reservation=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --add-reserved-instances='[{"id": "string", "machineType": "string", "reservation": "string"}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --add-reserved-instances=path_to_file.(yaml|json)
+            +
+            ```
+        add-slurm-node-sets: |-
+            Parameters to define slurm cluster nodeset config.
+            +
+            For e.g. --add-slurm-node-sets id={nodesetId},computeId={computeId},staticNodeCount={staticNodeCount},maxDynamicNodeCount={maxDynamicNodeCount},startupScript="echo hello",labels="{key1=value1,key2=value2}"
+            +
+            Defaults:
+            - staticNodeCount: 1
+            +
+            Note:
+            - startupScript:
+              - Either str or file_path
+              - For file_path, only bash file format (.sh or .bash) is supported.
+              - For file_path, only absolute path is supported.
+            +
+            Sets `add_slurm_node_sets` value.
+            +
+            *computeId*:::
+            Required, sets `computeId` value.
+            +
+            *id*:::
+            Required, sets `id` value.
+            +
+            *labels*:::
+            Sets `labels` value.
+            +
+            *KEY*::::
+            Sets `KEY` value.
+            +
+            *VALUE*::::
+            Sets `VALUE` value.
+            +
+            *maxDynamicNodeCount*:::
+            Sets `maxDynamicNodeCount` value.
+            +
+            *startupScript*:::
+            Sets `startupScript` value.
+            +
+            *staticNodeCount*:::
+            Sets `staticNodeCount` value.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --add-slurm-node-sets=computeId=string,id=string,labels={string=string},maxDynamicNodeCount=int,startupScript=string,staticNodeCount=int --add-slurm-node-sets=computeId=string,id=string,labels={string=string},maxDynamicNodeCount=int,startupScript=string,staticNodeCount=int
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --add-slurm-node-sets='[{"computeId": "string", "id": "string", "labels": {"string": "string"}, "maxDynamicNodeCount": int, "startupScript": "string", "staticNodeCount": int}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --add-slurm-node-sets=path_to_file.(yaml|json)
+            +
+            ```
+        add-slurm-partitions: |-
+            Parameters to define slurm cluster partitions.
+            +
+            For e.g. --add-slurm-partitions id={partitionId},nodesetIds=[{nodesetId1},{nodesetId2}],exclusive=false.
+            +
+            Sets `add_slurm_partitions` value.
+            +
+            *exclusive*:::
+            Sets `exclusive` value.
+            +
+            *id*:::
+            Required, sets `id` value.
+            +
+            *nodesetIds*:::
+            Required, sets `nodesetIds` value.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --add-slurm-partitions=exclusive=boolean,id=string,nodesetIds=[string] --add-slurm-partitions=exclusive=boolean,id=string,nodesetIds=[string]
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --add-slurm-partitions='[{"exclusive": boolean, "id": "string", "nodesetIds": ["string"]}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --add-slurm-partitions=path_to_file.(yaml|json)
+            +
+            ```
+        add-spot-instances: |-
+            Parameters to define cluster spot instances.
+            +
+            For e.g. --add-spot-instances id={computeId},zone={zone},machineType={machineType}.
+            +
+            Sets `add_spot_instances` value.
+            +
+            *id*:::
+            Required, sets `id` value.
+            +
+            *machineType*:::
+            Required, sets `machineType` value.
+            +
+            *zone*:::
+            Required, sets `zone` value.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --add-spot-instances=id=string,machineType=string,zone=string --add-spot-instances=id=string,machineType=string,zone=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --add-spot-instances='[{"id": "string", "machineType": "string", "zone": "string"}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --add-spot-instances=path_to_file.(yaml|json)
+            +
+            ```
+        add-storage-buckets: |-
+            Reference of existing Google Cloud Storage bucket.
+            +
+            For e.g. --add-storage-buckets {bucket-path}
+        async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        config: |-
+            Configuration of the cluster specs in the form of a JSON object. Required, sets `config` value.
+            +
+            *compute*:::
+            Sets `compute` value.
+            +
+            *resourceRequests*::::
+            Sets `resourceRequests` value.
+            +
+            *disks*:::::
+            Sets `disks` value.
+            +
+            *boot*::::::
+            Required, sets `boot` value.
+            +
+            *sizeGb*::::::
+            Sets `sizeGb` value.
+            +
+            *sourceImage*::::::
+            Sets `sourceImage` value.
+            +
+            *type*::::::
+            Required, sets `type` value.
+            +
+            *id*:::::
+            Sets `id` value.
+            +
+            *machineType*:::::
+            Sets `machineType` value.
+            +
+            *maxRunDuration*:::::
+            Sets `maxRunDuration` value.
+            +
+            *provisioningModel*:::::
+            Sets `provisioningModel` value.
+            +
+            *reservationAffinity*:::::
+            Sets `reservationAffinity` value.
+            +
+            *key*::::::
+            Sets `key` value.
+            +
+            *type*::::::
+            Sets `type` value.
+            +
+            *values*::::::
+            Sets `values` value.
+            +
+            *terminationAction*:::::
+            Sets `terminationAction` value.
+            +
+            *zone*:::::
+            Sets `zone` value.
+            +
+            *computeResources*:::
+            Sets `computeResources` value.
+            +
+            *KEY*::::
+            Sets `KEY` value.
+            +
+            *VALUE*::::
+            Sets `VALUE` value.
+            +
+            *config*:::::
+            Sets `config` value.
+            +
+            *newDwsFlexInstances*::::::
+            Sets `newDwsFlexInstances` value.
+            +
+            *atmTags*:::::::
+            Sets `atmTags` value.
+            +
+            *KEY*::::::::
+            Sets `KEY` value.
+            +
+            *VALUE*::::::::
+            Sets `VALUE` value.
+            +
+            *bootDisk*:::::::
+            Sets `bootDisk` value.
+            +
+            *boot*::::::::
+            Required, sets `boot` value.
+            +
+            *sizeGb*::::::::
+            Sets `sizeGb` value.
+            +
+            *sourceImage*::::::::
+            Sets `sourceImage` value.
+            +
+            *type*::::::::
+            Required, sets `type` value.
+            +
+            *machineType*:::::::
+            Sets `machineType` value.
+            +
+            *maxDuration*:::::::
+            Sets `maxDuration` value.
+            +
+            *terminationAction*:::::::
+            Sets `terminationAction` value.
+            +
+            *zone*:::::::
+            Sets `zone` value.
+            +
+            *newFlexStartInstances*::::::
+            Sets `newFlexStartInstances` value.
+            +
+            *atmTags*:::::::
+            Sets `atmTags` value.
+            +
+            *KEY*::::::::
+            Sets `KEY` value.
+            +
+            *VALUE*::::::::
+            Sets `VALUE` value.
+            +
+            *bootDisk*:::::::
+            Sets `bootDisk` value.
+            +
+            *boot*::::::::
+            Required, sets `boot` value.
+            +
+            *sizeGb*::::::::
+            Sets `sizeGb` value.
+            +
+            *sourceImage*::::::::
+            Sets `sourceImage` value.
+            +
+            *type*::::::::
+            Required, sets `type` value.
+            +
+            *machineType*:::::::
+            Sets `machineType` value.
+            +
+            *maxDuration*:::::::
+            Sets `maxDuration` value.
+            +
+            *terminationAction*:::::::
+            Sets `terminationAction` value.
+            +
+            *zone*:::::::
+            Sets `zone` value.
+            +
+            *newOnDemandInstances*::::::
+            Sets `newOnDemandInstances` value.
+            +
+            *atmTags*:::::::
+            Sets `atmTags` value.
+            +
+            *KEY*::::::::
+            Sets `KEY` value.
+            +
+            *VALUE*::::::::
+            Sets `VALUE` value.
+            +
+            *bootDisk*:::::::
+            Sets `bootDisk` value.
+            +
+            *boot*::::::::
+            Required, sets `boot` value.
+            +
+            *sizeGb*::::::::
+            Sets `sizeGb` value.
+            +
+            *sourceImage*::::::::
+            Sets `sourceImage` value.
+            +
+            *type*::::::::
+            Required, sets `type` value.
+            +
+            *machineType*:::::::
+            Sets `machineType` value.
+            +
+            *zone*:::::::
+            Sets `zone` value.
+            +
+            *newReservedInstances*::::::
+            Sets `newReservedInstances` value.
+            +
+            *atmTags*:::::::
+            Sets `atmTags` value.
+            +
+            *KEY*::::::::
+            Sets `KEY` value.
+            +
+            *VALUE*::::::::
+            Sets `VALUE` value.
+            +
+            *bootDisk*:::::::
+            Sets `bootDisk` value.
+            +
+            *boot*::::::::
+            Required, sets `boot` value.
+            +
+            *sizeGb*::::::::
+            Sets `sizeGb` value.
+            +
+            *sourceImage*::::::::
+            Sets `sourceImage` value.
+            +
+            *type*::::::::
+            Required, sets `type` value.
+            +
+            *machineType*:::::::
+            Sets `machineType` value.
+            +
+            *reservation*:::::::
+            Sets `reservation` value.
+            +
+            *reservationBlock*:::::::
+            Sets `reservationBlock` value.
+            +
+            *reservationSubBlock*:::::::
+            Sets `reservationSubBlock` value.
+            +
+            *type*:::::::
+            Sets `type` value.
+            +
+            *zone*:::::::
+            Sets `zone` value.
+            +
+            *newSpotInstances*::::::
+            Sets `newSpotInstances` value.
+            +
+            *atmTags*:::::::
+            Sets `atmTags` value.
+            +
+            *KEY*::::::::
+            Sets `KEY` value.
+            +
+            *VALUE*::::::::
+            Sets `VALUE` value.
+            +
+            *bootDisk*:::::::
+            Sets `bootDisk` value.
+            +
+            *boot*::::::::
+            Required, sets `boot` value.
+            +
+            *sizeGb*::::::::
+            Sets `sizeGb` value.
+            +
+            *sourceImage*::::::::
+            Sets `sourceImage` value.
+            +
+            *type*::::::::
+            Required, sets `type` value.
+            +
+            *machineType*:::::::
+            Sets `machineType` value.
+            +
+            *terminationAction*:::::::
+            Sets `terminationAction` value.
+            +
+            *zone*:::::::
+            Sets `zone` value.
+            +
+            *description*:::
+            Sets `description` value.
+            +
+            *labels*:::
+            Sets `labels` value.
+            +
+            *KEY*::::
+            Sets `KEY` value.
+            +
+            *VALUE*::::
+            Sets `VALUE` value.
+            +
+            *name*:::
+            Sets `name` value.
+            +
+            *networkResources*:::
+            Sets `networkResources` value.
+            +
+            *KEY*::::
+            Sets `KEY` value.
+            +
+            *VALUE*::::
+            Sets `VALUE` value.
+            +
+            *config*:::::
+            Sets `config` value.
+            +
+            *existingComputeNetwork*::::::
+            Sets `existingComputeNetwork` value.
+            +
+            *network*:::::::
+            Sets `network` value.
+            +
+            *subnetwork*:::::::
+            Sets `subnetwork` value.
+            +
+            *existingNetwork*::::::
+            Sets `existingNetwork` value.
+            +
+            *network*:::::::
+            Sets `network` value.
+            +
+            *subnetwork*:::::::
+            Sets `subnetwork` value.
+            +
+            *newComputeNetwork*::::::
+            Sets `newComputeNetwork` value.
+            +
+            *description*:::::::
+            Sets `description` value.
+            +
+            *network*:::::::
+            Sets `network` value.
+            +
+            *newNetwork*::::::
+            Sets `newNetwork` value.
+            +
+            *description*:::::::
+            Sets `description` value.
+            +
+            *network*:::::::
+            Sets `network` value.
+            +
+            *networks*:::
+            Sets `networks` value.
+            +
+            *initializeParams*::::
+            Sets `initializeParams` value.
+            +
+            *description*:::::
+            Sets `description` value.
+            +
+            *network*:::::
+            Sets `network` value.
+            +
+            *networkSource*::::
+            Sets `networkSource` value.
+            +
+            *network*:::::
+            Sets `network` value.
+            +
+            *subnetwork*:::::
+            Sets `subnetwork` value.
+            +
+            *orchestrator*:::
+            Sets `orchestrator` value.
+            +
+            *slurm*::::
+            Sets `slurm` value.
+            +
+            *config*:::::
+            Sets `config` value.
+            +
+            *accountingStorageEnforceFlags*::::::
+            Sets `accountingStorageEnforceFlags` value.
+            +
+            *preemptExemptTime*::::::
+            Sets `preemptExemptTime` value.
+            +
+            *preemptMode*::::::
+            Sets `preemptMode` value.
+            +
+            *preemptType*::::::
+            Sets `preemptType` value.
+            +
+            *priorityType*::::::
+            Sets `priorityType` value.
+            +
+            *priorityWeightAge*::::::
+            Sets `priorityWeightAge` value.
+            +
+            *priorityWeightAssoc*::::::
+            Sets `priorityWeightAssoc` value.
+            +
+            *priorityWeightFairshare*::::::
+            Sets `priorityWeightFairshare` value.
+            +
+            *priorityWeightJobSize*::::::
+            Sets `priorityWeightJobSize` value.
+            +
+            *priorityWeightPartition*::::::
+            Sets `priorityWeightPartition` value.
+            +
+            *priorityWeightQos*::::::
+            Sets `priorityWeightQos` value.
+            +
+            *priorityWeightTres*::::::
+            Sets `priorityWeightTres` value.
+            +
+            *prologEpilogTimeout*::::::
+            Sets `prologEpilogTimeout` value.
+            +
+            *prologFlags*::::::
+            Sets `prologFlags` value.
+            +
+            *requeueExitCodes*::::::
+            Sets `requeueExitCodes` value.
+            +
+            *requeueHoldExitCodes*::::::
+            Sets `requeueHoldExitCodes` value.
+            +
+            *defaultPartition*:::::
+            Sets `defaultPartition` value.
+            +
+            *epilogBashScripts*:::::
+            Sets `epilogBashScripts` value.
+            +
+            *loginNodes*:::::
+            Sets `loginNodes` value.
+            +
+            *bootDisk*::::::
+            Sets `bootDisk` value.
+            +
+            *image*:::::::
+            Sets `image` value.
+            +
+            *sizeGb*:::::::
+            Required, sets `sizeGb` value.
+            +
+            *type*:::::::
+            Required, sets `type` value.
+            +
+            *count*::::::
+            Sets `count` value.
+            +
+            *disks*::::::
+            Sets `disks` value.
+            +
+            *boot*:::::::
+            Required, sets `boot` value.
+            +
+            *sizeGb*:::::::
+            Sets `sizeGb` value.
+            +
+            *sourceImage*:::::::
+            Sets `sourceImage` value.
+            +
+            *type*:::::::
+            Required, sets `type` value.
+            +
+            *enableOsLogin*::::::
+            Sets `enableOsLogin` value.
+            +
+            *enablePublicIps*::::::
+            Sets `enablePublicIps` value.
+            +
+            *labels*::::::
+            Sets `labels` value.
+            +
+            *KEY*:::::::
+            Sets `KEY` value.
+            +
+            *VALUE*:::::::
+            Sets `VALUE` value.
+            +
+            *machineType*::::::
+            Sets `machineType` value.
+            +
+            *serviceAccount*::::::
+            Sets `serviceAccount` value.
+            +
+            *email*:::::::
+            Sets `email` value.
+            +
+            *scopes*:::::::
+            Sets `scopes` value.
+            +
+            *startupScript*::::::
+            Sets `startupScript` value.
+            +
+            *storageConfigs*::::::
+            Sets `storageConfigs` value.
+            +
+            *id*:::::::
+            Sets `id` value.
+            +
+            *localMount*:::::::
+            Sets `localMount` value.
+            +
+            *zone*::::::
+            Sets `zone` value.
+            +
+            *nodeSets*:::::
+            Sets `nodeSets` value.
+            +
+            *bootDisk*::::::
+            Sets `bootDisk` value.
+            +
+            *boot*:::::::
+            Required, sets `boot` value.
+            +
+            *sizeGb*:::::::
+            Sets `sizeGb` value.
+            +
+            *sourceImage*:::::::
+            Sets `sourceImage` value.
+            +
+            *type*:::::::
+            Required, sets `type` value.
+            +
+            *canIpForward*::::::
+            Sets `canIpForward` value.
+            +
+            *computeId*::::::
+            Sets `computeId` value.
+            +
+            *computeInstance*::::::
+            Sets `computeInstance` value.
+            +
+            *bootDisk*:::::::
+            Sets `bootDisk` value.
+            +
+            *image*::::::::
+            Sets `image` value.
+            +
+            *sizeGb*::::::::
+            Required, sets `sizeGb` value.
+            +
+            *type*::::::::
+            Required, sets `type` value.
+            +
+            *labels*:::::::
+            Sets `labels` value.
+            +
+            *KEY*::::::::
+            Sets `KEY` value.
+            +
+            *VALUE*::::::::
+            Sets `VALUE` value.
+            +
+            *startupScript*:::::::
+            Sets `startupScript` value.
+            +
+            *containerNodePool*::::::
+            Sets `containerNodePool` value.
+            +
+            *enableOsLogin*::::::
+            Sets `enableOsLogin` value.
+            +
+            *enablePublicIps*::::::
+            Sets `enablePublicIps` value.
+            +
+            *id*::::::
+            Sets `id` value.
+            +
+            *labels*::::::
+            Sets `labels` value.
+            +
+            *KEY*:::::::
+            Sets `KEY` value.
+            +
+            *VALUE*:::::::
+            Sets `VALUE` value.
+            +
+            *maxDynamicNodeCount*::::::
+            Sets `maxDynamicNodeCount` value.
+            +
+            *resourceRequestId*::::::
+            Sets `resourceRequestId` value.
+            +
+            *serviceAccount*::::::
+            Sets `serviceAccount` value.
+            +
+            *email*:::::::
+            Sets `email` value.
+            +
+            *scopes*:::::::
+            Sets `scopes` value.
+            +
+            *startupScript*::::::
+            Sets `startupScript` value.
+            +
+            *staticNodeCount*::::::
+            Sets `staticNodeCount` value.
+            +
+            *storageConfigs*::::::
+            Sets `storageConfigs` value.
+            +
+            *id*:::::::
+            Sets `id` value.
+            +
+            *localMount*:::::::
+            Sets `localMount` value.
+            +
+            *partitions*:::::
+            Sets `partitions` value.
+            +
+            *exclusive*::::::
+            Sets `exclusive` value.
+            +
+            *id*::::::
+            Sets `id` value.
+            +
+            *nodeSetIds*::::::
+            Sets `nodeSetIds` value.
+            +
+            *prologBashScripts*:::::
+            Sets `prologBashScripts` value.
+            +
+            *taskEpilogBashScripts*:::::
+            Sets `taskEpilogBashScripts` value.
+            +
+            *taskPrologBashScripts*:::::
+            Sets `taskPrologBashScripts` value.
+            +
+            *storageResources*:::
+            Sets `storageResources` value.
+            +
+            *KEY*::::
+            Sets `KEY` value.
+            +
+            *VALUE*::::
+            Sets `VALUE` value.
+            +
+            *config*:::::
+            Sets `config` value.
+            +
+            *existingBucket*::::::
+            Sets `existingBucket` value.
+            +
+            *bucket*:::::::
+            Sets `bucket` value.
+            +
+            *existingFilestore*::::::
+            Sets `existingFilestore` value.
+            +
+            *filestore*:::::::
+            Sets `filestore` value.
+            +
+            *existingLustre*::::::
+            Sets `existingLustre` value.
+            +
+            *lustre*:::::::
+            Sets `lustre` value.
+            +
+            *newBucket*::::::
+            Sets `newBucket` value.
+            +
+            *autoclass*:::::::
+            Sets `autoclass` value.
+            +
+            *enabled*::::::::
+            Sets `enabled` value.
+            +
+            *terminalStorageClass*::::::::
+            Sets `terminalStorageClass` value.
+            +
+            *bucket*:::::::
+            Sets `bucket` value.
+            +
+            *hierarchicalNamespace*:::::::
+            Sets `hierarchicalNamespace` value.
+            +
+            *enabled*::::::::
+            Sets `enabled` value.
+            +
+            *storageClass*:::::::
+            Sets `storageClass` value.
+            +
+            *newFilestore*::::::
+            Sets `newFilestore` value.
+            +
+            *description*:::::::
+            Sets `description` value.
+            +
+            *fileShares*:::::::
+            Sets `fileShares` value.
+            +
+            *capacityGb*::::::::
+            Sets `capacityGb` value.
+            +
+            *fileShare*::::::::
+            Sets `fileShare` value.
+            +
+            *filestore*:::::::
+            Sets `filestore` value.
+            +
+            *protocol*:::::::
+            Sets `protocol` value.
+            +
+            *tier*:::::::
+            Sets `tier` value.
+            +
+            *newLustre*::::::
+            Sets `newLustre` value.
+            +
+            *capacityGb*:::::::
+            Sets `capacityGb` value.
+            +
+            *description*:::::::
+            Sets `description` value.
+            +
+            *filesystem*:::::::
+            Sets `filesystem` value.
+            +
+            *lustre*:::::::
+            Sets `lustre` value.
+            +
+            *perUnitStorageThroughput*:::::::
+            Sets `perUnitStorageThroughput` value.
+            +
+            *storages*:::
+            Sets `storages` value.
+            +
+            *id*::::
+            Sets `id` value.
+            +
+            *initializeParams*::::
+            Sets `initializeParams` value.
+            +
+            *filestore*:::::
+            Sets `filestore` value.
+            +
+            *description*::::::
+            Sets `description` value.
+            +
+            *fileShares*::::::
+            Sets `fileShares` value.
+            +
+            *capacityGb*:::::::
+            Sets `capacityGb` value.
+            +
+            *fileShare*:::::::
+            Sets `fileShare` value.
+            +
+            *filestore*::::::
+            Sets `filestore` value.
+            +
+            *protocol*::::::
+            Sets `protocol` value.
+            +
+            *tier*::::::
+            Sets `tier` value.
+            +
+            *gcs*:::::
+            Sets `gcs` value.
+            +
+            *autoclass*::::::
+            Sets `autoclass` value.
+            +
+            *enabled*:::::::
+            Sets `enabled` value.
+            +
+            *terminalStorageClass*:::::::
+            Sets `terminalStorageClass` value.
+            +
+            *bucket*::::::
+            Sets `bucket` value.
+            +
+            *hierarchicalNamespace*::::::
+            Sets `hierarchicalNamespace` value.
+            +
+            *enabled*:::::::
+            Sets `enabled` value.
+            +
+            *storageClass*::::::
+            Sets `storageClass` value.
+            +
+            *lustre*:::::
+            Sets `lustre` value.
+            +
+            *capacityGb*::::::
+            Sets `capacityGb` value.
+            +
+            *description*::::::
+            Sets `description` value.
+            +
+            *filesystem*::::::
+            Sets `filesystem` value.
+            +
+            *lustre*::::::
+            Sets `lustre` value.
+            +
+            *storageSource*::::
+            Sets `storageSource` value.
+            +
+            *bucket*:::::
+            Sets `bucket` value.
+            +
+            *filestore*:::::
+            Sets `filestore` value.
+            +
+            *lustre*:::::
+            Sets `lustre` value.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --config=compute={resourceRequests=[{disks=[{boot=boolean,sizeGb=int,sourceImage=string,type=string}],id=string,machineType=string,maxRunDuration=int,provisioningModel=string,reservationAffinity={key=string,type=string,values},terminationAction=string,zone=string}]},computeResources={string={config={newDwsFlexInstances={atmTags={string=string},bootDisk={boot=boolean,sizeGb=int,sourceImage=string,type=string},machineType=string,maxDuration=string,terminationAction=string,zone=string},newFlexStartInstances={atmTags={string=string},bootDisk={boot=boolean,sizeGb=int,sourceImage=string,type=string},machineType=string,maxDuration=string,terminationAction=string,zone=string},newOnDemandInstances={atmTags={string=string},bootDisk={boot=boolean,sizeGb=int,sourceImage=string,type=string},machineType=string,zone=string},newReservedInstances={atmTags={string=string},bootDisk={boot=boolean,sizeGb=int,sourceImage=string,type=string},machineType=string,reservation=string,reservationBlock=string,reservationSubBlock=string,type=string,zone=string},newSpotInstances={atmTags={string=string},bootDisk={boot=boolean,sizeGb=int,sourceImage=string,type=string},machineType=string,terminationAction=string,zone=string}}}},description=string,labels={string=string},name=string,networkResources={string={config={existingComputeNetwork={network=string,subnetwork=string},existingNetwork={network=string,subnetwork=string},newComputeNetwork={description=string,network=string},newNetwork={description=string,network=string}}}},networks=[{initializeParams={description=string,network=string},networkSource={network=string,subnetwork=string}}],orchestrator={slurm={config={accountingStorageEnforceFlags,preemptExemptTime=string,preemptMode,preemptType=string,priorityType=string,priorityWeightAge=int,priorityWeightAssoc=int,priorityWeightFairshare=int,priorityWeightJobSize=int,priorityWeightPartition=int,priorityWeightQos=int,priorityWeightTres=string,prologEpilogTimeout=string,prologFlags,requeueExitCodes,requeueHoldExitCodes},defaultPartition=string,epilogBashScripts,loginNodes={bootDisk={image=string,sizeGb=int,type=string},count=int,disks=[{boot=boolean,sizeGb=int,sourceImage=string,type=string}],enableOsLogin=boolean,enablePublicIps=boolean,labels={string=string},machineType=string,serviceAccount={email=string,scopes},startupScript=string,storageConfigs=[{id=string,localMount=string}],zone=string},nodeSets=[{bootDisk={boot=boolean,sizeGb=int,sourceImage=string,type=string},canIpForward=boolean,computeId=string,computeInstance={bootDisk={image=string,sizeGb=int,type=string},labels={string=string},startupScript=string},containerNodePool,enableOsLogin=boolean,enablePublicIps=boolean,id=string,labels={string=string},maxDynamicNodeCount=int,resourceRequestId=string,serviceAccount={email=string,scopes},startupScript=string,staticNodeCount=int,storageConfigs=[{id=string,localMount=string}]}],partitions=[{exclusive=boolean,id=string,nodeSetIds=[string]}],prologBashScripts,taskEpilogBashScripts,taskPrologBashScripts}},storageResources={string={config={existingBucket={bucket=string},existingFilestore={filestore=string},existingLustre={lustre=string},newBucket={autoclass={enabled=boolean,terminalStorageClass=string},bucket=string,hierarchicalNamespace={enabled=boolean},storageClass=string},newFilestore={description=string,fileShares=[{capacityGb=int,fileShare=string}],filestore=string,protocol=string,tier=string},newLustre={capacityGb=int,description=string,filesystem=string,lustre=string,perUnitStorageThroughput=int}}}},storages=[{id=string,initializeParams={filestore={description=string,fileShares=[{capacityGb=int,fileShare=string}],filestore=string,protocol=string,tier=string},gcs={autoclass={enabled=boolean,terminalStorageClass=string},bucket=string,hierarchicalNamespace={enabled=boolean},storageClass=string},lustre={capacityGb=int,description=string,filesystem=string,lustre=string}},storageSource={bucket=string,filestore=string,lustre=string}}]
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --config='{"compute": {"resourceRequests": [{"disks": [{"boot": boolean, "sizeGb": int, "sourceImage": "string", "type": "string"}], "id": "string", "machineType": "string", "maxRunDuration": int, "provisioningModel": "string", "reservationAffinity": {"key": "string", "type": "string", "values"}, "terminationAction": "string", "zone": "string"}]}, "computeResources": {"string": {"config": {"newDwsFlexInstances": {"atmTags": {"string": "string"}, "bootDisk": {"boot": boolean, "sizeGb": int, "sourceImage": "string", "type": "string"}, "machineType": "string", "maxDuration": "string", "terminationAction": "string", "zone": "string"}, "newFlexStartInstances": {"atmTags": {"string": "string"}, "bootDisk": {"boot": boolean, "sizeGb": int, "sourceImage": "string", "type": "string"}, "machineType": "string", "maxDuration": "string", "terminationAction": "string", "zone": "string"}, "newOnDemandInstances": {"atmTags": {"string": "string"}, "bootDisk": {"boot": boolean, "sizeGb": int, "sourceImage": "string", "type": "string"}, "machineType": "string", "zone": "string"}, "newReservedInstances": {"atmTags": {"string": "string"}, "bootDisk": {"boot": boolean, "sizeGb": int, "sourceImage": "string", "type": "string"}, "machineType": "string", "reservation": "string", "reservationBlock": "string", "reservationSubBlock": "string", "type": "string", "zone": "string"}, "newSpotInstances": {"atmTags": {"string": "string"}, "bootDisk": {"boot": boolean, "sizeGb": int, "sourceImage": "string", "type": "string"}, "machineType": "string", "terminationAction": "string", "zone": "string"}}}}, "description": "string", "labels": {"string": "string"}, "name": "string", "networkResources": {"string": {"config": {"existingComputeNetwork": {"network": "string", "subnetwork": "string"}, "existingNetwork": {"network": "string", "subnetwork": "string"}, "newComputeNetwork": {"description": "string", "network": "string"}, "newNetwork": {"description": "string", "network": "string"}}}}, "networks": [{"initializeParams": {"description": "string", "network": "string"}, "networkSource": {"network": "string", "subnetwork": "string"}}], "orchestrator": {"slurm": {"config": {"accountingStorageEnforceFlags", "preemptExemptTime": "string", "preemptMode", "preemptType": "string", "priorityType": "string", "priorityWeightAge": int, "priorityWeightAssoc": int, "priorityWeightFairshare": int, "priorityWeightJobSize": int, "priorityWeightPartition": int, "priorityWeightQos": int, "priorityWeightTres": "string", "prologEpilogTimeout": "string", "prologFlags", "requeueExitCodes", "requeueHoldExitCodes"}, "defaultPartition": "string", "epilogBashScripts", "loginNodes": {"bootDisk": {"image": "string", "sizeGb": int, "type": "string"}, "count": int, "disks": [{"boot": boolean, "sizeGb": int, "sourceImage": "string", "type": "string"}], "enableOsLogin": boolean, "enablePublicIps": boolean, "labels": {"string": "string"}, "machineType": "string", "serviceAccount": {"email": "string", "scopes"}, "startupScript": "string", "storageConfigs": [{"id": "string", "localMount": "string"}], "zone": "string"}, "nodeSets": [{"bootDisk": {"boot": boolean, "sizeGb": int, "sourceImage": "string", "type": "string"}, "canIpForward": boolean, "computeId": "string", "computeInstance": {"bootDisk": {"image": "string", "sizeGb": int, "type": "string"}, "labels": {"string": "string"}, "startupScript": "string"}, "containerNodePool": {}, "enableOsLogin": boolean, "enablePublicIps": boolean, "id": "string", "labels": {"string": "string"}, "maxDynamicNodeCount": int, "resourceRequestId": "string", "serviceAccount": {"email": "string", "scopes"}, "startupScript": "string", "staticNodeCount": int, "storageConfigs": [{"id": "string", "localMount": "string"}]}], "partitions": [{"exclusive": boolean, "id": "string", "nodeSetIds": ["string"]}], "prologBashScripts", "taskEpilogBashScripts", "taskPrologBashScripts"}}, "storageResources": {"string": {"config": {"existingBucket": {"bucket": "string"}, "existingFilestore": {"filestore": "string"}, "existingLustre": {"lustre": "string"}, "newBucket": {"autoclass": {"enabled": boolean, "terminalStorageClass": "string"}, "bucket": "string", "hierarchicalNamespace": {"enabled": boolean}, "storageClass": "string"}, "newFilestore": {"description": "string", "fileShares": [{"capacityGb": int, "fileShare": "string"}], "filestore": "string", "protocol": "string", "tier": "string"}, "newLustre": {"capacityGb": int, "description": "string", "filesystem": "string", "lustre": "string", "perUnitStorageThroughput": int}}}}, "storages": [{"id": "string", "initializeParams": {"filestore": {"description": "string", "fileShares": [{"capacityGb": int, "fileShare": "string"}], "filestore": "string", "protocol": "string", "tier": "string"}, "gcs": {"autoclass": {"enabled": boolean, "terminalStorageClass": "string"}, "bucket": "string", "hierarchicalNamespace": {"enabled": boolean}, "storageClass": "string"}, "lustre": {"capacityGb": int, "description": "string", "filesystem": "string", "lustre": "string"}}, "storageSource": {"bucket": "string", "filestore": "string", "lustre": "string"}}]}'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --config=path_to_file.(yaml|json)
+            +
+            ```
+        description: |-
+            Description of the cluster.
+            +
+            For e.g. --description {description}
+        location: |-
+            The location id of the cluster resource.
+            +
+            To set the `location` attribute:
+            * provide the argument `cluster` on the command line with a fully specified name;
+            * provide the argument `--location` on the command line.
+        no-async: |-
+            Return immediately, without waiting for the operation in progress to
+            complete.
+        remove-dws-flex-instances: |-
+            Parameters to remove DWS Flex instance config by compute id.
+            +
+            For e.g. --remove-dws-flex-instances {computeId1},{computeId2},...
+        remove-filestore-instances: |-
+            Parameters to remove filestore instance config by filestore name.
+            +
+            For e.g. --remove-filestore-instances locations/{location}/instances/{filestore1},locations/{location}/instances/{filestore2},...
+        remove-labels: |-
+            Parameters to remove cluster label by key.
+            +
+            For e.g. --remove-labels {key1},{key2},...
+        remove-lustre-instances: |-
+            Parameters to remove lustre instance config by lustre name.
+            +
+            For e.g. --remove-lustre-instances locations/{location}/instances/{lustre1},locations/{location}/instances/{lustre2},...
+        remove-on-demand-instances: |-
+            Parameters to remove on demand instances config by compute id.
+            +
+            For e.g. --remove-on-demand-instances {computeId1},{computeId2},...
+        remove-reserved-instances: |-
+            Parameters to remove reserved instance config by compute id.
+            +
+            For e.g. --remove-reserved-instances {computeId1},{computeId2},...
+        remove-slurm-node-sets: |-
+            Parameters to remove slurm nodeset config by nodeset id.
+            +
+            For e.g. --remove-slurm-node-sets {nodesetId1},{nodesetId2},...
+        remove-slurm-partitions: |-
+            Parameters to remove slurm partition config by partition id.
+            +
+            For e.g. --remove-slurm-partitions {partitionId1},{partitionId2},...
+        remove-spot-instances: |-
+            Parameters to remove spot instance config by compute id.
+            +
+            For e.g. --remove-spot-instances {computeId1},{computeId2},...
+        remove-storage-buckets: |-
+            Parameters to remove Google Cloud Storage bucket by bucket name.
+            +
+            For e.g. --remove-storage-buckets {bucket1},{bucket2},...
+        slurm-default-partition: |-
+            Parameters to define slurm cluster default partition.
+            +
+            For e.g. --slurm-default-partition {partitionId}
+        update-mask: |-
+            Update mask to specify the fields to update.
+            +
+            For e.g. --update-mask "description,labels".
+            +
+            Required, sets `update_mask` value.
+            +
+            :::
+            *Input Example:*
+            +
+            ```
+            +
+            --update-mask=string
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --update-mask=path_to_file.(yaml|json)
+            +
+            ```
+        update-slurm-login-node: |-
+            Parameters to update slurm cluster login node.
+            Only count and startupScript can be updated.
+            +
+            For e.g. --update-slurm-login-node count=2,startupScript="echo hello".
+            +
+            Sets `update_slurm_login_node` value.
+            +
+            *count*:::
+            Sets `count` value.
+            +
+            *startupScript*:::
+            Sets `startupScript` value.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --update-slurm-login-node=count=int,startupScript=string
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --update-slurm-login-node='{"count": int, "startupScript": "string"}'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --update-slurm-login-node=path_to_file.(yaml|json)
+            +
+            ```
+        update-slurm-node-sets: |-
+            Parameters to define and update slurm cluster nodeset config.
+            +
+            For e.g. --update-slurm-node-sets id={nodesetId},staticNodeCount={staticNodeCount},maxDynamicNodeCount={maxDynamicNodeCount}.
+            +
+            Sets `update_slurm_node_sets` value.
+            +
+            *id*:::
+            Required, sets `id` value.
+            +
+            *maxDynamicNodeCount*:::
+            Sets `maxDynamicNodeCount` value.
+            +
+            *staticNodeCount*:::
+            Sets `staticNodeCount` value.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --update-slurm-node-sets=id=string,maxDynamicNodeCount=int,staticNodeCount=int --update-slurm-node-sets=id=string,maxDynamicNodeCount=int,staticNodeCount=int
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --update-slurm-node-sets='[{"id": "string", "maxDynamicNodeCount": int, "staticNodeCount": int}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --update-slurm-node-sets=path_to_file.(yaml|json)
+            +
+            ```
+        update-slurm-partitions: |-
+            Parameters to define and update slurm cluster partition config.
+            +
+            For e.g. --update-slurm-partitions id={partitionId},nodesetIds=[{nodesetId1},{nodesetId2}],exclusive=false.
+            +
+            Sets `update_slurm_partitions` value.
+            +
+            *exclusive*:::
+            Sets `exclusive` value.
+            +
+            *id*:::
+            Required, sets `id` value.
+            +
+            *nodesetIds*:::
+            Sets `nodesetIds` value.
+            +
+            :::
+            *Shorthand Example:*
+            +
+            ```
+            +
+            --update-slurm-partitions=exclusive=boolean,id=string,nodesetIds=[string] --update-slurm-partitions=exclusive=boolean,id=string,nodesetIds=[string]
+            +
+            ```
+            +
+            *JSON Example:*
+            +
+            ```
+            +
+            --update-slurm-partitions='[{"exclusive": boolean, "id": "string", "nodesetIds": ["string"]}]'
+            +
+            ```
+            +
+            *File Example:*
+            +
+            ```
+            +
+            --update-slurm-partitions=path_to_file.(yaml|json)
+            +
+            ```
