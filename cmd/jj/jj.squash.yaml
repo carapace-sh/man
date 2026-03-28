@@ -3,13 +3,13 @@ description: Move changes from a revision into another revision
 flags:
     --after=*: (Experimental) The revision(s) to insert the new commit after (can be repeated to create a merge commit)
     --before=*: (Experimental) The revision(s) to insert the new commit before (can be repeated to create a merge commit)
-    --destination=*&: (Experimental) The revision(s) to use as parent for the new commit (can be repeated to create a merge commit)
+    --destination=*: (Experimental) The revision(s) to use as parent for the new commit (can be repeated to create a merge commit)
     --editor: Open an editor to edit the change description
     --to=: 'Revision to squash into (default: @)'
     --tool=: Specify diff editor to be used (implies --interactive)
     -A, --insert-after=*: (Experimental) The revision(s) to insert the new commit after (can be repeated to create a merge commit)
     -B, --insert-before=*: (Experimental) The revision(s) to insert the new commit before (can be repeated to create a merge commit)
-    -d=*&: (Experimental) The revision(s) to use as parent for the new commit (can be repeated to create a merge commit)
+    -d=*: (Experimental) The revision(s) to use as parent for the new commit (can be repeated to create a merge commit)
     -f, --from=*: 'Revision(s) to squash from (default: @)'
     -h, --help: Print help (see more with '--help')
     -i, --interactive: Interactively choose which parts to squash
@@ -36,6 +36,8 @@ documentation:
     command: |-
         Move changes from a revision into another revision
 
+        Without any options, moves the changes from the working-copy revision to the parent revision.
+
         With the `-r` option, moves the changes from the specified revision to the parent revision. Fails if there are several parent revisions (i.e., the given revision is a merge).
 
         With the `--from` and/or `--into` options, moves changes from/to the given revisions. If either is left out, it defaults to the working-copy commit. For example, `jj squash --into @--` moves changes from the working-copy commit to the grandparent.
@@ -45,6 +47,8 @@ documentation:
         If the source was abandoned and both the source and destination had a non-empty description, you will be asked for the combined description. If either was empty, then the other one will be used.
 
         If a working-copy commit gets abandoned, it will be given a new, empty commit. This is true in general; it is not specific to this command.
+
+        The name "squash" comes from the idea of combining (squashing) the changes from multiple revisions together.
 
         EXPERIMENTAL FEATURES
 

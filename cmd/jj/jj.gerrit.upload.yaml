@@ -1,9 +1,27 @@
 name: upload
 description: Upload changes to Gerrit for code review, or update existing changes
 flags:
+    --cc=*: CC these emails on the change (can be repeated)
+    --custom=*: Send the following custom keyed values to Gerrit (can be repeated)
+    --deadline=: The deadline after which the push should be aborted
+    --hashtag=: Applies a hashtag to the change
+    --ignore-attention-set: Do not modify the attention set upon uploading
+    --no-publish-comments: Disables publishing of any draft comments for the given change
+    --notify=: Who to email notifications to (defaults to all)
+    --private: Marks the change as private
+    --publish-comments: Publishes any draft comments for the given change
+    --ready: Unmarks the change as WIP (work in progress)
     --remote=: The Gerrit remote to push to
+    --remove-private: Unmarks the change as private
+    --reviewer=*: Add these emails as a reviewer (can be repeated)
+    --skip-validation: When --submit is provided, skip performing validations
+    --submit: Directly submit the changes, bypassing code review
+    --topic=: Applies a topic to the change
+    --trace=: For debugging Gerrit
+    --wip: Marks the change as WIP (work in progress)
     -b, --remote-branch=: The location where your changes are intended to land
     -h, --help: Print help (see more with '--help')
+    -l, --label=*: Add the following labels configured by Gerrit (can be repeated)
     -n, --dry-run: Do not actually push the changes to Gerrit
     -r, --revisions=*: The revset, selecting which revisions are sent in to Gerrit
 completion:
@@ -15,6 +33,11 @@ completion:
             - auto
         config-file:
             - $files
+        notify:
+            - "none\tNo emails"
+            - "owner\tOnly the change owner is notified"
+            - "owner-reviewers\tOnly the change owner and reviewers will be notified"
+            - "all\tAll relevant users, including owner, reviewers, cc'd, users that have starred the change, and users who have configured a watch on files in the change"
         repository:
             - $directories
 documentation:
@@ -23,7 +46,7 @@ documentation:
 
         Uploading in a set of revisions to Gerrit creates a single "change" for each revision included in the revset. These changes are then available for review on your Gerrit instance.
 
-        Note: The gerrit commit Id may not match that of your local commit Id, since we add a `Change-Id` footer to the commit message if one does not already exist. This ID is based off the jj Change-Id, but is not the same.
+        Note: The Gerrit commit Id may not match that of your local commit Id, since we add a `Change-Id` footer to the commit message if one does not already exist. This ID is based off the jj Change-Id, but is not the same.
 
         If a change already exists for a given revision (i.e. it contains the same `Change-Id`), this command will update the contents of the existing change to match.
 
@@ -45,6 +68,14 @@ documentation:
             Additional configuration options (can be repeated)
 
             The name should be specified as TOML dotted keys. The value should be specified as a TOML expression. If string value isn't enclosed by any TOML constructs (such as array notation), quotes can be omitted.
+        custom: |-
+            Send the following custom keyed values to Gerrit (can be repeated)
+
+            See https://gerrit-review.googlesource.com/Documentation/user-upload.html#custom_keyed_values
+        hashtag: |-
+            Applies a hashtag to the change
+
+            See https://gerrit-review.googlesource.com/Documentation/intro-user.html#hashtags. Hashtags are freeform strings associated with a change, like on social media platforms. Similar to topics, hashtags can be used to group related changes together, and to search using the hashtag: operator. Unlike topics, a change can have multiple hashtags, and they are only used for informational grouping. Changes with the same hashtags are not necessarily submitted together.
         help: Print help (see a summary with '-h')
         ignore-immutable: |-
             Allow rewriting immutable commits
@@ -58,6 +89,18 @@ documentation:
             By default, Jujutsu snapshots the working copy at the beginning of every command. The working copy is also updated at the end of the command, if the command modified the working-copy commit (`@`). If you want to avoid snapshotting the working copy and instead see a possibly stale working-copy commit, you can use `--ignore-working-copy`. This may be useful e.g. in a command prompt, especially if you have another process that commits the working copy.
 
             Loading the repository at a specific operation with `--at-operation` implies `--ignore-working-copy`.
+        label: |-
+            Add the following labels configured by Gerrit (can be repeated)
+
+            Gerrit silently ignores labels not present on your gerrit host. Defaults to +1 if no value is set. Eg. --label=Commit-Queue will set the Commit-Queue label to +1. Eg. --label=Commit-Queue+2 will set it to +2.
+        no-publish-comments: |-
+            Disables publishing of any draft comments for the given change
+
+            This is only useful if the user has configured Gerrit to publish comments by default.
+        private: |-
+            Marks the change as private
+
+            See https://gerrit-review.googlesource.com/Documentation/intro-user.html#private-changes.
         quiet: |-
             Silence non-primary command output
 
@@ -80,3 +123,17 @@ documentation:
             The revset, selecting which revisions are sent in to Gerrit
 
             This can be any arbitrary set of commits. Note that when you push a commit at the head of a stack, all ancestors are pushed too. This means that `jj gerrit upload -r foo` is equivalent to `jj gerrit upload -r 'mutable()::foo`.
+
+            If this is not provided, it will check whether @ has a description. * If it does, it will upload @ * Otherwise, it will upload @-
+        topic: |-
+            Applies a topic to the change
+
+            See https://gerrit-review.googlesource.com/Documentation/intro-user.html#topics. Changes can be grouped by topic, and Gerrit can be configured to submit all changes in a topic together in a single click.
+        trace: |-
+            For debugging Gerrit
+
+            See https://gerrit-review.googlesource.com/Documentation/user-upload.html#trace
+        wip: |-
+            Marks the change as WIP (work in progress)
+
+            See https://gerrit-review.googlesource.com/Documentation/intro-user.html#wip.

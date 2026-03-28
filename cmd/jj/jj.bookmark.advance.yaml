@@ -1,7 +1,10 @@
-name: status
-description: 'Show high-level repo status [default alias: st]'
+name: advance
+aliases:
+    - a
+description: Advance the closest bookmarks to a target revision
 flags:
     -h, --help: Print help (see more with '--help')
+    -t, --to=: Move bookmarks to this revision
 completion:
     flag:
         color:
@@ -13,23 +16,21 @@ completion:
             - $files
         repository:
             - $directories
-    positionalany:
-        - $files
 documentation:
     command: |-
-        Show high-level repo status [default alias: st]
+        Advance the closest bookmarks to a target revision
 
-        This includes:
+        The target `--to` defaults to `revsets.bookmark-advance-to` (which defaults to `@`).
 
-        * The working copy commit and its parents, and a summary of the changes in the working copy (compared to the merged parents)
+        The bookmarks to advance are determined by `revsets.bookmark-advance-from` (which defaults to `heads(::to & bookmarks())`).
 
-        * Conflicts in the working copy
+        Note that the from revset has access to `to`.
 
-        * [Conflicted bookmarks]
+        Positional bookmark name arguments can target specific bookmarks to advance to the target, in this case the default from revset is ignored.
 
-        Note: You can use `jj diff --summary -r <rev>` to see the changed files for a specific revision.
+        Example:
 
-        [Conflicted bookmarks]: https://docs.jj-vcs.dev/latest/bookmarks/#conflicts
+        `jj bookmark advance --to x` - Does the equivalent of `jj bookmark move --from 'heads(::x & bookmarks())' --to x`.
     flag:
         at-operation: |-
             Operation to load the repo at
@@ -70,3 +71,7 @@ documentation:
             Path to repository to operate on
 
             By default, Jujutsu searches for the closest .jj/ directory in an ancestor of the current working directory.
+        to: |-
+            Move bookmarks to this revision
+
+            Defaults to `revsets.bookmark-advance-to`.

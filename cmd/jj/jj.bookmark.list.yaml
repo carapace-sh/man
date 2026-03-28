@@ -3,15 +3,15 @@ aliases:
     - l
 description: List bookmarks and their targets
 flags:
-    --all&: Show all tracking and non-tracking remote bookmarks including the ones whose targets are synchronized with the local bookmarks
-    --remote=*: Show all tracking and non-tracking remote bookmarks belonging to this remote
+    --all&: Show all tracked and untracked remote bookmarks including the ones whose targets are synchronized with the local bookmarks
+    --remote=*: Show all tracked and untracked remote bookmarks belonging to this remote
     --sort=*: Sort bookmarks based on the given key (or multiple keys)
     -T, --template=: Render each bookmark using the given template
-    -a, --all-remotes: Show all tracking and non-tracking remote bookmarks including the ones whose targets are synchronized with the local bookmarks
+    -a, --all-remotes: Show all tracked and untracked remote bookmarks including the ones whose targets are synchronized with the local bookmarks
     -c, --conflicted: Show conflicted bookmarks only
     -h, --help: Print help (see more with '--help')
     -r, --revisions=*: Show bookmarks whose local targets are in the given revisions
-    -t, --tracked: Show remote tracked bookmarks only. Omits local Git-tracking bookmarks by default
+    -t, --tracked: Show tracked remote bookmarks only
 completion:
     flag:
         color:
@@ -42,7 +42,7 @@ documentation:
     command: |-
         List bookmarks and their targets
 
-        By default, a tracking remote bookmark will be included only if its target is different from the local target. A non-tracking remote bookmark won't be listed. For a conflicted bookmark (both local and remote), old target revisions are preceded by a "-" and new target revisions are preceded by a "+".
+        By default, a tracked remote bookmark will be included only if its target is different from the local target. An untracked remote bookmark won't be listed. For a conflicted bookmark (both local and remote), old target revisions are preceded by a "-" and new target revisions are preceded by a "+".
 
         See [`jj help -k bookmarks`] for more information.
 
@@ -84,13 +84,13 @@ documentation:
 
             Warnings and errors will still be printed.
         remote: |-
-            Show all tracking and non-tracking remote bookmarks belonging to this remote
+            Show all tracked and untracked remote bookmarks belonging to this remote
 
             Can be combined with `--tracked` or `--conflicted` to filter the bookmarks shown (can be repeated.)
 
-            By default, the specified remote name matches exactly. Use `glob:` prefix to select remotes by [wildcard pattern].
+            By default, the specified pattern matches remote names with glob syntax. You can also use other [string pattern syntax].
 
-            [wildcard pattern]: https://docs.jj-vcs.dev/latest/revsets/#string-patterns
+            [string pattern syntax]: https://docs.jj-vcs.dev/latest/revsets/#string-patterns
         repository: |-
             Path to repository to operate on
 
@@ -113,3 +113,7 @@ documentation:
             [`CommitRef` type]: https://docs.jj-vcs.dev/latest/templates/#commitref-type
 
             [`jj help -k templates`]: https://docs.jj-vcs.dev/latest/templates/
+        tracked: |-
+            Show tracked remote bookmarks only
+
+            This omits local Git-tracking bookmarks by default.
