@@ -2,10 +2,10 @@ name: fetch
 description: Fetch from a Git remote
 flags:
     --all-remotes: Fetch from all remotes
-    --bookmark=*&: Fetch only some of the branches
+    --bookmark=*&: Name of the branch to fetch (can be repeated)
     --remote=*: The remote to fetch from (only named remotes are supported, can be repeated)
     --tracked: Fetch only tracked bookmarks
-    -b, --branch=*: Fetch only some of the branches
+    -b, --branch=*: Name of the branch to fetch (can be repeated)
     -h, --help: Print help (see more with '--help')
 completion:
     flag:
@@ -22,6 +22,10 @@ documentation:
     command: |-
         Fetch from a Git remote
 
+        If no remotes are specified, fetches the remotes specified by the `git.fetch` setting. If that is not configured and there are multiple remotes, the remote named "origin" will be used.
+
+        If no branches nor tags are specified, the default fetch refspecs for the selected remotes are read from the Git configuration.
+
         If a working-copy commit gets abandoned, it will be given a new, empty commit. This is true in general; it is not specific to this command.
     flag:
         at-operation: |-
@@ -37,9 +41,13 @@ documentation:
 
             It is possible to run mutating commands when loading the repo at an earlier operation. Doing that is equivalent to having run concurrent commands starting at the earlier operation. There's rarely a reason to do that, but it is possible.
         branch: |-
-            Fetch only some of the branches
+            Name of the branch to fetch (can be repeated)
 
-            By default, the specified name matches exactly. Use `glob:` prefix to expand `*` as a glob, e.g. `--branch 'glob:push-*'`. Other wildcard characters such as `?` are *not* supported. Can be repeated to specify multiple branches.
+            By default, the specified pattern matches branch names with glob syntax, but only `*` is expanded. Other wildcard characters such as `?` are *not* supported. Patterns can be repeated or combined with [logical operators] to specify multiple branches, but only union and negative intersection are supported.
+
+            Examples: `push-*`, `(push-* | foo/*) ~ foo/unwanted`
+
+            [logical operators]: https://docs.jj-vcs.dev/latest/revsets/#string-patterns
         config: |-
             Additional configuration options (can be repeated)
 
@@ -66,15 +74,19 @@ documentation:
         remote: |-
             The remote to fetch from (only named remotes are supported, can be repeated)
 
-            This defaults to the `git.fetch` setting. If that is not configured, and if there are multiple remotes, the remote named "origin" will be used.
+            By default, the specified pattern matches remote names with glob syntax, e.g. `--remote '*'`. You can also use other [string pattern syntax].
 
-            By default, the specified remote names matches exactly. Use a [string pattern], e.g. `--remote 'glob:*'`, to select remotes using patterns.
-
-            [string pattern]: https://docs.jj-vcs.dev/latest/revsets#string-patterns
+            [string pattern syntax]: https://docs.jj-vcs.dev/latest/revsets/#string-patterns
         repository: |-
             Path to repository to operate on
 
             By default, Jujutsu searches for the closest .jj/ directory in an ancestor of the current working directory.
+        tag: |-
+            Fetch only some of the tags (can be repeated)
+
+            By default, the specified pattern matches tag names with glob syntax, but only `*` is expanded. Other wildcard characters such as `?` are *not* supported. Patterns can be repeated or combined with [logical operators] to specify multiple tags, but only union and negative intersection are supported.
+
+            [logical operators]: https://docs.jj-vcs.dev/latest/revsets/#string-patterns
         tracked: |-
             Fetch only tracked bookmarks
 

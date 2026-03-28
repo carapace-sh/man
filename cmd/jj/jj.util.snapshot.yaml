@@ -1,5 +1,5 @@
-name: status
-description: 'Show high-level repo status [default alias: st]'
+name: snapshot
+description: Snapshot the working copy if needed
 flags:
     -h, --help: Print help (see more with '--help')
 completion:
@@ -13,23 +13,13 @@ completion:
             - $files
         repository:
             - $directories
-    positionalany:
-        - $files
 documentation:
     command: |-
-        Show high-level repo status [default alias: st]
+        Snapshot the working copy if needed
 
-        This includes:
+        Snapshots the working copy and updates the working-copy commit if the working copy has changed since the last snapshot. Since almost every command snapshots the working copy, there is very little reason to run this command as a human; it is mostly meant for scripts.
 
-        * The working copy commit and its parents, and a summary of the changes in the working copy (compared to the merged parents)
-
-        * Conflicts in the working copy
-
-        * [Conflicted bookmarks]
-
-        Note: You can use `jj diff --summary -r <rev>` to see the changed files for a specific revision.
-
-        [Conflicted bookmarks]: https://docs.jj-vcs.dev/latest/bookmarks/#conflicts
+        If you want to see the ID of the current operation after this command, run `jj operation log --limit 1`. However, since that command also snapshots the working copy, there would be no need to run `jj util snapshot` first.
     flag:
         at-operation: |-
             Operation to load the repo at

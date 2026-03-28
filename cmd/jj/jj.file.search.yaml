@@ -1,7 +1,9 @@
-name: status
-description: 'Show high-level repo status [default alias: st]'
+name: search
+description: Search for content in files
 flags:
     -h, --help: Print help (see more with '--help')
+    -p, --pattern=!: The glob pattern to search for
+    -r, --revision=: The revision to search files in
 completion:
     flag:
         color:
@@ -17,19 +19,11 @@ completion:
         - $files
 documentation:
     command: |-
-        Show high-level repo status [default alias: st]
+        Search for content in files
 
-        This includes:
+        Lists files containing the specified pattern.
 
-        * The working copy commit and its parents, and a summary of the changes in the working copy (compared to the merged parents)
-
-        * Conflicts in the working copy
-
-        * [Conflicted bookmarks]
-
-        Note: You can use `jj diff --summary -r <rev>` to see the changed files for a specific revision.
-
-        [Conflicted bookmarks]: https://docs.jj-vcs.dev/latest/bookmarks/#conflicts
+        This is an early version of the command. It only supports glob matching for now, it doesn't search files concurrently, and it doesn't indicate where in the file the match was found.
     flag:
         at-operation: |-
             Operation to load the repo at
@@ -60,6 +54,10 @@ documentation:
             By default, Jujutsu snapshots the working copy at the beginning of every command. The working copy is also updated at the end of the command, if the command modified the working-copy commit (`@`). If you want to avoid snapshotting the working copy and instead see a possibly stale working-copy commit, you can use `--ignore-working-copy`. This may be useful e.g. in a command prompt, especially if you have another process that commits the working copy.
 
             Loading the repository at a specific operation with `--at-operation` implies `--ignore-working-copy`.
+        pattern: |-
+            The glob pattern to search for
+
+            The whole line must match the pattern, so you may want to pass something like `--pattern '*foo*'`.
         quiet: |-
             Silence non-primary command output
 
