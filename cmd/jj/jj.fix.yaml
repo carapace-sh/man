@@ -2,6 +2,7 @@ name: fix
 description: Update files with formatting fixes or other changes
 flags:
     --include-unchanged-files: Fix unchanged files in addition to changed ones. If no paths are specified, all files in the repo will be fixed
+    -a, --all-lines: Format all lines instead of only modified lines
     -h, --help: Print help (see more with '--help')
     -s, --source=*: Fix files in the specified revision(s) and their descendants. If no revisions are specified, this defaults to the `revsets.fix` setting, or `reachable(@, mutable())` if it is not set
 completion:
@@ -123,6 +124,10 @@ documentation:
         The revisions are now all correctly formatted according to the
         configuration.
     flag:
+        all-lines: |-
+            Format all lines instead of only modified lines.
+
+            If the formatter doesn't support formatting only modified lines, then this option has no effect since the formatter always formats all lines.
         at-operation: |-
             Operation to load the repo at
 
@@ -152,6 +157,14 @@ documentation:
             By default, Jujutsu snapshots the working copy at the beginning of every command. The working copy is also updated at the end of the command, if the command modified the working-copy commit (`@`). If you want to avoid snapshotting the working copy and instead see a possibly stale working-copy commit, you can use `--ignore-working-copy`. This may be useful e.g. in a command prompt, especially if you have another process that commits the working copy.
 
             Loading the repository at a specific operation with `--at-operation` implies `--ignore-working-copy`.
+        no-integrate-operation: |-
+            Run the command as usual but don't integrate any operations
+
+            When this option is given, the operations will still be created as usual but they will not be integrated to the operation log. The working copy will also not be updated.
+
+            The command will print the resulting operation ID. You can pass that to e.g. `jj --at-op` to inspect the resulting repo state, or you can pass it to `jj op restore` to restore the repo to that state. You can also pass the ID to `jj op integrate` to integrate the operation.
+
+            Note that this does *not* prevent side effects outside the repo. For example, `jj git push --no-integrate-operation` will still perform the push.
         quiet: |-
             Silence non-primary command output
 

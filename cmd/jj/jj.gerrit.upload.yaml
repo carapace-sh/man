@@ -4,8 +4,10 @@ flags:
     --cc=*: CC these emails on the change (can be repeated)
     --custom=*: Send the following custom keyed values to Gerrit (can be repeated)
     --deadline=: The deadline after which the push should be aborted
-    --hashtag=: Applies a hashtag to the change
+    --edit: Push the change as a change edit
+    --hashtag=*: Applies a hashtag to the change (can be repeated)
     --ignore-attention-set: Do not modify the attention set upon uploading
+    --merged: Create a new change, even if the change has already been merged
     --no-publish-comments: Disables publishing of any draft comments for the given change
     --notify=: Who to email notifications to (defaults to all)
     --private: Marks the change as private
@@ -23,6 +25,7 @@ flags:
     -b, --remote-branch=: The location where your changes are intended to land
     -h, --help: Print help (see more with '--help')
     -l, --label=*: Add the following labels configured by Gerrit (can be repeated)
+    -m, --message=: A patch set description for the new patch set
     -n, --dry-run: Do not actually push the changes to Gerrit
     -r, --revision=*: The revset, selecting which revisions are sent in to Gerrit
 completion:
@@ -73,8 +76,12 @@ documentation:
             Send the following custom keyed values to Gerrit (can be repeated)
 
             See https://gerrit-review.googlesource.com/Documentation/user-upload.html#custom_keyed_values
+        edit: |-
+            Push the change as a change edit
+
+            To push a change edit the underlying change need to already exist on the gerrit server. Change edits don't immediately create a new patchset, but need to be published from the web UI first. There can only be one edit for each change. Pushing a new change edit will replace the previous one.
         hashtag: |-
-            Applies a hashtag to the change
+            Applies a hashtag to the change (can be repeated)
 
             See https://gerrit-review.googlesource.com/Documentation/intro-user.html#hashtags. Hashtags are freeform strings associated with a change, like on social media platforms. Similar to topics, hashtags can be used to group related changes together, and to search using the hashtag: operator. Unlike topics, a change can have multiple hashtags, and they are only used for informational grouping. Changes with the same hashtags are not necessarily submitted together.
         help: Print help (see a summary with '-h')
@@ -94,6 +101,14 @@ documentation:
             Add the following labels configured by Gerrit (can be repeated)
 
             Gerrit silently ignores labels not present on your gerrit host. Defaults to +1 if no value is set. Eg. --label=Commit-Queue will set the Commit-Queue label to +1. Eg. --label=Commit-Queue+2 will set it to +2.
+        no-integrate-operation: |-
+            Run the command as usual but don't integrate any operations
+
+            When this option is given, the operations will still be created as usual but they will not be integrated to the operation log. The working copy will also not be updated.
+
+            The command will print the resulting operation ID. You can pass that to e.g. `jj --at-op` to inspect the resulting repo state, or you can pass it to `jj op restore` to restore the repo to that state. You can also pass the ID to `jj op integrate` to integrate the operation.
+
+            Note that this does *not* prevent side effects outside the repo. For example, `jj git push --no-integrate-operation` will still perform the push.
         no-publish-comments: |-
             Disables publishing of any draft comments for the given change
 

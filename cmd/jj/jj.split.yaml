@@ -4,14 +4,14 @@ flags:
     --after=*: The revision(s) to insert after (can be repeated to create a merge commit)
     --before=*: The revision(s) to insert before (can be repeated to create a merge commit)
     --destination=*: The revision(s) to rebase the selected changes onto (can be repeated to create a merge commit)
-    --editor: Open an editor to edit the change description
+    --editor: Open an editor to edit the change description(s)
     --tool=: Specify diff editor to be used (implies --interactive)
     -A, --insert-after=*: The revision(s) to insert after (can be repeated to create a merge commit)
     -B, --insert-before=*: The revision(s) to insert before (can be repeated to create a merge commit)
     -d=*: The revision(s) to rebase the selected changes onto (can be repeated to create a merge commit)
     -h, --help: Print help (see more with '--help')
     -i, --interactive: Interactively choose which parts to split
-    -m, --message=*: The change description to use (don't open editor)
+    -m, --message=*: The change description to use for the selected changes (don't open editor)
     -o, --onto=*: The revision(s) to rebase the selected changes onto (can be repeated to create a merge commit)
     -p, --parallel: Split the revision into two parallel revisions instead of a parent and child
     -r, --revision=: The revision to split
@@ -104,9 +104,9 @@ documentation:
 
             The name should be specified as TOML dotted keys. The value should be specified as a TOML expression. If string value isn't enclosed by any TOML constructs (such as array notation), quotes can be omitted.
         editor: |-
-            Open an editor to edit the change description
+            Open an editor to edit the change description(s)
 
-            Forces an editor to open when using `--message` to allow the message to be edited afterwards.
+            Forces an editor to open when using `--message` to allow the message to be edited afterward.
         help: Print help (see a summary with '-h')
         ignore-immutable: |-
             Allow rewriting immutable commits
@@ -133,9 +133,17 @@ documentation:
 
             This is the default if no filesets are provided.
         message: |-
-            The change description to use (don't open editor)
+            The change description to use for the selected changes (don't open editor)
 
-            Sets the description for the first commit (the one containing the selected changes). The second commit keeps the original description.
+            Sets the description for the revision containing the selected changes. The other revision will keep its original description, if any.
+        no-integrate-operation: |-
+            Run the command as usual but don't integrate any operations
+
+            When this option is given, the operations will still be created as usual but they will not be integrated to the operation log. The working copy will also not be updated.
+
+            The command will print the resulting operation ID. You can pass that to e.g. `jj --at-op` to inspect the resulting repo state, or you can pass it to `jj op restore` to restore the repo to that state. You can also pass the ID to `jj op integrate` to integrate the operation.
+
+            Note that this does *not* prevent side effects outside the repo. For example, `jj git push --no-integrate-operation` will still perform the push.
         onto: |-
             The revision(s) to rebase the selected changes onto (can be repeated to create a merge commit)
 
