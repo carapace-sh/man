@@ -3,4 +3,25 @@ name: show-index
 description: Show packed archive index
 group: low-level interrogator
 documentation:
-    command: '[AI] `git show-index` is a Git command used to display the contents and metadata of the index, which is an intermediate data structure in Git that stores changes before they are committed. By default, it shows the name, mode, hash, and size of each file in the index. You can also specify a particular file or commit using `-- <file>` or `-- <commit>`, respectively, to display only the information related to that file or commit.'
+  command: |-
+    Read the `.idx` file for a Git packfile (created with
+    [git-pack-objects](cmd://git/pack-objects) or [git-index-pack](cmd://git/index-pack)) from the
+    standard input, and dump its contents. The output consists of one object
+    per line, with each line containing two or three space-separated
+    columns:
+
+      - the first column is the offset in bytes of the object within the
+        corresponding packfile
+
+      - the second column is the object id of the object
+
+      - if the index version is 2 or higher, the third column contains the
+        CRC32 of the object data
+
+    The objects are output in the order in which they are found in the index
+    file, which should be (in a correctly constructed file) sorted by object
+    id.
+
+    Note that you can get more information on a packfile by calling
+    [git-verify-pack](cmd://git/verify-pack). However, as this command considers only the
+    index file itself, it's both faster and more flexible.

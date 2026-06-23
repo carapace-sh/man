@@ -2,46 +2,98 @@
 name: add
 description: Create a worktree at <path> and checkout <commit-ish> into it
 flags:
-    --checkout: populate the new working tree
-    --guess-remote: try to match the new branch name with a remote-tracking branch
-    --lock: keep the new working tree locked
-    --reason=: reason for locking
-    --track: set up tracking mode
-    -B=: create or reset a branch
-    -b=: create a new branch
-    -d, --detach: detach HEAD at named commit
-    -f, --force: checkout <branch> even if already checked out in other worktree
-    -q, --quiet: suppress progress reporting
+  --checkout: populate the new working tree
+  --guess-remote: try to match the new branch name with a remote-tracking branch
+  --lock: keep the new working tree locked
+  --reason=: reason for locking
+  --track: set up tracking mode
+  -B=: create or reset a branch
+  -b=: create a new branch
+  -d, --detach: detach HEAD at named commit
+  -f, --force: checkout <branch> even if already checked out in other worktree
+  -q, --quiet: suppress progress reporting
 documentation:
-    command: |-
-        [AI] `git worktree add` is a Git command used to create and manage detached worktrees, which are independent repositories that reference a specific commit from an existing Git repository. The basic syntax is:
+  command: |-
+    Create a worktree at _<path>_ and checkout _<commit-ish>_ into it. The new worktree
+    is linked to the current repository, sharing everything except per-worktree
+    files such as `HEAD`, `index`, etc. As a convenience, _<commit-ish>_ may
+    be a bare "`-`", which is synonymous with `@{-1}`.
 
-        ```bash
-        git worktree add <new_worktree_dir> [<branch_or_commit>]
-        ```
+    If _<commit-ish>_ is a branch name (call it _<branch>_) and is not found,
+    and neither `-b` nor `-B` nor `--detach` are used, but there does
+    exist a tracking branch in exactly one remote (call it _<remote>_)
+    with a matching name, treat as equivalent to:
 
-        Here's what each part means:
+    ------------
+    $ git worktree add --track -b <branch> <path> <remote>/<branch>
+    ------------
 
-        - `git worktree add`: This is the command itself.
-        - `<new_worktree_dir>`: This is a local directory where you want to create the new worktree.
-        - `[<branch_or_commit>]`: This is an optional argument specifying which branch or commit in the main repository you'd like to base your new worktree on. If not provided, the current HEAD of the main repository will be used.
+    If the branch exists in multiple remotes and one of them is named by
+    the `checkout.defaultRemote` configuration variable, we'll use that
+    one for the purposes of disambiguation, even if the _<branch>_ isn't
+    unique across all remotes. Set it to
+    e.g. `checkout.defaultRemote=origin` to always checkout remote
+    branches from there if _<branch>_ is ambiguous but exists on the
+    `origin` remote. See also `checkout.defaultRemote` in
+    [git-config](cmd://git/config).
 
-        When you run this command, Git creates a new directory with the given name and sets it up as a detached worktree, checking out the specified branch or commit in that directory. Changes made to the files in the new worktree do not affect the original repository unless you explicitly push those changes back.
-    flag:
-        B: |-
-            [AI] `git worktree add` is a command used in Git version control system to create and manage multiple working directories or branches for the same repository. The `-B` (or `--branch`) option tells Git to create a new branch in the new working directory, making it an alternative to checking out a new branch with `git checkout -b`.
+    If _<commit-ish>_ is omitted and neither `-b` nor `-B` nor `--detach` used,
+    then, as a convenience, the new worktree is associated with a branch (call
+    it _<branch>_) named after `$(basename <path>)`.  If _<branch>_ doesn't
+    exist, a new branch based on `HEAD` is automatically created as if
+    `-b <branch>` was given.  If _<branch>_ does exist, it will be checked out
+    in the new worktree, if it's not checked out anywhere else, otherwise the
+    command will refuse to create the worktree (unless `--force` is used).
 
-            The basic syntax is:
-            ```
-            git worktree add [new_working_directory] [existing_repository] [new_branch_name]
-            ```
-            Replace `[new_working_directory]` with the local path to the new working directory, `[existing_repository]` with the local path to the existing repository, and `[new_branch_name]` with the desired name for the new branch. Git will then create a new working directory and set it up as a Git working tree for the specified branch.
-        b: '[AI] `git worktree add` is a Git command used to create and manage multiple working directories or branches for a single repository. The `-b` option creates a new branch in addition to adding the worktree. For example, `git worktree add <new_directory> <repository_path> --branch <new_branch_name>` will create a new directory `<new_directory>` that is linked to the repository at `<repository_path>`, and also create a new branch named `<new_branch_name>`. Both the worktree and the new branch can be worked on independently.'
-        checkout: '[AI] `git worktree add --checkout` is a Git command used to create a new working directory for an existing repository, checking out the specified branch or commit into that new directory. This allows you to have multiple independent workspaces based on different branches or commits of the same project. The `--checkout` option checks out the new worktree immediately after creation.'
-        detach: '[AI] `git worktree add --detach` is a Git command used to create a new, independent working directory for a branch or a commit in Git. The `--detach` option creates a new, lightweight checkout, detached from the current branches. This means that the new working directory will directly reference the specified commit, rather than any branch head. It''s often used when you want to make local changes on an existing branch without creating a new one or while working on multiple features at once.'
-        force: '[AI] `git worktree add --force` is a Git command used to create or update an existing detached worktree with a given path and URL. The `--force` option overwrites any existing files in the target directory without asking for confirmation. It''s commonly used when you want to force-update an existing worktree, such as when receiving new code updates via a remote repository.'
-        guess-remote: '[AI] `git worktree add --guess-remote` is a Git command used to create a new working directory for an existing remote branch, with the branches'' upstream relationship automatically guessed based on the current repository. In simpler terms, it adds a new local checking-out and working directory for a branch, automatically determining its remote origin from the context of the current repository.'
-        lock: '[AI] `git worktree add --lock` is a Git command used to create a new working directory for an existing branch or commit, while preventing other users from making changes to that branch or commit concurrently. The `--lock` option puts an exclusive lock on the new worktree. This command is useful when multiple developers need to work on different features or branches independently without interfering with each other''s changes. Once a lock is set, others attempting to check out the same branch or commit will be denied until the lock is released.'
-        quiet: '[AI] `git worktree add --quiet` is a Git command used to create a new working directory for an existing repository, referenced by a branch or a commit-ish, without displaying any messages during the process. The `--quiet` option suppresses informational messages when adding the worktree.'
-        reason: '[AI] `git worktree add` is a command used to create a new working directory for an existing Git project, referencing a branch or a commit in the repository. The `--reason` option is an argument that allows you to provide a reason or description for creating this new working tree. It''s simply a metadata and doesn''t have any impact on how Git manages your branches or working directories. In essence, it''s just for informational purposes, providing clarity when there are multiple working trees for the same project.'
-        track: '[AI] `git worktree add --track` is a Git command used to create a new working directory for an existing branch or remote repository, keeping it in a linked relationship (also known as a "linked clone" or "linked tree") with the original repository. The `--track` option enables automatic fetching and updating of the selected branch whenever you run `git fetch`. This is useful when you want to work on multiple branches or repositories at once while maintaining a single source of truth.'
+    If _<commit-ish>_ is omitted, neither `--detach`, or `--orphan` is
+    used, and there are no valid local branches (or remote branches if
+    `--guess-remote` is specified) then, as a convenience, the new worktree is
+    associated with a new unborn branch named _<branch>_ (after
+    `$(basename <path>)` if neither `-b` or `-B` is used) as if `--orphan` was
+    passed to the command. In the event the repository has a remote and
+    `--guess-remote` is used, but no remote or local branches exist, then the
+    command fails with a warning reminding the user to fetch from their remote
+    first (or override by using `-f`/`--force`).
+  flag:
+    detach: |-
+      With `add`, detach `HEAD` in the new worktree. See "DETACHED HEAD"
+      in [git-checkout](cmd://git/checkout).
+    force: |-
+      By default, `add` refuses to create a new worktree when
+      _<commit-ish>_ is a branch name and is already checked out by
+      another worktree, or if _<path>_ is already assigned to some
+      worktree but is missing (for instance, if _<path>_ was deleted
+      manually). This option overrides these safeguards. To add a missing but
+      locked worktree path, specify `--force` twice.
+
+      `move` refuses to move a locked worktree unless `--force` is specified
+      twice. If the destination is already assigned to some other worktree but is
+      missing (for instance, if _<new-path>_ was deleted manually), then `--force`
+      allows the move to proceed; use `--force` twice if the destination is locked.
+
+      `remove` refuses to remove an unclean worktree unless `--force` is used.
+      To remove a locked worktree, specify `--force` twice.
+    lock: |-
+      Keep the worktree locked after creation. This is the
+      equivalent of `git worktree lock` after `git worktree add`,
+      but without a race condition.
+    quiet: With `add`, suppress feedback messages.
+    checkout: |-
+      By default, `add` checks out _<commit-ish>_, however, `--no-checkout` can
+      be used to suppress checkout in order to make customizations,
+      such as configuring sparse-checkout. See "Sparse checkout"
+      in [git-read-tree](cmd://git/read-tree).
+    guess-remote: |-
+      With `worktree add <path>`, without _<commit-ish>_, instead
+      of creating a new branch from `HEAD`, if there exists a tracking
+      branch in exactly one remote matching the basename of _<path>_,
+      base the new branch on the remote-tracking branch, and mark
+      the remote-tracking branch as "upstream" from the new branch.
+
+      This can also be set up as the default behaviour by using the
+      `worktree.guessRemote` config option.
+    track: |-
+      When creating a new branch, if _<commit-ish>_ is a branch,
+      mark it as "upstream" from the new branch.  This is the
+      default if _<commit-ish>_ is a remote-tracking branch.  See
+      `--track` in [git-branch](cmd://git/branch) for details.

@@ -2,4 +2,15 @@
 name: branch
 description: create and check out a new branch with the stashes changes
 documentation:
-    command: '[AI] The `git stash save <branch-name>` command is used to stash changes on a current branch and create a new branch. This means that any uncommitted changes in your working directory or staging area will be saved away (stashed) and then you can switch to a different branch without losing those changes. The `<branch-name>` is the name of the new branch that will be created once you''ve stashed your current changes. This command is helpful when you want to work on a new feature or fix, but don''t want to commit those changes yet. It keeps your working environment clean while preserving the uncommitted changes for later use.'
+  command: |-
+    Creates and checks out a new branch named _<branchname>_ starting from
+    the commit at which the _<stash>_ was originally created, applies the
+    changes recorded in _<stash>_ to the new working tree and index.
+    If that succeeds, and _<stash>_ is a reference of the form
+    `stash@{<revision>}`, it then drops the _<stash>_.
+
+    This is useful if the branch on which you ran `git stash push` has
+    changed enough that `git stash apply` fails due to conflicts. Since
+    the stash entry is applied on top of the commit that was HEAD at the
+    time `git stash` was run, it restores the originally stashed state
+    with no conflicts.

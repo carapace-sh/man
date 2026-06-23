@@ -2,4 +2,16 @@
 name: absorbgitdirs
 description: Move submodules git dir to superproject
 documentation:
-    command: '[AI] `git submodule absorbgitdirs` is a Git command used to absorb or integrate all the submodules with their own repositories into the main repository as subtrees instead of submodules. This means that the entire history and files of the submodules will be included in the main repository, rather than being stored as separate entities. This can simplify the repository structure and make it easier to manage dependencies between projects. However, note that absorbing submodules cannot be reversed, so use this command with caution.'
+  command: |-
+    If a git directory of a submodule is inside the submodule,
+    move the git directory of the submodule into its superproject's
+    `$GIT_DIR/modules` path and then connect the git directory and
+    its working directory by setting the `core.worktree` and adding
+    a `.git` file pointing to the git directory embedded in the
+    superprojects git directory.
+
+    A repository that was cloned independently and later added as a submodule or
+    old setups have the submodules git directory inside the submodule instead of
+    embedded into the superprojects git directory.
+
+    This command is recursive by default.

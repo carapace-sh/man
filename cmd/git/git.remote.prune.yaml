@@ -2,8 +2,16 @@
 name: prune
 description: Delete stale references
 flags:
-    -n, --dry-run: dry run
+  -n, --dry-run: dry run
 documentation:
-    command: '[AI] `git remote prune` is a Git command used to remove stale remote references from your local `origin` repository. Stale references are those that no longer exist on the remote server but still reside in your local repository, potentially leading to confusion and errors during future synchronization or collaboration. By running this command, you can clean up these outdated references and keep your Git configuration tidy.'
-    flag:
-        dry-run: '[AI] `git remote prune --dry-run` is a Git command used to clean up stale remote tracking branches in your local repository. The `--dry-run` option is used to perform a simulated run, meaning it will show you which branches would be deleted without actually deleting them. This command is useful when you want to check which branches are potential candidates for removal before executing the real `git remote prune`.'
+  command: |-
+    Delete stale references associated with _<name>_. By default, stale
+    remote-tracking branches under _<name>_ are deleted, but depending on
+    global configuration and the configuration of the remote we might even
+    prune local tags that haven't been pushed there. Equivalent to `git fetch --prune <name>`, except that no new references will be fetched.
+
+    See the PRUNING section of [git-fetch](cmd://git/fetch) for what it'll prune
+    depending on various configuration.
+
+    With `--dry-run` option, report what branches would be pruned, but do not
+    actually prune them.

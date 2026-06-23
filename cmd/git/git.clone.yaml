@@ -3,83 +3,293 @@ name: clone
 description: Clone a repository into a new directory
 group: main
 flags:
-    --bare: create a bare repository
-    --depth=: create a shallow clone of that depth
-    --dissociate: use --reference only while cloning
-    --filter=: object filtering
-    --mirror: create a mirror repository (implies bare)
-    --no-hardlinks: don't use local hardlinks, always copy
-    --no-tags: don't clone any tags, and make later fetches not to follow them
-    --progress: force progress reporting
-    --recurse-submodules=: initialize submodules in the clone
-    --recursive=: alias of --recurse-submodules
-    --reference-if-able=: reference repository
-    --reference=: reference repository
-    --remote-submodules: any cloned submodules will use their remote-tracking branch
-    --separate-git-dir=: separate git dir from working tree
-    --server-option=: option to transmit
-    --shallow-exclude=: deepen history of shallow clone, excluding rev
-    --shallow-since=: create a shallow clone since a specific time
-    --shallow-submodules: any cloned submodules will be shallow
-    --single-branch: clone only one branch, HEAD or --branch
-    --sparse: initialize sparse-checkout file to include only files at root
-    --template=: directory from which templates will be used
-    -4, --ipv4: use IPv4 addresses only
-    -6, --ipv6: use IPv6 addresses only
-    -b, --branch=: checkout <branch> instead of the remote's HEAD
-    -c, --config=: set config inside the new repository
-    -j, --jobs=: number of submodules cloned in parallel
-    -l, --local: to clone from a local repository
-    -n, --no-checkout: don't create a checkout
-    -o, --origin=: use <name> instead of 'origin' to track upstream
-    -q, --quiet: be more quiet
-    -s, --shared: setup as shared repository
-    -u, --upload-pack=: path to git-upload-pack on the remote
-    -v, --verbose: be more verbose
+  --bare: create a bare repository
+  --depth=: create a shallow clone of that depth
+  --dissociate: use --reference only while cloning
+  --filter=: object filtering
+  --mirror: create a mirror repository (implies bare)
+  --no-hardlinks: don't use local hardlinks, always copy
+  --no-tags: don't clone any tags, and make later fetches not to follow them
+  --progress: force progress reporting
+  --recurse-submodules=: initialize submodules in the clone
+  --recursive=: alias of --recurse-submodules
+  --reference-if-able=: reference repository
+  --reference=: reference repository
+  --remote-submodules: any cloned submodules will use their remote-tracking branch
+  --separate-git-dir=: separate git dir from working tree
+  --server-option=: option to transmit
+  --shallow-exclude=: deepen history of shallow clone, excluding rev
+  --shallow-since=: create a shallow clone since a specific time
+  --shallow-submodules: any cloned submodules will be shallow
+  --single-branch: clone only one branch, HEAD or --branch
+  --sparse: initialize sparse-checkout file to include only files at root
+  --template=: directory from which templates will be used
+  -4, --ipv4: use IPv4 addresses only
+  -6, --ipv6: use IPv6 addresses only
+  -b, --branch=: checkout <branch> instead of the remote's HEAD
+  -c, --config=: set config inside the new repository
+  -j, --jobs=: number of submodules cloned in parallel
+  -l, --local: to clone from a local repository
+  -n, --no-checkout: don't create a checkout
+  -o, --origin=: use <name> instead of 'origin' to track upstream
+  -q, --quiet: be more quiet
+  -s, --shared: setup as shared repository
+  -u, --upload-pack=: path to git-upload-pack on the remote
+  -v, --verbose: be more verbose
 documentation:
-    command: '[AI] `git clone` is a command used to create a local copy of an existing remote Git repository. When you run `git clone <repository_URL>`, Git will download all files and commits from the remote repository, set up the local repository with the same directory structure, and create a new working directory for you to start making changes. The initial commit in the local repository will be the same as the latest commit in the remote repository.'
-    flag:
-        bare: '[AI] `git clone --bare` is a Git command used to create a bare repository, which is a Git repository without a working directory. A bare repository only contains the necessary files for the Git repository to function, including the .git folder. This command is often used when creating or managing repositories over SSH, as it does not clone a working directory and can save bandwidth and storage space. It is also useful in automated workflows or server environments where a working directory is not necessary.'
-        branch: '[AI] The `git clone --branch` command is used to create a local copy of an existing Git repository and checkout a specific branch at the same time. The `--branch` option specifies the name of the desired branch, which will become the initial checked-out branch in the new local repository. For example: `git clone user@server:repo.git --branch feature/my-feature`. This command creates a local copy of ''repo.git'' from the remote server and sets ''feature/my-feature'' as the initial checked-out branch.'
-        config: '[AI] The `git clone --config` command is used to create a new Git repository by cloning an existing one, while also setting or modifying Git configuration options. The `--config` option allows you to pass custom configuration variables as key-value pairs at the time of cloning. These configurations will be applied to the newly created local repository. This can be useful when wanting to set up common configuration options for all new repositories you clone from a particular source.'
-        depth: '[AI] `git clone --depth` is a Git command used to create a shallow clone of a repository, which means that instead of cloning the entire history of the repository, only the latest commit and its immediate ancestors up to a certain number of generations are downloaded. This can save disk space and download time for large or old repositories, but it comes with limitations, such as being unable to perform certain Git operations like `git push` or `git pull`, because a shallow clone does not contain the full history. The depth can be specified using the `--depth` option followed by an integer number, indicating how many generations of commit history to include. If no depth is specified, Git will default to a shallow clone with a depth of one.'
-        dissociate: '[AI] `git clone --dissociate` is a Git command used to create a new repository by cloning an existing one while keeping the two repositories linked, but without creating a new remote entry. This option allows the cloned repository to recognize its upstream branch and track changes, but it doesn''t add any new remotes or URLs to your local Git configuration.'
-        filter: '[AI] `git clone --filter` is a command-line option used when cloning a Git repository. The `--filter` option allows specifying filters to be applied during the cloning process, which can affect how certain types of objects are handled. These filters include `--tags`, `--branches`, and others. With this option, you can choose to exclude or include specific object types during the clone operation, reducing the amount of data transferred or customizing the clone based on your needs.'
-        ipv4: |-
-            [AI] The `git clone` command is used to create a local copy of an existing Git repository. The option `--ipv4` is not a standard Git option but can be used with certain Git hosting services like GitHub if the default name resolution or discovery methods (like SSH keys or HTTPS certificates) fail.
+  command: |-
+    Clones a repository into a newly created directory, creates
+    remote-tracking branches for each branch in the cloned repository
+    (visible using `git branch --remotes`), and creates and checks out an
+    initial branch that is forked from the cloned repository's
+    currently active branch.
 
-            The `--ipv4` flag forces Git to use IPv4 addresses instead of IPv6 when communicating with the remote repository server. This can be helpful in situations where DNS resolution or name lookup is not working properly, and you need to explicitly specify an IP address for the connection.
-        ipv6: '[AI] The `git clone` command is used to create a local copy of an existing Git repository. The `--ipv6` option is a network configuration flag that tells Git to use Internet Protocol version 6 (IPv6) addresses when communicating with the remote repository instead of IPv4 addresses. This can be useful when working with remote servers that only support IPv6 or when trying to resolve connectivity issues related to IP addressing.'
-        jobs: '[AI] `git clone --jobs` is a command used in Git, a popular version control system. This option is passed to the `clone` command when creating a local copy of an existing remote repository. The `--jobs` flag enables Git to run multiple background jobs during the clone process. This can significantly reduce the time it takes to clone larger repositories by parallelizing certain tasks such as downloading files and extracting archives. Essentially, `git clone --jobs` is a more efficient way to clone repositories by utilizing multiple CPU cores or processes for faster transfer and processing speed.'
-        local: '[AI] `git clone --local` is not a valid Git command. The `git clone` command is used to create a local copy of an existing remote repository. The `--local` option is not recognized by Git in this context. If you want to clone a repository from the local machine instead of a remote one, you can simply use `git clone <path-to-local-repository>`.'
-        mirror: '[AI] `git clone --mirror` is a Git command used to create a bare or shallow repository as a mirror of an existing repository, typically used for remote repositories in a read-only setup. It does not create a working directory and does not checkout any branches by default, making it efficient for cloning large or multiple repositories with minimal disk space usage and faster transfer speeds over the network. Instead, it generates a new repository that can be used to push and pull changes between mirrored repositories while keeping both in sync.'
-        no-checkout: '[AI] The `git clone --no-checkout` command is a variation of the standard `git clone` command used to create a local copy of an existing Git repository. The `--no-checkout` option prevents Git from automatically checking out the default branch into your working directory once the clone operation is completed. Instead, you will have an empty checked-out state in your new local repository with all files and directories ready for further manipulation without any files being actively edited or tracked by Git. This can be useful when setting up a continuous integration (CI) system or other automated workflows where you do not want any automatic checks out to occur.'
-        no-hardlinks: '[AI] The `git clone --no-hardlinks` command is used when cloning a Git repository to prevent the creation of hard links for files and directories. Hard links share the same disk space with the original file, but they have separate file metadata. With this option enabled, Git will instead create regular copy-on-write files for each cloned item. This can be useful in certain edge cases, such as when working on different branches of a repository that may have conflicting file modifications. However, it can lead to increased disk space usage since every file and directory is copied rather than linked.'
-        no-tags: '[AI] The `git clone --no-tags` command is used to create a local copy of an existing Git repository without cloning any tags associated with it. This means that only the main branches and commits will be downloaded, while any attached tags are ignored during the cloning process. It can be useful when you don''t need the tags or want to save disk space by excluding them.'
-        origin: '[AI] `git clone --origin` is a command used in Git version control system to create a local copy of an existing remote repository. The `--origin` option sets the original remote repository as the upstream branch, meaning that this local repository will automatically track changes from the origin by default. This command creates both a local working directory and a bare repository (if cloning a bare repository) with an initial commit and the necessary .git subdirectory to manage the Git operations.'
-        progress: '[AI] `git clone --progress` is a Git command used to clone a repository with incremental transfer progress. With this option, instead of downloading the entire repository at once, Git requests and transfers only the necessary data (such as new or updated files) in multiple increments, allowing for a more efficient and faster cloning experience on networks with limited bandwidth or high latency. It''s particularly useful when cloning large repositories over slow connections.'
-        quiet: '[AI] The `git clone --quiet` command is a Git command used to clone a repository into a local directory while producing minimal output. The `--quiet` option suppresses most of Git''s informational messages during the cloning process, making it suitable for scripts and automated workflows where detailed output isn''t required.'
-        recurse-submodules: |-
-            [AI] `git clone --recurse-submodules` is a command used to clone a Git repository with its submodules initialized and checked out. Submodules are separate Git repositories that are stored as part of the main repository, and they're typically used for dependencies or subprojects.
+    After the clone, a plain `git fetch` without arguments will update
+    all the remote-tracking branches, and a `git pull` without
+    arguments will in addition merge the remote master branch into the
+    current master branch, if any (this is untrue when `--single-branch`
+    is given; see below).
 
-            By default, when cloning a repository with submodules, only the superproject is cloned, leaving the submodules as empty directories. To clone both the superproject and its submodules in one go, use `--recurse-submodules`. This option tells Git to fetch the submodules' URLs from the remote repository, initialize them locally, and check out their branches if specified.
+    This default configuration is achieved by creating references to
+    the remote branch heads under `refs/remotes/origin` and by initializing `remote.origin.url` and `remote.origin.fetch`
+    configuration variables.
+  flag:
+    bare: |-
+      Make a `bare` Git repository.  That is, instead of
+      creating _<directory>_ and placing the administrative
+      files in `<directory>/.git, make the _<directory>_ itself the `$GIT_DIR`. This obviously implies the `--no-checkout
+      because there is nowhere to check out the working tree.
+      Also the branch heads at the remote are copied directly
+      to corresponding local branch heads, without mapping
+      them to `refs/remotes/origin/`.  When this option is
+      used, neither remote-tracking branches nor the related
+      configuration variables are created.
+    branch: |-
+      Point the newly created `HEAD` to _<name>_ branch instead of the branch
+      pointed to by the cloned repository's `HEAD`. In a non-bare repository,
+      this is the branch that will be checked out.
+      `--branch` can also take tags and detaches the `HEAD` at that commit
+      in the resulting repository.
+    config: |-
+      Set a configuration variable in the newly-created repository;
+      this takes effect immediately after the repository is
+      initialized, but before the remote history is fetched or any
+      files checked out.  The _<key>_ is in the same format as expected by
+      [git-config](cmd://git/config) (e.g., `core.eol=true`). If multiple
+      values are given for the same key, each value will be written to
+      the config file. This makes it safe, for example, to add
+      additional fetch refspecs to the origin remote.
 
-            In summary, `git clone --recurse-submodules` fetches, initializes, and checks out both the main repository and its submodules in a single command.
-        recursive: '[AI] The `git clone --recursive` command is used to clone a Git repository, including all submodules specified in the .gitmodules file with their own repositories being cloned recursively. This means that when you run this command, not only will the main project be cloned but also any dependent subprojects will be cloned as well and added as subdirectories to the main project. This can be useful for projects where some dependencies or components are managed as separate repositories.'
-        reference: '[AI] The `git clone --reference` command is a variation of the standard `git clone` command used to create a new repository by copying all branches and other refs from an existing remote repository without downloading the entire repository''s data again. Instead, it uses the existing local repository as a reference and fetches only the needed metadata for the new branches. This results in faster cloning, especially when working with large repositories or when multiple local copies of the same repository are required.'
-        reference-if-able: '[AI] `git clone --reference-if-able` is a Git command used to create a new repository as a shallow or bare clone, while referencing an existing remote repository if it already exists locally and is able to be used as a reference. This option can save disk space and network bandwidth by reusing the local repository instead of cloning the entire history again. If the local repository is not usable as a reference, Git will create a new one from the remote.'
-        remote-submodules: '[AI] `git clone --remote-submodules` is a Git command used to clone a repository that includes one or more sub-repositories, called "submodules," which are themselves separate repositories, typically as part of the main project''s Git history. The `--remote-submodules` option fetches and initializes these submodules recursively from their respective remotes during the cloning process. This command is essential for projects with interrelated components that require separate Git repositories but should be treated as a single cohesive unit.'
-        separate-git-dir: |-
-            [AI] `git clone --separate-git-dir` is a Git command used to create a new local repository with a separate `.git` directory. This option allows cloning a repository without having the entire history and objects stored in the main project directory. Instead, the `.git` directory will be located in a subdirectory named `.git-annex/git-annex` or `.git` by default, if not specified otherwise.
+      Due to limitations of the current implementation, some configuration
+      variables do not take effect until after the initial fetch and checkout.
+      Configuration variables known to not take effect are:
+      `remote.<name>.mirror` and `remote.<name>.tagOpt`.  Use the
+      corresponding `--mirror` and `--no-tags` options instead.
+    depth: |-
+      Create a `shallow` clone with a history truncated to the
+      specified number of commits. Implies `--single-branch` unless
+      `--no-single-branch` is given to fetch the histories near the
+      tips of all branches. If you want to clone submodules shallowly,
+      also pass `--shallow-submodules`.
+    dissociate: |-
+      Borrow the objects from reference repositories specified
+      with the `--reference` options only to reduce network
+      transfer, and stop borrowing from them after a clone is made
+      by making necessary local copies of borrowed objects.  This
+      option can also be used when cloning locally from a
+      repository that already borrows objects from another
+      repository--the new repository will borrow objects from the
+      same repository, and this option can be used to stop the
+      borrowing.
+    filter: |-
+      Use the partial clone feature and request that the server sends
+      a subset of reachable objects according to a given object filter.
+      When using `--filter`, the supplied _<filter-spec>_ is used for
+      the partial clone filter.
 
-            This can be useful when you want to clone a large repository without downloading the entire history at once, or when dealing with restricted file systems that don't allow having multiple files or directories with the same name (as a regular Git repository will have two `.git` files - one for the cloned repository and another for any submodules).
-        server-option: '[AI] `git clone --server-option` is a command used in Git, a popular version control system. This option allows users to specify custom options when connecting to a specific remote repository server. The syntax is `git clone <repository> --server-option <OptionName>:<OptionValue>`. For example, `git clone git@mycustomrepo.com:project --server-option ssh-key-file=~/.ssh/mykey.pem` would clone a repository using a custom SSH key for authentication with the server. This can be useful when working with specific servers that require non-standard configuration options.'
-        shallow-exclude: '[AI] `git clone --shallow-exclude` is a Git command used to create a shallow clone of a repository, which means only the current commit and its history up to a certain point are downloaded instead of the entire history. The `--shallow-exclude` option is an additional argument that allows users to specify a file or a list of files or directories to exclude from the shallow clone. This can help reduce the amount of data transferred and stored while still getting the latest version of the repository''s code. The excluded files or directories will not be accessible locally, but they can be fetched and checked out on demand using `git fetch` or `git checkout`.'
-        shallow-since: '[AI] `git clone --shallow-since` is a Git command used to create a shallow clone of a repository. A shallow clone is a Git repository that only contains the history up to a specific commit, instead of the entire history from the tip of the branch to the beginning of time. This option can be useful when dealing with large repositories or when you only need a subset of the project''s history for your work. The `--shallow-since` argument specifies the commit up to which the repository should be cloned, making it an efficient alternative to downloading the entire repository history.'
-        shallow-submodules: '[AI] The `git clone` command with the `--shallow-submodules` option creates a shallow Git repository, which means that only the necessary files for the project to run are downloaded instead of the entire history and subtrees or submodules. In this particular case, it also applies to submodules, meaning that only the manifest files for submodules will be downloaded, not their full contents or histories. This can save significant time and bandwidth when cloning large repositories with many deep submodules. However, it may result in incomplete functionality since the actual content of the submodules won''t be available locally.'
-        shared: '[AI] The `git clone --shared` command is used to create a Git repository on a local machine with a shared history. This means that any changes made in this local repository will be pushed back upstream and visible to other collaborators who are also working on the project. Essentially, it sets up the local repository as a remote repository for other users to clone from, allowing for true collaboration on the codebase.'
-        single-branch: '[AI] `git clone --single-branch` is a Git command used to create a local copy of an existing remote repository while ensuring that only the current branch is cloned and checked out. This option can be useful when you want to work with a specific branch without having multiple branches locally, keeping your working environment simpler. By default, `git clone` checks out the initial commit in the master branch or main branch depending on the remote repository''s configuration. Using this flag overrides that behavior and checks out only the specified branch.'
-        sparse: '[AI] `git clone --sparse` is a Git command used to create a new repository or clone an existing one with shallow subtrees, also known as sparse checkouts. It allows you to download only a subset of the files in a repository instead of the entire history. This can significantly reduce the disk space required and the time needed for cloning large repositories. The `--sparse` option enables this feature by creating a .git/info/sparse-checkout file, which contains a list of paths to be included in the checkout.'
-        template: '[AI] `git clone --template` is a Git command used to create a new repository by cloning an existing one while applying a custom template for the new repository''s configuration files, such as `.gitignore` or `.editorconfig`. The `--template` option takes a path to a directory containing the desired templates as its argument. This can be useful in managing consistent configurations across multiple repositories.'
-        upload-pack: '[AI] `git clone --upload-pack` is a specialized way to perform a Git clone operation with an additional capability: it enables the cloned repository to act as both a client and a server, allowing it to push changes back upstream to the original repository using the `--upload-pack` option. This can be useful in certain workflows, such as when working on a project where you don''t have write access to the remote repository but need to contribute changes, or when setting up a mirror of an existing repository for backup or other purposes.'
-        verbose: '[AI] `git clone --verbose` is a Git command used to clone a repository with enhanced output. The `--verbose` option increases the amount of information displayed during the cloning process. It provides detailed messages about each step, including progress updates, transferred files and directories, and any potential errors or warnings that may occur. This can be helpful for debugging or understanding the inner workings of Git when cloning a repository.'
+      If `--filter=auto` is used the filter specification is determined
+      automatically through the `promisor-remote` protocol (see
+      [gitprotocol-v2](man://gitprotocol-v2/5)) by combining the filter specifications
+      advertised by the server for the promisor remotes that the client
+      accepts (see the `promisor.acceptFromServer` configuration option in
+      [git-config](cmd://git/config)). This allows the server to suggest the optimal
+      filter for the available promisor remotes.
+
+      As with other filter specifications, the "auto" value is persisted in
+      the configuration. This ensures that future fetches will continue to
+      adapt to the server's current recommendation.
+
+      For details on all other available filter specifications, see the
+      `--filter=<filter-spec>` option in [git-rev-list](cmd://git/rev-list).
+
+      For example, `--filter=blob:none` will filter out all blobs (file
+      contents) until needed by Git. Also, `--filter=blob:limit=<size>` will
+      filter out all blobs of size at least _<size>_.
+    jobs: |-
+      The number of submodules fetched at the same time.
+      Defaults to the `submodule.fetchJobs` option.
+
+      _<repository>_::
+      The (possibly remote) _<repository>_ to clone from.  See the
+      <<URLS,GIT URLS>> section below for more information on specifying
+      repositories.
+
+      _<directory>_::
+      The name of a new directory to clone into.  The "humanish"
+      part of the source repository is used if no _<directory>_ is
+      explicitly given (`repo` for `/path/to/repo.git` and `foo`
+      for `host.xz:foo/.git`).  Cloning into an existing directory
+      is only allowed if the directory is empty.
+    local: |-
+      When the repository to clone from is on a local machine,
+      this flag bypasses the normal "Git aware" transport
+      mechanism and clones the repository by making a copy of
+      `HEAD` and everything under objects and refs directories.
+      The files under `.git/objects/` directory are hardlinked
+      to save space when possible.
+
+      If the repository is specified as a local path (e.g., `/path/to/repo`),
+      this is the default, and `--local` is essentially a no-op.  If the
+      repository is specified as a URL, then this flag is ignored (and we
+      never use the local optimizations).  Specifying `--no-local` will
+      override the default when `/path/to/repo` is given, using the regular
+      Git transport instead.
+
+      If the repository's `$GIT_DIR/objects` has symbolic links or is a
+      symbolic link, the clone will fail. This is a security measure to
+      prevent the unintentional copying of files by dereferencing the symbolic
+      links.
+
+      This option does not work with repositories owned by other users for security
+      reasons, and `--no-local` must be specified for the clone to succeed.
+
+      *NOTE*: this operation can race with concurrent modification to the
+      source repository, similar to running `cp -r <src> <dst>` while modifying
+      _<src>_.
+    mirror: |-
+      Set up a mirror of the source repository.  This implies `--bare`.
+      Compared to `--bare`, `--mirror` not only maps local branches of the
+      source to local branches of the target, it maps all refs (including
+      remote-tracking branches, notes etc.) and sets up a refspec configuration such
+      that all these refs are overwritten by a `git remote update` in the
+      target repository.
+    no-checkout: Do not checkout `HEAD` after the clone is complete.
+    no-hardlinks: |-
+      Force the cloning process from a repository on a local
+      filesystem to copy the files under the `.git/objects`
+      directory instead of using hardlinks. This may be desirable
+      if you are trying to make a back-up of your repository.
+    no-tags: |-
+      Control whether or not tags will be cloned. When `--no-tags` is
+      given, the option will be become permanent by setting the
+      `remote.<remote>.tagOpt=--no-tags` configuration. This ensures that
+      future `git pull` and `git fetch` won't follow any tags. Subsequent
+      explicit tag fetches will still work (see [git-fetch](cmd://git/fetch)).
+
+      By default, tags are cloned and passing `--tags` is thus typically a
+      no-op, unless it cancels out a previous `--no-tags`.
+
+      Can be used in conjunction with `--single-branch` to clone and
+      maintain a branch with no references other than a single cloned
+      branch. This is useful e.g. to maintain minimal clones of the default
+      branch of some repository for search indexing.
+    origin: |-
+      Instead of using the remote name `origin` to keep track of the upstream
+      repository, use _<name>_.  Overrides `clone.defaultRemoteName` from the
+      config.
+    progress: |-
+      Report progress status on the standard error stream
+      by default when attached to a terminal, unless `--quiet`
+      is specified. This flag forces progress status even if the
+      standard error stream is not directed to a terminal.
+    quiet: |-
+      Operate quietly.  Progress is not reported to the standard
+      error stream.
+    reference-if-able: |-
+      If the reference _<repository>_ is on the local machine,
+      automatically setup `.git/objects/info/alternates` to
+      obtain objects from the reference _<repository>_.  Using
+      an already existing repository as an alternate will
+      require fewer objects to be copied from the repository
+      being cloned, reducing network and local storage costs.
+      When using the `--reference-if-able`, a non existing
+      directory is skipped with a warning instead of aborting
+      the clone.
+
+      NOTE: see the NOTE for the `--shared` option, and also the
+      `--dissociate` option.
+    separate-git-dir: |-
+      Instead of placing the cloned repository where it is supposed
+      to be, place the cloned repository at the specified directory,
+      then make a filesystem-agnostic Git symbolic link to there.
+      The result is Git repository can be separated from working
+      tree.
+    server-option: |-
+      Transmit the given string to the server when communicating using
+      protocol version 2.  The given string must not contain a _NUL_ or _LF_
+      character.  The server's handling of server options, including
+      unknown ones, is server-specific.
+      When multiple `--server-option=<option>` are given, they are all
+      sent to the other side in the order listed on the command line.
+      When no `--server-option=<option> is given from the command line, the values of configuration variable `remote.<name>.serverOption
+      are used instead.
+    shallow-exclude: |-
+      Create a shallow clone with a history, excluding commits
+      reachable from a specified remote branch or tag.  This option
+      can be specified multiple times.
+    shallow-since: Create a shallow clone with a history after the specified time.
+    shared: |-
+      When the repository to clone is on the local machine,
+      instead of using hard links, automatically setup
+      `.git/objects/info/alternates` to share the objects
+      with the source repository.  The resulting repository
+      starts out without any object of its own.
+
+      NOTE: this is a possibly dangerous operation; do *not* use
+      it unless you understand what it does. If you clone your
+      repository using this option and then delete branches (or use any
+      other Git command that makes any existing commit unreferenced) in the
+      source repository, some objects may become unreferenced (or dangling).
+      These objects may be removed by normal Git operations (such as `git commit`)
+      which automatically call `git maintenance run --auto`. (See
+      [git-maintenance](cmd://git/maintenance).) If these objects are removed and were referenced
+      by the cloned repository, then the cloned repository will become corrupt.
+
+      Note that running `git repack` without the `--local` option in a repository
+      cloned with `--shared` will copy objects from the source repository into a pack
+      in the cloned repository, removing the disk space savings of `clone --shared`.
+      It is safe, however, to run `git gc`, which uses the `--local` option by
+      default.
+
+      If you want to break the dependency of a repository cloned with `--shared` on
+      its source repository, you can simply run `git repack -a` to copy all
+      objects from the source repository into a pack in the cloned repository.
+    sparse: |-
+      Employ a sparse-checkout, with only files in the toplevel
+      directory initially being present.  The
+      [git-sparse-checkout](cmd://git/sparse-checkout) command can be used to grow the
+      working directory as needed.
+    template: |-
+      Specify the directory from which templates will be used;
+      (See the "TEMPLATE DIRECTORY" section of [git-init](cmd://git/init).)
+    upload-pack: |-
+      Specify a non-default path for the command run on the other end when the
+      repository to clone from is accessed via ssh.
+    verbose: |-
+      Run verbosely. Does not affect the reporting of progress status
+      to the standard error stream.
+    remote-submodules: |-
+      All submodules which are cloned will use the status of the submodule's
+      remote-tracking branch to update the submodule, rather than the
+      superproject's recorded SHA-1. Equivalent to passing `--remote` to
+      `git submodule update`.
+    shallow-submodules: All submodules which are cloned will be shallow with a depth of 1.
+    single-branch: |-
+      Clone only the history leading to the tip of a single branch,
+      either specified by the `--branch` option or the primary
+      branch remote's `HEAD` points at.
+      Further fetches into the resulting repository will only update the
+      remote-tracking branch for the branch this option was used for the
+      initial cloning.  If the `HEAD` at the remote did not point at any
+      branch when `--single-branch` clone was made, no remote-tracking
+      branch is created.
