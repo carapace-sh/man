@@ -3,88 +3,305 @@ name: checkout
 description: Switch branches or restore working tree files
 group: main
 flags:
-    --conflict=: conflict style (merge or diff3)
-    --guess: second guess 'git checkout <no-such-branch>' (default)
-    --ignore-other-worktrees: do not check if another worktree is holding the given ref
-    --ignore-skip-worktree-bits: do not limit pathspecs to sparse entries only
-    --no-guess: do not second guess 'git checkout <no-such-branch>'
-    --no-overlay: remove files not in <tree-ish>
-    --no-overwrite-ignore: do not overwrite ignored files when switching branches
-    --no-progress: do not show progress
-    --no-recurse-submodules: do not update submodules
-    --no-track: do not set up "upstream" configuration
-    --orphan=: new unparented branch
-    --overlay: use overlay mode (default)
-    --overwrite-ignore: update ignored files (default)
-    --pathspec-file-nul: pathspec elements are separated with NUL character
-    --pathspec-from-file=: read pathspec from file
-    --progress: force progress reporting
-    --recurse-submodules=: control recursive updating of submodules
-    -2, --ours: checkout our version for unmerged files
-    -3, --theirs: checkout their version for unmerged files
-    -B=: create/reset and checkout a branch
-    -b=: create and checkout a new branch
-    -d, --detach: detach HEAD at named commit
-    -f, --force: force checkout (throw away local modifications)
-    -l: create reflog for new branch
-    -m, --merge: perform a 3-way merge with the new branch
-    -p, --patch: select hunks interactively
-    -q, --quiet: suppress progress reporting
-    -t, --track: set upstream info for new branch
+  --conflict=: conflict style (merge or diff3)
+  --guess: second guess 'git checkout <no-such-branch>' (default)
+  --ignore-other-worktrees: do not check if another worktree is holding the given ref
+  --ignore-skip-worktree-bits: do not limit pathspecs to sparse entries only
+  --no-guess: do not second guess 'git checkout <no-such-branch>'
+  --no-overlay: remove files not in <tree-ish>
+  --no-overwrite-ignore: do not overwrite ignored files when switching branches
+  --no-progress: do not show progress
+  --no-recurse-submodules: do not update submodules
+  --no-track: do not set up "upstream" configuration
+  --orphan=: new unparented branch
+  --overlay: use overlay mode (default)
+  --overwrite-ignore: update ignored files (default)
+  --pathspec-file-nul: pathspec elements are separated with NUL character
+  --pathspec-from-file=: read pathspec from file
+  --progress: force progress reporting
+  --recurse-submodules=: control recursive updating of submodules
+  -2, --ours: checkout our version for unmerged files
+  -3, --theirs: checkout their version for unmerged files
+  -B=: create/reset and checkout a branch
+  -b=: create and checkout a new branch
+  -d, --detach: detach HEAD at named commit
+  -f, --force: force checkout (throw away local modifications)
+  -l: create reflog for new branch
+  -m, --merge: perform a 3-way merge with the new branch
+  -p, --patch: select hunks interactively
+  -q, --quiet: suppress progress reporting
+  -t, --track: set upstream info for new branch
 documentation:
-    command: '[AI] `git checkout` is a Git command used to detach the HEAD and switch to a different branch or commit in your local repository. When you use it with a branch name, Git checks out that branch and makes it the active branch. If used with a specific commit hash, Git checks out that commit and sets up a detached HEAD state. In this state, you''re no longer on any branch, allowing you to make changes directly to the committed code without affecting the current branch.'
-    flag:
-        B: '[AI] The `git checkout` command with the `-B` flag creates a new branch at the current head commit and checks out the new branch for further work. It''s equivalent to both creating a new branch using `git branch <new_branch>` and checking it out using `git checkout <new_branch>`. This is particularly useful when you want to start a new branch directly from the current one for a feature or a bugfix.'
-        b: '[AI] `git checkout -b` is a command used in Git version control system. It creates and checks out a new branch from the current branch or the most recent commit, effectively switching to the newly created branch. This command saves time by combining the two actions (creating a new branch and checking it out) into one. It''s particularly useful when you want to start working on a new feature or fix without leaving your current work context.'
-        conflict: |-
-            [AI] `git checkout --conflict` is a Git command used to retrieve and merge files from different branches with conflicting changes. When you try to checkout a file that has been modified in both your current branch and another branch, Git cannot automatically apply the changes and leaves the files in a conflicted state. To resolve this, you can use `git checkout --conflict`.
+  command: |-
+    `git checkout` has two main modes:
 
-            This command retrieves the conflicting files from the other branch and marks them with conflict markers (<<<, >>>). These markers indicate where the conflicts exist, allowing you to manually edit the files and merge the changes. After resolving the conflicts, you can use `git add` to stage the resolved files and continue with your workflow.
-        detach: '[AI] `git checkout --detach` is a Git command used to create and switch to a new, independent branch based on the current HEAD commit. In other words, it detaches the head from its current branch and creates a new branch (often called a "detached HEAD") that only has the specified commit. This command allows for manual commit editing before merging back into the original branch or creating a new one. It''s typically used for advanced workflows like cherry-picking commits or making temporary changes without affecting the main branch.'
-        force: |-
-            [AI] `git checkout --force` is a Git command used to update the working directory to match the most recent commit in the current branch, overwriting any local changes. The `--force` option suppresses the warning message that would normally be displayed when local modifications exist and forces the checkout to proceed.
+    1. **Switch branches**, with `git checkout <branch>`
+    2. **Restore a different version of a file**, for example with
+       `git checkout <commit> <filename>` or `git checkout <filename>`
 
-            It's essential to use this command with caution since it discards any uncommitted changes in the working directory. This command is particularly useful when you want to move forward with a branch, even if there are local modifications, without keeping those changes.
-        guess: '[AI] `git checkout --guess` is a Git command used to perform an automated checkout of a branch with fast-forward updates. It tries to automatically determine if the current branch can be safely updated by checking the differences between the index and the HEAD commit. If the changes are safe, the branch will be checked out; otherwise, it will display a warning and leave the branch as is. This command is useful when working on a local repository where you want to update to the latest version of a branch without manually merging conflicts.'
-        ignore-other-worktrees: |-
-            [AI] The `git checkout --ignore-other-worktrees` command is used to checkout a branch or commit in Git while ignoring any other worktrees that might be present in the repository. Worktrees allow for multiple active development lines within a single repository, but sometimes it's necessary to focus on one specific line and ignore others.
+    See ARGUMENT DISAMBIGUATION below for how Git decides which one to do.
 
-            This command does not affect the ignored worktree itself, but instead prevents Git from raising an error when checking out another branch or commit that might have conflicting worktrees. By using this option, you can perform usual Git operations such as `git checkout`, `git pull`, or `git reset` without interference from other worktrees.
+    'git checkout [<branch>]'::
+    Switch to _<branch>_. This sets the current branch to _<branch>_ and
+    updates the files in your working directory. The checkout will fail
+    if there are uncommitted changes to any files where _<branch>_ and
+    your current commit have different content. Uncommitted changes will
+    otherwise be kept.
 
-            It's important to note that using this command may result in lost changes if the ignored worktree contains uncommitted modifications that are different from the branch or commit being checked out. Always make sure to stash or commit any work before using `git checkout --ignore-other-worktrees`.
-        ignore-skip-worktree-bits: '[AI] `git checkout --ignore-skip-worktree-bits` is a Git command used to checkout files from the repository while bypassing the skip worktree bit. The skip worktree bit is a flag set on specific files in the Git index that tells Git not to apply changes made in the working directory when checking out. By using `--ignore-skip-worktree-bits`, you can override this behavior and checkout the files with the changes from the repository instead of keeping the current ones in the working directory.'
-        l: '[AI] `git checkout -l` is a Git command used to list the local branches and tracks the current branch''s upstream branch. It does not change the working directory or make any commit. By displaying the branch names, it helps users navigate between branches easily before deciding which one to switch to using `git checkout`.'
-        merge: '[AI] `git checkout --merge` is a Git command used to perform an "auto-merging" of changes from the current branch into the working directory, followed by a checkout of the same branch. This command assumes that there are no conflicts between the local changes and the changes in the branch being merged, and it merges them automatically. If there are conflicts, Git will pause the merge process to allow manual resolution before completing the merge. This command is often used when working on a feature branch and wanting to bring in the latest changes from the main branch before continuing development work.'
-        no-guess: '[AI] The `git checkout --no-guess` command is used to prevent Git from automatically choosing a branch or commit to checkout, based on the current branch and the local or remote refs. Instead, it forces Git to abort the checkout if no exact match is found in the local repository, without making any guesses or creating new commits. This can be useful when working with branches or commits that do not exist locally but are known to exist on a remote repository, and you want to manually specify which one to checkout.'
-        no-overlay: '[AI] `git checkout --no-overlay` is a Git command used to checkout files from the repository, bypassing any local changes or modifications made in the working directory. The `--no-overlay` flag ensures that Git does not try to apply any file or directory overlays during the checkout process. This can be useful when you want to discard all local changes and get the latest version of a file from the repository.'
-        no-overwrite-ignore: |-
-            [AI] `git checkout --no-overwrite-ignore` is a Git command used to perform a checkout operation without raising an error when a file in the working directory has been modified and is different from the same file in the destination branch or commit.
+    If _<branch>_ is not found but there does exist a tracking branch in
+    exactly one remote (call it _<remote>_) with a matching name and
+    `--no-guess` is not specified, treat as equivalent to
 
-            By default, Git raises an error when it detects that files in the working directory have been changed but are about to be overwritten during a checkout operation. The `--no-overwrite-ignore` option disables this behavior, allowing the checkout command to proceed despite the difference between the working and destination files.
+    ------------
+    $ git checkout -b <branch> --track <remote>/<branch>
+    ------------
 
-            This command is particularly useful when dealing with conflicts or merging branches where files have been modified in both branches. It can help avoid unnecessary manual file comparisons and allow developers to explore different versions of a file during the development process.
-        no-progress: |-
-            [AI] `git checkout --no-progress` is a Git command used to checkout files from the repository without using the three-way merge feature of Git's checkout command. This means that changes made in your working directory will be completely overwritten by the version in the branch or commit you are checking out, and there will be no attempt to merge any conflicting changes.
+    Running `git checkout` without specifying a branch has no effect except
+    to print out the tracking information for the current branch.
 
-            In other words, it is a "hard checkout" without the need for a separate `git checkout --` to remove files from the staging area. This command can be useful when you want to discard all local modifications and obtain an exact copy of the desired branch or commit.
-        no-recurse-submodules: '[AI] `git checkout --no-recurse-submodules` is a Git command used to checkout the main project files from a Git repository while keeping the submodule repositories at their current commit states. In other words, it updates only the parent project and leaves the submodules untouched. This can be useful when you want to make changes to the main project without affecting the submodules or when working on a branch that does not require updated submodules.'
-        no-track: '[AI] `git checkout --no-track` is a Git command used to checkout files from the working directory to the working directory, without modifying the state in the Git index (also known as the staging area). This means that any local changes made to the file will not be tracked or committed unless explicitly specified. It''s often used when you want to work on a file locally without disturbing the Git history.'
-        orphan: '[AI] `git checkout --orphan` is a Git command used to create a new, empty commit for the current branch. This command first saves the current branch''s state into a new temporary branch, then checks out the target branch (usually ''master'') in a detached HEAD state, preparing it to receive new content. As a result, any changes made during this process will not affect the working directory or the staging area, making it suitable for resetting a repository to an empty state prior to adding new files or content.'
-        ours: '[AI] `git checkout --ours` is a Git command used to retrieve and keep your local changes when resolving a merge conflict. In other words, it forces Git to discard any changes made on the branch you''re merging from and keeps only the changes in your working directory. This can be useful when you prefer your local changes over the ones introduced during the merge process.'
-        overlay: '[AI] `git checkout --overlay` is a Git command used to apply local file modifications to a detached HEAD or checked-out branch without committing the changes first. It applies the differences as if they were applied with an interactive rebase using the "pick" command and does not create a new commit. This can be useful when you want to preview how your changes will look like before committing them. The `--overlay` option is equivalent to `--ours` in merge conflicts resolution.'
-        overwrite-ignore: '[AI] The `git checkout --overwrite-ignore` command is used to checkout files from the repository into the working directory while ignoring files with the same name that already exist in the working directory and have been modified locally. If a file has both local modifications and conflicts with the checked-out version, Git will not overwrite the local changes. Instead, it adds a warning message and leaves the files unchanged. This command can be useful when merging branches or updating files from a remote repository while keeping local modifications.'
-        patch: '[AI] `git checkout --patch` is a Git command used to open a three-way merge conflict resolution tool when checking out files from the index to the working directory. It merges the changes from both the current branch and the commit being checked out, allowing users to review and edit the differences before completing the checkout process. This command helps in resolving merge conflicts interactively.'
-        pathspec-file-nul: '[AI] `git checkout --pathspec-file <file>` is a Git command used to update specific paths in the working directory to match the latest version in the repository, based on a list of paths specified in a file. The `--pathspec-file-nul` option tells Git to consider an empty file as an error if it cannot read the given pathspec file. This can be useful when you want to make sure that only the provided paths are updated and no others, by ensuring that an unexpected or missing file does not interfere with the checkout process.'
-        pathspec-from-file: '[AI] `git checkout --pathspec-from-file` is a Git command used to checkout specific files or paths from another branch or commit, based on a list of paths provided in a file. The file containing the paths should be in the format of one path per line. This command keeps the working directory unchanged, and only updates the files specified in the list. It''s useful for cherry-picking specific changes without the need to switch branches or commits entirely.'
-        progress: '[AI] `git checkout --interactive` or `git checkout --progress` is an advanced Git command used to perform a customized checkout operation interactively. This command opens up a text editor with a list of all files in the index and allows you to selectively choose which files to checkout, discard changes, or preserve changes. It''s particularly useful when merging branches or dealing with conflicting files. The `--progress` option provides additional information about the files being updated during the checkout process.'
-        quiet: '[AI] `git checkout --quiet` is a Git command used to checkout files or branches with minimal output. When you run this command, Git will perform the specified checkout operation silently, without printing any messages on the console, unless there''s an error. This command can be useful when working in scripts or automated workflows where you want to suppress unnecessary output.'
-        recurse-submodules: |-
-            [AI] `git checkout --recurse-submodules` is a Git command used to checkout and manage submodule versions specified in your Git project. When you run this command, Git will perform the following actions:
+    'git checkout -b <new-branch> [<start-point>]'::
 
-            1. It updates the submodules within your local repository to match the commit-hashes mentioned in `.gitmodules`.
-            2. If there are new submodules or changes in existing ones, Git will download and checkout the specified versions.
-            3. It also updates the submodule's `HEAD` references to point to the checked-out commit-hash.
+    Create a new branch named _<new-branch>_, start it at _<start-point>_
+    (defaults to the current commit), and check out the new branch.
+    You can use the `--track` or `--no-track` options to set the branch's
+    upstream tracking information.
 
-            By default, this command performs a 'detached HEAD' checkout which might result in conflicts if the local submodule has been modified. To avoid this, it is recommended to first update your working directory, then use this command and finally resolve any conflicts that may arise.
-        theirs: '[AI] `git checkout --theirs` is a Git command used for merging conflicts in a three-way merge. When you''re merging branches with differences in both the base and yours, this command can be used to take the changes from the other branch (theirs) to resolve the conflict. It updates the working directory files with theirs version and leaves the index and the HEAD untouched. This way, you can manually review and commit the resolved conflicts.'
-        track: '[AI] `git checkout --track` is a Git command used to create and switch to a new branch that is an upstream tracking branch of another repository. With this command, both the local and remote branches will remain synchronized. When you make commits on your local branch, Git will automatically push those commits to the remote branch unless `--no-ff` option is used. This command is often used when working with remote repositories where you want to keep your local branch in sync with the latest changes.'
+    This will fail if there's an error checking out _<new-branch>_, for
+    example if checking out the `<start-point>` commit would overwrite your
+    uncommitted changes.
+
+    'git checkout -B <branch> [<start-point>]'::
+
+    The same as `-b`, except that if the branch already exists it
+    resets _<branch>_ to the start point instead of failing.
+
+    'git checkout --detach [<branch>]'::
+    'git checkout [--detach] <commit>'::
+
+    The same as `git checkout <branch>`, except that instead of pointing
+    `HEAD` at the branch, it points `HEAD` at the commit ID.
+    See the "DETACHED HEAD" section below for more.
+
+    Omitting _<branch>_ detaches `HEAD` at the tip of the current branch.
+
+    'git checkout <tree-ish> [--] <pathspec>...'::
+    'git checkout <tree-ish> --pathspec-from-file=<file> [--pathspec-file-nul]'::
+
+    Replace the specified files and/or directories with the version from
+    the given commit or tree and add them to the index
+    (also known as "staging area").
+
+    For example, `git checkout main file.txt` will replace `file.txt`
+    with the version from `main`.
+
+    'git checkout [-f|--ours|--theirs|-m|--conflict=<style>] [--] <pathspec>...'::
+    'git checkout [-f|--ours|--theirs|-m|--conflict=<style>] --pathspec-from-file=<file> [--pathspec-file-nul]'::
+
+    Replace the specified files and/or directories with the version from
+    the index.
+
+    For example, if you check out a commit, edit `file.txt`, and then
+    decide those changes were a mistake, `git checkout file.txt` will
+    discard any unstaged changes to `file.txt`.
+
+    This will fail if the file has a merge conflict and you haven't yet run
+    `git add file.txt` (or something equivalent) to mark it as resolved.
+    You can use `-f` to ignore the unmerged files instead of failing, use
+    `--ours` or `--theirs` to replace them with the version from a specific
+    side of the merge, or use `-m` to replace them with the original
+    conflicted merge result.
+
+    'git checkout (-p|--patch) [<tree-ish>] [--] [<pathspec>...]'::
+    This is similar to the previous two modes, but lets you use the
+    interactive interface to show the "diff" output and choose which
+    hunks to use in the result.  See below for the description of
+    `--patch` option.
+  flag:
+    conflict: |-
+      The same as `--merge` option above, but changes the way the
+      conflicting hunks are presented, overriding the
+      `merge.conflictStyle` configuration variable.  Possible values are
+      `merge` (default), `diff3`, and `zdiff3`.
+    detach: |-
+      Rather than checking out a branch to work on it, check out a
+      commit for inspection and discardable experiments.
+      This is the default behavior of `git checkout <commit>` when
+      _<commit>_ is not a branch name.  See the "DETACHED HEAD" section
+      below for details.
+    force: |-
+      When switching branches, proceed even if the index or the
+      working tree differs from `HEAD`, and even if there are untracked
+      files in the way.  This is used to throw away local changes and
+      any untracked files or directories that are in the way.
+
+      When checking out paths from the index, do not fail upon unmerged
+      entries; instead, unmerged entries are ignored.
+    ignore-other-worktrees: |-
+      `git checkout` refuses when the wanted branch is already checked
+      out or otherwise in use by another worktree. This option makes
+      it check the branch out anyway. In other words, the branch can
+      be in use by more than one worktree.
+    ignore-skip-worktree-bits: |-
+      In sparse checkout mode, `git checkout -- <path>...` would
+      update only entries matched by _<paths>_ and sparse patterns
+      in `$GIT_DIR/info/sparse-checkout`. This option ignores
+      the sparse patterns and adds back any files in `<path>...`.
+    l: |-
+      Create the new branch's reflog; see [git-branch](cmd://git/branch) for
+      details.
+    merge: |-
+      When switching branches,
+      if you have local modifications to one or more files that
+      are different between the current branch and the branch to
+      which you are switching, the command refuses to switch
+      branches in order to preserve your modifications in context.
+      With this option, the conflicting local changes are
+      automatically stashed before the switch and reapplied
+      afterwards.  If the local changes do not overlap with the
+      differences between branches, the switch proceeds without
+      stashing.  If reapplying the stash results in conflicts, the
+      entry is saved to the stash list.  Resolve the conflicts
+      and run `git stash drop` when done, or clear the working
+      tree (e.g. with `git reset --hard`) before running `git stash pop` later to re-apply your changes.
+
+      When checking out paths from the index, this option lets you recreate
+      the conflicted merge in the specified paths.  This option cannot be
+      used when checking out paths from a tree-ish.
+    no-guess: |-
+      If _<branch>_ is not found but there does exist a tracking
+      branch in exactly one remote (call it _<remote>_) with a
+      matching name, treat as equivalent to
+
+      ------------
+      $ git checkout -b <branch> --track <remote>/<branch>
+      ------------
+
+      If the branch exists in multiple remotes and one of them is named by
+      the `checkout.defaultRemote` configuration variable, we'll use that
+      one for the purposes of disambiguation, even if the _<branch>_ isn't
+      unique across all remotes. Set it to
+      e.g. `checkout.defaultRemote=origin` to always checkout remote
+      branches from there if _<branch>_ is ambiguous but exists on the
+      `origin` remote. See also `checkout.defaultRemote` in
+      [git-config](cmd://git/config).
+
+      `--guess` is the default behavior. Use `--no-guess` to disable it.
+
+      The default behavior can be set via the `checkout.guess` configuration
+      variable.
+    no-overlay: |-
+      In the default overlay mode, `git checkout` never
+      removes files from the index or the working tree.  When
+      specifying `--no-overlay`, files that appear in the index and
+      working tree, but not in _<tree-ish>_ are removed, to make them
+      match _<tree-ish>_ exactly.
+    no-overwrite-ignore: |-
+      Silently overwrite ignored files when switching branches. This
+      is the default behavior. Use `--no-overwrite-ignore` to abort
+      the operation when the new branch contains ignored files.
+    no-progress: |-
+      Progress status is reported on the standard error stream
+      by default when it is attached to a terminal, unless `--quiet`
+      is specified. This flag enables progress reporting even if not
+      attached to a terminal, regardless of `--quiet`.
+    no-recurse-submodules: |-
+      Using `--recurse-submodules` will update the content of all active
+      submodules according to the commit recorded in the superproject. If
+      local modifications in a submodule would be overwritten the checkout
+      will fail unless `-f` is used. If nothing (or `--no-recurse-submodules`)
+      is used, submodules working trees will not be updated.
+      Just like [git-submodule](cmd://git/submodule), this will detach `HEAD` of the
+      submodule.
+    no-track: |-
+      Do not set up "upstream" configuration, even if the
+      `branch.autoSetupMerge` configuration variable is true.
+    patch: |-
+      Interactively select hunks in the difference between the
+      _<tree-ish>_ (or the index, if unspecified) and the working
+      tree.  The chosen hunks are then applied in reverse to the
+      working tree (and if a _<tree-ish>_ was specified, the index).
+
+      This means that you can use `git checkout -p` to selectively discard
+      edits from your current working tree. See the "Interactive Mode"
+      section of [git-add](cmd://git/add) to learn how to operate the `--patch` mode.
+
+      Note that this option uses the no overlay mode by default (see also
+      `--overlay`), and currently doesn't support overlay mode.
+    pathspec-file-nul: |-
+      Only meaningful with `--pathspec-from-file`. Pathspec elements are
+      separated with _NUL_ character and all other characters are taken
+      literally (including newlines and quotes).
+    pathspec-from-file: |-
+      Pathspec is passed in _<file>_ instead of commandline args. If
+      _<file>_ is exactly `-` then standard input is used. Pathspec
+      elements are separated by _LF_ or _CR_/_LF_. Pathspec elements can be
+      quoted as explained for the configuration variable `core.quotePath`
+      (see [git-config](cmd://git/config)). See also `--pathspec-file-nul` and
+      global `--literal-pathspecs`.
+    quiet: Quiet, suppress feedback messages.
+    theirs: |-
+      When checking out paths from the index, check out stage #2
+      (`ours`) or #3 (`theirs`) for unmerged paths.
+
+      Note that during `git rebase` and `git pull --rebase`, `ours` and
+      `theirs` may appear swapped; `--ours` gives the version from the
+      branch the changes are rebased onto, while `--theirs` gives the
+      version from the branch that holds your work that is being rebased.
+
+      This is because `rebase` is used in a workflow that treats the
+      history at the remote as the shared canonical one, and treats the
+      work done on the branch you are rebasing as the third-party work to
+      be integrated, and you are temporarily assuming the role of the
+      keeper of the canonical history during the rebase.  As the keeper of
+      the canonical history, you need to view the history from the remote
+      as `ours` (i.e. "our shared canonical history"), while what you did
+      on your side branch as `theirs` (i.e. "one contributor's work on top
+      of it").
+    guess: |-
+      If _<branch>_ is not found but there does exist a tracking
+      branch in exactly one remote (call it _<remote>_) with a
+      matching name, treat as equivalent to
+
+      ------------
+      $ git checkout -b <branch> --track <remote>/<branch>
+      ------------
+
+      If the branch exists in multiple remotes and one of them is named by
+      the `checkout.defaultRemote` configuration variable, we'll use that
+      one for the purposes of disambiguation, even if the _<branch>_ isn't
+      unique across all remotes. Set it to
+      e.g. `checkout.defaultRemote=origin` to always checkout remote
+      branches from there if _<branch>_ is ambiguous but exists on the
+      `origin` remote. See also `checkout.defaultRemote` in
+      [git-config](cmd://git/config).
+
+      `--guess` is the default behavior. Use `--no-guess` to disable it.
+
+      The default behavior can be set via the `checkout.guess` configuration
+      variable.
+    overlay: |-
+      In the default overlay mode, `git checkout` never
+      removes files from the index or the working tree.  When
+      specifying `--no-overlay`, files that appear in the index and
+      working tree, but not in _<tree-ish>_ are removed, to make them
+      match _<tree-ish>_ exactly.
+    overwrite-ignore: |-
+      Silently overwrite ignored files when switching branches. This
+      is the default behavior. Use `--no-overwrite-ignore` to abort
+      the operation when the new branch contains ignored files.
+    progress: |-
+      Progress status is reported on the standard error stream
+      by default when it is attached to a terminal, unless `--quiet`
+      is specified. This flag enables progress reporting even if not
+      attached to a terminal, regardless of `--quiet`.
+    recurse-submodules: |-
+      Using `--recurse-submodules` will update the content of all active
+      submodules according to the commit recorded in the superproject. If
+      local modifications in a submodule would be overwritten the checkout
+      will fail unless `-f` is used. If nothing (or `--no-recurse-submodules`)
+      is used, submodules working trees will not be updated.
+      Just like [git-submodule](cmd://git/submodule), this will detach `HEAD` of the
+      submodule.
+    track: |-
+      Do not set up "upstream" configuration, even if the
+      `branch.autoSetupMerge` configuration variable is true.

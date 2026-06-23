@@ -3,4 +3,15 @@ name: pack-redundant
 description: Find redundant pack files
 group: low-level interrogator
 documentation:
-    command: '[AI] `git pack-redundant` is a Git command used to reduce the disk space consumed by packed Git repositories. This command identifies and removes duplicate packed objects and optimizes the repository structure. By doing so, it helps save storage space while maintaining the integrity of the repository.'
+  command: |-
+    This program computes which packs in your repository
+    are redundant. The output is suitable for piping to
+    `xargs rm` if you are in the root of the repository.
+
+    `git pack-redundant` accepts a list of objects on standard input. Any objects
+    given will be ignored when checking which packs are required. This makes the
+    following command useful when wanting to remove packs which contain unreachable
+    objects.
+
+    git fsck --full --unreachable | cut -d ' ' -f3 | \
+    git pack-redundant --all | xargs rm

@@ -3,8 +3,22 @@ name: bundle
 description: Move objects and refs by archive
 group: main
 flags:
-    -v, --verbose: be verbose
+  -v, --verbose: be verbose
 documentation:
-    command: '[AI] `git bundle` is a Git command used to create and manage bundles, which are compressed archives containing one or more annotated Git commits with their complete history. These bundles can be easily transferred over the network or stored offline, allowing recipients to import the contents into their own Git repositories using `git bundle import`. This command is useful for sharing specific parts of a repository without the need to clone the entire project.'
-    flag:
-        verbose: '[AI] `git bundle --verbose` is a Git command used to create an archive of a specific branch or commit history, bundled as a standalone repository. This command creates a self-contained Git repository bundle that can be easily transferred over the network or stored offline. The `--verbose` option increases the amount of output information given by Git during the execution of the command, providing more detailed information about the bundling process.'
+  command: |-
+    Create, unpack, and manipulate "bundle" files. Bundles are used for
+    the "offline" transfer of Git objects without an active "server"
+    sitting on the other side of the network connection.
+
+    They can be used to create both incremental and full backups of a
+    repository (see the "full backup" example in "EXAMPLES"), and to relay
+    the state of the references in one repository to another (see the second
+    example).
+
+    Git commands that fetch or otherwise "read" via protocols such as
+    `ssh://` and `https://` can also operate on bundle files. It is
+    possible [git-clone](cmd://git/clone) a new repository from a bundle, to use
+    [git-fetch](cmd://git/fetch) to fetch from one, and to list the references
+    contained within it with [git-ls-remote](cmd://git/ls-remote). There's no
+    corresponding "write" support, i.e. a 'git push' into a bundle is not
+    supported.

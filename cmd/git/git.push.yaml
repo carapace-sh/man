@@ -3,78 +3,376 @@ name: push
 description: Update remote refs along with associated objects
 group: main
 flags:
-    --all: push all refs
-    --atomic: request atomic transaction on remote side
-    --exec=: receive pack program
-    --follow-tags: push missing but relevant tags
-    --force-with-lease?: require old value of ref to be at this value
-    --mirror: mirror all refs
-    --no-verify: bypass pre-push hook
-    --porcelain: machine-readable output
-    --progress: force progress reporting
-    --prune: prune locally removed refs
-    --receive-pack=: receive pack program
-    --recurse-submodules=: control recursive pushing of submodules
-    --repo=: repository
-    --signed=: GPG sign the push
-    --tags: push tags (can't be used with --all or --mirror)
-    --thin: use thin pack
-    -4, --ipv4: use IPv4 addresses only
-    -6, --ipv6: use IPv6 addresses only
-    -d, --delete: delete refs
-    -f, --force: force updates
-    -n, --dry-run: dry run
-    -o, --push-option=: option to transmit
-    -q, --quiet: be more quiet
-    -u, --set-upstream: set upstream for git pull/status
-    -v, --verbose: be more verbose
+  --all: push all refs
+  --atomic: request atomic transaction on remote side
+  --exec=: receive pack program
+  --follow-tags: push missing but relevant tags
+  --force-with-lease?: require old value of ref to be at this value
+  --mirror: mirror all refs
+  --no-verify: bypass pre-push hook
+  --porcelain: machine-readable output
+  --progress: force progress reporting
+  --prune: prune locally removed refs
+  --receive-pack=: receive pack program
+  --recurse-submodules=: control recursive pushing of submodules
+  --repo=: repository
+  --signed=: GPG sign the push
+  --tags: push tags (can't be used with --all or --mirror)
+  --thin: use thin pack
+  -4, --ipv4: use IPv4 addresses only
+  -6, --ipv6: use IPv6 addresses only
+  -d, --delete: delete refs
+  -f, --force: force updates
+  -n, --dry-run: dry run
+  -o, --push-option=: option to transmit
+  -q, --quiet: be more quiet
+  -u, --set-upstream: set upstream for git pull/status
+  -v, --verbose: be more verbose
 documentation:
-    command: '[AI] `git push` is a command used to send local branch changes to a remote repository. It transfers new commits from your local Git repository to a remote one, updating the branches there with the latest revisions. This command assumes that you have already fetched (or pulled) the latest version of the remote repository, ensuring you have the most recent changes before pushing yours.'
-    flag:
-        all: '[AI] `git push --all` is a Git command used to push all branches from your local repository to a remote repository. The `--all` option tells Git to push all branches, including those that may have been created locally but not yet pushed. This can be useful when setting up a new repository or synchronizing changes across multiple workstations.'
-        atomic: '[AI] The `git push --atomic` command is a Git pushing option that ensures all commits in a push are received atomically, meaning they''re either all applied or none of them are. This option helps maintain consistency and avoid partial updates that can lead to conflicts. When using this flag, if a conflict arises during the push process, the entire push fails and must be resolved manually before trying another push. This atomicity ensures data integrity and stability in collaborative workflows.'
-        delete: '[AI] `git push --delete` is a Git command used to delete a remote branch. When you run this command, Git sends an HTTP DELETE request to the remote repository''s server asking it to remove the specified branch. This command is typically used when you want to clean up branches that are no longer needed in a remote repository. It''s important to use this command with caution as deleting a branch cannot be undone easily once it has been deleted from the remote repository.'
-        dry-run: '[AI] `git push --dry-run` is a Git command used to simulate a push operation without actually sending any commits or data to the remote repository. It''s also known as a "dry run." This command helps you understand what would happen if you perform a push without taking the risk of accidentally modifying the remote repository. The output will show how Git would construct your push message, list the files that would be sent, and display any potential conflicts or errors. It''s an essential tool for ensuring a successful git push by avoiding unwanted side effects.'
-        exec: '[AI] `git push --execute-if-not-exists` is a Git command used to push changes to a remote repository, but only if the specified branch or file does not already exist there. The `--execute-if-not-exists` option comes after the standard `push` command and the remote and branch or file names. This option helps prevent accidental overwriting of existing branches or files in the remote repository. If the branch or file is already present, the push command will not be executed.'
-        follow-tags: '[AI] `git push --follow-tags` is a Git command used to push local tags to a remote repository along with regular branches during a push operation. When you run `git push origin <branch>`, only the branch is pushed by default. However, `--follow-tags` option ensures that all local annotated and lightweight tags are also pushed to the corresponding remote repositories, maintaining synchronization between them.'
-        force: '[AI] `git push --force` is a Git command used to update a remote repository with changes that would otherwise be rejected due to having diverged from the local branch. This force-push operation overwrites all existing commits in the remote branch with the current commits of the local branch. It''s important to use this command carefully, as it can potentially cause data loss or unintended consequences if used on branches shared among multiple collaborators.'
-        force-with-lease: |-
-            [AI] `git push --force-with-lease` is a Git command used to update a remote repository with local changes while preventing overwriting of existing commits in the remote branch. This command combines the functionality of both `git push --force` and `--rebase`.
+  command: |-
+    Updates one or more branches, tags, or other references in one or more
+    remote repositories from your local repository, and sends all necessary
+    data that isn't already on the remote.
 
-            The `--force-with-lease` option does the following:
+    The simplest way to push is `git push <remote> <branch>`.
+    `git push origin main` will push the local `main` branch to the `main`
+    branch on the remote named `origin`.
 
-            1. It checks if there are any new commits on the remote branch that aren't present in the local branch.
-            2. If no new commits exist, it allows the force push to proceed (merging local changes into the remote branch).
-            3. However, if there are new commits on the remote branch and a fast-forward merge is not possible, then it refuses to do the force push and raises an error.
+    You can also push to multiple remotes at once by using a remote group.
+    A remote group is a named list of remotes configured via `remotes.<name>`
+    in your git config:
 
-            In summary, `git push --force-with-lease` ensures that you don't inadvertently overwrite other users' work while updating a shared repository. It is particularly useful when collaborating with others on a Git project.
-        ipv4: '[AI] The `git push` command is used to send local branch updates to a remote repository. The `--ipv4` option is not a standard git push argument, but an extension that specifies the use of IPv4 addresses instead of IPv6 when connecting to the remote server. It''s useful in situations where Git over SSH might have trouble resolving IP addresses due to DNS issues or firewalls blocking IPv6 traffic. This option is less commonly used since most modern networks support both IPv4 and IPv6, but it can be important for troubleshooting connectivity issues when pushing to remote repositories.'
-        ipv6: '[AI] The `git push --ipv6` command is used to perform a Git push operation using IPv6 instead of IPv4 for communication between your local and remote repositories. This option can be useful if you''re working in an environment that only supports IPv6 or if you prefer to use IPv6 for networking communications. By specifying `--ipv6` with the `git push` command, Git will try to establish a connection using IPv6 addresses instead of the default IPv4 addresses.'
-        mirror: '[AI] `git push --mirror` is a Git command used to push changes from a local repository to a remote repository using the "shallow clones with fetch-prune" method, also known as a mirror repository. This means that both the local and remote repositories have identical branches and commits, maintaining synchronization in both directions. It''s primarily used for keeping two repositories in perfect sync, such as a personal repo and a public one on a server or in a Git hosting service like GitHub. The command does a push and a fetch in one step.'
-        no-verify: '[AI] `git push --no-verify` is a Git command used to push local changes to a remote repository without triggering the commit verification process on the remote end. This can save time when dealing with large or frequent pushes, as each committed change must be verified before it''s accepted by the remote server. However, using `--no-verify` means that the remote repository may accept changes that have not been properly reviewed or tested locally, increasing the risk of unintended consequences or conflicts. It''s generally recommended to use this option with caution and only when you trust the changes being pushed.'
-        porcelain: '[AI] `git push --porcelain` is a Git command used to perform a push operation with minimal output. The `--porcelain` option formats the push output as a series of newline-delimited, space-separated strings, making it suitable for parsing by scripts or automated tools. This can be helpful in managing large or complex Git repositories and maintaining consistency across different environments.'
-        progress: '[AI] `git push --progress` is a Git command used to push changes from a local repository to a remote one. The `--progress` option provides more information during the transfer process by showing the percentage and status of each packet being sent. It''s useful when dealing with large or slow transfers, as it gives better feedback on the push''s progress.'
-        prune: '[AI] `git push --prune` is a Git command used to update remote repositories with local branches and at the same time remove stale branches from the remote that have been deleted locally. This command combines both `git push` and `git fetch with git prune` actions in one go, saving the need for separate commands. It helps keep the remote repository clean by eliminating unused branches and reduces the clutter.'
-        push-option: |-
-            [AI] `git push --push-option` is a Git command used to push changes to a remote repository with custom pushing options. The `--push-option` flag allows you to provide additional options for the push command, which are then passed directly to the transport layer (such as SSH or HTTP). These options can be used to configure various aspects of the push operation, such as setting up rebase, force-pushing, or adjusting transfer protocols. For example:
+    $ git config remotes.all-remotes "origin gitlab backup"
 
-            ```bash
-            git push origin master --push-option="--force"
-            ```
+    Then `git push all-remotes` will push to `origin`, `gitlab`, and
+    `backup` in turn, as if you had run `git push` against each one
+    individually.  Each remote is pushed independently using its own
+    push mapping configuration. There is a `remotes.<group>` entry in
+    the configuration file. (See [git-config](cmd://git/config)).
 
-            In this command, the `--push-option` flag is used to force a push even if there are conflicts or other issues that would normally prevent the push from completing. This can be useful when you're working with shared branches and need to force updates.
-        quiet: '[AI] `git push --quiet` is a Git command used to send local branch updates to a remote repository without displaying any output or progress messages during the push operation. This can be useful when running automated scripts, continuous integration pipelines, or for users who prefer a quiet workflow. The `--quiet` flag reduces the amount of noise in the terminal and helps maintain a clean and focused environment.'
-        receive-pack: |-
-            [AI] The `git push --receive-pack` command is used in Git for pushing changes to a remote repository using a pack file. This is typically used when setting up a new Git server or when dealing with large repositories, as it allows for efficient transfer of data by sending the entire pack file rather than individual commits.
+    The `<repository>` argument defaults to the upstream for the current
+    branch, or `origin` if there's no configured upstream.
 
-            When you run `git push --receive-pack <remote>`, Git sends the packed refs from your local repository to the remote server's receive-pack script. The remote server then updates its local branches based on the received packed refs. This method is less commonly used than normal `git push` commands, which pull new changes from the remote first using fetch and then push your local changes. However, it can provide better performance when dealing with large repositories or when setting up a new Git server.
-        recurse-submodules: '[AI] `git push --recurse-submodules` is a Git command used to fetch and push submodule updates along with the main project during a Git push or pull operation. Submodules are external projects that can be stored as part of a Git repository, allowing developers to manage multiple related projects together. By default, Git does not transfer submodules during cloning, pulling, or pushing operations. The `--recurse-submodules` option enables the automatic handling of submodules, ensuring they remain in sync with the main project''s history. This command helps maintain consistent submodule versions across repositories and simplifies the development process for projects using submodules.'
-        repo: |-
-            [AI] The command `git push --repo <repository>` is not a valid Git command. The `git push` command is used to send local branch updates to a remote repository. If you have a reference to a Git repository, you can pass it as an argument using `--repository` or `-u origin <repository>` for a named remote.
+    To decide which branches, tags, or other refs to push, Git uses
+    (in order of precedence):
 
-            So, the correct usage would be `git push <branch_name> <remote_repo_url>`, where `<branch_name>` is the name of your local branch and `<remote_repo_url>` is the URL of the remote repository. If you want to set up a new remote, you can use `git remote add <remote_name> <repository_url>` first.
-        set-upstream: '[AI] `git push --set-upstream` is a Git command used to push local branches to a remote repository and set the upstream relationship between them. In simpler terms, it pushes local commits to a remote branch for the first time, and at the same time, creates or updates the tracking reference (the upstream) in the remote repository for the local branch. This is typically used during the initial setup of a remote repository or when creating a new branch based on a local one.'
-        signed: '[AI] `git push --signed` is a Git command used to push commits with a GPG signature to a remote repository. This command verifies that the local commits have a valid signature before they are pushed, ensuring the authenticity and integrity of the code being transferred. The "--signed" option instructs Git to create or update the signature for each committed message. Once the commits reach the remote repository, other users can verify their authenticity using the corresponding public key associated with the repository. This adds an extra layer of security when collaborating on sensitive projects.'
-        tags: '[AI] The `git push --tags` command is used to push all local unpushed git tags to a remote repository. When you create a new tag locally using `git tag`, it is not automatically pushed to the remote repository. To do this, you can use the `push` command with the `--tags` option. This will push any local tags that have not yet been pushed to the remote repository along with the current branch during the push operation.'
-        thin: '[AI] `git push --thin` is a Git command used to perform a shallow push or fetch, where only the tip commits are transferred instead of the entire history. This is useful when you want to keep a local repository in sync with a remote repository but don''t need the complete history on your local machine. The `--thin` option makes Git create new, thin branches for each branch being pushed or fetched, saving disk space.'
-        verbose: '[AI] The `git push --verbose` command is used to push changes from a local Git repository to a remote one, with enhanced output showing the details of each step in the process. The `--verbose` option increases the amount of information displayed during the execution of the command. This can be helpful for understanding what Git is doing at each stage of the push and identifying any potential issues that may arise. The output includes messages indicating which refs are being updated, the progress of each pack or file transfer, and other relevant details.'
+    1. The `<refspec>` argument(s) (for example `main` in `git push origin main`)
+       or the `--all`, `--mirror`, or `--tags` options
+    2. The `remote.<name>.push` configuration for the repository being pushed to
+    3. The `push.default` configuration. The default is `push.default=simple`,
+       which will push to a branch with the same name as the current branch.
+       See the <<CONFIGURATION,CONFIGURATION>> section below for more on `push.default`.
+
+    `git push` may fail if you haven't set an upstream for the current branch,
+    depending on what `push.default` is set to.
+    See the <<UPSTREAM-BRANCHES,UPSTREAM BRANCHES>> section below for more
+    on how to set and use upstreams.
+
+    You can make interesting things happen to a repository
+    every time you push into it, by setting up `hooks` there.  See
+    documentation for [git-receive-pack](cmd://git/receive-pack).
+  flag:
+    delete: |-
+      All listed refs are deleted from the remote repository. This is
+      the same as prefixing all refs with a colon.
+    dry-run: Do everything except actually send the updates.
+    exec: |-
+      Path to the 'git-receive-pack' program on the remote
+      end.  Sometimes useful when pushing to a remote
+      repository over ssh, and you do not have the program in
+      a directory on the default `$PATH`.
+    follow-tags: |-
+      Push all the refs that would be pushed without this option,
+      and also push annotated tags in `refs/tags` that are missing
+      from the remote but are pointing at commit-ish that are
+      reachable from the refs being pushed.  This can also be specified
+      with configuration variable `push.followTags`.  For more
+      information, see `push.followTags` in [git-config](cmd://git/config).
+    force: |-
+      Usually, `git push` will refuse to update a branch that is not an
+      ancestor of the commit being pushed.
+
+      This flag disables that check, the other safety checks in PUSH RULES
+      below, and the checks in `--force-with-lease`. It can cause the remote
+      repository to lose commits; use it with care.
+
+      Note that `--force` applies to all the refs that are pushed, hence
+      using it with `push.default` set to `matching` or with multiple push
+      destinations configured with `remote.<name>.push` may overwrite refs
+      other than the current branch (including local refs that are
+      strictly behind their remote counterpart).  To force a push to only
+      one branch, use a `+` in front of the refspec to push (e.g `git push origin +master` to force a push to the `master` branch). See the
+      `<refspec>...` section above for details.
+    force-with-lease: |-
+      Usually, `git push` refuses to update a remote ref that is
+      not an ancestor of the local ref used to overwrite it.
+
+      This option overrides this restriction if the current value of the
+      remote ref is the expected value.  `git push` fails otherwise.
+
+      Imagine that you have to rebase what you have already published.
+      You will have to bypass the "must fast-forward" rule in order to
+      replace the history you originally published with the rebased history.
+      If somebody else built on top of your original history while you are
+      rebasing, the tip of the branch at the remote may advance with their
+      commit, and blindly pushing with `--force` will lose their work.
+
+      This option allows you to say that you expect the history you are
+      updating is what you rebased and want to replace. If the remote ref
+      still points at the commit you specified, you can be sure that no
+      other people did anything to the ref. It is like taking a "lease" on
+      the ref without explicitly locking it, and the remote ref is updated
+      only if the "lease" is still valid.
+
+      `--force-with-lease` alone, without specifying the details, will protect
+      all remote refs that are going to be updated by requiring their
+      current value to be the same as the remote-tracking branch we have
+      for them.
+
+      `--force-with-lease=<refname>`, without specifying the expected value, will
+      protect _<refname>_ (alone), if it is going to be updated, by
+      requiring its current value to be the same as the remote-tracking
+      branch we have for it.
+
+      `--force-with-lease=<refname>:<expect>` will protect _<refname>_ (alone),
+      if it is going to be updated, by requiring its current value to be
+      the same as the specified value _<expect>_ (which is allowed to be
+      different from the remote-tracking branch we have for the refname,
+      or we do not even have to have such a remote-tracking branch when
+      this form is used).  If _<expect>_ is the empty string, then the named ref
+      must not already exist.
+
+      Note that all forms other than `--force-with-lease=<refname>:<expect>`
+      that specifies the expected current value of the ref explicitly are
+      still experimental and their semantics may change as we gain experience
+      with this feature.
+
+      `--no-force-with-lease` will cancel all the previous `--force-with-lease` on the
+      command line.
+
+      A general note on safety: supplying this option without an expected
+      value, i.e. as `--force-with-lease` or `--force-with-lease=<refname>`
+      interacts very badly with anything that implicitly runs `git fetch on the remote to be pushed to in the background, e.g. `git fetch origin
+      on your repository in a cronjob.
+
+      The protection it offers over `--force` is ensuring that subsequent
+      changes your work wasn't based on aren't clobbered, but this is
+      trivially defeated if some background process is updating refs in the
+      background. We don't have anything except the remote tracking info to
+      go by as a heuristic for refs you're expected to have seen & are
+      willing to clobber.
+
+      If your editor or some other system is running `git fetch` in the
+      background for you a way to mitigate this is to simply set up another
+      remote:
+
+      ----
+      git remote add origin-push $(git config remote.origin.url)
+      git fetch origin-push
+      ----
+
+      Now when the background process runs `git fetch origin` the references
+      on `origin-push` won't be updated, and thus commands like:
+
+      ----
+      git push --force-with-lease origin-push
+      ----
+
+      Will fail unless you manually run `git fetch origin-push`. This method
+      is of course entirely defeated by something that runs `git fetch --all`, in that case you'd need to either disable it or do something
+      more tedious like:
+
+      ----
+      git fetch              # update 'master' from remote
+      git tag base master    # mark our base point
+      git rebase -i master   # rewrite some commits
+      git push --force-with-lease=master:base master:master
+      ----
+
+      I.e. create a `base` tag for versions of the upstream code that you've
+      seen and are willing to overwrite, then rewrite history, and finally
+      force push changes to `master` if the remote version is still at
+      `base`, regardless of what your local `remotes/origin/master` has been
+      updated to in the background.
+
+      Alternatively, specifying `--force-if-includes` as an ancillary option
+      along with `--force-with-lease[=<refname>]` (i.e., without saying what
+      exact commit the ref on the remote side must be pointing at, or which
+      refs on the remote side are being protected) at the time of "push" will
+      verify if updates from the remote-tracking refs that may have been
+      implicitly updated in the background are integrated locally before
+      allowing a forced update.
+    ipv4: Use IPv4 addresses only, ignoring IPv6 addresses.
+    ipv6: |-
+      Use IPv6 addresses only, ignoring IPv4 addresses.
+
+      GIT URLS
+      ----------------
+
+      In general, URLs contain information about the transport protocol, the
+      address of the remote server, and the path to the repository.
+      Depending on the transport protocol, some of this information may be
+      absent.
+
+      Git supports ssh, git, http, and https protocols (in addition, ftp
+      and ftps can be used for fetching, but this is inefficient and
+      deprecated; do not use them).
+
+      The native transport (i.e. `git://` URL) does no authentication and
+      should be used with caution on unsecured networks.
+
+      The following syntaxes may be used with them:
+
+      - `ssh://[<user>@]<host>[:<port>]/<path-to-git-repo>`
+      - `git://<host>[:<port>]/<path-to-git-repo>`
+      - `http[s]://<host>[:<port>]/<path-to-git-repo>`
+      - `ftp[s]://<host>[:<port>]/<path-to-git-repo>`
+
+      An alternative scp-like syntax may also be used with the ssh protocol:
+
+      - `[<user>@]<host>:/<path-to-git-repo>`
+
+      This syntax is only recognized if there are no slashes before the
+      first colon. This helps differentiate a local path that contains a
+      colon. For example the local path `foo:bar` could be specified as an
+      absolute path or `./foo:bar` to avoid being misinterpreted as an ssh
+      url.
+
+      The ssh and git protocols additionally support `~<username>` expansion:
+
+      - `ssh://[<user>@]<host>[:<port>]/~<user>/<path-to-git-repo>`
+      - `git://<host>[:<port>]/~<user>/<path-to-git-repo>`
+      - `[<user>@]<host>:~<user>/<path-to-git-repo>`
+
+      For local repositories, also supported by Git natively, the following
+      syntaxes may be used:
+
+      - `/path/to/repo.git/`
+      - `file:///path/to/repo.git/`
+
+      These two syntaxes are mostly equivalent, except when cloning, when
+      the former implies `--local` option. See [git-clone](cmd://git/clone) for
+      details.
+
+      These two syntaxes are mostly equivalent, except the former implies
+      `--local` option.
+
+      `git clone`, `git fetch` and `git pull`, but not `git push`, will also
+      accept a suitable bundle file. See [git-bundle](cmd://git/bundle).
+
+      When Git doesn't know how to handle a certain transport protocol, it
+      attempts to use the `remote-<transport>` remote helper, if one
+      exists. To explicitly request a remote helper, the following syntax
+      may be used:
+
+      - `<transport>::<address>`
+
+      where _<address>_ may be a path, a server and path, or an arbitrary
+      URL-like string recognized by the specific remote helper being
+      invoked. See [gitremote-helpers](man://gitremote-helpers/7) for details.
+
+      If there are a large number of similarly-named remote repositories and
+      you want to use a different format for them (such that the URLs you
+      use will be rewritten into URLs that work), you can create a
+      configuration section of the form:
+    mirror: |-
+      Instead of naming each ref to push, specifies that all
+      refs under `refs/` (which includes but is not
+      limited to `refs/heads/`, `refs/remotes/`, and `refs/tags/`)
+      be mirrored to the remote repository.  Newly created local
+      refs will be pushed to the remote end, locally updated refs
+      will be force updated on the remote end, and deleted refs
+      will be removed from the remote end.  This is the default
+      if the configuration option `remote.<remote>.mirror` is
+      set.
+    no-verify: |-
+      Toggle the pre-push hook (see [githooks](man://githooks/5)).  The
+      default is `--verify`, giving the hook a chance to prevent the
+      push.  With `--no-verify`, the hook is bypassed completely.
+    porcelain: |-
+      Produce machine-readable output.  The output status line for each ref
+      will be tab-separated and sent to stdout instead of stderr.  The full
+      symbolic names of the refs will be given.
+    progress: |-
+      Progress status is reported on the standard error stream
+      by default when it is attached to a terminal, unless `-q`
+      is specified. This flag forces progress status even if the
+      standard error stream is not directed to a terminal.
+    prune: |-
+      Remove remote branches that don't have a local counterpart. For example
+      a remote branch `tmp` will be removed if a local branch with the same
+      name doesn't exist any more. This also respects refspecs, e.g.
+      `git push --prune remote refs/heads/*:refs/tmp/* would make sure that remote `refs/tmp/foo` will be removed if `refs/heads/foo
+      doesn't exist.
+    push-option: |-
+      Transmit the given string to the server, which passes them to
+      the pre-receive as well as the post-receive hook. The given string
+      must not contain a _NUL_ or _LF_ character.
+      When multiple `--push-option=<option>` are given, they are
+      all sent to the other side in the order listed on the
+      command line.
+      When no `--push-option=<option>` is given from the command line, the values of configuration variable `push.pushOption`
+      are used instead.
+    quiet: |-
+      Suppress all output, including the listing of updated refs,
+      unless an error occurs. Progress is not reported to the standard
+      error stream.
+    recurse-submodules: |-
+      May be used to make sure all submodule commits used by the
+      revisions to be pushed are available on a remote-tracking branch.
+      Possible values are:
+      **check**:
+              Git will verify that all submodule commits that
+      changed in the revisions to be pushed are available on at least one
+      remote of the submodule. If any commits are missing the push will
+      be aborted and exit with non-zero status.
+      **on-demand**:
+      all submodules that changed in the revisions to be pushed will be
+      pushed. If `on-demand` was not able to push all necessary revisions it will
+      also be aborted and exit with non-zero status.
+      **only**:
+      all submodules will be pushed while the superproject is left
+      unpushed.
+      **no**:
+      override the `push.recurseSubmodules` configuration variable when no
+      submodule recursion is required. Similar to using `--no-recurse-submodules`.
+
+      When using `on-demand` or `only`, if a submodule has a
+      `push.recurseSubmodules=(on-demand|only)` or `submodule.recurse` configuration,
+      further recursion will occur. In this case, `only` is treated as `on-demand`.
+    repo: |-
+      This option is equivalent to the _<repository>_ argument. If both
+      are specified, the command-line argument takes precedence.
+    set-upstream: |-
+      For every branch that is up to date or successfully pushed, add
+      upstream (tracking) reference, used by argument-less
+      [git-pull](cmd://git/pull) and other commands. For more information,
+      see `branch.<name>.merge` in [git-config](cmd://git/config).
+    signed: |-
+      GPG-sign the push request to update refs on the receiving
+      side, to allow it to be checked by the hooks and/or be
+      logged. Possible values are:
+      **false**:
+      **--no-signed**:
+      no signing will be attempted.
+      **true**:
+      **--signed**:
+      the push will fail if the server does not support signed pushes.
+      **if-asked**:
+      sign if and only if the server supports signed pushes.  The push
+      will also fail if the actual call to `gpg --sign` fails.  See
+      [git-receive-pack](cmd://git/receive-pack) for the details on the receiving end.
+    tags: |-
+      All refs under `refs/tags` are pushed, in
+      addition to refspecs explicitly listed on the command
+      line.
+    verbose: Run verbosely.
+    atomic: |-
+      Use an atomic transaction on the remote side if available.
+      Either all refs are updated, or on error, no refs are updated.
+      If the server does not support atomic pushes the push will fail.
+    thin: |-
+      These options are passed to [git-send-pack](cmd://git/send-pack). A thin transfer
+      significantly reduces the amount of sent data when the sender and
+      receiver share many of the same objects in common. The default is
+      `--thin`.

@@ -2,10 +2,34 @@
 name: status
 description: Show the status of the submodule
 flags:
-    --cached: print the SHA-1 recorded in the superproject for each submodule
-    --recursive: recurse into nested submodules
+  --cached: print the SHA-1 recorded in the superproject for each submodule
+  --recursive: recurse into nested submodules
 documentation:
-    command: '[AI] `git submodule status` is a Git command used to display the current state of all submodules in your Git repository. It shows for each submodule, its local master branch name, the URL of the remote branch it''s currently tracking, and whether or not any changes have been made to the submodule itself or its commit ID within the parent repository.'
-    flag:
-        cached: '[AI] `git submodule status --cached` is a Git command that displays the current state of all configured submodules in the .gitmodules file, specifically their cached state. It lists each submodule with its name, location, and whether or not it has been modified but not yet committed (unmerged) or matches the HEAD commit in the superproject repository. The "--cached" option shows the state of the submodules based on the next commit message rather than their current working directory.'
-        recursive: '[AI] `git submodule status --recursive` is a Git command used to display the status of all submodules and their associated repositories, including those nested within subdirectories at any depth. The `--recursive` option ensures that the status information is retrieved for all submodules, regardless of their nesting level in the project directory structure. This command can be useful when working with projects that have multiple levels of submodules and when making updates or checking for changes within those repositories.'
+  command: |-
+    Show the status of the submodules. This will print the SHA-1 of the
+    currently checked out commit for each submodule, along with the
+    submodule path and the output of [git-describe](cmd://git/describe) for the
+    SHA-1. Each SHA-1 will possibly be prefixed with `-` if the submodule is
+    not initialized, `+` if the currently checked out submodule commit
+    does not match the SHA-1 found in the index of the containing
+    repository and `U` if the submodule has merge conflicts.
+
+    If `--cached` is specified, this command will instead print the SHA-1
+    recorded in the superproject for each submodule.
+
+    If `--recursive` is specified, this command will recurse into nested
+    submodules, and show their status as well.
+
+    If you are only interested in changes of the currently initialized
+    submodules with respect to the commit recorded in the index or the `HEAD`,
+    [git-status](cmd://git/status) and [git-diff](cmd://git/diff) will provide that information
+    too (and can also report changes to a submodule's work tree).
+  flag:
+    cached: |-
+      Use the index to determine the commit instead of the `HEAD`.
+      This option is only valid for `status` and `summary` commands.
+    recursive: |-
+      Traverse submodules recursively. This option is only valid for `foreach`,
+      `update`, `status` and `sync` commands. The operation is performed not
+      only in the submodules of the current repo, but also
+      in any nested submodules inside those submodules (and so on).

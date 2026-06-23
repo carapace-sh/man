@@ -3,12 +3,39 @@ name: patch-id
 description: Compute unique ID for a patch
 group: low-level helper
 flags:
-    --stable: use the stable patch-id algorithm
-    --unstable: use the unstable patch-id algorithm
-    --verbatim: don't strip whitespace from the patch
+  --stable: use the stable patch-id algorithm
+  --unstable: use the unstable patch-id algorithm
+  --verbatim: don't strip whitespace from the patch
 documentation:
-    command: '[AI] `git patch-id` is a Git command used to calculate and print the unique identifier (hash) of a diff or patch stored in the clipboard or given as an argument. This can be useful when sharing patches outside of a Git repository, such as for bug reporting or code review. The command does not create or apply any patches; it only generates their identifiers based on the provided difference between files.'
-    flag:
-        stable: '[AI] `git patch-id --stable` is a Git command that returns the stable, or base, commit ID associated with a given patch. This command is used to find the commit ID of the common ancestor between two branches or commits. The result is useful when working with merges or resolving conflicts, as it provides a reference point for finding the difference between two sets of changes. By using `--stable`, Git will prioritize the commit that is more likely to be stable and accepted in the long term.'
-        unstable: '[AI] `git patch-id --unstable` is a Git command used to generate a unique identifier (ID) for an unstable or work-in-progress patch, often referred to as a "draft" patch in Git. This command calculates the SHA-1 checksum of the current index state, which represents the changes that are staged but not yet committed. The `--unstable` option is used when working with patches outside of a regular branching workflow, such as experimental or developmental changes that may not be ready for merging into a stable branch. The patch ID can then be used to track and compare the differences between the draft and other revisions in the repository.'
-        verbatim: '[AI] `git patch-id --verbatim` is a Git command that generates the unique identifier (also known as a "patch ID") for the last committed change in the current branch or the given commit, printed in a raw and unquoted format suitable for use in scripts or other automated processes. The `--verbatim` option ensures that the output is not quoted or escaped in any way.'
+  command: |-
+    Read patches from standard input and compute the patch IDs.
+
+    A "patch ID" is nothing but a sum of SHA-1 of the file diffs associated with a
+    patch, with line numbers ignored.  As such, it's "reasonably stable", but at
+    the same time also reasonably unique, i.e., two patches that have the same
+    "patch ID" are almost guaranteed to be the same thing.
+
+    The main usecase for this command is to look for likely duplicate commits.
+
+    When dealing with `git diff-tree --patch` output, it takes advantage of
+    the fact that the patch is prefixed with the object name of the
+    commit, and outputs two 40-byte hexadecimal strings.  The first
+    string is the patch ID, and the second string is the commit ID.
+    This can be used to make a mapping from patch ID to commit ID for a
+    set or range of commits.
+  flag:
+    stable: |-
+      Use a "stable" sum of hashes as the patch ID. With this option:
+    unstable: |-
+      Use an "unstable" hash as the patch ID. With this option,
+      the result produced is compatible with the patch ID value produced
+      by Git 1.9 and older and whitespace is ignored.  Users with pre-existing
+      databases storing patch IDs produced by Git 1.9 and older (who do not deal
+      with reordered patches) may want to use this option.
+
+      This is the default.
+    verbatim: |-
+      Calculate the patch ID of the input as it is given, do not strip
+      any whitespace. Implies `--stable` and forbids `--unstable`.
+
+      This is the default if `patchid.verbatim` is `true`.

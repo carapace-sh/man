@@ -2,15 +2,26 @@
 name: remove
 description: Remove a worktree
 flags:
-    -f, --force: force removal even if worktree is dirty or locked
+  -f, --force: force removal even if worktree is dirty or locked
 documentation:
-    command: |-
-        [AI] `git worktree remove` is a Git command used to delete a local checked-out branch or reference stored in a separate subdirectory using the Git worktree feature. The basic syntax for this command is:
+  command: |-
+    Remove a worktree. Only clean worktrees (no untracked files and no
+    modification in tracked files) can be removed. Unclean worktrees or ones
+    with submodules can be removed with `--force`. The main worktree cannot be
+    removed.
+  flag:
+    force: |-
+      By default, `add` refuses to create a new worktree when
+      _<commit-ish>_ is a branch name and is already checked out by
+      another worktree, or if _<path>_ is already assigned to some
+      worktree but is missing (for instance, if _<path>_ was deleted
+      manually). This option overrides these safeguards. To add a missing but
+      locked worktree path, specify `--force` twice.
 
-        ```bash
-        git worktree remove <path>
-        ```
+      `move` refuses to move a locked worktree unless `--force` is specified
+      twice. If the destination is already assigned to some other worktree but is
+      missing (for instance, if _<new-path>_ was deleted manually), then `--force`
+      allows the move to proceed; use `--force` twice if the destination is locked.
 
-        Here, `<path>` represents the path to the subdirectory containing the checked-out worktree that you wish to delete. This command removes the worktree and its associated files, effectively detaching the branch from your local repository.
-    flag:
-        force: '[AI] `git worktree remove --force` is a Git command used to delete a existing worktree with the given name or location, forcefully overwriting any local changes or commits in that worktree. By default, Git will refuse to delete a worktree with uncommitted changes. Adding the `--force` option allows the deletion even if there are uncommitted changes or conflicts. It''s essential to be cautious when using this command, as it can result in the permanent loss of local changes and commits.'
+      `remove` refuses to remove an unclean worktree unless `--force` is used.
+      To remove a locked worktree, specify `--force` twice.

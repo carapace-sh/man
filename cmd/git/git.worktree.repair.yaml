@@ -2,7 +2,23 @@
 name: repair
 description: Repair worktree administrative files, if possible
 documentation:
-    command: |-
-        [AI] `git worktree repair` is a Git command used to fix issues with detached worktrees. A detached worktree occurs when a worktree is not associated with a branch, allowing direct manipulation of files without the context of a branch. However, this can lead to inconsistencies if changes made in the worktree conflict with changes in the main repository.
+  command: |-
+    Repair worktree administrative files, if possible, if they have become
+    corrupted or outdated due to external factors.
 
-        `git worktree repair` attempts to resolve these conflicts by fetching the latest state of the branches associated with each worktree and merging any local changes back into them. If conflicts arise during the merge process, they need to be manually resolved using standard Git tools like `git mergetool`. The command does not delete or modify any files in the worktrees unless explicitly instructed via additional options.
+    For instance, if the main worktree (or bare repository) is moved, linked
+    worktrees will be unable to locate it. Running `repair` in the main
+    worktree will reestablish the connection from linked worktrees back to the
+    main worktree.
+
+    Similarly, if the working tree for a linked worktree is moved without
+    using `git worktree move`, the main worktree (or bare repository) will be
+    unable to locate it. Running `repair` within the recently-moved worktree
+    will reestablish the connection. If multiple linked worktrees are moved,
+    running `repair` from any worktree with each tree's new _<path>_ as an
+    argument, will reestablish the connection to all the specified paths.
+
+    If both the main worktree and linked worktrees have been moved or copied manually,
+    then running `repair` in the main worktree and specifying the new _<path>_
+    of each linked worktree will reestablish all connections in both
+    directions.
