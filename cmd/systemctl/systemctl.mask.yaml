@@ -3,4 +3,12 @@ name: mask
 description: Mask one or more units
 group: unit file
 documentation:
-    command: '[AI] `systemctl mask` is a command used in Linux systemd environments to hide and prevent the enabling or disabling of a systemd service or target without modifying its configuration file. By using this command followed by the name of the unit file, you create a symlink with the suffix ".past" in the /etc/systemd/system directory that masks the original unit file. This means that the given service or target cannot be enabled or disabled but is still present in the system. The masked unit can be unmasked using `systemctl unmask` command to make it manageable again.'
+  command: |
+    Mask one or more units, linking them to /dev/null and making it
+    impossible to start them. This is a stronger version of disable, as it
+    prohibits all kinds of activation including enablement and manual
+    activation. Use `--runtime` to mask temporarily until the next reboot.
+    Use `--now` to ensure the units are also stopped. Note that this creates
+    a symlink under the unit's name in /etc/systemd/system/ (or /run/systemd/system/
+    if --runtime is specified). Using mask on units created locally typically
+    does not work since those are placed precisely in those directories.
