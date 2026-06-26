@@ -3,4 +3,11 @@ name: reboot
 description: Shut down and reboot the system
 group: system
 documentation:
-    command: '[AI] `systemctl reboot` is a command used in Linux systems to initiate an ordered shutdown and restart of the system using Systemd as the system and service manager. When executed, it sends a SIGTERM signal to all running processes, then waits for a grace period for them to finish before sending a SIGKILL signal and starting the shutdown process. After the system has finished shutting down, it will automatically start up again. This command is typically used when updates or changes need to be applied that require a system restart.'
+  command: |
+    Shut down and reboot the system. This is mostly equivalent to
+    `systemctl start reboot.target --job-mode=replace-irreversibly --no-block`.
+    Use `--reboot-argument=` to pass an optional argument to the reboot(2)
+    system call. Options `--boot-loader-entry=`, `--boot-loader-menu=`,
+    and `--firmware-setup` can be used to select what to do after reboot.
+    If a new kernel has been loaded via kexec --load, a kexec will be
+    performed instead of a reboot.

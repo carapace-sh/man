@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
 name: switch
 description: Switch to a worktree; create if needed
 flags:
@@ -11,37 +12,3 @@ flags:
     -h, --help: Print help (see more with '--help')
     -x, --execute=: Command to run after switch
     -y, --yes: Skip approval prompts
-completion:
-    flag:
-        C:
-            - $files
-        config:
-            - $files
-    positional:
-        - []
-documentation:
-    flag:
-        base: |-
-            Base branch
-
-            Defaults to default branch.
-        execute: |-
-            Command to run after switch
-
-            Replaces the wt process with the command after switching, giving it full terminal control. Useful for launching editors, AI agents, or other interactive tools.
-
-            Supports hook template variables ({{ branch }}, {{ worktree_path }}, etc.) and filters. {{ base }} and {{ base_worktree_path }} require --create.
-
-            Especially useful with shell aliases:
-
-              alias wsc='wt switch --create -x claude'
-              wsc feature-branch -- 'Fix GH #322'
-
-            Then wsc feature-branch creates the worktree and launches Claude Code. Arguments after -- are passed to the command, so wsc feature -- 'Fix GH #322' runs claude 'Fix GH #322', starting Claude with a prompt.
-
-            Template example: -x 'code {{ worktree_path }}' opens VS Code at the worktree, -x 'tmux new -s {{ branch | sanitize }}' starts a tmux session named after the branch.
-        help: Print help (see a summary with '-h')
-        no-cd: |-
-            Skip directory change after switching
-
-            Hooks still run normally. Useful when hooks handle navigation (e.g., tmux workflows) or for CI/automation.
