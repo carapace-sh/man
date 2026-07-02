@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: list-skus
+description: Get details for compute-related resource SKUs.
+flags:
+    --all=:
+        description: show all information including vm sizes not available under the current subscription
+        nargs: -1
+    --subscription=: Name or ID of subscription.
+    -l, --location=: Location.
+    -r, --resource-type=: resource types e.g. "availabilitySets", "snapshots", "disks", etc
+    -s, --size=: size name, partial name is accepted
+    -z, --zone=:
+        description: show skus supporting availability zones
+        nargs: -1
+completion:
+    flag:
+        all:
+            - "true"
+            - "false"
+        zone:
+            - "true"
+            - "false"
+documentation:
+    flag:
+        acquire-policy-token: Acquiring an Azure Policy token automatically for this resource operation.
+        all: |-
+            Show all information including vm sizes not available under the current subscription.
+
+            Accepted values: false, true
+        change-reference: The related change reference ID for this resource operation.
+        location: 'Location. Values from: ``` az account list-locations ``` . You can configure the default location using ``` az configure --defaults location=<location> ``` .'
+        resource-type: Resource types e.g. "availabilitySets", "snapshots", "disks", etc.
+        size: Size name, partial name is accepted.
+        subscription: Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`
+        zone: |-
+            Show skus supporting availability zones.
+
+            Accepted values: false, true
+examples:
+    List all SKUs in the West US region.: az vm list-skus -l westus
+    List all available vm sizes in the East US2 region which support availability zone with name like "standard_ds1...".: az vm list-skus -l eastus2 --zone --size standard_ds1
+    List all available vm sizes in the East US2 region which support availability zone.: az vm list-skus -l eastus2 --zone
+    List availability set related sku information in The West US region.: az vm list-skus -l westus --resource-type availabilitySets

@@ -1,0 +1,77 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: what-if
+description: Execute a deployment What-If operation at management group scope.
+flags:
+    --no-pretty-print=: Disable pretty-print for What-If results.
+    --no-prompt=:
+        description: The option to disable the prompt of missing parameters for ARM template.
+        nargs: -1
+    --subscription=: Name or ID of subscription.
+    -f, --template-file=: a path to a template file or Bicep file in the file system
+    -l, --location=!: Location.
+    -m, --management-group-id=!: The management group id.
+    -n, --name=: The deployment name.
+    -p, --parameters=:
+        description: the deployment parameters
+        nargs: -1
+    -q, --query-string=: The query string (a SAS token) to be used with the template-uri in the case of linked templates.
+    -r, --result-format=: ""
+    -s, --template-spec=: The template spec resource id.
+    -u, --template-uri=: a uri to a remote template file
+    -x, --exclude-change-types=:
+        description: Space-separated list of resource change types to be excluded from What-If results.
+        nargs: -1
+completion:
+    flag:
+        exclude-change-types:
+            - Create
+            - Delete
+            - Ignore
+            - Deploy
+            - NoChange
+            - Modify
+            - Unsupported
+        no-prompt:
+            - "true"
+            - "false"
+        result-format:
+            - ResourceIdOnly
+            - FullResourcePayloads
+documentation:
+    flag:
+        acquire-policy-token: Acquiring an Azure Policy token automatically for this resource operation.
+        change-reference: The related change reference ID for this resource operation.
+        exclude-change-types: |-
+            Space-separated list of resource change types to be excluded from What-If results.
+
+            Accepted values: Create, Delete, Deploy, Ignore, Modify, NoChange, Unsupported
+        location: 'Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=<location>`.'
+        management-group-id: The management group id to create deployment at.
+        name: The deployment name. Default to template file base name
+        no-pretty-print: Disable pretty-print for What-If results. When set, the output format type will be used.
+        no-prompt: |-
+            The option to disable the prompt of missing parameters for ARM template. When the value is true, the prompt requiring users to provide missing parameter will be ignored. The default value is false.
+
+            Default value: False
+
+            Accepted values: false, true
+        parameters: Supply deployment parameter values. Parameters may be supplied from a file using the ``` @{path} ``` syntax, a JSON string, or as ``` <KEY=VALUE> ``` pairs. Parameters are evaluated in order, so when a value is assigned twice, the latter value will be used. It is recommended that you supply your parameters file first, and then override selectively using KEY=VALUE syntax.
+        query-string: The query string (a SAS token) to be used with the template-uri in the case of linked templates.
+        result-format: |-
+            The format of What-If results.
+
+            Default value: FullResourcePayloads
+
+            Accepted values: FullResourcePayloads, ResourceIdOnly
+        subscription: Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`
+        template-file: The path to the template file or Bicep file.
+        template-spec: The template spec resource id.
+        template-uri: The URI to the template file.
+        validation-level: |-
+            The deployment validation level. May be set to "Provider" (the default), "Template", or "ProviderNoRbac". With a validation level of "provider", ARM will perform full validation and check that you have sufficient permission to deploy all resources in the template. With a validation level of "providerNoRbac", ARM will perform full validation but only check for read permissions on each resource. With a validation level of "template", only static validation will be performed: preflight and permissions checks will be skipped.
+
+            Accepted values: Provider, ProviderNoRbac, Template
+examples:
+    Execute a deployment What-If operation at a management group with ResourceIdOnly format.: az deployment mg what-if --management-group-id testmg --location westus --name rollout01 --template-uri https://myresource/azuredeploy.json --parameters @myparameters.json --result-format ResourceIdOnly
+    Execute a deployment What-If operation at a management group without pretty-printing the result.: az deployment mg what-if --management-group-id testmg --location westus --name rollout01 --template-uri https://myresource/azuredeploy.json --parameters @myparameters.json --no-pretty-print
+    Execute a deployment What-If operation at a management group.: az deployment mg what-if --management-group-id testmg --location westus --name rollout01 --template-uri https://myresource/azuredeploy.json --parameters @myparameters.json

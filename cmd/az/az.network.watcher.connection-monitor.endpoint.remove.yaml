@@ -1,0 +1,45 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: remove
+description: Remove an endpoint from a connection monitor.
+flags:
+    --connection-monitor=!: Connection monitor name.
+    --no-wait=:
+        description: Do not wait for the long-running operation to finish.
+        nargs: -1
+    --subscription=: Name or ID of subscription.
+    --test-groups=:
+        description: Space-separated list of names of test group which only need to be affected if specified.
+        nargs: -1
+    -l, --location=!: Location.
+    -n, --name=!: Name of the connection monitor endpoint.
+completion:
+    flag:
+        no-wait:
+            - "true"
+            - t
+            - "yes"
+            - "y"
+            - "1"
+            - "false"
+            - f
+            - "no"
+            - "n"
+            - "0"
+documentation:
+    command: |-
+        Command group 'az network watcher connection-monitor endpoint' is in preview and under development. Reference and support levels:
+        https://aka.ms/CLI_refstatus
+    flag:
+        acquire-policy-token: Acquiring an Azure Policy token automatically for this resource operation.
+        change-reference: The related change reference ID for this resource operation.
+        connection-monitor: Connection monitor name. --endpoint-name --name -n Name of the connection monitor endpoint.
+        location: 'Location. Values from: ``` az account list-locations ``` . You can configure the default location using ``` az configure --defaults location=<location> ``` .'
+        no-wait: |-
+            Do not wait for the long-running operation to finish.
+
+            Accepted values: 0, 1, f, false, n, no, t, true, y, yes
+        subscription: Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`
+        test-groups: Space-separated list of names of test group which only need to be affected if specified.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+examples:
+    Remove endpoint from all test groups of a connection monitor: az network watcher connection-monitor endpoint remove --connection-monitor MyConnectionMonitor --location westus --name MyEndpoint
+    Remove endpoint from two test groups of a connection monitor: az network watcher connection-monitor endpoint remove --connection-monitor MyConnectionMonitor --location westus --name MyEndpoint --test-groups DefaultTestGroup HealthCheckTestGroup
